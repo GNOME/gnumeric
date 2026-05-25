@@ -568,7 +568,7 @@ gnm_cell_is_array (GnmCell const *cell)
  * gnm_cell_is_nonsingleton_array:
  * @cell: #GnmCell
  *
- * Returns: %TRUE is @cell is part of an array larger than 1x1
+ * Returns: %TRUE if @cell is part of an array larger than 1x1
  **/
 gboolean
 gnm_cell_is_nonsingleton_array (GnmCell const *cell)
@@ -1214,7 +1214,7 @@ extern inline gboolean gnm_cell_is_merged (GnmCell const *cell);
  * gnm_cell_eval:
  * @cell: (transfer none): #GnmCell
  *
- * Evaluate @cell if needed and return it's value.  Other than return
+ * Evaluate @cell if needed and return its value.  Other than return
  * value, this does the same thing as gnm_dep_cell_eval.  Choose the
  * latter in the main evaluation path in order to limit stack usage.
  *

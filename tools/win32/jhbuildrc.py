@@ -53,7 +53,7 @@ _mingw_tools = {'ADDR2LINE': 'addr2line',
 	'STRINGS': 'strings', 'WINDRES': 'windres',
 	'AR': 'ar', 'RANLIB': 'ranlib', 'STRIP': 'strip'}
 
-#Exporting all as enviroment variables with its prefix
+#Exporting all as environment variables with its prefix
 for _tool in _mingw_tools.keys():
 	os.environ[_tool] = _mingw_tool_prefix + _mingw_tools[_tool]
 
@@ -65,7 +65,7 @@ else:
     print "Best to invoke this via build script from make"
     sys.exit (0)
 
-#Exporting tool flags enviroment variables
+#Exporting tool flags environment variables
 # -no-undefined' /
 use_lib64 = False
 os.environ['LDFLAGS']	 \

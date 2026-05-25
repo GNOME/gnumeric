@@ -3972,7 +3972,7 @@ cb_scg_queued_movement (SheetControlGUI *scg)
  * @handler: (scope async): The movement handler
  * @n:		how far
  * @jump:	TRUE jump to bound
- * @horiz:	TRUE move by cols
+ * @horiz:	TRUE to move by columns
  *
  * Do motion compression when possible to avoid redrawing an area that will
  * disappear when we scroll again.

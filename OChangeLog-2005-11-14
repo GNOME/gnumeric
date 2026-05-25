@@ -5871,7 +5871,7 @@
 	cb_view_format_toolbar, cb_view_object_toolbar,
 	cb_view_statusbar): Only do something when we're not already
 	updating the ui.
-	(var actions): Fix underline collissions.
+	(var actions): Fix underline collisions.
 
 2004-04-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 

@@ -2557,7 +2557,7 @@ gnm_quad_reduce_pi (GnmQuad *res, GnmQuad const *a, int p, int *pk)
 		g_warning ("Reduced accuracy for very large trigonometric arguments");
 
 	gnm_quad_div (&qk, a, &gnm_quad_pi);
-	// This really needs to be 2^p scaling, ie., it is not radix related.
+	// This really needs to be 2^p scaling, i.e., it is not radix related.
 	gnm_quad_init (&qtwop, 1 << p);
 	gnm_quad_mul (&qk, &qk, &qtwop);
 

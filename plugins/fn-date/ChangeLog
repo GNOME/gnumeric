@@ -386,7 +386,7 @@
 
 	* functions.c (help_networkdays): add new argument description
 	(gnumeric_networkdays): implement weekend extension
-	(gnumeric_workday): don't leak under erros
+	(gnumeric_workday): don't leak under errors
 	(datetime_functions): add argument to "workday"
 	(help_workday): correct example
 	(get_serial_weekday): delete

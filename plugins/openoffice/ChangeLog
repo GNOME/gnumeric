@@ -1235,7 +1235,7 @@
 
 	* openoffice-read.c (oo_cell_start): watch for fake spans
 	* openoffice-write.c (odf_cellspan_is_empty): new
-	(odf_write_cell): simulate center-accross-selection as merges
+	(odf_write_cell): simulate center-across-selection as merges
 
 2014-04-18  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
@@ -6713,7 +6713,7 @@
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=96595
 	* openoffice-read.c (oo_covered_cell_start) : new.
-	(oo_covered_cell_end) : new.  covered cells, and repeated convered
+	(oo_covered_cell_end) : new.  covered cells, and repeated converted
 	  cells take up space.
 	(oo_cell_end) : a repeated cell with content replicates the content.
 	(oo_cell_start) : a repeated cell with a style replicates the style.

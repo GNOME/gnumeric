@@ -1790,7 +1790,7 @@
 
 2001-11-01  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
-	* src/GNOME_Gnumeric.xml, src/worbook-control-gui.c: Added Filter
+	* src/GNOME_Gnumeric.xml, src/workbook-control-gui.c: Added Filter
 	submenu.
 
 2001-10-31  Jody Goldberg <jgoldberg@home.com>

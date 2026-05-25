@@ -319,7 +319,7 @@ cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
  * dialog_tool_init_buttons:
  * @state: #GnmGenericToolState
  * @ok_function: GCallback for OK button
- * @close_function: (nullable): GCallback for Close/Cancel button
+ * @close_function: (nullable): GCallback for the Close/Cancel button
  *
  * Setup the buttons
  **/
@@ -367,7 +367,7 @@ dialog_tool_init_buttons (GnmGenericToolState *state,
  * @error_str: error string
  * @key: keyed dialog name
  * @ok_function: GCallback for OK button
- * @close_function: (nullable): GCallback for Close/Cancel button
+ * @close_function: (nullable): GCallback for the Close/Cancel button
  * @sensitivity_cb: GCallback for sensitivity updates
  * @flags: #GnmExprEntryFlags
  *

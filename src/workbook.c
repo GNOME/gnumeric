@@ -633,7 +633,7 @@ workbook_set_last_export_uri (Workbook *wb, const gchar *uri)
  * Note: this function does not honour the CELL_ITER_IGNORE_SUBTOTAL flag.
  *
  * Returns:
- *    non-%NULL on error, or VALUE_TERMINATE if some the handler requested
+ *    non-%NULL on error, or VALUE_TERMINATE if the handler requested
  *    to stop (by returning non-%NULL).
  */
 GnmValue *
@@ -817,7 +817,7 @@ workbook_set_recalcmode (Workbook *wb, gboolean is_auto)
  * workbook_get_recalcmode:
  * @wb: #Workbook
  *
- * Returns: TRUE if automatic recalculation is enabled for @wb.
+ * Returns: %TRUE if automatic recalculation is enabled for @wb.
  **/
 gboolean
 workbook_get_recalcmode (Workbook const *wb)
@@ -1018,7 +1018,7 @@ workbook_sheet_index_update (Workbook *wb, int start)
 
 /**
  * workbook_sheet_by_index:
- * @wb: workbook to lookup the sheet on
+ * @wb: workbook to look up the sheet in
  * @i: the sheet index we are looking for.
  *
  * Return value: (transfer none) (nullable): A #Sheet
@@ -1038,7 +1038,7 @@ workbook_sheet_by_index (Workbook const *wb, int i)
 
 /**
  * workbook_sheet_by_name:
- * @wb: workbook to lookup the sheet on
+ * @wb: workbook to look up the sheet in
  * @sheet_name: the sheet name we are looking for.  This is case insensitive.
  *
  * Return value: (transfer none) (nullable): A #Sheet
@@ -1341,7 +1341,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
  * @always_suffix: if true, add suffix even if the name "base" is not in use.
  * @handle_counter: strip counter if necessary
  *
- * Gets a new unquoted name for a sheets such that it does not exist on the
+ * Gets a new unquoted name for a sheet such that it does not exist on the
  * workbook.
  *
  * Returns: (transfer full): a unique sheet name

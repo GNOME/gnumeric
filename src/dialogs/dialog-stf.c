@@ -239,7 +239,7 @@ stf_dialog_editables_enter (StfDialogData *pagedata)
  * @data_len: length of @data
  *
  * This will start the import.
- * (NOTE: you have to free the DialogStfResult_t that this function returns yourself)
+ * (NOTE: you have to free the DialogStfResult_t that this function returns)
  *
  * Returns: (transfer full) (nullable): A DialogStfResult_t struct on success, %NULL otherwise.
  **/
@@ -363,7 +363,7 @@ stf_dialog (WBCGtk *wbcg,
 
 /**
  * stf_dialog_result_free
- * @dialogresult: a dialogresult struct
+ * @dialogresult: a dialog result struct
  *
  * This routine will properly free the members of @dialogresult and
  * @dialogresult itself
@@ -383,7 +383,7 @@ stf_dialog_result_free (DialogStfResult_t *dialogresult)
 
 /**
  * stf_dialog_result_attach_formats_to_cr
- * @dialogresult: a dialogresult struct
+ * @dialogresult: a dialog result struct
  * @cr: a cell region
  *
  * Attach the formats of the dialogresult to the given cell region.

@@ -836,7 +836,7 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
  * @range:  The range whose rows should be resized.
  * @shrink: If set to %FALSE, rows will never shrink!
  *
- * Use this function having changed the font size to auto-resize the row
+ * Use this function after changing the font size to auto-resize the row
  * heights to make the text fit nicely.
  **/
 void
@@ -1050,7 +1050,7 @@ colrow_visibility (Sheet const *sheet, ColRowVisibility * const dat,
 		} else if ((visible != 0) == (cri->visible != 0))
 			continue;
 
-		/* Find the begining */
+		/* Find the beginning */
 		for (j = i; j >= first ; --j) {
 			cri = (*get) (sheet, j);
 			if (cri == NULL) {
@@ -1333,7 +1333,7 @@ colrow_set_visibility (Sheet *sheet, gboolean is_cols,
  * @hide: (out): columns/rows that need to be hidden
  *
  * Collect the sets of visibility changes required to change the visibility of
- * all outlined columns/rows such that those depth less then  @depth are visible.
+ * all outlined columns/rows such that those depths less than  @depth are visible.
  **/
 void
 colrow_get_global_outline (Sheet const *sheet, gboolean is_cols, int depth,

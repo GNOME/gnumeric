@@ -98,6 +98,8 @@ sub invent_junkfile {
     my $res = $base;
     $res =~ s/\./-$me./;
 
+    $res =~ s{^(|.*/)(.*)$}{$1tmp-$2};
+
     if (-e $res) {
 	die "$0: failed to remove $res: $!\n" unless unlink $res;
     }

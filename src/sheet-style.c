@@ -2200,7 +2200,7 @@ cb_nondefault_extent (GnmStyle *style,
  * @sheet: sheet to inspect
  * @extent: (inout): extent
  * @src: range to inspect
- * @col_defaults: (transfer none) (element-type GnmStyle): defaults styles
+ * @col_defaults: (transfer none) (element-type GnmStyle): default styles
  *
  * Extends @extent so that it covers any non-default style used.
  */
@@ -2241,7 +2241,7 @@ cb_is_default (GnmStyle *style,
  * sheet_style_is_default:
  * @sheet: sheet to inspect
  * @r: range to inspect
- * @col_defaults: (transfer none) (element-type GnmStyle): defaults styles
+ * @col_defaults: (transfer none) (element-type GnmStyle): default styles
  *
  * Returns: %TRUE if all styles in the given range are default column styles.
  */
@@ -2290,7 +2290,7 @@ cb_get_nondefault (GnmStyle *style,
 /**
  * sheet_style_get_nondefault_rows:
  * @sheet: sheet to inspect
- * @col_defaults: (transfer none) (element-type GnmStyle): defaults styles
+ * @col_defaults: (transfer none) (element-type GnmStyle): default styles
  *
  * Returns: (transfer full): GByteArray with one element per row.  An
  * element is %TRUE if the row uses a non-default style.
@@ -2970,7 +2970,7 @@ style_validation_filter (GnmStyle const *style)
 
 /**
  * sheet_style_collect_validations:
- * @sheet: the to trawl
+ * @sheet: the sheet to trawl
  * @r: (nullable): Range to scan
  *
  * Returns: (transfer full): a list of areas with validation or input

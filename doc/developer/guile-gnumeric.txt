@@ -34,7 +34,7 @@ s : (char *) => string
 b : (bool)   => scheme bool (#t #f)
 r : (range)  => scheme list
 a : (array)  => scheme list
-| : (optional => correspond to scheme dot inside a lambda defintion
+| : (optional => correspond to scheme dot inside a lambda definition
 
 3. Adding formulas unto gnumeric.
 

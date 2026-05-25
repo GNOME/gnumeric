@@ -688,7 +688,7 @@ gnm_sheet_view_flag_status_update_pos (SheetView *sv, GnmCellPos const *pos)
  * @range: (nullable): If %NULL then force an update.
  *
  * flag the sheet as requiring an update to the status display if the supplied
- * cell location contains the edit cursor, or intersects of the selected region.
+ * cell location contains the edit cursor, or intersects the selected region.
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
@@ -964,7 +964,7 @@ gnm_sheet_view_freeze_panes (SheetView *sv,
  * @count: number of columns/rows
  *
  * Adjust the positions of frozen panes as necessary to handle col/row
- * insertions and deletions.  note this assumes that the ins/del operations
+ * insertions and deletions.  Note this assumes that the ins/del operations
  * have already set the flags that will force a resize.
  **/
 void

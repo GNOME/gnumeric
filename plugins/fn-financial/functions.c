@@ -173,7 +173,7 @@ calculate_ipmt (gnm_float rate, gnm_float per, gnm_float nper,
 /***************************************************************************/
 
 /* Returns the number of days between issue date and maturity date
- * accoring to the day counting system specified by the 'basis'
+ * according to the day counting system specified by the 'basis'
  * argument.  Basis may have one of the following values:
  *
  *	0  for US 30/360 (days in a month/days in a year)

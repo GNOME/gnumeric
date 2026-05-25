@@ -381,7 +381,7 @@
 2010-06-09  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* functions.c (gnumeric_accrint): add @{calc_method} and
-	  correct caclulation
+	  correct calculation
 
 2010-05-30  Morten Welinder <terra@gnome.org>
 
@@ -841,7 +841,7 @@
 2003-07-14  Jody Goldberg <jody@gnome.org>
 
 	* functions.c :
-	s/begining/beginning/
+	s/beginning/beginning/
 
 2003-07-14  Jody Goldberg <jody@gnome.org>
 

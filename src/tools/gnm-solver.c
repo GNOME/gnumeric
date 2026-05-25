@@ -1055,7 +1055,7 @@ gnm_solver_set_property (GObject *object, guint property_id,
  * such tasks as checking that the model is valid for the solver and
  * locating necessary external programs.
  *
- * Returns: %TRUE ok success, %FALSE on error.
+ * Returns: %TRUE on success, %FALSE on error.
  */
 gboolean
 gnm_solver_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err)
@@ -1082,7 +1082,7 @@ gnm_solver_prepare (GnmSolver *sol, WorkbookControl *wbc, GError **err)
  *
  * Start the solving process.  If needed, the solver will be prepared first.
  *
- * Returns: %TRUE ok success, %FALSE on error.
+ * Returns: %TRUE on success, %FALSE on error.
  */
 gboolean
 gnm_solver_start (GnmSolver *sol, WorkbookControl *wbc, GError **err)
@@ -1115,7 +1115,7 @@ gnm_solver_start (GnmSolver *sol, WorkbookControl *wbc, GError **err)
  *
  * Terminate the currently-running solver.
  *
- * Returns: %TRUE ok success, %FALSE on error.
+ * Returns: %TRUE on success, %FALSE on error.
  */
 gboolean
 gnm_solver_stop (GnmSolver *sol, GError **err)

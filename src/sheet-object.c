@@ -1369,7 +1369,7 @@ cb_sheet_objects_dup (GnmDependent *dep, SheetObject *so, gpointer user)
  * @dst: The destination sheet to attach the objects to
  * @range: (nullable): #GnmRange to look in
  *
- * Clones the objects of the src sheet and attaches them into the dst sheet
+ * Clones the objects of the src sheet and attaches them to the dst sheet
  **/
 void
 sheet_objects_dup (Sheet const *src, Sheet *dst, GnmRange const *range)
@@ -1505,7 +1505,7 @@ sheet_object_adjust_stacking (SheetObject *so, gint offset)
 
 	g_return_val_if_fail (node != NULL, 0);
 
-	/* Start at the begining when moving things towards the front */
+	/* Start at the beginning when moving things towards the front */
 	if (offset > 0) {
 		ptr = &so->sheet->sheet_objects;
 		i = 0;

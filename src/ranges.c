@@ -696,7 +696,7 @@ range_is_full (GnmRange const *r, Sheet const *sheet, gboolean horiz)
  *
  * The idea here is that users may select a whole column or row when they
  * really are only concerned with the extent of the sheet.
- * On the otehr hand, if users select any smaller region they probably
+ * On the other hand, if users select any smaller region they probably
  * intend to select just that.
  *
  * WARNING THIS IS EXPENSIVE!

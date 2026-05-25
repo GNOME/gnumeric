@@ -3013,7 +3013,7 @@
 
 2011-03-03  Morten Welinder  <terra@gnome.org>
 
-	* xlsx-read.c (xlsx_chart_text): Avoid criticals in the absense of
+	* xlsx-read.c (xlsx_chart_text): Avoid criticals in the absence of
 	chart text.
 	(xlsx_sheet_begin): Import sheet state.  Fixes #643815.
 

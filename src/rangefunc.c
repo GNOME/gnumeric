@@ -216,7 +216,7 @@ gnm_range_skew_pop (gnm_float const *xs, int n, gnm_float *res)
  * @n: number of elements
  * @res: (out): location to store result
  *
- * Computes the maximum-likelyhood estimator for skew.
+ * Computes the maximum-likelihood estimator for skew.
  *
  * Returns: 0 on success.
  **/
@@ -276,7 +276,7 @@ gnm_range_kurtosis_m3_pop (gnm_float const *xs, int n, gnm_float *res)
  * @n: number of elements
  * @res: (out): location to store result
  *
- * Computes the maximum-likelyhood estimator for kurtosis with offset 3.
+ * Computes the maximum-likelihood estimator for kurtosis with offset 3.
  *
  * Returns: 0 on success.
  **/

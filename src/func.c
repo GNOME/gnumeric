@@ -1192,7 +1192,7 @@ gnm_func_count_args (GnmFunc const *func, int *min, int *max)
 
 /**
  * gnm_func_get_arg_type:
- * @func: the fn defintion
+ * @func: the fn definition
  * @arg_idx: zero-based argument offset
  *
  * Returns: the type of the argument
@@ -1211,7 +1211,7 @@ gnm_func_get_arg_type (GnmFunc const *func, int arg_idx)
 
 /**
  * gnm_func_get_arg_type_string:
- * @func: the fn defintion
+ * @func: the fn definition
  * @arg_idx: zero-based argument offset
  *
  * Return value: (transfer none): the type of the argument as a string
@@ -1265,7 +1265,7 @@ gnm_func_get_arg_name (GnmFunc const *func, guint arg_idx)
 
 /**
  * gnm_func_get_arg_description:
- * @func: the fn defintion
+ * @func: the fn definition
  * @arg_idx: zero-based argument offset
  *
  * Returns: (transfer none): the description of the argument
@@ -1896,10 +1896,10 @@ gnm_func_class_init (GObjectClass *gobject_class)
 	 * @ei: #GnmFuncEvalInfo for the call initiating the link or unlink.
 	 * @qlink: %TRUE for link, %FALSE for unlink
 	 *
-	 * Signals that an expressions that is a call to @func is being linked
+	 * Signals that an expression that is a call to @func is being linked
 	 * or unlinked.  Most functions do not need this.
 	 *
-	 * Returns: A #GnmDependentFlags allowing arguments not be be linked if
+	 * Returns: A #GnmDependentFlags allowing arguments not to be linked if
 	 * that is appropriate.
 	 */
 	signals[SIG_LINK_DEP] = g_signal_new
@@ -1916,7 +1916,7 @@ gnm_func_class_init (GObjectClass *gobject_class)
 	 * GnmFunc::derivative:
 	 * @func: #GnmFunc
 	 * @expr: #GnmExpr for the call for which the derivative is sought
-	 * @ep: position f @expr
+	 * @ep: position of @expr
 	 * @info: #GnmExprDeriv telling which derivative is sought
 	 *
 	 * Signals that a function call's derivative should be calculated

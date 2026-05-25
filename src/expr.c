@@ -444,7 +444,7 @@ gnm_expr_new_set (GnmExprList *set)
  * This function builds a range constructor or something simpler,
  * but equivalent, if the arguments allow it.
  *
- * Returns: (transfer full): And expression referencing @l to @r.
+ * Returns: (transfer full): An expression referencing @l to @r.
  **/
 GnmExpr const *
 gnm_expr_new_range_ctor (GnmExpr const *l, GnmExpr const *r)
@@ -1334,7 +1334,7 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
  * @pos: evaluation position
  * @flags: #GnmExprEvalFlags
  *
- * Evaluatates the given expression.  If GNM_EXPR_EVAL_PERMIT_EMPTY is not set
+ * Evaluates the given expression.  If GNM_EXPR_EVAL_PERMIT_EMPTY is not set
  * then return zero if the expression instead of the empty value, or the value
  * of an unused cell.
  *
@@ -3027,7 +3027,7 @@ gnm_expr_top_new_constant (GnmValue *v)
 
 /**
  * gnm_expr_top_new_array_corner:
- * @cols: number of coloums.
+ * @cols: number of columns.
  * @rows: number of rows.
  * @expr: (transfer full) (nullable): expression.
  *
@@ -3607,7 +3607,7 @@ gnm_expr_top_referenced_sheets (GnmExprTop const *texpr)
  * @texpr: #GnmExprTop
  * @e: #GnmStdError
  *
- * Returns: %TRUE, if the exprssion in an error expression of the
+ * Returns: %TRUE, if the expression is an error expression of the
  * indicated type.
  **/
 gboolean
@@ -3847,7 +3847,7 @@ gnm_expr_top_is_array (GnmExprTop const *texpr)
  * @texpr: #GnmExprTop
  *
  * Returns: (transfer full) (nullable): A transposed array expression if @expr
- * is an array expressions, %NULL otherwise.
+ * is an array expression, %NULL otherwise.
  */
 GnmExprTop const *
 gnm_expr_top_transpose (GnmExprTop const *texpr)

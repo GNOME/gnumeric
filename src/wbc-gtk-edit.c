@@ -88,7 +88,7 @@ wbcg_auto_complete_destroy (WBCGtk *wbcg)
  * @result: what should we do with the content
  * @showed_dialog: (optional) (out): indicates whether a dialog was displayed.
  *
- * Returns: %TRUE if editing completed successfully, or we were no editing.
+ * Returns: %TRUE if editing completed successfully, or we were not editing.
  **/
 gboolean
 wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
@@ -813,7 +813,7 @@ cb_warn_toggled (GtkToggleButton *button, gboolean *b)
  * @blankp:   If true, erase current cell contents first.  If false, leave the
  *            contents alone.
  * @cursorp:  If true, create an editing cursor in the current sheet.  (If
- *            false, the text will be editing in the edit box above the sheet,
+ *            false, the text will be edited in the edit box above the sheet,
  *            but this is not handled by this function.)
  *
  * Initiate editing of a cell in the sheet.  Note that we have two modes of
@@ -1016,7 +1016,7 @@ wbcg_edit_start (WBCGtk *wbcg,
 /**
  * wbcg_insert_object:
  * @wbcg: #WBCGtk *
- * @so: (transfer full): The object the needs to be placed
+ * @so: (transfer full): The object that needs to be placed
  *
  * Takes a newly created #SheetObject that has not yet been realized and
  * prepares to place it on the sheet.

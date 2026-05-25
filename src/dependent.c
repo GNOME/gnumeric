@@ -1853,7 +1853,7 @@ cb_cell_list_deps (GnmDependent *dep, gpointer user)
  * @row:
  * @deps: (element-type GnmDependent):
  *
- * Adds dependents the the cell at the given coordinates to @deps.  The cell
+ * Adds dependents to the cell at the given coordinates to @deps.  The cell
  * does not actually have to exist.
  */
 void
@@ -2365,7 +2365,7 @@ dep_hash_destroy (GHashTable *hash, GPtrArray *dyn_deps, Sheet *sheet)
 		GnmExprTop const *te = dep->texpr;
 		/* We are told this dependent depends on this region, hence if
 		 * newtree is null then either
-		 * 1) we did not depend on it (ie., serious breakage )
+		 * 1) we did not depend on it (i.e., serious breakage )
 		 * 2) we had a duplicate reference and we have already removed it.
 		 * 3) We depended on things via a name which will be
 		 *    invalidated elsewhere */
@@ -2809,7 +2809,7 @@ workbook_queue_volatile_recalc (Workbook *wb)
  * workbook_recalc:
  * @wb:
  *
- * Computes all dependents in @wb that have been flaged as requiring
+ * Computes all dependents in @wb that have been flagged as requiring
  * recomputation.
  *
  * NOTE! This does not recalc dependents in other workbooks.

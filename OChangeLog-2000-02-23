@@ -2175,7 +2175,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(cmd_set_date_time_{undo,redo}) : Ditto.
 	(cmd_clear{,_undo,_redo,_destroy}) : Implement.
 
-	* src/clipboard.c (paste_cell) : No need to flag the existance of
+	* src/clipboard.c (paste_cell) : No need to flag the existence of
 	  formulas.
 	(paste_cell_flags) : Ditto.
 	(do_clipboard_paste_cell_region) : Don't recalc here.
@@ -2760,7 +2760,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 2000-01-02  Martin Sheppard <martin.sheppard@iname.com>
 
 	* src/parser.{c,y} (yylex) : fixed so that while parsing a formula,
-	a quoted function is convered to a string token rather than a
+	a quoted function is converted to a string token rather than a
 	function call token. i.e. so that things like "sin" work properly in
 	formulas.
 
@@ -5266,7 +5266,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	(sheet_style_cache_add, sheet_style_compute): Update.
 	(sheet_selection_get_uniq_style, sheet_uniq_cb): Break badly.
 
-	* src/mstyle.c: Totaly re-hash API for Miguel, biggish re-write.
+	* src/mstyle.c: Totally re-hash API for Miguel, biggish re-write.
 	(mstyle_is_element_set, mstyle_unset_element, mstyle_set_color),
 	(mstyle_get_color, mstyle_set_border, mstyle_set_pattern),
 	(mstyle_get_pattern, mstyle_set_font_name, mstyle_get_font_name),
@@ -7764,7 +7764,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 1999-09-01  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/file.c (workbook_read): If the file does not exist, create a
-	1-sheet worbook.
+	1-sheet workbook.
 
 	* src/print-preview.c: Re-enable zoom in and zoom out after the gnome-print
 	fixes

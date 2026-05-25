@@ -560,7 +560,7 @@
 
 2012-06-05  Jean Brefort  <jean.brefort@normalesup.org>
 
-	* src/item-bar.c (ib_draw_cell): make selction background visible. [#648676]
+	* src/item-bar.c (ib_draw_cell): make selection background visible. [#648676]
 	* src/item-grid.c (item_grid_draw_region): ditto.
 	* src/pattern.c (gnumeric_background_set): ditto.
 
@@ -8565,7 +8565,7 @@
 2008-08-25  Andreas Guelzow  <aguelzow@pyrshep.ca>
 
 	Fix for #549247
-	* src/print.c (print_page): fix caclulation of footer location
+	* src/print.c (print_page): fix calculation of footer location
 
 2008-08-25  Morten Welinder  <terra@gnome.org>
 
@@ -10674,7 +10674,7 @@
 
 	* src/collect.c: (gnm_slist_sort_merge), (gnm_strip_missing),
 	(float_range_function2): replace union_of_int_sets by a more
-	performant functon, and rename strip_missing.
+	performant function, and rename strip_missing.
 	* src/collect.h: ditto.
 
 2007-05-30  Andreas J. Guelzow <aguelzow@pyrshep.ca>

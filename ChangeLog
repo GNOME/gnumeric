@@ -655,7 +655,7 @@
 	* src/cell.c (gnm_cell_get_text_for_editing): Avoid excess
 	precision when editing percentages.  [#413]
 
-	* src/criteria.c (parse_criteria): Be careful about critiria that
+	* src/criteria.c (parse_criteria): Be careful about criteria that
 	are either empty values or empty strings.  The semantics are
 	special.  [#423]  Fix initial ref-count problem.
 
@@ -1610,7 +1610,7 @@
 	* src/sheet.c (gnm_sheet_constructed): Chain ->constructed early.
 
 	* src/expr-name.c (expr_name_add): Improve check for circular name
-	defintion.  Fixes #760046.
+	definition.  Fixes #760046.
 
 2015-12-28  Morten Welinder  <terra@gnome.org>
 
@@ -2128,7 +2128,7 @@
 2015-02-11  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c (cb_assign_val): use go_nan instead of infinite for strings
-	that can't be convered to valid numbers.
+	that can't be converted to valid numbers.
 
 2015-02-10  Morten Welinder  <terra@gnome.org>
 
@@ -2588,7 +2588,7 @@
 2014-03-15  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/item-grid.c (item_grid_realize), (cb_cursor_come_to_rest): move
-	the tooltip where it will not immediatly be destroyed after creation.
+	the tooltip where it will not immediately be destroyed after creation.
 	[really fix #706659]
 
 2014-03-14  Morten Welinder  <terra@gnome.org>
@@ -3054,7 +3054,7 @@
 
 2013-10-06  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
-	* src/cmd-edit.c (cmd_paste): chceck for locked cells
+	* src/cmd-edit.c (cmd_paste): check for locked cells
 
 2013-10-03  Morten Welinder  <terra@gnome.org>
 
@@ -3188,7 +3188,7 @@
 2013-08-08  Andreas J. Guelzow <aguelzow@pyrshep.ca>
 
 	* src/sheet-object-widget.c (sheet_widget_frame_draw_cairo): use
-	cairo version for Gnuemric too.
+	cairo version for Gnumeric too.
 	(sheet_widget_button_draw_cairo): ditto
 	(sheet_widget_scrollbar_draw_cairo): ditto
 	(sheet_widget_spinbutton_draw_cairo): ditto
@@ -4191,7 +4191,7 @@
 
 	* src/parse-util.c (std_func_map): Lookup translated name as
 	needed.
-	(parse_util_init): Add enviroment magic to turn on translated
+	(parse_util_init): Add environment magic to turn on translated
 	functions names.  This is not ready for prime time and should be
 	controlled by a user preference eventually.
 

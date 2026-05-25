@@ -734,7 +734,7 @@ goal_seek_trawl_normally (GnmGoalSeekFunction f,
  * @y: (out): location to store result
  * @data: user data
  *
- * Returns: An status indicating whether evaluation went ok.
+ * Returns: A status indicating whether evaluation went ok.
  */
 GnmGoalSeekStatus
 gnm_goal_seek_eval_cell (gnm_float x, gnm_float *y, gpointer data_)

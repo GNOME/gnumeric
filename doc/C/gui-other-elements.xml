@@ -290,7 +290,7 @@
   <sect2 id="cell-grid-tabs">
     <title>The Tabbed Sheet Indicator</title>
 
-<!-- TODO: add a screenshot. Explain selction, drag. -->
+<!-- TODO: add a screenshot. Explain selection, drag. -->
     <para>
       At the bottom of <xref linkend="cell-grid.png" />, Gnumeric has
       a tabbed sheet indicator. This is the boxes with the labels

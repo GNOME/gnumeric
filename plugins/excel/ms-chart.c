@@ -5916,7 +5916,7 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 				go_marker_set_shape (style->marker.mark, GO_MARKER_NONE);
 				style->marker.auto_fill_color = FALSE;
 			}
-			/* now, bring the two series to the begining */
+			/* now, bring the two series to the beginning */
 			if (g_slist_length (state.line_plot->series) > 2) {
 				state.line_plot->series = g_slist_remove (state.line_plot->series, first);
 				state.line_plot->series = g_slist_remove (state.line_plot->series, last);

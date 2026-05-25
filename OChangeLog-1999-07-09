@@ -814,7 +814,7 @@
 	* src/dialog-printer-setup.c: New file.  Implements the workbook
 	page configuration dialog box.
 
-	* src/print-info.c, src/print-info.h: Manages the per-worbook
+	* src/print-info.c, src/print-info.h: Manages the per-workbook
 	print options.
 
 1999-02-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
@@ -2184,7 +2184,7 @@
 	string representation of the current selection.
 
 	* src/workbook.c (workbook_selection_to_string): New routine.
-	Retunrs a string representation of the current selection.
+	Returns a string representation of the current selection.
 
 1999-05-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -3371,7 +3371,7 @@ Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 	over/under flow.
 
 	* src/expr.c (eval_expr): Add integer overflow code for addition
-	and substraction.
+	and subtraction.
 
 	* src/cell.c (cell_set_format): Call cell_render_value and
 	cell_queue_redraw calls here.
@@ -5204,7 +5204,7 @@ Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 	converted into a float, and a display format is assigned to it.
 
 	* src/format.c (append_day, append_month): Skip the -now included-
-	start at the begining for internationalization purposes.
+	start at the beginning for internationalization purposes.
 	(split_time): Fixed the hour and second renddering.
 	(format_number): Fix:  hour_seen was not being set.
 

@@ -718,7 +718,7 @@ pochhammer_naive (gnm_float x, int n)
  *
  * This function computes Pochhammer's symbol at @x and @n, i.e.,
  * Gamma(@x+@n)/Gamma(@x).  This is well defined unless @x or @x+@n is a
- * non-negative integer.  The ratio has a removable singlularity at @n=0
+ * non-negative integer.  The ratio has a removable singularity at @n=0
  * and the result is 1.
  *
  * Returns: Pochhammer's symbol (@x)_@n.

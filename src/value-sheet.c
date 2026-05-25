@@ -271,7 +271,7 @@ cb_wrapper_foreach_cell_in_area (GnmCellIter const *iter, WrapperClosure *wrap)
  * callback routine.
  *
  * Returns:
- *    non-%NULL on error, or VALUE_TERMINATE if some the handler requested
+ *    non-%NULL on error, or VALUE_TERMINATE if the handler requested
  *    to stop (by returning non-%NULL).
  **/
 GnmValue *

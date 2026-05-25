@@ -1380,7 +1380,7 @@ workbook_view_save (WorkbookView *wbv, GOCmdContext *context)
  * @uri: (nullable): URI
  * @file_opener: (nullable): #GOFileOpener
  * @io_context: (nullable): Context to display errors.
- * @encoding: (nullable): Encoding for @file_opener that understand it
+ * @encoding: (nullable): Encoding for @file_opener that understands it
  *
  * Reads @uri file using given file opener @file_opener, or probes for a valid
  * possibility if @file_opener is %NULL.  Reports problems to @io_context.

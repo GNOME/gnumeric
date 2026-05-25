@@ -99,7 +99,7 @@ pairs_floats_cache_entry_hash (const PairsFloatsCacheEntry *entry)
 
 static gboolean
 pairs_floats_cache_entry_equal (const PairsFloatsCacheEntry *a,
-				 const PairsFloatsCacheEntry *b)
+				const PairsFloatsCacheEntry *b)
 
 {
 	return (a->flags == b->flags &&
@@ -947,7 +947,7 @@ bool_range_function (int argc, GnmExprConstPtr const *argv,
  *
  * gnm_slist_sort_merge merges two lists of unsigned integers.
  *
- * Returns: (element-type guint) (transfer container): the mergedlist.
+ * Returns: (element-type guint) (transfer container): the merged list.
  **/
 GSList *
 gnm_slist_sort_merge (GSList *l1,
@@ -987,7 +987,7 @@ gnm_slist_sort_merge (GSList *l1,
  * order.
  *
  * This removes the data elements from @data whose indices are given by
- * @missing.  @n is the number of elements and it updated upon return.
+ * @missing.  @n is the number of elements and is updated upon return.
  **/
 void
 gnm_strip_missing (gnm_float *data, int *n, GSList *missing)
@@ -1065,15 +1065,15 @@ collect_float_pairs_ce (GnmValue const *vx, GnmValue const *vy,
  * @xs0: (out) (array length=n): return location for first data vector
  * @xs1: (out) (array length=n): return location for second data vector
  * @n: (out): return location for number of data points
- * @constp: (out) (optional): Return location for a flag describing who own
+ * @constp: (out) (optional): Return location for a flag describing who owns
  * the vectors returned in @xs0 and @xs1.  If present and %TRUE, the
  * resulting data vectors in @xs0 and @xs1 are not owned by the caller.
- * If not-present or %FALSE, the callers owns and must free the result.
+ * If not-present or %FALSE, the caller owns and must free the result.
  *
  * If @n is not positive upon return, no data has been allocated.
  * If @n is negative upon return, the two ranges had different sizes.
  *
- * Note: introspection cannot handle this functions parameter mix.
+ * Note: introspection cannot handle this function's parameter mix.
  *
  * Returns: (transfer full) (nullable): Error value.
  */

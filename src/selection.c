@@ -182,7 +182,7 @@ sv_is_full_range_selected (SheetView const *sv, GnmRange const *r)
  *
  * Searches the selection list to see whether the entire col/row specified is
  * contained by the section regions.  Since the selection is stored as the set
- * overlapping user specifed regions we can safely search for the range directly.
+ * overlapping user specified regions we can safely search for the range directly.
  *
  * Eventually to be completely correct and deal with the case of someone manually
  * selection an entire col/row, in separate chunks,  we will need to do something
@@ -824,9 +824,9 @@ sv_selection_reset (SheetView *sv)
 /**
  * selection_get_ranges:
  * @sv: #SheetView
- * @allow_intersection: Divide the selection into nonoverlapping subranges.
+ * @allow_intersection: Divide the selection into non-overlapping subranges.
  *
- * Caller is responsible for free the list and the content.
+ * Caller is responsible for freeing the list and the content.
  * Returns: (element-type GnmRange) (transfer full):
  **/
 GSList *
@@ -1375,7 +1375,7 @@ loop:
  * @horizontal:
  *
  * Move the edit_pos of @sv 1 step according to @forward and @horizontal.  The
- * behavior depends several factors
+ * behavior depends on several factors
  *	- How many ranges are selected
  *	- The shape of the selected ranges
  *	- Previous movements (A sequence of tabs followed by an enter can jump

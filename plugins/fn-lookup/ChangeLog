@@ -695,7 +695,7 @@
 2007-08-30  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_column) : fix per Harlan Grove's testing that
-	  row/column return vectors, not matricies.
+	  row/column return vectors, not matrices.
 	* functions.c (gnumeric_row) : ditto.  Move to the new help style
 	  while I'm in here.
 

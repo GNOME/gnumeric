@@ -11,7 +11,7 @@ Morten:
 	* New functions NETWORKDAYS.INTL and WORKDAY.INTL.
 	* Add export option "formulas=true" to txt and csv.
 	* Improve xlsx export.
-	* Improve xl compabiliity for multiple functions.
+	* Improve xl compatibility for multiple functions.
 	* Improve GEOMEAN accuracy.
 
 --------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Morten:
 	* Test suite enhancements
 	* Preserve cvs-to-cvs and cvs-to-txt line endings.
 	* Fix problems with search-and-replace.
-	* Fix crash involding document properties and undo/redo.
+	* Fix crash involving document properties and undo/redo.
 	* Fix potential overflow in NT_SIGMA.
 	* Improve primality test for large numbers.
 	* Speed up number theory functions for values with a large
@@ -212,7 +212,7 @@ Morten:
 	* Fix MROUND.  [#604]
 	* Take evasive action re g_memdup.
 	* Fix inter-gnumeric array formula paste crash.  [#606]
-	* Avoid re-querying file existance for recent files.  [Part of #602]
+	* Avoid re-querying file existence for recent files.  [Part of #602]
 	* Fix rich-text rendering (based on work of Jean).  [#607]
 	* Fix crash with conditional styling.  [#597]
 	* Extend BITOR, BITAND, BITXOR to any numbers of arguments.
@@ -597,7 +597,7 @@ Gnumeric 1.12.32
 
 Andreas:
 	* Improve html4.0 fragment export. [#769343]
-	* Fix moving averages, exponential smothing and principal
+	* Fix moving averages, exponential smoothing and principal
 	  component tools. [#769659]
 
 Jean:
@@ -972,7 +972,7 @@ Morten:
 	* Clean out old #ifdef.
 	* Fix ods series marker import/export.
 	* Fix plan-perfect issue.  [Debian #748054]
-	* Make installtion work without scrollkeeper.
+	* Make installation work without scrollkeeper.
 	* Improve import/export testing.  [#730397]
 	* Speed up certain large ranges of conditional formatting.
 	* Work towards making ods export deterministic.
@@ -1024,7 +1024,7 @@ Andreas:
 	[part of #725852]
 	* Fix fill-alignment export/import to and from ODF. [part of #726035]
 	* Fix distributed-alignment export to ODF. [part of #726035]
-	* Fix ODF roundtrip of "center accross selection". [#726010]
+	* Fix ODF roundtrip of "center across selection". [#726010]
 	* Improve ODF roundtrip of conditional formats. [#726201]
 	* Fix import & export of cell indent from/to ODF.
 	* Fix ODF roundtrip of underlines.
@@ -1462,7 +1462,7 @@ Andreas:
 	* Some documentation fixes.
 	* Show argument names for python functions. [#690681]
 	* Fix loading of ODF files with named expressions. [#690925]
-	* Avoid unncessary sheet specification in analysis tools. [#691892]
+	* Avoid unnecessary sheet specification in analysis tools. [#691892]
 	* Fix sensitivity tests for 2-factor anova dialog. [#693980]
 
 Jean:
@@ -1586,7 +1586,7 @@ Jean:
 Morten:
 	* Solver translation fixes.
 	* Teach non-linear solver about constraints.  [Part of #620368]
-	* Avoid too many hash collissions for dense sheets.
+	* Avoid too many hash collisions for dense sheets.
 	* Speed up operations that iterate over cells in large areas.
 	* Fix problems with linear solvers and cross-sheet target.
 	* Fix python-loader vs. goffice interface problem.
@@ -1606,7 +1606,7 @@ Andreas:
 	* Read and write the graph titles to/from ODF. [#675820]
 	* Fix loading of ellipse objects defined in ODF's shape section. [#676064]
 	* Fix loading of line objects defined in ODF's shape section. [#676063]
-	* Add underline button to formatted text dialog for sheet objects, commemts, etc.
+	* Add underline button to formatted text dialog for sheet objects, comments, etc.
 	* Write the formatted text of sheet objects to ODF.
 	* Fix consolidate tool. [#670155]
 	* Fix crash on ODF import of messagefree validations.
@@ -1626,7 +1626,7 @@ Andreas:
 
 Jean:
 	* Fix graph series headers when a multiple selection is used. [#675913]
-	* Make selction background visible. [#648676]
+	* Make selection background visible. [#648676]
 	* Make mouse wheel scrolling work again with gtk+-3.4. [#675089]
 
 Morten:
@@ -1761,7 +1761,7 @@ Adrian Bunk:
 Andreas:
 	* Use formatting attributes whenever we format numbers.
 	[#584380][#651561]
-	* Clarify the distinction beween open/save and import/export.
+	* Clarify the distinction between open/save and import/export.
 	* Fix enabling of modify comment or hyperlink. [#655877]
 	* Fully read scientific format from ODF.
 	* Provide xls file opener permitting encoding specification. [#535473]
@@ -1786,7 +1786,7 @@ Andreas:
 	with fixed arrays.
 	* Import ODS-like documents produced by Google-docs. [#660657]
 	* Fix border import from 1C generated xls files. [#660605]
-	* Fix cell extent caclulation for xlsx export. [#661958]
+	* Fix cell extent calculation for xlsx export. [#661958]
 	* Speed up printing of few pages of large sheets. [#662056]
 	* Provide an information dialog for print preview. [#662056]
 	* Fix hyperlink placement when inserting or adding hyperlink. [#662310]
@@ -1995,7 +1995,7 @@ Morten:
 	* Import sheet visibility from xlsx.  [#643815]
 	* Import names from xlsx.  [#643874]
 	* Improve dbf codepage support.  [#644189]
-	* Improve date format consistency in document properies.  [#644217]
+	* Improve date format consistency in document properties.  [#644217]
 	* Hopefully make print preview work on win32.  [#533795]
 	* Improve quit dialog's non-ascii handling.  [#644982]
 	* Make print-preview work on win32 by avoiding gtk+.  [#533795]
@@ -2159,7 +2159,7 @@ Andreas:
 	* Import and export boxplots to and from ODF files. [#626653]
 	* Improve handling of corrupted ODF files. [#626654][#626655]
 	* Fix autocorrection when entering in ranges. [#626781]
-	* Fix column wdth and row height adjustments when entering in ranges.
+	* Fix column width and row height adjustments when entering in ranges.
 	  [#626789]
 	* Fix autofitting on data entry. [#626861]
 	* Avoid some of the multiple undos when entering existing text in
@@ -2242,7 +2242,7 @@ Andreas:
 	* Fix editing of hyperlinks.
 	* Work around OOo's failure to correctly define its named ranges.
 	  [#625332]
-	* Remove range hightlighting while not editing expressions. [#625361]
+	* Remove range highlighting while not editing expressions. [#625361]
 	* Reduce the size of the text import dialog. [#625281]
 	* Fix import of underlined/double underlined comments from xls.
 	  Part of [#405951]
@@ -2270,7 +2270,7 @@ Morten:
 	* Fix mistakes pointed out by sparse.
 	* Fix win32 versioning problem.  [#624171]
 	* Improve function doc checks.
-	* Eliminate almost all remnaining GdkGC usage.
+	* Eliminate almost all remaining GdkGC usage.
 
 --------------------------------------------------------------------------
 Gnumeric 1.10.7
@@ -2779,7 +2779,7 @@ Andreas:
 	* Import some conditional cell formats from ODF.
 	* Fix "not-between" conditional styles. [#586818]
 	* Show existence of conditional styles in format dialog.
-	* Add an initialy hidden long format toolbar.
+	* Add an initially hidden long format toolbar.
 	* Fix std error for intercept in non-affine case of LINEST. [#550933]
 	* Fix loading of charts from MS generated ODF files. [#588107]
 	* Add some sheet object support to ODF export.
@@ -2820,7 +2820,7 @@ Andreas:
 	* Export some data formats to ODF.
 	* Fix comment export to ODF.
 	* Remove distinction between label and filled rectangle.
-	* Add superscipt and subscript buttons. [#583327]
+	* Add superscript and subscript buttons. [#583327]
 	* Improve ODF import.
 	* Improve 2 factor ANOVA tool.
 	* Improve Rank & Percentiles tool.
@@ -2953,7 +2953,7 @@ Andreas:
 
 Jean:
 	* Variable sheet sizes.
-	* Fixed libspredsheet.pc. [#575390]
+	* Fixed libspreadsheet.pc. [#575390]
 
 Jody:
 	* Improve xml probing for 2003-spreadsheetml.
@@ -3118,7 +3118,7 @@ Morten:
 	* Fix problem with deprecated gtk+ stuff in glade files.
 	* Fix xls export problem generating extra ()s.  [#567380]
 	* Constify usage of GOFormats.
-	* Fix inconsistentcy in searching with respect to formats.
+	* Fix inconsistency in searching with respect to formats.
 	* Fix issue with BASE.   [#567252]
 	* Fix XLS import criticals.  [#567823]
 	* Don't evaluate both branches of IF.  [#326595]
@@ -3250,7 +3250,7 @@ Jody:
 	* Name guru defaults to absolute references.
 	* Add mnemonics to the quit dialog.  [#132131]
 	* Odd renaming of some long file names on windows.  [#542872]
-	* Fix cusor in tab labels.  [#546981]
+	* Fix cursor in tab labels.  [#546981]
 
 Morten:
 	* Fix EOMONTH issue.  [#540069]
@@ -3607,7 +3607,7 @@ Jody:
 	* XLSX import/export of hyperlinks.
 	* XLSX import/export of validation and input messages.
 	* Basic XLSX import/export of charts.
-	* ROW/COLUMN return vectors not matricies.  [#Harlan Grove]
+	* ROW/COLUMN return vectors not matrices.  [#Harlan Grove]
 
 Morten:
 	* Fix undo column/row insert/delete for arrays.  [#463834]
@@ -3990,7 +3990,7 @@ Jody:
 	* Make ODF merge cell import more flexible.  [#347263]
 	* Restore ctrl-a as alternative for select-all.
 	* Select All no longer moves the edit_pos.
-	* Extend GDA type conversions, and make compatibile with 1.9.103.
+	* Extend GDA type conversions, and make compatible with 1.9.103.
 
 Morten:
 	* Moved font metrics to goffice.
@@ -4340,7 +4340,7 @@ Jean Brefort:
 
 Jody:
 	* Fix lost background colours.  [#314207 and others]
-	* Add some drag handles for graphicly creating frozen panes.
+	* Add some drag handles for graphically creating frozen panes.
 	* Fix sheetview confusion.  [#314208]
 
 Morten:
@@ -4419,7 +4419,7 @@ Andreas:
 Ivan:
 	* (Win32) Fix opening files with non-ascii names when users "open"
 	  them in explorer.  [#304874]
-	* Enable libspeadsheet build
+	* Enable libspreadsheet build
 	* (Win32) Fix the bug that d&d from explorer doesn't work in
 	  gnumeric.  [#304074]
 
@@ -4429,8 +4429,8 @@ Jody:
 	* After a command refocus controls for the current view.  [#165700]
 	* Fix 'Begins with' vs 'Ends With' for autofilters.
 	* Autofilter string equality is stronger than containment [#172355]
-	* Buttons in sheet manager dialog should not strech vertically.
-	* Stub for MS Excel's ASC function, which is unncessary in gnumeric.
+	* Buttons in sheet manager dialog should not stretch vertically.
+	* Stub for MS Excel's ASC function, which is unnecessary in gnumeric.
 	* Make range clipping more efficient.  [#164950]
 	* Fix advanced filter for inputs that do not start at col A.  [#165734]
 	* Fix xls import of names calling fwd declared names.  [#166611]
@@ -4456,7 +4456,7 @@ Michal Kaukic:
 
 Morten:
 	* Fix SUMIF even more.  [Debian #308346]
-	* Fix horizonal alignment of rotated numbers broken by fix to
+	* Fix horizontal alignment of rotated numbers broken by fix to
           #303292.
 	* Fix CRITICAL when undoing borders.
 	* Improve multiline rotated text.  [#167544]
@@ -4697,7 +4697,7 @@ Jody:
 	* Some tuning for missing arg export to xls [#163236]
 
 Matthias Drochner:
-	* Use non bash specific substitution for autformat templates [#161782]
+	* Use non bash specific substitution for autoformat templates [#161782]
 
 Morten:
 	* Improve accuracy of pgamma and thus pchisq, ppois, qgamma,
@@ -4788,7 +4788,7 @@ Andreas:
 	  layout
 	* Replace text entry boxes in preference dialog with
 	  checkboxes and spinbuttons.
-	* Ensure that the preference dialog inthe non-gnome build
+	* Ensure that the preference dialog in the non-gnome build
 	  looks reasonable.
 
 Jody:
@@ -4903,7 +4903,7 @@ Emmanuel Pacaud:
 	http://bugzilla.gnome.org/show_bug.cgi?id=152615
 	* New set of icons for charting engine
 	http://bugzilla.gnome.org/show_bug.cgi?id=152499
-	* Fix crash when adding y-erros to an empty plot
+	* Fix crash when adding y-errors to an empty plot
 	http://bugzilla.gnome.org/show_bug.cgi?id=152201
 	* Fix the performance degradation with too many axis ticks
 	http://bugzilla.gnome.org/show_bug.cgi?id=153146
@@ -5089,7 +5089,7 @@ Morten:
 	* Fix ssconvert output.
 	* Fix potential lexer crash.
 	http://bugzilla.gnome.org/show_bug.cgi?id=150821
-	* Fix graph guru crash in the absense of graph plugins.
+	* Fix graph guru crash in the absence of graph plugins.
 
 Uwe Steinmann:
 	* Paradox DB import.
@@ -5372,7 +5372,7 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=128169
 	* Use the right font when editing.
 	http://bugzilla.gnome.org/show_bug.cgi?id=127625
-	* kludge around mystery inconsistent autfilters in xls
+	* kludge around mystery inconsistent autofilters in xls
 	* Patch a leak in the pattern selector
 	* Fix a potential crash when changing labels on axis
 	http://bugzilla.gnome.org/show_bug.cgi?id=127734
@@ -5507,11 +5507,11 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=127145
 	* Update status display even on delayed motion.
 	http://bugzilla.gnome.org/show_bug.cgi?id=127205
-	* Fix rangeseltion of multiple items in other locales
+	* Fix range selection of multiple items in other locales
 	http://bugzilla.gnome.org/show_bug.cgi?id=127199
 	* Update the format status UI after a successful read
 	http://bugzilla.gnome.org/show_bug.cgi?id=127211
-	* Errors default to horzontal alignment == center
+	* Errors default to horizontal alignment == center
 	http://bugzilla.gnome.org/show_bug.cgi?id=127204
 	* Don't add a grid if there wasn't one in the xls
 	http://bugzilla.gnome.org/show_bug.cgi?id=127238
@@ -5569,7 +5569,7 @@ Jody:
 	* Add 'Albany' to excel plugin's font table
 	* Chart printing now respects scaling
 	* Fix crash with partial bar/col/line/area/xy series
-	* Patch warning when quiting with an keyed dialog
+	* Patch warning when quitting with an keyed dialog
 	* Fix xls export of operand classes
 	* Minor packaging bug in corba plugin
 	* Accept blank lines in text to cols.
@@ -5731,8 +5731,8 @@ Adrian Custer:
 
 Andreas:
 	* Fix analysis tools dialogs again
-	* Fix text export of non-ascii charaters
-	* Fix latex export of non-ascii charaters
+	* Fix text export of non-ascii characters
+	* Fix latex export of non-ascii characters
 	* Allow latex export to use utf-8 if required
 	* Avoid duplicate regression tool error messages
 	* Added new function SSMEDIAN (social science median, or
@@ -5809,7 +5809,7 @@ Jody:
 	* Improve behavior of autofilters with ins/del col/row
 	* Make mmult smarter about what constitutes a 3d ref
 	* Improve import of gnumeric-1.0.x era graphs
-	* Fix crash on xls export for autfilters with no conditions.
+	* Fix crash on xls export for autofilters with no conditions.
 	* Some basic work on axis
 
 John Gill:
@@ -6054,7 +6054,7 @@ Morten:
 
 Nicolas Peninguy :
 	http://bugzilla.gnome.org/show_bug.cgi?id=102236
-	* Decrease depenence on glibc regexp extensions.
+	* Decrease dependence on glibc regexp extensions.
 
 Murray Cumming :
 	* Port to the gnome-print-2.2 api.
@@ -6107,11 +6107,11 @@ Fernando Herrera:
 	* Improve desktop file to support bug-buddy.
 
 Jody:
-	* Make the behavor of save and save-as more comfortable.
+	* Make the behavior of save and save-as more comfortable.
 	* Fix parsing 3d references
 	* More work on exporting names to xls
 	* Support the global outline buttons
-	* Optional outline markers at the begining rather than end
+	* Optional outline markers at the beginning rather than end
 	* Make the label object more useful
 	* Fix XL import for h/v only freeze with non origin start
 	* More attributes for excel95 objects
@@ -6136,7 +6136,7 @@ Jon Kåre:
 	* Use desktop font for row and column titles, fixing 98666.
 	* Fix bugs in the bonobo control version of Gnumeric.
 	* Install the bonobo control in libexec.
-	* No longer pretend to support the Bonoobo/PersistFile interface.
+	* No longer pretend to support the Bonobo/PersistFile interface.
 	* Fix key navigation and scrollbar scrolling in auto-filter combos.
 	* Clean up editable-label some more.
 	* Improve image loading. With libwmf-0.2.8 and gtk+-2.1.2 or
@@ -6208,7 +6208,7 @@ Morten:
 	* Add parameter checks to RAYLEIGH, RAYLEIGHTAIL, EXPPOWDIST,
 	  LAPLACE, PARETO, LOGISTIC functions.
 	* Plug leaks in function selector dialog.
-	* Improve memory usage in search centre slighly.
+	* Improve memory usage in search centre slightly.
 	* Fix precision of GAMMALN.
 	* Fix precision of FACT and extend it to negative non-integers.
 	* Add BETA and BETALN functions.
@@ -6421,7 +6421,7 @@ Jody:
 	  Includes some format transfer and uses the wordperfect
 	  charset map from kword (thanks to Ariya Hidayat)
 	* Cull out a pile of special iconv code in favour of glib
-	* Fix documentation installtion to match libgnome's expectations
+	* Fix documentation installation to match libgnome's expectations
 	* locale -> utf8 conversion for lotus wk1 importer
 	* support for BITAND and BITOR in lotus wk1 importer
 	* Tweak XL export so that MS Excel does not produce a warning when
@@ -6528,7 +6528,7 @@ Andreas:
 	* Make the analysis tools honour the lock state of cells.
 	* Properly handle output range preparation for analysis tools
 	  even if the user did not want it cleared.
-	* Create ui to set protection of indiviual sheets.
+	* Create ui to set protection of individual sheets.
 	* Make various edit actions check for locks first.
 	* Fix 85383, 84396, 88164.
 
@@ -6780,7 +6780,7 @@ Jody:
 	* Add dependency support for 3d references.  needs work on delete.
 	* More polish to dependency engine.
 	* Big ExprTree -> GnmExpr rename in prep for libgnumeric.
-	* Support importing encrypted XLS workbooks (password is temporarilly
+	* Support importing encrypted XLS workbooks (password is temporarily
 	  hard coded)
 
 Jukka:
@@ -6807,7 +6807,7 @@ Andreas:
 	* Make the analysis tools warnings non-modal.
 	* Make the autocorrect dialog non-modal, port to gnome2.
 	* Fix gnome2 specific random tool crash.
-	* Destroy outadated dialogs.
+	* Destroy outdated dialogs.
 	* Port solver dialog to gnome2.
 	* Make the solver information dialogs non-modal.
 	* Make the goal-seek warnings non-modal.
@@ -7034,12 +7034,12 @@ Andreas:
 	* Implement merges and spans in html exporter
 	* Make output from HTML4.0 and HTML3.2 exporters validate
 	* Fix copy multiple cells to single merged cell (#67298)
-	* Fix expr entry widget: used to fet confised on mouse clicks
+	* Fix expr entry widget: used to get confused on mouse clicks
           (#65894)
 
 Jody:
 	* Add insert Graph menu item & icon
-	* Fix Exit icon for bonbo build.
+	* Fix Exit icon for bonobo build.
 	* Delete the CAPS lock feature from autocorrect.
 	* Fix Chema's sneaky cursor grab.
 	* Applix import for v4.41, add it to the mime types.
@@ -7061,7 +7061,7 @@ Jody:
 	* Fix format leak (thanks Morten)
 	* Fix data validation.
 	* Dirty workbook when modifying summary info.
-	* Invalidate names refering to deleted expressions.
+	* Invalidate names referring to deleted expressions.
 	* Fix row height resize when undoing changes to JIT rendering.
 
 Morten:
@@ -7123,7 +7123,7 @@ Jody:
 	* Fix ins/del col/row in outline mode.
 	* Support number buttons in outline mode.
 	* Implement XL export for array formulas.
-	* Fix handling of failue in filter dialog.
+	* Fix handling of failure in filter dialog.
 	* Remove some dead code.
 	* Minor etable warning tweak.
 	* Improve cursor handling for frozen panes.
@@ -7136,7 +7136,7 @@ Jody:
 	* Some simple shared steps towards gnome2.
 	* Fix autofill crash when shrinking regions.
 	* Make graph vector header recognition more like XL.
-	* Fix missing bononbo menu icon for exit.
+	* Fix missing bonobo menu icon for exit.
 
 Morten:
 	* Fix EXPRESSION crash.
@@ -7597,7 +7597,7 @@ Morten:
 
 Zbigniew:
 	* More work on plugin system.
-	* Many i/o system improvements (general cleanup, reporing i/o progress,
+	* Many i/o system improvements (general cleanup, reporting i/o progress,
 	  better probing, nicer import dialog, pluggable default savers,
 	  handling single sheet exporters in a special way)
 
@@ -7949,7 +7949,7 @@ JPR:
 	* Sorting now detects headers when sorting
 
 Kenneth
-	* Added two perl scripts for translation help/maintainence.
+	* Added two perl scripts for translation help/maintenance.
           Also added is a README.tools file, explaining how to use these.
 
 Michael:
@@ -8062,7 +8062,7 @@ Jukka:
 	* Implemented `Answer Report' generation for Solver.
 	* Started implementation of `Sensitivity Report' generation for
 	  Solver (currently, not very useful though).
-	* Major GUI improvementes for Solver, i.g. Solver constraints
+	* Major GUI improvements for Solver, i.g. Solver constraints
           can now be cell ranges, not just cells.
 	* Solver documentation added.
 	* Added `Advanced Filter' tool.
@@ -8123,7 +8123,7 @@ Almer :
 	  - Pops-up when pasting from external applications.
 	  - Preview is drawn faster and is interactive.
 	  - More separators to choose from when doing a CSV import.
-	* Copying cells between different instantances of gnumeric.
+	* Copying cells between different instances of gnumeric.
 
 Morten:
 	* Fixed display of pre-1900 dates.
@@ -8222,7 +8222,7 @@ Jody:
 	* Begin exception handling for corba vs gui.
 	* Add some simple version protection for plugins.
 	* Improve error reporting for file loading.
-	* Explicitly disable passord protected XL spreadsheets.
+	* Explicitly disable password protected XL spreadsheets.
 	* Bug fixing.
 
 Cort:
@@ -8254,7 +8254,7 @@ JP:
 	* Improved sort dialog
 
 Nat:
-	* Updated bonobo infastructure
+	* Updated bonobo infrastructure
 
 Kevin:
 	* Plan Perfect plugin
@@ -8263,7 +8263,7 @@ Kevin:
 Jody:
 	* Improved clipboard ops.
 	* import Excel auto-ranges
-	* better range instersection
+	* better range intersection
 	* Guile plugin fixed
 	* Auto fill display fixes.
 
@@ -8285,7 +8285,7 @@ Jon:
 JP:
 	* Expanded sort dialog to allow sorting of rows as well as columns
 	* Added advanced button to sort dialog to allow sorting but case
-	sensitivty and text (rather value)
+	sensitivity and text (rather value)
 
 --------------------------------------------------------------------------
 
@@ -8298,7 +8298,7 @@ Gnumeric 0.43
 Gnumeric 0.42
 
 Michael:
-	* Totaly re-wrote style engine.
+	* Totally re-wrote style engine.
 
 Jukka:
 	* Implemented IRR and XIRR financial functions
@@ -8356,7 +8356,7 @@ Gnumeric 0.39
 
 Miguel:
 
-	* Arbitraryly shaped bonobo objects.
+	* Arbitrarily shaped bonobo objects.
 	* Formatting engine supports h,m,s correctly and supports [h], [m], and [s]
 
 Jukka:
@@ -8404,7 +8404,7 @@ Miguel:
 
 Michael:
 	* Support IO on non-mmap-able excel files.
-	* Totaly re-write libole2's API - its usable now.
+	* Totally re-write libole2's API - its usable now.
 	* Excel export 'Add-in' functions.
 
 Frank:
@@ -8482,7 +8482,7 @@ Jody:
 	  modes
 	* Reworked internal handling of absolute/relative addressing.
 	* Fixed cut/copy/paste to relocate relative references to only
-	  when copying not cuting.
+	  when copying not cutting.
 
 Jay:
 
@@ -8813,7 +8813,7 @@ features.
 	* Michael Meeks added multiple-clause sort to the sort dialog.
 
 	* GNUMERIC_NORMDIST() function now uses a more efficient
-	  method of computation (Morten Wellinder).
+	  method of computation (Morten Welinder).
 
 	* Should load properly workbooks with references to other
 	  sheets.
@@ -8850,7 +8850,7 @@ Hello guys,
    But many good things have been done, and we want all of these
 features to be available ASAP to all of you :-).
 
-	1. Morten Welinder implemented a more accurrate algorithm for
+	1. Morten Welinder implemented a more accurate algorithm for
 	   the variance functions.
 
 	2. Michael Meeks send me lots of updates and changes to Gnumeric:
@@ -8887,12 +8887,12 @@ Hey Dudes!
 
    * Many new functions:
 
-	* Jukka-Pekka Iivonen contributed many finantial functions:
+	* Jukka-Pekka Iivonen contributed many financial functions:
 	  DOLLARDE(), DOLLARFR(), NOMINAL(), NPV(), PV(), FV(), PMT(),
 	  IPMT(), PPMT(), NPER() and DURATION().
 
 	* Michael Meeks wrote the spreadsheet lookup functions: COLUMN(),
-	  COLUMNS(), HLOOKUP(), ROW(), ROWS(), VLOOKLUP()
+	  COLUMNS(), HLOOKUP(), ROW(), ROWS(), VLOOKUP()
 
 	* Sean Atkinson improved SUBSTITUTE() and he implemented CONCATENATE(), REPT(), FIND(),
 	  FIXED(), PROPER(), REPLACE(), T(), VALUE(), SUBSTITUTE(), DOLLAR()
@@ -8936,7 +8936,7 @@ Hello guys,
 
 	- More functions from Michael Meeks
 
-	- Bug fix: Applying a cell number format should work again inmediately
+	- Bug fix: Applying a cell number format should work again immediately
 	  (it was not queuing the re-rendering operation).
 
 	- Bug fix: Precedence fixes: when decoding the tree to render a text
@@ -8947,7 +8947,7 @@ Hello guys,
 	  again.
 
 	- New code: integer overflow/underflow detection code.  Now
-	  addition and substraction will be promoted to floating point
+	  addition and subtraction will be promoted to floating point
 	  values if there is a overflow in the computation.
 
 * Availability:
@@ -8976,7 +8976,7 @@ Hello guys,
 	  geomean,) from Michael Meeks.
 
 	* Fixes to the clipboard code (should paste formulas to other
-	  applications correctly and fix the inter-worbook pastes).
+	  applications correctly and fix the inter-workbook pastes).
 
 	* External function loading works for Excel files.
 
@@ -9122,7 +9122,7 @@ area we could probably meet.
 
 	- Michael provided an icon for Excel files.
 
-	- Contributed Spanish documntation from Pablo.
+	- Contributed Spanish documentation from Pablo.
 
 You can get this at:
 
@@ -9149,7 +9149,7 @@ of the bugs fixed and improvements:
 
 	- Gnumeric no longer crashes on save.
 
-	- Dependecy computation code got fixed.  Horribly typo was
+	- Dependency computation code got fixed.  Horribly typo was
 	  doing all sorts of nonsense ;-)
 
 Fetch it from:
@@ -9168,7 +9168,7 @@ Gnumeric Spreadsheet.
 
 New in this version:
 
-	* Many updates on the Excel side, optimizaitons, bug fixes,
+	* Many updates on the Excel side, optimizations, bug fixes,
 	  more features supported (Michael Meeks, Sean Atkinson).
 
 	* Support for adding/removing sheets on the notebook tabs
@@ -9219,7 +9219,7 @@ the internal Gnumeric functions.
 	- Guile support now needs to be explicitly configure
 	  (--with-guile).
 
-	- Fix crashing problems repoted when autofilling.
+	- Fix crashing problems reported when autofilling.
 
 	- Documentation is included in the tarball (You need DocBook
 	  if you plan on extending the documentation or fixing my
@@ -9344,7 +9344,7 @@ well as making sure we keep Gnumeric in a nice way.  I am very
 thankful for his input.
 
    Jakub Jelinek made the scrolling code be smarter than my previous
-attempt at scrolling, it is now definetly usable.
+attempt at scrolling, it is now definitely usable.
 
    Code for attaching notes to cell is completely on the code.  The
 only problem is that right now comment is hardcoded in the source
@@ -9373,7 +9373,7 @@ cell.  Now the cell value is stored either as a value or as an
 expression tree and decoded when the user requires it.  This was
 required for a number of things (one of them being a nicer way to
 share cell expressions during copying, and for the excel format and
-the autofill code got definetly simpler and more maintainable).
+the autofill code got definitely simpler and more maintainable).
 
    Various display and scrolling glitches were fixed as well.  But in
 the process, I somehow broke the object-drawing code.  I have not
@@ -9383,7 +9383,7 @@ researched this yet.
 anything, it is just the setup for launching the Gnumeric server.
 Owen Taylor made Gnumeric accept dragged files, you can now drag files
 from the file manager into the spreadsheet, on this topic:  the date
-routiens now use GLib's gdate instead of the gnome-libs libDate
+routines now use GLib's gdate instead of the gnome-libs libDate
 routines.
 
    You can fetch it from:

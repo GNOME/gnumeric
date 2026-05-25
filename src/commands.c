@@ -6140,7 +6140,7 @@ cmd_define_name_finalize (GObject *cmd)
  *
  * If the @name has never been defined in context @pp create a new name
  * If it is a placeholder, assign @texpr to it and make it real
- * If it already exists as a real name just assign @expr.
+ * If it already exists as a real name just assign @texpr.
  *
  * Returns: %TRUE if there was a problem, %FALSE otherwise.
  **/

@@ -199,7 +199,7 @@ value_new_error_NULL (GnmEvalPos const *pos)
  * value_new_error_DIV0:
  * @pos: evaluation position
  *
- * Returns: (transfer full): a new \#DIV0! error value.  This is used for
+ * Returns: (transfer full): a new \#DIV/0! error value.  This is used for
  * division by zero.
  */
 GnmValue *

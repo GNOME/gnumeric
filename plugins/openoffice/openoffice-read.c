@@ -2196,7 +2196,7 @@ odf_fix_en_apply (const char *orig, const char *fixed, odf_fix_expr_names_t *fen
 
 
 /**
- * When we initialy validate names we have to accept every ODF name
+ * When we initially validate names we have to accept every ODF name
  * in odf_fix_expr_names we fix them.
  *
  *

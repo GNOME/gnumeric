@@ -2402,7 +2402,7 @@ cb_sheet_get_extent (G_GNUC_UNUSED gpointer ignored, gpointer value, gpointer da
  * all spans.  That might be expensive.
  *
  * NOTE: This refers to *visible* contents.  Cells with empty values, including
- * formulas with such values, are *ignored.
+ * formulas with such values, are ignored.
  *
  * Returns: the range.
  **/

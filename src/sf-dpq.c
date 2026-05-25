@@ -716,7 +716,7 @@ log1px3 (gnm_float x)
 	gnm_float c1 = GNM_const(0.6065306597126334);  // Exp[-1/2]
 	gnm_float d1 = GNM_const(0.64872127070012814684865); // (1/c1)/c1
 
-	// Lift p(x) by -p(d1) (ie., b2 = 0.43830162717073367601715756
+	// Lift p(x) by -p(d1) (i.e., b2 = 0.43830162717073367601715756
 	gnm_float c2 = GNM_const(0.6451311644197896784284); // Exp[-b2]
 	gnm_float d2 = GNM_const(0.5500723808612904238765);  // (1/c2)/c2
 

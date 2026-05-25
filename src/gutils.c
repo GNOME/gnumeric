@@ -1212,7 +1212,7 @@ gnm_cpp (const char *src, GHashTable *vars)
  * (2) go_dtoa is not perfect.  We don't want to deal with (1) twice.
  *
  * Note: this does not change the semantics of the files.  The files mean
- * precisely the same thing, ie., the different strings are representations
+ * precisely the same thing, i.e., the different strings are representations
  * of the same IEEE-754 number which is (generally) not a nice decimal
  * number with few decimals.
  *

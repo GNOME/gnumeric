@@ -140,7 +140,7 @@ datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *con
  * @basis: #GOBasisType
  * @date_conv: #GODateConventions
  *
- * Returns the number of days in the year for the given date accoring to
+ * Returns the number of days in the year for the given date according to
  * the day counting system specified by @basis argument.  @basis may have
  * one of the following values:
  *
@@ -151,7 +151,7 @@ datetime_value_to_g (GDate *res, GnmValue const *v, GODateConventions const *con
  *	4  for European 30/360
  *
  * This function returns 360 for @basis 0, 2, and 4, it returns value
- * 365 for @basis 3, and value 365 or 366 for @basis 1 accoring to the
+ * 365 for @basis 3, and value 365 or 366 for @basis 1 according to the
  * year of the given date (366 is returned if the date is in a leap
  * year).
  *

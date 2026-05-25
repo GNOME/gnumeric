@@ -1634,7 +1634,7 @@
 	Excel-like toolbar.  I got fed up with it.
 	(scg_construct): Use regular Gtk scrollbars.  Connect to value
 	changed to reflect the state of the scrollbar on the spreadsheet
-	inmediately instead of doing the broken Excel behaviour.
+	immediately instead of doing the broken Excel behaviour.
 	That is one feature I cloned that was totally idiotic.
 
 2001-05-13  Almer S. Tigelaar  <almer@gnome.org>
@@ -2641,7 +2641,7 @@
 	* src/sheet-style.c (sheet_style_get_list) : Add a horizontal merge
 	  before dumping to a list.
 	(cb_hash_to_list) : free elements that have been merged in the
-	  horizonal step, but have not yet been removed.
+	  horizontal step, but have not yet been removed.
 	(cb_hash_merge_horiz) : new function. merge when possible, after a
 	  merge either free the useless bit or mark it as useless for later
 	  removal.
@@ -3167,7 +3167,7 @@
 2001-04-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-bar.c (item_bar_event) : Doh!  The outline events are
-	  controled by the minor coordinate.
+	  controlled by the minor coordinate.
 
 2001-04-01  Jody Goldberg <jgoldberg@home.com>
 
@@ -7424,7 +7424,7 @@
 	  these changes was that there was a race condition in the old
 	  version.  We were creating a new item cursor when we did a button
 	  press.  It started in exactly the same position as the current
-	  cursor.  2BUTTON_PRESS were sometimes being sent to the new cusor
+	  cursor.  2BUTTON_PRESS were sometimes being sent to the new cursor
 	  and sometimes showing up as PRESS events on the old with no RELEASE.
 	  This patch attempts to delay creating the new drag cursor until we
 	  are sure this is not a double click so that the proper event

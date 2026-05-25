@@ -2103,7 +2103,7 @@
 	(hack_xmlSAXParseFile): copy from libxml.
 
 	* src/sheet-object.c (sheet_object_drop_file): update; this should
-	be totaly re-written.
+	be totally re-written.
 
 	* src/sheet-object-bonobo.c (sheet_object_bonobo_load): clean up.
 
@@ -6278,7 +6278,7 @@
 
 2000-03-25  Michael Meeks  <michael@helixcode.com>
 
-	* src/ranges.c (range_fragment_list_clip): totaly re-write.
+	* src/ranges.c (range_fragment_list_clip): totally re-write.
 	(ranges_dump): implemented.
 
 	* src/sheet-style.c (sheet_unique_cb): use frags not middle_list to
@@ -6847,7 +6847,7 @@
 	  focus start editing.
 	(accept_input) : No need to force edit mode we should already be in
 	  edit mode.
-	(workbook_setup_edit_area) : Move the wizard button to the begining of
+	(workbook_setup_edit_area) : Move the wizard button to the beginning of
 	  the list and store the ok and cancel buttons in the Private section.
 	  Hook cb_editline_focus_in to focus-in.
 	(workbook_new) : After show_all, we need to hide the ok/cancel edit
