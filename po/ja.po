@@ -16899,7 +16899,7 @@ msgid "_Merge and Center"
 msgstr "結合と中央揃え(_M)"
 
 #: ../src/wbc-gtk-actions.c:2884
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "選択範囲を1つのセルに結合して、水平方向に中央位置に移動します。"
 
 #: ../src/wbc-gtk-actions.c:2891

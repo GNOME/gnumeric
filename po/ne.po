@@ -16250,7 +16250,7 @@ msgid "_Merge and Center"
 msgstr "गाभ्नुहोस् र केन्द्रिकरण गर्नुहोस्"
 
 #: ../src/wbc-gtk-actions.c:2765
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "चयनलाई १ कक्षमा गाभ्नुहोस्, अनि तेर्सोगरि केन्द्रिकरण गर्नुहोस्"
 
 #: ../src/wbc-gtk-actions.c:2772

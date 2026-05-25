@@ -16989,8 +16989,8 @@ msgid "_Merge and Center"
 msgstr "_Merge and Centre"
 
 #: ../src/wbc-gtk-actions.c:2880
-msgid "Merge the selection into 1 cell, and center horizontaly."
-msgstr "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
+msgstr "Merge the selection into 1 cell, and center horizontally."
 
 #: ../src/wbc-gtk-actions.c:2887
 msgid "Align _Top"

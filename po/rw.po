@@ -19083,7 +19083,7 @@ msgstr "Na"
 
 #: ../src/wbc-gtk-actions.c:2765
 #, fuzzy
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "i Ihitamo 1. Akazu Na hagati"
 
 # sc/sdi\scslots.src:SID_ALIGNTOP.text

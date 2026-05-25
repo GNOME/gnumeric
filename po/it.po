@@ -17719,7 +17719,7 @@ msgid "_Merge and Center"
 msgstr "Unisci e cent_ra"
 
 #: ../src/wbc-gtk-actions.c:2880
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Unisce la selezione in una cella e centra orizzontalmente."
 
 #: ../src/wbc-gtk-actions.c:2887

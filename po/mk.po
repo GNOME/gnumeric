@@ -15877,7 +15877,7 @@ msgid "_Merge and Center"
 msgstr "_Спои и центрирај"
 
 #: ../src/wbc-gtk-actions.c:2765
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Спои го избраното во една ќелија и центрирај хоризонтално"
 
 #: ../src/wbc-gtk-actions.c:2772

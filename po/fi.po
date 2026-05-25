@@ -17340,7 +17340,7 @@ msgid "_Merge and Center"
 msgstr "_Yhdistä ja keskitä"
 
 #: ../src/wbc-gtk-actions.c:2851
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Yhdistä valinta yhteen soluun ja keskitä vaakasuunnassa."
 
 #: ../src/wbc-gtk-actions.c:2858

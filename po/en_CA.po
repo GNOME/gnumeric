@@ -16360,8 +16360,8 @@ msgid "_Merge and Center"
 msgstr "_Merge and Centre"
 
 #: ../src/wbc-gtk-actions.c:2765
-msgid "Merge the selection into 1 cell, and center horizontaly."
-msgstr "Merge the selection into 1 cell, and centre horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
+msgstr "Merge the selection into 1 cell, and centre horizontally."
 
 #: ../src/wbc-gtk-actions.c:2772
 msgid "Align _Top"
@@ -16506,7 +16506,7 @@ msgstr "Centre Vertically"
 #: ../src/wbc-gtk-actions.c:2866 ../src/wbc-gtk-actions.c:2881
 #, fuzzy
 msgid "Horizontal Alignment"
-msgstr "Horzontal Alignment"
+msgstr "Horizontal Alignment"
 
 #: ../src/wbc-gtk-actions.c:2877 ../src/wbc-gtk-actions.c:2878
 msgid "Vertical Alignment"

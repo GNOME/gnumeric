@@ -17883,7 +17883,7 @@ msgid "_Merge and Center"
 msgstr "_Düşey Olarak"
 
 #: ../src/wbc-gtk-actions.c:2851
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr ""
 
 #: ../src/wbc-gtk-actions.c:2858

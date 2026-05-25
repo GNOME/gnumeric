@@ -15924,7 +15924,7 @@ msgid "_Merge and Center"
 msgstr "Entemecer y _centrar"
 
 #: ../src/wbc-gtk-actions.c:2765
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Entemecer la seleición en 1 caxella, y centrar horizontalmente."
 
 #: ../src/wbc-gtk-actions.c:2772

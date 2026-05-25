@@ -17055,7 +17055,7 @@ msgstr "_Sujungti ir centruoti"
 
 #: ../src/wbc-gtk-actions.c:3599
 #, fuzzy
-#| msgid "Merge the selection into 1 cell, and center horizontaly."
+#| msgid "Merge the selection into 1 cell, and center horizontally."
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Sujungti pasirinktą sritį į vieną lauką ir centruoti horizontaliai."
 

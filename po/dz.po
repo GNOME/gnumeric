@@ -16337,7 +16337,7 @@ msgid "_Merge and Center"
 msgstr "མཉམ་བསྡོམས་དང་དབུས་སྒྲིག་་འབད་(_M)"
 
 #: ../src/wbc-gtk-actions.c:2765
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "སེལ་འཐུ་འབད་ནི་འདི་ ནང་ཐིག་ ༡ ནང་མཉམ་བསྡོམས་འབད་ དངེ་ལས་ ཐད་སྙོམས་སྦེ་དབུས་སྒྲིག་འབད།"
 
 #: ../src/wbc-gtk-actions.c:2772

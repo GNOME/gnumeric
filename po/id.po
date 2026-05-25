@@ -18023,7 +18023,7 @@ msgstr "_Gabung dan Tengahkan"
 
 #: ../src/wbc-gtk-actions.c:3613
 #, fuzzy
-#| msgid "Merge the selection into 1 cell, and center horizontaly."
+#| msgid "Merge the selection into 1 cell, and center horizontally."
 msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Gabung pilihan ke dalam 1 sel, dan tengah secara horisontal."
 

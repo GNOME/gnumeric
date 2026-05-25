@@ -16197,7 +16197,7 @@ msgid "_Merge and Center"
 msgstr "T_rộn và canh giữa"
 
 #: ../src/wbc-gtk-actions.c:2765
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "Trộn vùng chọn vào một ô, rồi canh giữa ngang."
 
 #: ../src/wbc-gtk-actions.c:2772

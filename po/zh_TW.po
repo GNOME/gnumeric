@@ -16799,7 +16799,7 @@ msgid "_Merge and Center"
 msgstr "合併及置中(_M)"
 
 #: ../src/wbc-gtk-actions.c:2882
-msgid "Merge the selection into 1 cell, and center horizontaly."
+msgid "Merge the selection into 1 cell, and center horizontally."
 msgstr "將選取區域合併至一儲存格並水平置中。"
 
 #: ../src/wbc-gtk-actions.c:2889

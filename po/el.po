@@ -3,7 +3,7 @@
 # Copyright (C) 2000,2003, 2005, 2008 Free Software Foundation, Inc.
 # Spiros initial translation 431 messages translated
 # Gnumeric 1.2.x
-# jun 2003 Nikos start fixing erros and updating 557 translated
+# jun 2003 Nikos start fixing errors and updating 557 translated
 # 14Sep2003 Nikos a small update 606 translated
 # 19Sep2003 Nikos a small update 637 translated
 # 23Sep2003 Nikos update 755 translated

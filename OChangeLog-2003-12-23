@@ -7398,7 +7398,7 @@
 
 2002-08-17  Jon K Hellan  <hellan@acm.org>
 
-	* configure.in: Reintroduce stuff accidentaly clobbered by my
+	* configure.in: Reintroduce stuff accidentally clobbered by my
 	commit 2002-08-15.
 
 2002-08-17  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
