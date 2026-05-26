@@ -10,7 +10,7 @@
   <object class="GtkDialog" id="dialog">
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
-    <property name="title" translatable="yes">Gnumeric : AutoFilter</property>
+    <property name="title" translatable="yes">Gnumeric: AutoFilter</property>
     <property name="window_position">mouse</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">

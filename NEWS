@@ -8062,7 +8062,7 @@ Jukka:
 	* Implemented `Answer Report' generation for Solver.
 	* Started implementation of `Sensitivity Report' generation for
 	  Solver (currently, not very useful though).
-	* Major GUI improvements for Solver, i.g. Solver constraints
+	* Major GUI improvements for Solver, e.g. Solver constraints
           can now be cell ranges, not just cells.
 	* Solver documentation added.
 	* Added `Advanced Filter' tool.

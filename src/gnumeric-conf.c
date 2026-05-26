@@ -1364,7 +1364,7 @@ gnm_conf_get_core_gui_cells_extension_markers_node (void)
 static struct cb_watch_bool watch_core_gui_cells_function_markers = {
 	0, "core/gui/cells/function-markers",
 	"Function Markers",
-	"This variable determines whether cells containing spreadsheet function are marked.",
+	"This variable determines whether cells containing spreadsheet functions are marked.",
 	FALSE
 };
 
@@ -1602,7 +1602,7 @@ gnm_conf_get_core_gui_editing_recalclag_node (void)
 static struct cb_watch_bool watch_core_gui_editing_transitionkeys = {
 	0, "core/gui/editing/transitionkeys",
 	"Transition Keys",
-	"This variable determines whether transition keys are set on. Transition keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.",
+	"This variable determines whether transition keys are set on. Transition keys are a throwback to 1-2-3 style event handling. They turn Ctrl-arrow into page movement rather than jumping to the start/end of series.",
 	FALSE
 };
 
@@ -4829,7 +4829,7 @@ gnm_conf_get_undo_show_sheet_name_node (void)
 static struct cb_watch_int watch_undo_size = {
 	0, "undo/size",
 	"Maximal Undo Size",
-	"This value determines the length of the undo chain. Each editing action has a size associate with it, to compare it with the memory requirements of a simple one-cell edit (size of 1). The undo list will be truncated when its total size exceeds this configurable value.",
+	"This value determines the length of the undo chain. Each editing action has a size associated with it, to compare it with the memory requirements of a simple one-cell edit (size of 1). The undo list will be truncated when its total size exceeds this configurable value.",
 	1, 1000000, 100000
 };
 

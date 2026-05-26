@@ -3037,7 +3037,7 @@ msgstr "Desegiteko gehieneko tamaina"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:6
 msgid ""
 "This value determines the length of the undo chain. Each editing action has "
-"a size associate with it, to compare it with the memory requirements of a "
+"a size associated with it, to compare it with the memory requirements of a "
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr "Balio honek zehazten du desegite-katearen luzera. Editatze-ekintza bakoitzak tamaina bat du lotuta, gelaxka bakarreko edizio sinple baten (1 tamaina) memoria-eskakizunarekin konparatzeko. Desegite-zerrenda trunkatu egingo da guztira duen tamainak gainditu egiten badu balio konfiguragarri hau."

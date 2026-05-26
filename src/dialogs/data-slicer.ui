@@ -4,7 +4,7 @@
   <object class="GtkDialog" id="dialog_data_slicer">
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
-    <property name="title" translatable="yes">DataSlicer Guru : Gnumeric</property>
+    <property name="title" translatable="yes">DataSlicer Guru: Gnumeric</property>
     <property name="window_position">mouse</property>
     <property name="default_height">500</property>
     <property name="type_hint">dialog</property>

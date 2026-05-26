@@ -3227,7 +3227,7 @@ histogram_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		value_release (input_range_2);
 	} else if (entry_to_int (state->n_entry, &the_n,FALSE) != 0 || the_n <= 0) {
 			gtk_label_set_text (GTK_LABEL (state->base.warning),
-					    _("The number of to be calculated cutoffs is invalid."));
+					    _("The number of cutoffs to be calculated is invalid."));
 			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
 			return;
 	}

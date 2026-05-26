@@ -159,7 +159,7 @@ static struct {
 	{ N_("Vladimir Vuksan"),		GNM_ANALYTICS,
 		N_("Some financial functions") },
 	{ N_("Morten Welinder"),		GNM_CORE|GNM_FEATURE_HACKER|GNM_ANALYTICS|GNM_IMPORT_EXPORT|GNM_SCRIPTING|GNM_GUI|GNM_USABILITY|GNM_TRANSLATION|GNM_QA,
-		N_("All round powerhouse") },
+		N_("All-round powerhouse") },
 	{ N_("Kevin Breit"),		GNM_DOCUMENTATION, NULL },
 	{ N_("Thomas Canty"),		GNM_DOCUMENTATION, NULL },
 	{ N_("Adrian Custer"),		GNM_DOCUMENTATION, NULL },

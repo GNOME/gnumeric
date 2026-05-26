@@ -3303,7 +3303,7 @@ msgstr "Taille maximale du système « Annuler/Rétablir »"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:6
 msgid ""
 "This value determines the length of the undo chain. Each editing action has "
-"a size associate with it, to compare it with the memory requirements of a "
+"a size associated with it, to compare it with the memory requirements of a "
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr ""
