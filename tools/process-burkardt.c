@@ -121,17 +121,16 @@ test_func (const char *func_name,
 
 				switch (types[o]) {
 				case 'D':
-					sprintf (a1, FMT, xd[o]);
+					snprintf (a1, sizeof (a1), FMT, xd[o]);
 					break;
 				case 'I':
-					sprintf (a1, "%d", xi[o]);
+					snprintf (a1, sizeof (a1), "%d", xi[o]);
 					break;
 				}
 
-				newargstr = malloc (strlen (argstr) + strlen (a1));
+				newargstr = malloc (strlen (argstr) + strlen (a1) + 1);
 				memcpy (newargstr, argstr, prelen);
-				strcpy (newargstr + prelen, a1);
-				strcat (newargstr + prelen, pct + 2);
+				snprintf (newargstr + prelen, strlen (a1) + strlen (pct + 2) + 1, "%s%s", a1, pct + 2);
 				free (argstr);
 				argstr = newargstr;
 			}
