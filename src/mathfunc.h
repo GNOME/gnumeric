@@ -39,10 +39,10 @@ gnm_float logspace_sub (gnm_float logx, gnm_float logy);
 gnm_float gnm_owent (gnm_float h, gnm_float a);
 gnm_float gnm_logcf (gnm_float x, gnm_float i, gnm_float d, gnm_float tol);
 gnm_float expmx2h (gnm_float x);
-gnm_float gnm_agm(gnm_float a, gnm_float b);
-gnm_float gnm_lambert_w(gnm_float x, int k);
+gnm_float gnm_agm (gnm_float a, gnm_float b);
+gnm_float gnm_lambert_w (gnm_float x, int k);
 gnm_float gnm_ilog (gnm_float x, gnm_float b);
-gnm_float gnm_logbase(gnm_float x, gnm_float b);
+gnm_float gnm_logbase (gnm_float x, gnm_float b);
 
 /* "d": density.  */
 /* "p": distribution function.  */
@@ -122,8 +122,8 @@ gnm_float random_laplace_pdf    (gnm_float x, gnm_float a);
 
 /* Studentized range distribution */
 /* Note: argument order differs from R.  */
-gnm_float ptukey(gnm_float x, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean lower_tail, gboolean log_p);
-gnm_float qtukey(gnm_float p, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean lower_tail, gboolean log_p);
+gnm_float ptukey (gnm_float x, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean lower_tail, gboolean log_p);
+gnm_float qtukey (gnm_float p, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean lower_tail, gboolean log_p);
 
 /* ------------------------------------------------------------------------- */
 
