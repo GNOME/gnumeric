@@ -9,6 +9,7 @@ Morten:
 	* New function REGEXEXTRACT.
 	* New function REGEXREPLACE.
 	* New functions NETWORKDAYS.INTL and WORKDAY.INTL.
+	* New functions PARTITIONS.
 	* Add export option "formulas=true" to txt and csv.
 	* Improve xlsx export.
 	* Improve xl compatibility for multiple functions.

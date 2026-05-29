@@ -878,16 +878,97 @@ func_bitrshift (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 /* ------------------------------------------------------------------------- */
 
+static GnmFuncHelp const help_partitions[] = {
+	{ GNM_FUNC_HELP_NAME, F_("PARTITIONS:number of partitions")},
+	{ GNM_FUNC_HELP_ARG, F_("n:non-negative integer")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("PARTITIONS calculates the number of ways of writing the integer @{n} as a sum of positive integers.")},
+	{ GNM_FUNC_HELP_EXTREF, "wiki:en:Partition_(number_theory)"},
+	{ GNM_FUNC_HELP_EXAMPLES, "=PARTITIONS(5)" },
+	{ GNM_FUNC_HELP_SEEALSO, "NT_PHI, NT_SIGMA"},
+	{ GNM_FUNC_HELP_END }
+};
+
+static gnm_float *partition_cache = NULL;
+static unsigned *sigma_cache = NULL;
+static int partition_cache_size = 0;
+static int partition_cache_edge = 0;
+
+static void
+partitions_helper (int n)
+{
+	guint64 sigma = 1;
+	if (walk_factorization (n, &sigma, walk_for_sigma) ||
+	    sigma > G_MAXUINT)
+		g_assert_not_reached();
+	sigma_cache[n] = sigma;
+
+	// This is a formula that only deals with positive numbers.
+	// Unlike Euler's recursion it avoids cancellation
+	// We overflow a bit early due to the late division, but
+	// I can't be bothered.
+	gnm_float sum = 0;
+	for (int k = 1; k <= n; k++)
+		sum += sigma_cache[k] * partition_cache[n - k];
+	partition_cache[n] = sum / n;
+}
+
+static gnm_float
+partitions (int n)
+{
+	if (n < 0) return 0;
+
+	if (n >= partition_cache_size) {
+		partition_cache_size = MAX (n + 1, partition_cache_size * 2);
+		partition_cache = g_renew (gnm_float, partition_cache, partition_cache_size);
+		sigma_cache = g_renew (unsigned, sigma_cache, partition_cache_size);
+		if (partition_cache_edge == 0) {
+			partition_cache[0] = 1;
+			partition_cache_edge++;
+		}
+	}
+
+	while (n >= partition_cache_edge) {
+		partitions_helper (partition_cache_edge);
+		partition_cache_edge++;
+	}
+
+	return partition_cache[n];
+}
+
+static GnmValue *
+gnumeric_partitions (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
+{
+	gnm_float fn = value_get_as_float (argv[0]);
+
+	if (fn < 0)
+		return value_new_error_NUM (ei->pos);
+	if (fn > 100000)
+		return value_new_error_VALUE (ei->pos);  // Presumed overflow
+
+	int n = (int)fn;
+	return value_new_float (partitions (n));
+}
+
+/* ------------------------------------------------------------------------- */
+
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	g_free (prime_table);
 	prime_table = NULL;
+
+	g_free (partition_cache);
+	partition_cache = NULL;
+	g_free (sigma_cache);
+	sigma_cache = NULL;
 }
 
 const GnmFuncDescriptor num_theory_functions[] = {
 	{"ithprime", "f", help_ithprime,
 	 &gnumeric_ithprime, NULL,
+	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
+	{"partitions", "f", help_partitions,
+	 &gnumeric_partitions, NULL,
 	 GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
 	{"pfactor", "f", help_pfactor,
 	 &gnumeric_pfactor, NULL,

@@ -20,6 +20,7 @@
 				<function name="nt_pi"/>
 				<function name="nt_radical"/>
 				<function name="nt_sigma"/>
+				<function name="partitions"/>
 				<function name="pfactor"/>
 			</functions>
 		</service>
