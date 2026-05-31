@@ -884,7 +884,7 @@ static GnmFuncHelp const help_partitions[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("PARTITIONS calculates the number of ways of writing the integer @{n} as a sum of positive integers.")},
 	{ GNM_FUNC_HELP_EXTREF, "wiki:en:Partition_(number_theory)"},
 	{ GNM_FUNC_HELP_EXAMPLES, "=PARTITIONS(5)" },
-	{ GNM_FUNC_HELP_SEEALSO, "NT_PHI, NT_SIGMA"},
+	{ GNM_FUNC_HELP_SEEALSO, "NT_PHI,NT_SIGMA"},
 	{ GNM_FUNC_HELP_END }
 };
 
