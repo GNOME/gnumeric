@@ -17,6 +17,7 @@ typedef enum {
 	GT_DD_D,
 	GT_DDD_D,
 	GT_DI_D,
+	GT_DI_D_weird,
 	GT_I_D,
 	GT_ID_D,
 	GT_IDI_D,
@@ -61,6 +62,10 @@ test_func (const char *func_name,
 			break;
 		case GT_DI_D:
 			generator (&n_data, &xd[0], &xi[1], &yd);
+			types = "DI:D";
+			break;
+		case GT_DI_D_weird:
+			generator (&n_data, &xd[0], &yd, &xi[1]);
 			types = "DI:D";
 			break;
 		case GT_I_D:
@@ -238,9 +243,9 @@ main (int argc, char **argv)
 
 	test_func ("r.pf", f_cdf_values, GT_IID_D, "312");
 	// f_noncentral_cdf_values ( int *n_data, int *n1, int *n2, double *lambda,
-	test_func ("fact", i4_factorial_values, GT_I_I, NULL);
+	test_func ("fact", factorial_values, GT_I_I, NULL);
 	test_func ("fact", r8_factorial_values, GT_I_D, NULL);
-	test_func ("factdouble", i4_factorial2_values, GT_I_I, NULL);
+	test_func ("factdouble", factorial2_values, GT_I_I, NULL);
 	// factorial_rising_values ( int *n_data, int *m, int *n, int *fmn )
 	// fresnel_cos_values ( int *n_data, double *x, double *fx )
 	// fresnel_sin_values ( int *n_data, double *x, double *fx )
@@ -284,7 +289,7 @@ main (int argc, char **argv)
 	// laguerre_associated_values ( int *n_data, int *n, int *m, double *x,
 	// laguerre_general_values ( int *n_data, int *n, double *a, double *x,
 	// laguerre_polynomial_values ( int *n_data, int *n, double *x, double *fx )
-	test_func ("lambertw", lambert_w_values, GT_D_D, NULL);
+	test_func ("lambertw", lambert_w_values, GT_DI_D_weird, NULL);
 	// laplace_cdf_values ( int *n_data, double *mu, double *beta, double *x,
 	// legendre_associated_values ( int *n_data, int *n, int *m, double *x,
 	// legendre_associated_normalized_sphere_values ( int *n_data, int *n, int *m,
@@ -307,7 +312,7 @@ main (int argc, char **argv)
 	test_func ("normsdist", normal_01_cdf_values, GT_D_D, NULL);
 	test_func ("nt_omega", omega_values, GT_I_I, NULL);
 	test_func ("owent", owen_values, GT_DD_D, NULL);
-	// partition_count_values ( int *n_data, int *n, int *c )
+	test_func ("partitions", partition_count_values, GT_I_I, NULL);
 	// partition_distinct_count_values ( int *n_data, int *n, int *c )
 	test_func ("nt_phi", phi_values, GT_I_I, NULL);
 	if (do_slow) test_func ("nt_pi", pi_values, GT_I_I, NULL);
