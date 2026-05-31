@@ -488,6 +488,7 @@ stf_write_csv (GOFileSaver const *fs, GOIOContext *context,
 	Workbook *wb = wb_view_get_workbook (wbv);
 	GnmStfExport *stfe = gnm_stf_get_stfe (G_OBJECT (wb));
 
+	gnm_stf_export_options_sheet_list_clear (stfe);
 	g_object_set (G_OBJECT (stfe), "sink", output, NULL);
 	sheets = gnm_file_saver_get_sheets (fs, wbv, FALSE);
 	if (sheets) {
