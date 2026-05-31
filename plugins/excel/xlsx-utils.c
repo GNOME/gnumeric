@@ -568,6 +568,8 @@ xlsx_conventions_pdata_free (gpointer pdata)
 		g_hash_table_destroy (xconv->xlfn_map);
 	if (xconv->xlfn_handler_map)
 		g_hash_table_destroy (xconv->xlfn_handler_map);
+	if (xconv->future_function_set)
+		g_hash_table_destroy (xconv->future_function_set);
 	g_free (xconv);
 }
 
