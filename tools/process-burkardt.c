@@ -11,6 +11,8 @@
 #define FMT "%.17g"
 
 static int row;
+static int do_slow = 0;
+static int nsections = 0;
 
 typedef enum {
 	GT_D_D,
@@ -28,11 +30,14 @@ typedef enum {
 	GT_III_I
 } GenType;
 
+#define PRINTF if (pass == 2) {} else printf
+
 static void
 test_func (const char *func_name,
 	   void *generator_,
 	   GenType gentype,
-	   const char *order)
+	   const char *order,
+	   int pass)
 {
 	double xd[4], yd;
 	int xi[4], yi;
@@ -42,6 +47,7 @@ test_func (const char *func_name,
 	int a, n_args;
 	const char *types;
 	int special_args = order && strchr (order, '%') != NULL;
+	int first_row = row;
 
 	while (1) {
 		int r = row + 1;
@@ -107,13 +113,14 @@ test_func (const char *func_name,
 		if (n_data == 0)
 			break;
 
-		if (first)
-			printf ("%s,", func_name);
-		else
-			printf ("\"\",");
+		if (first) {
+			PRINTF ("%s,", func_name);
+		} else {
+			PRINTF ("\"\",");
+		}
 		first = 0;
 
-		printf ("\"=%s(", func_name);
+		PRINTF ("\"=%s(", func_name);
 		n_args = strlen (types) - 2;
 		if (special_args) {
 			char *argstr = strdup (order);
@@ -140,136 +147,145 @@ test_func (const char *func_name,
 				free (argstr);
 				argstr = newargstr;
 			}
-			printf ("%s", argstr);
+			PRINTF ("%s", argstr);
 			free (argstr);
 		} else {
 			for (a = 0; a < n_args; a++) {
 				int o = order ? order[a] - '1' : a;
-				if (a)
-					printf (",");
+				if (a) {
+					PRINTF (",");
+				}
 				switch (types[o]) {
 				case 'D':
-					printf (FMT, xd[o]);
+					PRINTF (FMT, xd[o]);
 					break;
 				case 'I':
-					printf ("%d", xi[o]);
+					PRINTF ("%d", xi[o]);
 					break;
 				}
 			}
 		}
-		printf (")\",");
+		PRINTF (")\",");
 
 		restype = types[n_args + 1];
 		switch (restype) {
 		case 'D':
-			printf (FMT ",", yd);
+			PRINTF (FMT ",", yd);
 			break;
 		case 'I':
-			printf ("%d,", yi);
+			PRINTF ("%d,", yi);
 			break;
 		}
 
 		switch (restype) {
 		case 'D':
-			printf ("\"=IF(B%d=C%d,\"\"\"\",IF(C%d=0,-LOG10(ABS(B%d)),-LOG10(ABS((B%d-C%d)/C%d))))\"", r, r, r, r, r, r, r);
+			PRINTF ("\"=IF(B%d=C%d,\"\"\"\",IF(C%d=0,-LOG10(ABS(B%d)),-LOG10(ABS((B%d-C%d)/C%d))))\"", r, r, r, r, r, r, r);
 			break;
 		case 'I':
-			printf ("\"=IF(B%d=C%d,\"\"\"\",0)\"", r, r);
+			PRINTF ("\"=IF(B%d=C%d,\"\"\"\",0)\"", r, r);
 			break;
 		}
 
-		printf ("\n");
+		PRINTF ("\n");
 
 		row++;
 	}
+
+	if (pass == 2) {
+		printf ("%s,%d,\"\",\"=MIN(D%d:D%d,99)\"\n",
+			func_name, row - first_row,
+			first_row + nsections + 2, row + nsections + 1);
+	}
 }
 
+#undef PRINTF
 
-int
-main (int argc, char **argv)
+
+
+#define SECTION(name, gen, typ, order)					\
+	do {								\
+		if (pass == 1) {					\
+			nsections++;					\
+		} else {						\
+			test_func (name, gen, typ, order, pass);	\
+		}							\
+	} while (0)
+
+
+static void
+do_pass (int pass)
 {
-	row = 0;
-	int do_slow = 0;
-
-	if (argc >= 2 && strcmp (argv[1], "--slow") == 0)
-		do_slow = 1;
-
-	printf ("WORST,\"\",\"\",=MIN(D3:D65525)\n");
-	row++;
-	printf ("\"\",\"\",\"\",\"\"\n");
-	row++;
-
-	test_func ("acos", arccos_values, GT_D_D, NULL);
-	test_func ("acosh", arccosh_values, GT_D_D, NULL);
-	test_func ("agm", agm_values, GT_DD_D, NULL);
-	test_func ("asin", arcsin_values, GT_D_D, NULL);
-	test_func ("asinh", arcsinh_values, GT_D_D, NULL);
-	test_func ("atan", arctan_values, GT_D_D, NULL);
-	test_func ("atan2", arctan2_values, GT_DD_D, NULL);
-	test_func ("atanh", arctanh_values, GT_D_D, NULL);
-	test_func ("besseli", bessel_i0_values, GT_D_D, "%1,0");
-	test_func ("besseli", bessel_i1_values, GT_D_D, "%1,1");
-	test_func ("besseli", bessel_in_values, GT_ID_D, "21");
-	test_func ("besseli", bessel_ix_values, GT_DD_D, "21");
-	test_func ("besselj", bessel_j0_values, GT_D_D, "%1,0");
-	test_func ("besselj", bessel_j1_values, GT_D_D, "%1,1");
-	test_func ("besselj", bessel_jn_values, GT_ID_D, "21");
+	SECTION ("acos", arccos_values, GT_D_D, NULL);
+	SECTION ("acosh", arccosh_values, GT_D_D, NULL);
+	SECTION ("agm", agm_values, GT_DD_D, NULL);
+	SECTION ("asin", arcsin_values, GT_D_D, NULL);
+	SECTION ("asinh", arcsinh_values, GT_D_D, NULL);
+	SECTION ("atan", arctan_values, GT_D_D, NULL);
+	SECTION ("atan2", arctan2_values, GT_DD_D, NULL);
+	SECTION ("atanh", arctanh_values, GT_D_D, NULL);
+	SECTION ("besseli", bessel_i0_values, GT_D_D, "%1,0");
+	SECTION ("besseli", bessel_i1_values, GT_D_D, "%1,1");
+	SECTION ("besseli", bessel_in_values, GT_ID_D, "21");
+	SECTION ("besseli", bessel_ix_values, GT_DD_D, "21");
+	SECTION ("besselj", bessel_j0_values, GT_D_D, "%1,0");
+	SECTION ("besselj", bessel_j1_values, GT_D_D, "%1,1");
+	SECTION ("besselj", bessel_jn_values, GT_ID_D, "21");
 	// Our besselj truncates the order.
-	if (0) test_func ("besselj", bessel_jx_values, GT_DD_D, "21");
-	test_func ("besselk", bessel_k0_values, GT_D_D, "%1,0");
-	test_func ("besselk", bessel_k1_values, GT_D_D, "%1,1");
-	test_func ("besselk", bessel_kn_values, GT_ID_D, "21");
+	if (0) SECTION ("besselj", bessel_jx_values, GT_DD_D, "21");
+	SECTION ("besselk", bessel_k0_values, GT_D_D, "%1,0");
+	SECTION ("besselk", bessel_k1_values, GT_D_D, "%1,1");
+	SECTION ("besselk", bessel_kn_values, GT_ID_D, "21");
 	// Our besselk truncates the order.
-	if (0) test_func ("besselk", bessel_kx_values, GT_DD_D, "21");
-	test_func ("bessely", bessel_y0_values, GT_D_D, "%1,0");
-	test_func ("bessely", bessel_y1_values, GT_D_D, "%1,1");
-	test_func ("bessely", bessel_yn_values, GT_ID_D, "21");
+	if (0) SECTION ("besselk", bessel_kx_values, GT_DD_D, "21");
+	SECTION ("bessely", bessel_y0_values, GT_D_D, "%1,0");
+	SECTION ("bessely", bessel_y1_values, GT_D_D, "%1,1");
+	SECTION ("bessely", bessel_yn_values, GT_ID_D, "21");
 	// Our bessely truncates the order.
-	if (0) test_func ("bessely", bessel_yx_values, GT_DD_D, "21");
-	test_func ("r.pbeta", beta_cdf_values, GT_DDD_D, "312");
-	test_func ("beta", beta_values, GT_DD_D, NULL);
-	test_func ("combin", binomial_values, GT_II_I, NULL);
-	test_func ("r.pbinom", binomial_cdf_values, GT_IDI_D, "312");
-	test_func ("r.pcauchy", cauchy_cdf_values, GT_DDD_D, "312");
-	test_func ("power", cbrt_values, GT_D_D, "%1,1,3");
-	test_func ("r.pchisq", chi_square_cdf_values, GT_ID_D, "21");
-	test_func ("cos", cos_values, GT_D_D, NULL);
-	test_func ("cosh", cosh_values, GT_D_D, NULL);
-	test_func ("cot", cot_values, GT_D_D, NULL);
-	test_func ("erf", erf_values, GT_D_D, NULL);
-	test_func ("erfc", erfc_values, GT_D_D, NULL);
-	test_func ("exp", exp_values, GT_D_D, NULL);
-	test_func ("r.pexp", exponential_cdf_values, GT_DD_D, "%2,1/%1");
+	if (0) SECTION ("bessely", bessel_yx_values, GT_DD_D, "21");
+	SECTION ("r.pbeta", beta_cdf_values, GT_DDD_D, "312");
+	SECTION ("beta", beta_values, GT_DD_D, NULL);
+	SECTION ("combin", binomial_values, GT_II_I, NULL);
+	SECTION ("r.pbinom", binomial_cdf_values, GT_IDI_D, "312");
+	SECTION ("r.pcauchy", cauchy_cdf_values, GT_DDD_D, "312");
+	SECTION ("power", cbrt_values, GT_D_D, "%1,1,3");
+	SECTION ("r.pchisq", chi_square_cdf_values, GT_ID_D, "21");
+	SECTION ("cos", cos_values, GT_D_D, NULL);
+	SECTION ("cosh", cosh_values, GT_D_D, NULL);
+	SECTION ("cot", cot_values, GT_D_D, NULL);
+	SECTION ("erf", erf_values, GT_D_D, NULL);
+	SECTION ("erfc", erfc_values, GT_D_D, NULL);
+	SECTION ("exp", exp_values, GT_D_D, NULL);
+	SECTION ("r.pexp", exponential_cdf_values, GT_DD_D, "%2,1/%1");
 
-	test_func ("r.pf", f_cdf_values, GT_IID_D, "312");
+	SECTION ("r.pf", f_cdf_values, GT_IID_D, "312");
 	// f_noncentral_cdf_values ( int *n_data, int *n1, int *n2, double *lambda,
-	test_func ("fact", factorial_values, GT_I_I, NULL);
-	test_func ("fact", r8_factorial_values, GT_I_D, NULL);
-	test_func ("factdouble", factorial2_values, GT_I_I, NULL);
+	SECTION ("fact", factorial_values, GT_I_I, NULL);
+	SECTION ("fact", r8_factorial_values, GT_I_D, NULL);
+	SECTION ("factdouble", factorial2_values, GT_I_I, NULL);
 	// factorial_rising_values ( int *n_data, int *m, int *n, int *fmn )
 	// fresnel_cos_values ( int *n_data, double *x, double *fx )
 	// fresnel_sin_values ( int *n_data, double *x, double *fx )
 	// frobenius_number_data_values ( int *n_data, int order, int c[], int *f )
 	// frobenius_number_order_values ( int *n_data, int *order )
 	// frobenius_number_order2_values ( int *n_data, int *c1, int *c2, int *f )
-	test_func ("gamma", gamma_values, GT_D_D, NULL);
-	test_func ("r.pgamma", gamma_cdf_values, GT_DDD_D, "312");
+	SECTION ("gamma", gamma_values, GT_D_D, NULL);
+	SECTION ("r.pgamma", gamma_cdf_values, GT_DDD_D, "312");
 	// gamma_inc_p_values ( int *n_data, double *a, double *x, double *fx )
 	// gamma_inc_q_values ( int *n_data, double *a, double *x, double *fx )
 	// gamma_inc_tricomi_values ( int *n_data, double *a, double *x, double *fx )
 	// gamma_inc_values ( int *n_data, double *a, double *x, double *fx )
-	test_func ("gammaln", gamma_log_values, GT_D_D, NULL);
+	SECTION ("gammaln", gamma_log_values, GT_D_D, NULL);
 	// gegenbauer_poly_values ( int *n_data, int *n, double *a, double *x,
-	test_func ("r.pgeom", geometric_cdf_values, GT_ID_D, NULL);
+	SECTION ("r.pgeom", geometric_cdf_values, GT_ID_D, NULL);
 	// goodwin_values ( int *n_data, double *x, double *fx )
-	test_func ("gd", gud_values, GT_D_D, NULL);
+	SECTION ("gd", gud_values, GT_D_D, NULL);
 	// hermite_function_values ( int *n_data, int *n, double *x, double *fx )
 	// hermite_poly_phys_values ( int *n_data, int *n, double *x, double *fx )
 	// hermite_poly_prob_values ( int *n_data, int *n, double *x, double *fx )
 	// hyper_1f1_values ( int *n_data, double *a, double *b, double *x,
 	// hyper_2f1_values ( int *n_data, double *a, double *b, double *c,
-	test_func ("r.phyper", hypergeometric_cdf_values, GT_IIII_D, "%4,%2,%3-%2,%1");
-	test_func ("r.dhyper", hypergeometric_pdf_values, GT_IIII_D, "%4,%2,%3-%2,%1");
+	SECTION ("r.phyper", hypergeometric_cdf_values, GT_IIII_D, "%4,%2,%3-%2,%1");
+	SECTION ("r.dhyper", hypergeometric_pdf_values, GT_IIII_D, "%4,%2,%3-%2,%1");
 	// hypergeometric_u_values ( int *n_data, double *a, double *b, double *x,
 	// i0ml0_values ( int *n_data, double *x, double *fx )
 	// i1ml1_values ( int *n_data, double *x, double *fx )
@@ -289,7 +305,7 @@ main (int argc, char **argv)
 	// laguerre_associated_values ( int *n_data, int *n, int *m, double *x,
 	// laguerre_general_values ( int *n_data, int *n, double *a, double *x,
 	// laguerre_polynomial_values ( int *n_data, int *n, double *x, double *fx )
-	test_func ("lambertw", lambert_w_values, GT_DI_D_weird, NULL);
+	SECTION ("lambertw", lambert_w_values, GT_DI_D_weird, NULL);
 	// laplace_cdf_values ( int *n_data, double *mu, double *beta, double *x,
 	// legendre_associated_values ( int *n_data, int *n, int *m, double *x,
 	// legendre_associated_normalized_sphere_values ( int *n_data, int *n, int *m,
@@ -298,48 +314,47 @@ main (int argc, char **argv)
 	// legendre_poly_values ( int *n_data, int *n, double *x, double *fx )
 	// lerch_values ( int *n_data, double *z, int *s, double *a, double *fx )
 	// lobachevsky_values ( int *n_data, double *x, double *fx )
-	test_func ("ln", log_values, GT_D_D, NULL);
-	test_func ("r.plnorm", log_normal_cdf_values, GT_DDD_D, "312");
+	SECTION ("ln", log_values, GT_D_D, NULL);
+	SECTION ("r.plnorm", log_normal_cdf_values, GT_DDD_D, "312");
 	// log_series_cdf_values ( int *n_data, double *t, int *n, double *fx )
-	test_func ("log10", log10_values, GT_D_D, NULL);
+	SECTION ("log10", log10_values, GT_D_D, NULL);
 	// logarithmic_integral_values ( int *n_data, double *x, double *fx )
 	// logistic_cdf_values ( int *n_data, double *mu, double *beta, double *x,
 	// mertens_values ( int *n_data, int *n, int *c )
-	test_func ("nt_mu", moebius_values, GT_I_I, NULL);
-	test_func ("r.pnbinom", negative_binomial_cdf_values, GT_IID_D, NULL);
+	SECTION ("nt_mu", moebius_values, GT_I_I, NULL);
+	SECTION ("r.pnbinom", negative_binomial_cdf_values, GT_IID_D, NULL);
 	// nine_j_values ( int *n_data, double *j1, double *j2, double *j3,
-	test_func ("r.pnorm", normal_cdf_values, GT_DDD_D, "312");
-	test_func ("normsdist", normal_01_cdf_values, GT_D_D, NULL);
-	test_func ("nt_omega", omega_values, GT_I_I, NULL);
-	test_func ("owent", owen_values, GT_DD_D, NULL);
-	test_func ("partitions", partition_count_values, GT_I_I, NULL);
+	SECTION ("r.pnorm", normal_cdf_values, GT_DDD_D, "312");
+	SECTION ("normsdist", normal_01_cdf_values, GT_D_D, NULL);
+	SECTION ("nt_omega", omega_values, GT_I_I, NULL);
+	SECTION ("owent", owen_values, GT_DD_D, NULL);
+	SECTION ("partitions", partition_count_values, GT_I_I, NULL);
 	// partition_distinct_count_values ( int *n_data, int *n, int *c )
-	test_func ("nt_phi", phi_values, GT_I_I, NULL);
-	if (do_slow) test_func ("nt_pi", pi_values, GT_I_I, NULL);
-	test_func ("pochhammer", i4_rise_values, GT_II_I, NULL);
-	test_func ("pochhammer", r8_rise_values, GT_DI_D, NULL);
-	test_func ("r.ppois", poisson_cdf_values, GT_DI_D, "21");
+	SECTION ("nt_phi", phi_values, GT_I_I, NULL);
+	if (do_slow) SECTION ("nt_pi", pi_values, GT_I_I, NULL);
+	SECTION ("pochhammer", i4_rise_values, GT_II_I, NULL);
+	SECTION ("pochhammer", r8_rise_values, GT_DI_D, NULL);
+	SECTION ("r.ppois", poisson_cdf_values, GT_DI_D, "21");
 	// polylogarithm_values ( int *n_data, int *n, double *z, double *fx )
 	// prandtl_values ( int *n_data, double *tc, double *p, double *pr )
-	if (do_slow) test_func ("ithprime", prime_values, GT_I_I, NULL);
+	if (do_slow) SECTION ("ithprime", prime_values, GT_I_I, NULL);
 	// psat_values ( int *n_data, double *tc, double *p )
-	test_func ("digamma", psi_values, GT_D_D, NULL);
+	SECTION ("digamma", psi_values, GT_D_D, NULL);
 	// r8_factorial_log_values ( int *n_data, int *n, double *fn )
-	// r8_factorial_values ( int *n_data, int *n, double *fn )
 	// rayleigh_cdf_values ( int *n_data, double *sigma, double *x, double *fx )
 	// secvir_values ( int *n_data, double *tc, double *vir )
 	// shi_values ( int *n_data, double *x, double *fx )
 	// si_values ( int *n_data, double *x, double *fx )
-	test_func ("nt_sigma", sigma_values, GT_I_I, NULL);
+	SECTION ("nt_sigma", sigma_values, GT_I_I, NULL);
 	// sin_power_int_values ( int *n_data, double *a, double *b, int *n,
-	test_func ("sin", sin_values, GT_D_D, NULL);
-	test_func ("sinh", sinh_values, GT_D_D, NULL);
+	SECTION ("sin", sin_values, GT_D_D, NULL);
+	SECTION ("sinh", sinh_values, GT_D_D, NULL);
 	// six_j_values ( int *n_data, double *j1, double *j2, double *j3,
 	// sound_values ( int *n_data, double *tc, double *p, double *c )
 	// sphere_unit_area_values ( int *n_data, int *n, double *area )
 	// sphere_unit_volume_values ( int *n_data, int *n, double *volume )
 	// spherical_harmonic_values ( int *n_data, int *l, int *m, double *theta,
-	test_func ("sqrt", sqrt_values, GT_D_D, NULL);
+	SECTION ("sqrt", sqrt_values, GT_D_D, NULL);
 	// stirling1_values ( int *n_data, int *n, int *m, int *fx )
 	// stirling2_values ( int *n_data, int *n, int *m, int *fx )
 	// stromgen_values ( int *n_data, double *x, double *fx )
@@ -347,15 +362,15 @@ main (int argc, char **argv)
 	// struve_h1_values ( int *n_data, double *x, double *fx )
 	// struve_l0_values ( int *n_data, double *x, double *fx )
 	// struve_l1_values ( int *n_data, double *x, double *fx )
-	test_func ("r.pt", student_cdf_values, GT_DD_D, "21");
+	SECTION ("r.pt", student_cdf_values, GT_DD_D, "21");
 	// student_noncentral_cdf_values ( int *n_data, int *df, double *lambda,
 	// subfactorial_values ( int *n_data, int *n, int *fn )
 	// surten_values ( int *n_data, double *tc, double *sigma )
 	// synch1_values ( int *n_data, double *x, double *fx )
 	// synch2_values ( int *n_data, double *x, double *fx )
-	test_func ("tan", tan_values, GT_D_D, NULL);
-	test_func ("tanh", tanh_values, GT_D_D, NULL);
-	test_func ("nt_d", tau_values, GT_I_I, NULL);
+	SECTION ("tan", tan_values, GT_D_D, NULL);
+	SECTION ("tanh", tanh_values, GT_D_D, NULL);
+	SECTION ("nt_d", tau_values, GT_I_I, NULL);
 	// thercon_values ( int *n_data, double *tc, double *p, double *lambda )
 	// three_j_values ( int *n_data, double *j1, double *j2, double *j3,
 	// tran02_values ( int *n_data, double *x, double *fx )
@@ -373,11 +388,37 @@ main (int argc, char **argv)
 	// von_mises_cdf_values ( int *n_data, double *a, double *b, double *x,
 
 	// Differences in year interpretation.
-	if (0) test_func ("weekday", weekday_values, GT_III_I, "date(%1,%2,%3)");
+	if (0) SECTION ("weekday", weekday_values, GT_III_I, "date(%1,%2,%3)");
 
-	test_func ("r.pweibull", weibull_cdf_values, GT_DDD_D, "312");
+	SECTION ("r.pweibull", weibull_cdf_values, GT_DDD_D, "312");
 	// zeta_values ( int *n_data, int *n, double *zeta )
+}
 
+#undef SECTION
+
+
+
+int
+main (int argc, char **argv)
+{
+	if (argc >= 2 && strcmp (argv[1], "--slow") == 0)
+		do_slow = 1;
+
+	row = 0;
+	do_pass (1);
+
+	printf ("WORST,\"\",\"\",=MIN(D%d:D65525)\n", 4 + nsections);
+	row++;
+	printf ("\"\",\"\",\"\",\"\"\n");
+	row++;
+
+	int save_row = row;
+	do_pass (2);
+	printf ("\"\",\"\",\"\",\"\"\n");
+	row++;
+
+	row = save_row + nsections + 1;
+	do_pass (3);
 
 	return 0;
 }
