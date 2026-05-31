@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-05-03 21:05+0000\n"
-"PO-Revision-Date: 2026-05-04 09:34+0300\n"
+"POT-Creation-Date: 2026-05-31 15:31+0000\n"
+"PO-Revision-Date: 2026-05-31 19:54+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Lokalize 23.04.3\n"
 
 #: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:550
+#: ../src/func-builtin.c:554
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -909,7 +909,7 @@ msgstr "Логічні функції"
 msgid "Functions for manipulating truth values"
 msgstr "Функції для роботи із логічними даними"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:560
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:564
 msgid "Logic"
 msgstr "Логіка"
 
@@ -933,7 +933,7 @@ msgstr "Математичні функції"
 msgid "Mathematical Functions"
 msgstr "Математичні функції"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:545
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:549
 msgid "Mathematics"
 msgstr "Математика"
 
@@ -997,7 +997,7 @@ msgstr "Функції для роботи з рядками"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1816 ../src/dialogs/dialog-search.c:386
-#: ../src/func.c:1227
+#: ../src/func.c:1226
 msgid "String"
 msgstr "Рядок"
 
@@ -3386,8 +3386,11 @@ msgid "Function Markers"
 msgstr "Позначки функцій"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:44
+#| msgid ""
+#| "This variable determines whether cells containing spreadsheet function "
+#| "are marked."
 msgid ""
-"This variable determines whether cells containing spreadsheet function are "
+"This variable determines whether cells containing spreadsheet functions are "
 "marked."
 msgstr ""
 "Ця змінна визначає, чи буде позначено комірки, у яких містяться функції "
@@ -3481,9 +3484,13 @@ msgid "Transition Keys"
 msgstr "Клавіші переходу"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
+#| msgid ""
+#| "This variable determines whether transition keys are set on. Transition "
+#| "keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow "
+#| "into page movement rather than jumping to the start/end of series."
 msgid ""
 "This variable determines whether transition keys are set on. Transition keys "
-"are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
+"are a throwback to 1-2-3 style event handling. They turn Ctrl-arrow into "
 "page movement rather than jumping to the start/end of series."
 msgstr ""
 "Це змінна визначає, чи увімкнено клавіші переходів. Клавіші переходів "
@@ -4872,7 +4879,8 @@ msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:162
-msgid "All round powerhouse"
+#| msgid "All round powerhouse"
+msgid "All-round powerhouse"
 msgstr "Рушійна сила проєкту"
 
 #: ../src/dialogs/dialog-about.c:163
@@ -5366,7 +5374,8 @@ msgid "The cutoff range is not valid."
 msgstr "Діапазон обрізання є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3230
-msgid "The number of to be calculated cutoffs is invalid."
+#| msgid "The number of to be calculated cutoffs is invalid."
+msgid "The number of cutoffs to be calculated is invalid."
 msgstr "Кількість обрізань, які слід обчислити, є некоректною."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3372
@@ -5659,7 +5668,7 @@ msgid "Double Low"
 msgstr "Подвійне низьке"
 
 #: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:388
-#: ../src/func.c:1225 ../src/wbc-gtk-actions.c:3424
+#: ../src/func.c:1224 ../src/wbc-gtk-actions.c:3424
 msgid "Number"
 msgstr "Число"
 
@@ -8078,7 +8087,8 @@ msgstr "_Альфа:"
 
 #: ../src/dialogs/autofilter-expression.ui.h:1
 #: ../src/dialogs/autofilter-top10.ui.h:1
-msgid "Gnumeric : AutoFilter"
+#| msgid "Gnumeric : AutoFilter"
+msgid "Gnumeric: AutoFilter"
 msgstr "Gnumeric: Автофільтрування"
 
 #: ../src/dialogs/autofilter-expression.ui.h:2
@@ -8952,7 +8962,8 @@ msgid "_Enter into cells:"
 msgstr "_Ввести до комірок:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
-msgid "DataSlicer Guru : Gnumeric"
+#| msgid "DataSlicer Guru : Gnumeric"
+msgid "DataSlicer Guru: Gnumeric"
 msgstr "Ґуру DataSlicer: Gnumeric"
 
 #: ../src/dialogs/data-slicer.ui.h:3
@@ -12240,25 +12251,25 @@ msgstr ""
 "SUM обчислює суму усіх значень і комірок, на які є посилання у списку "
 "аргументів."
 
-#: ../src/func-builtin.c:47 ../src/func-builtin.c:104
+#: ../src/func-builtin.c:47 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
 msgstr "Ця функція є сумісною із Excel."
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:105
+#: ../src/func-builtin.c:48 ../src/func-builtin.c:107
 msgid "This function is OpenFormula compatible."
 msgstr "Ця функція є сумісною із OpenFormula."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:99
+#: ../src/func-builtin.c:101
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUCT:добуток заданих значень"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:101
+#: ../src/func-builtin.c:103
 msgid "values:a list of values to multiply"
 msgstr "values:список значень, які слід перемножити"
 
-#: ../src/func-builtin.c:102
+#: ../src/func-builtin.c:104
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
@@ -12266,48 +12277,48 @@ msgstr ""
 "PRODUCT обчислює добуток усіх значень і комірок, на які є посилання у списку "
 "аргументів."
 
-#: ../src/func-builtin.c:103
+#: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
 msgstr "Якщо усі комірки порожні, результатом буде 0."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:136
+#: ../src/func-builtin.c:140
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION:поточна версія Gnumeric"
 
-#: ../src/func-builtin.c:137
+#: ../src/func-builtin.c:141
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr "GNUMERIC_VERSION повертає версію gnumeric у форматі рядка."
 
-#: ../src/func-builtin.c:151
+#: ../src/func-builtin.c:155
 msgid "TABLE:internal function for data tables"
 msgstr "TABLE:внутрішня функція для таблиць даних"
 
-#: ../src/func-builtin.c:152
+#: ../src/func-builtin.c:156
 msgid "This function should not be called directly."
 msgstr "Цю функцію не слід викликати безпосередньо."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:339
+#: ../src/func-builtin.c:343
 msgid "IF:conditional expression"
 msgstr "IF:вираз умови"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:341
+#: ../src/func-builtin.c:345
 msgid "cond:condition"
 msgstr "cond:умова"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:343
+#: ../src/func-builtin.c:347
 msgid "trueval:value to use if condition is true"
 msgstr "trueval:значення, яким слід скористатися, що умова справджується"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:345
+#: ../src/func-builtin.c:349
 msgid "falseval:value to use if condition is false"
 msgstr "falseval:значення, яким слід скористатися, якщо умова не виконується"
 
-#: ../src/func-builtin.c:346
+#: ../src/func-builtin.c:350
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -12317,42 +12328,42 @@ msgstr ""
 "обчислює і повертає другий аргумент. Якщо ж умову не виконано, вона обчислює "
 "і повертає останній аргумент."
 
-#: ../src/func.c:134
+#: ../src/func.c:133
 msgid "Function implementation not available."
 msgstr "реалізація функції не доступна."
 
-#: ../src/func.c:974
+#: ../src/func.c:973
 msgid "Unknown Function"
 msgstr "Невідома функція"
 
 #. xgettext: This represents a made-up translated function name.
-#: ../src/func.c:998
+#: ../src/func.c:997
 #, c-format
 msgid "unknown%d"
 msgstr "невідома%d"
 
-#: ../src/func.c:1229
+#: ../src/func.c:1228
 msgid "Boolean"
 msgstr "Логічний"
 
-#: ../src/func.c:1231
+#: ../src/func.c:1230
 msgid "Cell Range"
 msgstr "Діапазон комірок"
 
-#: ../src/func.c:1233
+#: ../src/func.c:1232
 msgid "Area"
 msgstr "Область"
 
-#: ../src/func.c:1235
+#: ../src/func.c:1234
 msgid "Scalar, Blank, or Error"
 msgstr "Скаляр, порожнє значення або помилка"
 
-#: ../src/func.c:1237
+#: ../src/func.c:1236
 msgid "Scalar"
 msgstr "Скаляр"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1240
+#: ../src/func.c:1239
 msgid "Any"
 msgstr "Будь-який"
 
@@ -14142,20 +14153,20 @@ msgstr ""
 "Каталог даних: «%s»\n"
 "Каталог бібліотек: «%s»\n"
 
-#: ../src/stf-export.c:687
+#: ../src/stf-export.c:707
 msgid "Error while trying to export file as text"
 msgstr "Помилка під час спроби експортувати файл як текст"
 
-#: ../src/stf-export.c:721
+#: ../src/stf-export.c:741
 msgid "eol must be one of unix, mac, and windows"
 msgstr "eol має бути одним із таких значень: unix, mac або windows"
 
-#: ../src/stf-export.c:741
+#: ../src/stf-export.c:762
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
 msgstr "Некоректне значення параметра %s: «%s»"
 
-#: ../src/stf-export.c:779
+#: ../src/stf-export.c:811
 msgid "Text (configurable)"
 msgstr "Текст (налаштовуваний)"
 
@@ -14228,19 +14239,19 @@ msgstr "Частина даних не вміщується на аркуш — 
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Помилка аналізу даних в аркуші"
 
-#: ../src/stf.c:507
+#: ../src/stf.c:505
 msgid "Error while trying to write CSV file"
 msgstr "Помилка під час спроби записати файл CSV"
 
-#: ../src/stf.c:608
+#: ../src/stf.c:615
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Значення, які відокремлено комами або табуляціями (CSV/TSV)"
 
-#: ../src/stf.c:616
+#: ../src/stf.c:623
 msgid "Text import (configurable)"
 msgstr "Імпорт текстового файлу (з налаштуванням)"
 
-#: ../src/stf.c:630
+#: ../src/stf.c:637
 msgid "Comma separated values (CSV)"
 msgstr "Значення, розділені комами (CSV)"
 
