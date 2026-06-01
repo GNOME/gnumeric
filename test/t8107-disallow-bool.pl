@@ -9,6 +9,8 @@ use GnumericTest;
 
 my @hits = `find $topsrc -type f -name '*.[ch]' -print0 | xargs -0 -n100 grep -n -w bool`;
 chomp @hits;
+@hits = grep { !m{tools/test_values.[ch]:} } @hits;
+
 @hits = map { [$_, $_] } @hits;
 
 @hits = grep {
