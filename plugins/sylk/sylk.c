@@ -783,9 +783,9 @@ sylk_parse_line (SylkReader *state, char *buf, gsize len)
 			case 'O' : return sylk_rtd_o_parse (state, buf + 2);
 			case 'W' : return sylk_rtd_w_parse (state, buf + 2);
 			}
-		} else if (g_str_has_prefix ("ID", buf))
+		} else if (g_str_has_prefix (buf, "ID"))
 			return TRUE; /* who cares */
-		else if (g_str_has_prefix ("NN;", buf))
+		else if (g_str_has_prefix (buf, "NN;"))
 			return sylk_rtd_nn_parse (state, buf + 3);
 		else if (buf[0] == 'E')
 			return sylk_rtd_e_parse (state);

@@ -14,6 +14,7 @@ Morten:
 	* Improve xlsx export.
 	* Improve xl compatibility for multiple functions.
 	* Improve GEOMEAN accuracy.
+	* Fix problem with sylk importer.  [#878]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.61
