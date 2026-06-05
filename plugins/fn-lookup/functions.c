@@ -1648,6 +1648,11 @@ gnumeric_index (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	if (VALUE_IS_ERROR (v))
 		return v;
 
+	if (argc == 1) {
+		// Gnumeric extension.  Avoid using this
+		elem[0] = elem[1] = 0;
+	}
+
 	for (i = 0; i + 1 < argc && i < (int)G_N_ELEMENTS (elem); i++) {
 		if (argv[i + 1] != NULL) {
 			GnmValue *vi = value_coerce_to_number (
