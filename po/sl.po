@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-05-11 00:45+0000\n"
-"PO-Revision-Date: 2026-05-11 22:15+0200\n"
+"POT-Creation-Date: 2026-06-05 13:06+0000\n"
+"PO-Revision-Date: 2026-06-06 13:35+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Generator: Poedit 3.8\n"
 
 #: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:550
+#: ../src/func-builtin.c:554
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -922,7 +922,7 @@ msgstr "Logične funkcije"
 msgid "Functions for manipulating truth values"
 msgstr "Funkcije za upravljanje z logičnimi vrednostmi"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:560
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:564
 msgid "Logic"
 msgstr "Logika"
 
@@ -946,7 +946,7 @@ msgstr "Matematične funkcije"
 msgid "Mathematical Functions"
 msgstr "Matematične funkcije"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:545
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:549
 msgid "Mathematics"
 msgstr "Matematika"
 
@@ -1011,7 +1011,7 @@ msgstr "Funkcije za upravljanje nizov"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3
 #: ../src/dialogs/dialog-doc-metadata.c:1816 ../src/dialogs/dialog-search.c:386
-#: ../src/func.c:1227
+#: ../src/func.c:1226
 msgid "String"
 msgstr "Niz"
 
@@ -3378,10 +3378,11 @@ msgstr "Označevalnik funkcij"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:44
 msgid ""
-"This variable determines whether cells containing spreadsheet function are "
+"This variable determines whether cells containing spreadsheet functions are "
 "marked."
 msgstr ""
-"Spremenljivka določa ali naj se označijo celice z vpisanimi funkcijami."
+"Spremenljivka določa ali naj se označijo celice, ki vsebujejo funkcije "
+"preglednice."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:45
 msgid "Extension Markers"
@@ -3467,9 +3468,14 @@ msgid "Transition Keys"
 msgstr "Tipke premikanja"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
+#, fuzzy
+#| msgid ""
+#| "This variable determines whether transition keys are set on. Transition "
+#| "keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow "
+#| "into page movement rather than jumping to the start/end of series."
 msgid ""
 "This variable determines whether transition keys are set on. Transition keys "
-"are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow into "
+"are a throwback to 1-2-3 style event handling. They turn Ctrl-arrow into "
 "page movement rather than jumping to the start/end of series."
 msgstr ""
 "Spremenljivka določa ali so omogočene tipke premikanja. V kolikor so, tipki "
@@ -4853,7 +4859,9 @@ msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:162
-msgid "All round powerhouse"
+#, fuzzy
+#| msgid "All round powerhouse"
+msgid "All-round powerhouse"
 msgstr "Splošna pomembna opravila"
 
 #: ../src/dialogs/dialog-about.c:163
@@ -5343,7 +5351,9 @@ msgid "The cutoff range is not valid."
 msgstr "Obseg mejnih vrednosti ni veljaven."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3230
-msgid "The number of to be calculated cutoffs is invalid."
+#, fuzzy
+#| msgid "The number of to be calculated cutoffs is invalid."
+msgid "The number of cutoffs to be calculated is invalid."
 msgstr "Število izračunanih mejnih vrednosti ni veljavno."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3372
@@ -5637,7 +5647,7 @@ msgid "Double Low"
 msgstr "Dvojno podčrtano"
 
 #: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:388
-#: ../src/func.c:1225 ../src/wbc-gtk-actions.c:3424
+#: ../src/func.c:1224 ../src/wbc-gtk-actions.c:3424
 msgid "Number"
 msgstr "Številka"
 
@@ -8042,8 +8052,8 @@ msgstr "_Alfa: "
 
 #: ../src/dialogs/autofilter-expression.ui.h:1
 #: ../src/dialogs/autofilter-top10.ui.h:1
-msgid "Gnumeric : AutoFilter"
-msgstr "Gnumeric : samodejni filter"
+msgid "Gnumeric: AutoFilter"
+msgstr "Gnumeric: samodejni filter"
 
 #: ../src/dialogs/autofilter-expression.ui.h:2
 msgid "Show rows where:"
@@ -8915,7 +8925,9 @@ msgid "_Enter into cells:"
 msgstr "V _celice vnesi:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
-msgid "DataSlicer Guru : Gnumeric"
+#, fuzzy
+#| msgid "DataSlicer Guru : Gnumeric"
+msgid "DataSlicer Guru: Gnumeric"
 msgstr "Pomočnik za vrtilne razpredelnice : Gnumeric"
 
 #: ../src/dialogs/data-slicer.ui.h:3
@@ -12174,25 +12186,25 @@ msgstr ""
 "Funkcija SUM izračuna vsoto vseh vrednosti in sklicanih celic v seznamu "
 "argumenta."
 
-#: ../src/func-builtin.c:47 ../src/func-builtin.c:104
+#: ../src/func-builtin.c:47 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
 msgstr "Funkcija je skladna s funkcijo programa Excel."
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:105
+#: ../src/func-builtin.c:48 ../src/func-builtin.c:107
 msgid "This function is OpenFormula compatible."
 msgstr "Funkcija je skladna s funkcijo programa OpenFormula."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:99
+#: ../src/func-builtin.c:101
 msgid "PRODUCT:product of the given values"
 msgstr "PRODUCT: zmnožek podanih vrednosti"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:101
+#: ../src/func-builtin.c:103
 msgid "values:a list of values to multiply"
 msgstr "vrednosti:seznam vrednosti za množenje"
 
-#: ../src/func-builtin.c:102
+#: ../src/func-builtin.c:104
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
@@ -12200,49 +12212,49 @@ msgstr ""
 "Funkcija PRODUCT izračuna zmnožek vseh vrednosti in sklicanih celic v "
 "seznamu argumenta."
 
-#: ../src/func-builtin.c:103
+#: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
 msgstr "Pri vseh praznih celicah, je rezultat enak 0."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:136
+#: ../src/func-builtin.c:140
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION: trenutna različica programa Gnumeric"
 
-#: ../src/func-builtin.c:137
+#: ../src/func-builtin.c:141
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr ""
 "Predmet GNUMERIC_VERSION vrne vrednost različice programa gnumeric kot niz."
 
-#: ../src/func-builtin.c:151
+#: ../src/func-builtin.c:155
 msgid "TABLE:internal function for data tables"
 msgstr "TABELA:notranja funkcija za podatkovne tabele"
 
-#: ../src/func-builtin.c:152
+#: ../src/func-builtin.c:156
 msgid "This function should not be called directly."
 msgstr "Te funkcije ne bi smeli klicati neposredno."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:339
+#: ../src/func-builtin.c:343
 msgid "IF:conditional expression"
 msgstr "IF:pogojni izraz"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:341
+#: ../src/func-builtin.c:345
 msgid "cond:condition"
 msgstr "pogoj:pogoj"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:343
+#: ../src/func-builtin.c:347
 msgid "trueval:value to use if condition is true"
 msgstr "pogojPRAV:vrednost, ki se uporabi, če je pogoj PRAV"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:345
+#: ../src/func-builtin.c:349
 msgid "falseval:value to use if condition is false"
 msgstr "pogojNAPAK:vrednost, ki se uporabi, če je pogoj NAPAK"
 
-#: ../src/func-builtin.c:346
+#: ../src/func-builtin.c:350
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will "
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
@@ -12251,42 +12263,42 @@ msgstr ""
 "Funkcija oceni podan pogoj. V kolikor je rezultat PRAV, oceni in vrne drugi "
 "argument, sicer oceni in vrne zadnjega."
 
-#: ../src/func.c:134
+#: ../src/func.c:133
 msgid "Function implementation not available."
 msgstr "Podpora funkciji ni na voljo."
 
-#: ../src/func.c:974
+#: ../src/func.c:973
 msgid "Unknown Function"
 msgstr "Neznana funkcija"
 
 #. xgettext: This represents a made-up translated function name.
-#: ../src/func.c:998
+#: ../src/func.c:997
 #, c-format
 msgid "unknown%d"
 msgstr "funkcija%d"
 
-#: ../src/func.c:1229
+#: ../src/func.c:1228
 msgid "Boolean"
 msgstr "Logična vrednost"
 
-#: ../src/func.c:1231
+#: ../src/func.c:1230
 msgid "Cell Range"
 msgstr "Obseg celic"
 
-#: ../src/func.c:1233
+#: ../src/func.c:1232
 msgid "Area"
 msgstr "Obseg"
 
-#: ../src/func.c:1235
+#: ../src/func.c:1234
 msgid "Scalar, Blank, or Error"
 msgstr "Skalar, prazno polje ali napaka"
 
-#: ../src/func.c:1237
+#: ../src/func.c:1236
 msgid "Scalar"
 msgstr "Skalar"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1240
+#: ../src/func.c:1239
 msgid "Any"
 msgstr "Katerikoli"
 
@@ -14158,19 +14170,19 @@ msgstr ""
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Napaka razčlenjevanja med poskusom vstavljanja podatkov v delovni list"
 
-#: ../src/stf.c:504
+#: ../src/stf.c:505
 msgid "Error while trying to write CSV file"
 msgstr "Napaka med zapisovanjem datoteke CSV."
 
-#: ../src/stf.c:614
+#: ../src/stf.c:615
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Z vejico ali tabulatorjem ločene vrednosti (CSV/TSV)"
 
-#: ../src/stf.c:622
+#: ../src/stf.c:623
 msgid "Text import (configurable)"
 msgstr "Uvoz besedila (nastavljivo)"
 
-#: ../src/stf.c:636
+#: ../src/stf.c:637
 msgid "Comma separated values (CSV)"
 msgstr "Z vejico ločene vrednosti (.csv)"
 
@@ -14417,6 +14429,9 @@ msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
+"/Srednja vrednost/Varianca/Opazovanja/df/F/P (F <= f) desni rep/kritična "
+"vrednost F za desni rep/P (f <= F) levi rep/Kritična vrednost F za levi rep/"
+"P, dvorepno/Kritična vrednost F, dvorepno"
 
 #: ../src/tools/analysis-histogram.c:322
 #, c-format
@@ -14622,20 +14637,20 @@ msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
+"/IZVLEČEK REZULTATOV//Regresijske statistike/Večkratni R/R²/Standardna "
+"napaka/Prilagojeni R²/Opazovanja//ANOVA//Regresija/Ostanek/Skupaj///Presek"
 
 #: ../src/tools/analysis-regression.c:380
-#, fuzzy
-#| msgid "Variable"
 msgid "Response Variable"
-msgstr "Spremenljivka"
+msgstr "Izhodna spremenljivka"
 
 #: ../src/tools/analysis-regression.c:414
 msgid "/df/SS/MS/F/Significance of F"
-msgstr ""
+msgstr "/df/SS/MS/F/Statistična pomembnost F"
 
 #: ../src/tools/analysis-regression.c:421
 msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
-msgstr ""
+msgstr "/Koeficienti/Standardna napaka/t-statistika/p-vrednost"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
 #: ../src/tools/analysis-regression.c:427
@@ -14659,6 +14674,11 @@ msgid ""
 "observed t-statistic, assuming the null\n"
 "hypothesis is in fact true."
 msgstr ""
+"Verjetnost, da bomo opazili t-statistiko,\n"
+"katere absolutna vrednost je vsaj enaka\n"
+"absolutni vrednosti dejansko\n"
+"opazovane t-statistike, ob predpostavki,\n"
+"da je ničelna hipoteza dejansko pravilna."
 
 #: ../src/tools/analysis-regression.c:445
 msgid ""
@@ -14668,24 +14688,32 @@ msgid ""
 "is, the proportion of the sum of\n"
 "squares explained by the model."
 msgstr ""
+"Ta vrednost ni kvadrat R,\n"
+"temveč necentrirana različica\n"
+"koeficienta determinacije; to\n"
+"pomeni delež vsote\n"
+"kvadratov, ki jih model pojasnjuje."
 
 #: ../src/tools/analysis-regression.c:753
 msgid "Constant"
 msgstr "Konstanta"
 
 #: ../src/tools/analysis-regression.c:758
+#, fuzzy
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
 msgstr ""
+"/Napoved//Preostanek/Vplivni faktorji/Notranja standardizacija/Zunanja "
+"standardizacija/p-vrednost"
 
 #: ../src/tools/analysis-regression.c:920
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
-msgstr ""
+msgstr "/IZVLEČEK REZULTATOV//Neodvisna spremenljivka//Opazovanja"
 
 #: ../src/tools/analysis-regression.c:925
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
-msgstr ""
+msgstr "/IZVLEČEK REZULTATOV//Izhodna spremenljivka//Opazovanja"
 
 #: ../src/tools/analysis-regression.c:931
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
@@ -14897,9 +14925,9 @@ msgid "Variable %i"
 msgstr "Spremenljivka %i"
 
 #: ../src/tools/analysis-ttest.c:109
-#, c-format
+#, fuzzy, c-format
 msgid "t-Test, paired (%s)"
-msgstr ""
+msgstr "t-preizkus, pari (%s)"
 
 #: ../src/tools/analysis-ttest.c:115 ../src/tools/analysis-ttest.c:122
 #: ../src/tools/analysis-ttest.c:446 ../src/tools/analysis-ttest.c:453
@@ -15498,11 +15526,11 @@ msgstr "#N/A"
 
 #: ../src/value.c:68
 msgid "#GETTING_DATA"
-msgstr ""
+msgstr "#GETTING_DATA"
 
 #: ../src/value.c:69
 msgid "#SPILL!"
-msgstr ""
+msgstr "#SPILL!"
 
 #: ../src/wbc-gtk-actions.c:182 ../src/workbook-view.c:1350
 msgid "Default file saver is not available."
@@ -18572,84 +18600,3 @@ msgstr "Bledo vijoličasta predloga seznama"
 #: ../templates/autoformat/autoformat.List.simple.xml.in.h:2
 msgid "A simple list template"
 msgstr "Predloga enostavnega seznama"
-
-#~ msgid "Cannot convert 3D cell range to XLOPER."
-#~ msgstr "Ni mogoče pretvoriti trirazsežnega obsega celic v XLOPER."
-
-#, c-format
-#~ msgid "Unsupported GnmValue type (%d)"
-#~ msgstr "Nepodprta vrsta GnmValue (%d)"
-
-#, c-format
-#~ msgid ""
-#~ "Overriding function %s from XLL/DLL/SO file %s with function of the same "
-#~ "name from XLL/DLL/SO file %s."
-#~ msgstr ""
-#~ "Prepisana bo funkcija %s iz datoteke XLL/DLL/SO %s s funkcijo z istim "
-#~ "imenom iz datoteke XLL/DLL/SO %s."
-
-#, c-format
-#~ msgid "Failed to find function \"%s\" in XLL/DLL/SO %s .\n"
-#~ msgstr "Iskanje funkcije \"%s\" v XLL/DLL/SO %s je spodletelo .\n"
-
-#, c-format
-#~ msgid ""
-#~ "Excel plugin loader / xlfRegister: at least three XLOPER arguments must "
-#~ "be provided (DLL name[ignored],exported name[mandatory],types "
-#~ "string[mandatory]). You supplied %d in some function loaded from XLL/DLL/"
-#~ "SO file %s."
-#~ msgstr ""
-#~ "Vstavek nalagalnika Excel / xlfRegister: navesti je treba vsaj tri "
-#~ "argumente ukaza XLOPER  (ime DLL[prezrto],izvoženo ime[obvezno],niz "
-#~ "vrst[obvezno]). Naveden je le argument %d v funkciji naloženi iz datoteke "
-#~ "XLL/DLL/SO %s."
-
-#~ msgid ""
-#~ "Excel plugin loader / xlfRegister: the second and third arguments must be "
-#~ "strings (DLL name[ignored],exported name[mandatory],types "
-#~ "string[mandatory])."
-#~ msgstr ""
-#~ "Vstavek nalagalnika Excel / xlfRegister: drugi in tretji argument morata "
-#~ "biti zapisana kot niza  (ime DLL[prezrto],izvoženo ime[obvezno],niz "
-#~ "vrst[obvezno])."
-
-#~ msgid "Dynamic module loading is not supported on this system."
-#~ msgstr "Dinamično nalaganje modulov na tem sistemu ni podprto."
-
-#, c-format
-#~ msgid "Unable to open module file \"%s\"."
-#~ msgstr "Ni mogoče odpreti datoteke modula \"%s\"."
-
-#, c-format
-#~ msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
-#~ msgstr "Modul \"%s\" ne vsebuje simbola (\"register_actual_excel4v\")."
-
-#, c-format
-#~ msgid "No loadable worksheet functions found in XLL/DLL/SO file %s."
-#~ msgstr ""
-#~ "V datoteki XLL/DLL/SO %s ni mogoče najti naložljivih funkcij delovnega "
-#~ "zvezka."
-
-#, c-format
-#~ msgid "Loaded %lu function from XLL/DLL/SO %s."
-#~ msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
-#~ msgstr[0] "Naloženih je %lu funkcij iz XLL/DLL/SO %s."
-#~ msgstr[1] "Naložena je %lu funkcija iz XLL/DLL/SO %s."
-#~ msgstr[2] "Naloženi sta %lu funkciji iz XLL/DLL/SO %s."
-#~ msgstr[3] "Naložene so %lu funkcije iz XLL/DLL/SO %s."
-
-#~ msgid "Excel plugins"
-#~ msgstr "Vstavki Excel"
-
-#~ msgid ""
-#~ "Adapter interface to load Excel plugins (also known as XLLs). Only "
-#~ "operational for worksheet functions that expect only arguments of "
-#~ "LPXLOPER type (type 'P' or 'R') and return an LPXLOPER (type 'P' or 'R')."
-#~ msgstr ""
-#~ "Vmesnik prilagodilnika za nalaganje vstavkov Excel (znanih kot XLLs). "
-#~ "Izvedljivo je le za funkcije delovnih listov, ki uporabljajo argumente "
-#~ "vrste LPXLOPER (vrsta 'P' ali 'R') in vrnejo vrsto LPXLOPER (type 'P' or "
-#~ "'R')."
-
-#~ msgid "Type Mismatch"
-#~ msgstr "Neskladnost vrste"
