@@ -10,18 +10,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-06-05 13:06+0000\n"
-"PO-Revision-Date: 2026-06-06 13:35+0200\n"
+"POT-Creation-Date: 2026-06-06 11:37+0000\n"
+"PO-Revision-Date: 2026-06-06 16:22+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
-"n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
+"%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:554
@@ -1506,11 +1506,11 @@ msgstr "Zaznan je nedoločen slog določanja veljavnosti: %s"
 #: ../plugins/openoffice/openoffice-read.c:3007
 #, c-format
 msgid ""
-"Unsupported validation condition encountered: \"%s\" with base address: "
-"\"%s\""
+"Unsupported validation condition encountered: \"%s\" with base address: \"%s"
+"\""
 msgstr ""
-"Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: "
-"\"%s\""
+"Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: \"%s"
+"\""
 
 #: ../plugins/openoffice/openoffice-read.c:3672
 #, c-format
@@ -1949,8 +1949,8 @@ msgstr ""
 msgid ""
 "Field specification must be a comma separated value (Name,Type,Size,Prec)."
 msgstr ""
-"Določilo polja morajo biti vrednosti ločene z vejicami "
-"(ime,vrsta,velikost,natančnost)"
+"Določilo polja morajo biti vrednosti ločene z vejicami (ime,vrsta,velikost,"
+"natančnost)"
 
 #: ../plugins/paradox/paradox.c:354
 msgid "Allocate memory for column name."
@@ -3468,19 +3468,14 @@ msgid "Transition Keys"
 msgstr "Tipke premikanja"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
-#, fuzzy
-#| msgid ""
-#| "This variable determines whether transition keys are set on. Transition "
-#| "keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow "
-#| "into page movement rather than jumping to the start/end of series."
 msgid ""
 "This variable determines whether transition keys are set on. Transition keys "
 "are a throwback to 1-2-3 style event handling. They turn Ctrl-arrow into "
 "page movement rather than jumping to the start/end of series."
 msgstr ""
-"Spremenljivka določa ali so omogočene tipke premikanja. V kolikor so, tipki "
-"Ctrl+smerna tipka premakne pogled za celo stran in ne le skakanja na začetek "
-"ali konec niza podatkov."
+"Spremenljivka določa ali so omogočene smerne tipke. V kolikor so, "
+"kombinacija tipk krmilka+smerna tipka premakne pogled za celo stran in ne le "
+"skoči na začetek ali konec niza podatkov."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
 #: ../src/dialogs/dialog-preferences.c:849
@@ -4859,10 +4854,8 @@ msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:162
-#, fuzzy
-#| msgid "All round powerhouse"
 msgid "All-round powerhouse"
-msgstr "Splošna pomembna opravila"
+msgstr "Vsesplošni energetik"
 
 #: ../src/dialogs/dialog-about.c:163
 msgid "Kevin Breit"
@@ -5351,8 +5344,6 @@ msgid "The cutoff range is not valid."
 msgstr "Obseg mejnih vrednosti ni veljaven."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3230
-#, fuzzy
-#| msgid "The number of to be calculated cutoffs is invalid."
 msgid "The number of cutoffs to be calculated is invalid."
 msgstr "Število izračunanih mejnih vrednosti ni veljavno."
 
@@ -8925,10 +8916,8 @@ msgid "_Enter into cells:"
 msgstr "V _celice vnesi:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
-#, fuzzy
-#| msgid "DataSlicer Guru : Gnumeric"
 msgid "DataSlicer Guru: Gnumeric"
-msgstr "Pomočnik za vrtilne razpredelnice : Gnumeric"
+msgstr "Pomočnik za vrtilne razpredelnice: Gnumeric"
 
 #: ../src/dialogs/data-slicer.ui.h:3
 msgid "_Format"
@@ -14429,9 +14418,9 @@ msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
-"/Srednja vrednost/Varianca/Opazovanja/df/F/P (F <= f) desni rep/kritična "
-"vrednost F za desni rep/P (f <= F) levi rep/Kritična vrednost F za levi rep/"
-"P, dvorepno/Kritična vrednost F, dvorepno"
+"/Povprečje/Varianca/Opazovanja/Prostostne stopnje/F/desnostrani P (F<=f)/"
+"Kritični desnostrani F/Levostrani P (f<=F)/Kritični levostrani F/Dvostrani P/"
+"Kritični dvostrani F"
 
 #: ../src/tools/analysis-histogram.c:322
 #, c-format
@@ -14654,17 +14643,13 @@ msgstr "/Koeficienti/Standardna napaka/t-statistika/p-vrednost"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
 #: ../src/tools/analysis-regression.c:427
-#, fuzzy
-#| msgid "Lower"
 msgid "\"Lower\" 0%"
-msgstr "Spodnja"
+msgstr "\"Spodnjih\" 0%"
 
 #. xgettext: this is an Excel-style number format.  Use "..." quotes and do not translate the 0%
 #: ../src/tools/analysis-regression.c:429
-#, fuzzy
-#| msgid "Upper"
 msgid "\"Upper\" 0%"
-msgstr "Zgornja"
+msgstr "\"Zgornjih\" 0%"
 
 #: ../src/tools/analysis-regression.c:438
 msgid ""
@@ -14699,13 +14684,12 @@ msgid "Constant"
 msgstr "Konstanta"
 
 #: ../src/tools/analysis-regression.c:758
-#, fuzzy
 msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
 msgstr ""
-"/Napoved//Preostanek/Vplivni faktorji/Notranja standardizacija/Zunanja "
-"standardizacija/p-vrednost"
+"/Napoved//Ostanek/Točke vzvoda/Notranje studentizirano/Zunanje "
+"studentizirano/Vrednost p"
 
 #: ../src/tools/analysis-regression.c:920
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
@@ -14717,11 +14701,12 @@ msgstr "/IZVLEČEK REZULTATOV//Izhodna spremenljivka//Opazovanja"
 
 #: ../src/tools/analysis-regression.c:931
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr ""
+msgstr "/Odzivna spremenljivka/R^2/Naklon/Izhodišče/F/Statistična značilnost F"
 
 #: ../src/tools/analysis-regression.c:937
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
 msgstr ""
+"/Neodvisna spremenljivka/R^2/Naklon/Izhodišče/F/Statistična značilnost F"
 
 #: ../src/tools/analysis-sign-test.c:101 ../src/tools/analysis-sign-test.c:331
 #, c-format
@@ -14925,9 +14910,9 @@ msgid "Variable %i"
 msgstr "Spremenljivka %i"
 
 #: ../src/tools/analysis-ttest.c:109
-#, fuzzy, c-format
+#, c-format
 msgid "t-Test, paired (%s)"
-msgstr "t-preizkus, pari (%s)"
+msgstr "t-preizkus, odvisna vzorca (%s)"
 
 #: ../src/tools/analysis-ttest.c:115 ../src/tools/analysis-ttest.c:122
 #: ../src/tools/analysis-ttest.c:446 ../src/tools/analysis-ttest.c:453
@@ -14941,6 +14926,10 @@ msgid ""
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
+"/Povprečje/Varianca/Opazovanja/Pearsonova soodnosnost/Hipotetična razlika "
+"povprečja/Opazovana razlika povprečja/Varianca razlik/Prostostne stopnje/t "
+"Stat/P (T<=t) enostrani/kritični enostrani t/dvostrani P (T<=t)/Kritični "
+"dvostrani t"
 
 #: ../src/tools/analysis-ttest.c:440 ../src/tools/analysis-ttest.c:801
 #, c-format
@@ -14953,6 +14942,10 @@ msgid ""
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
+"/Povprečje/Varianca/Opazovanja/Združena varianca/Hipotetična razlika "
+"povprečja/Opazovana razlika povprečja/Prostostne stopnje/Statistika t/"
+"enostrani P (T<=t)/kritični enostrani t/dvostrani P (T<=t)/Kritični "
+"dvostrani t"
 
 #: ../src/tools/analysis-ttest.c:837
 msgid ""
@@ -14960,6 +14953,9 @@ msgid ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
+"/Povprečje/Varianca/Opazovanja/Hipotetična razlika povprečja/Opazovana "
+"razlika povprečja/Prostostne stopnje/Statistika t/enostrani P (T<=t)/"
+"kritični enostrani t/dvostrani P (T<=t)/Kritični dvostrani t"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:103
 #, c-format
@@ -15012,6 +15008,9 @@ msgid ""
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
+"/Povprečje/Znana varianca/Opazovanja/Hipotetična razlika povprečja/Opazovana "
+"razlika povprečja/z/P (Z<=z) enostranska porazdelitev/kritični enostrani z/"
+"dvostrani P (Z<=z)/kritični dvostrani z"
 
 #: ../src/tools/dao.c:179
 msgid "New Sheet"
