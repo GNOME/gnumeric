@@ -58,8 +58,6 @@ value_get_as_complex (GnmValue const *val, gnm_complex *res, char *imunit)
 
 	if (VALUE_IS_STRING (val)) {
 		const char *s = value_peek_string (val);
-		if (*s == 0)
-			return NO_ERROR;
 		int e = gnm_complex_from_string (res, s, imunit);
 		return e ? GNM_ERROR_NUM : NO_ERROR;
 	}
