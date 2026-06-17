@@ -120,7 +120,7 @@ gnumeric_complex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imaginary[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMAGINARY:the imaginary part of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMAGINARY(\"132-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMREAL" },
@@ -149,7 +149,7 @@ gnumeric_imaginary (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imabs[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMABS:the absolute value of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMABS(\"2-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMAGINARY,IMREAL" },
@@ -175,7 +175,7 @@ gnumeric_imabs (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imreal[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMREAL:the real part of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMREAL(\"132-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMAGINARY" },
@@ -204,7 +204,7 @@ gnumeric_imreal (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imconjugate[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMCONJUGATE:the complex conjugate of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMCONJUGATE(\"1-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMAGINARY,IMREAL" },
@@ -230,7 +230,7 @@ gnumeric_imconjugate (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_iminv[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMINV:the reciprocal, or inverse, of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMINV(\"1-j\")" },
 	{ GNM_FUNC_HELP_END}
 };
@@ -254,7 +254,7 @@ gnumeric_iminv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imneg[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMNEG:the negative of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMNEG(\"1-j\")" },
 	{ GNM_FUNC_HELP_END}
 };
@@ -278,7 +278,7 @@ gnumeric_imneg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imcos[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMCOS:the cosine of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMCOS(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSIN,IMTAN" },
@@ -305,7 +305,7 @@ gnumeric_imcos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imtan[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMTAN:the tangent of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMTAN(\"2-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSIN,IMCOS" },
@@ -333,7 +333,7 @@ static GnmFuncHelp const help_imsec[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMSEC:the secant of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMSEC(@{z}) = 1/IMCOS(@{z}).") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMSEC(\"2-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMCSC,IMCOT" },
@@ -361,7 +361,7 @@ static GnmFuncHelp const help_imcsc[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMCSC:the cosecant of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMCSC(@{z}) = 1/IMSIN(@{z}).") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMCSC(\"2-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSEC,IMCOT" },
@@ -388,7 +388,7 @@ static GnmFuncHelp const help_imcot[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMCOT:the cotangent of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z}).") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMCOT(\"2-i\")" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMCOT(\"2+j\")" },
@@ -415,7 +415,7 @@ gnumeric_imcot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imexp[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMEXP:the exponential of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMEXP(\"2-i\")" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMEXP(\"2+j\")" },
@@ -444,7 +444,7 @@ static GnmFuncHelp const help_imargument[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMARGUMENT:the argument theta of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The argument theta of a complex number is its angle in radians from the real axis.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is 0, 0 is returned.  This is different from Excel which returns an error.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARGUMENT(\"2-j\")" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARGUMENT(0)" },
@@ -473,7 +473,7 @@ static GnmFuncHelp const help_imln[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The result will have an imaginary part between -\xcf\x80 and +\xcf\x80.\n"
 					"The natural logarithm is not uniquely defined on complex numbers. "
 					"You may need to add or subtract an even multiple of \xcf\x80 to the imaginary part.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMLN(\"3-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMEXP,IMLOG2,IMLOG10" },
@@ -499,7 +499,7 @@ gnumeric_imln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imlog2[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMLOG2:the base-2 logarithm of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMLOG2(\"3-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMLN,IMLOG10" },
@@ -526,7 +526,7 @@ gnumeric_imlog2 (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imlog10[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMLOG10:the base-10 logarithm of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMLOG10(\"3-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMLN,IMLOG2" },
@@ -553,7 +553,7 @@ static GnmFuncHelp const help_impower[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMPOWER:the complex number @{z1} raised to the @{z2}th power") },
 	{ GNM_FUNC_HELP_ARG, F_("z1:a complex number") },
 	{ GNM_FUNC_HELP_ARG, F_("z2:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z1} or @{z2} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMPOWER(\"4-j\",2)" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSQRT" },
@@ -587,7 +587,7 @@ static GnmFuncHelp const help_imdiv[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMDIV:the quotient of two complex numbers @{z1}/@{z2}") },
 	{ GNM_FUNC_HELP_ARG, F_("z1:a complex number") },
 	{ GNM_FUNC_HELP_ARG, F_("z2:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z1} or @{z2} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMDIV(\"2-j\",\"2+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMPRODUCT" },
@@ -621,7 +621,7 @@ gnumeric_imdiv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imsin[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMSIN:the sine of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMSIN(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMCOS,IMTAN" },
@@ -647,7 +647,7 @@ gnumeric_imsin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imsinh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMSINH:the hyperbolic sine of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMSINH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMCOSH,IMTANH" },
@@ -673,7 +673,7 @@ gnumeric_imsinh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imcosh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMCOSH:the hyperbolic cosine of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMCOSH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSINH,IMTANH" },
@@ -700,7 +700,7 @@ gnumeric_imcosh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imtanh[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMTANH:the hyperbolic tangent of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMTANH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSINH,IMCOSH" },
@@ -727,7 +727,7 @@ gnumeric_imtanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imsech[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMSECH:the hyperbolic secant of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMSECH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMCSCH,IMCOTH" },
@@ -753,7 +753,7 @@ gnumeric_imsech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imcsch[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMCSCH:the hyperbolic cosecant of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMCSCH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSECH,IMCOTH" },
@@ -780,7 +780,7 @@ gnumeric_imcsch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imcoth[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMCOTH:the hyperbolic cotangent of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMCOTH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSECH,IMCSCH" },
@@ -808,7 +808,7 @@ static GnmFuncHelp const help_imarcsin[] = {
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCSIN returns the complex arcsine of the complex number "
 	   "@{z}. The branch cuts are on the real axis, less than -1 and greater than 1.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCSIN(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCCOS,IMARCTAN" },
 	{ GNM_FUNC_HELP_END}
@@ -836,7 +836,7 @@ static GnmFuncHelp const help_imarccos[] = {
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCCOS returns the complex arccosine of the complex number "
 	   "@{z}. The branch cuts are on the real axis, less than -1 and greater than 1.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCCOS(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCSIN,IMARCTAN" },
 	{ GNM_FUNC_HELP_END}
@@ -864,7 +864,7 @@ static GnmFuncHelp const help_imarctan[] = {
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCTAN returns the complex arctangent of the complex number "
 	   "@{z}. The branch cuts are on the imaginary axis, below -i and above i.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCTAN(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCSIN,IMARCCOS" },
 	{ GNM_FUNC_HELP_END}
@@ -890,7 +890,7 @@ gnumeric_imarctan (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imarcsec[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMARCSEC:the complex arcsecant of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCSEC(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCCSC,IMARCCOT" },
 	{ GNM_FUNC_HELP_END}
@@ -915,7 +915,7 @@ gnumeric_imarcsec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imarccsc[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMARCCSC:the complex arccosecant of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCCSC(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCSEC,IMARCCOT" },
 	{ GNM_FUNC_HELP_END}
@@ -941,7 +941,7 @@ gnumeric_imarccsc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imarccot[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMARCCOT:the complex arccotangent of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCCOT(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCSEC,IMARCCSC" },
 	{ GNM_FUNC_HELP_END}
@@ -968,7 +968,7 @@ static GnmFuncHelp const help_imarcsinh[] = {
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCSINH returns the complex hyperbolic arcsine of the complex number @{z}. "
 					" The branch cuts are on the imaginary axis, below -i and above i.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCSINH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCCOSH,IMARCTANH" },
 	{ GNM_FUNC_HELP_END}
@@ -997,7 +997,7 @@ static GnmFuncHelp const help_imarccosh[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCCOSH returns the complex hyperbolic arccosine of the "
 					"complex number @{z}. The branch cut is on the real "
 					"axis, less than 1.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCCOSH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCSINH,IMARCTANH" },
 	{ GNM_FUNC_HELP_END}
@@ -1026,7 +1026,7 @@ static GnmFuncHelp const help_imarctanh[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCTANH returns the complex hyperbolic arctangent of the "
 					"complex number @{z}. The branch cuts are on the "
 					"real axis, less than -1 and greater than 1.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCTANH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCSINH,IMARCCOSH" },
 	{ GNM_FUNC_HELP_END}
@@ -1052,7 +1052,7 @@ gnumeric_imarctanh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imarcsech[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCSECH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCCSCH,IMARCCOTH" },
 	{ GNM_FUNC_HELP_END}
@@ -1077,7 +1077,7 @@ gnumeric_imarcsech (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imarccsch[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCCSCH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCSECH,IMARCCOTH" },
 	{ GNM_FUNC_HELP_END}
@@ -1103,7 +1103,7 @@ gnumeric_imarccsch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imarccoth[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMARCCOTH:the complex hyperbolic arccotangent of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMARCCOTH(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMARCSECH,IMARCCSCH" },
 	{ GNM_FUNC_HELP_END}
@@ -1129,7 +1129,7 @@ gnumeric_imarccoth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imsqrt[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMSQRT:the square root of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMSQRT(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMPOWER" },
@@ -1156,7 +1156,7 @@ gnumeric_imsqrt (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imfact[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMFACT:the factorial of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMFACT(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMGAMMA" },
 	{ GNM_FUNC_HELP_END}
@@ -1182,7 +1182,7 @@ gnumeric_imfact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_imgamma[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMGAMMA:the gamma function of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMGAMMA(\"1+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMGAMMA" },
 	{ GNM_FUNC_HELP_END}
@@ -1244,7 +1244,7 @@ static GnmFuncHelp const help_imsub[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMSUB:the difference of two complex numbers") },
 	{ GNM_FUNC_HELP_ARG, F_("z1:a complex number") },
 	{ GNM_FUNC_HELP_ARG, F_("z2:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{z1} or @{z2} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMSUB(\"3-j\",\"2+j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSUM" },
@@ -1276,7 +1276,7 @@ static GnmFuncHelp const help_improduct[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMPRODUCT:the product of the given complex numbers") },
 	{ GNM_FUNC_HELP_ARG, F_("z1:a complex number") },
 	{ GNM_FUNC_HELP_ARG, F_("z2:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If any of @{z1}, @{z2},... is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMPRODUCT(\"2-j\",\"4-2j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMDIV" },
@@ -1348,7 +1348,7 @@ static GnmFuncHelp const help_imsum[] = {
 	{ GNM_FUNC_HELP_NAME, F_("IMSUM:the sum of the given complex numbers") },
 	{ GNM_FUNC_HELP_ARG, F_("z1:a complex number") },
 	{ GNM_FUNC_HELP_ARG, F_("z2:a complex number") },
-	{ GNM_FUNC_HELP_NOTE, F_("If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If any of @{z1}, @{z2},... is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMSUM(\"2-4j\",\"9-j\")" },
 	{ GNM_FUNC_HELP_SEEALSO, "IMSUB" },
