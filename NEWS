@@ -15,6 +15,7 @@ Morten:
 	* Improve xl compatibility for multiple functions.
 	* Improve GEOMEAN accuracy.
 	* Fix problem with sylk importer.  [#878]
+	* Improve xl compatibility for complex functions.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.61

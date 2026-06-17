@@ -7,4 +7,4 @@ use GnumericTest;
 
 my $file = "complex-tests.gnumeric";
 &message ("Check that $file evaluates correctly.");
-&test_sheet_calc ("$samples/$file", "A3", sub { $_ > 15 });
+&test_sheet_calc ("$samples/$file", "b1", sub { /TRUE/ });

@@ -26,7 +26,7 @@ gnm_complex_to_string (gnm_complex const *src, char imunit)
 
 	have_real = src->re != 0 || src->im == 0;
 	if (have_real) {
-		// We have an real part.
+		// We have a real part.
 		go_dtoa (res, "!^" GNM_FORMAT_G, src->re);
 	}
 
@@ -95,7 +95,7 @@ gnm_complex_from_string (gnm_complex *dst, char const *src, char *imunit)
 		x = 1;
 	} else {
 		x = gnm_strto (src, &end);
-		if (src == end || errno == ERANGE)
+		if (src == end || errno == ERANGE || !gnm_finite (x))
 			return -1;
 		src = end;
 		EAT_SPACES (src);
@@ -129,7 +129,7 @@ gnm_complex_from_string (gnm_complex *dst, char const *src, char *imunit)
 		y = 1;
 	} else {
 		y = gnm_strto (src, &end);
-		if (src == end || errno == ERANGE)
+		if (src == end || errno == ERANGE || !gnm_finite (y))
 			return -1;
 		src = end;
 		EAT_SPACES (src);
