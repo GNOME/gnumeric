@@ -6,17 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-05-26 01:07+0000\n"
-"PO-Revision-Date: 2026-05-26 15:38+0200\n"
+"POT-Creation-Date: 2026-06-18 15:14+0000\n"
+"PO-Revision-Date: 2026-06-20 21:50+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 3.9\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #: ../plugins/fn-christian-date/functions.c:130
 msgid ""
@@ -94,7 +94,8 @@ msgstr ""
 #: ../plugins/fn-christian-date/functions.c:194
 msgid ""
 "year:year between 1582 and 9956, defaults to the year of the next Good Friday"
-msgstr "year:рік між 1582 і 9956, типово видає рік наступної Страсної Пʼятниці"
+msgstr ""
+"year:рік між 1582 і 9956, типово видає рік наступної Страсної Пʼятниці"
 
 #: ../plugins/fn-christian-date/functions.c:211
 msgid ""
@@ -111,43 +112,43 @@ msgid ""
 msgstr ""
 "year:рік між 1582 і 9956, типово видає рік наступного Вознесіння Господнього"
 
-#: ../plugins/fn-complex/functions.c:84
+#: ../plugins/fn-complex/functions.c:93
 msgid "COMPLEX:a complex number of the form @{x} + @{y}@{i}"
 msgstr "COMPLEX:комплексне число в алгебричній формі запису @{x} + @{y}@{i}"
 
-#: ../plugins/fn-complex/functions.c:85
+#: ../plugins/fn-complex/functions.c:94
 msgid "x:real part"
 msgstr "x:дійсна частина"
 
-#: ../plugins/fn-complex/functions.c:86
+#: ../plugins/fn-complex/functions.c:95
 msgid "y:imaginary part"
 msgstr "y:уявна частина"
 
-#: ../plugins/fn-complex/functions.c:87
+#: ../plugins/fn-complex/functions.c:96
 msgid ""
 "i:the suffix for the complex number, either \"i\" or \"j\"; defaults to \"i\""
 msgstr ""
 "i:суфікс уявної частини (уявна одиниця), «i» або «j»; типове значення — «i»"
 
-#: ../plugins/fn-complex/functions.c:88
+#: ../plugins/fn-complex/functions.c:97
 msgid "If @{i} is neither \"i\" nor \"j\", COMPLEX returns #VALUE!"
 msgstr "Якщо @{i} ні \"i\", ні \"j\", COMPLEX повертає #VALUE!"
 
-#: ../plugins/fn-complex/functions.c:89 ../plugins/fn-complex/functions.c:113
-#: ../plugins/fn-complex/functions.c:140 ../plugins/fn-complex/functions.c:164
-#: ../plugins/fn-complex/functions.c:191 ../plugins/fn-complex/functions.c:259
-#: ../plugins/fn-complex/functions.c:284 ../plugins/fn-complex/functions.c:310
-#: ../plugins/fn-complex/functions.c:336 ../plugins/fn-complex/functions.c:361
-#: ../plugins/fn-complex/functions.c:386 ../plugins/fn-complex/functions.c:440
-#: ../plugins/fn-complex/functions.c:464 ../plugins/fn-complex/functions.c:489
-#: ../plugins/fn-complex/functions.c:514 ../plugins/fn-complex/functions.c:545
-#: ../plugins/fn-complex/functions.c:576 ../plugins/fn-complex/functions.c:600
-#: ../plugins/fn-complex/functions.c:624 ../plugins/fn-complex/functions.c:649
-#: ../plugins/fn-complex/functions.c:674 ../plugins/fn-complex/functions.c:698
-#: ../plugins/fn-complex/functions.c:723 ../plugins/fn-complex/functions.c:1046
-#: ../plugins/fn-complex/functions.c:1152
-#: ../plugins/fn-complex/functions.c:1181
-#: ../plugins/fn-complex/functions.c:1251 ../plugins/fn-date/functions.c:82
+#: ../plugins/fn-complex/functions.c:98 ../plugins/fn-complex/functions.c:122
+#: ../plugins/fn-complex/functions.c:151 ../plugins/fn-complex/functions.c:177
+#: ../plugins/fn-complex/functions.c:206 ../plugins/fn-complex/functions.c:280
+#: ../plugins/fn-complex/functions.c:307 ../plugins/fn-complex/functions.c:335
+#: ../plugins/fn-complex/functions.c:363 ../plugins/fn-complex/functions.c:390
+#: ../plugins/fn-complex/functions.c:417 ../plugins/fn-complex/functions.c:475
+#: ../plugins/fn-complex/functions.c:501 ../plugins/fn-complex/functions.c:528
+#: ../plugins/fn-complex/functions.c:555 ../plugins/fn-complex/functions.c:589
+#: ../plugins/fn-complex/functions.c:623 ../plugins/fn-complex/functions.c:649
+#: ../plugins/fn-complex/functions.c:675 ../plugins/fn-complex/functions.c:702
+#: ../plugins/fn-complex/functions.c:729 ../plugins/fn-complex/functions.c:755
+#: ../plugins/fn-complex/functions.c:782 ../plugins/fn-complex/functions.c:1131
+#: ../plugins/fn-complex/functions.c:1246
+#: ../plugins/fn-complex/functions.c:1278
+#: ../plugins/fn-complex/functions.c:1350 ../plugins/fn-date/functions.c:82
 #: ../plugins/fn-date/functions.c:268 ../plugins/fn-date/functions.c:290
 #: ../plugins/fn-date/functions.c:422 ../plugins/fn-date/functions.c:457
 #: ../plugins/fn-date/functions.c:474 ../plugins/fn-date/functions.c:502
@@ -180,7 +181,7 @@ msgstr "Якщо @{i} ні \"i\", ні \"j\", COMPLEX повертає #VALUE!"
 #: ../plugins/fn-logical/functions.c:220 ../plugins/fn-logical/functions.c:239
 #: ../plugins/fn-logical/functions.c:262 ../plugins/fn-logical/functions.c:307
 #: ../plugins/fn-logical/functions.c:363 ../plugins/fn-logical/functions.c:381
-#: ../plugins/fn-lookup/functions.c:1945 ../plugins/fn-lookup/functions.c:1984
+#: ../plugins/fn-lookup/functions.c:1950 ../plugins/fn-lookup/functions.c:1989
 #: ../plugins/fn-math/functions.c:201 ../plugins/fn-math/functions.c:264
 #: ../plugins/fn-math/functions.c:370 ../plugins/fn-math/functions.c:388
 #: ../plugins/fn-math/functions.c:410 ../plugins/fn-math/functions.c:470
@@ -275,312 +276,319 @@ msgstr "Якщо @{i} ні \"i\", ні \"j\", COMPLEX повертає #VALUE!"
 msgid "This function is Excel compatible."
 msgstr "Ця функція є сумісною із Excel."
 
-#: ../plugins/fn-complex/functions.c:110
+#: ../plugins/fn-complex/functions.c:119
 msgid "IMAGINARY:the imaginary part of the complex number @{z}"
 msgstr "IMAGINARY: уявна частина комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:111 ../plugins/fn-complex/functions.c:138
-#: ../plugins/fn-complex/functions.c:162 ../plugins/fn-complex/functions.c:189
-#: ../plugins/fn-complex/functions.c:213 ../plugins/fn-complex/functions.c:235
-#: ../plugins/fn-complex/functions.c:257 ../plugins/fn-complex/functions.c:282
-#: ../plugins/fn-complex/functions.c:307 ../plugins/fn-complex/functions.c:333
-#: ../plugins/fn-complex/functions.c:358 ../plugins/fn-complex/functions.c:384
-#: ../plugins/fn-complex/functions.c:410 ../plugins/fn-complex/functions.c:435
-#: ../plugins/fn-complex/functions.c:462 ../plugins/fn-complex/functions.c:487
-#: ../plugins/fn-complex/functions.c:574 ../plugins/fn-complex/functions.c:598
-#: ../plugins/fn-complex/functions.c:622 ../plugins/fn-complex/functions.c:647
-#: ../plugins/fn-complex/functions.c:672 ../plugins/fn-complex/functions.c:696
-#: ../plugins/fn-complex/functions.c:721 ../plugins/fn-complex/functions.c:745
-#: ../plugins/fn-complex/functions.c:771 ../plugins/fn-complex/functions.c:797
-#: ../plugins/fn-complex/functions.c:823 ../plugins/fn-complex/functions.c:846
-#: ../plugins/fn-complex/functions.c:870 ../plugins/fn-complex/functions.c:893
-#: ../plugins/fn-complex/functions.c:919 ../plugins/fn-complex/functions.c:946
-#: ../plugins/fn-complex/functions.c:973 ../plugins/fn-complex/functions.c:996
-#: ../plugins/fn-complex/functions.c:1020
-#: ../plugins/fn-complex/functions.c:1044
-#: ../plugins/fn-complex/functions.c:1069
-#: ../plugins/fn-complex/functions.c:1093
-#: ../plugins/fn-complex/functions.c:1118
+#: ../plugins/fn-complex/functions.c:120 ../plugins/fn-complex/functions.c:149
+#: ../plugins/fn-complex/functions.c:175 ../plugins/fn-complex/functions.c:204
+#: ../plugins/fn-complex/functions.c:230 ../plugins/fn-complex/functions.c:254
+#: ../plugins/fn-complex/functions.c:278 ../plugins/fn-complex/functions.c:305
+#: ../plugins/fn-complex/functions.c:332 ../plugins/fn-complex/functions.c:360
+#: ../plugins/fn-complex/functions.c:387 ../plugins/fn-complex/functions.c:415
+#: ../plugins/fn-complex/functions.c:443 ../plugins/fn-complex/functions.c:470
+#: ../plugins/fn-complex/functions.c:499 ../plugins/fn-complex/functions.c:526
+#: ../plugins/fn-complex/functions.c:621 ../plugins/fn-complex/functions.c:647
+#: ../plugins/fn-complex/functions.c:673 ../plugins/fn-complex/functions.c:700
+#: ../plugins/fn-complex/functions.c:727 ../plugins/fn-complex/functions.c:753
+#: ../plugins/fn-complex/functions.c:780 ../plugins/fn-complex/functions.c:806
+#: ../plugins/fn-complex/functions.c:834 ../plugins/fn-complex/functions.c:862
+#: ../plugins/fn-complex/functions.c:890 ../plugins/fn-complex/functions.c:915
+#: ../plugins/fn-complex/functions.c:941 ../plugins/fn-complex/functions.c:966
+#: ../plugins/fn-complex/functions.c:994 ../plugins/fn-complex/functions.c:1023
+#: ../plugins/fn-complex/functions.c:1052
+#: ../plugins/fn-complex/functions.c:1077
+#: ../plugins/fn-complex/functions.c:1103
+#: ../plugins/fn-complex/functions.c:1129
+#: ../plugins/fn-complex/functions.c:1156
+#: ../plugins/fn-complex/functions.c:1182
+#: ../plugins/fn-complex/functions.c:1209
 msgid "z:a complex number"
 msgstr "z:комплексне число"
 
-#: ../plugins/fn-complex/functions.c:112 ../plugins/fn-complex/functions.c:139
-#: ../plugins/fn-complex/functions.c:163 ../plugins/fn-complex/functions.c:190
-#: ../plugins/fn-complex/functions.c:214 ../plugins/fn-complex/functions.c:236
-#: ../plugins/fn-complex/functions.c:258 ../plugins/fn-complex/functions.c:283
-#: ../plugins/fn-complex/functions.c:309 ../plugins/fn-complex/functions.c:335
-#: ../plugins/fn-complex/functions.c:360 ../plugins/fn-complex/functions.c:385
-#: ../plugins/fn-complex/functions.c:412 ../plugins/fn-complex/functions.c:439
-#: ../plugins/fn-complex/functions.c:463 ../plugins/fn-complex/functions.c:488
-#: ../plugins/fn-complex/functions.c:575 ../plugins/fn-complex/functions.c:599
-#: ../plugins/fn-complex/functions.c:623 ../plugins/fn-complex/functions.c:648
-#: ../plugins/fn-complex/functions.c:673 ../plugins/fn-complex/functions.c:697
-#: ../plugins/fn-complex/functions.c:722 ../plugins/fn-complex/functions.c:748
-#: ../plugins/fn-complex/functions.c:774 ../plugins/fn-complex/functions.c:800
-#: ../plugins/fn-complex/functions.c:824 ../plugins/fn-complex/functions.c:847
-#: ../plugins/fn-complex/functions.c:871 ../plugins/fn-complex/functions.c:896
-#: ../plugins/fn-complex/functions.c:923 ../plugins/fn-complex/functions.c:950
-#: ../plugins/fn-complex/functions.c:974 ../plugins/fn-complex/functions.c:997
-#: ../plugins/fn-complex/functions.c:1021
-#: ../plugins/fn-complex/functions.c:1045
-#: ../plugins/fn-complex/functions.c:1070
-#: ../plugins/fn-complex/functions.c:1094
-msgid "If @{z} is not a valid complex number, #VALUE! is returned."
-msgstr "Якщо @{z} не є коректним комплексним числом, буде повернуто #VALUE!."
+#: ../plugins/fn-complex/functions.c:121 ../plugins/fn-complex/functions.c:150
+#: ../plugins/fn-complex/functions.c:176 ../plugins/fn-complex/functions.c:205
+#: ../plugins/fn-complex/functions.c:231 ../plugins/fn-complex/functions.c:255
+#: ../plugins/fn-complex/functions.c:279 ../plugins/fn-complex/functions.c:306
+#: ../plugins/fn-complex/functions.c:334 ../plugins/fn-complex/functions.c:362
+#: ../plugins/fn-complex/functions.c:389 ../plugins/fn-complex/functions.c:416
+#: ../plugins/fn-complex/functions.c:445 ../plugins/fn-complex/functions.c:474
+#: ../plugins/fn-complex/functions.c:500 ../plugins/fn-complex/functions.c:527
+#: ../plugins/fn-complex/functions.c:622 ../plugins/fn-complex/functions.c:648
+#: ../plugins/fn-complex/functions.c:674 ../plugins/fn-complex/functions.c:701
+#: ../plugins/fn-complex/functions.c:728 ../plugins/fn-complex/functions.c:754
+#: ../plugins/fn-complex/functions.c:781 ../plugins/fn-complex/functions.c:809
+#: ../plugins/fn-complex/functions.c:837 ../plugins/fn-complex/functions.c:865
+#: ../plugins/fn-complex/functions.c:891 ../plugins/fn-complex/functions.c:916
+#: ../plugins/fn-complex/functions.c:942 ../plugins/fn-complex/functions.c:969
+#: ../plugins/fn-complex/functions.c:998 ../plugins/fn-complex/functions.c:1027
+#: ../plugins/fn-complex/functions.c:1053
+#: ../plugins/fn-complex/functions.c:1078
+#: ../plugins/fn-complex/functions.c:1104
+#: ../plugins/fn-complex/functions.c:1130
+#: ../plugins/fn-complex/functions.c:1157
+#: ../plugins/fn-complex/functions.c:1183
+#| msgid "If @{z} is not a valid complex number, #VALUE! is returned."
+msgid "If @{z} is not a valid complex number, #NUM! is returned."
+msgstr "Якщо @{z} не є коректним комплексним числом, буде повернуто #NUM!."
 
-#: ../plugins/fn-complex/functions.c:137
+#: ../plugins/fn-complex/functions.c:148
 msgid "IMABS:the absolute value of the complex number @{z}"
 msgstr "IMABS:модуль комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:161
+#: ../plugins/fn-complex/functions.c:174
 msgid "IMREAL:the real part of the complex number @{z}"
 msgstr "IMREAL:ціла частина комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:188
+#: ../plugins/fn-complex/functions.c:203
 msgid "IMCONJUGATE:the complex conjugate of the complex number @{z}"
 msgstr "IMCONJUGATE:комплексно спряжене число до комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:212
+#: ../plugins/fn-complex/functions.c:229
 msgid "IMINV:the reciprocal, or inverse, of the complex number @{z}"
 msgstr "IMINV:обернене комплексне число @{z}"
 
-#: ../plugins/fn-complex/functions.c:234
+#: ../plugins/fn-complex/functions.c:253
 msgid "IMNEG:the negative of the complex number @{z}"
 msgstr "IMNEG:відʼємна частина комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:256
+#: ../plugins/fn-complex/functions.c:277
 msgid "IMCOS:the cosine of the complex number @{z}"
 msgstr "IMCOS:косинус комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:281
+#: ../plugins/fn-complex/functions.c:304
 msgid "IMTAN:the tangent of the complex number @{z}"
 msgstr "IMTAN:тангенс комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:306
+#: ../plugins/fn-complex/functions.c:331
 msgid "IMSEC:the secant of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:308
+#: ../plugins/fn-complex/functions.c:333
 msgid "IMSEC(@{z}) = 1/IMCOS(@{z})."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:332
+#: ../plugins/fn-complex/functions.c:359
 msgid "IMCSC:the cosecant of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:334
+#: ../plugins/fn-complex/functions.c:361
 msgid "IMCSC(@{z}) = 1/IMSIN(@{z})."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:357
+#: ../plugins/fn-complex/functions.c:386
 msgid "IMCOT:the cotangent of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:359
+#: ../plugins/fn-complex/functions.c:388
 msgid "IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z})."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:383
+#: ../plugins/fn-complex/functions.c:414
 msgid "IMEXP:the exponential of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:409
+#: ../plugins/fn-complex/functions.c:442
 msgid "IMARGUMENT:the argument theta of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:411
+#: ../plugins/fn-complex/functions.c:444
 msgid ""
 "The argument theta of a complex number is its angle in radians from the real "
 "axis."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:413
+#: ../plugins/fn-complex/functions.c:446
 msgid ""
 "If @{z} is 0, 0 is returned.  This is different from Excel which returns an "
 "error."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:434
+#: ../plugins/fn-complex/functions.c:469
 msgid "IMLN:the natural logarithm of the complex number @{z}"
 msgstr "IMLN:натуральний логарифм комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:436
+#: ../plugins/fn-complex/functions.c:471
 msgid ""
 "The result will have an imaginary part between -π and +π.\n"
 "The natural logarithm is not uniquely defined on complex numbers. You may "
 "need to add or subtract an even multiple of π to the imaginary part."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:461
+#: ../plugins/fn-complex/functions.c:498
 msgid "IMLOG2:the base-2 logarithm of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:486
+#: ../plugins/fn-complex/functions.c:525
 msgid "IMLOG10:the base-10 logarithm of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:510
+#: ../plugins/fn-complex/functions.c:551
 msgid "IMPOWER:the complex number @{z1} raised to the @{z2}th power"
 msgstr "IMPOWER:комплексне число @{z1} у @{z2} ступені"
 
-#: ../plugins/fn-complex/functions.c:511 ../plugins/fn-complex/functions.c:542
-#: ../plugins/fn-complex/functions.c:1149
-#: ../plugins/fn-complex/functions.c:1178
-#: ../plugins/fn-complex/functions.c:1248
+#: ../plugins/fn-complex/functions.c:552 ../plugins/fn-complex/functions.c:586
+#: ../plugins/fn-complex/functions.c:1243
+#: ../plugins/fn-complex/functions.c:1275
+#: ../plugins/fn-complex/functions.c:1347
 msgid "z1:a complex number"
 msgstr "z1:комплексне число"
 
-#: ../plugins/fn-complex/functions.c:512 ../plugins/fn-complex/functions.c:543
-#: ../plugins/fn-complex/functions.c:1150
-#: ../plugins/fn-complex/functions.c:1179
-#: ../plugins/fn-complex/functions.c:1249
+#: ../plugins/fn-complex/functions.c:553 ../plugins/fn-complex/functions.c:587
+#: ../plugins/fn-complex/functions.c:1244
+#: ../plugins/fn-complex/functions.c:1276
+#: ../plugins/fn-complex/functions.c:1348
 msgid "z2:a complex number"
 msgstr "z2:комплексне число"
 
-#: ../plugins/fn-complex/functions.c:513 ../plugins/fn-complex/functions.c:544
-#: ../plugins/fn-complex/functions.c:1151
-msgid "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
+#: ../plugins/fn-complex/functions.c:554 ../plugins/fn-complex/functions.c:588
+#: ../plugins/fn-complex/functions.c:1245
+#| msgid ""
+#| "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
+msgid "If @{z1} or @{z2} is not a valid complex number, #NUM! is returned."
 msgstr ""
-"Якщо @{z1} чи @{z2} не є вірними комплексними числами, видається #VALUE."
+"Якщо @{z1} чи @{z2} не є коректними комплексними числами, буде повернуто"
+" #NUM!."
 
-#: ../plugins/fn-complex/functions.c:541
+#: ../plugins/fn-complex/functions.c:585
 msgid "IMDIV:the quotient of two complex numbers @{z1}/@{z2}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:573
+#: ../plugins/fn-complex/functions.c:620
 msgid "IMSIN:the sine of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:597
+#: ../plugins/fn-complex/functions.c:646
 msgid "IMSINH:the hyperbolic sine of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:621
+#: ../plugins/fn-complex/functions.c:672
 msgid "IMCOSH:the hyperbolic cosine of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:646
+#: ../plugins/fn-complex/functions.c:699
 msgid "IMTANH:the hyperbolic tangent of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:671
+#: ../plugins/fn-complex/functions.c:726
 msgid "IMSECH:the hyperbolic secant of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:695
+#: ../plugins/fn-complex/functions.c:752
 msgid "IMCSCH:the hyperbolic cosecant of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:720
+#: ../plugins/fn-complex/functions.c:779
 msgid "IMCOTH:the hyperbolic cotangent of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:744
+#: ../plugins/fn-complex/functions.c:805
 msgid "IMARCSIN:the complex arcsine of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:746
+#: ../plugins/fn-complex/functions.c:807
 msgid ""
 "IMARCSIN returns the complex arcsine of the complex number @{z}. The branch "
 "cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:770
+#: ../plugins/fn-complex/functions.c:833
 msgid "IMARCCOS:the complex arccosine of the complex number"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:772
+#: ../plugins/fn-complex/functions.c:835
 msgid ""
 "IMARCCOS returns the complex arccosine of the complex number @{z}. The "
 "branch cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:796
+#: ../plugins/fn-complex/functions.c:861
 msgid "IMARCTAN:the complex arctangent of the complex number"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:798
+#: ../plugins/fn-complex/functions.c:863
 msgid ""
 "IMARCTAN returns the complex arctangent of the complex number @{z}. The "
 "branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:822
+#: ../plugins/fn-complex/functions.c:889
 msgid "IMARCSEC:the complex arcsecant of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:845
+#: ../plugins/fn-complex/functions.c:914
 msgid "IMARCCSC:the complex arccosecant of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:869
+#: ../plugins/fn-complex/functions.c:940
 msgid "IMARCCOT:the complex arccotangent of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:892
+#: ../plugins/fn-complex/functions.c:965
 msgid "IMARCSINH:the complex hyperbolic arcsine of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:894
+#: ../plugins/fn-complex/functions.c:967
 msgid ""
 "IMARCSINH returns the complex hyperbolic arcsine of the complex number "
 "@{z}.  The branch cuts are on the imaginary axis, below -i and above i."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:918
+#: ../plugins/fn-complex/functions.c:993
 msgid "IMARCCOSH:the complex hyperbolic arccosine of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:920
+#: ../plugins/fn-complex/functions.c:995
 msgid ""
 "IMARCCOSH returns the complex hyperbolic arccosine of the complex number "
 "@{z}. The branch cut is on the real axis, less than 1."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:945
+#: ../plugins/fn-complex/functions.c:1022
 msgid "IMARCTANH:the complex hyperbolic arctangent of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:947
+#: ../plugins/fn-complex/functions.c:1024
 msgid ""
 "IMARCTANH returns the complex hyperbolic arctangent of the complex number "
 "@{z}. The branch cuts are on the real axis, less than -1 and greater than 1."
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:972
+#: ../plugins/fn-complex/functions.c:1051
 msgid "IMARCSECH:the complex hyperbolic arcsecant of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:995
-msgid "IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
+#: ../plugins/fn-complex/functions.c:1076
+msgid ""
+"IMARCCSCH:the complex hyperbolic arccosecant of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:1019
+#: ../plugins/fn-complex/functions.c:1102
 msgid ""
 "IMARCCOTH:the complex hyperbolic arccotangent of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:1043
+#: ../plugins/fn-complex/functions.c:1128
 msgid "IMSQRT:the square root of the complex number @{z}"
 msgstr "IMSQRT:квадратний корінь комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:1068
+#: ../plugins/fn-complex/functions.c:1155
 msgid "IMFACT:the factorial of the complex number @{z}"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:1092
+#: ../plugins/fn-complex/functions.c:1181
 msgid "IMGAMMA:the gamma function of the complex number @{z}"
 msgstr "IMGAMMA: гамма-функція комплексного числа @{z}"
 
-#: ../plugins/fn-complex/functions.c:1116
+#: ../plugins/fn-complex/functions.c:1207
 msgid "IMIGAMMA:the incomplete Gamma function"
 msgstr "IMIGAMMA:неповна гамма-функція"
 
-#: ../plugins/fn-complex/functions.c:1117
+#: ../plugins/fn-complex/functions.c:1208
 msgid "a:a complex number"
 msgstr "a:комплексне число"
 
-#: ../plugins/fn-complex/functions.c:1119 ../plugins/fn-math/functions.c:1095
+#: ../plugins/fn-complex/functions.c:1210 ../plugins/fn-math/functions.c:1095
 msgid ""
 "lower:if true (the default), the lower incomplete gamma function, otherwise "
 "the upper incomplete gamma function"
@@ -588,7 +596,7 @@ msgstr ""
 "lower:якщо є вірним (true, типово), нижня неповна гамма-функція, інакше "
 "верхня неповна гамма-функція"
 
-#: ../plugins/fn-complex/functions.c:1120 ../plugins/fn-math/functions.c:1096
+#: ../plugins/fn-complex/functions.c:1211 ../plugins/fn-math/functions.c:1096
 msgid ""
 "regularize:if true (the default), the regularized version of the incomplete "
 "gamma function"
@@ -596,7 +604,7 @@ msgstr ""
 "regularize:якщо є вірним (true, типово), регуляризована версія неповної "
 "гамма-функції"
 
-#: ../plugins/fn-complex/functions.c:1121
+#: ../plugins/fn-complex/functions.c:1212
 msgid ""
 "The regularized incomplete gamma function is the unregularized incomplete "
 "gamma function divided by GAMMA(@{a})."
@@ -604,23 +612,25 @@ msgstr ""
 "Регуляризована незавершена гамма-функція - це нерегуляризована неповна гамма-"
 "функція поділена на ГАММА(@{a})."
 
-#: ../plugins/fn-complex/functions.c:1148
+#: ../plugins/fn-complex/functions.c:1242
 msgid "IMSUB:the difference of two complex numbers"
 msgstr "IMSUB:різниця між двома комплексними числами"
 
-#: ../plugins/fn-complex/functions.c:1177
+#: ../plugins/fn-complex/functions.c:1274
 msgid "IMPRODUCT:the product of the given complex numbers"
 msgstr ""
 
-#: ../plugins/fn-complex/functions.c:1180
-#: ../plugins/fn-complex/functions.c:1250
+#: ../plugins/fn-complex/functions.c:1277
+#: ../plugins/fn-complex/functions.c:1349
+#| msgid ""
+#| "If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is "
+#| "returned."
 msgid ""
-"If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is "
-"returned."
+"If any of @{z1}, @{z2},... is not a valid complex number, #NUM! is returned."
 msgstr ""
-"Якщо будь яке із @{z1}, @{z2},... не є вірним числом, видається #VALUE!"
+"Якщо будь-яке із @{z1}, @{z2},... не є коректним числом, буде повернуто #NUM!"
 
-#: ../plugins/fn-complex/functions.c:1247
+#: ../plugins/fn-complex/functions.c:1346
 msgid "IMSUM:the sum of the given complex numbers"
 msgstr "IMSUM:сума даних комплексних чисел"
 
@@ -1200,7 +1210,8 @@ msgid ""
 "While the return value is automatically formatted to look like a time "
 "between 0:00 and 24:00, the underlying serial time value can be any number."
 msgstr ""
-"Хоча видані значення автоматично форматуються щоб виглядати як час між 00:00 "
+"Хоча видані значення автоматично форматуються, щоб виглядати як час між"
+" 00:00 "
 "і 24:00, послідовне значення часу може бути будь-яким."
 
 #: ../plugins/fn-date/functions.c:533 ../plugins/fn-date/functions.c:874
@@ -1224,7 +1235,8 @@ msgid "TIMEVALUE:the time part of a date and time serial value"
 msgstr "TIMEVALUE: час із послідовного значення дати та часу"
 
 #: ../plugins/fn-date/functions.c:554
-msgid "TIMEVALUE returns the time-of-day part of a date and time serial value."
+msgid ""
+"TIMEVALUE returns the time-of-day part of a date and time serial value."
 msgstr "TIMEVALUE видає час дня із послідовного значення дати та часу."
 
 #: ../plugins/fn-date/functions.c:571
@@ -1346,7 +1358,8 @@ msgstr "Якщо @{method} дорівнює 16, субота матиме ном
 
 #: ../plugins/fn-date/functions.c:725
 msgid "If @{method} is 17, then Sunday is 1, Monday is 2, etc."
-msgstr "Якщо @{method} дорівнює 17, неділя матиме номер 1, понеділок — 2 тощо."
+msgstr ""
+"Якщо @{method} дорівнює 17, неділя матиме номер 1, понеділок — 2 тощо."
 
 #: ../plugins/fn-date/functions.c:782
 msgid "DAYS360:days between dates"
@@ -2358,7 +2371,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1868
-msgid "OPT_FIXED_STRK_LKBK:theoretical price of a fixed-strike lookback option"
+msgid ""
+"OPT_FIXED_STRK_LKBK:theoretical price of a fixed-strike lookback option"
 msgstr ""
 
 #: ../plugins/fn-derivatives/options.c:1878
@@ -2627,7 +2641,8 @@ msgstr ""
 
 #: ../plugins/fn-eng/functions.c:565 ../plugins/fn-eng/functions.c:587
 #: ../plugins/fn-eng/functions.c:611 ../plugins/fn-eng/functions.c:634
-msgid "This function is Excel compatible if only integer orders @{α} are used."
+msgid ""
+"This function is Excel compatible if only integer orders @{α} are used."
 msgstr ""
 
 #: ../plugins/fn-eng/functions.c:568 ../plugins/fn-eng/functions.c:590
@@ -3169,8 +3184,8 @@ msgid ""
 "If any of the arguments is negative, #VALUE! is returned.\n"
 "If any argument is zero, the result is zero."
 msgstr ""
-"Якщо будь який із аргументів є відʼємним, видається #VALUE!\n"
-"Якщо будь який із аргументів 0, видається 0."
+"Якщо будь-який із аргументів є відʼємним, буде повернуто #VALUE!\n"
+"Якщо будь-який із аргументів 0, буде повернуто 0."
 
 #: ../plugins/fn-eng/functions.c:1561
 msgid ""
@@ -4034,7 +4049,8 @@ msgid "target:three-letter target currency code"
 msgstr ""
 
 #: ../plugins/fn-financial/functions.c:2139
-msgid "full_precision:whether to provide the full precision; defaults to false"
+msgid ""
+"full_precision:whether to provide the full precision; defaults to false"
 msgstr "full_precision:чи надавати повну точність; типово є хибним (false)"
 
 #: ../plugins/fn-financial/functions.c:2140
@@ -4779,7 +4795,7 @@ msgstr "text:рядок"
 
 #: ../plugins/fn-info/functions.c:924
 msgid "If @{text} contains non-numerical text, 0 is returned."
-msgstr "Якщо @{text} містить ненумеричний текст, видається 0."
+msgstr "Якщо @{text} містить ненумеричний текст, буде повернуто 0."
 
 #: ../plugins/fn-info/functions.c:927
 msgid "=N(\"eleven\")"
@@ -4840,7 +4856,8 @@ msgid "b1:logical value"
 msgstr ""
 
 #: ../plugins/fn-logical/functions.c:45
-msgid "AND calculates the logical conjunction of its arguments @{b0},@{b1},..."
+msgid ""
+"AND calculates the logical conjunction of its arguments @{b0},@{b1},..."
 msgstr ""
 
 #: ../plugins/fn-logical/functions.c:46 ../plugins/fn-logical/functions.c:121
@@ -5137,7 +5154,8 @@ msgstr ""
 "@{value}, типово є вірним (true)"
 
 #: ../plugins/fn-lookup/functions.c:1171
-msgid "as_index:if true, the 0-based row offset is returned; defaults to FALSE"
+msgid ""
+"as_index:if true, the 0-based row offset is returned; defaults to FALSE"
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:1173
@@ -5374,15 +5392,15 @@ msgid ""
 "21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1726
+#: ../plugins/fn-lookup/functions.c:1731
 msgid "COLUMN:vector of column numbers"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1727 ../plugins/fn-lookup/functions.c:1879
+#: ../plugins/fn-lookup/functions.c:1732 ../plugins/fn-lookup/functions.c:1884
 msgid "x:reference, defaults to the position of the current expression"
 msgstr "x:відповідник, типово є позицією поточного виразу"
 
-#: ../plugins/fn-lookup/functions.c:1728
+#: ../plugins/fn-lookup/functions.c:1733
 msgid ""
 "COLUMN function returns a Nx1 array containing the sequence of integers from "
 "the first column to the last column of @{x}."
@@ -5390,37 +5408,37 @@ msgstr ""
 "Функція COLUMN видає область Nx1, що містить послідовність цілих чисел з "
 "першого по останній стовпчик @{x}."
 
-#: ../plugins/fn-lookup/functions.c:1731 ../plugins/fn-lookup/functions.c:1883
+#: ../plugins/fn-lookup/functions.c:1736 ../plugins/fn-lookup/functions.c:1888
 msgid ""
 "If @{x} is neither an array nor a reference nor a range, returns #VALUE!"
 msgstr ""
 "Якщо @{x} не є ні областю, ні відповідником, ні діапазоном, видає #VALUE!"
 
-#: ../plugins/fn-lookup/functions.c:1735
+#: ../plugins/fn-lookup/functions.c:1740
 msgid "COLUMN() in G13 equals 7."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1775
+#: ../plugins/fn-lookup/functions.c:1780
 msgid "COLUMNNUMBER:column number for the given column called @{name}"
 msgstr "COLUMNNUMBER:номер даного стовпчика із назвою @{name}"
 
-#: ../plugins/fn-lookup/functions.c:1776
+#: ../plugins/fn-lookup/functions.c:1781
 msgid "name:column name such as \"IV\""
 msgstr "name:назва стовпчику, така як \"IV\""
 
-#: ../plugins/fn-lookup/functions.c:1777
+#: ../plugins/fn-lookup/functions.c:1782
 msgid "If @{name} is invalid, COLUMNNUMBER returns #VALUE!"
 msgstr "Якщо @{name} є невірним, COLUMNNUMBER видає #VALUE!"
 
-#: ../plugins/fn-lookup/functions.c:1802
+#: ../plugins/fn-lookup/functions.c:1807
 msgid "COLUMNS:number of columns in @{reference}"
 msgstr "COLUMNS:кількість стовпчиків у @{reference}"
 
-#: ../plugins/fn-lookup/functions.c:1803
+#: ../plugins/fn-lookup/functions.c:1808
 msgid "reference:array or area"
 msgstr "reference:масив або зона"
 
-#: ../plugins/fn-lookup/functions.c:1804
+#: ../plugins/fn-lookup/functions.c:1809
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, COLUMNS "
 "returns #VALUE!"
@@ -5428,171 +5446,171 @@ msgstr ""
 "Якщо @{reference} не є ні масивом, ні відповідником, ні областю, COLUMNS "
 "видає #VALUE!"
 
-#: ../plugins/fn-lookup/functions.c:1820
+#: ../plugins/fn-lookup/functions.c:1825
 msgid "OFFSET:an offset cell range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1821
+#: ../plugins/fn-lookup/functions.c:1826
 msgid "range:reference or range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1822
+#: ../plugins/fn-lookup/functions.c:1827
 msgid "row:number of rows to offset @{range}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1823
+#: ../plugins/fn-lookup/functions.c:1828
 msgid "col:number of columns to offset @{range}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1824
+#: ../plugins/fn-lookup/functions.c:1829
 msgid "height:height of the offset range, defaults to height of @{range}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1825
+#: ../plugins/fn-lookup/functions.c:1830
 msgid "width:width of the offset range, defaults to width of @{range}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1826
+#: ../plugins/fn-lookup/functions.c:1831
 msgid ""
 "OFFSET returns the cell range starting at offset (@{row},@{col}) from "
 "@{range} of height @{height} and width @{width}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1829
+#: ../plugins/fn-lookup/functions.c:1834
 msgid "If @{range} is neither a reference nor a range, OFFSET returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1878
+#: ../plugins/fn-lookup/functions.c:1883
 msgid "ROW:vector of row numbers"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1880
+#: ../plugins/fn-lookup/functions.c:1885
 msgid ""
 "ROW function returns a 1xN array containing the sequence of integers from "
 "the first row to the last row of @{x}."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1926
+#: ../plugins/fn-lookup/functions.c:1931
 msgid "ROWS:number of rows in @{reference}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1927
+#: ../plugins/fn-lookup/functions.c:1932
 msgid "reference:array, reference, or range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1928
+#: ../plugins/fn-lookup/functions.c:1933
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, ROWS "
 "returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1944
+#: ../plugins/fn-lookup/functions.c:1949
 msgid "SHEETS:number of sheets in @{reference}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1946
+#: ../plugins/fn-lookup/functions.c:1951
 msgid "reference:array, reference, or range, defaults to the maximum range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1947
+#: ../plugins/fn-lookup/functions.c:1952
 msgid ""
 "If @{reference} is neither an array nor a reference nor a range, SHEETS "
 "returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1983
+#: ../plugins/fn-lookup/functions.c:1988
 msgid "SHEET:sheet number of @{reference}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1985
+#: ../plugins/fn-lookup/functions.c:1990
 msgid ""
 "reference:reference or literal sheet name, defaults to the current sheet"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:1986
+#: ../plugins/fn-lookup/functions.c:1991
 msgid ""
 "If @{reference} is neither a reference nor a literal sheet name, SHEET "
 "returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2032
+#: ../plugins/fn-lookup/functions.c:2037
 msgid "HYPERLINK:second or first arguments"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2033
+#: ../plugins/fn-lookup/functions.c:2038
 msgid "link_location:string"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2034
+#: ../plugins/fn-lookup/functions.c:2039
 msgid "label:string, optional"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2035
+#: ../plugins/fn-lookup/functions.c:2040
 msgid ""
 "HYPERLINK function currently returns its 2nd argument, or if that is omitted "
 "the 1st argument."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2054
+#: ../plugins/fn-lookup/functions.c:2059
 msgid "TRANSPOSE:the transpose of @{matrix}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2055 ../plugins/fn-lookup/functions.c:2092
+#: ../plugins/fn-lookup/functions.c:2060 ../plugins/fn-lookup/functions.c:2097
 msgid "matrix:range"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2091
+#: ../plugins/fn-lookup/functions.c:2096
 msgid "FLIP:@{matrix} flipped"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2093
+#: ../plugins/fn-lookup/functions.c:2098
 msgid ""
 "vertical:if true, @{matrix} is flipped vertically, otherwise horizontally; "
 "defaults to TRUE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2136
+#: ../plugins/fn-lookup/functions.c:2141
 msgid "ARRAY:vertical array of the arguments"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2137
+#: ../plugins/fn-lookup/functions.c:2142
 msgid "v:value"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2194
+#: ../plugins/fn-lookup/functions.c:2199
 msgid "SORT:sorted list of numbers as vertical array"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2195 ../plugins/fn-stat/functions.c:167
+#: ../plugins/fn-lookup/functions.c:2200 ../plugins/fn-stat/functions.c:167
 #: ../plugins/fn-stat/functions.c:215
 msgid "ref:list of numbers"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2196
+#: ../plugins/fn-lookup/functions.c:2201
 msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2197
+#: ../plugins/fn-lookup/functions.c:2202
 msgid "Strings, booleans, and empty cells are ignored."
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2198
+#: ../plugins/fn-lookup/functions.c:2203
 msgid "SORT({4,3,5}) evaluates to {5,4,3}"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2246
+#: ../plugins/fn-lookup/functions.c:2251
 msgid "UNIQUE:unique values in a range or array"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2247
+#: ../plugins/fn-lookup/functions.c:2252
 msgid "data:range or array"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2248
+#: ../plugins/fn-lookup/functions.c:2253
 msgid "by_col:by column if TRUE, by row otherwise; defaults to FALSE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2249
+#: ../plugins/fn-lookup/functions.c:2254
 msgid "exactly_once:suppress values present multiple times; defaults to FALSE"
 msgstr ""
 
@@ -6013,7 +6031,8 @@ msgid "FACT:the factorial of @{x}, i.e. @{x}!"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1013
-msgid "The domain of this function has been extended using the GAMMA function."
+msgid ""
+"The domain of this function has been extended using the GAMMA function."
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1034
@@ -6101,7 +6120,7 @@ msgid "COMBIN:binomial coefficient"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1174 ../plugins/fn-math/functions.c:1206
-#: ../plugins/fn-math/functions.c:2646
+#: ../plugins/fn-math/functions.c:2646 ../plugins/fn-numtheory/numtheory.c:883
 msgid "n:non-negative integer"
 msgstr ""
 
@@ -6697,8 +6716,8 @@ msgid ""
 "final amount by the symbol's amount."
 msgstr ""
 "Будь який римський символ лівіше від більшого символу (прямо чи ні) зменшує "
-"кінцеве значення на число символа, в іншому разі воно збільшує кінцеве "
-"значення на число символа."
+"кінцеве значення на число символу, в іншому разі воно збільшує кінцеве "
+"значення на число символу."
 
 #: ../plugins/fn-math/functions.c:2645
 msgid "ROMAN:@{n} as a roman numeral text"
@@ -6956,7 +6975,8 @@ msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
 msgstr ""
-"Якщо аргументи областей чи діапазонів не мають однакові розміри, видається "
+"Якщо аргументи областей чи діапазонів не мають однакові розміри, буде"
+" повернуто "
 "помилка #VALUE!."
 
 #: ../plugins/fn-math/functions.c:3411
@@ -7196,6 +7216,16 @@ msgstr ""
 msgid ""
 "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) "
 "positions."
+msgstr ""
+
+#: ../plugins/fn-numtheory/numtheory.c:882
+msgid "PARTITIONS:number of partitions"
+msgstr ""
+
+#: ../plugins/fn-numtheory/numtheory.c:884
+msgid ""
+"PARTITIONS calculates the number of ways of writing the integer @{n} as a "
+"sum of positive integers."
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:19
@@ -7513,7 +7543,8 @@ msgstr ""
 "розподілу."
 
 #: ../plugins/fn-r/functions.c:355
-msgid "R.PEXP:cumulative distribution function of the exponential distribution"
+msgid ""
+"R.PEXP:cumulative distribution function of the exponential distribution"
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:360
@@ -8123,7 +8154,8 @@ msgstr ""
 "Вейбулла."
 
 #: ../plugins/fn-r/functions.c:1507
-msgid "R.PWEIBULL:cumulative distribution function of the Weibull distribution"
+msgid ""
+"R.PWEIBULL:cumulative distribution function of the Weibull distribution"
 msgstr ""
 
 #: ../plugins/fn-r/functions.c:1513
@@ -8636,7 +8668,8 @@ msgstr ""
 msgid ""
 "The random variates are drawn from a skew-normal distribution with shape "
 "parameter @{𝛼}. When @{𝛼}=0, the skewness vanishes, and we obtain the "
-"standard normal density; as 𝛼 increases (in absolute value), the skewness of "
+"standard normal density; as 𝛼 increases (in absolute value), the skewness"
+" of "
 "the distribution increases; when @{𝛼} approaches infinity  the density "
 "converges to the so-called half-normal (or folded normal) density function; "
 "if the sign of @{𝛼} changes, the density is reflected on the opposite side "
@@ -8645,7 +8678,8 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:902
 msgid ""
-"The mean of a skew-normal distribution with location parameter @{𝜉}=0 is not "
+"The mean of a skew-normal distribution with location parameter @{𝜉}=0 is"
+" not "
 "0."
 msgstr ""
 
@@ -8775,7 +8809,8 @@ msgid "x:number whose rank you want to find"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:168 ../plugins/fn-stat/functions.c:216
-msgid "order:0 (descending order) or non-zero (ascending order); defaults to 0"
+msgid ""
+"order:0 (descending order) or non-zero (ascending order); defaults to 0"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:169
@@ -9346,7 +9381,8 @@ msgstr ""
 "CHIINV(@{x},@{dof}) є функцією LEGACY.CHIDIST(@{x},@{dof}) з OpenFormula."
 
 #: ../plugins/fn-stat/functions.c:1171
-msgid "CHIINV:inverse of the survival function of the chi-squared distribution"
+msgid ""
+"CHIINV:inverse of the survival function of the chi-squared distribution"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:1175 ../plugins/fn-stat/functions.c:1451
