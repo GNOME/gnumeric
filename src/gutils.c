@@ -1009,7 +1009,8 @@ gnm_file_saver_get_sheet (GOFileSaver const *fs, WorkbookView const *wbv)
  *
  * This function determines what sheets to save.
  *
- * Returns: (transfer container) (element-type Sheet): the sheets to export
+ * Returns: (transfer container) (element-type Sheet) (nullable): the
+ * sheets to export
  *
  * Note: the return value should be unreffed, not freed.
  */
@@ -1179,7 +1180,7 @@ gnm_cpp (const char *src, GHashTable *vars)
 			} else if (g_str_has_prefix (src, "#if ")) {
 				gboolean res = gnm_cpp_expr (src + 4, vars) > 0;
 				g_string_append_c (ifdefs, ifdefs->str[ifdefs->len - 1] && res);
-			} else if (g_str_has_prefix (src, "#else")) {
+			} else if (g_str_has_prefix (src, "#else") && ifdefs->len >= 2) {
 				ifdefs->str[ifdefs->len - 1] =
 					!ifdefs->str[ifdefs->len - 1] &&
 					ifdefs->str[ifdefs->len - 2];
