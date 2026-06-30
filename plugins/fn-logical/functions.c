@@ -271,6 +271,9 @@ gnumeric_ifs (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 {
 	int a;
 
+	if (argc % 2 != 0)
+		return value_new_error_VALUE (ei->pos);
+
 	for (a = 0; a + 1 <= argc; a += 2) {
 		GnmValue *v;
 		gboolean c;
