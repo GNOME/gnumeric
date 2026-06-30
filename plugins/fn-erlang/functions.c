@@ -66,6 +66,8 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 {
 	gnm_float gos;
 
+	circuits = gnm_floor (circuits);
+
 	/* extra guards won't hurt, right? */
 	if (circuits < 1 || traffic < 0)
 		return -1;
@@ -80,7 +82,7 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 		if (comp) gos = 1 - gos;
 	} else if (circuits / traffic < GNM_const(0.9)) {
 		gnm_float sum = 0, term = 1, n = circuits;
-		while (n > 1) {
+		while (n > 0) {
 			term *= n / traffic;
 			if (term < GNM_EPSILON * sum)
 				break;
@@ -143,7 +145,7 @@ gnumeric_offtraf_f (gnm_float off_traffic, gnm_float *y, void *user_data)
 {
 	gnumeric_offtraf_t *pudata = user_data;
 	gnm_float comp_gos = calculate_gos (off_traffic, pudata->circuits, TRUE);
-	if (comp_gos < 0)
+	if (!(comp_gos >= 0))
 		return GOAL_SEEK_ERROR;
 	*y = guess_carried_traffic (off_traffic, comp_gos) - pudata->traffic;
 	return GOAL_SEEK_OK;
@@ -160,7 +162,7 @@ gnumeric_offtraf (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnumeric_offtraf_t udata;
 
 	/* Physical limit: Carried traffic cannot exceed or equal circuit count */
-	if (circuits < 1 || traffic < 0 || traffic >= circuits)
+	if (!(circuits >= 1) || !(traffic >= 0) || !(traffic < circuits))
 		return value_new_error_VALUE (ei->pos);
 
 	goal_seek_initialize (&data);
@@ -202,12 +204,14 @@ gnumeric_dimcirc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float des_gos  = value_get_as_float (argv[1]);
 	gnm_float low, high;
 
-	if (des_gos > 1 || des_gos <= 0)
+	if (!(des_gos > 0 && des_gos <= 1) || !(traffic >= 0))
 		return value_new_error_VALUE (ei->pos);
 
 	low = high = 1;
 	while (calculate_gos (traffic, high, FALSE) > des_gos) {
 		low = high;
+		if (high >= GNM_MAX / 2)
+			return value_new_error_NUM (ei->pos);
 		high += high;
 	}
 
@@ -242,7 +246,7 @@ gnumeric_offcap_f (gnm_float traffic, gnm_float *y, void *user_data)
 {
 	gnumeric_offcap_t *pudata = user_data;
 	gnm_float gos = calculate_gos (traffic, pudata->circuits, FALSE);
-	if (gos < 0)
+	if (!(gos >= 0))
 		return GOAL_SEEK_ERROR;
 	*y = gos - pudata->des_gos;
 	return GOAL_SEEK_OK;
@@ -258,7 +262,7 @@ gnumeric_offcap (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmGoalSeekStatus status;
 	gnumeric_offcap_t udata;
 
-	if (des_gos >= 1 || des_gos <= 0)
+	if (!(des_gos > 0 && des_gos < 1) || !(circuits >= 1))
 		return value_new_error_VALUE (ei->pos);
 
 	goal_seek_initialize (&data);
