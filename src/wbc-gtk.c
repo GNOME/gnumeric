@@ -3926,7 +3926,7 @@ cb_post_activate (G_GNUC_UNUSED GtkUIManager *manager, GtkAction *action, WBCGtk
 		wbcg_focus_cur_scg (wbcg);
 }
 
-static void
+static gboolean
 cb_wbcg_window_state_event (GtkWidget           *widget,
 			    GdkEventWindowState *event,
 			    WBCGtk  *wbcg)
@@ -3935,7 +3935,7 @@ cb_wbcg_window_state_event (GtkWidget           *widget,
 	if (!(event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN) ||
 	    new_val == wbcg->is_fullscreen ||
 	    wbcg->updating_ui)
-		return;
+		return FALSE;
 
 	wbc_gtk_set_toggle_action_state (wbcg, "ViewFullScreen", new_val);
 
@@ -3958,11 +3958,12 @@ cb_wbcg_window_state_event (GtkWidget           *widget,
 	} else {
 		if (wbcg->undo_for_fullscreen) {
 			go_undo_undo (wbcg->undo_for_fullscreen);
-			g_object_unref (wbcg->undo_for_fullscreen);
-			wbcg->undo_for_fullscreen = NULL;
+			g_clear_object (&wbcg->undo_for_fullscreen);
 		}
 		wbcg->is_fullscreen = FALSE;
 	}
+
+	return FALSE;
 }
 
 /****************************************************************************/
