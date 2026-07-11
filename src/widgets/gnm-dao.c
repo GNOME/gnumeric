@@ -139,13 +139,14 @@ gnm_dao_class_init (GObjectClass *klass)
 GSF_CLASS (GnmDao, gnm_dao,
 	   gnm_dao_class_init, gnm_dao_init, GTK_TYPE_BOX)
 
-static void
+static gboolean
 tool_set_focus_output_range (G_GNUC_UNUSED GtkWidget *widget,
 			     G_GNUC_UNUSED GdkEventFocus *event,
 			     GnmDao *gdao)
 {
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON (gdao->output_range), TRUE);
+	return FALSE;
 }
 
 static void
