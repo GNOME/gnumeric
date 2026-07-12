@@ -3644,7 +3644,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 					  "least two columns and two rows of data and the "
 					  "labels.") :
 					_("The given input range should contain at "
-					  "least two columns and two rows of "));
+					  "least two columns and two rows of data."));
 			break;
 		case analysis_tools_too_few_cols:
 			error_in_entry ((GnmGenericToolState *) state,
@@ -3653,7 +3653,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 					  "least two columns of data and the "
 					  "labels.") :
 					_("The given input range should contain at "
-					  "least two columns of "));
+					  "least two columns of data."));
 			break;
 		case analysis_tools_too_few_rows:
 			error_in_entry ((GnmGenericToolState *) state,
@@ -3663,7 +3663,7 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 					  "labels.") :
 					_("The given input range should "
 					  "contain at least two rows of "
-					  ""));
+					  "data."));
 			break;
 		case analysis_tools_replication_invalid:
 			error_in_entry ((GnmGenericToolState *) state,
