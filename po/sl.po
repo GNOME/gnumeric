@@ -10,18 +10,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-06-06 11:37+0000\n"
-"PO-Revision-Date: 2026-06-06 16:22+0200\n"
+"POT-Creation-Date: 2026-07-12 22:11+0000\n"
+"PO-Revision-Date: 2026-07-13 12:02+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || "
+"n%100==4 ? 3 : 0);\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 3.8\n"
 
 #: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:554
@@ -1506,11 +1506,11 @@ msgstr "Zaznan je nedoločen slog določanja veljavnosti: %s"
 #: ../plugins/openoffice/openoffice-read.c:3007
 #, c-format
 msgid ""
-"Unsupported validation condition encountered: \"%s\" with base address: \"%s"
-"\""
+"Unsupported validation condition encountered: \"%s\" with base address: "
+"\"%s\""
 msgstr ""
-"Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: \"%s"
-"\""
+"Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: "
+"\"%s\""
 
 #: ../plugins/openoffice/openoffice-read.c:3672
 #, c-format
@@ -1949,8 +1949,8 @@ msgstr ""
 msgid ""
 "Field specification must be a comma separated value (Name,Type,Size,Prec)."
 msgstr ""
-"Določilo polja morajo biti vrednosti ločene z vejicami (ime,vrsta,velikost,"
-"natančnost)"
+"Določilo polja morajo biti vrednosti ločene z vejicami "
+"(ime,vrsta,velikost,natančnost)"
 
 #: ../plugins/paradox/paradox.c:354
 msgid "Allocate memory for column name."
@@ -5366,9 +5366,9 @@ msgstr ""
 #: ../src/dialogs/dialog-analysis-tools.c:3646
 msgid ""
 "The given input range should contain at least two columns and two rows of "
+"data."
 msgstr ""
-"Podana podatkovna vrsta mora vsebovati vsaj dva stolpca in dve vrstici "
-"podatkov: "
+"Podani vhodni obseg mora vsebovati vsaj dva stolpca in dve vrstici podatkov."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3652
 msgid ""
@@ -5378,8 +5378,8 @@ msgstr ""
 "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca podatkov in oznake."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3655
-msgid "The given input range should contain at least two columns of "
-msgstr "Podana podatkovna vrsta mora vsebovati vsaj dva stolpca podatkov:"
+msgid "The given input range should contain at least two columns of data."
+msgstr "Podani vhodni obseg mora vsebovati vsaj dva stolpca podatkov."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3661
 msgid ""
@@ -5389,8 +5389,8 @@ msgstr ""
 "Podana podatkovna vrsta mora vsebovati vsaj dve vrstici podatkov in oznake."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3664
-msgid "The given input range should contain at least two rows of "
-msgstr "Podana podatkovna vrsta mora vsebovati vsaj dve vrstici podatkov:"
+msgid "The given input range should contain at least two rows of data."
+msgstr "Podani vhodni obseg mora vsebovati vsaj dve vrstici podatkov."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3671
 msgid "The number of data rows must be a multiple of the replication number."
@@ -7532,16 +7532,16 @@ msgid "Run on"
 msgstr "Zaženi na"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:244
-#: ../src/wbc-gtk.c:4143
+#: ../src/wbc-gtk.c:4144
 msgid "Min"
 msgstr "Najmanj"
 
-#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4145
+#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4146
 msgid "Average"
 msgstr "Povprečje"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4144
+#: ../src/wbc-gtk.c:4145
 msgid "Max"
 msgstr "Največ"
 
@@ -12600,12 +12600,12 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_V redu"
 
-#: ../src/gutils.c:1094
+#: ../src/gutils.c:1095
 #, c-format
 msgid "Unknown sheet \"%s\""
 msgstr "Neznan delovni list »%s«"
 
-#: ../src/gutils.c:1114
+#: ../src/gutils.c:1115
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "Neveljavna možnost izvoza »%s« za zapis %s"
@@ -15345,7 +15345,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Obseg"
 
-#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4146
+#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4147
 msgid "Count"
 msgstr "Števec"
 
@@ -17176,7 +17176,7 @@ msgstr "_Uredi vrtilno razpredelnico ..."
 msgid "Adjust a data slicer"
 msgstr "Prilagodi vrtilno razpredelnico"
 
-#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4142
+#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4143
 #: ../src/workbook-view.c:927
 msgid "Sum"
 msgstr "Vsota"
@@ -17981,24 +17981,24 @@ msgstr "Orodna vrstica predmetov"
 msgid "Show/Hide toolbar %s"
 msgstr "Pokaži ali skrij orodno vrstico %s"
 
-#: ../src/wbc-gtk.c:4203
+#: ../src/wbc-gtk.c:4204
 #, c-format
 msgid "Content of %s"
 msgstr "Vsebina %s"
 
-#: ../src/wbc-gtk.c:4218
+#: ../src/wbc-gtk.c:4219
 msgid "Use Maximum Precision"
 msgstr "Uporabi največjo natančnost"
 
-#: ../src/wbc-gtk.c:4230
+#: ../src/wbc-gtk.c:4231
 msgid "Insert Formula Below"
 msgstr "Vstavi formulo spodaj"
 
-#: ../src/wbc-gtk.c:4236
+#: ../src/wbc-gtk.c:4237
 msgid "Insert Formula to Side"
 msgstr "Vstavi formulo na stransko celico"
 
-#: ../src/wbc-gtk.c:4322
+#: ../src/wbc-gtk.c:4323
 #, c-format
 msgid "Open %s"
 msgstr "Odpri %s"
