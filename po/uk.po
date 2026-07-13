@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-05-31 15:31+0000\n"
-"PO-Revision-Date: 2026-05-31 19:54+0300\n"
+"POT-Creation-Date: 2026-07-13 10:04+0000\n"
+"PO-Revision-Date: 2026-07-13 15:17+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -483,8 +483,7 @@ msgstr "Виявлено одразу атрибути «refreshedDate» і «re
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because: %s"
-msgstr ""
-"Пропускаємо некоректну групу полів зведення для поля «%s». Причина: %s"
+msgstr "Пропускаємо некоректну групу полів зведення для поля «%s». Причина: %s"
 
 #: ../plugins/excel/xlsx-read.c:382
 #, c-format
@@ -1695,8 +1694,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:8529
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
-"Некоректний атрибут «форма:значення», очікувалося число, отримано «%s»"
+msgstr "Некоректний атрибут «форма:значення», очікувалося число, отримано «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:8495
 #, c-format
@@ -2124,8 +2122,7 @@ msgstr "Функції Python"
 
 #: ../plugins/py-func/plugin.xml.in.h:2
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
-"Зразок додатка Python, у якому реалізовано деякі (непотрібні) функції."
+msgstr "Зразок додатка Python, у якому реалізовано деякі (непотрібні) функції."
 
 #: ../plugins/py-func/plugin.xml.in.h:3
 msgid "Python"
@@ -2837,8 +2834,7 @@ msgid "Preferred Display Unit"
 msgstr "Бажана одиниця показу"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:75
-msgid ""
-"This string gives the default unit to be used in the page setup dialog."
+msgid "This string gives the default unit to be used in the page setup dialog."
 msgstr ""
 "Цей рядок визначає типову одиницю виміру, яку буде використано у діалоговому "
 "вікні налаштовування сторінки."
@@ -3386,9 +3382,6 @@ msgid "Function Markers"
 msgstr "Позначки функцій"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:44
-#| msgid ""
-#| "This variable determines whether cells containing spreadsheet function "
-#| "are marked."
 msgid ""
 "This variable determines whether cells containing spreadsheet functions are "
 "marked."
@@ -3484,10 +3477,6 @@ msgid "Transition Keys"
 msgstr "Клавіші переходу"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
-#| msgid ""
-#| "This variable determines whether transition keys are set on. Transition "
-#| "keys are a throw back to 1-2-3 style event handling. They turn Ctrl-arrow "
-#| "into page movement rather than jumping to the start/end of series."
 msgid ""
 "This variable determines whether transition keys are set on. Transition keys "
 "are a throwback to 1-2-3 style event handling. They turn Ctrl-arrow into "
@@ -4879,7 +4868,6 @@ msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:162
-#| msgid "All round powerhouse"
 msgid "All-round powerhouse"
 msgstr "Рушійна сила проєкту"
 
@@ -5374,7 +5362,6 @@ msgid "The cutoff range is not valid."
 msgstr "Діапазон обрізання є некоректним."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3230
-#| msgid "The number of to be calculated cutoffs is invalid."
 msgid "The number of cutoffs to be calculated is invalid."
 msgstr "Кількість обрізань, які слід обчислити, є некоректною."
 
@@ -5395,21 +5382,25 @@ msgstr ""
 "даних і мітки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3646
+#| msgid ""
+#| "The given input range should contain at least two columns and two rows of "
 msgid ""
 "The given input range should contain at least two columns and two rows of "
+"data."
 msgstr ""
-"Вказаний вхідний діапазон має містити принаймні два стовпчики і два рядки "
+"Вказаний вхідний діапазон має містити принаймні два стовпчики і два рядки"
+" даних."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3652
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr ""
-"Вказаний вхідний діапазон має містити принаймні два стовпчики і мітки."
+msgstr "Вказаний вхідний діапазон має містити принаймні два стовпчики і мітки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3655
-msgid "The given input range should contain at least two columns of "
-msgstr "Вказаний вхідний діапазон має містити принаймні два стовпчики "
+#| msgid "The given input range should contain at least two columns of "
+msgid "The given input range should contain at least two columns of data."
+msgstr "Вказаний вхідний діапазон має містити принаймні два стовпчики даних."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3661
 msgid ""
@@ -5419,8 +5410,9 @@ msgstr ""
 "Вказаний вхідний діапазон має містити принаймні два рядки даних і мітки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3664
-msgid "The given input range should contain at least two rows of "
-msgstr "Вказаний вхідний діапазон має містити принаймні два рядки "
+#| msgid "The given input range should contain at least two rows of "
+msgid "The given input range should contain at least two rows of data."
+msgstr "Вказаний вхідний діапазон має містити принаймні два рядки даних."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3671
 msgid "The number of data rows must be a multiple of the replication number."
@@ -7575,16 +7567,16 @@ msgid "Run on"
 msgstr "Працює на"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:244
-#: ../src/wbc-gtk.c:4143
+#: ../src/wbc-gtk.c:4144
 msgid "Min"
 msgstr "Мінімум"
 
-#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4145
+#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4146
 msgid "Average"
 msgstr "Середнє"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4144
+#: ../src/wbc-gtk.c:4145
 msgid "Max"
 msgstr "Максимум"
 
@@ -7791,8 +7783,7 @@ msgstr "Автомасштаб"
 
 #: ../src/dialogs/dialog-stf-format-page.c:619
 #, c-format
-msgid ""
-"If this checkbox is selected, column %i will be imported into Gnumeric."
+msgid "If this checkbox is selected, column %i will be imported into Gnumeric."
 msgstr "Якщо позначено цей пункт, стовпчик %i буде імпортовано до Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:627
@@ -8087,7 +8078,6 @@ msgstr "_Альфа:"
 
 #: ../src/dialogs/autofilter-expression.ui.h:1
 #: ../src/dialogs/autofilter-top10.ui.h:1
-#| msgid "Gnumeric : AutoFilter"
 msgid "Gnumeric: AutoFilter"
 msgstr "Gnumeric: Автофільтрування"
 
@@ -8962,7 +8952,6 @@ msgid "_Enter into cells:"
 msgstr "_Ввести до комірок:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
-#| msgid "DataSlicer Guru : Gnumeric"
 msgid "DataSlicer Guru: Gnumeric"
 msgstr "Ґуру DataSlicer: Gnumeric"
 
@@ -10563,8 +10552,7 @@ msgstr "Ширина стовпчиків"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
-msgstr ""
-"Зробити ширини стовпчиків призначення такими самими, як ширини джерела"
+msgstr "Зробити ширини стовпчиків призначення такими самими, як ширини джерела"
 
 #: ../src/dialogs/paste-special.ui.h:32
 msgid "Row heights"
@@ -12677,12 +12665,12 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_Гаразд"
 
-#: ../src/gutils.c:1094
+#: ../src/gutils.c:1095
 #, c-format
 msgid "Unknown sheet \"%s\""
 msgstr "Невідомий аркуш «%s»"
 
-#: ../src/gutils.c:1114
+#: ../src/gutils.c:1115
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "Некоректний параметр експортування «%s» для формату %s"
@@ -13529,8 +13517,7 @@ msgid "New graph sheet"
 msgstr "Новий графічний аркуш"
 
 #: ../src/sheet-object-widget.c:278
-msgid ""
-"Because of GTK bug #705640, a sheet object widget is not being printed."
+msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
 msgstr "Через ваду GTK 705640, віджет об'єкта аркуша не буде надруковано."
 
 #: ../src/sheet-object-widget.c:460 ../src/wbc-gtk-actions.c:3326
@@ -13694,8 +13681,7 @@ msgstr "Список доступних засобів імпортування"
 
 #: ../src/ssconvert.c:139
 msgid "Merge listed files (all same format) to make this file"
-msgstr ""
-"Об'єднати файли зі списку (у одному форматі) для створення цього файла"
+msgstr "Об'єднати файли зі списку (у одному форматі) для створення цього файла"
 
 #: ../src/ssconvert.c:146
 msgid "Optionally specify which exporter to use"
@@ -13827,8 +13813,7 @@ msgstr "Розв'язувач: %s\n"
 #: ../src/ssconvert.c:1103
 #, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
-msgstr ""
-"Некоректний параметр експортування «%s=%s» для експортування зображень"
+msgstr "Некоректний параметр експортування «%s=%s» для експортування зображень"
 
 #: ../src/ssconvert.c:1279
 #, c-format
@@ -14224,8 +14209,7 @@ msgstr[3] "У файлі міститься один символ NUL. Його 
 #: ../src/stf.c:373
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
-msgstr ""
-"У файлі містяться некоректно кодовані символи UTF-8 — їх було обрізано"
+msgstr "У файлі містяться некоректно кодовані символи UTF-8 — їх було обрізано"
 
 #: ../src/stf.c:417
 msgid "That file is not in the given encoding."
@@ -14372,8 +14356,7 @@ msgstr "Перевірка однорідності"
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
 #: ../src/tools/analysis-chi-squared.c:183
-msgid ""
-"[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
+msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
 msgstr ""
 "[>=5]\"Перевірка незалежності\";[<5][Red]\"Некоректна перевірка "
 "незалежності\""
@@ -15435,7 +15418,7 @@ msgstr "Ексцес"
 msgid "Range"
 msgstr "Діапазон"
 
-#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4146
+#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4147
 msgid "Count"
 msgstr "Кількість"
 
@@ -17272,7 +17255,7 @@ msgstr "_Редагувати розділювач даних…"
 msgid "Adjust a data slicer"
 msgstr "Скоригувати розділювач даних"
 
-#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4142
+#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4143
 #: ../src/workbook-view.c:927
 msgid "Sum"
 msgstr "Сума"
@@ -18080,24 +18063,24 @@ msgstr "Панель інструментів об'єктів"
 msgid "Show/Hide toolbar %s"
 msgstr "Показати/Приховати панель інструментів %s"
 
-#: ../src/wbc-gtk.c:4203
+#: ../src/wbc-gtk.c:4204
 #, c-format
 msgid "Content of %s"
 msgstr "Вміст %s"
 
-#: ../src/wbc-gtk.c:4218
+#: ../src/wbc-gtk.c:4219
 msgid "Use Maximum Precision"
 msgstr "Максимальна точність"
 
-#: ../src/wbc-gtk.c:4230
+#: ../src/wbc-gtk.c:4231
 msgid "Insert Formula Below"
 msgstr "Вставити формулу нижче"
 
-#: ../src/wbc-gtk.c:4236
+#: ../src/wbc-gtk.c:4237
 msgid "Insert Formula to Side"
 msgstr "Вставити формулу збоку"
 
-#: ../src/wbc-gtk.c:4322
+#: ../src/wbc-gtk.c:4323
 #, c-format
 msgid "Open %s"
 msgstr "Відкрити %s"
