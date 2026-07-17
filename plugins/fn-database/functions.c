@@ -132,7 +132,6 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 				GnmCriteria *cond = condition->data;
 				GnmCell *tmp = sheet_cell_get (sheet,
 					cond->column, row);
-				if (tmp != NULL)
 				if (!cond->fun (tmp ? gnm_cell_eval (tmp) : empty, cond)) {
 					add_flag = FALSE;
 					break;
@@ -299,7 +298,6 @@ database_float_range_function (GnmFuncEvalInfo *ei,
 
 	vals = database_find_values_float (sheet, database, fieldno, criterias,
 					   flags, &count, &res);
-
 	if (!vals) {
 		goto out;
 	}
