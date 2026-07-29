@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-04-15 01:16+0000\n"
-"PO-Revision-Date: 2026-04-16 22:59+0500\n"
+"POT-Creation-Date: 2026-07-18 01:22+0000\n"
+"PO-Revision-Date: 2026-07-29 11:48+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Generator: Poedit 3.9\n"
 
 #: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
-#: ../src/func-builtin.c:550
+#: ../src/func-builtin.c:554
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
@@ -214,9 +214,9 @@ msgstr "ss:data элементінің мазмұны жарамсыз, '%s' а�
 msgid "XML document not well formed!"
 msgstr "XML құжаты дұрыс құрылмаған!"
 
-#: ../plugins/excel/ms-excel-read.c:1410 ../src/value.c:66
+#: ../plugins/excel/ms-excel-read.c:1410 ../src/value.c:70
 msgid "#UNKNOWN!"
-msgstr "#БЕЛГІСІЗ!"
+msgstr "#UNKNOWN!"
 
 #: ../plugins/excel/ms-excel-read.c:1510 ../plugins/excel/ms-excel-read.c:1521
 #: ../plugins/oleo/oleo.c:228 ../plugins/psiconv/psiconv-read.c:534
@@ -435,11 +435,11 @@ msgstr "%2$s түйіні үшін жарамсыз '%1$s' саны"
 msgid "Unknown color '%s'"
 msgstr "Белгісіз '%s' түсі"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3264
+#: ../plugins/excel/xlsx-read-drawing.c:3263
 msgid "Dropping missing object"
 msgstr "Жетіспейтін объектіні тастау"
 
-#: ../plugins/excel/xlsx-read-drawing.c:3267
+#: ../plugins/excel/xlsx-read-drawing.c:3266
 #, c-format
 msgid "Dropping object with incomplete anchor %2x"
 msgstr "Зәкірі толық емес %2x объектісін тастау"
@@ -637,96 +637,6 @@ msgstr "Жұмыс кітабын оқу..."
 #: ../plugins/excel/xlsx-read.c:5365
 msgid "No workbook stream found."
 msgstr "Жұмыс кітабының ағыны табылмады."
-
-#. We don't attempt to flatten a 3D range to an array.
-#: ../plugins/excelplugins/excelplugins.c:302
-msgid "Cannot convert 3D cell range to XLOPER."
-msgstr "3D ұяшық ауқымын XLOPER-ге түрлендіру мүмкін емес."
-
-#: ../plugins/excelplugins/excelplugins.c:343
-#, c-format
-msgid "Unsupported GnmValue type (%d)"
-msgstr "Қолдау көрсетілмейтін GnmValue түрі (%d)"
-
-#: ../plugins/excelplugins/excelplugins.c:610 ../src/widgets/gnm-expr-entry.c:887
-#, c-format
-msgid "%s: %s"
-msgstr "%s: %s"
-
-#: ../plugins/excelplugins/excelplugins.c:635
-#, c-format
-msgid ""
-"Overriding function %s from XLL/DLL/SO file %s with function of the same name from "
-"XLL/DLL/SO file %s."
-msgstr ""
-"%2$s XLL/DLL/SO файлындағы %1$s функциясын %3$s XLL/DLL/SO файлындағы дәл сондай "
-"атаулы функциямен қайта анықтау."
-
-#: ../plugins/excelplugins/excelplugins.c:645
-#, c-format
-msgid "Failed to find function \"%s\" in XLL/DLL/SO %s .\n"
-msgstr "%2$s XLL/DLL/SO ішінен \"%1$s\" функциясы табылмады.\n"
-
-#: ../plugins/excelplugins/excelplugins.c:695
-#, c-format
-msgid ""
-"Excel plugin loader / xlfRegister: at least three XLOPER arguments must be provided "
-"(DLL name[ignored],exported name[mandatory],types string[mandatory]). You supplied "
-"%d in some function loaded from XLL/DLL/SO file %s."
-msgstr ""
-"Excel плагин жүктегіші / xlfRegister: кемінде үш XLOPER аргументі берілуі керек "
-"(DLL атауы [ескерілмейді], экспортталған атау [міндетті], түрлер жолы [міндетті]). "
-"Сіз %2$s XLL/DLL/SO файлынан жүктелген кейбір функцияда %1$d аргументін бердіңіз."
-
-#: ../plugins/excelplugins/excelplugins.c:702
-msgid ""
-"Excel plugin loader / xlfRegister: the second and third arguments must be strings "
-"(DLL name[ignored],exported name[mandatory],types string[mandatory])."
-msgstr ""
-"Excel плагин жүктегіші / xlfRegister: екінші және үшінші аргументтер жолдар болуы "
-"керек (DLL атауы [ескерілмейді], экспортталған атау [міндетті], түрлер жолы "
-"[міндетті])."
-
-#: ../plugins/excelplugins/excelplugins.c:931
-msgid "Dynamic module loading is not supported on this system."
-msgstr "Бұл жүйеде модульдерді динамикалық жүктеуге қолдау көрсетілмейді."
-
-#: ../plugins/excelplugins/excelplugins.c:943
-#, c-format
-msgid "Unable to open module file \"%s\"."
-msgstr "\"%s\" модуль файлын ашу мүмкін емес."
-
-#: ../plugins/excelplugins/excelplugins.c:948
-#, c-format
-msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
-msgstr "\"%s\" модулінде (\"register_actual_excel4v\" символы) жоқ."
-
-#: ../plugins/excelplugins/excelplugins.c:998
-#, c-format
-msgid "No loadable worksheet functions found in XLL/DLL/SO file %s."
-msgstr "%s XLL/DLL/SO файлында жүктелетін жұмыс парағының функциялары табылмады."
-
-#. xgettext : %lu gives the number of functions. This is input to ngettext.
-#: ../plugins/excelplugins/excelplugins.c:1002
-#, c-format
-msgid "Loaded %lu function from XLL/DLL/SO %s."
-msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
-msgstr[0] "%2$s XLL/DLL/SO файлынан %1$lu функция жүктелді."
-
-#. *************************************************************************
-#: ../plugins/excelplugins/plugin.xml.in.h:1
-msgid "Excel plugins"
-msgstr "Excel плагиндері"
-
-#: ../plugins/excelplugins/plugin.xml.in.h:2
-msgid ""
-"Adapter interface to load Excel plugins (also known as XLLs). Only operational for "
-"worksheet functions that expect only arguments of LPXLOPER type (type 'P' or 'R') "
-"and return an LPXLOPER (type 'P' or 'R')."
-msgstr ""
-"Excel плагиндерін (XLL деп те аталады) жүктеуге арналған адаптер интерфейсі. Тек "
-"LPXLOPER түріндегі (P немесе R түрі) аргументтерді күтетін және LPXLOPER (P немесе "
-"R түрі) қайтаратын жұмыс парағының функциялары үшін ғана жұмыс істейді."
 
 #: ../plugins/fn-christian-date/plugin.xml.in.h:1
 msgid "Christian Date Functions"
@@ -936,7 +846,7 @@ msgstr "Белгісіз жүйе"
 msgid "Unknown info_type"
 msgstr "Белгісіз info_type"
 
-#: ../plugins/fn-info/functions.c:885
+#: ../plugins/fn-info/functions.c:890
 msgid "Invalid number of arguments"
 msgstr "Аргументтер саны жарамсыз"
 
@@ -948,13 +858,9 @@ msgstr "Ақпараттық функциялар"
 msgid "Functions for inspecting values, cells, and more"
 msgstr "Мәндерді, ұяшықтарды және т.б. тексеруге арналған функциялар"
 
-#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1202
+#: ../plugins/fn-info/plugin.xml.in.h:3 ../src/gui-util.c:1203
 msgid "Information"
 msgstr "Ақпарат"
-
-#: ../plugins/fn-logical/functions.c:113
-msgid "Type Mismatch"
-msgstr "Түр сәйкес келмеуі"
 
 #: ../plugins/fn-logical/plugin.xml.in.h:1
 msgid "Logic Functions"
@@ -964,7 +870,7 @@ msgstr "Логикалық функциялар"
 msgid "Functions for manipulating truth values"
 msgstr "Логикалық мәндерді басқаруға арналған функциялар"
 
-#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:560
+#: ../plugins/fn-logical/plugin.xml.in.h:3 ../src/func-builtin.c:564
 msgid "Logic"
 msgstr "Логика"
 
@@ -988,7 +894,7 @@ msgstr "Математикалық функциялар"
 msgid "Mathematical Functions"
 msgstr "Математикалық функциялар"
 
-#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:545
+#: ../plugins/fn-math/plugin.xml.in.h:3 ../src/func-builtin.c:549
 msgid "Mathematics"
 msgstr "Математика"
 
@@ -1049,7 +955,7 @@ msgid "Functions for manipulating strings"
 msgstr "Жолдарды басқаруға арналған функциялар"
 
 #: ../plugins/fn-string/plugin.xml.in.h:3 ../src/dialogs/dialog-doc-metadata.c:1816
-#: ../src/dialogs/dialog-search.c:386 ../src/func.c:1227
+#: ../src/dialogs/dialog-search.c:386 ../src/func.c:1226
 msgid "String"
 msgstr "Жол"
 
@@ -3159,13 +3065,13 @@ msgstr "Болдырмаудың максималды өлшемі"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:6
 msgid ""
 "This value determines the length of the undo chain. Each editing action has a size "
-"associate with it, to compare it with the memory requirements of a simple one-cell "
+"associated with it, to compare it with the memory requirements of a simple one-cell "
 "edit (size of 1). The undo list will be truncated when its total size exceeds this "
 "configurable value."
 msgstr ""
-"Бұл мән болдырмау тізбегінің ұзындығын анықтайды. Әрбір түзету әрекетінің бір "
-"ұяшықты қарапайым түзетудің жады талаптарымен (өлшемі 1) салыстыруға арналған "
-"өлшемі болады. Болдырмау тізімі оның жалпы өлшемі осы теңшелетін мәннен асқанда "
+"Бұл мән болдырмау тізбегінің ұзындығын анықтайды. Әрбір өңдеу әрекетінің өлшемі оны "
+"бір ұяшықты түзетудің қарапайым жады талаптарымен (өлшемі 1) салыстыру үшін "
+"көрсетілген. Болдырмау тізімі оның жалпы саны осы бапталатын мәннен асып кеткенде "
 "қысқартылады."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:7
@@ -3354,10 +3260,10 @@ msgstr "Функция маркерлері"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:44
 msgid ""
-"This variable determines whether cells containing spreadsheet function are marked."
+"This variable determines whether cells containing spreadsheet functions are marked."
 msgstr ""
-"Бұл айнымалы кестелік процессор функциясы бар ұяшықтардың белгілену-белгіленбеуін "
-"анықтайды."
+"Бұл айнымалы құрамында электрондық кесте функциялары бар ұяшықтардың белгіленген-"
+"белгіленбегенін анықтайды."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:45
 msgid "Extension Markers"
@@ -3444,12 +3350,12 @@ msgstr "Өту пернелері"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:60
 msgid ""
 "This variable determines whether transition keys are set on. Transition keys are a "
-"throw back to 1-2-3 style event handling. They turn Ctrl-arrow into page movement "
+"throwback to 1-2-3 style event handling. They turn Ctrl-arrow into page movement "
 "rather than jumping to the start/end of series."
 msgstr ""
-"Бұл айнымалы өту пернелерінің қосылу-қосылмауын анықтайды. Өту пернелері 1-2-3 "
-"стиліндегі оқиғаларды өңдеуге қайта оралу болып табылады. Олар Ctrl-көрсеткіні "
-"қатардың басына/соңына секірудің орнына бет қозғалысына айналдырады."
+"Бұл айнымалы ауысу пернелерінің іске қосылғанын анықтайды. Ауысу пернелері 1-2-3 "
+"стиліндегі оқиғаларды өңдеуге қайту болып табылады. Олар Ctrl-бағдарша тіркесімін "
+"қатарлардың басына/соңына секіру орнына бет қозғалысына айналдырады."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
 #: ../src/dialogs/dialog-preferences.c:849
@@ -3771,8 +3677,8 @@ msgstr "%s стилін түзету"
 msgid "Typing \"%s\" in %s"
 msgstr "%s ішінде «%s» теру"
 
-#: ../src/commands.c:1165 ../src/wbc-gtk-edit.c:161 ../src/wbc-gtk-edit.c:171
-#: ../src/wbc-gtk-edit.c:187 ../src/wbc-gtk-edit.c:208 ../src/wbc-gtk-edit.c:222
+#: ../src/commands.c:1165 ../src/wbc-gtk-edit.c:164 ../src/wbc-gtk-edit.c:174
+#: ../src/wbc-gtk-edit.c:190 ../src/wbc-gtk-edit.c:211 ../src/wbc-gtk-edit.c:225
 msgid "Set Text"
 msgstr "Мәтінді орнату"
 
@@ -4324,7 +4230,7 @@ msgstr "Радиобатырманы баптау"
 msgid "Configure Checkbox"
 msgstr "Жалаушаны баптау"
 
-#: ../src/commands.c:8057 ../src/sheet-object-widget.c:1834
+#: ../src/commands.c:8057 ../src/sheet-object-widget.c:1920
 msgid "Configure Adjustment"
 msgstr "Реттеуді баптау"
 
@@ -4777,8 +4683,8 @@ msgid "Morten Welinder"
 msgstr "Мортен Велиндер"
 
 #: ../src/dialogs/dialog-about.c:162
-msgid "All round powerhouse"
-msgstr "Барлық саладағы қозғаушы күш"
+msgid "All-round powerhouse"
+msgstr "Әмбебап орталық"
 
 #: ../src/dialogs/dialog-about.c:163
 msgid "Kevin Breit"
@@ -5261,8 +5167,8 @@ msgid "The cutoff range is not valid."
 msgstr "Кесу ауқымы жарамсыз."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3230
-msgid "The number of to be calculated cutoffs is invalid."
-msgstr "Есептелетін кесу шектерінің саны жарамсыз."
+msgid "The number of cutoffs to be calculated is invalid."
+msgstr "Есептелетін шектер саны жарамсыз."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3372
 msgid "Could not create the Histogram Tool dialog."
@@ -5283,10 +5189,9 @@ msgstr ""
 "болуы керек."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3646
-msgid "The given input range should contain at least two columns and two rows of "
-msgstr ""
-"Берілген енгізу ауқымында кемінде екі баған мен екі жол келесі нысандар болуы "
-"керек: "
+msgid ""
+"The given input range should contain at least two columns and two rows of data."
+msgstr "Берілген кіріс ауқымы кемінде екі баған мен екі жол деректі қамтуы керек."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3652
 msgid ""
@@ -5295,16 +5200,16 @@ msgstr ""
 "Берілген енгізу ауқымында кемінде екі баған деректер және белгілер болуы керек."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3655
-msgid "The given input range should contain at least two columns of "
-msgstr "Берілген енгізу ауқымында кемінде екі баған келесі нысандар болуы керек: "
+msgid "The given input range should contain at least two columns of data."
+msgstr "Берілген кіріс ауқымы кемінде екі баған деректі қамтуы керек."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3661
 msgid "The given input range should contain at least two rows of data and the labels."
 msgstr "Берілген енгізу ауқымында кемінде екі жол деректер және белгілер болуы керек."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3664
-msgid "The given input range should contain at least two rows of "
-msgstr "Берілген енгізу ауқымында кемінде екі жол келесі нысандар болуы керек: "
+msgid "The given input range should contain at least two rows of data."
+msgstr "Берілген кіріс ауқымы кемінде екі жол деректі қамтуы керек."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3671
 msgid "The number of data rows must be a multiple of the replication number."
@@ -5529,7 +5434,7 @@ msgid "Double Low"
 msgstr "Төменгі қос"
 
 #: ../src/dialogs/dialog-cell-format.c:469 ../src/dialogs/dialog-search.c:388
-#: ../src/func.c:1225 ../src/wbc-gtk-actions.c:3424
+#: ../src/func.c:1224 ../src/wbc-gtk-actions.c:3424
 msgid "Number"
 msgstr "Сан"
 
@@ -5883,12 +5788,14 @@ msgstr "Сүзгі"
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
 #: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2353
+#: ../src/tools/analysis-regression.c:286 ../src/tools/analysis-regression.c:344
 msgid "Row"
 msgstr "Жол"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
 #: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2345
+#: ../src/tools/analysis-regression.c:286 ../src/tools/analysis-regression.c:345
 msgid "Column"
 msgstr "Баған"
 
@@ -5924,31 +5831,31 @@ msgstr "Деректер кестесін анықтау сұхбат терез
 msgid "Workbook"
 msgstr "Жұмыс кітабы"
 
-#: ../src/dialogs/dialog-define-names.c:595
+#: ../src/dialogs/dialog-define-names.c:598
 msgid "<new name>"
 msgstr "<жаңа атау>"
 
-#: ../src/dialogs/dialog-define-names.c:851
+#: ../src/dialogs/dialog-define-names.c:854
 msgid "Why would you want to define a name for the empty string?"
 msgstr "Неліктен бос жолға атау анықтағыңыз келеді?"
 
-#: ../src/dialogs/dialog-define-names.c:876
+#: ../src/dialogs/dialog-define-names.c:879
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "Неліктен атауды #NAME деп анықтағыңыз келеді?"
 
-#: ../src/dialogs/dialog-define-names.c:970
+#: ../src/dialogs/dialog-define-names.c:973
 msgid "This name is already in use!"
 msgstr "Бұл атау қолданыста!"
 
-#: ../src/dialogs/dialog-define-names.c:1155
+#: ../src/dialogs/dialog-define-names.c:1161
 msgid "content"
 msgstr "мазмұн"
 
-#: ../src/dialogs/dialog-define-names.c:1225
+#: ../src/dialogs/dialog-define-names.c:1231
 msgid "Paste Defined Names"
 msgstr "Анықталған атауларды кірістіру"
 
-#: ../src/dialogs/dialog-define-names.c:1259 ../src/dialogs/dialog-define-names.c:1289
+#: ../src/dialogs/dialog-define-names.c:1265 ../src/dialogs/dialog-define-names.c:1295
 msgid "Could not create the Name Guru."
 msgstr "Атаулар шебері жасау мүмкін болмады."
 
@@ -6043,6 +5950,7 @@ msgid "File"
 msgstr "Файл"
 
 #: ../src/dialogs/dialog-doc-metadata.c:2197 ../src/dialogs/doc-meta-data.ui.h:35
+#: ../src/sheet-object.c:292 ../src/sheet-object.c:300
 msgid "Properties"
 msgstr "Қасиеттер"
 
@@ -7350,16 +7258,16 @@ msgid "Run on"
 msgstr "Іске қосылған уақыты"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:244
-#: ../src/wbc-gtk.c:4143
+#: ../src/wbc-gtk.c:4144
 msgid "Min"
 msgstr "Мин"
 
-#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4145
+#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4146
 msgid "Average"
 msgstr "Орташа мән"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4144
+#: ../src/wbc-gtk.c:4145
 msgid "Max"
 msgstr "Макс"
 
@@ -7440,7 +7348,7 @@ msgstr "Орындалуда"
 msgid "Done"
 msgstr "Аяқталды"
 
-#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1217
+#: ../src/dialogs/dialog-solver.c:607 ../src/gui-util.c:1218
 msgid "Error"
 msgstr "Қате"
 
@@ -7469,11 +7377,11 @@ msgstr "Шешкіш оңтайлы шешімді жасады.\n"
 msgid "Feasible solution created by solver.\n"
 msgstr "Шешкіш мүмкін болатын шешімді жасады.\n"
 
-#: ../src/dialogs/dialog-solver.c:1105
+#: ../src/dialogs/dialog-solver.c:1104
 msgid "Subject to the Constraints:"
 msgstr "Келесі шектеулермен:"
 
-#: ../src/dialogs/dialog-solver.c:1264
+#: ../src/dialogs/dialog-solver.c:1263
 msgid "Could not create the Solver dialog."
 msgstr "Шешкіш сұхбат терезесін жасау мүмкін емес."
 
@@ -7579,26 +7487,26 @@ msgstr "Егер бұл жалауша таңдалса, баған ені ең 
 msgid "Column %d"
 msgstr "%d-баған"
 
-#: ../src/dialogs/dialog-stf-main-page.c:153
+#: ../src/dialogs/dialog-stf-main-page.c:150
 #, c-format
 msgid "%d of %d line to import"
 msgid_plural "%d of %d lines to import"
 msgstr[0] "Импортталатын %d жолдың %d."
 
-#: ../src/dialogs/dialog-stf-main-page.c:176
+#: ../src/dialogs/dialog-stf-main-page.c:173
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Деректер %s кодтауында дұрыс емес; басқа кодтауды таңдаңыз."
 
-#: ../src/dialogs/dialog-stf-main-page.c:372 ../src/wbc-gtk-actions.c:3368
+#: ../src/dialogs/dialog-stf-main-page.c:369 ../src/wbc-gtk-actions.c:3368
 msgid "Line"
 msgstr "Жол"
 
-#: ../src/dialogs/dialog-stf-main-page.c:384
+#: ../src/dialogs/dialog-stf-main-page.c:381
 msgid "Text"
 msgstr "Мәтін"
 
-#: ../src/dialogs/dialog-stf-main-page.c:397
+#: ../src/dialogs/dialog-stf-main-page.c:394
 #, c-format
 msgid "Data (from %s)"
 msgstr "Деректер (%s ішінен)"
@@ -7838,8 +7746,8 @@ msgid "_Alpha: "
 msgstr "_Альфа: "
 
 #: ../src/dialogs/autofilter-expression.ui.h:1 ../src/dialogs/autofilter-top10.ui.h:1
-msgid "Gnumeric : AutoFilter"
-msgstr "Gnumeric : Автосүзгі"
+msgid "Gnumeric: AutoFilter"
+msgstr "Gnumeric: Автосүзгі"
 
 #: ../src/dialogs/autofilter-expression.ui.h:2
 msgid "Show rows where:"
@@ -8711,8 +8619,8 @@ msgid "_Enter into cells:"
 msgstr "Ұяш_ықтарға енгізу:"
 
 #: ../src/dialogs/data-slicer.ui.h:1
-msgid "DataSlicer Guru : Gnumeric"
-msgstr "Деректерді кескіш шебері : Gnumeric"
+msgid "DataSlicer Guru: Gnumeric"
+msgstr "DataSlicer Guru: Gnumeric"
 
 #: ../src/dialogs/data-slicer.ui.h:3
 msgid "_Format"
@@ -10700,7 +10608,8 @@ msgstr "Құжатты ашу"
 msgid "Last Used"
 msgstr "Соңғы қолданылған"
 
-#: ../src/dialogs/regression.ui.h:1
+#: ../src/dialogs/regression.ui.h:1 ../src/tools/analysis-regression.c:200
+#: ../src/tools/analysis-regression.c:207
 msgid "Regression"
 msgstr "Регрессия"
 
@@ -11682,7 +11591,7 @@ msgstr "Өткен уақыт:"
 msgid "Radiobutton Properties"
 msgstr "Радиобатырма қасиеттері"
 
-#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:1998
+#: ../src/dialogs/so-scrollbar.ui.h:1 ../src/sheet-object-widget.c:2084
 msgid "Scrollbar Properties"
 msgstr "Айналдыру жолағының қасиеттері"
 
@@ -11866,7 +11775,7 @@ msgstr "«%s» жұмыс кітабында анықталып қойған"
 msgid "Internal type error"
 msgstr "Ішкі түр қатесі"
 
-#: ../src/expr.c:1663
+#: ../src/expr.c:1662
 msgid "Unknown evaluation error"
 msgstr "Белгісіз есептеу қатесі"
 
@@ -11925,25 +11834,25 @@ msgstr ""
 "ҚОСЫНДЫ аргументтер тізімінде көрсетілген барлық мәндер мен ұяшықтардың қосындысын "
 "есептейді."
 
-#: ../src/func-builtin.c:47 ../src/func-builtin.c:104
+#: ../src/func-builtin.c:47 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
 msgstr "Бұл функция Excel бағдарламасымен үйлесімді."
 
-#: ../src/func-builtin.c:48 ../src/func-builtin.c:105
+#: ../src/func-builtin.c:48 ../src/func-builtin.c:107
 msgid "This function is OpenFormula compatible."
 msgstr "Бұл функция OpenFormula стандартымен үйлесімді."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:99
+#: ../src/func-builtin.c:101
 msgid "PRODUCT:product of the given values"
 msgstr "КӨБЕЙТІНДІ:берілген мәндердің көбейтіндісі"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:101
+#: ../src/func-builtin.c:103
 msgid "values:a list of values to multiply"
 msgstr "мәндер:көбейтілетін мәндер тізімі"
 
-#: ../src/func-builtin.c:102
+#: ../src/func-builtin.c:104
 msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the argument "
 "list."
@@ -11951,48 +11860,48 @@ msgstr ""
 "КӨБЕЙТІНДІ аргументтер тізімінде көрсетілген барлық мәндер мен ұяшықтардың "
 "көбейтіндісін есептейді."
 
-#: ../src/func-builtin.c:103
+#: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
 msgstr "Егер барлық ұяшықтар бос болса, нәтиже 0 болады."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:136
+#: ../src/func-builtin.c:140
 msgid "GNUMERIC_VERSION:the current version of Gnumeric"
 msgstr "GNUMERIC_VERSION:Gnumeric-тің ағымдағы нұсқасы"
 
-#: ../src/func-builtin.c:137
+#: ../src/func-builtin.c:141
 msgid "GNUMERIC_VERSION returns the version of gnumeric as a string."
 msgstr "GNUMERIC_VERSION Gnumeric нұсқасын жол ретінде қайтарады."
 
-#: ../src/func-builtin.c:151
+#: ../src/func-builtin.c:155
 msgid "TABLE:internal function for data tables"
 msgstr "КЕСТЕ:деректер кестелеріне арналған ішкі функция"
 
-#: ../src/func-builtin.c:152
+#: ../src/func-builtin.c:156
 msgid "This function should not be called directly."
 msgstr "Бұл функция тікелей шақырылмауы керек."
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:339
+#: ../src/func-builtin.c:343
 msgid "IF:conditional expression"
 msgstr "ЕГЕР:шартты өрнек"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:341
+#: ../src/func-builtin.c:345
 msgid "cond:condition"
 msgstr "шарт:шарт"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:343
+#: ../src/func-builtin.c:347
 msgid "trueval:value to use if condition is true"
 msgstr "ақиқат_мән:шарт ақиқат болғанда қолданылатын мән"
 
 #. xgettext : see po-functions/README.translators
-#: ../src/func-builtin.c:345
+#: ../src/func-builtin.c:349
 msgid "falseval:value to use if condition is false"
 msgstr "жалған_мән:шарт жалған болғанда қолданылатын мән"
 
-#: ../src/func-builtin.c:346
+#: ../src/func-builtin.c:350
 msgid ""
 "This function first evaluates the condition.  If the result is true, it will then "
 "evaluate and return the second argument.  Otherwise, it will evaluate and return "
@@ -12001,42 +11910,42 @@ msgstr ""
 "Бұл функция алдымен шартты тексереді. Егер нәтиже ақиқат болса, ол екінші "
 "аргументті есептеп қайтарады. Әйтпесе, ол соңғы аргументті есептеп қайтарады."
 
-#: ../src/func.c:134
+#: ../src/func.c:133
 msgid "Function implementation not available."
 msgstr "Функцияның іске асырылуы қолжетімді емес."
 
-#: ../src/func.c:974
+#: ../src/func.c:973
 msgid "Unknown Function"
 msgstr "Белгісіз функция"
 
 #. xgettext: This represents a made-up translated function name.
-#: ../src/func.c:998
+#: ../src/func.c:997
 #, c-format
 msgid "unknown%d"
 msgstr "белгісіз%d"
 
-#: ../src/func.c:1229
+#: ../src/func.c:1228
 msgid "Boolean"
 msgstr "Логикалық мән"
 
-#: ../src/func.c:1231
+#: ../src/func.c:1230
 msgid "Cell Range"
 msgstr "Ұяшық ауқымы"
 
-#: ../src/func.c:1233
+#: ../src/func.c:1232
 msgid "Area"
 msgstr "Аймақ"
 
-#: ../src/func.c:1235
+#: ../src/func.c:1234
 msgid "Scalar, Blank, or Error"
 msgstr "Скаляр, бос немесе қате"
 
-#: ../src/func.c:1237
+#: ../src/func.c:1236
 msgid "Scalar"
 msgstr "Скаляр"
 
 #. Missing values will be NULL.
-#: ../src/func.c:1240
+#: ../src/func.c:1239
 msgid "Any"
 msgstr "Кез келген"
 
@@ -12081,7 +11990,7 @@ msgstr "300%"
 msgid "500%"
 msgstr "500%"
 
-#: ../src/gnm-pane.c:2076
+#: ../src/gnm-pane.c:2074
 #, c-format
 msgid ""
 "%.1f x %.1f pts\n"
@@ -12163,7 +12072,7 @@ msgstr "Көпбұрыш қасиеттері"
 msgid "clipboard"
 msgstr "алмасу буфері"
 
-#: ../src/gui-clipboard.c:1139
+#: ../src/gui-clipboard.c:1138
 #, c-format
 msgid "Cut of %s"
 msgstr "%s қиып алу"
@@ -12299,20 +12208,20 @@ msgstr ""
 msgid "Multiple errors\n"
 msgstr "Бірнеше қателер\n"
 
-#: ../src/gui-util.c:1207
+#: ../src/gui-util.c:1208
 msgid "Question"
 msgstr "Сұрақ"
 
-#: ../src/gui-util.c:1212
+#: ../src/gui-util.c:1213
 msgid "Warning"
 msgstr "Ескерту"
 
-#: ../src/gui-util.c:1431
+#: ../src/gui-util.c:1432
 #, c-format
 msgid "The plugin with id %s is required but cannot be found."
 msgstr "ID-і %s болатын плагин қажет, бірақ табылмады."
 
-#: ../src/gui-util.c:1439
+#: ../src/gui-util.c:1440
 #, c-format
 msgid "The %s plugin is required but is not loaded."
 msgstr "%s плагині қажет, бірақ жүктелмеген."
@@ -12342,12 +12251,12 @@ msgctxt "Stock label"
 msgid "_OK"
 msgstr "_OK"
 
-#: ../src/gutils.c:1094
+#: ../src/gutils.c:1095
 #, c-format
 msgid "Unknown sheet \"%s\""
 msgstr "Белгісіз парақ «%s»"
 
-#: ../src/gutils.c:1114
+#: ../src/gutils.c:1115
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
 msgstr "%2$s пішімі үшін жарамсыз «%1$s» экспорттау опциясы"
@@ -12361,7 +12270,7 @@ msgstr "Сілтеме нысанасы"
 msgid "Unable to activate the url '%s'"
 msgstr "«%s» URL адресін белсендіру мүмкін емес"
 
-#: ../src/hlink.c:578
+#: ../src/hlink.c:577
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "«%s» ашу мүмкін емес"
@@ -12403,8 +12312,8 @@ msgstr "%.2f пункт"
 msgid "_Move"
 msgstr "Жылжы_ту"
 
-#: ../src/item-cursor.c:835 ../src/sheet-control-gui.c:2248 ../src/sheet-object.c:291
-#: ../src/sheet-object.c:310 ../src/wbc-gtk-actions.c:2087
+#: ../src/item-cursor.c:835 ../src/sheet-control-gui.c:2248 ../src/sheet-object.c:294
+#: ../src/sheet-object.c:312 ../src/wbc-gtk-actions.c:2087
 msgid "_Copy"
 msgstr "Көші_ру"
 
@@ -12503,7 +12412,7 @@ msgstr "Таңдалған кітаптарды жүктегеннен кейі�
 msgid "[FILE ...]"
 msgstr "[ФАЙЛ ...]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1627 ../src/ssdiff.c:933
+#: ../src/main-application.c:127 ../src/ssconvert.c:1627 ../src/ssdiff.c:932
 #: ../src/ssgrep.c:437 ../src/ssindex.c:259
 #, c-format
 msgid ""
@@ -12794,7 +12703,7 @@ msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
 msgstr[0] "%d сілтемені алып тастау"
 
-#: ../src/sheet-control-gui.c:2246 ../src/sheet-object.c:309
+#: ../src/sheet-control-gui.c:2246 ../src/sheet-object.c:311
 #: ../src/wbc-gtk-actions.c:2263
 msgid "Cu_t"
 msgstr "Қиы_п алу"
@@ -13041,48 +12950,48 @@ msgid ""
 "%s!%s"
 msgstr "%s!%s қиылысатын біріктірілген аймақ қазірдің өзінде бар"
 
-#: ../src/sheet-object.c:177
+#: ../src/sheet-object.c:180
 msgid "Snap object to grid"
 msgstr "Объектіні торға жабыстыру"
 
-#: ../src/sheet-object.c:300
+#: ../src/sheet-object.c:302
 msgid "Size _& Position"
 msgstr "Өлшемі _мен орны"
 
-#: ../src/sheet-object.c:301
+#: ../src/sheet-object.c:303
 msgid "_Snap to Grid"
 msgstr "Торға _жабыстыру"
 
-#: ../src/sheet-object.c:302
+#: ../src/sheet-object.c:304
 msgid "_Order"
 msgstr "_Рет"
 
-#: ../src/sheet-object.c:303
+#: ../src/sheet-object.c:305
 msgid "Pul_l to Front"
 msgstr "_Алдыңғы планға шығару"
 
-#: ../src/sheet-object.c:304
+#: ../src/sheet-object.c:306
 msgid "Pull _Forward"
 msgstr "_Алға жылжыту"
 
-#: ../src/sheet-object.c:305
+#: ../src/sheet-object.c:307
 msgid "Push _Backward"
 msgstr "_Артқа жылжыту"
 
-#: ../src/sheet-object.c:306
+#: ../src/sheet-object.c:308
 msgid "Pus_h to Back"
 msgstr "_Артқы планға жылжыту"
 
-#: ../src/sheet-object.c:311 ../src/wbc-gtk-actions.c:2073
+#: ../src/sheet-object.c:313 ../src/wbc-gtk-actions.c:2073
 msgid "_Delete"
 msgstr "_Өшіру"
 
-#: ../src/sheet-object.c:313 ../src/wbc-gtk-actions.c:2036
+#: ../src/sheet-object.c:315 ../src/wbc-gtk-actions.c:2036
 msgid "Print"
 msgstr "Басып шығару"
 
 #: ../src/sheet-object-component.c:181 ../src/sheet-object-graph.c:295
-#: ../src/sheet-object-image.c:296
+#: ../src/sheet-object-image.c:308
 #, c-format
 msgid "Unknown failure while saving image"
 msgstr "Суретті сақтау кезіндегі белгісіз қате"
@@ -13092,7 +13001,7 @@ msgid "Save as"
 msgstr "Қалай сақтау"
 
 #: ../src/sheet-object-component.c:267 ../src/sheet-object-graph.c:406
-#: ../src/sheet-object-image.c:353
+#: ../src/sheet-object-image.c:365
 msgid "_Save As Image"
 msgstr "Сурет ретінде _сақтау"
 
@@ -13133,77 +13042,77 @@ msgstr "Бірінші қатарды ортақ абсцисса ретінде
 msgid "New graph sheet"
 msgstr "Жаңа график парағы"
 
-#: ../src/sheet-object-widget.c:244
+#: ../src/sheet-object-widget.c:278
 msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
 msgstr ""
 "GTK #705640 қатесіне байланысты парақ объектісінің виджеті басып шығарылмайды."
 
-#: ../src/sheet-object-widget.c:398 ../src/wbc-gtk-actions.c:3326
+#: ../src/sheet-object-widget.c:460 ../src/wbc-gtk-actions.c:3326
 msgid "Frame"
 msgstr "Жақтау"
 
-#: ../src/sheet-object-widget.c:908 ../src/wbc-gtk-actions.c:3392
+#: ../src/sheet-object-widget.c:992 ../src/wbc-gtk-actions.c:3392
 #: ../templates/autoformat/autoformat.3D.button.xml.in.h:1
 msgid "Button"
 msgstr "Батырма"
 
-#: ../src/sheet-object-widget.c:938
+#: ../src/sheet-object-widget.c:1022
 msgid "Pressed Button"
 msgstr "Басылған батырма"
 
-#: ../src/sheet-object-widget.c:953
+#: ../src/sheet-object-widget.c:1037
 msgid "Released Button"
 msgstr "Босатылған батырма"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:1493
+#: ../src/sheet-object-widget.c:1577
 msgid "Change widget"
 msgstr "Виджетті өзгерту"
 
-#: ../src/sheet-object-widget.c:1835
+#: ../src/sheet-object-widget.c:1921
 msgid "Adjustment Properties"
 msgstr "Реттеу қасиеттері"
 
-#: ../src/sheet-object-widget.c:1997
+#: ../src/sheet-object-widget.c:2083
 msgid "Configure Scrollbar"
 msgstr "Айналдыру жолағын баптау"
 
-#: ../src/sheet-object-widget.c:2103
+#: ../src/sheet-object-widget.c:2189
 msgid "Configure Spinbutton"
 msgstr "Айналдыру батырмасын баптау"
 
-#: ../src/sheet-object-widget.c:2104
+#: ../src/sheet-object-widget.c:2190
 msgid "Spinbutton Properties"
 msgstr "Айналдыру батырмасының қасиеттері"
 
-#: ../src/sheet-object-widget.c:2210
+#: ../src/sheet-object-widget.c:2296
 msgid "Configure Slider"
 msgstr "Жүгірткіні баптау"
 
-#: ../src/sheet-object-widget.c:2211
+#: ../src/sheet-object-widget.c:2297
 msgid "Slider Properties"
 msgstr "Жүгірткі қасиеттері"
 
-#: ../src/sheet-object-widget.c:2414
+#: ../src/sheet-object-widget.c:2500
 #, c-format
 msgid "CheckBox %d"
 msgstr "Жалауша %d"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:2462
+#: ../src/sheet-object-widget.c:2548
 msgid "Clicking checkbox"
 msgstr "Жалаушаны басу"
 
-#: ../src/sheet-object-widget.c:3044 ../src/wbc-gtk-actions.c:3398
+#: ../src/sheet-object-widget.c:3130 ../src/wbc-gtk-actions.c:3398
 msgid "RadioButton"
 msgstr "Радиобатырма"
 
 #. FIXME: This text sucks:
-#: ../src/sheet-object-widget.c:3095
+#: ../src/sheet-object-widget.c:3181
 msgid "Clicking radiobutton"
 msgstr "Радиобатырманы басу"
 
-#: ../src/sheet-object-widget.c:3608
+#: ../src/sheet-object-widget.c:3694
 msgid "Clicking in list"
 msgstr "Тізімді басу"
 
@@ -13504,7 +13413,7 @@ msgstr ""
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "--export-file-per-sheet және --merge-to бір-бірімен үйлеспейді\n"
 
-#: ../src/ssconvert.c:1692 ../src/ssdiff.c:990 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1692 ../src/ssdiff.c:988 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Қолданылуы: %s [ОПЦИЯ...] %s\n"
@@ -13526,85 +13435,85 @@ msgstr "xml пішіміндегі шығыс"
 msgid "%s: Failed to read %s: %s\n"
 msgstr "%s: %s оқу сәтсіз аяқталды: %s\n"
 
-#: ../src/ssdiff.c:172
+#: ../src/ssdiff.c:171
 #, c-format
 msgid "Differences for sheet %s:\n"
 msgstr "%s парағы үшін айырмашылықтар:\n"
 
-#: ../src/ssdiff.c:174
+#: ../src/ssdiff.c:173
 #, c-format
 msgid "Sheet %s removed.\n"
 msgstr "%s парағы өшірілді.\n"
 
-#: ../src/ssdiff.c:176
+#: ../src/ssdiff.c:175
 #, c-format
 msgid "Sheet %s added.\n"
 msgstr "%s парағы қосылды.\n"
 
-#: ../src/ssdiff.c:185
+#: ../src/ssdiff.c:184
 msgid "Sheet order changed.\n"
 msgstr "Парақтардың реті өзгертілді.\n"
 
-#: ../src/ssdiff.c:193
+#: ../src/ssdiff.c:192
 #, c-format
 msgid "Sheet attribute %s changed.\n"
 msgstr "Парақтың %s атрибуты өзгертілді.\n"
 
-#: ../src/ssdiff.c:203
+#: ../src/ssdiff.c:202
 #, c-format
 msgid "Column %s changed.\n"
 msgstr "%s бағаны өзгертілді.\n"
 
-#: ../src/ssdiff.c:206
+#: ../src/ssdiff.c:205
 #, c-format
 msgid "Row %d changed.\n"
 msgstr "%d-жол өзгертілді.\n"
 
-#: ../src/ssdiff.c:215
+#: ../src/ssdiff.c:214
 #, c-format
 msgid "Cell %s changed.\n"
 msgstr "%s ұяшығы өзгертілді.\n"
 
-#: ../src/ssdiff.c:217
+#: ../src/ssdiff.c:216
 #, c-format
 msgid "Cell %s removed.\n"
 msgstr "%s ұяшығы өшірілді.\n"
 
-#: ../src/ssdiff.c:219
+#: ../src/ssdiff.c:218
 #, c-format
 msgid "Cell %s added.\n"
 msgstr "%s ұяшығы қосылды.\n"
 
-#: ../src/ssdiff.c:230
+#: ../src/ssdiff.c:229
 #, c-format
 msgid "Style of %s was changed.\n"
 msgstr "%s стилі өзгертілді.\n"
 
-#: ../src/ssdiff.c:240
+#: ../src/ssdiff.c:239
 #, c-format
 msgid "Name %s changed.\n"
 msgstr "%s атауы өзгертілді.\n"
 
-#: ../src/ssdiff.c:242
+#: ../src/ssdiff.c:241
 #, c-format
 msgid "Name %s removed.\n"
 msgstr "%s атауы өшірілді.\n"
 
-#: ../src/ssdiff.c:244
+#: ../src/ssdiff.c:243
 #, c-format
 msgid "Name %s added.\n"
 msgstr "%s атауы қосылды.\n"
 
-#: ../src/ssdiff.c:768
+#: ../src/ssdiff.c:767
 #, c-format
 msgid "%s: Unable to guess exporter to use for %s.\n"
 msgstr "%s: %s үшін қолданылатын экспорттаушыны анықтау мүмкін емес.\n"
 
-#: ../src/ssdiff.c:926 ../src/ssdiff.c:992
+#: ../src/ssdiff.c:925 ../src/ssdiff.c:990
 msgid "OLDFILE NEWFILE"
 msgstr "ЕСКІ_ФАЙЛ ЖАҢА_ФАЙЛ"
 
-#: ../src/ssdiff.c:940
+#: ../src/ssdiff.c:939
 #, c-format
 msgid ""
 "ssdiff version '%s'\n"
@@ -13615,12 +13524,12 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: ../src/ssdiff.c:946
+#: ../src/ssdiff.c:945
 #, c-format
 msgid "%s: Only one output format may be specified.\n"
 msgstr "%s: Тек бір шығыс пішімі көрсетілуі мүмкін.\n"
 
-#: ../src/ssdiff.c:965
+#: ../src/ssdiff.c:964
 #, c-format
 msgid "%s: Failed to create output file: %s\n"
 msgstr "%s: Шығыс файлын жасау сәтсіз аяқталды: %s\n"
@@ -13745,20 +13654,20 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: ../src/stf-export.c:687
+#: ../src/stf-export.c:707
 msgid "Error while trying to export file as text"
 msgstr "Файлды мәтін ретінде экспорттау әрекеті кезіндегі қате"
 
-#: ../src/stf-export.c:721
+#: ../src/stf-export.c:741
 msgid "eol must be one of unix, mac, and windows"
 msgstr "eol келесілердің бірі болуы тиіс: unix, mac немесе windows"
 
-#: ../src/stf-export.c:741
+#: ../src/stf-export.c:762
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
 msgstr "%s опциясы үшін жарамсыз мән: \"%s\""
 
-#: ../src/stf-export.c:779
+#: ../src/stf-export.c:811
 msgid "Text (configurable)"
 msgstr "Мәтін (бапталатын)"
 
@@ -13821,19 +13730,19 @@ msgstr "Кейбір деректер параққа сыймады және т�
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Деректерді параққа талдау кезіндегі талдау қатесі"
 
-#: ../src/stf.c:507
+#: ../src/stf.c:505
 msgid "Error while trying to write CSV file"
 msgstr "CSV файлын жазу кезінде қате орын алды"
 
-#: ../src/stf.c:608
+#: ../src/stf.c:615
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Үтірмен немесе табуляциямен ажыратылған мәндер (CSV/TSV)"
 
-#: ../src/stf.c:616
+#: ../src/stf.c:623
 msgid "Text import (configurable)"
 msgstr "Мәтінді импорттау (баптауға болады)"
 
-#: ../src/stf.c:630
+#: ../src/stf.c:637
 msgid "Comma separated values (CSV)"
 msgstr "Үтірмен ажыратылған мәндер (CSV)"
 
@@ -14057,6 +13966,24 @@ msgstr "/Жиілік кестесі/Санат"
 msgid "Area %d"
 msgstr "%d-аймақ"
 
+#: ../src/tools/analysis-ftest.c:64
+#, c-format
+msgid "F-Test (%s)"
+msgstr "F-тесті (%s)"
+
+#: ../src/tools/analysis-ftest.c:70 ../src/tools/analysis-ftest.c:77
+#: ../src/tools/analysis-ftest.c:94
+msgid "F-Test"
+msgstr "F-тесті"
+
+#: ../src/tools/analysis-ftest.c:95
+msgid ""
+"/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P (f<=F) "
+"left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
+msgstr ""
+"/Орташа мән/Дисперсия/Бақылаулар/df/F/P (F<=f) оң жақты/F Критикалық оң жақты/P "
+"(f<=F) сол жақты/F Критикалық сол жақты/P екі жақты/F Критикалық екі жақты"
+
 #: ../src/tools/analysis-histogram.c:322
 #, c-format
 msgid "Histogram (%s)"
@@ -14244,6 +14171,96 @@ msgstr "/Саны/Орташа мән/Дисперсия//Меншікті мә�
 #: ../src/tools/analysis-principal-components.c:157
 msgid "Percent of Trace"
 msgstr "Із пайызы"
+
+#: ../src/tools/analysis-regression.c:194
+#, c-format
+msgid "Regression (%s)"
+msgstr "Регрессия (%s)"
+
+#: ../src/tools/analysis-regression.c:361
+msgid ""
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/Adjusted R^2/"
+"Observations//ANOVA//Regression/Residual/Total///Intercept"
+msgstr ""
+"/ЖИЫНТЫҚ ШЫҒЫС//Регрессия статистикасы/Жиынтық R/R^2/Стандартты қате/Түзетілген R^2/"
+"Бақылаулар//Дисперсиялық талдау//Регрессия/Қалдық/Жиыны///Кесінді"
+
+#: ../src/tools/analysis-regression.c:380
+msgid "Response Variable"
+msgstr "Жауап айнымалысы"
+
+#: ../src/tools/analysis-regression.c:414
+msgid "/df/SS/MS/F/Significance of F"
+msgstr "/df/SS/MS/F/F маңыздылығы"
+
+#: ../src/tools/analysis-regression.c:421
+msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
+msgstr "/Коэффициенттер/Стандартты қате/t-статистикасы/p-мәні"
+
+#. xgettext: this is an Excel-style number format.  Use "..." quotes and do
+#. not translate the 0%
+#: ../src/tools/analysis-regression.c:427
+msgid "\"Lower\" 0%"
+msgstr "\"Төменгі\" 0%"
+
+#. xgettext: this is an Excel-style number format.  Use "..." quotes and do
+#. not translate the 0%
+#: ../src/tools/analysis-regression.c:429
+msgid "\"Upper\" 0%"
+msgstr "\"Жоғарғы\" 0%"
+
+#: ../src/tools/analysis-regression.c:438
+msgid ""
+"Probability of observing a t-statistic\n"
+"whose absolute value is at least as large\n"
+"as the absolute value of the actually\n"
+"observed t-statistic, assuming the null\n"
+"hypothesis is in fact true."
+msgstr ""
+"Нөлдік гипотеза шын мәнінде дұрыс деп\n"
+"есептей отырып, абсолюттік мәні іс жүзінде\n"
+"бақыланған t-статистикасының абсолюттік\n"
+"мәнінен кем емес t-статистикасын\n"
+"бақылау ықтималдығы."
+
+#: ../src/tools/analysis-regression.c:445
+msgid ""
+"This value is not the square of R\n"
+"but the uncentered version of the\n"
+"coefficient of determination; that\n"
+"is, the proportion of the sum of\n"
+"squares explained by the model."
+msgstr ""
+"Бұл мән R квадраты емес, детерминация\n"
+"коэффициентінің орталықтандырылмаған нұсқасы;\n"
+"яғни модельмен түсіндірілетін квадраттар\n"
+"қосындысының үлесі."
+
+#: ../src/tools/analysis-regression.c:753
+msgid "Constant"
+msgstr "Тұрақты"
+
+#: ../src/tools/analysis-regression.c:758
+msgid ""
+"/Prediction//Residual/Leverages/Internally studentized/Externally studentized/p-"
+"Value"
+msgstr "/Болжам//Қалдық/Леверидждер/Ішкі студенттелген/Сыртқы студенттелген/p-мәні"
+
+#: ../src/tools/analysis-regression.c:920
+msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
+msgstr "/ЖИЫНТЫҚ ШЫҒЫС//Тәуелсіз айнымалы//Бақылаулар"
+
+#: ../src/tools/analysis-regression.c:925
+msgid "/SUMMARY OUTPUT//Response Variable//Observations"
+msgstr "/ЖИЫНТЫҚ ШЫҒЫС//Жауап айнымалысы//Бақылаулар"
+
+#: ../src/tools/analysis-regression.c:931
+msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
+msgstr "/Жауап айнымалысы/R^2/Көлбеулік/Кесінді/F/F маңыздылығы"
+
+#: ../src/tools/analysis-regression.c:937
+msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
+msgstr "/Тәуелсіз айнымалы/R^2/Көлбеулік/Кесінді/F/F маңыздылығы"
 
 #: ../src/tools/analysis-sign-test.c:101 ../src/tools/analysis-sign-test.c:331
 #, c-format
@@ -14441,6 +14458,52 @@ msgstr "%i-аймақ"
 msgid "Variable %i"
 msgstr "%i-айнымалы"
 
+#: ../src/tools/analysis-ttest.c:109
+#, c-format
+msgid "t-Test, paired (%s)"
+msgstr "t-тесті, жұпталған (%s)"
+
+#: ../src/tools/analysis-ttest.c:115 ../src/tools/analysis-ttest.c:122
+#: ../src/tools/analysis-ttest.c:446 ../src/tools/analysis-ttest.c:453
+#: ../src/tools/analysis-ttest.c:807 ../src/tools/analysis-ttest.c:814
+msgid "t-Test"
+msgstr "t-тесті"
+
+#: ../src/tools/analysis-ttest.c:142
+msgid ""
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
+"Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/t "
+"Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
+msgstr ""
+"/Орташа мән/Дисперсия/Бақылаулар/Пирсон корреляциясы/Гипотезалық орташа айырмашылық/"
+"Бақыланған орташа айырмашылық/Айырмашылықтар дисперсиясы/df/t стат/P (T<=t) бір "
+"жақты/t критикалық бір жақты/P (T<=t) екі жақты/t критикалық екі жақты"
+
+#: ../src/tools/analysis-ttest.c:440 ../src/tools/analysis-ttest.c:801
+#, c-format
+msgid "t-Test (%s)"
+msgstr "t-тесті (%s)"
+
+#: ../src/tools/analysis-ttest.c:476
+msgid ""
+"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/Observed "
+"Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t "
+"Critical two-tail"
+msgstr ""
+"/Орташа мән/Дисперсия/Бақылаулар/Біріктірілген дисперсия/Гипотезалық орташа "
+"айырмашылық/Бақыланған орташа айырмашылық/df/t стат/P (T<=t) бір жақты/t критикалық "
+"бір жақты/P (T<=t) екі жақты/t критикалық екі жақты"
+
+#: ../src/tools/analysis-ttest.c:837
+msgid ""
+"/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean Difference/"
+"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-"
+"tail"
+msgstr ""
+"/Орташа мән/Дисперсия/Бақылаулар/Гипотезалық орташа айырмашылық/Бақыланған орташа "
+"айырмашылық/df/t стат/P (T<=t) бір жақты/t критикалық бір жақты/P (T<=t) екі жақты/"
+"t критикалық екі жақты"
+
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:103
 #, c-format
 msgid "Wilcoxon-Mann-Whitney Test (%s)"
@@ -14475,6 +14538,25 @@ msgstr ""
 "Шығыстың үшінші бағаны үшін орын\n"
 "жеткіліксіз болғандықтан, бұл мән\n"
 "есептелмейді."
+
+#: ../src/tools/analysis-ztest.c:116
+#, c-format
+msgid "z-Test (%s)"
+msgstr "z-тесті (%s)"
+
+#: ../src/tools/analysis-ztest.c:122 ../src/tools/analysis-ztest.c:129
+msgid "z-Test"
+msgstr "z-тесті"
+
+#: ../src/tools/analysis-ztest.c:150
+msgid ""
+"/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
+"Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-"
+"tail"
+msgstr ""
+"/Орташа мән/Белгілі дисперсия/Бақылаулар/Гипотезалық орташа айырмашылық/Бақыланған "
+"орташа айырмашылық/z/P (Z<=z) бір жақты/z критикалық бір жақты/P (Z<=z) екі жақты/z "
+"критикалық екі жақты"
 
 #: ../src/tools/dao.c:179
 msgid "New Sheet"
@@ -14810,7 +14892,7 @@ msgstr "Куртозис"
 msgid "Range"
 msgstr "Ауқым"
 
-#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4146
+#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4147
 msgid "Count"
 msgstr "Саны"
 
@@ -14952,33 +15034,41 @@ msgstr "%s ақиқат емес."
 msgid "%s is out of permitted range"
 msgstr "%s рұқсат етілген ауқымнан тыс"
 
-#: ../src/value.c:59
+#: ../src/value.c:61
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: ../src/value.c:60
+#: ../src/value.c:62
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: ../src/value.c:61
+#: ../src/value.c:63
 msgid "#VALUE!"
 msgstr "#VALUE!"
 
-#: ../src/value.c:62
+#: ../src/value.c:64
 msgid "#REF!"
 msgstr "#REF!"
 
-#: ../src/value.c:63
+#: ../src/value.c:65
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: ../src/value.c:64
+#: ../src/value.c:66
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: ../src/value.c:65
+#: ../src/value.c:67
 msgid "#N/A"
 msgstr "#N/A"
+
+#: ../src/value.c:68
+msgid "#GETTING_DATA"
+msgstr "#GETTING_DATA"
+
+#: ../src/value.c:69
+msgid "#SPILL!"
+msgstr "#SPILL!"
 
 #: ../src/wbc-gtk-actions.c:182 ../src/workbook-view.c:1350
 msgid "Default file saver is not available."
@@ -16625,7 +16715,7 @@ msgstr "Деректер кескішін _түзету..."
 msgid "Adjust a data slicer"
 msgstr "Деректер кескішін реттеу"
 
-#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4142 ../src/workbook-view.c:927
+#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4143 ../src/workbook-view.c:927
 msgid "Sum"
 msgstr "Қосынды"
 
@@ -17162,24 +17252,24 @@ msgstr "%s қарпін баптау"
 msgid "Change font"
 msgstr "Қаріпті өзгерту"
 
-#: ../src/wbc-gtk-edit.c:862
+#: ../src/wbc-gtk-edit.c:865
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s құлыпталған"
 
-#: ../src/wbc-gtk-edit.c:866
+#: ../src/wbc-gtk-edit.c:869
 msgid "Unprotect the workbook to enable editing."
 msgstr "Түзетуді қосу үшін жұмыс кітабының қорғауын алып тастаңыз."
 
-#: ../src/wbc-gtk-edit.c:867
+#: ../src/wbc-gtk-edit.c:870
 msgid "Unprotect the sheet to enable editing."
 msgstr "Түзетуді қосу үшін парақтың қорғауын алып тастаңыз."
 
-#: ../src/wbc-gtk-edit.c:886
+#: ../src/wbc-gtk-edit.c:889
 msgid "You are about to edit a cell with \"text\" format."
 msgstr "Сіз «мәтін» пішімі бар ұяшықты түзетпекшісіз."
 
-#: ../src/wbc-gtk-edit.c:887
+#: ../src/wbc-gtk-edit.c:890
 msgid ""
 "The cell does not currently contain text, though, so if you go on editing then the "
 "contents will be turned into text."
@@ -17187,11 +17277,11 @@ msgstr ""
 "Алайда ұяшықта қазір мәтін жоқ, сондықтан түзетуді жалғастырсаңыз, оның мазмұны "
 "мәтінге айналады."
 
-#: ../src/wbc-gtk-edit.c:892
+#: ../src/wbc-gtk-edit.c:895
 msgid "Remove format"
 msgstr "Пішімді жою"
 
-#: ../src/wbc-gtk-edit.c:897
+#: ../src/wbc-gtk-edit.c:900
 msgid "Show this dialog next time."
 msgstr "Бұл сұхбат терезесін келесі жолы көрсету."
 
@@ -17421,24 +17511,24 @@ msgstr "Объектілер құралдар панелі"
 msgid "Show/Hide toolbar %s"
 msgstr "%s құралдар панелін көрсету/жасыру"
 
-#: ../src/wbc-gtk.c:4203
+#: ../src/wbc-gtk.c:4204
 #, c-format
 msgid "Content of %s"
 msgstr "%s мазмұны"
 
-#: ../src/wbc-gtk.c:4218
+#: ../src/wbc-gtk.c:4219
 msgid "Use Maximum Precision"
 msgstr "Максималды дәлдікті қолдану"
 
-#: ../src/wbc-gtk.c:4230
+#: ../src/wbc-gtk.c:4231
 msgid "Insert Formula Below"
 msgstr "Төменге формула кірістіру"
 
-#: ../src/wbc-gtk.c:4236
+#: ../src/wbc-gtk.c:4237
 msgid "Insert Formula to Side"
 msgstr "Жанына формула кірістіру"
 
-#: ../src/wbc-gtk.c:4322
+#: ../src/wbc-gtk.c:4323
 #, c-format
 msgid "Open %s"
 msgstr "%s ашу"
@@ -17547,6 +17637,11 @@ msgid ""
 msgstr ""
 "%s\n"
 "<small>%s</small>"
+
+#: ../src/widgets/gnm-expr-entry.c:887
+#, c-format
+msgid "%s: %s"
+msgstr "%s: %s"
 
 #: ../src/widgets/gnm-expr-entry.c:907
 #, c-format
@@ -18022,144 +18117,78 @@ msgstr "Сирень түсті тізім үлгісі"
 msgid "A simple list template"
 msgstr "Қарапайым тізім үлгісі"
 
-#, c-format
-#~ msgid "F-Test (%s)"
-#~ msgstr "F-тесті (%s)"
-
-#~ msgid "F-Test"
-#~ msgstr "F-тесті"
-
-#~ msgid ""
-#~ "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
-#~ "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
-#~ msgstr ""
-#~ "/Орташа мән/Дисперсия/Бақылаулар/df/F/P (F<=f) оң жақты/F Критикалық оң жақты/P "
-#~ "(f<=F) сол жақты/F Критикалық сол жақты/P екі жақты/F Критикалық екі жақты"
+#~ msgid "Cannot convert 3D cell range to XLOPER."
+#~ msgstr "3D ұяшық ауқымын XLOPER-ге түрлендіру мүмкін емес."
 
 #, c-format
-#~ msgid "t-Test, paired (%s)"
-#~ msgstr "t-тесті, жұпталған (%s)"
-
-#~ msgid "t-Test"
-#~ msgstr "t-тесті"
-
-#~ msgid ""
-#~ "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
-#~ "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-tail/"
-#~ "t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-#~ msgstr ""
-#~ "/Орташа мән/Дисперсия/Бақылаулар/Пирсон корреляциясы/Гипотезалық орташа "
-#~ "айырмашылық/Бақыланған орташа айырмашылық/Айырмашылықтар дисперсиясы/df/t стат/P "
-#~ "(T<=t) бір жақты/t критикалық бір жақты/P (T<=t) екі жақты/t критикалық екі жақты"
+#~ msgid "Unsupported GnmValue type (%d)"
+#~ msgstr "Қолдау көрсетілмейтін GnmValue түрі (%d)"
 
 #, c-format
-#~ msgid "t-Test (%s)"
-#~ msgstr "t-тесті (%s)"
-
 #~ msgid ""
-#~ "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
-#~ "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
-#~ "(T<=t) two-tail/t Critical two-tail"
+#~ "Overriding function %s from XLL/DLL/SO file %s with function of the same name "
+#~ "from XLL/DLL/SO file %s."
 #~ msgstr ""
-#~ "/Орташа мән/Дисперсия/Бақылаулар/Біріктірілген дисперсия/Гипотезалық орташа "
-#~ "айырмашылық/Бақыланған орташа айырмашылық/df/t стат/P (T<=t) бір жақты/t "
-#~ "критикалық бір жақты/P (T<=t) екі жақты/t критикалық екі жақты"
-
-#~ msgid ""
-#~ "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
-#~ "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t "
-#~ "Critical two-tail"
-#~ msgstr ""
-#~ "/Орташа мән/Дисперсия/Бақылаулар/Гипотезалық орташа айырмашылық/Бақыланған "
-#~ "орташа айырмашылық/df/t стат/P (T<=t) бір жақты/t критикалық бір жақты/P (T<=t) "
-#~ "екі жақты/t критикалық екі жақты"
+#~ "%2$s XLL/DLL/SO файлындағы %1$s функциясын %3$s XLL/DLL/SO файлындағы дәл сондай "
+#~ "атаулы функциямен қайта анықтау."
 
 #, c-format
-#~ msgid "z-Test (%s)"
-#~ msgstr "z-тесті (%s)"
-
-#~ msgid "z-Test"
-#~ msgstr "z-тесті"
-
-#~ msgid ""
-#~ "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
-#~ "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical "
-#~ "two-tail"
-#~ msgstr ""
-#~ "/Орташа мән/Белгілі дисперсия/Бақылаулар/Гипотезалық орташа айырмашылық/"
-#~ "Бақыланған орташа айырмашылық/z/P (Z<=z) бір жақты/z критикалық бір жақты/P "
-#~ "(Z<=z) екі жақты/z критикалық екі жақты"
+#~ msgid "Failed to find function \"%s\" in XLL/DLL/SO %s .\n"
+#~ msgstr "%2$s XLL/DLL/SO ішінен \"%1$s\" функциясы табылмады.\n"
 
 #, c-format
-#~ msgid "Regression (%s)"
-#~ msgstr "Регрессия (%s)"
-
 #~ msgid ""
-#~ "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/Adjusted "
-#~ "R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
+#~ "Excel plugin loader / xlfRegister: at least three XLOPER arguments must be "
+#~ "provided (DLL name[ignored],exported name[mandatory],types string[mandatory]). "
+#~ "You supplied %d in some function loaded from XLL/DLL/SO file %s."
 #~ msgstr ""
-#~ "/ЖИЫНТЫҚ ШЫҒЫС//Регрессия статистикасы/Жиынтық R/R^2/Стандартты қате/Түзетілген "
-#~ "R^2/Бақылаулар//Дисперсиялық талдау//Регрессия/Қалдық/Жиыны///Кесінді"
-
-#~ msgid "Response Variable"
-#~ msgstr "Жауап айнымалысы"
-
-#~ msgid "/df/SS/MS/F/Significance of F"
-#~ msgstr "/df/SS/MS/F/F маңыздылығы"
-
-#~ msgid "/Coefficients/Standard Error/t-Statistics/p-Value"
-#~ msgstr "/Коэффициенттер/Стандартты қате/t-статистикасы/p-мәні"
-
-#~ msgid "\"Lower\" 0%"
-#~ msgstr "\"Төменгі\" 0%"
-
-#~ msgid "\"Upper\" 0%"
-#~ msgstr "\"Жоғарғы\" 0%"
+#~ "Excel плагин жүктегіші / xlfRegister: кемінде үш XLOPER аргументі берілуі керек "
+#~ "(DLL атауы [ескерілмейді], экспортталған атау [міндетті], түрлер жолы "
+#~ "[міндетті]). Сіз %2$s XLL/DLL/SO файлынан жүктелген кейбір функцияда %1$d "
+#~ "аргументін бердіңіз."
 
 #~ msgid ""
-#~ "Probability of observing a t-statistic\n"
-#~ "whose absolute value is at least as large\n"
-#~ "as the absolute value of the actually\n"
-#~ "observed t-statistic, assuming the null\n"
-#~ "hypothesis is in fact true."
+#~ "Excel plugin loader / xlfRegister: the second and third arguments must be "
+#~ "strings (DLL name[ignored],exported name[mandatory],types string[mandatory])."
 #~ msgstr ""
-#~ "Нөлдік гипотеза шын мәнінде дұрыс деп\n"
-#~ "есептей отырып, абсолюттік мәні іс жүзінде\n"
-#~ "бақыланған t-статистикасының абсолюттік\n"
-#~ "мәнінен кем емес t-статистикасын\n"
-#~ "бақылау ықтималдығы."
+#~ "Excel плагин жүктегіші / xlfRegister: екінші және үшінші аргументтер жолдар "
+#~ "болуы керек (DLL атауы [ескерілмейді], экспортталған атау [міндетті], түрлер "
+#~ "жолы [міндетті])."
+
+#~ msgid "Dynamic module loading is not supported on this system."
+#~ msgstr "Бұл жүйеде модульдерді динамикалық жүктеуге қолдау көрсетілмейді."
+
+#, c-format
+#~ msgid "Unable to open module file \"%s\"."
+#~ msgstr "\"%s\" модуль файлын ашу мүмкін емес."
+
+#, c-format
+#~ msgid "Module \"%s\" doesn't contain (\"register_actual_excel4v\" symbol)."
+#~ msgstr "\"%s\" модулінде (\"register_actual_excel4v\" символы) жоқ."
+
+#, c-format
+#~ msgid "No loadable worksheet functions found in XLL/DLL/SO file %s."
+#~ msgstr "%s XLL/DLL/SO файлында жүктелетін жұмыс парағының функциялары табылмады."
+
+#, c-format
+#~ msgid "Loaded %lu function from XLL/DLL/SO %s."
+#~ msgid_plural "Loaded %lu functions from XLL/DLL/SO %s."
+#~ msgstr[0] "%2$s XLL/DLL/SO файлынан %1$lu функция жүктелді."
+
+#~ msgid "Excel plugins"
+#~ msgstr "Excel плагиндері"
 
 #~ msgid ""
-#~ "This value is not the square of R\n"
-#~ "but the uncentered version of the\n"
-#~ "coefficient of determination; that\n"
-#~ "is, the proportion of the sum of\n"
-#~ "squares explained by the model."
+#~ "Adapter interface to load Excel plugins (also known as XLLs). Only operational "
+#~ "for worksheet functions that expect only arguments of LPXLOPER type (type 'P' or "
+#~ "'R') and return an LPXLOPER (type 'P' or 'R')."
 #~ msgstr ""
-#~ "Бұл мән R квадраты емес, детерминация\n"
-#~ "коэффициентінің орталықтандырылмаған нұсқасы;\n"
-#~ "яғни модельмен түсіндірілетін квадраттар\n"
-#~ "қосындысының үлесі."
+#~ "Excel плагиндерін (XLL деп те аталады) жүктеуге арналған адаптер интерфейсі. Тек "
+#~ "LPXLOPER түріндегі (P немесе R түрі) аргументтерді күтетін және LPXLOPER (P "
+#~ "немесе R түрі) қайтаратын жұмыс парағының функциялары үшін ғана жұмыс істейді."
 
-#~ msgid "Constant"
-#~ msgstr "Тұрақты"
-
-#~ msgid ""
-#~ "/Prediction//Residual/Leverages/Internally studentized/Externally studentized/p-"
-#~ "Value"
-#~ msgstr "/Болжам//Қалдық/Леверидждер/Ішкі студенттелген/Сыртқы студенттелген/p-мәні"
-
-#~ msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
-#~ msgstr "/ЖИЫНТЫҚ ШЫҒЫС//Тәуелсіз айнымалы//Бақылаулар"
-
-#~ msgid "/SUMMARY OUTPUT//Response Variable//Observations"
-#~ msgstr "/ЖИЫНТЫҚ ШЫҒЫС//Жауап айнымалысы//Бақылаулар"
-
-#~ msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
-#~ msgstr "/Жауап айнымалысы/R^2/Көлбеулік/Кесінді/F/F маңыздылығы"
-
-#~ msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
-#~ msgstr "/Тәуелсіз айнымалы/R^2/Көлбеулік/Кесінді/F/F маңыздылығы"
+#~ msgid "Type Mismatch"
+#~ msgstr "Түр сәйкес келмеуі"
 
 #~ msgid "Left to Right"
 #~ msgstr "Солдан оңға"
