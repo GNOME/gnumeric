@@ -159,10 +159,15 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 					 gtk_toggle_button_get_active
 					 (GTK_TOGGLE_BUTTON (w)),
 					 op1, v1);
-			} else
+				v0 = v1 = NULL;
+			} else {
 				cond = gnm_filter_condition_new_single
 					(op0, v0);
+				v0 = NULL;
+			}
+			value_release (v1);
 		}
+		value_release (v0);
 	} else {
 		int count;
 		GnmFilterOp op = autofilter_get_type (state);

@@ -1,3 +1,8 @@
+2026-08-03  Morten Welinder  <terra@gnome.org>
+
+	* dialog-autofilter.c (cb_autofilter_ok): Make sure we free the
+	value.  (We probably already did.)
+
 2026-04-29  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.61

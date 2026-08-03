@@ -1,3 +1,9 @@
+2026-08-03  Morten Welinder  <terra@gnome.org>
+
+	* gnm-filter-combo-view.c (fcombo_activate): Don't free value is
+	gnm_filter_condition_new_single takes ownership.  Likely fixes
+	#891.
+
 2026-07-11  Morten Welinder  <terra@gnome.org>
 
 	* gnm-dao.c (tool_set_focus_output_range): Fix return type of

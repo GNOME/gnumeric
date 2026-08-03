@@ -67,6 +67,7 @@ fcombo_activate (SheetObject *so, GtkTreeView *list, WBCGtk *wbcg,
 		case  0:
 			cond = gnm_filter_condition_new_single (
 				GNM_FILTER_OP_EQUAL, v);
+			v = NULL;
 			break;
 		case  1: /* unfilter */
 			cond = NULL;
