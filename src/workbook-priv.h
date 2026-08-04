@@ -22,6 +22,7 @@ struct Workbook_ {
 	GnmSheetSize sheet_size;
 
 	gboolean is_placeholder;
+	gboolean is_read_only;
 
 	GOFileFormatLevel  file_format_level;
 	GOFileFormatLevel  file_export_format_level;

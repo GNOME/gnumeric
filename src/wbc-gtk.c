@@ -1336,10 +1336,12 @@ static void
 wbcg_update_title (WBCGtk *wbcg)
 {
 	GODoc *doc = wb_control_get_doc (GNM_WBC (wbcg));
+	Workbook *wb = GNM_IS_WORKBOOK (doc) ? WORKBOOK (doc) : NULL;
 	char *basename = doc->uri ? go_basename_from_uri (doc->uri) : NULL;
 	char *title = g_strconcat
 		(go_doc_is_dirty (doc) ? "*" : "",
 		 basename ? basename : doc->uri,
+		 (wb && workbook_is_read_only (wb)) ? _(" [Read-Only]") : "",
 #ifdef GNM_WITH_DECIMAL64
 		 _(" - Gnumeric [Decimal]"),
 #else
@@ -1349,6 +1351,13 @@ wbcg_update_title (WBCGtk *wbcg)
 	gtk_window_set_title (wbcg_toplevel (wbcg), title);
 	g_free (title);
 	g_free (basename);
+}
+
+static void
+wbcg_read_only_changed (WBCGtk *wbcg)
+{
+	wbcg_update_title (wbcg);
+	wb_control_update_action_sensitivity (GNM_WBC (wbcg));
 }
 
 static void
@@ -3108,6 +3117,7 @@ wbcg_view_changed (WBCGtk *wbcg,
 	DISCONNECT (old_wb, sig_sheet_order);
 	DISCONNECT (old_wb, sig_notify_uri);
 	DISCONNECT (old_wb, sig_notify_dirty);
+	DISCONNECT (old_wb, sig_notify_read_only);
 
 	if (wb) {
 		wbcg->sig_sheet_order =
@@ -3131,7 +3141,14 @@ wbcg_view_changed (WBCGtk *wbcg,
 			 G_CALLBACK (wbcg_update_title),
 			 wbcg, G_CONNECT_SWAPPED);
 
-		wbcg_update_title (wbcg);
+		wbcg->sig_notify_read_only =
+			g_signal_connect_object
+			(G_OBJECT (wb),
+			 "notify::read-only",
+			 G_CALLBACK (wbcg_read_only_changed),
+			 wbcg, G_CONNECT_SWAPPED);
+
+		wbcg_read_only_changed (wbcg);
 	}
 }
 
