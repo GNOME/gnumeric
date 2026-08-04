@@ -27,6 +27,10 @@ void     gui_wb_view_show   (WBCGtk *wbcg, WorkbookView *wbv);
 WorkbookView *gui_file_read (WBCGtk *wbcg, char const *uri,
 			     GOFileOpener const *optional_format,
 			     gchar const *optional_encoding);
+WorkbookView *gui_file_read_read_only (WBCGtk *wbcg, char const *uri,
+					GOFileOpener const *optional_format,
+					gchar const *optional_encoding,
+					gboolean is_read_only);
 gboolean gnm_gui_file_template  (WBCGtk *wbcg, char const *uri);
 
 G_END_DECLS

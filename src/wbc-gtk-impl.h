@@ -94,7 +94,7 @@ struct WBCGtk_ {
 	gulong sig_auto_expr_text, sig_auto_expr_attrs;
 	gulong sig_show_horizontal_scrollbar, sig_show_vertical_scrollbar;
 	gulong sig_show_notebook_tabs;
-	gulong sig_sheet_order, sig_notify_uri, sig_notify_dirty;
+	gulong sig_sheet_order, sig_notify_uri, sig_notify_dirty, sig_notify_read_only;
 	gpointer sig_wbv;
 
 /**********************************************/

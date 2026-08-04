@@ -55,7 +55,8 @@
 enum {
 	PROP_0,
 	PROP_RECALC_MODE,
-	PROP_BEING_LOADED
+	PROP_BEING_LOADED,
+	PROP_READ_ONLY
 };
 enum {
 	SHEET_ORDER_CHANGED,
@@ -284,6 +285,9 @@ workbook_get_property (GObject *object, guint property_id,
 	case PROP_BEING_LOADED:
 		g_value_set_boolean (value, wb->being_loaded);
 		break;
+	case PROP_READ_ONLY:
+		g_value_set_boolean (value, wb->is_read_only);
+		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -302,6 +306,9 @@ workbook_set_property (GObject *object, guint property_id,
 		break;
 	case PROP_BEING_LOADED:
 		wb->being_loaded = g_value_get_boolean (value);
+		break;
+	case PROP_READ_ONLY:
+		workbook_set_read_only (wb, g_value_get_boolean (value));
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -378,6 +385,14 @@ workbook_class_init (GObjectClass *gobject_class)
 				       P_("Being loaded"),
 				       P_("Workbook is currently being loaded."),
 				       TRUE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+
+        g_object_class_install_property (gobject_class, PROP_READ_ONLY,
+		 g_param_spec_boolean ("read-only",
+				       P_("Read Only"),
+				       P_("Workbook is opened in read-only mode."),
+				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
 
@@ -580,6 +595,38 @@ workbook_get_last_export_uri (Workbook *wb)
 	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), NULL);
 
 	return wb->last_export_uri;
+}
+
+/**
+ * workbook_is_read_only:
+ * @wb: #Workbook
+ *
+ * Returns: %TRUE if the workbook was opened read-only.
+ **/
+gboolean
+workbook_is_read_only (Workbook const *wb)
+{
+	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), FALSE);
+
+	return wb->is_read_only;
+}
+
+/**
+ * workbook_set_read_only:
+ * @wb: #Workbook
+ * @is_read_only: read-only flag
+ *
+ * Set whether the workbook is opened read-only.
+ **/
+void
+workbook_set_read_only (Workbook *wb, gboolean is_read_only)
+{
+	g_return_if_fail (GNM_IS_WORKBOOK (wb));
+
+	if (wb->is_read_only != is_read_only) {
+		wb->is_read_only = is_read_only;
+		g_object_notify (G_OBJECT (wb), "read-only");
+	}
 }
 
 /**

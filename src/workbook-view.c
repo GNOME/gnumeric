@@ -1293,6 +1293,7 @@ workbook_view_save_as (WorkbookView *wbv, GOFileSaver *fs, char const *uri,
 				go_doc_set_dirty (GO_DOC (wb), FALSE);
 				/* See 634792.  */
 				go_doc_set_pristine (GO_DOC (wb), FALSE);
+				workbook_set_read_only (wb, FALSE);
 
 				modtime = get_uri_modtime (NULL, uri);
 				if (modtime) {
@@ -1337,6 +1338,11 @@ workbook_view_save (WorkbookView *wbv, GOCmdContext *context)
 	g_return_val_if_fail (GO_IS_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_get_workbook (wbv);
+	if (workbook_is_read_only (wb)) {
+		go_cmd_context_error_export (context,
+			_("This workbook was opened read-only. Use Save As to save under a new name."));
+		return FALSE;
+	}
 	g_object_ref (wb);
 	uri = go_doc_get_uri (GO_DOC (wb));
 

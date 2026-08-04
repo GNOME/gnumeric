@@ -58,6 +58,8 @@ GOFileSaver *workbook_get_file_exporter	(Workbook *wb);
 gchar const *workbook_get_last_export_uri (Workbook *wb);
 void         workbook_set_file_exporter	  (Workbook *wb, GOFileSaver *fs);
 void         workbook_set_last_export_uri (Workbook *wb, const gchar *uri);
+gboolean     workbook_is_read_only        (Workbook const *wb);
+void         workbook_set_read_only       (Workbook *wb, gboolean is_read_only);
 
 /* See also sheet_foreach_cell_in_region */
 GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,

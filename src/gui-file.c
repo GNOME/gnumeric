@@ -147,6 +147,32 @@ gui_file_read (WBCGtk *wbcg, char const *uri,
 }
 
 /**
+ * gui_file_read_read_only:
+ * @wbcg: #WBCGtk
+ * @uri: file URI
+ * @optional_format: (nullable): #GOFileOpener
+ * @optional_encoding: (nullable): encoding
+ * @is_read_only: whether to open read-only
+ *
+ * Returns: (transfer none): the new #WorkbookView for the file read.
+ **/
+WorkbookView *
+gui_file_read_read_only (WBCGtk *wbcg, char const *uri,
+			 GOFileOpener const *optional_format,
+			 gchar const *optional_encoding,
+			 gboolean is_read_only)
+{
+	WorkbookView *wbv = gui_file_read (wbcg, uri, optional_format, optional_encoding);
+
+	if (wbv != NULL && is_read_only) {
+		Workbook *wb = wb_view_get_workbook (wbv);
+		workbook_set_read_only (wb, TRUE);
+	}
+
+	return wbv;
+}
+
+/**
  * gnm_gui_file_template:
  * @wbcg: #WBCGtk
  * @uri: template URI
@@ -248,6 +274,7 @@ gui_file_open (WBCGtk *wbcg, GnmFileOpenStyle type, char const *default_format)
 	GtkWidget *advanced_button;
 	GtkComboBox *format_combo;
 	GtkWidget *go_charmap_sel;
+	GtkWidget *read_only_check;
 	file_opener_format_changed_cb_data data;
 	gint opener_default;
 	char const *title = NULL;
@@ -358,6 +385,8 @@ gui_file_open (WBCGtk *wbcg, GnmFileOpenStyle type, char const *default_format)
 			       "select-multiple", TRUE,
 			       NULL));
 
+	gtk_file_chooser_add_choice (fsel, "read-only", _("Open read-only"), NULL, NULL);
+
 	advanced_button = gtk_button_new_with_mnemonic (_("Advanc_ed"));
 	gtk_widget_show (advanced_button);
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_action_area (GTK_DIALOG (fsel))),
@@ -432,6 +461,9 @@ gui_file_open (WBCGtk *wbcg, GnmFileOpenStyle type, char const *default_format)
 		gtk_label_set_mnemonic_widget (GTK_LABEL (data.charmap_label),
 					       go_charmap_sel);
 
+		read_only_check = gtk_check_button_new_with_mnemonic (_("Open read-_only"));
+		gtk_grid_attach (GTK_GRID (grid), read_only_check, 0, 2, 2, 1);
+
 		g_object_ref_sink (grid);
 		g_object_set_data_full (G_OBJECT (advanced_button), "extra",
 					grid, g_object_unref);
@@ -449,6 +481,9 @@ gui_file_open (WBCGtk *wbcg, GnmFileOpenStyle type, char const *default_format)
 	uris = gtk_file_chooser_get_uris (fsel);
 	encoding = go_charmap_sel_get_encoding (GO_CHARMAP_SEL (go_charmap_sel));
 	fo = g_list_nth_data (openers, gtk_combo_box_get_active (format_combo));
+	char const *choice_str = gtk_file_chooser_get_choice (fsel, "read-only");
+	gboolean read_only = (choice_str != NULL && (g_strcmp0 (choice_str, "true") == 0 || g_strcmp0 (choice_str, "1") == 0))
+		|| gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (read_only_check));
 
  out:
 	gtk_widget_destroy (GTK_WIDGET (fsel));
@@ -461,7 +496,7 @@ gui_file_open (WBCGtk *wbcg, GnmFileOpenStyle type, char const *default_format)
 		/* Make sure dialog goes away right now.  */
 		while (g_main_context_iteration (NULL, FALSE));
 
-		gui_file_read (wbcg, uri, fo, encoding);
+		gui_file_read_read_only (wbcg, uri, fo, encoding, read_only);
 		g_free (uri);
 
 		uris = uris->next;
@@ -870,7 +905,7 @@ gui_file_save (WBCGtk *wbcg, WorkbookView *wb_view)
 		wb_view_preferred_size (wb_view, a.width, a.height);
 	}
 
-	if (wb->file_format_level < GO_FILE_FL_AUTO)
+	if (workbook_is_read_only (wb) || wb->file_format_level < GO_FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view,
 					 GNM_FILE_SAVE_AS_STYLE_SAVE, NULL,
 					 TRUE);
