@@ -2,22 +2,22 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 #
 # Yuri Syrota <rasta@renome.rovno.ua>, 1999.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2022, 2023, 2024, 2025, 2026.
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023, 2024, 2025, 2026 Yuri Chornoivan <yurchor@ukr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-07-13 10:04+0000\n"
-"PO-Revision-Date: 2026-07-13 15:17+0300\n"
+"POT-Creation-Date: 2026-08-04 00:57+0000\n"
+"PO-Revision-Date: 2026-08-04 20:23+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
-"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>="
+"2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Lokalize 25.12.1\n"
 
 #: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
 #: ../src/func-builtin.c:554
@@ -483,7 +483,8 @@ msgstr "Виявлено одразу атрибути «refreshedDate» і «re
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because: %s"
-msgstr "Пропускаємо некоректну групу полів зведення для поля «%s». Причина: %s"
+msgstr ""
+"Пропускаємо некоректну групу полів зведення для поля «%s». Причина: %s"
 
 #: ../plugins/excel/xlsx-read.c:382
 #, c-format
@@ -1694,7 +1695,8 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:8529
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr "Некоректний атрибут «форма:значення», очікувалося число, отримано «%s»"
+msgstr ""
+"Некоректний атрибут «форма:значення», очікувалося число, отримано «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:8495
 #, c-format
@@ -2122,7 +2124,8 @@ msgstr "Функції Python"
 
 #: ../plugins/py-func/plugin.xml.in.h:2
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr "Зразок додатка Python, у якому реалізовано деякі (непотрібні) функції."
+msgstr ""
+"Зразок додатка Python, у якому реалізовано деякі (непотрібні) функції."
 
 #: ../plugins/py-func/plugin.xml.in.h:3
 msgid "Python"
@@ -2379,7 +2382,7 @@ msgstr "Пропущено завершальне «E»"
 #: ../src/dialogs/dialog-search.c:436 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:648
-#: ../src/workbook.c:1195 ../src/workbook.c:1225
+#: ../src/workbook.c:1242 ../src/workbook.c:1272
 msgid "Sheet"
 msgstr "Аркуш"
 
@@ -2834,7 +2837,8 @@ msgid "Preferred Display Unit"
 msgstr "Бажана одиниця показу"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:75
-msgid "This string gives the default unit to be used in the page setup dialog."
+msgid ""
+"This string gives the default unit to be used in the page setup dialog."
 msgstr ""
 "Цей рядок визначає типову одиницю виміру, яку буде використано у діалоговому "
 "вікні налаштовування сторінки."
@@ -4420,7 +4424,7 @@ msgstr "Налаштувати коригування"
 msgid "Add Filter"
 msgstr "Додати фільтр"
 
-#: ../src/commands.c:8110 ../src/wbc-gtk.c:1674
+#: ../src/commands.c:8110 ../src/wbc-gtk.c:1683
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Автофільтрування заблоковано %s"
@@ -4461,19 +4465,19 @@ msgstr "Змінити умову фільтрування для %s"
 msgid "Clear All Page Breaks"
 msgstr "Вилучити усі розриви сторінок"
 
-#: ../src/commands.c:8339 ../src/wbc-gtk.c:1609
+#: ../src/commands.c:8339 ../src/wbc-gtk.c:1618
 msgid "Remove Column Page Break"
 msgstr "Вилучити розрив сторінки за стовпчиками"
 
-#: ../src/commands.c:8339 ../src/wbc-gtk.c:1619
+#: ../src/commands.c:8339 ../src/wbc-gtk.c:1628
 msgid "Remove Row Page Break"
 msgstr "Вилучити розрив сторінки за рядками"
 
-#: ../src/commands.c:8342 ../src/wbc-gtk.c:1612
+#: ../src/commands.c:8342 ../src/wbc-gtk.c:1621
 msgid "Add Column Page Break"
 msgstr "Додати розрив сторінки за стовпчиками"
 
-#: ../src/commands.c:8342 ../src/wbc-gtk.c:1622
+#: ../src/commands.c:8342 ../src/wbc-gtk.c:1631
 msgid "Add Row Page Break"
 msgstr "Додати розрив сторінки за рядками"
 
@@ -5382,23 +5386,21 @@ msgstr ""
 "даних і мітки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3646
-#| msgid ""
-#| "The given input range should contain at least two columns and two rows of "
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
-"Вказаний вхідний діапазон має містити принаймні два стовпчики і два рядки"
-" даних."
+"Вказаний вхідний діапазон має містити принаймні два стовпчики і два рядки "
+"даних."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3652
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr "Вказаний вхідний діапазон має містити принаймні два стовпчики і мітки."
+msgstr ""
+"Вказаний вхідний діапазон має містити принаймні два стовпчики і мітки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3655
-#| msgid "The given input range should contain at least two columns of "
 msgid "The given input range should contain at least two columns of data."
 msgstr "Вказаний вхідний діапазон має містити принаймні два стовпчики даних."
 
@@ -5410,7 +5412,6 @@ msgstr ""
 "Вказаний вхідний діапазон має містити принаймні два рядки даних і мітки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3664
-#| msgid "The given input range should contain at least two rows of "
 msgid "The given input range should contain at least two rows of data."
 msgstr "Вказаний вхідний діапазон має містити принаймні два рядки даних."
 
@@ -5428,7 +5429,7 @@ msgstr "Не вдалося створити діалог двофакторно
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
-#: ../src/dialogs/dialog-autofilter.c:211
+#: ../src/dialogs/dialog-autofilter.c:216
 #, c-format
 msgid "Show the largest item"
 msgid_plural "Show the %d largest items"
@@ -5439,7 +5440,7 @@ msgstr[3] "Показати найбільший запис"
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
-#: ../src/dialogs/dialog-autofilter.c:221
+#: ../src/dialogs/dialog-autofilter.c:226
 #, c-format
 msgid "Show the smallest item"
 msgid_plural "Show the %d smallest items"
@@ -5448,7 +5449,7 @@ msgstr[1] "Показати %d найменших записи"
 msgstr[2] "Показати %d найменших записів"
 msgstr[3] "Показати найменший запис"
 
-#: ../src/dialogs/dialog-autofilter.c:235
+#: ../src/dialogs/dialog-autofilter.c:240
 #, c-format
 msgid "Show the items in the top %d%% of the data range"
 msgid_plural "Show the items in the top %d%% of the data range"
@@ -5457,7 +5458,7 @@ msgstr[1] "Показати запис верхніх %d%% діапазону д
 msgstr[2] "Показати запис верхніх %d%% діапазону даних"
 msgstr[3] "Показати запис верхнього %d%% діапазону даних"
 
-#: ../src/dialogs/dialog-autofilter.c:245
+#: ../src/dialogs/dialog-autofilter.c:250
 #, c-format
 msgid "Show the items in the bottom %d%% of the data range"
 msgid_plural "Show the items in the bottom %d%% of the data range"
@@ -5466,7 +5467,7 @@ msgstr[1] "Показати запис нижніх %d%% діапазону да
 msgstr[2] "Показати запис нижніх %d%% діапазону даних"
 msgstr[3] "Показати запис нижнього %d%% діапазону даних"
 
-#: ../src/dialogs/dialog-autofilter.c:256
+#: ../src/dialogs/dialog-autofilter.c:261
 #, c-format
 msgid "Show the top %d%% of all items"
 msgid_plural "Show the top %d%% of all items"
@@ -5475,7 +5476,7 @@ msgstr[1] "Показати верхні %d%% усіх записів"
 msgstr[2] "Показати верхні %d%% усіх записів"
 msgstr[3] "Показати верхній %d%% усіх записів"
 
-#: ../src/dialogs/dialog-autofilter.c:266
+#: ../src/dialogs/dialog-autofilter.c:271
 #, c-format
 msgid "Show the bottom %d%% of all items"
 msgid_plural "Show the bottom %d%% of all items"
@@ -5484,21 +5485,21 @@ msgstr[1] "Показати нижні %d%% усіх записів"
 msgstr[2] "Показати нижні %d%% усіх записів"
 msgstr[3] "Показати нижній %d%% усіх записів"
 
-#: ../src/dialogs/dialog-autofilter.c:284
+#: ../src/dialogs/dialog-autofilter.c:289
 msgid "Percentage:"
 msgstr "Частка:"
 
-#: ../src/dialogs/dialog-autofilter.c:289
+#: ../src/dialogs/dialog-autofilter.c:294
 msgid "Count:"
 msgstr "Кількість:"
 
-#: ../src/dialogs/dialog-autofilter.c:348
+#: ../src/dialogs/dialog-autofilter.c:353
 #, c-format
 msgid "Column %s (\"%s\")"
 msgstr "Стовпчик %s («%s»)"
 
-#: ../src/dialogs/dialog-autofilter.c:390
-#: ../src/dialogs/dialog-autofilter.c:490 ../src/dialogs/dialog-cell-sort.c:135
+#: ../src/dialogs/dialog-autofilter.c:395
+#: ../src/dialogs/dialog-autofilter.c:495 ../src/dialogs/dialog-cell-sort.c:135
 #: ../src/dialogs/dialog-sheet-compare.c:312
 #, c-format
 msgid "Column %s"
@@ -6499,7 +6500,7 @@ msgstr "Пароль:"
 msgid "Select Directory"
 msgstr "Виберіть каталог"
 
-#: ../src/dialogs/dialog-plugin-manager.c:273 ../src/gui-file.c:836
+#: ../src/dialogs/dialog-plugin-manager.c:273 ../src/gui-file.c:871
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -7567,16 +7568,16 @@ msgid "Run on"
 msgstr "Працює на"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:244
-#: ../src/wbc-gtk.c:4144
+#: ../src/wbc-gtk.c:4161
 msgid "Min"
 msgstr "Мінімум"
 
-#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4146
+#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4163
 msgid "Average"
 msgstr "Середнє"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4145
+#: ../src/wbc-gtk.c:4162
 msgid "Max"
 msgstr "Максимум"
 
@@ -7783,7 +7784,8 @@ msgstr "Автомасштаб"
 
 #: ../src/dialogs/dialog-stf-format-page.c:619
 #, c-format
-msgid "If this checkbox is selected, column %i will be imported into Gnumeric."
+msgid ""
+"If this checkbox is selected, column %i will be imported into Gnumeric."
 msgstr "Якщо позначено цей пункт, стовпчик %i буде імпортовано до Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:627
@@ -9204,7 +9206,7 @@ msgstr "Вз_яття лапок:"
 msgid "Quote _character:"
 msgstr "Си_мвол лапок:"
 
-#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:342
+#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:369
 msgid "Character _encoding:"
 msgstr "_Кодування символів:"
 
@@ -10552,7 +10554,8 @@ msgstr "Ширина стовпчиків"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
-msgstr "Зробити ширини стовпчиків призначення такими самими, як ширини джерела"
+msgstr ""
+"Зробити ширини стовпчиків призначення такими самими, як ширини джерела"
 
 #: ../src/dialogs/paste-special.ui.h:32
 msgid "Row heights"
@@ -12495,43 +12498,51 @@ msgstr "Автовизначення"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
-#: ../src/gui-file.c:227 ../src/gui-file.c:361
+#: ../src/gui-file.c:253 ../src/gui-file.c:390
 msgid "Advanc_ed"
 msgstr "Р_озширено"
 
-#: ../src/gui-file.c:230
+#: ../src/gui-file.c:256
 msgid "Simpl_e"
 msgstr "Пр_осто"
 
-#: ../src/gui-file.c:331
+#: ../src/gui-file.c:358
 msgid "Open Spreadsheet File"
 msgstr "Відкриття файла електронної таблиці"
 
-#: ../src/gui-file.c:334
+#: ../src/gui-file.c:361
 msgid "Import Data File"
 msgstr "Імпортування файла даних"
 
-#: ../src/gui-file.c:388 ../src/gui-file.c:617
+#: ../src/gui-file.c:388
+msgid "Open read-only"
+msgstr "Відкрити лише для читання"
+
+#: ../src/gui-file.c:417 ../src/gui-file.c:652
 msgid "All Files"
 msgstr "усі файли"
 
-#: ../src/gui-file.c:396
+#: ../src/gui-file.c:425
 msgid "Text Files"
 msgstr "текстові файли"
 
-#: ../src/gui-file.c:401 ../src/gui-file.c:622
+#: ../src/gui-file.c:430 ../src/gui-file.c:657
 msgid "Spreadsheets"
 msgstr "електронні таблиці"
 
-#: ../src/gui-file.c:404
+#: ../src/gui-file.c:433
 msgid "Data Files"
 msgstr "файли даних"
 
-#: ../src/gui-file.c:425 ../src/gui-file.c:646
+#: ../src/gui-file.c:454 ../src/gui-file.c:681
 msgid "File _type:"
 msgstr "_Тип файла:"
 
-#: ../src/gui-file.c:483
+#: ../src/gui-file.c:464
+msgid "Open read-_only"
+msgstr "Відкрити лише для _читання"
+
+#: ../src/gui-file.c:518
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -12544,19 +12555,19 @@ msgstr ""
 "виберіть інший формат файлів.\n"
 "Хочете зберегти лише поточний аркуш?"
 
-#: ../src/gui-file.c:568
+#: ../src/gui-file.c:603
 msgid "Save the current workbook as"
 msgstr "Зберегти поточну робочу книгу як"
 
-#: ../src/gui-file.c:569
+#: ../src/gui-file.c:604
 msgid "Export the current workbook or sheet to"
 msgstr "Експортувати поточну робочу книгу або аркуш до"
 
-#: ../src/gui-file.c:684 ../src/gui-file.c:717
+#: ../src/gui-file.c:719 ../src/gui-file.c:752
 msgid "Untitled"
 msgstr "Без назви"
 
-#: ../src/gui-file.c:750
+#: ../src/gui-file.c:785
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -12564,11 +12575,11 @@ msgstr ""
 "Вказаний суфікс назви файла не відповідає вбираному типу фалів. Хочете "
 "скористатися ним попри це?"
 
-#: ../src/gui-file.c:821
+#: ../src/gui-file.c:856
 msgid "%F %T"
 msgstr "%F %T"
 
-#: ../src/gui-file.c:829
+#: ../src/gui-file.c:864
 #, c-format
 msgid ""
 "The file you are about to save has changed on disk. If you continue, you "
@@ -12588,11 +12599,11 @@ msgstr ""
 "\n"
 "Востаннє змінено: <b>%s</b>\n"
 
-#: ../src/gui-file.c:835
+#: ../src/gui-file.c:870
 msgid "Overwrite"
 msgstr "Перезаписати"
 
-#: ../src/gui-file.c:934
+#: ../src/gui-file.c:969
 #, c-format
 msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
@@ -12601,7 +12612,7 @@ msgstr ""
 "Хочете експортувати <b>поточний аркуш</b> цієї робочої книги до «<b>%s</b>» "
 "за допомогою засобу експортування «<b>%s</b>»?"
 
-#: ../src/gui-file.c:938
+#: ../src/gui-file.c:973
 #, c-format
 msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
@@ -12610,7 +12621,7 @@ msgstr ""
 "Хочете експортувати цю робочу книгу до «<b>%s</b>» за допомогою засобу "
 "експортування «<b>%s</b>»?"
 
-#: ../src/gui-file.c:965
+#: ../src/gui-file.c:1000
 msgid ""
 "Unable to repeat export since no previous export information has been saved "
 "in this session."
@@ -13517,7 +13528,8 @@ msgid "New graph sheet"
 msgstr "Новий графічний аркуш"
 
 #: ../src/sheet-object-widget.c:278
-msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
+msgid ""
+"Because of GTK bug #705640, a sheet object widget is not being printed."
 msgstr "Через ваду GTK 705640, віджет об'єкта аркуша не буде надруковано."
 
 #: ../src/sheet-object-widget.c:460 ../src/wbc-gtk-actions.c:3326
@@ -13681,7 +13693,8 @@ msgstr "Список доступних засобів імпортування"
 
 #: ../src/ssconvert.c:139
 msgid "Merge listed files (all same format) to make this file"
-msgstr "Об'єднати файли зі списку (у одному форматі) для створення цього файла"
+msgstr ""
+"Об'єднати файли зі списку (у одному форматі) для створення цього файла"
 
 #: ../src/ssconvert.c:146
 msgid "Optionally specify which exporter to use"
@@ -13813,7 +13826,8 @@ msgstr "Розв'язувач: %s\n"
 #: ../src/ssconvert.c:1103
 #, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
-msgstr "Некоректний параметр експортування «%s=%s» для експортування зображень"
+msgstr ""
+"Некоректний параметр експортування «%s=%s» для експортування зображень"
 
 #: ../src/ssconvert.c:1279
 #, c-format
@@ -14209,7 +14223,8 @@ msgstr[3] "У файлі міститься один символ NUL. Його 
 #: ../src/stf.c:373
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
-msgstr "У файлі містяться некоректно кодовані символи UTF-8 — їх було обрізано"
+msgstr ""
+"У файлі містяться некоректно кодовані символи UTF-8 — їх було обрізано"
 
 #: ../src/stf.c:417
 msgid "That file is not in the given encoding."
@@ -14356,7 +14371,8 @@ msgstr "Перевірка однорідності"
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
 #: ../src/tools/analysis-chi-squared.c:183
-msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
+msgid ""
+"[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
 msgstr ""
 "[>=5]\"Перевірка незалежності\";[<5][Red]\"Некоректна перевірка "
 "незалежності\""
@@ -15418,7 +15434,7 @@ msgstr "Ексцес"
 msgid "Range"
 msgstr "Діапазон"
 
-#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4147
+#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4164
 msgid "Count"
 msgstr "Кількість"
 
@@ -15602,7 +15618,7 @@ msgstr "#GETTING_DATA"
 msgid "#SPILL!"
 msgstr "#SPILL!"
 
-#: ../src/wbc-gtk-actions.c:182 ../src/workbook-view.c:1350
+#: ../src/wbc-gtk-actions.c:182 ../src/workbook-view.c:1356
 msgid "Default file saver is not available."
 msgstr "Типова функція збереження недоступна."
 
@@ -16377,7 +16393,7 @@ msgstr "Наступний _об'єкт"
 msgid "Select the next sheet object"
 msgstr "Позначити наступний об'єкт аркуша"
 
-#: ../src/wbc-gtk-actions.c:2538 ../src/wbc-gtk.c:2849
+#: ../src/wbc-gtk-actions.c:2538 ../src/wbc-gtk.c:2858
 msgid "Go to Top"
 msgstr "Перейти догори"
 
@@ -16385,7 +16401,7 @@ msgstr "Перейти догори"
 msgid "Go to the top of the data"
 msgstr "Перейти до верхньої частини даних"
 
-#: ../src/wbc-gtk-actions.c:2544 ../src/wbc-gtk.c:2850
+#: ../src/wbc-gtk-actions.c:2544 ../src/wbc-gtk.c:2859
 msgid "Go to Bottom"
 msgstr "Перейти донизу"
 
@@ -16393,7 +16409,7 @@ msgstr "Перейти донизу"
 msgid "Go to the bottom of the data"
 msgstr "Перейти до нижньої частини даних"
 
-#: ../src/wbc-gtk-actions.c:2550 ../src/wbc-gtk.c:2851
+#: ../src/wbc-gtk-actions.c:2550 ../src/wbc-gtk.c:2860
 msgid "Go to First"
 msgstr "Перейти до першої"
 
@@ -16401,7 +16417,7 @@ msgstr "Перейти до першої"
 msgid "Go to the first data cell"
 msgstr "Перейти до першої комірки даних"
 
-#: ../src/wbc-gtk-actions.c:2556 ../src/wbc-gtk.c:2852
+#: ../src/wbc-gtk-actions.c:2556 ../src/wbc-gtk.c:2861
 msgid "Go to Last"
 msgstr "Перейти до останньої"
 
@@ -16493,11 +16509,11 @@ msgstr "Налаштування…"
 msgid "Change Gnumeric Preferences"
 msgstr "Змінити налаштування Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2643 ../src/wbc-gtk.c:1644
+#: ../src/wbc-gtk-actions.c:2643 ../src/wbc-gtk.c:1653
 msgid "_Freeze Panes"
 msgstr "За_фіксувати панелі"
 
-#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1647
+#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1656
 msgid "Freeze the top left of the sheet"
 msgstr "Зафіксувати верхній лівий кут аркуша"
 
@@ -17080,11 +17096,11 @@ msgstr "Експорт_увати як файл CSV…"
 msgid "Export the current sheet as a csv file"
 msgstr "Експортувати поточний аркуш як файл csv"
 
-#: ../src/wbc-gtk-actions.c:3169 ../src/wbc-gtk.c:1765
+#: ../src/wbc-gtk-actions.c:3169 ../src/wbc-gtk.c:1774
 msgid "Repeat Export"
 msgstr "Повторити експортування"
 
-#: ../src/wbc-gtk-actions.c:3171 ../src/wbc-gtk.c:1761 ../src/wbc-gtk.c:1765
+#: ../src/wbc-gtk-actions.c:3171 ../src/wbc-gtk.c:1770 ../src/wbc-gtk.c:1774
 msgid "Repeat the last data export"
 msgstr "Повторити останнє експортування даних"
 
@@ -17191,7 +17207,7 @@ msgstr "Розгрупувати…"
 msgid "Remove an outline group"
 msgstr "Вилучити групу схеми"
 
-#: ../src/wbc-gtk-actions.c:3251 ../src/wbc-gtk.c:1686
+#: ../src/wbc-gtk-actions.c:3251 ../src/wbc-gtk.c:1695
 msgid "Add _Auto Filter"
 msgstr "Додати до _автофільтрування"
 
@@ -17255,7 +17271,7 @@ msgstr "_Редагувати розділювач даних…"
 msgid "Adjust a data slicer"
 msgstr "Скоригувати розділювач даних"
 
-#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4143
+#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4160
 #: ../src/workbook-view.c:927
 msgid "Sum"
 msgstr "Сума"
@@ -17865,157 +17881,161 @@ msgid "Select (sorted)"
 msgstr "Позначити (упорядковано)"
 
 #: ../src/wbc-gtk.c:1344
+msgid " [Read-Only]"
+msgstr " [лише читання]"
+
+#: ../src/wbc-gtk.c:1346
 msgid " - Gnumeric [Decimal]"
 msgstr " – Gnumeric [десятковий]"
 
-#: ../src/wbc-gtk.c:1346
+#: ../src/wbc-gtk.c:1348
 msgid " - Gnumeric"
 msgstr " – Gnumeric"
 
-#: ../src/wbc-gtk.c:1511
+#: ../src/wbc-gtk.c:1520
 msgid "Invalid format"
 msgstr "Некоректне форматування"
 
-#: ../src/wbc-gtk.c:1610
+#: ../src/wbc-gtk.c:1619
 msgid "Remove the page break to the left of the current column"
 msgstr "Вилучити розрив сторінки ліворуч від поточного стовпчика"
 
-#: ../src/wbc-gtk.c:1613
+#: ../src/wbc-gtk.c:1622
 msgid "Add a page break to the left of the current column"
 msgstr "Додати розрив сторінки ліворуч від поточного стовпчика"
 
-#: ../src/wbc-gtk.c:1620
+#: ../src/wbc-gtk.c:1629
 msgid "Remove the page break above the current row"
 msgstr "Вилучити розрив сторінки над поточним рядком"
 
-#: ../src/wbc-gtk.c:1623
+#: ../src/wbc-gtk.c:1632
 msgid "Add a page break above current row"
 msgstr "Додати розрив сторінки над поточним рядком"
 
-#: ../src/wbc-gtk.c:1643
+#: ../src/wbc-gtk.c:1652
 msgid "Un_freeze Panes"
 msgstr "Роз_фіксувати панелі"
 
-#: ../src/wbc-gtk.c:1646
+#: ../src/wbc-gtk.c:1655
 msgid "Unfreeze the top left of the sheet"
 msgstr "Зняти фіксування верхнього лівого краю аркуша"
 
-#: ../src/wbc-gtk.c:1664
+#: ../src/wbc-gtk.c:1673
 #, c-format
 msgid "Extend _Auto Filter to %s"
 msgstr "Розширити _автофільтрування на %s"
 
-#: ../src/wbc-gtk.c:1666
+#: ../src/wbc-gtk.c:1675
 msgid "Extend the existing filter."
 msgstr "Розширити наявне фільтрування."
 
-#: ../src/wbc-gtk.c:1676
+#: ../src/wbc-gtk.c:1685
 msgid "The selection intersects an existing auto filter."
 msgstr "Позначений фрагмент перетинається із наявним автофільтруванням."
 
-#: ../src/wbc-gtk.c:1685
+#: ../src/wbc-gtk.c:1694
 msgid "Remove _Auto Filter"
 msgstr "Вилучити _автофільтрування"
 
-#: ../src/wbc-gtk.c:1688
+#: ../src/wbc-gtk.c:1697
 msgid "Remove a filter"
 msgstr "Вилучити фільтрування"
 
-#: ../src/wbc-gtk.c:1689
+#: ../src/wbc-gtk.c:1698
 msgid "Add a filter"
 msgstr "Додати фільтр"
 
-#: ../src/wbc-gtk.c:1757
+#: ../src/wbc-gtk.c:1766
 #, c-format
 msgid "Repeat Export to %s"
 msgstr "Повторити експортування до %s"
 
-#: ../src/wbc-gtk.c:1770
+#: ../src/wbc-gtk.c:1779
 msgid "Remove _Data Slicer"
 msgstr "Вилучити _розділювач даних"
 
-#: ../src/wbc-gtk.c:1771
+#: ../src/wbc-gtk.c:1780
 msgid "Create _Data Slicer"
 msgstr "Створити _розділювач даних"
 
-#: ../src/wbc-gtk.c:1773
+#: ../src/wbc-gtk.c:1782
 msgid "Remove a Data Slicer"
 msgstr "Вилучити розділювач даних"
 
-#: ../src/wbc-gtk.c:1774
+#: ../src/wbc-gtk.c:1783
 msgid "Create a Data Slicer"
 msgstr "Створити розділювач даних"
 
-#: ../src/wbc-gtk.c:1787
+#: ../src/wbc-gtk.c:1796
 msgid "_Redo"
 msgstr "_Повторити"
 
-#: ../src/wbc-gtk.c:1788
+#: ../src/wbc-gtk.c:1797
 msgid "_Undo"
 msgstr "С_касувати"
 
-#: ../src/wbc-gtk.c:1818
+#: ../src/wbc-gtk.c:1827
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Зберегти зміни до робочої книги «%s» перед закриттям вікна програми?"
 
-#: ../src/wbc-gtk.c:1823
+#: ../src/wbc-gtk.c:1832
 msgid "Save changes to workbook before closing?"
 msgstr "Зберегти зміни до робочої книги перед закриттям?"
 
-#: ../src/wbc-gtk.c:1830
+#: ../src/wbc-gtk.c:1839
 msgid "If you close without saving, changes will be discarded."
 msgstr "Якщо ви закриєте вікно без зберігання даних, зміни буде втрачено."
 
-#: ../src/wbc-gtk.c:1833
+#: ../src/wbc-gtk.c:1842
 msgid "Discard"
 msgstr "Відкинути"
 
-#: ../src/wbc-gtk.c:1835
+#: ../src/wbc-gtk.c:1844
 msgid "Don't close"
 msgstr "Не закривати"
 
-#: ../src/wbc-gtk.c:2062
+#: ../src/wbc-gtk.c:2071
 msgid "Enter in current cell"
 msgstr "Ввести до поточної комірки"
 
-#: ../src/wbc-gtk.c:2064
+#: ../src/wbc-gtk.c:2073
 msgid "Enter in current cell without autocorrection"
 msgstr "Ввести до поточної комірки без автовиправлення"
 
-#: ../src/wbc-gtk.c:2071
+#: ../src/wbc-gtk.c:2080
 msgid "Enter in current range merged"
 msgstr "Ввести до поточного діапазону і об'єднати"
 
-#: ../src/wbc-gtk.c:2074
+#: ../src/wbc-gtk.c:2083
 msgid "Enter in selected ranges"
 msgstr "Ввести до позначених діапазонів"
 
-#: ../src/wbc-gtk.c:2076
+#: ../src/wbc-gtk.c:2085
 msgid "Enter in selected ranges as array"
 msgstr "Ввести до позначених діапазонів як масив"
 
-#: ../src/wbc-gtk.c:2563
+#: ../src/wbc-gtk.c:2572
 msgid "END"
 msgstr "END"
 
-#: ../src/wbc-gtk.c:2854
+#: ../src/wbc-gtk.c:2863
 msgid "Go to Cell..."
 msgstr "Перейти до комірки…"
 
-#: ../src/wbc-gtk.c:2916
+#: ../src/wbc-gtk.c:2925
 msgid "Accept change in multiple cells"
 msgstr "Прийняти зміну у декількох комірках"
 
-#: ../src/wbc-gtk.c:2990 ../src/wbc-gtk.c:3010
+#: ../src/wbc-gtk.c:2999 ../src/wbc-gtk.c:3019
 msgid "_Re-Edit"
 msgstr "П_овторно редагувати"
 
-#: ../src/wbc-gtk.c:2992 ../src/wbc-gtk.c:2999
+#: ../src/wbc-gtk.c:3001 ../src/wbc-gtk.c:3008
 msgid "_Discard"
 msgstr "Від_кинути"
 
-#: ../src/wbc-gtk.c:2997 ../src/wbc-gtk.c:3012
+#: ../src/wbc-gtk.c:3006 ../src/wbc-gtk.c:3021
 msgid "_Accept"
 msgstr "При_йняти"
 
@@ -18025,83 +18045,83 @@ msgstr "При_йняти"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3372
+#: ../src/wbc-gtk.c:3389
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "У меню «%s» клавіші «%s» використано одразу для «%s» і «%s»."
 
-#: ../src/wbc-gtk.c:3671
+#: ../src/wbc-gtk.c:3688
 msgid "Display toolbar above sheets"
 msgstr "Показати панель інструментів над аркушами"
 
-#: ../src/wbc-gtk.c:3672
+#: ../src/wbc-gtk.c:3689
 msgid "Display toolbar to the left of sheets"
 msgstr "Показати панель інструментів ліворуч від аркушів"
 
-#: ../src/wbc-gtk.c:3673
+#: ../src/wbc-gtk.c:3690
 msgid "Display toolbar to the right of sheets"
 msgstr "Показати панель інструментів праворуч від аркушів"
 
-#: ../src/wbc-gtk.c:3701
+#: ../src/wbc-gtk.c:3718
 msgid "Hide"
 msgstr "Приховати"
 
-#: ../src/wbc-gtk.c:3767
+#: ../src/wbc-gtk.c:3784
 msgid "Standard Toolbar"
 msgstr "Стандартна панель інструментів"
 
-#: ../src/wbc-gtk.c:3768
+#: ../src/wbc-gtk.c:3785
 msgid "Format Toolbar"
 msgstr "Пенал форматування"
 
-#: ../src/wbc-gtk.c:3769
+#: ../src/wbc-gtk.c:3786
 msgid "Object Toolbar"
 msgstr "Панель інструментів об'єктів"
 
-#: ../src/wbc-gtk.c:3783
+#: ../src/wbc-gtk.c:3800
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Показати/Приховати панель інструментів %s"
 
-#: ../src/wbc-gtk.c:4204
+#: ../src/wbc-gtk.c:4221
 #, c-format
 msgid "Content of %s"
 msgstr "Вміст %s"
 
-#: ../src/wbc-gtk.c:4219
+#: ../src/wbc-gtk.c:4236
 msgid "Use Maximum Precision"
 msgstr "Максимальна точність"
 
-#: ../src/wbc-gtk.c:4231
+#: ../src/wbc-gtk.c:4248
 msgid "Insert Formula Below"
 msgstr "Вставити формулу нижче"
 
-#: ../src/wbc-gtk.c:4237
+#: ../src/wbc-gtk.c:4254
 msgid "Insert Formula to Side"
 msgstr "Вставити формулу збоку"
 
-#: ../src/wbc-gtk.c:4323
+#: ../src/wbc-gtk.c:4340
 #, c-format
 msgid "Open %s"
 msgstr "Відкрити %s"
 
-#: ../src/widgets/gnm-filter-combo-view.c:169
+#: ../src/widgets/gnm-filter-combo-view.c:170
 msgid "(All)"
 msgstr "(Усі)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:174
+#: ../src/widgets/gnm-filter-combo-view.c:175
 msgid "(Top 10...)"
 msgstr "(Верхні 10...)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:181
+#: ../src/widgets/gnm-filter-combo-view.c:182
 msgid "(Custom...)"
 msgstr "(Нетиповий...)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:259
+#: ../src/widgets/gnm-filter-combo-view.c:260
 msgid "(Blanks...)"
 msgstr "(Порожні…)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:265
+#: ../src/widgets/gnm-filter-combo-view.c:266
 msgid "(Non Blanks...)"
 msgstr "(Непорожні…)"
 
@@ -18366,26 +18386,33 @@ msgstr "Не вдалося відкрити «%s» для запису: %s"
 msgid "Can't open '%s' for writing"
 msgstr "Не вдалося відкрити «%s» для запису"
 
-#: ../src/workbook-view.c:1490
+#: ../src/workbook-view.c:1343
+msgid ""
+"This workbook was opened read-only. Use Save As to save under a new name."
+msgstr ""
+"Цю робочу книгу відкрито лише для читання. Скористайтеся пунктом «Зберегти як"
+"» для збереження даних до файла з новою назвою."
+
+#: ../src/workbook-view.c:1496
 #, c-format
 msgid "Unsupported file format for file \"%s\""
 msgstr "Непідтримуваний формат файлів для файла «%s»"
 
-#: ../src/workbook-view.c:1546
+#: ../src/workbook-view.c:1552
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "При спробі відкрити %s сталася непридатна до пояснення помилка"
 
-#: ../src/workbook.c:338
+#: ../src/workbook.c:345
 #, c-format
 msgid "Book%d.%s"
 msgstr "Книга%d.%s"
 
-#: ../src/workbook.c:1225
+#: ../src/workbook.c:1272
 msgid "Graph"
 msgstr "Графік"
 
-#: ../src/workbook.c:1803
+#: ../src/workbook.c:1850
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
@@ -18394,7 +18421,7 @@ msgstr[1] "Перейменовуємо %d аркушів"
 msgstr[2] "Перейменовуємо %d аркушів"
 msgstr[3] "Перейменовуємо аркуш"
 
-#: ../src/workbook.c:1805
+#: ../src/workbook.c:1852
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18407,7 +18434,7 @@ msgstr[3] "Додаємо аркуш"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1811
+#: ../src/workbook.c:1858
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
@@ -18416,11 +18443,11 @@ msgstr[1] "Вставляємо %d аркуші"
 msgstr[2] "Вставляємо %d аркушів"
 msgstr[3] "Вставляємо аркуш"
 
-#: ../src/workbook.c:1813
+#: ../src/workbook.c:1860
 msgid "Changing sheet tab colors"
 msgstr "Змінюємо кольори вкладок аркушів"
 
-#: ../src/workbook.c:1815
+#: ../src/workbook.c:1862
 msgid "Changing sheet properties"
 msgstr "Змінюємо властивості аркушів"
 
@@ -18428,7 +18455,7 @@ msgstr "Змінюємо властивості аркушів"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1822
+#: ../src/workbook.c:1869
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
@@ -18437,11 +18464,11 @@ msgstr[1] "Вилучаємо %d аркуші"
 msgstr[2] "Вилучаємо %d аркушів"
 msgstr[3] "Вилучаємо аркуш"
 
-#: ../src/workbook.c:1824
+#: ../src/workbook.c:1871
 msgid "Changing sheet order"
 msgstr "Змінюємо порядок аркушів"
 
-#: ../src/workbook.c:1826
+#: ../src/workbook.c:1873
 msgid "Reorganizing Sheets"
 msgstr "Перевпорядкування аркушів"
 
