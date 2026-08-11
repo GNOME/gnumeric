@@ -36,8 +36,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-07-12 22:11+0000\n"
-"PO-Revision-Date: 2026-05-29 11:16+0200\n"
+"POT-Creation-Date: 2026-08-04 00:57+0000\n"
+"PO-Revision-Date: 2026-08-12 01:52+0200\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -2390,7 +2390,7 @@ msgstr "Saknar avslutande ”E”"
 #: ../src/dialogs/dialog-search.c:436 ../src/dialogs/dialog-stf-export.c:594
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:648
-#: ../src/workbook.c:1195 ../src/workbook.c:1225
+#: ../src/workbook.c:1242 ../src/workbook.c:1272
 msgid "Sheet"
 msgstr "Blad"
 
@@ -4367,7 +4367,7 @@ msgstr "Konfigurera justering"
 msgid "Add Filter"
 msgstr "Lägg till filter"
 
-#: ../src/commands.c:8110 ../src/wbc-gtk.c:1674
+#: ../src/commands.c:8110 ../src/wbc-gtk.c:1683
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Autofilter blockerat av %s"
@@ -4408,19 +4408,19 @@ msgstr "Ändra filtervillkor för %s"
 msgid "Clear All Page Breaks"
 msgstr "Töm alla sidbrytningar"
 
-#: ../src/commands.c:8339 ../src/wbc-gtk.c:1609
+#: ../src/commands.c:8339 ../src/wbc-gtk.c:1618
 msgid "Remove Column Page Break"
 msgstr "Ta bort kolumnsidbrytning"
 
-#: ../src/commands.c:8339 ../src/wbc-gtk.c:1619
+#: ../src/commands.c:8339 ../src/wbc-gtk.c:1628
 msgid "Remove Row Page Break"
 msgstr "Ta bort radsidbrytning"
 
-#: ../src/commands.c:8342 ../src/wbc-gtk.c:1612
+#: ../src/commands.c:8342 ../src/wbc-gtk.c:1621
 msgid "Add Column Page Break"
 msgstr "Lägg till kolumnsidbrytning"
 
-#: ../src/commands.c:8342 ../src/wbc-gtk.c:1622
+#: ../src/commands.c:8342 ../src/wbc-gtk.c:1631
 msgid "Add Row Page Break"
 msgstr "Lägg till radsidbrytning"
 
@@ -5339,7 +5339,8 @@ msgstr ""
 
 #: ../src/dialogs/dialog-analysis-tools.c:3655
 msgid "The given input range should contain at least two columns of data."
-msgstr "Det angivna indataområdet bör innehålla åtminstone två kolumner med data."
+msgstr ""
+"Det angivna indataområdet bör innehålla åtminstone två kolumner med data."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3661
 msgid ""
@@ -5367,7 +5368,7 @@ msgstr "Kunde inte skapa dialogen för ANOVA-verktyg (tvåfaktor)."
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
-#: ../src/dialogs/dialog-autofilter.c:211
+#: ../src/dialogs/dialog-autofilter.c:216
 #, c-format
 msgid "Show the largest item"
 msgid_plural "Show the %d largest items"
@@ -5376,56 +5377,56 @@ msgstr[1] "Visa de %d största objekten"
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
-#: ../src/dialogs/dialog-autofilter.c:221
+#: ../src/dialogs/dialog-autofilter.c:226
 #, c-format
 msgid "Show the smallest item"
 msgid_plural "Show the %d smallest items"
 msgstr[0] "Visa det minsta objektet"
 msgstr[1] "Visa de %d minsta objekten"
 
-#: ../src/dialogs/dialog-autofilter.c:235
+#: ../src/dialogs/dialog-autofilter.c:240
 #, c-format
 msgid "Show the items in the top %d%% of the data range"
 msgid_plural "Show the items in the top %d%% of the data range"
 msgstr[0] "Visa objekten i översta %d%% av dataintervallet"
 msgstr[1] "Visa objekten i översta %d%% av dataintervallet"
 
-#: ../src/dialogs/dialog-autofilter.c:245
+#: ../src/dialogs/dialog-autofilter.c:250
 #, c-format
 msgid "Show the items in the bottom %d%% of the data range"
 msgid_plural "Show the items in the bottom %d%% of the data range"
 msgstr[0] "Visa objekten i nedersta %d%% av dataintervallet"
 msgstr[1] "Visa objekten i nedersta %d%% av dataintervallet"
 
-#: ../src/dialogs/dialog-autofilter.c:256
+#: ../src/dialogs/dialog-autofilter.c:261
 #, c-format
 msgid "Show the top %d%% of all items"
 msgid_plural "Show the top %d%% of all items"
 msgstr[0] "Visa översta %d%% av alla objekt"
 msgstr[1] "Visa översta %d%% av alla objekt"
 
-#: ../src/dialogs/dialog-autofilter.c:266
+#: ../src/dialogs/dialog-autofilter.c:271
 #, c-format
 msgid "Show the bottom %d%% of all items"
 msgid_plural "Show the bottom %d%% of all items"
 msgstr[0] "Visa nedersta %d%% av alla objekt"
 msgstr[1] "Visa nedersta %d%% av alla objekt"
 
-#: ../src/dialogs/dialog-autofilter.c:284
+#: ../src/dialogs/dialog-autofilter.c:289
 msgid "Percentage:"
 msgstr "Procent:"
 
-#: ../src/dialogs/dialog-autofilter.c:289
+#: ../src/dialogs/dialog-autofilter.c:294
 msgid "Count:"
 msgstr "Antal:"
 
-#: ../src/dialogs/dialog-autofilter.c:348
+#: ../src/dialogs/dialog-autofilter.c:353
 #, c-format
 msgid "Column %s (\"%s\")"
 msgstr "Kolumn %s (”%s”)"
 
-#: ../src/dialogs/dialog-autofilter.c:390
-#: ../src/dialogs/dialog-autofilter.c:490 ../src/dialogs/dialog-cell-sort.c:135
+#: ../src/dialogs/dialog-autofilter.c:395
+#: ../src/dialogs/dialog-autofilter.c:495 ../src/dialogs/dialog-cell-sort.c:135
 #: ../src/dialogs/dialog-sheet-compare.c:312
 #, c-format
 msgid "Column %s"
@@ -6393,7 +6394,7 @@ msgstr "Lösenord:"
 msgid "Select Directory"
 msgstr "Välj katalog"
 
-#: ../src/dialogs/dialog-plugin-manager.c:273 ../src/gui-file.c:836
+#: ../src/dialogs/dialog-plugin-manager.c:273 ../src/gui-file.c:871
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -7457,16 +7458,16 @@ msgid "Run on"
 msgstr "Kör på"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:244
-#: ../src/wbc-gtk.c:4144
+#: ../src/wbc-gtk.c:4161
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4146
+#: ../src/dialogs/dialog-simulation.c:232 ../src/wbc-gtk.c:4163
 msgid "Average"
 msgstr "Medelvärde"
 
 #: ../src/dialogs/dialog-simulation.c:232 ../src/tools/simulation.c:246
-#: ../src/wbc-gtk.c:4145
+#: ../src/wbc-gtk.c:4162
 msgid "Max"
 msgstr "Max"
 
@@ -9085,7 +9086,7 @@ msgstr "C_iterar:"
 msgid "Quote _character:"
 msgstr "Citat_tecken:"
 
-#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:342
+#: ../src/dialogs/dialog-stf-export.ui.h:38 ../src/gui-file.c:369
 msgid "Character _encoding:"
 msgstr "Tecken_kodning:"
 
@@ -12347,43 +12348,51 @@ msgstr "Upptäcks automatiskt"
 
 #. xgettext: If possible try to use the same mnemonic for
 #. * Advanced and Simple
-#: ../src/gui-file.c:227 ../src/gui-file.c:361
+#: ../src/gui-file.c:253 ../src/gui-file.c:390
 msgid "Advanc_ed"
 msgstr "Avanc_erat"
 
-#: ../src/gui-file.c:230
+#: ../src/gui-file.c:256
 msgid "Simpl_e"
 msgstr "En_kel"
 
-#: ../src/gui-file.c:331
+#: ../src/gui-file.c:358
 msgid "Open Spreadsheet File"
 msgstr "Öppna kalkylbladsfil"
 
-#: ../src/gui-file.c:334
+#: ../src/gui-file.c:361
 msgid "Import Data File"
 msgstr "Importera datafil"
 
-#: ../src/gui-file.c:388 ../src/gui-file.c:617
+#: ../src/gui-file.c:388
+msgid "Open read-only"
+msgstr "Öppna skrivskyddad"
+
+#: ../src/gui-file.c:417 ../src/gui-file.c:652
 msgid "All Files"
 msgstr "Alla filer"
 
-#: ../src/gui-file.c:396
+#: ../src/gui-file.c:425
 msgid "Text Files"
 msgstr "Textfiler"
 
-#: ../src/gui-file.c:401 ../src/gui-file.c:622
+#: ../src/gui-file.c:430 ../src/gui-file.c:657
 msgid "Spreadsheets"
 msgstr "Kalkylblad"
 
-#: ../src/gui-file.c:404
+#: ../src/gui-file.c:433
 msgid "Data Files"
 msgstr "Datafiler"
 
-#: ../src/gui-file.c:425 ../src/gui-file.c:646
+#: ../src/gui-file.c:454 ../src/gui-file.c:681
 msgid "File _type:"
 msgstr "Filt_yp:"
 
-#: ../src/gui-file.c:483
+#: ../src/gui-file.c:464
+msgid "Open read-_only"
+msgstr "Öppna s_krivskyddad"
+
+#: ../src/gui-file.c:518
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -12395,19 +12404,19 @@ msgstr ""
 "ett annat filformat.\n"
 "Vill du spara endast det aktuella bladet?"
 
-#: ../src/gui-file.c:568
+#: ../src/gui-file.c:603
 msgid "Save the current workbook as"
 msgstr "Spara aktuell arbetsbok som"
 
-#: ../src/gui-file.c:569
+#: ../src/gui-file.c:604
 msgid "Export the current workbook or sheet to"
 msgstr "Spara aktuell arbetsbok eller blad som"
 
-#: ../src/gui-file.c:684 ../src/gui-file.c:717
+#: ../src/gui-file.c:719 ../src/gui-file.c:752
 msgid "Untitled"
 msgstr "Ingen titel"
 
-#: ../src/gui-file.c:750
+#: ../src/gui-file.c:785
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -12415,11 +12424,11 @@ msgstr ""
 "Den givna ändelsen passar inte den valda filtypen. Vill du använda detta "
 "namn i alla fall?"
 
-#: ../src/gui-file.c:821
+#: ../src/gui-file.c:856
 msgid "%F %T"
 msgstr "%F %T"
 
-#: ../src/gui-file.c:829
+#: ../src/gui-file.c:864
 #, c-format
 msgid ""
 "The file you are about to save has changed on disk. If you continue, you "
@@ -12438,11 +12447,11 @@ msgstr ""
 "\n"
 "Senast ändrad: <b>%s</b>\n"
 
-#: ../src/gui-file.c:835
+#: ../src/gui-file.c:870
 msgid "Overwrite"
 msgstr "Skriv över"
 
-#: ../src/gui-file.c:934
+#: ../src/gui-file.c:969
 #, c-format
 msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
@@ -12451,7 +12460,7 @@ msgstr ""
 "Vill du exportera <b>aktuellt kalkylblad</b> för denna arbetsbok till "
 "platsen ”<b>%s</b>” med exportören ”<b>%s</b>”?"
 
-#: ../src/gui-file.c:938
+#: ../src/gui-file.c:973
 #, c-format
 msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
@@ -12460,7 +12469,7 @@ msgstr ""
 "Vill du exportera denna arbetsbok till platsen ”<b>%s</b>” med exportören "
 "”<b>%s</b>”?"
 
-#: ../src/gui-file.c:965
+#: ../src/gui-file.c:1000
 msgid ""
 "Unable to repeat export since no previous export information has been saved "
 "in this session."
@@ -15211,7 +15220,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Område"
 
-#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4147
+#: ../src/tools/simulation.c:254 ../src/wbc-gtk.c:4164
 msgid "Count"
 msgstr "Antal"
 
@@ -15392,7 +15401,7 @@ msgstr "#HÄMTAR_DATA"
 msgid "#SPILL!"
 msgstr "#SPILL!"
 
-#: ../src/wbc-gtk-actions.c:182 ../src/workbook-view.c:1350
+#: ../src/wbc-gtk-actions.c:182 ../src/workbook-view.c:1356
 msgid "Default file saver is not available."
 msgstr "Standardfilspararen är inte tillgänglig."
 
@@ -16166,7 +16175,7 @@ msgstr "Nästa _objekt"
 msgid "Select the next sheet object"
 msgstr "Markera nästa bladobjekt"
 
-#: ../src/wbc-gtk-actions.c:2538 ../src/wbc-gtk.c:2849
+#: ../src/wbc-gtk-actions.c:2538 ../src/wbc-gtk.c:2858
 msgid "Go to Top"
 msgstr "Gå till toppen"
 
@@ -16174,7 +16183,7 @@ msgstr "Gå till toppen"
 msgid "Go to the top of the data"
 msgstr "Gå till översta data"
 
-#: ../src/wbc-gtk-actions.c:2544 ../src/wbc-gtk.c:2850
+#: ../src/wbc-gtk-actions.c:2544 ../src/wbc-gtk.c:2859
 msgid "Go to Bottom"
 msgstr "Gå till botten"
 
@@ -16182,7 +16191,7 @@ msgstr "Gå till botten"
 msgid "Go to the bottom of the data"
 msgstr "Gå till nedersta data"
 
-#: ../src/wbc-gtk-actions.c:2550 ../src/wbc-gtk.c:2851
+#: ../src/wbc-gtk-actions.c:2550 ../src/wbc-gtk.c:2860
 msgid "Go to First"
 msgstr "Gå till första"
 
@@ -16190,7 +16199,7 @@ msgstr "Gå till första"
 msgid "Go to the first data cell"
 msgstr "Gå till den första datacellen"
 
-#: ../src/wbc-gtk-actions.c:2556 ../src/wbc-gtk.c:2852
+#: ../src/wbc-gtk-actions.c:2556 ../src/wbc-gtk.c:2861
 msgid "Go to Last"
 msgstr "Gå till sista"
 
@@ -16282,11 +16291,11 @@ msgstr "Inställningar…"
 msgid "Change Gnumeric Preferences"
 msgstr "Ändra inställningar för Gnumeric"
 
-#: ../src/wbc-gtk-actions.c:2643 ../src/wbc-gtk.c:1644
+#: ../src/wbc-gtk-actions.c:2643 ../src/wbc-gtk.c:1653
 msgid "_Freeze Panes"
 msgstr "_Frys paneler"
 
-#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1647
+#: ../src/wbc-gtk-actions.c:2644 ../src/wbc-gtk.c:1656
 msgid "Freeze the top left of the sheet"
 msgstr "Frys övre vänstra delen av bladet"
 
@@ -16871,11 +16880,11 @@ msgstr "Exportera som en _CSV-fil…"
 msgid "Export the current sheet as a csv file"
 msgstr "Exportera aktuellt blad som en csv-fil"
 
-#: ../src/wbc-gtk-actions.c:3169 ../src/wbc-gtk.c:1765
+#: ../src/wbc-gtk-actions.c:3169 ../src/wbc-gtk.c:1774
 msgid "Repeat Export"
 msgstr "Upprepa export"
 
-#: ../src/wbc-gtk-actions.c:3171 ../src/wbc-gtk.c:1761 ../src/wbc-gtk.c:1765
+#: ../src/wbc-gtk-actions.c:3171 ../src/wbc-gtk.c:1770 ../src/wbc-gtk.c:1774
 msgid "Repeat the last data export"
 msgstr "Upprepa senaste datexport"
 
@@ -16977,7 +16986,7 @@ msgstr "_Avgruppera…"
 msgid "Remove an outline group"
 msgstr "Ta bort en konturgrupp"
 
-#: ../src/wbc-gtk-actions.c:3251 ../src/wbc-gtk.c:1686
+#: ../src/wbc-gtk-actions.c:3251 ../src/wbc-gtk.c:1695
 msgid "Add _Auto Filter"
 msgstr "Lägg till _autofilter"
 
@@ -17041,7 +17050,7 @@ msgstr "_Redigera ett datautsnitt…"
 msgid "Adjust a data slicer"
 msgstr "Justera ett datautsnitt"
 
-#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4143
+#: ../src/wbc-gtk-actions.c:3298 ../src/wbc-gtk.c:4160
 #: ../src/workbook-view.c:927
 msgid "Sum"
 msgstr "Summa"
@@ -17586,7 +17595,7 @@ msgstr "Sätter typsnittet till %s"
 
 #: ../src/wbc-gtk-actions.c:4417
 msgid "Change font"
-msgstr "Ändrar typsnitt"
+msgstr "Ändra typsnitt"
 
 #: ../src/wbc-gtk-edit.c:865
 #, c-format
@@ -17650,157 +17659,161 @@ msgid "Select (sorted)"
 msgstr "Markera (sorterad)"
 
 #: ../src/wbc-gtk.c:1344
+msgid " [Read-Only]"
+msgstr " [Skrivskyddad]"
+
+#: ../src/wbc-gtk.c:1346
 msgid " - Gnumeric [Decimal]"
 msgstr " - Gnumeric [Decimal]"
 
-#: ../src/wbc-gtk.c:1346
+#: ../src/wbc-gtk.c:1348
 msgid " - Gnumeric"
 msgstr " - Gnumeric"
 
-#: ../src/wbc-gtk.c:1511
+#: ../src/wbc-gtk.c:1520
 msgid "Invalid format"
 msgstr "Ogiltigt format"
 
-#: ../src/wbc-gtk.c:1610
+#: ../src/wbc-gtk.c:1619
 msgid "Remove the page break to the left of the current column"
 msgstr "Ta bort sidbrytningen till vänster av nuvarande kolumn"
 
-#: ../src/wbc-gtk.c:1613
+#: ../src/wbc-gtk.c:1622
 msgid "Add a page break to the left of the current column"
 msgstr "Lägg till en sidbrytning till vänster av aktuella kolumnen"
 
-#: ../src/wbc-gtk.c:1620
+#: ../src/wbc-gtk.c:1629
 msgid "Remove the page break above the current row"
 msgstr "Ta bort sidbrytningen ovan aktuell rad"
 
-#: ../src/wbc-gtk.c:1623
+#: ../src/wbc-gtk.c:1632
 msgid "Add a page break above current row"
 msgstr "Lägg till en sidbrytning ovan aktuell rad"
 
-#: ../src/wbc-gtk.c:1643
+#: ../src/wbc-gtk.c:1652
 msgid "Un_freeze Panes"
 msgstr "Av_frys paneler"
 
-#: ../src/wbc-gtk.c:1646
+#: ../src/wbc-gtk.c:1655
 msgid "Unfreeze the top left of the sheet"
 msgstr "Avfrys övre vänster på bladet"
 
-#: ../src/wbc-gtk.c:1664
+#: ../src/wbc-gtk.c:1673
 #, c-format
 msgid "Extend _Auto Filter to %s"
 msgstr "Utöka _autofilter till %s"
 
-#: ../src/wbc-gtk.c:1666
+#: ../src/wbc-gtk.c:1675
 msgid "Extend the existing filter."
 msgstr "Utöka befintligt filter."
 
-#: ../src/wbc-gtk.c:1676
+#: ../src/wbc-gtk.c:1685
 msgid "The selection intersects an existing auto filter."
 msgstr "Markeringen överlappar ett existerande automatiskt filter."
 
-#: ../src/wbc-gtk.c:1685
+#: ../src/wbc-gtk.c:1694
 msgid "Remove _Auto Filter"
 msgstr "Ta bort _autofilter"
 
-#: ../src/wbc-gtk.c:1688
+#: ../src/wbc-gtk.c:1697
 msgid "Remove a filter"
 msgstr "Ta bort ett filter"
 
-#: ../src/wbc-gtk.c:1689
+#: ../src/wbc-gtk.c:1698
 msgid "Add a filter"
 msgstr "Lägg till ett filter"
 
-#: ../src/wbc-gtk.c:1757
+#: ../src/wbc-gtk.c:1766
 #, c-format
 msgid "Repeat Export to %s"
 msgstr "Upprepa export till %s"
 
-#: ../src/wbc-gtk.c:1770
+#: ../src/wbc-gtk.c:1779
 msgid "Remove _Data Slicer"
 msgstr "Ta bort _datautsnitt"
 
-#: ../src/wbc-gtk.c:1771
+#: ../src/wbc-gtk.c:1780
 msgid "Create _Data Slicer"
 msgstr "Skapa _datautsnitt"
 
-#: ../src/wbc-gtk.c:1773
+#: ../src/wbc-gtk.c:1782
 msgid "Remove a Data Slicer"
 msgstr "Ta bort ett datautsnitt"
 
-#: ../src/wbc-gtk.c:1774
+#: ../src/wbc-gtk.c:1783
 msgid "Create a Data Slicer"
 msgstr "Skapa ett datautsnitt"
 
-#: ../src/wbc-gtk.c:1787
+#: ../src/wbc-gtk.c:1796
 msgid "_Redo"
 msgstr "_Gör om"
 
-#: ../src/wbc-gtk.c:1788
+#: ../src/wbc-gtk.c:1797
 msgid "_Undo"
 msgstr "_Ångra"
 
-#: ../src/wbc-gtk.c:1818
+#: ../src/wbc-gtk.c:1827
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Spara ändringar i arbetsbok \"%s\" innan stängning?"
 
-#: ../src/wbc-gtk.c:1823
+#: ../src/wbc-gtk.c:1832
 msgid "Save changes to workbook before closing?"
 msgstr "Spara ändringar i arbetsbok innan stängning?"
 
-#: ../src/wbc-gtk.c:1830
+#: ../src/wbc-gtk.c:1839
 msgid "If you close without saving, changes will be discarded."
 msgstr "Om du stänger utan att spara kommer alla ändringar att försvinna."
 
-#: ../src/wbc-gtk.c:1833
+#: ../src/wbc-gtk.c:1842
 msgid "Discard"
 msgstr "Förkasta"
 
-#: ../src/wbc-gtk.c:1835
+#: ../src/wbc-gtk.c:1844
 msgid "Don't close"
 msgstr "Stäng inte"
 
-#: ../src/wbc-gtk.c:2062
+#: ../src/wbc-gtk.c:2071
 msgid "Enter in current cell"
 msgstr "Skriv in i aktuell cell"
 
-#: ../src/wbc-gtk.c:2064
+#: ../src/wbc-gtk.c:2073
 msgid "Enter in current cell without autocorrection"
 msgstr "Ange i aktuell cell utan automatisk rättning"
 
-#: ../src/wbc-gtk.c:2071
+#: ../src/wbc-gtk.c:2080
 msgid "Enter in current range merged"
 msgstr "Ange i aktuell intervall sammanfogat"
 
-#: ../src/wbc-gtk.c:2074
+#: ../src/wbc-gtk.c:2083
 msgid "Enter in selected ranges"
 msgstr "Ange inom markerade intervall"
 
-#: ../src/wbc-gtk.c:2076
+#: ../src/wbc-gtk.c:2085
 msgid "Enter in selected ranges as array"
 msgstr "Ange inom markerade intervall som en vektor"
 
-#: ../src/wbc-gtk.c:2563
+#: ../src/wbc-gtk.c:2572
 msgid "END"
 msgstr "SLUT"
 
-#: ../src/wbc-gtk.c:2854
+#: ../src/wbc-gtk.c:2863
 msgid "Go to Cell..."
 msgstr "Gå till cell..."
 
-#: ../src/wbc-gtk.c:2916
+#: ../src/wbc-gtk.c:2925
 msgid "Accept change in multiple cells"
 msgstr "Acceptera ändring i fler celler"
 
-#: ../src/wbc-gtk.c:2990 ../src/wbc-gtk.c:3010
+#: ../src/wbc-gtk.c:2999 ../src/wbc-gtk.c:3019
 msgid "_Re-Edit"
 msgstr "Redigera _om"
 
-#: ../src/wbc-gtk.c:2992 ../src/wbc-gtk.c:2999
+#: ../src/wbc-gtk.c:3001 ../src/wbc-gtk.c:3008
 msgid "_Discard"
 msgstr "_Förkasta"
 
-#: ../src/wbc-gtk.c:2997 ../src/wbc-gtk.c:3012
+#: ../src/wbc-gtk.c:3006 ../src/wbc-gtk.c:3021
 msgid "_Accept"
 msgstr "_Acceptera"
 
@@ -17810,83 +17823,83 @@ msgstr "_Acceptera"
 #. * One slightly tricky point here is that in certain cases,
 #. * the same menu entry shows up in more than one menu.
 #.
-#: ../src/wbc-gtk.c:3372
+#: ../src/wbc-gtk.c:3389
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "I menyn \"%s\" används nyckeln \"%s\" för både \"%s\" och \"%s\"."
 
-#: ../src/wbc-gtk.c:3671
+#: ../src/wbc-gtk.c:3688
 msgid "Display toolbar above sheets"
 msgstr "Visa verktygsfält ovanför blad"
 
-#: ../src/wbc-gtk.c:3672
+#: ../src/wbc-gtk.c:3689
 msgid "Display toolbar to the left of sheets"
 msgstr "Visa verktygsfält till vänster om blad"
 
-#: ../src/wbc-gtk.c:3673
+#: ../src/wbc-gtk.c:3690
 msgid "Display toolbar to the right of sheets"
 msgstr "Visa verktygsfält till höger om blad"
 
-#: ../src/wbc-gtk.c:3701
+#: ../src/wbc-gtk.c:3718
 msgid "Hide"
 msgstr "Dölj"
 
-#: ../src/wbc-gtk.c:3767
+#: ../src/wbc-gtk.c:3784
 msgid "Standard Toolbar"
 msgstr "Standardverktygsfält"
 
-#: ../src/wbc-gtk.c:3768
+#: ../src/wbc-gtk.c:3785
 msgid "Format Toolbar"
 msgstr "Formatverktygsfält"
 
-#: ../src/wbc-gtk.c:3769
+#: ../src/wbc-gtk.c:3786
 msgid "Object Toolbar"
 msgstr "Objektverktygsfält"
 
-#: ../src/wbc-gtk.c:3783
+#: ../src/wbc-gtk.c:3800
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Dölj/visa verktygsfält %s"
 
-#: ../src/wbc-gtk.c:4204
+#: ../src/wbc-gtk.c:4221
 #, c-format
 msgid "Content of %s"
 msgstr "Innehåll i %s"
 
-#: ../src/wbc-gtk.c:4219
+#: ../src/wbc-gtk.c:4236
 msgid "Use Maximum Precision"
 msgstr "Använd maximal noggrannhet"
 
-#: ../src/wbc-gtk.c:4231
+#: ../src/wbc-gtk.c:4248
 msgid "Insert Formula Below"
 msgstr "Infoga formel nedan"
 
-#: ../src/wbc-gtk.c:4237
+#: ../src/wbc-gtk.c:4254
 msgid "Insert Formula to Side"
 msgstr "Infoga formel på sidan"
 
-#: ../src/wbc-gtk.c:4323
+#: ../src/wbc-gtk.c:4340
 #, c-format
 msgid "Open %s"
 msgstr "Öppna %s"
 
-#: ../src/widgets/gnm-filter-combo-view.c:169
+#: ../src/widgets/gnm-filter-combo-view.c:170
 msgid "(All)"
 msgstr "(Allt)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:174
+#: ../src/widgets/gnm-filter-combo-view.c:175
 msgid "(Top 10...)"
 msgstr "(Topp 10…)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:181
+#: ../src/widgets/gnm-filter-combo-view.c:182
 msgid "(Custom...)"
 msgstr "(Anpassad…)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:259
+#: ../src/widgets/gnm-filter-combo-view.c:260
 msgid "(Blanks...)"
 msgstr "(Tomma…)"
 
-#: ../src/widgets/gnm-filter-combo-view.c:265
+#: ../src/widgets/gnm-filter-combo-view.c:266
 msgid "(Non Blanks...)"
 msgstr "(Ej tomma…)"
 
@@ -18151,33 +18164,40 @@ msgstr "Kan inte öppna \"%s\" för att skriva: %s"
 msgid "Can't open '%s' for writing"
 msgstr "Kan inte öppna ”%s” för att skriva"
 
-#: ../src/workbook-view.c:1490
+#: ../src/workbook-view.c:1343
+msgid ""
+"This workbook was opened read-only. Use Save As to save under a new name."
+msgstr ""
+"Denna arbetsbok öppnades skrivskyddad. Använd Spara som för att spara under "
+"ett nytt namn."
+
+#: ../src/workbook-view.c:1496
 #, c-format
 msgid "Unsupported file format for file \"%s\""
 msgstr "Filformatet stöds inte för filen ”%s”"
 
-#: ../src/workbook-view.c:1546
+#: ../src/workbook-view.c:1552
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
 
-#: ../src/workbook.c:338
+#: ../src/workbook.c:345
 #, c-format
 msgid "Book%d.%s"
 msgstr "Blad%d.%s"
 
-#: ../src/workbook.c:1225
+#: ../src/workbook.c:1272
 msgid "Graph"
 msgstr "Graf"
 
-#: ../src/workbook.c:1803
+#: ../src/workbook.c:1850
 #, c-format
 msgid "Renaming sheet"
 msgid_plural "Renaming %d sheets"
 msgstr[0] "Byter namn på blad"
 msgstr[1] "Byter namn på %d blad"
 
-#: ../src/workbook.c:1805
+#: ../src/workbook.c:1852
 #, c-format
 msgid "Adding sheet"
 msgid_plural "Adding %d sheets"
@@ -18188,18 +18208,18 @@ msgstr[1] "Lägger till %d blad"
 #. * This is most likely just a sheet inserted, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1811
+#: ../src/workbook.c:1858
 #, c-format
 msgid "Inserting sheet"
 msgid_plural "Inserting %d sheets"
 msgstr[0] "Infogar blad"
 msgstr[1] "Infogar %d blad"
 
-#: ../src/workbook.c:1813
+#: ../src/workbook.c:1860
 msgid "Changing sheet tab colors"
 msgstr "Byter färg på flikar"
 
-#: ../src/workbook.c:1815
+#: ../src/workbook.c:1862
 msgid "Changing sheet properties"
 msgstr "Ändrar bladegenskaper"
 
@@ -18207,18 +18227,18 @@ msgstr "Ändrar bladegenskaper"
 #. * This is most likely just a sheet delete, but it just
 #. * might be a compound operation.  Lie.
 #.
-#: ../src/workbook.c:1822
+#: ../src/workbook.c:1869
 #, c-format
 msgid "Deleting sheet"
 msgid_plural "Deleting %d sheets"
 msgstr[0] "Tar bort blad"
 msgstr[1] "Tar bort %d blad"
 
-#: ../src/workbook.c:1824
+#: ../src/workbook.c:1871
 msgid "Changing sheet order"
 msgstr "Ändrar bladordning"
 
-#: ../src/workbook.c:1826
+#: ../src/workbook.c:1873
 msgid "Reorganizing Sheets"
 msgstr "Ändring av ordning av blad"
 
