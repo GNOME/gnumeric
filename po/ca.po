@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2020-07-25 10:19+0000\n"
-"PO-Revision-Date: 2023-08-17 14:49+0000\n"
+"PO-Revision-Date: 2026-08-17 00:00+0000\n"
 "Last-Translator: Miquel-Àngel Burgos i Fradeja <miquel.angel.burgos@gmail."
 "com>, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/softcatala/teams/62837/"
@@ -12935,7 +12935,7 @@ msgstr "Llibre de treball desconegut"
 #: ../src/parser.y:1103 ../src/parser.y:1383
 #, c-format
 msgid "Could not find matching closing quote"
-msgstr "No s'ha pogut trobar les cometes de tancament corresponents"
+msgstr "No s'han pogut trobar les cometes de tancament corresponents"
 
 #: ../src/parser.y:1243
 #, c-format
@@ -16325,7 +16325,7 @@ msgstr "_Entrades"
 #: ../src/wbc-gtk-actions.c:2526
 msgid "Select all the cells are used by the current edit cell"
 msgstr ""
-"Selecciona totes les cel·les que depenen de la cel·la que s'està editant"
+"Selecciona totes les cel·les que utilitza la cel·la que s'està editant"
 
 #: ../src/wbc-gtk-actions.c:2531
 msgid "Next _Object"
@@ -16558,7 +16558,7 @@ msgstr "_Data actual"
 
 #: ../src/wbc-gtk-actions.c:2753
 msgid "Insert the current date into the selected cell(s)"
-msgstr "Insereix les dades actuals a les cel·les seleccionades"
+msgstr "Insereix la data actual a les cel·les seleccionades"
 
 #: ../src/wbc-gtk-actions.c:2758
 msgid "Current _Time"
