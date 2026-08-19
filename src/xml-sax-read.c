@@ -2213,9 +2213,10 @@ xml_not_used_old_array_spec (XMLSaxParseState *state,
 		return TRUE;
 
 	if (row == 0 && col == 0) {
-		*expr_end = '\0';
+		char *copy = g_strndup (content + 2, expr_end - (content + 2));
 		xml_cell_set_array_expr (state, cell, cr, cc, pp,
-					 content + 2, rows, cols);
+					 copy, rows, cols);
+		g_free (copy);
 	}
 
 	return FALSE;

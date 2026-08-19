@@ -139,7 +139,7 @@ my_garray_len (GArray const *a)
 	return (int)a->len;
 }
 
-static char *
+static const char *
 my_utf8_strchr (const char *p, gunichar uc)
 {
 	return uc < 0x7f ? strchr (p, uc) : g_utf8_strchr (p, -1, uc);

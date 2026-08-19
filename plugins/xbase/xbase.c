@@ -286,7 +286,7 @@ xbase_field_new (XBfile *file)
 {
 	XBfield *field;
 	guint8   buf[33];
-	char *p;
+	const char *p;
 	if (gsf_input_read (file->input, 2, buf) == NULL) { /* 1 byte out ? */
 		g_warning ("xbase_field_new: fread error");
 		return NULL;

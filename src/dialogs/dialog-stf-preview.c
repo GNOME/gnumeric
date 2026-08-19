@@ -61,10 +61,10 @@ line_renderer_func (GtkTreeViewColumn *tvc,
 
 	if (text) {
 		char *copy = NULL;
-		char *tab = strchr (text, '\t');
-		if (tab) {
+		const char *ctab = strchr (text, '\t');
+		if (ctab) {
 			copy = g_strdup (text);
-			tab = copy + (tab - text);
+			char *tab = copy + (ctab - text);
 			do {
 				*tab = ' ';
 				tab = strchr (tab + 1, '\t');
