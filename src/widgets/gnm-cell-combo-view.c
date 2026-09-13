@@ -39,6 +39,8 @@
 #define	AUTOSCROLL_ID	"autoscroll-id"
 #define	AUTOSCROLL_DIR	"autoscroll-dir"
 
+#define CURRENT_POPUP_KEY "current-popup"
+
 static void ccombo_popup_destroy (GtkWidget *list);
 
 static GtkWidget *
@@ -275,6 +277,13 @@ cb_realize_treeview (GtkWidget *list, GtkWidget *sw)
 	gtk_scrolled_window_set_min_content_height (GTK_SCROLLED_WINDOW (sw), rect.y);
 }
 
+
+static void
+cb_popup_destroyed (GocItem *view)
+{
+	g_object_set_data (G_OBJECT (view), CURRENT_POPUP_KEY, NULL);
+}
+
 /**
  * gnm_cell_combo_view_popdown:
  * @sov: #SheetObjectView
@@ -298,6 +307,13 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	GdkWindow *popup_window;
 	GdkDevice *device;
 	GnmRange const *merge;
+
+	popup = g_object_get_data (G_OBJECT (view), CURRENT_POPUP_KEY);
+	if (popup) {
+		g_warning ("Unexpected active popup");
+		gtk_widget_destroy (popup);
+		return;
+	}
 
 	popup = gtk_window_new (GTK_WINDOW_POPUP);
 
@@ -420,23 +436,29 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 
 	popup_window = gtk_widget_get_window (popup);
 
+	// Device grabs to dismiss the window if someone clicks elsewhere
+	// These could conceivably fail
 	device = gtk_get_current_event_device ();
-	if (0 == gdk_device_grab (device, popup_window,
-	                          GDK_OWNERSHIP_APPLICATION, TRUE,
-	                          GDK_BUTTON_PRESS_MASK |
-	                          GDK_BUTTON_RELEASE_MASK |
-	                          GDK_POINTER_MOTION_MASK,
-	                          NULL, activate_time)) {
-		if (0 == gdk_device_grab (gdk_device_get_associated_device (device),
-		                          popup_window,
-		                          GDK_OWNERSHIP_APPLICATION, TRUE,
-		                          GDK_KEY_PRESS_MASK |
-		                          GDK_KEY_RELEASE_MASK,
-		                          NULL, activate_time))
-			gtk_grab_add (popup);
-		else
-			gdk_device_ungrab (device, activate_time);
-	}
+	gdk_device_grab (device, popup_window,
+			 GDK_OWNERSHIP_APPLICATION, TRUE,
+			 GDK_BUTTON_PRESS_MASK |
+			 GDK_BUTTON_RELEASE_MASK |
+			 GDK_POINTER_MOTION_MASK,
+			 NULL, activate_time);
+	gdk_device_grab (gdk_device_get_associated_device (device),
+			 popup_window,
+			 GDK_OWNERSHIP_APPLICATION, TRUE,
+			 GDK_KEY_PRESS_MASK |
+			 GDK_KEY_RELEASE_MASK,
+			 NULL, activate_time);
+
+	// Unconditionally
+	gtk_grab_add (popup);
+
+	g_signal_connect_swapped (G_OBJECT (popup), "destroy",
+				  G_CALLBACK(cb_popup_destroyed), view);
+
+	g_object_set_data (G_OBJECT (view), CURRENT_POPUP_KEY, popup);
 }
 
 /**
