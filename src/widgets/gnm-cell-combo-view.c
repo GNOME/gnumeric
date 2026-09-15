@@ -284,6 +284,15 @@ cb_popup_destroyed (GocItem *view)
 	g_object_set_data (G_OBJECT (view), CURRENT_POPUP_KEY, NULL);
 }
 
+static void
+cb_popup_prepare (G_GNUC_UNUSED GdkSeat *seat,
+		  G_GNUC_UNUSED GdkWindow *window,
+		  gpointer user_data)
+{
+	gtk_widget_show_all (GTK_WIDGET (user_data));
+}
+
+
 /**
  * gnm_cell_combo_view_popdown:
  * @sov: #SheetObjectView
@@ -417,8 +426,6 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	g_signal_connect (list, "button_press_event",
 		G_CALLBACK (cb_ccombo_list_button_press), popup);
 
-	gtk_widget_show_all (popup);
-
 	/* after we show the window setup the selection (showing the list
 	 * clears the selection) */
 	if (select != NULL) {
@@ -434,26 +441,24 @@ gnm_cell_combo_view_popdown (SheetObjectView *sov, guint32 activate_time)
 	gtk_widget_grab_focus (GTK_WIDGET (list));
 	ccombo_focus_change (GTK_WIDGET (list), TRUE);
 
+	// gtk_widget_show_all() is called inside the prepare_func so that
+	// the window is mapped atomically with the seat grab.  This avoids
+	// the Wayland "already mapped at the time of grabbing" warning that
+	// results from showing the popup before grabbing.
+	gtk_widget_realize (popup);
 	popup_window = gtk_widget_get_window (popup);
 
 	// Device grabs to dismiss the window if someone clicks elsewhere
 	// These could conceivably fail
 	device = gtk_get_current_event_device ();
-	gdk_device_grab (device, popup_window,
-			 GDK_OWNERSHIP_APPLICATION, TRUE,
-			 GDK_BUTTON_PRESS_MASK |
-			 GDK_BUTTON_RELEASE_MASK |
-			 GDK_POINTER_MOTION_MASK,
-			 NULL, activate_time);
-	gdk_device_grab (gdk_device_get_associated_device (device),
-			 popup_window,
-			 GDK_OWNERSHIP_APPLICATION, TRUE,
-			 GDK_KEY_PRESS_MASK |
-			 GDK_KEY_RELEASE_MASK,
-			 NULL, activate_time);
-
-	// Unconditionally
-	gtk_grab_add (popup);
+	if (gdk_seat_grab (gdk_device_get_seat (device),
+			   popup_window,
+	                   GDK_SEAT_CAPABILITY_ALL,
+	                   TRUE,
+	                   NULL, NULL,
+	                   cb_popup_prepare,
+	                   popup) == GDK_GRAB_SUCCESS)
+		gtk_grab_add (popup);
 
 	g_signal_connect_swapped (G_OBJECT (popup), "destroy",
 				  G_CALLBACK(cb_popup_destroyed), view);

@@ -18,6 +18,7 @@ Morten:
 	* Improve xl compatibility for complex functions.
 	* Fix problems with blanks for database functions.  [#887]
 	* Fix auto-filter problem.  [#891]
+	* Avoid Wayland auto-filter warnings.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.61
