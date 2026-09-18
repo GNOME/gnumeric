@@ -720,6 +720,7 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	arrow = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_screen (GTK_WINDOW (arrow),
 			       gtk_widget_get_screen (widget));
+	gtk_window_set_transient_for (GTK_WINDOW (arrow), wbcg_toplevel (wbcg));
 	gtk_widget_realize (arrow);
 	image = gtk_image_new_from_resource ("/org/gnumeric/gnumeric/images/sheet_move_marker.png");
 	gtk_widget_show (image);

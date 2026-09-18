@@ -520,14 +520,7 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEvent *event)
 			  "hide",
 			  G_CALLBACK (kill_popup_menu), NULL);
 
-	/* Do NOT pass the button used to create the menu.
-	 * instead pass 0.  Otherwise bringing up a menu with
-	 * the right button will disable clicking on the menu with the left.
-	 */
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0,
-			(event
-			 ? gdk_event_get_time (event)
-			 : gtk_get_current_event_time ()));
+	gtk_menu_popup_at_pointer (menu, event);
 }
 
 static void
