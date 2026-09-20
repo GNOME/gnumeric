@@ -20,6 +20,7 @@ Morten:
 	* Fix auto-filter problem.  [#891]
 	* Avoid Wayland auto-filter warnings.
 	* Eliminate reliance on deprecated pango functions.
+	* Eliminate reliance on deprecated python functions.
 	* Fix R.PST in the log case.
 
 --------------------------------------------------------------------------

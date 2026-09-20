@@ -103,7 +103,17 @@ gnm_py_interpreter_new (GOPlugin *plugin)
 	interpreter = g_object_new (GNM_PY_INTERPRETER_TYPE, NULL);
 	interpreter->py_thread_state = py_thread_state;
 	interpreter->plugin = plugin;
-	PySys_SetArgv (G_N_ELEMENTS (plugin_argv) - 1, plugin_argv);
+
+	// This is the equivalent of the deprecated PySys_SetArgv
+	{
+		PyObject *sys_argv = PyList_New (G_N_ELEMENTS (plugin_argv) - 1);
+		for (unsigned i = 0; i < G_N_ELEMENTS (plugin_argv) - 1; i++) {
+			PyObject *arg = PyUnicode_FromWideChar (plugin_argv[i], -1);
+			PyList_SET_ITEM (sys_argv, i, arg);
+		}
+		PySys_SetObject ("argv", sys_argv);
+		Py_DECREF (sys_argv);
+	}
 
 	if (plugin != NULL) {
 		py_gnumeric_add_plugin (py_initgnumeric (), interpreter);
