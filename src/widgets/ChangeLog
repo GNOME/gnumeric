@@ -1,3 +1,7 @@
+2026-09-20  Morten Welinder <terra@gnome.org>
+
+	* Release 1.12.62
+
 2026-08-03  Morten Welinder  <terra@gnome.org>
 
 	* gnm-filter-combo-view.c (fcombo_activate): Don't free value is
