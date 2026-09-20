@@ -169,7 +169,7 @@ pst (gnm_float x, gnm_float n, gnm_float shape, gboolean lower_tail, gboolean lo
 
 	/* Generic fallback.  */
 	if (log_p)
-		gnm_log (pst (x, n, shape, TRUE, FALSE));
+		return gnm_log (pst (x, n, shape, TRUE, FALSE));
 
 	if (n != gnm_floor (n)) {
 		/* We would need numerical integration for this.  */
