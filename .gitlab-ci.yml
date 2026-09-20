@@ -10,6 +10,13 @@ image: ubuntu
 
 workflow:
   rules:
+    # 1. Allow pipelines when you manually click "Run Pipeline" in the UI
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: always
+    # 2. Allow pipelines when a Git tag is pushed
+    - if: $CI_COMMIT_TAG
+      when: always
+    # 3. Otherwise only for main branch
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: always
     - when: never
