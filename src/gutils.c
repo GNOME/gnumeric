@@ -940,10 +940,17 @@ gnm_hash_table_foreach_ordered (GHashTable *h,
 	/* Sort according to given ordering */
 	u.order = order;
 	u.user = user;
+#if GLIB_CHECK_VERSION(2, 82, 0)
+	g_sort_array (data->pdata,
+		      data->len / 2, 2 * sizeof (gpointer),
+		      cb_compare,
+		      &u);
+#else
 	g_qsort_with_data (data->pdata,
 			   data->len / 2, 2 * sizeof (gpointer),
 			   cb_compare,
 			   &u);
+#endif
 
 	/* Call user callback with all pairs */
 	for (ui = 0; ui < data->len; ui += 2)

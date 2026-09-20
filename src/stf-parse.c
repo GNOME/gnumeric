@@ -1055,7 +1055,6 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 	char const *iterator = data;
 	GSList *list = NULL;
 	GSList *list_start = NULL;
-	int lines = 0;
 	int effective_lines = 0;
 	int max_line_length = 0;
 	int *line_begin_hits = NULL;
@@ -1108,8 +1107,6 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 
 		if (position != 0)
 			effective_lines++;
-
-		lines++;
 	}
 
 	list       = g_slist_reverse (list);
@@ -1169,7 +1166,6 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 			gboolean has_2_spaces  = TRUE;
 
 			iterator = data;
-			lines = 0;
 			while (*iterator && iterator < data_end) {
 				gboolean trigger = FALSE;
 				gboolean space_trigger = FALSE;
@@ -1209,8 +1205,6 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 
 				if (*iterator)
 					iterator++;
-
-				lines++;
 			}
 
 			/*
@@ -1239,7 +1233,6 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 			gboolean only_spaces = TRUE;
 
 			iterator = data;
-			lines = 0;
 			while (*iterator && iterator < data_end) {
 				gboolean trigger = FALSE;
 				int pos = 0;
@@ -1261,8 +1254,6 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 
 				if (*iterator)
 					iterator++;
-
-				lines++;
 			}
 
 			/*
