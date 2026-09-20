@@ -32,6 +32,7 @@
 #include <workbook.h>
 #include <wbc-gtk.h>
 #include <gui-util.h>
+#include <gutils.h>
 #include <widgets/gnm-expr-entry.h>
 #define GNUMERIC_ITEM "EDIT"
 
@@ -123,7 +124,7 @@ item_edit_draw (GocItem const *item, cairo_t *cr)
 	PangoRectangle pos, weak;
 	char const *text = gtk_entry_get_text (ie->entry);
 	GdkRGBA fcolor;
-	PangoDirection dir = pango_find_base_dir (text, -1);
+	PangoDirection dir = gnm_text_base_dir (text);
 	PangoAttrList *entry_attributes
 		= g_object_get_data (G_OBJECT (ie->entry),
 				     "gnm:range-attributes");
@@ -275,7 +276,7 @@ item_edit_button_pressed (GocItem *item, int button, double x, double y)
 		GtkEditable *ed = GTK_EDITABLE (ie->entry);
 		int target_index, trailing;
 		char const *text = pango_layout_get_text (ie->layout);
-		PangoDirection dir = pango_find_base_dir (text, -1);
+		PangoDirection dir = gnm_text_base_dir (text);
 		PangoRectangle pos;
 		GocDirection cdir = goc_canvas_get_direction (item->canvas);
 
@@ -329,7 +330,7 @@ item_edit_motion (GocItem *item, double x, double y)
 		GtkEditable *ed = GTK_EDITABLE (ie->entry);
 		int target_index, trailing;
 		char const *text = pango_layout_get_text (ie->layout);
-		PangoDirection dir = pango_find_base_dir (text, -1);
+		PangoDirection dir = gnm_text_base_dir (text);
 		PangoRectangle pos;
 		GocDirection cdir = goc_canvas_get_direction (item->canvas);
 
@@ -414,7 +415,7 @@ item_edit_update_bounds (GocItem *item)
 		entered_text = gtk_entry_get_text (ie->entry);
 		text = wbcg_edit_get_display_text (scg_wbcg (ie->scg));
 		pango_layout_set_text (ie->layout, text, -1);
-		dir = pango_find_base_dir (text, -1);
+		dir = gnm_text_base_dir (text);
 
 		pango_layout_set_font_description (ie->layout, gfont->go.font->desc);
 		pango_layout_set_wrap (ie->layout, PANGO_WRAP_WORD_CHAR);

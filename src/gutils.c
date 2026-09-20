@@ -32,6 +32,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-doc-meta-data.h>
 #include <gsf/gsf-timestamp.h>
+#include <fribidi.h>
 
 #define SHEET_SELECTION_KEY "sheet-selection"
 #define SSCONVERT_SHEET_SET_KEY "ssconvert-sheets"
@@ -676,6 +677,31 @@ gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2)
 		return res;
 	}
 }
+
+/**
+ * gnm_text_base_dir:
+ * @text: (nullable): text to examine
+ *
+ * Determine the script direction of @text.
+ */
+PangoDirection
+gnm_text_base_dir (const char *text)
+{
+	if (!text)
+		return PANGO_DIRECTION_NEUTRAL;
+
+	for (const char *p = text; *p; p = g_utf8_next_char (p)) {
+		gunichar ch = g_utf8_get_char (p);
+		FriBidiCharType type = fribidi_get_bidi_type (ch);
+		if (FRIBIDI_IS_STRONG (type))
+			return FRIBIDI_IS_RTL (type)
+				? PANGO_DIRECTION_RTL
+				: PANGO_DIRECTION_LTR;
+	}
+
+	return PANGO_DIRECTION_NEUTRAL;
+}
+
 
 /* ------------------------------------------------------------------------- */
 

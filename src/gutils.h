@@ -29,6 +29,9 @@ int gnm_excel_search_impl (const char *needle, const char *haystack,
 
 gboolean gnm_pango_attr_list_equal (PangoAttrList const *l1, PangoAttrList const *l2);
 
+
+PangoDirection gnm_text_base_dir (const char *text);
+
 /* Locale utilities */
 typedef struct GnmLocale_ GnmLocale;
 GnmLocale *gnm_push_C_locale (void);

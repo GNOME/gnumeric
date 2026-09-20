@@ -27,6 +27,7 @@
 #include <value.h>
 #include <rendered-value.h>
 #include <ranges.h>
+#include <gutils.h>
 
 static guint
 col_hash (gconstpointer key)
@@ -264,7 +265,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	if (h_align == GNM_HALIGN_LEFT || h_align == GNM_HALIGN_RIGHT) {
 		char const *text = gnm_rendered_value_get_text (rv);
 		PangoDirection dir = (text && *text)
-			? pango_find_base_dir (text, -1)
+			? gnm_text_base_dir (text)
 			: PANGO_DIRECTION_LTR;
 		if (gnm_style_get_align_h (style) == GNM_HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL)
 			h_align = GNM_HALIGN_RIGHT;

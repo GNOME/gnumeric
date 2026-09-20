@@ -17,6 +17,7 @@
 #include <rendered-value.h>
 #include <parse-util.h>
 #include <sheet-merge.h>
+#include <gutils.h>
 #include <goffice/goffice.h>
 
 #include <gdk/gdk.h>
@@ -191,7 +192,7 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 				int i;
 				PangoAttrList *attr = pango_layout_get_attributes (layout);
 
-				dir = pango_find_base_dir (copy1, -1);
+				dir = gnm_text_base_dir (copy1);
 				for (i = 0; i < copies; i++) {
 					if (i)
 						g_string_append_unichar (multi, UNICODE_ZERO_WIDTH_SPACE_C);
@@ -209,7 +210,7 @@ cell_calc_layout (G_GNUC_UNUSED GnmCell const *cell, GnmRenderedValue *rv, int y
 					pango_attr_list_unref (attr_c);
 				}
 			} else
-				dir = pango_find_base_dir (pango_layout_get_text (layout), -1);
+				dir = gnm_text_base_dir (pango_layout_get_text (layout));
 			/* right align if text is RTL */
 			if (dir == PANGO_DIRECTION_RTL) {
 				PangoRectangle r;

@@ -542,7 +542,7 @@ gnm_rendered_value_new (GnmCell const *cell,
 	/* ---------------------------------------- */
 
 	text = pango_layout_get_text (layout);
-	dir = (text && *text)? pango_find_base_dir (text, -1): PANGO_DIRECTION_LTR;
+	dir = gnm_text_base_dir (text);
 	if (gnm_style_get_align_h (mstyle) == GNM_HALIGN_GENERAL && dir == PANGO_DIRECTION_RTL) {
 		switch (res->effective_halign) {
 		case GNM_HALIGN_LEFT:
