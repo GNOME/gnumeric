@@ -1,7 +1,7 @@
-Gnumeric 1.12.63
+Gnumeric 1.12.63:
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.62
+Gnumeric 1.12.62:
 
 Morten:
 	* Test improvements
@@ -27,7 +27,7 @@ Morten:
 	* Fix R.PST in the log case.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.61
+Gnumeric 1.12.61:
 
 Morten:
 	* Up gtk+ requirement to 3.20.  Still ancient.
@@ -64,7 +64,7 @@ N. Copa:
 	* Fix parallel build trouble.  [#852]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.60
+Gnumeric 1.12.60:
 
 Morten:
 	* Fix problem with whole-column references in ods.  [#797]
@@ -90,7 +90,7 @@ Morten:
 	* Experiment with AI translation (+human editing) for the da.po files.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.59
+Gnumeric 1.12.59:
 
 b.s.:
 	* Fix long-double version of FLT.NEXTAFTER.
@@ -108,13 +108,13 @@ Morten:
 	* Fix further zoom problem.  [#794]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.58
+Gnumeric 1.12.58:
 
 Placeholder:
 	* No such release.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.57
+Gnumeric 1.12.57:
 
 Morten:
 	* Fix touchpad scrolling on Wayland.  [#678]
@@ -130,7 +130,7 @@ Morten:
 	* Accept ad-hoc clipboard format "text/plain;charset=utf-8".  [#754]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.56
+Gnumeric 1.12.56:
 
 Hubert Figuière:
 	* Fix tooltip problem on Wayland.
@@ -145,13 +145,13 @@ Morten:
 	* Fix HTML export problem with underline.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.55
+Gnumeric 1.12.55:
 
 Morten:
 	* Fix problem making new objects invisble.  [#694]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.54
+Gnumeric 1.12.54:
 
 John Denker:
 	* Improve whitespace handling in html import.  [#671]
@@ -166,7 +166,7 @@ Morten:
 	* Cell comment speed-ups.  [#692]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.53
+Gnumeric 1.12.53:
 
 Morten:
 	* Fix xlsx import of T.INV.
@@ -185,7 +185,7 @@ Morten:
 	* Fix crash involving moving conditional formats.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.52
+Gnumeric 1.12.52:
 
 Morten:
 	* Attach the vertical alignment selector to the toolbar.
@@ -210,7 +210,7 @@ Morten:
 	* Be less aggressive with automatic column widening.  [#621]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.51
+Gnumeric 1.12.51:
 
 Jean:
 	* Fix error bars when data are in a multi-column array. [#594]
@@ -231,7 +231,7 @@ Morten:
 	* Fix ods export leak.  [#611]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.50
+Gnumeric 1.12.50:
 
 Morten:
 	* Fix undo problem with sorting and cell comments.
@@ -247,7 +247,7 @@ Morten:
 	* Improve excel-specific xlsx import of validation.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.49
+Gnumeric 1.12.49:
 
 Andreas:
 	* Do not try to turn all of LibreOffice's SplitModes into frozen
@@ -289,7 +289,7 @@ Morten:
 	* Disable cs documentation translation due to itstool/libxml2 bug.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.48
+Gnumeric 1.12.48:
 
 Andreas:
 	* Add axis title to chart in histogram tool. [#408]
@@ -326,7 +326,7 @@ Morten:
 	* Fix GnmRange introspection.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.47
+Gnumeric 1.12.47:
 
 Andreas:
 	* Fix chart and image name roundtrip through ODF. [#477]
@@ -350,7 +350,7 @@ Morten:
 	* Fix sheet object print flag roundtrip through XLSX.  [#486]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.46
+Gnumeric 1.12.46:
 
 Andreas:
 	* Fix format import from ODF. [#403]
@@ -376,7 +376,7 @@ Shlomi Fish:
 	* Command line export of graphs.  [#410]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.45
+Gnumeric 1.12.45:
 
 Eugen Dedu:
 	* Doc fixes.  [#380] [#381] [#382]
@@ -395,7 +395,7 @@ Thomas Kuehne:
 	* Improve Excel standalone-xml import.  [#391]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.44
+Gnumeric 1.12.44:
 
 Jean:
 	* Fix document properties types. [#367]
@@ -415,14 +415,14 @@ Morten:
 	* Fix documentation problem for vararg functions.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.43
+Gnumeric 1.12.43:
 
 Morten:
 	* Fix header installation.
 	* Fix psiconv compilation.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.42
+Gnumeric 1.12.42:
 
 Morten:
 	* Plug leaks.
@@ -439,7 +439,7 @@ Morten:
 	* Fix conditional format crash [#343].
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.41
+Gnumeric 1.12.41:
 
 Morten:
 	* Fix problem with object pasting.
@@ -450,7 +450,7 @@ Morten:
 	* Don't offer more than 15 significant digits by default.  [#754391]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.40
+Gnumeric 1.12.40:
 
 Andreas:
 	* Fix histogram tool for the case of no labels. [#795475]
@@ -479,7 +479,7 @@ Morten:
 	* No-net test suite fixes.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.39
+Gnumeric 1.12.39:
 
 Morten:
 	* Fix ssdiff problem.  [#792038]
@@ -493,7 +493,7 @@ Rafael Fontenelle:
         * Doc fixes.  [#792556] [#792592]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.38
+Gnumeric 1.12.38:
 
 Morten:
 	* Avoid large stack use here and there.
@@ -505,7 +505,7 @@ Morten:
 	* Fix crash on text import.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.37
+Gnumeric 1.12.37:
 
 Morten:
 	* Test suite improvements.
@@ -522,7 +522,7 @@ Morten:
 	* Avoid large stack use here and there.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.36
+Gnumeric 1.12.36:
 
 Andreas:
 	* Improve contour plot export/import to/from ODF. [#788728]
@@ -549,7 +549,7 @@ Morten:
 	* Fix VDB for partial periods.  [#790299]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.35
+Gnumeric 1.12.35:
 
 Jean:
 	* Fix cell border style selectors with recent gdk-pixbuf. [#781988]
@@ -561,7 +561,7 @@ Morten:
 	* Fix further fallout from glpk format change.  [#783077]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.34
+Gnumeric 1.12.34:
 
 Andreas:
 	* Fix hyperlinks import from ODF. [#779635]
@@ -586,7 +586,7 @@ Morten:
 	* Fix style border colour sharing.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.33
+Gnumeric 1.12.33:
 
 Andreas:
 	* Fix export/import of scaling information to/from ODF.
@@ -605,7 +605,7 @@ Morten:
 	* Fix stf problems with text format.  [#777543]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.32
+Gnumeric 1.12.32:
 
 Andreas:
 	* Improve html4.0 fragment export. [#769343]
@@ -626,7 +626,7 @@ Morten:
 	* Test suite improvements.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.31
+Gnumeric 1.12.31:
 
 Morten:
 	* Fix case issues for database functions.
@@ -635,7 +635,7 @@ Morten:
 	* Fix inter-process paste crash.  [#768164]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.30
+Gnumeric 1.12.30:
 
 Morten:
 	* Improve format guessing for csv and txt files.
@@ -645,7 +645,7 @@ Morten:
 	* Add tests for database functions.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.29
+Gnumeric 1.12.29:
 
 Jean:
 	* Fix array reading in plots using matrix data. [#765483]
@@ -659,7 +659,7 @@ Morten:
 	* Dead kittens.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.28
+Gnumeric 1.12.28:
 
 Morten:
 	* Fuzzed file fixes.  [#761663] [#761727] [#762278]
@@ -672,7 +672,7 @@ Morten:
 	* Improve accuracy of IMLOG10.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.27
+Gnumeric 1.12.27:
 
 Andreas:
 	* Read/write rich-text font-size from ODF files. [#759983]
@@ -704,13 +704,13 @@ Morten:
 	* Improve IMIGAMMA coverage.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.26
+Gnumeric 1.12.26:
 
 Morten:
 	* Fix potential crasher on showing initial window.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.25
+Gnumeric 1.12.25:
 
 Jean:
 	* Add support in recent files dialog for multiple selesction and double
@@ -731,7 +731,7 @@ Morten:
 	* Fix problem with xls export of list validation.  [#557555]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.24
+Gnumeric 1.12.24:
 
 Jean:
 	* Fix printing of sheet objects with one cell or absolute anchors. [#753961]
@@ -739,7 +739,7 @@ Jean:
 	* On export, just change the extension, not more. [ubuntu #1497344]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.23
+Gnumeric 1.12.23:
 
 Andreas:
 	* Fix memory handling error on fuzzed sxc file. [#748535]
@@ -789,7 +789,7 @@ Morten:
 	* Restrict TABLE to array context.  [#751871]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.22
+Gnumeric 1.12.22:
 
 Andreas:
 	* Improve ODF import/export of additional axes. [#746321]
@@ -833,7 +833,7 @@ Morten:
 	* Add TANPI and COTPI functions.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.21
+Gnumeric 1.12.21:
 
 Andreas:
 	* ODF import/export general plot data specifications. [#743818]
@@ -869,7 +869,7 @@ Morten:
 	* Fix various dtd version problems.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.20
+Gnumeric 1.12.20:
 
 Andreas:
 	* ODF import/export trendline names. [#743448]
@@ -900,7 +900,7 @@ Morten:
 	* Fix xlsx import/export of axis font info.  [#743822]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.19
+Gnumeric 1.12.19:
 
 Andreas:
 	* Add latex fragment exporter of visible rows only. [#739512]
@@ -938,7 +938,7 @@ Thomas Kluyver:
 	* Fix import of extended floats from wk4 files.  [#739679]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.18
+Gnumeric 1.12.18:
 
 Andreas:
 	* Improve documentation. [#733466]
@@ -959,7 +959,7 @@ Morten:
 	* Fix minor ods rich text import problem.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.17
+Gnumeric 1.12.17:
 
 Morten:
 	* Fix UMR.  [#730727]
@@ -969,7 +969,7 @@ Morten:
 	* Fix solver critical.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.16
+Gnumeric 1.12.16:
 
 Andreas:
 	* Fix database-range import from ODF. [#730197]
@@ -990,7 +990,7 @@ Morten:
 	* Work towards making ods export deterministic.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.15
+Gnumeric 1.12.15:
 
 Andreas:
 	* Fix chart size in ODF import. [#728278]
@@ -1008,7 +1008,7 @@ Morten:
 	* Make search dialog non-modal again.  [#728817]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.14
+Gnumeric 1.12.14:
 
 Andreas:
 	* Improve format import from ODF files.
@@ -1027,7 +1027,7 @@ Morten:
 	* Fix column/row header colouring problem.  [#728007]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.13
+Gnumeric 1.12.13:
 
 Andreas:
 	* Fix export of comboboxes to ODF.
@@ -1063,7 +1063,7 @@ Morten:
 	* Fix LOG2 problem.  [#726464]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.12
+Gnumeric 1.12.12:
 
 Andreas:
 	* Fix ODF roundtrip of some header/footer markers. [part of #724487]
@@ -1121,7 +1121,7 @@ Morten:
 	* Fix GUI sheet re-ordering mess.  [Part of #725459]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.11
+Gnumeric 1.12.11:
 
 Jean:
 	* Fix hang on xls/biff7 save.  [#724399]
@@ -1131,7 +1131,7 @@ Morten:
 	* Improve testing for xls/biff7.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.10
+Gnumeric 1.12.10:
 
 Andreas:
 	* Fix handling of dashes on ODF import. [#719509]
@@ -1170,7 +1170,7 @@ Morten:
 	* Fix problems with large, circular farms of VLOOKUP etc. [#723894]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.9
+Gnumeric 1.12.9:
 
 Jean:
 	* Implement double click for graph sheets. [#712216]
@@ -1200,7 +1200,7 @@ Xabier Rodríguez Calvar:
 	* Fix dialog button order. [#710378]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.8
+Gnumeric 1.12.8:
 
 Andreas:
 	* Update/fix documentation [#708679][#707075][#708556]
@@ -1217,14 +1217,14 @@ Morten:
 	* Fix win32 compilation.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.7
+Gnumeric 1.12.7:
 
 Morten:
 	* Extend BESSELJ and BESSELY to handle fractional order.  [#706720]
 	* Fix crash with split pane.  [#707047]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.6
+Gnumeric 1.12.6:
 
 Andreas:
 	* Fix crash on corrupted files. [#706526]
@@ -1234,7 +1234,7 @@ Morten:
 	* Fix save style performance issue.  [#699045]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.5
+Gnumeric 1.12.5:
 
 Andreas:
 	* Improve ODF import of cells with links. [#704022]
@@ -1283,7 +1283,7 @@ Morten:
 	* Fix test failure.  [#705947]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.4
+Gnumeric 1.12.4:
 
 Andreas:
 	* Improve xlsx export of Gnumeric functions.
@@ -1310,7 +1310,7 @@ Morten:
 	* Fix COUNTIF (etc) pattern matching.  [#703770]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.3
+Gnumeric 1.12.3:
 
 Andreas:
 	* Fix border handling for merged cells in LaTeX export.
@@ -1388,7 +1388,7 @@ Morten:
 	* Plug leaks.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.2
+Gnumeric 1.12.2:
 
 Andreas:
 	* Update documentation.
@@ -1465,7 +1465,7 @@ Morten:
 	* Fix showing multiple toolbars on the left.
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.1
+Gnumeric 1.12.1:
 
 Alexandre Rostovtsev:
 	* Introspection fixes.  [#684159]
@@ -1511,13 +1511,13 @@ Morten:
 	* Fix sheet-removed crashes for a few dialogs.  [#364291]
 
 --------------------------------------------------------------------------
-Gnumeric 1.12.0
+Gnumeric 1.12.0:
 
 Andreas:
 	 * Fix xlsx save problem.  [#690203]
 
 --------------------------------------------------------------------------
-Gnumeric 1.11.91
+Gnumeric 1.11.91:
 
 Andreas:
 	* Update the Gnumeric manual.
@@ -1526,7 +1526,7 @@ Morten:
 	* Fix format problem.
 
 --------------------------------------------------------------------------
-Gnumeric 1.11.90
+Gnumeric 1.11.90:
 
 Andreas:
 	* Fix ODF export of conditional styles including data styles. [#683739]
@@ -1555,7 +1555,7 @@ Weng Xuetian:
         * Fix interaction with ibus & fcitx. [#684511]
 
 --------------------------------------------------------------------------
-Gnumeric 1.11.6
+Gnumeric 1.11.6:
 
 Andreas:
 	* Some documentation updates.
@@ -1590,7 +1590,7 @@ Morten:
 	* Improve inter-workbook recalculations.
 
 --------------------------------------------------------------------------
-Gnumeric 1.11.5
+Gnumeric 1.11.5:
 
 Jean:
 	* Add support for introspection. [#670271]
@@ -1605,7 +1605,7 @@ Morten:
 	* Add solver report.
 
 --------------------------------------------------------------------------
-Gnumeric 1.11.4
+Gnumeric 1.11.4:
 
 Andreas:
 	* Handle coloured text formatting during ODF import.
@@ -1650,7 +1650,7 @@ Morten:
 	* Fix clipboard criticals on exit.  [#678580]
 
 --------------------------------------------------------------------------
-Gnumeric 1.11.3
+Gnumeric 1.11.3:
 
 Andreas:
 	* On ODF import of stacked column charts, set LibreOffice's default
@@ -1709,7 +1709,7 @@ Morten:
 	* Try to work around gtk bug causing crashes.  [Redhat #803904]
 
 --------------------------------------------------------------------------
-Gnumeric 1.11.2
+Gnumeric 1.11.2:
 
 Andreas:
 	* Colour the range expressions to match the range cursor. [#632156]
@@ -1751,7 +1751,7 @@ Morten:
 	* Make sheet removal respect manual recalculation.  [#671192]
 
 --------------------------------------------------------------------------
-Gnumeric 1.11.1
+Gnumeric 1.11.1:
 
 Andreas:
 	* Show range selection cursors even while selecting new regions and
@@ -1764,7 +1764,7 @@ Morten:
 	* Build fixes relating to embedded ui files [#664828]
 
 --------------------------------------------------------------------------
-Gnumeric 1.11.0
+Gnumeric 1.11.0:
 
 Adrian Bunk:
        * Remove obsolete Hildon port.  [#662412]
@@ -1863,7 +1863,7 @@ Valek:
 	codepage. [#304007, ubuntu #262777]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.17
+Gnumeric 1.10.17:
 
 Andreas:
 	* Fix some style import from ODF. [#652492]
@@ -1892,7 +1892,7 @@ Morten:
 	* Fix parsing crash.  [Redhat #726860]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.16
+Gnumeric 1.10.16:
 
 Andreas:
 	* Store some print range information in gnumeric files. [#649714]
@@ -1925,7 +1925,7 @@ Morten:
 	* Drop unneeded value formats.  [#651667]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.15
+Gnumeric 1.10.15:
 
 Andreas:
 	* Fix shift-arrow movement for sheet objects. [#645805]
@@ -1968,7 +1968,7 @@ Urmas:
 	* Initial support for Works files.  [#647492]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.14
+Gnumeric 1.10.14:
 
 Andreas:
 	* Fix width of translated lists in various dialogs [#641626]
@@ -2019,7 +2019,7 @@ Stanley Pinchak:
 	* Improve "dif" output.
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.13
+Gnumeric 1.10.13:
 
 Andreas:
 	* Calculate residuals when using the regression tool. [#635064]
@@ -2054,7 +2054,7 @@ Morten:
 	* Allow version-agnostic template files.  [#630247]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.12
+Gnumeric 1.10.12:
 
 Andreas:
 	* Add argument to FOURIER to separate parts.
@@ -2098,7 +2098,7 @@ Sameer Morar:
 	saving.  [#527133]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.11
+Gnumeric 1.10.11:
 
 Andreas:
 	* Fix image-fill, pattern and gradient export. [#628762]
@@ -2131,7 +2131,7 @@ Morten:
 	* Improve test suite.
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.10
+Gnumeric 1.10.10:
 
 Andreas:
 	* Significantly improve chart export and import to/from ODF.
@@ -2159,7 +2159,7 @@ Morten:
 	* Fix errors in function docs.
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.9
+Gnumeric 1.10.9:
 
 Andreas:
 	* Clarify autofilter dialog. [#625688]
@@ -2203,7 +2203,7 @@ Morten:
 	* Fix problem with collect cache.  [#627079]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.8
+Gnumeric 1.10.8:
 
 Andreas:
 	* Add new Excel and Openformula units ("pica" and "picapt") to CONVERT.
@@ -2285,7 +2285,7 @@ Morten:
 	* Eliminate almost all remaining GdkGC usage.
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.7
+Gnumeric 1.10.7:
 
 Andreas:
 	* Improve function syntax and formula guru tooltips.
@@ -2308,7 +2308,7 @@ Morten:
 	* Improve handling of MS-style HTML in clipboard.  [#617801]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.6
+Gnumeric 1.10.6:
 
 Andreas:
 	* Add Wilcoxon Signed Rank Test tools for one and two populations.
@@ -2360,7 +2360,7 @@ Morten:
 	* Fix memory handling issue for dependents.
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.5
+Gnumeric 1.10.5:
 
 Andreas:
 	* Add Wilcoxon-Mann-Whitney test tool.
@@ -2376,7 +2376,7 @@ Sameer Morar:
 	* Improve page setup dialog. [#619421]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.4
+Gnumeric 1.10.4:
 
 Andreas:
 	* Include version number in HTML export.
@@ -2394,7 +2394,7 @@ Sameer Morar:
  	* Fix sheet order dialog layout. [#619056]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.3
+Gnumeric 1.10.3:
 
 Andreas:
 	* Fix CHITEST for rectangular ranges. [#615920]
@@ -2435,7 +2435,7 @@ Morten:
 	* Fix old graph problem.  [#142412]
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.2
+Gnumeric 1.10.2:
 
 Alexander Kahl & Sven Mantei:
 	* Some documentation updates
@@ -2474,7 +2474,7 @@ Morten:
 	  that the problem is near singular, but still good.
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.1
+Gnumeric 1.10.1:
 
 Andreas:
 	* Fix storing of error-literals in ODF. [#610175]
@@ -2500,7 +2500,7 @@ Morten:
 	* Fix cell comment critical.
 
 --------------------------------------------------------------------------
-Gnumeric 1.10.0
+Gnumeric 1.10.0:
 
 Andreas:
 	* Fix ODF contour/surface plot confusion. [#607631]
@@ -2516,7 +2516,7 @@ Peter Jaeckel:
 	* Support for XLL files.  [#597849]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.18
+Gnumeric 1.9.18:
 
 Andreas:
 	* Add paste special flip horizontally and vertically. [#393367]
@@ -2569,7 +2569,7 @@ Morten:
 	* Fix GCD border case.  [#606870]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.17
+Gnumeric 1.9.17:
 
 Andreas:
 	* Update EURO and EUROCONVERT with currencies added in 2007 to 2009.
@@ -2598,7 +2598,7 @@ Morten:
 	* Fix ODS import crash.  [#604615]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.16
+Gnumeric 1.9.16:
 
 Andreas:
 	* Clarify distinction between Document and View Properties.
@@ -2639,7 +2639,7 @@ Morten:
 	* Implement load and save of scenarios.
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.15
+Gnumeric 1.9.15:
 
 Andreas:
 	* Add RANDSNORM and RANDSTDIST. [#144717]
@@ -2685,7 +2685,7 @@ Yaacov Zamir:
        * Hebrew Calendar functions.  [#153738]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.14
+Gnumeric 1.9.14:
 
 Albert Gräf:
         * Add button sheet object.
@@ -2723,7 +2723,7 @@ Morten:
 	* Export line and textbox colouring and widths.  [Part of #597035]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.13
+Gnumeric 1.9.13:
 
 Jean:
 	* Fix grab issue after dragging an object. [Debian bug #546559]
@@ -2740,7 +2740,7 @@ Morten:
 	* Put zoom action on vertical toolbars too.  [#590889]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.12
+Gnumeric 1.9.12:
 
 Andreas:
 	* Add CHOLESKY.
@@ -2761,7 +2761,7 @@ Morten:
 	* Simplify GnmFont.
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.11
+Gnumeric 1.9.11:
 
 Andreas:
 	* Add AVERAGEIF, MUNIT, RRI, SEARCHB, REPLACEB, COMBINA, ARABIC.
@@ -2777,7 +2777,7 @@ Morten:
 	  same data range.  [#593238]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.10
+Gnumeric 1.9.10:
 
 Andreas:
 	* Improve ODF export.
@@ -2823,7 +2823,7 @@ Morten:
 	* Add some checking of help texts' sanity.
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.9
+Gnumeric 1.9.9:
 
 Almer S. Tigelaar:
         * Fix scrolling via mouse wheels [#533051]
@@ -2878,7 +2878,7 @@ Morten:
 	* Fix problem with tooltip positions.  [#586590]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.8
+Gnumeric 1.9.8:
 
 Andreas:
 	* Save and load text formatting of comments and of sheet object
@@ -2912,7 +2912,7 @@ Paul Fitzpatrick:
 	* Extend ssconvert to also merge multiple sheets.  [#581616]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.7
+Gnumeric 1.9.7:
 
 Andreas:
 	* Fix some divergence between character weight in the label properties
@@ -2950,7 +2950,7 @@ Morten:
 	* Fix gnumeric crash exporting polygons.  [#581394]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.6
+Gnumeric 1.9.6:
 
 Andreas:
 	* Show sheet sizes in manage sheet dialog
@@ -2999,7 +2999,7 @@ Vivien Malerba:
 	* Move to libgda4.
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.5
+Gnumeric 1.9.5:
 
 Andreas:
 	* Fix style critical on latex export [#574125]
@@ -3050,7 +3050,7 @@ Sum1:
 	* Implement OOO probing.  [#574381]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.4
+Gnumeric 1.9.4:
 
 Andreas:
 	* Change sheet manage dialog into an instant-apply dialog
@@ -3170,7 +3170,7 @@ Morten:
 	* Fix OO import issue.  [#568010]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.3
+Gnumeric 1.9.3:
 
 Andreas:
 	* Do not print hidden sheets.  [#525368]
@@ -3241,7 +3241,7 @@ Nakai:
 	* Enable Perl plugin again.  [#553939]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.2
+Gnumeric 1.9.2:
 
 Andreas:
 	* Fix printing of footer line.  [#549247]
@@ -3282,7 +3282,7 @@ Nick Lamb:
 	* Retain ()s.  [#69813]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.1
+Gnumeric 1.9.1:
 
 Jean:
 	* Fix INDEX related crash.  [#533247]
@@ -3345,7 +3345,7 @@ Seán de Búrca:
 	* Move to tango based icons.  [#450444]
 
 --------------------------------------------------------------------------
-Gnumeric 1.9.0
+Gnumeric 1.9.0:
 
 David Reiser:
 	* Patch for OSX build of python plugin.  [#510059]
@@ -3431,7 +3431,7 @@ Uwe Steinmann:
 	* Paradox DB export.
 
 --------------------------------------------------------------------------
-Gnumeric 1.8.0
+Gnumeric 1.8.0:
 
 Andreas:
 	* Fix print area bug [#502206]
@@ -3543,7 +3543,7 @@ Oliver Burnett-Hall:
        * Fix R1C1 issued with defined names.  [#409997]  [#494318]
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.14
+Gnumeric 1.7.14:
 
 Andreas:
 	* Print repeated rows and columns.
@@ -3576,7 +3576,7 @@ Morten:
 	* Make text import handle ranges of files with >64k rows.  [#370273]
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.13
+Gnumeric 1.7.13:
 
 Jean:
 	* Export font in charts to xls.
@@ -3635,7 +3635,7 @@ Morten:
 	* Fix date entry problem.  [#472760]
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.11
+Gnumeric 1.7.11:
 
 Andreas:
 	* Save and restore default paper, margins and various
@@ -3697,7 +3697,7 @@ Nils Kanning:
 	* Fix the inline documentation for python addins.  [#412804]
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.10
+Gnumeric 1.7.10:
 
 Andreas:
 	* Reimplement scaling
@@ -3713,7 +3713,7 @@ Jody:
 	* Fix inadvertent relocation of reference on other sheets.  [#433907]
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.9
+Gnumeric 1.7.9:
 
 Andreas:
 	* Switch to gtk print from gnome print
@@ -3739,7 +3739,7 @@ Morten:
 	* Update recent-files on load and save.  [#152584]
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.8
+Gnumeric 1.7.8:
 
 Morten:
 	* Fix FACT.  [#410005]
@@ -3753,7 +3753,7 @@ Oliver Burnett-Hall:
 	* Fix R1C1 problem in formula guru.
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.7
+Gnumeric 1.7.7:
 
 Jody:
 	* Patch a leak in DataTables.
@@ -3787,7 +3787,7 @@ Morten:
 	* Fix R1C1 issues.  [#407247]
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.6
+Gnumeric 1.7.6:
 
 Jody:
 	* Fix sax import of autofilters.  [#383400]
@@ -3808,7 +3808,7 @@ Morten:
 	* Improve number formatting.
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.5
+Gnumeric 1.7.5:
 
 Jon Kåre:
 	* Fix zoom preference.  [#378043]
@@ -3849,7 +3849,7 @@ Morten:
 	* Fix a case where goal seek went outside the interval.
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.4
+Gnumeric 1.7.4:
 
 Jody:
 	* Fix splash.
@@ -3861,7 +3861,7 @@ Morten:
 	* Fix RATE.
 
 --------------------------------------------------------------------------
-Gnumeric 1.7.3
+Gnumeric 1.7.3:
 
 Eduardo Lima:
 	* Make printing support optional.  [#331948]
@@ -3920,7 +3920,7 @@ Morten:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.7.2
+Gnumeric 1.7.2:
 
 Emmanuel :
 	* New look for col/row headers.
@@ -3954,7 +3954,7 @@ Morten:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.7.1
+Gnumeric 1.7.1:
 
 Andreas:
 	* Fix ngettext calls [#345027]
@@ -4028,7 +4028,7 @@ Shixin Zeng:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.7.0
+Gnumeric 1.7.0:
 
 PACKAGERS :
     If you store supported mimetypes anywhere other than gnumeric.desktop you
@@ -4249,7 +4249,7 @@ Philo Vivero:
 	* New loan template.  [#317201]
 
 --------------------------------------------------------------------------
-Gnumeric 1.6.1
+Gnumeric 1.6.1:
 
 Allin Cottrell:
 	* Save configuration in non-gnome case.  [#310354]
@@ -4289,7 +4289,7 @@ Philippe Lelong:
 	* Fix issue with PRICE (and probably related functions).
 
 --------------------------------------------------------------------------
-Gnumeric 1.6.0
+Gnumeric 1.6.0:
 
 Andreas:
 	* Preload selection in "Define Names" dialog.  [#316406]
@@ -4320,7 +4320,7 @@ Morten:
 	* Fix infinite loop in pdhyper.
 
 --------------------------------------------------------------------------
-Gnumeric 1.5.90
+Gnumeric 1.5.90:
 
 Jody:
 	* quotes for pure strings in expressions for xml in/out [#313460]
@@ -4337,12 +4337,12 @@ Morten:
 	  versions.  [#314875]
 
 --------------------------------------------------------------------------
-Gnumeric 1.5.5
+Gnumeric 1.5.5:
 
 (No code changes -- translations only)
 
 --------------------------------------------------------------------------
-Gnumeric 1.5.4
+Gnumeric 1.5.4:
 
 Clytie Siddall:
 	* Audit strings.  [#312746]  [#312986]
@@ -4369,7 +4369,7 @@ Morten:
 	* Fix print problem with page numbers.  [#314520]
 
 --------------------------------------------------------------------------
-Gnumeric 1.5.3
+Gnumeric 1.5.3:
 
 Ivan, Y.C. Wong:
 	* Fix recent files list on win32.  [#308302]
@@ -4423,7 +4423,7 @@ Morten:
 	* Fix sheet-remove crash related to dependencies.  [#312794]
 
 --------------------------------------------------------------------------
-Gnumeric 1.5.2
+Gnumeric 1.5.2:
 
 Andreas:
 	* permit formula guru to add array functions
@@ -4506,7 +4506,7 @@ Morten:
 	* Fix CRITICAL in the "manage sheets" dialog.
 
 --------------------------------------------------------------------------
-Gnumeric 1.5.1
+Gnumeric 1.5.1:
 
 Andreas:
 	* Make ROUNDDOWN and ROUNDUP MSExcel compatible including the
@@ -4614,7 +4614,7 @@ Morten:
 	* Fix undo crash in connection with cloning sheets.
 
 --------------------------------------------------------------------------
-Gnumeric 1.5.0
+Gnumeric 1.5.0:
 
 Emmanuel Pacaud:
 	* Snap to grid mode when moving sheet objects with shift.
@@ -4656,7 +4656,7 @@ Morten:
 	* Plug xls save leak.  [#166561]
 
 --------------------------------------------------------------------------
-Gnumeric 1.4.2
+Gnumeric 1.4.2:
 
 Caolan McNamara:
 	* Improve python config test for ia64 [#161547]
@@ -4741,7 +4741,7 @@ Uwe Steinmann:
 	* Extend paradox importer to support additional types.
 
 --------------------------------------------------------------------------
-Gnumeric 1.4.1
+Gnumeric 1.4.1:
 
 Jody:
 	* Saved charts were 1 pixel larger than the stated size [#157732]
@@ -4759,7 +4759,7 @@ Spudun:
 	* tidy up lp_solve code to build under OS/X
 
 --------------------------------------------------------------------------
-Gnumeric 1.4.0
+Gnumeric 1.4.0:
 
 Andreas:
 	* Fix crash on empty file in lotus file probe.  [#158126]
@@ -4788,7 +4788,7 @@ Morten:
 	* Fix stf import crash.  [#159009]
 
 --------------------------------------------------------------------------
-Gnumeric 1.3.93
+Gnumeric 1.3.93:
 
 Andreas:
 	* Keep the recently used function list uptodate.  [#156732]
@@ -4820,7 +4820,7 @@ Jody:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.3.92
+Gnumeric 1.3.92:
 
 Andreas:
 	* Fix text export dialog [#155437, #154231]
@@ -4899,7 +4899,7 @@ Yukihiro Nakai:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.3.91
+Gnumeric 1.3.91:
 
 Adrian:
 	* Write the chapter "Graphics: Plots, Images, Widgets and Drawings"
@@ -4980,7 +4980,7 @@ Yukihiro Nakai:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.3.90
+Gnumeric 1.3.90:
 
 Andreas:
 	* Improve `T-Test (Unpaired; Unequal or Equal Variances)' tool
@@ -5022,7 +5022,7 @@ Morten:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.3.2
+Gnumeric 1.3.2:
 
 Andreas:
 	* Improve `F-Test' tool
@@ -5114,7 +5114,7 @@ Yukihiro Nakai:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.3.1
+Gnumeric 1.3.1:
 
 Andreas:
         http://bugzilla.gnome.org/show_bug.cgi?id=142219
@@ -5231,7 +5231,7 @@ Morten:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.3.0
+Gnumeric 1.3.0:
 
 Andreas:
 	* Make new strings translatable.
@@ -5359,7 +5359,7 @@ Morten:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.2.3
+Gnumeric 1.2.3:
 
 Adrian Bunk:
 	* Portability fixes.
@@ -5417,7 +5417,7 @@ Morten:
 	* PCRE upgrade to 4.5.
 
 --------------------------------------------------------------------------
-Gnumeric 1.2.2
+Gnumeric 1.2.2:
 
 Andreas:
 	* Updated some docs.
@@ -5561,7 +5561,7 @@ J.H.M. Dassen (Ray):
     	* Include several missing images in the documentation. (Debian #218580)
 
 --------------------------------------------------------------------------
-Gnumeric 1.2.1
+Gnumeric 1.2.1:
 
 Adrian Custer:
 	* More documentation.
@@ -5643,7 +5643,7 @@ Thomas Miesbauer:
 	* Redo screenshots
 
 --------------------------------------------------------------------------
-Gnumeric 1.2.0
+Gnumeric 1.2.0:
 
 Andreas:
 	* Fix Advanced Filter dialog
@@ -5683,7 +5683,7 @@ Jon Kåre:
  	  needed (http://bugzilla.gnome.org/show_bug.cgi?id=121877).
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.90
+Gnumeric 1.1.90:
 
 Andreas:
 	* Make graph configuration undoable.
@@ -5736,7 +5736,7 @@ Morten:
 	* Handle -hh:mm.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.20
+Gnumeric 1.1.20:
 
 Adrian Custer:
 	* Get the new documentation building.
@@ -5890,13 +5890,13 @@ Morten:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.1.19
+Gnumeric 1.1.19:
 
 Auto*-wrestling only.
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.1.18
+Gnumeric 1.1.18:
 
 Andreas:
 	* Some more UTF-8 cleaning in the stf parsers.
@@ -5969,7 +5969,7 @@ Morten:
 
 --------------------------------------------------------------------------
 
-Gnumeric 1.1.17
+Gnumeric 1.1.17:
 
 Andreas:
 	* Add character encoding menus to the file selector
@@ -6032,7 +6032,7 @@ Morten:
 	* Switch regexp routine to pcre.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.16
+Gnumeric 1.1.16:
 
 Jody:
 	* Support Mac Office style 1904 date convention.
@@ -6078,7 +6078,7 @@ Wayne Schuller  <k_wayne@linuxpower.org>
 	* Initial implementation of fit-to-pages printing.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.15
+Gnumeric 1.1.15:
 
 Jody:
 	* Fix some XL95 object issues.
@@ -6176,7 +6176,7 @@ Morten:
 	* Fix oleo parser.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.12
+Gnumeric 1.1.12:
 
 Andreas:
 	* Hide hidden cells in groff/troff export.
@@ -6241,7 +6241,7 @@ Olaf Till:
 	  with nonlinear fitting of a horizontal curve shift.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.11
+Gnumeric 1.1.11:
 
 Adrian:
 	* Some LaTeX exporter fixes
@@ -6275,7 +6275,7 @@ Morten:
 	* Fix ABW in html exporter.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.10
+Gnumeric 1.1.10:
 
 Andreas:
 	* Add XHTML exporter
@@ -6367,7 +6367,7 @@ Jon Kåre:
 	* Remove old Python plugin
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.9
+Gnumeric 1.1.9:
 
 Andreas:
 	* Fix #92367, #94300
@@ -6419,7 +6419,7 @@ Lutz Müller:
 	* Drag & Drop sheet re-ordering
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.8
+Gnumeric 1.1.8:
 
 dorami@bu.iij4u.or.jp:
 	* Begin to use Pango in cells.
@@ -6467,7 +6467,7 @@ Zbigniew:
 	* Another step towards a gtk only build.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.7
+Gnumeric 1.1.7:
 
 Jody:
 	* Fix and speed up the XL exporter.
@@ -6533,7 +6533,7 @@ Zbigniew:
 	* Work on the plugins.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.6
+Gnumeric 1.1.6:
 
 Andreas:
 	* Fix and improve html import.
@@ -6620,7 +6620,7 @@ Jon Kåre:
 	* Added ISOYEAR().
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.4
+Gnumeric 1.1.4:
 
 Almer:
 	* Implement validation criteria checking.
@@ -6679,7 +6679,7 @@ Jon Kåre:
 	* Enable bonobo control to display message dialog.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.3
+Gnumeric 1.1.3:
 
 Andreas:
 	* Port print-setup dialog.
@@ -6762,7 +6762,7 @@ Morten:
 	* Partially untangle remaining fn-files.
 
 --------------------------------------------------------------------------
-Gnumeric 1.1.2
+Gnumeric 1.1.2:
 
 Almer:
 	* Make autoformat edges toggleable.
@@ -6923,7 +6923,7 @@ Wayne Schuster:
 	* Implement opening of comment dialog by double clicking marker.
 
 --------------------------------------------------------------------------
-Gnumeric 1.0.3
+Gnumeric 1.0.3:
 
 Andreas:
 	* Redo  COUP_ functions one more time, ignoring XL.
@@ -6953,7 +6953,7 @@ Wayne Schuller:
 	* Audit the dialogs for accelerators.
 
 --------------------------------------------------------------------------
-Gnumeric 1.0.2
+Gnumeric 1.0.2:
 
 Andreas:
 	* Add `autofit columns' checkbox to all analysis tools.
@@ -6998,7 +6998,7 @@ Neil Booth:
 	* Handle 1900/Feb/28 the same way MS Excel (tm) does.
 
 --------------------------------------------------------------------------
-Gnumeric 1.0.1
+Gnumeric 1.0.1:
 
 Andreas:
 	* Fix 67878 (help button ref)
@@ -7022,7 +7022,7 @@ J.H.M. Dassen (Ray):
 	* Lots of bit warning suppression for s390.
 
 --------------------------------------------------------------------------
-Gnumeric 1.0.0
+Gnumeric 1.0.0:
 
 Andreas:
 	* Improve file format documentation
@@ -7039,7 +7039,7 @@ Jody:
 	* Fix undo from keyboard for sheet object deletion.
 
 --------------------------------------------------------------------------
-Gnumeric 0.99.1
+Gnumeric 0.99.1:
 
 Andreas:
 	* Improve documentation incl. analysis tools, files & worksheet
@@ -7090,7 +7090,7 @@ Tino Meinen:
 	* Make bound errors for INDEX consistent.
 
 --------------------------------------------------------------------------
-Gnumeric 0.99.0
+Gnumeric 0.99.0:
 
 Andreas:
 	* Fix problem in search & search/replace tool #64989
@@ -7169,7 +7169,7 @@ Greg Lebalnc:
 	* Modernize the doc build architecture.
 
 --------------------------------------------------------------------------
-Gnumeric 0.76
+Gnumeric 0.76:
 
 Alex Barnes:
 	* Autofill backwards.
@@ -7213,7 +7213,7 @@ Morten:
 	* Fix memory overrun in function guru.
 
 --------------------------------------------------------------------------
-Gnumeric 0.75
+Gnumeric 0.75:
 
 Andreas:
 	* Rewrite solver dialog as guru (semi-modal using the
@@ -7251,7 +7251,7 @@ Morten:
 	* Plug leaks.
 
 --------------------------------------------------------------------------
-Gnumeric 0.74
+Gnumeric 0.74:
 
 Jody:
 	* Fix regexp handling of escaped characters.
@@ -7262,7 +7262,7 @@ Morten:
 	* Fix an ugly dependency bug.
 
 --------------------------------------------------------------------------
-Gnumeric 0.73
+Gnumeric 0.73:
 
 Adrian Custer:
 	* Improve latex exporter to support multiple pages and basic support
@@ -7319,7 +7319,7 @@ Wayne Schuller:
 	* Improve UI for customizing print header/footer.
 
 --------------------------------------------------------------------------
-Gnumeric 0.72
+Gnumeric 0.72:
 
 Adrian Custer:
 	* Improve latex exporter.
@@ -7365,7 +7365,7 @@ Morten:
 	* Find/Fix memory leaks.
 
 --------------------------------------------------------------------------
-Gnumeric 0.71
+Gnumeric 0.71:
 
 Almer:
 	* Core support for validation and conditional formats.
@@ -7444,7 +7444,7 @@ Zbigniew:
 	  something smaller in almost all source files.
 
 --------------------------------------------------------------------------
-Gnumeric 0.70
+Gnumeric 0.70:
 
 Ariel:
 	* Make guile a proper plugin.
@@ -7459,7 +7459,7 @@ Morten:
 	* Make CEIL more as users expect (based on Jody's idea).
 
 --------------------------------------------------------------------------
-Gnumeric 0.69
+Gnumeric 0.69:
 
 Almer:
 	* Add extra cut/copy/paste shortcut keys.
@@ -7506,7 +7506,7 @@ Zbigniew:
 	* Add precedence scheme for importers.
 
 --------------------------------------------------------------------------
-Gnumeric 0.68
+Gnumeric 0.68:
 
 Almer:
 	* Fix backspace key.
@@ -7556,7 +7556,7 @@ Zbigniew:
 	  file saver.
 
 --------------------------------------------------------------------------
-Gnumeric 0.67
+Gnumeric 0.67:
 
 Jody :
 	* Restore missing files.
@@ -7568,7 +7568,7 @@ Zbigniew:
 	* Fix libml1 bug exposed by progress monitor.
 
 --------------------------------------------------------------------------
-Gnumeric 0.66
+Gnumeric 0.66:
 
 Almer:
 	* Some work on the SAX importer.
@@ -7614,7 +7614,7 @@ Zbigniew:
 	  handling single sheet exporters in a special way)
 
 --------------------------------------------------------------------------
-Gnumeric 0.65
+Gnumeric 0.65:
 
 Almer:
 	* Fix a variety of bugs and other issues.
@@ -7675,7 +7675,7 @@ Zbigniew:
 	* Improved plugin system performance & scalability.
 
 --------------------------------------------------------------------------
-Gnumeric 0.64
+Gnumeric 0.64:
 
 Almer:
 	* Improve scrollbars.
@@ -7701,7 +7701,7 @@ Zbigniew Chyla:
 	* More work on plugins.
 
 --------------------------------------------------------------------------
-Gnumeric 0.63
+Gnumeric 0.63:
 
 Almer:
 	* menu state improvements.
@@ -7724,7 +7724,7 @@ Translations:
 	more.
 
 --------------------------------------------------------------------------
-Gnumeric 0.62
+Gnumeric 0.62:
 
 Chema:
 	* Massive bug hunting spree.
@@ -7770,7 +7770,7 @@ Translations:
           maybe more.
 
 --------------------------------------------------------------------------
-Gnumeric 0.61
+Gnumeric 0.61:
 
 Alan Cox:
 	* Fix formatting mistakes in documentation.
@@ -7790,7 +7790,7 @@ Morten:
 	  avoid unaligned memory accesses, leaks.)
 
 --------------------------------------------------------------------------
-Gnumeric 0.60
+Gnumeric 0.60:
 
 Jody:
 	* Initial work on supporting merged cells.
@@ -7807,13 +7807,13 @@ Morten:
 	* Plug leaks.
 
 --------------------------------------------------------------------------
-Gnumeric 0.59
+Gnumeric 0.59:
 
 Almer:
 	* Minor improvements to the autoformat dialog.
 
 --------------------------------------------------------------------------
-Gnumeric 0.58
+Gnumeric 0.58:
 
 Ariel:
 	* Cleanup and general bugfixing in guile plugin.
@@ -7848,7 +7848,7 @@ Kenneth:
           more smooth - I will consider this very close to finished.
 
 --------------------------------------------------------------------------
-Gnumeric 0.57
+Gnumeric 0.57:
 
 Almer:
 	* Fix stf importer bugs.
@@ -7985,7 +7985,7 @@ Translations:
 	* Update not new, but not mentioned the last time: it (Leandro).
 
 --------------------------------------------------------------------------
-Gnumeric 0.54
+Gnumeric 0.54:
 
 Jacob:
 	* Enable mini icons when available.
@@ -8008,7 +8008,7 @@ Translations:
 	* Updated: de (Karl), no (Kjartan), sv (Andreas), and more.
 
 --------------------------------------------------------------------------
-Gnumeric 0.53
+Gnumeric 0.53:
 
 Morten:
 	* Fixed QUARTILE.
@@ -8037,7 +8037,7 @@ Translations:
 	  (Pablo), no (Kjartan), ru (Valek), uk (Yuri), and more.
 
 --------------------------------------------------------------------------
-Gnumeric 0.52
+Gnumeric 0.52:
 
 Jon:
 	* Tearoff combo boxes
@@ -8062,7 +8062,7 @@ Morten:
 	* Made landscape previews readable.
 
 --------------------------------------------------------------------------
-Gnumeric 0.49
+Gnumeric 0.49:
 
 Jukka:
 	* Added `>=' and `=' constraint support for the Solver tool.
@@ -8151,7 +8151,7 @@ JP:
 	* Add basic attribute support for workbooks
 --------------------------------------------------------------------------
 
-Gnumeric 0.48
+Gnumeric 0.48:
 
 Miguel:
 	* Fix annoying flashing cursor bug.
@@ -8191,7 +8191,7 @@ JP:
 	* Sorting undo/redo
 --------------------------------------------------------------------------
 
-Gnumeric 0.47
+Gnumeric 0.47:
 
 Michael :
 	* Fix nasty recalc bug that would hang the app.
@@ -8208,7 +8208,7 @@ Jody :
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.46
+Gnumeric 0.46:
 
 Michael:
 	* Fixed problems closing workbooks
@@ -8260,7 +8260,7 @@ Ariel:
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.45
+Gnumeric 0.45:
 
 JP:
 	* Improved sort dialog
@@ -8288,7 +8288,7 @@ Michael:
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.44
+Gnumeric 0.44:
 
 Jon:
 	* Vastly improved col / row sizing in excel import
@@ -8301,13 +8301,13 @@ JP:
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.43
+Gnumeric 0.43:
 
 	* Minor build fix.
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.42
+Gnumeric 0.42:
 
 Michael:
 	* Totally re-wrote style engine.
@@ -8350,21 +8350,21 @@ Jeff:
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.41
+Gnumeric 0.41:
 
 	* More recalculation bugs & other minor issues fixed.
 	* Base release before Style mangling.
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.40
+Gnumeric 0.40:
 
 Miguel:
 	* Important recalculation bugs fixed.
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.39
+Gnumeric 0.39:
 
 Miguel:
 
@@ -8392,7 +8392,7 @@ Jon K Hellan:
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.36
+Gnumeric 0.36:
 
 Jody:
 	* Improve selection to correctly handle overlapping ranges.
@@ -8458,7 +8458,7 @@ Jody:
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.32
+Gnumeric 0.32:
 
 Jukka:
 	* More work done on documenting the analysis tools.
@@ -8517,7 +8517,7 @@ Miguel:
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.31
+Gnumeric 0.31:
 
 Jukka:
 	* Implemented ``Anova: Single Factor'' data analysis tool
@@ -8535,7 +8535,7 @@ Michael:
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.30
+Gnumeric 0.30:
 
 Jukka:
 	* Bernoulli distribution added to Random Number Generation tool
@@ -8557,7 +8557,7 @@ Rasca:
 
 --------------------------------------------------------------------------
 
-Gnumeric 0.29
+Gnumeric 0.29:
 
 Miguel:
         Added EmbeddableGrid Bonobo support for embedding graphics.
@@ -8584,7 +8584,7 @@ Michael
         * More improved Excel writing code
 --------------------------------------------------------------------------
 
-Gnumeric 0.28
+Gnumeric 0.28:
 
 Hello guys,
 
@@ -8670,7 +8670,7 @@ Best wishes,
 Miguel.
 
 
-Gnumeric 0.27
+Gnumeric 0.27:
 Hello guys,
 
    New version of Gnumeric has been released.  Version 0.27
@@ -8756,7 +8756,7 @@ Miguel.
 
 
 
-Gnumeric 0.25
+Gnumeric 0.25:
 Hello guys,
 
    Gnumeric 0.25 has been released.  Lots of new things are happening
@@ -8811,7 +8811,7 @@ in this new version, here is a list:
 Miguel.
 
 
-Gnumeric 0.23
+Gnumeric 0.23:
 Hello guys!
 
    A new version of Gnumeric has been released, version 0.23.  Trained
@@ -8854,7 +8854,7 @@ Miguel.
 
 
 
-Gnumeric 0.21
+Gnumeric 0.21:
 Hello guys,
 
    I know, I know.  Too many releases for a day.
@@ -8885,7 +8885,7 @@ Miguel.
 
 
 
-Gnumeric 0.19
+Gnumeric 0.19:
 Hey Dudes!
 
    New version of Gnumeric has been released.
@@ -8937,7 +8937,7 @@ Miguel.
 
 
 
-Gnumeric 0.18
+Gnumeric 0.18:
 Hello guys,
 
    New gnumeric is out.
@@ -8968,7 +8968,7 @@ Hello guys,
 
 
 
-Gnumeric 0.17
+Gnumeric 0.17:
 Hello guys,
 
    New version of Gnumeric is out:
@@ -9003,7 +9003,7 @@ Hello guys,
 
 
 
-Gnumeric 0.16
+Gnumeric 0.16:
 Hello guys,
 
    New version of Gnumeric is out:
@@ -9044,7 +9044,7 @@ Miguel.
 
 
 
-Gnumeric 0.14
+Gnumeric 0.14:
 Hey guys!
 
    This is the release of Gnumeric "Simplified Bonobo" 0.14.
@@ -9059,7 +9059,7 @@ miguel.
 
 
 
-Gnumeric 0.13
+Gnumeric 0.13:
 Hello guys,
 
    I have just released Gnumeric "Superstitious Bonobo" 0.13.  This
@@ -9096,7 +9096,7 @@ Enjoy!
 Miguel.
 
 
-Gnumeric 0.12
+Gnumeric 0.12:
 Hello,
 
    New Gnumeric version, this is the miguel-will-be-out-until monday
@@ -9145,7 +9145,7 @@ Miguel.
 
 
 
-Gnumeric 0.11
+Gnumeric 0.11:
 Hello,
 
    I have released a new version of Gnumeric, pretty much a bug fix
@@ -9171,7 +9171,7 @@ Fetch it from:
 Miguel.
 
 
-Gnumeric 0.10
+Gnumeric 0.10:
 
 Hello number lovers,
 
@@ -9203,7 +9203,7 @@ Miguel.
 
 
 
-Gnumeric 0.8
+Gnumeric 0.8:
 Hello guys,
 
    Gnumeric "International Manatee" 0.8 has been released.
@@ -9252,7 +9252,7 @@ Enjoy,
 Miguel.
 
 
-Gnumeric 0.7
+Gnumeric 0.7:
 Hello guys,
 
    Gnumeric "Speedy Manatee" 0.7 has been released.
@@ -9306,7 +9306,7 @@ Enjoy,
 Miguel.
 
 
-Gnumeric 0.5
+Gnumeric 0.5:
 Hello guys,
 
    I have just released a new version of Gnumeric (gnumeric-0.5), this
@@ -9329,7 +9329,7 @@ Enjoy this new version,
 Miguel
 
 
-Gnumeric 0.4
+Gnumeric 0.4:
 From miguel Wed Dec 16 23:16:34 -0600 1998
 From: Miguel de Icaza <miguel@nuclecu.unam.mx>
 To: gnumeric-list@gnome.org
