@@ -430,6 +430,7 @@ sog_xml_finish (GogObject *graph, SheetObject *so)
 {
 	sheet_object_graph_set_gog (so, GOG_GRAPH (graph));
 	g_object_unref (graph);
+	g_object_unref (so);
 }
 
 static void gnm_sogg_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
@@ -439,11 +440,12 @@ static void
 gnm_sog_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 			 GnmConventions const *convs)
 {
-	if (strcmp (xin->node->name, "GnmGraph"))
+	if (strcmp (xin->node->name, "GnmGraph")) {
+		g_object_ref (so);
 		gog_object_sax_push_parser (xin, attrs,
 					    (GogObjectSaxHandler) sog_xml_finish,
 					    (gpointer)convs, so);
-	else
+	} else
 		gnm_sogg_prep_sax_parser (so, xin, attrs, convs);
 }
 

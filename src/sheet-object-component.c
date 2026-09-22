@@ -304,12 +304,14 @@ soc_xml_finish (GOComponent *component, SheetObject *so)
 {
 	sheet_object_component_set_component (so, component);
 	g_object_unref (component);
+	g_object_unref (so);
 }
 
 static void
 gnm_soc_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 			 GnmConventions const *convs)
 {
+	g_object_ref (so);
 	go_component_sax_push_parser (xin, attrs,
 				    (GOComponentSaxHandler) soc_xml_finish, so);
 }
