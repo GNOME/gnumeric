@@ -63,6 +63,7 @@
 #include <gutils.h>
 #include <clipboard.h>
 #include <number-match.h>
+#include <pattern.h>
 
 #include <goffice/goffice.h>
 
@@ -127,6 +128,14 @@ make_format (const char *str)
 
 	return res;
 }
+
+static void
+update_str (char **str, const char *new_str)
+{
+	g_free (*str);
+	*str = g_strdup (new_str);
+}
+	
 
 /*****************************************************************************/
 
@@ -779,7 +788,7 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_bool (attrs, "Protected", &tmp))
 			state->is_protected = tmp;
 		else if (strcmp (CXML2C (attrs[0]), "ExprConvention") == 0)
-			state->expr_conv_name = g_strdup (attrs[1]);
+			update_str (&state->expr_conv_name, attrs[1]);
 		else if (xml_sax_attr_color (attrs, "TabColor", &color)) {
 			style_color_unref (state->tab_color);
 			state->tab_color = color;
@@ -1181,12 +1190,10 @@ xml_sax_repeat_top (GsfXMLIn *xin, xmlChar const **attrs)
 
 	pi = state->sheet->print_info;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (!strcmp (CXML2C (attrs[0]), "value")) {
-			g_free (pi->repeat_top);
-			pi->repeat_top = g_strdup (CXML2C (attrs[1]));
-			break;
-		}
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (CXML2C (attrs[0]), "value"))
+			update_str (&pi->repeat_top, CXML2C (attrs[1]));
+	}
 }
 
 static void
@@ -1199,12 +1206,10 @@ xml_sax_repeat_left (GsfXMLIn *xin, xmlChar const **attrs)
 
 	pi = state->sheet->print_info;
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (!strcmp (CXML2C (attrs[0]), "value")) {
-			g_free (pi->repeat_left);
-			pi->repeat_left = g_strdup (CXML2C (attrs[1]));
-			break;
-		}
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (!strcmp (CXML2C (attrs[0]), "value"))
+			update_str (&pi->repeat_left, CXML2C (attrs[1]));
+	}
 }
 
 static void
@@ -1232,16 +1237,13 @@ xml_sax_print_hf (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (hf != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if ( attr_eq (attrs[0], "Left")) {
-			g_free (hf->left_format);
-			hf->left_format = g_strdup (CXML2C (attrs[1]));
-		} else if (attr_eq (attrs[0], "Middle")) {
-			g_free (hf->middle_format);
-			hf->middle_format = g_strdup (CXML2C (attrs[1]));
-		} else if (attr_eq (attrs[0], "Right")) {
-			g_free (hf->right_format);
-			hf->right_format = g_strdup (CXML2C (attrs[1]));
-		} else
+		if (attr_eq (attrs[0], "Left"))
+			update_str (&hf->left_format, CXML2C (attrs[1]));
+		else if (attr_eq (attrs[0], "Middle"))
+			update_str (&hf->middle_format, CXML2C (attrs[1]));
+		else if (attr_eq (attrs[0], "Right"))
+			update_str (&hf->right_format, CXML2C (attrs[1]));
+		else
 			unknown_attr (xin, attrs);
 	}
 }
@@ -1766,9 +1768,9 @@ xml_sax_validation (GsfXMLIn *xin, xmlChar const **attrs)
 					      &dummy)) {
 			state->validation.op = dummy;
 		} else if (attr_eq (attrs[0], "Title")) {
-			state->validation.title = g_strdup (CXML2C (attrs[1]));
+			update_str (&state->validation.title, CXML2C (attrs[1]));
 		} else if (attr_eq (attrs[0], "Message")) {
-			state->validation.msg = g_strdup (CXML2C (attrs[1]));
+			update_str (&state->validation.msg, CXML2C (attrs[1]));
 		} else if (gnm_xml_attr_bool (attrs, "AllowBlank", &b_dummy)) {
 			state->validation.allow_blank = b_dummy;
 		} else if (gnm_xml_attr_bool (attrs, "UseDropdown", &b_dummy)) {
@@ -1975,11 +1977,11 @@ xml_sax_hlink (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "type"))
-			type = g_strdup (CXML2C (attrs[1]));
+			update_str (&type, CXML2C (attrs[1]));
 		else if (attr_eq (attrs[0], "target"))
-			target = g_strdup (CXML2C (attrs[1]));
+			update_str (&target, CXML2C (attrs[1]));
 		else if (attr_eq (attrs[0], "tip"))
-			tip = g_strdup (CXML2C (attrs[1]));
+			update_str (&tip, CXML2C (attrs[1]));
 		else
 			unknown_attr (xin, attrs);
 	}
@@ -2008,9 +2010,9 @@ xml_sax_input_msg (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "Title"))
-			title = g_strdup (CXML2C (attrs[1]));
+			update_str (&title, CXML2C (attrs[1]));
 		else if (attr_eq (attrs[0], "Message"))
-			msg = g_strdup (CXML2C (attrs[1]));
+			update_str (&msg, CXML2C (attrs[1]));
 		else
 			unknown_attr (xin, attrs);
 	}
@@ -2917,8 +2919,10 @@ xml_sax_scenario_item_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (gnm_xml_attr_int (attrs, "ValueType",
 					     &state->value_type))
 			; /* Nothing */
-		else if (attr_eq (attrs[0], "ValueFormat"))
+		else if (attr_eq (attrs[0], "ValueFormat")) {
+			go_format_unref (state->value_fmt);
 			state->value_fmt = make_format (CXML2C (attrs[1]));
+		}
 	}
 
 	parse_pos_init_sheet (&pp, state->sheet);
