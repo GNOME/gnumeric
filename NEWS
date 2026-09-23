@@ -2,6 +2,7 @@ Gnumeric 1.12.63:
 
 Morten:
 	* Fix crash on corrupted files with components/graphs.  [#897]
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

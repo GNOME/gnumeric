@@ -780,13 +780,16 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->is_protected = tmp;
 		else if (strcmp (CXML2C (attrs[0]), "ExprConvention") == 0)
 			state->expr_conv_name = g_strdup (attrs[1]);
-		else if (xml_sax_attr_color (attrs, "TabColor", &color))
+		else if (xml_sax_attr_color (attrs, "TabColor", &color)) {
+			style_color_unref (state->tab_color);
 			state->tab_color = color;
-		else if (xml_sax_attr_color (attrs, "TabTextColor", &color))
+		} else if (xml_sax_attr_color (attrs, "TabTextColor", &color)) {
+			style_color_unref (state->tab_text_color);
 			state->tab_text_color = color;
-		else if (xml_sax_attr_color (attrs, "GridColor", &color))
+		} else if (xml_sax_attr_color (attrs, "GridColor", &color)) {
+			style_color_unref (state->grid_color);
 			state->grid_color = color;
-		else
+		} else
 			unknown_attr (xin, attrs);
 }
 
@@ -894,9 +897,13 @@ xml_sax_sheet_name (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 	g_object_set (sheet, "visibility", state->visibility, NULL);
 	sheet->tab_color = state->tab_color;
+	state->tab_color = NULL;
 	sheet->tab_text_color = state->tab_text_color;
-	if (state->grid_color)
+	state->tab_text_color = NULL;
+	if (state->grid_color) {
 		sheet_style_set_auto_pattern_color (sheet, state->grid_color);
+		state->grid_color = NULL;
+	}
 }
 
 static void
@@ -2027,13 +2034,18 @@ xml_sax_style_border (GsfXMLIn *xin, xmlChar const **attrs)
 
 	/* Colour is optional */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (xml_sax_attr_color (attrs, "Color", &colour)) ;
-		else if (gnm_xml_attr_int (attrs, "Style", &pattern)) ;
+		GnmColor *tmp_colour;
+
+		if (xml_sax_attr_color (attrs, "Color", &tmp_colour)) {
+			style_color_unref (colour);
+			colour = tmp_colour;
+		} else if (gnm_xml_attr_int (attrs, "Style", &pattern))
+			;
 		else
 			unknown_attr (xin, attrs);
 	}
 
-	if (pattern >= GNM_STYLE_BORDER_NONE) {
+	if (pattern >= GNM_STYLE_BORDER_NONE && pattern < GNM_PATTERNS_MAX) {
 		GnmStyleElement const type = xin->node->user_data.v_int;
 		GnmStyleBorderLocation const loc =
 			GNM_STYLE_BORDER_TOP + (int)(type - MSTYLE_BORDER_TOP);
@@ -2049,8 +2061,12 @@ xml_sax_style_border (GsfXMLIn *xin, xmlChar const **attrs)
 		border = gnm_style_border_fetch
 			((GnmStyleBorderType)pattern, colour,
 			 gnm_style_border_get_orientation (loc));
+		colour = NULL;
+
 		gnm_style_set_border (state->style, type, border);
 	}
+
+	style_color_unref (colour);
 }
 
 static void
@@ -3588,6 +3604,54 @@ read_file_free_state (XMLSaxParseState *state, gboolean self)
 		gsf_xml_in_doc_free (state->style_handler_doc);
 		state->style_handler_doc = NULL;
 	}
+
+	/* Only valid while parsing an "Attribute" element's contents. */
+	g_free (state->attribute.name);
+	state->attribute.name = NULL;
+	g_free (state->attribute.value);
+	state->attribute.value = NULL;
+
+	/* Only valid while parsing a workbook or sheet Name (defined name). */
+	g_free (state->name.name);
+	state->name.name = NULL;
+	g_free (state->name.value);
+	state->name.value = NULL;
+	g_free (state->name.position);
+	state->name.position = NULL;
+
+	/* Only valid while parsing a Cell's attributes/content. */
+	go_format_unref (state->value_fmt);
+	state->value_fmt = NULL;
+	g_free (state->value_result);
+	state->value_result = NULL;
+
+	/* Only valid while parsing a Validation element. */
+	g_free (state->validation.title);
+	state->validation.title = NULL;
+	g_free (state->validation.msg);
+	state->validation.msg = NULL;
+	gnm_expr_top_unref (state->validation.texpr[0]);
+	gnm_expr_top_unref (state->validation.texpr[1]);
+	state->validation.texpr[0] = state->validation.texpr[1] = NULL;
+
+	/* Only valid while parsing a Sheet element's attributes/Name. */
+	g_free (state->expr_conv_name);
+	state->expr_conv_name = NULL;
+	style_color_unref (state->tab_color);
+	state->tab_color = NULL;
+	style_color_unref (state->tab_text_color);
+	state->tab_text_color = NULL;
+	style_color_unref (state->grid_color);
+	state->grid_color = NULL;
+
+	/* Only valid while parsing a Scenario/ScenarioItem element. */
+	value_release (state->scenario_range);
+	state->scenario_range = NULL;
+	/* state->scenario is (transfer full); unlike the filter and sheet
+	 * object cases it is not attached to the sheet until its end tag
+	 * is seen, so a document that ends mid-Scenario would otherwise
+	 * leak it. */
+	g_clear_object (&state->scenario);
 
 	if (self)
 		g_free (state);
