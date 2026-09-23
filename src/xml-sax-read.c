@@ -142,6 +142,7 @@ update_str (char **str, const char *new_str)
 gboolean
 gnm_xml_attr_double (xmlChar const * const *attrs, char const *name, double * res)
 {
+	const char *s;
 	char *end;
 	double tmp;
 
@@ -152,10 +153,11 @@ gnm_xml_attr_double (xmlChar const * const *attrs, char const *name, double * re
 	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
-	tmp = go_strtod (CXML2C (attrs[1]), &end);
-	if (*end) {
+	s = CXML2C (attrs[1]);
+	tmp = go_strtod (s, &end);
+	if (end == s || *end) {
 		g_warning ("Invalid attribute '%s', expected double, received '%s'",
-			   name, CXML2C (attrs[1]));
+			   name, s);
 		return FALSE;
 	}
 	*res = tmp;
@@ -167,12 +169,13 @@ xml_sax_double (xmlChar const *chars, double *res)
 {
 	char *end;
 	*res = go_strtod (CXML2C (chars), &end);
-	return *end == '\0';
+	return end != CXML2C (chars) && *end == '\0';
 }
 
 static gboolean
 gnm_xml_attr_float (xmlChar const * const *attrs, char const *name, gnm_float* res)
 {
+	const char *s;
 	char *end;
 	gnm_float tmp;
 
@@ -183,10 +186,11 @@ gnm_xml_attr_float (xmlChar const * const *attrs, char const *name, gnm_float* r
 	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
-	tmp = gnm_strto (CXML2C (attrs[1]), &end);
-	if (*end) {
+	s = CXML2C (attrs[1]);
+	tmp = gnm_strto (s, &end);
+	if (end == s || *end) {
 		g_warning ("Invalid attribute '%s', expected double, received '%s'",
-			   name, CXML2C (attrs[1]));
+			   name, s);
 		return FALSE;
 	}
 	*res = tmp;
@@ -211,6 +215,7 @@ gnm_xml_attr_bool (xmlChar const * const *attrs, char const *name, gboolean *res
 gboolean
 gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 {
+	const char *s;
 	char *end;
 	long tmp;
 
@@ -221,11 +226,12 @@ gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
+	s = CXML2C (attrs[1]);
 	errno = 0;
-	tmp = strtol (CXML2C (attrs[1]), &end, 10);
-	if (*end || errno) {
+	tmp = strtol (s, &end, 10);
+	if (end == s || *end || errno) {
 		g_warning ("Invalid attribute '%s', expected integer, received '%s'",
-			   name, attrs[1]);
+			   name, s);
 		return FALSE;
 	}
 	*res = tmp;
@@ -240,6 +246,7 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 		   GType etype,
 		   gint *val)
 {
+	const char *s;
 	GEnumClass *eclass;
 	GEnumValue *ev;
 	int i;
@@ -251,9 +258,10 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
+	s = CXML2C (attrs[1]);
 	eclass = G_ENUM_CLASS (g_type_class_ref (etype));
-	ev = g_enum_get_value_by_name (eclass, CXML2C (attrs[1]));
-	if (!ev) ev = g_enum_get_value_by_nick (eclass, CXML2C (attrs[1]));
+	ev = g_enum_get_value_by_name (eclass, s);
+	if (!ev) ev = g_enum_get_value_by_nick (eclass, s);
 	g_type_class_unref (eclass);
 
 	if (!ev && gnm_xml_attr_int (attrs, name, &i))
@@ -269,6 +277,8 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 static gboolean
 xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos *val, Sheet const *sheet)
 {
+	const char *s;
+
 	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
@@ -276,9 +286,10 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos
 	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
-	if (cellpos_parse (CXML2C (attrs[1]), gnm_sheet_get_size (sheet), val, TRUE) == NULL) {
+	s = CXML2C (attrs[1]);
+	if (cellpos_parse (s, gnm_sheet_get_size (sheet), val, TRUE) == NULL) {
 		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
-			   name, attrs[1]);
+			   name, s);
 		return FALSE;
 	}
 	return TRUE;
@@ -287,6 +298,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos
 static gboolean
 xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmColor **res)
 {
+	const char *s;
 	unsigned int red, green, blue, alpha = 0xffff;
 
 	g_return_val_if_fail (attrs != NULL, FALSE);
@@ -296,9 +308,10 @@ xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmColor **r
 	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
-	if (sscanf (CXML2C (attrs[1]), "%X:%X:%X:%X", &red, &green, &blue, &alpha) < 3){
+	s = CXML2C (attrs[1]);
+	if (sscanf (s, "%X:%X:%X:%X", &red, &green, &blue, &alpha) < 3){
 		g_warning ("Invalid attribute '%s', expected colour, received '%s'",
-			   name, attrs[1]);
+			   name, s);
 		return FALSE;
 	}
 	*res = gnm_color_new_rgba16 (red, green, blue, alpha);
