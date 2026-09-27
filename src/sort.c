@@ -299,7 +299,12 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 				= g_strdup (go_setlocale (LC_ALL, NULL));
 			go_setlocale (LC_ALL, data->locale);
 
-			g_qsort_with_data (perm, real_length, sizeof (int),
+#if GLIB_CHECK_VERSION(2, 82, 0)
+			g_sort_array
+#else
+			g_qsort_with_data
+#endif
+				(perm, real_length, sizeof (int),
 					   g_str_has_prefix (old_locale, data->locale)
 					   ? sort_qsort_compare
 					   : sort_qsort_compare_in_locale,
@@ -308,9 +313,14 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 			go_setlocale (LC_ALL, old_locale);
 			g_free (old_locale);
 		} else
-			g_qsort_with_data (perm, real_length, sizeof (int),
-					   sort_qsort_compare,
-					   data);
+#if GLIB_CHECK_VERSION(2, 82, 0)
+			g_sort_array
+#else
+			g_qsort_with_data
+#endif
+				(perm, real_length, sizeof (int),
+				 sort_qsort_compare,
+				 data);
 	}
 
 	cur = 0;

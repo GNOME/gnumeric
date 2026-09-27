@@ -262,11 +262,11 @@ xml_sax_attr_enum (xmlChar const * const *attrs,
 	eclass = G_ENUM_CLASS (g_type_class_ref (etype));
 	ev = g_enum_get_value_by_name (eclass, s);
 	if (!ev) ev = g_enum_get_value_by_nick (eclass, s);
-	g_type_class_unref (eclass);
-
 	if (!ev && gnm_xml_attr_int (attrs, name, &i))
 		/* Check that the value is valid.  */
 		ev = g_enum_get_value (eclass, i);
+	g_type_class_unref (eclass);
+
 	if (!ev) return FALSE;
 
 	*val = ev->value;
@@ -2219,7 +2219,8 @@ xml_not_used_old_array_spec (XMLSaxParseState *state,
 			     char const *content)
 {
 	long rows, cols, row, col;
-	char *end, *expr_end, *ptr;
+	char *end;
+	const char *expr_end, *ptr;
 
 	/* This is the syntax we are trying to parse: "{%s}(%d,%d)[%d][%d]" */
 
