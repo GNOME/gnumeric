@@ -1,0 +1,722 @@
+# Russian translation for gnumeric.
+# Copyright (C) 2022 gnumeric's COPYRIGHT HOLDER
+# This file is distributed under the same license as the gnumeric package.
+#
+# Олеся Герасименко <gammaray@basealt.ru>, 2022.
+# Olesya Gerasimenko <translation-team@basealt.ru>, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: gnumeric master\n"
+"POT-Creation-Date: 2022-10-29 22:37+0000\n"
+"PO-Revision-Date: 2022-12-20 11:24+0300\n"
+"Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
+"Language-Team: Basealt Translation Team\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 22.04.3\n"
+
+#. Put one translator per line, in the form NAME <EMAIL>, YEAR1, YEAR2
+msgctxt "_"
+msgid "translator-credits"
+msgstr "Olesya Gerasimenko <translation-team@basealt.ru>, 2022"
+
+#. (itstool) path: book/title
+#: C/gnumeric.xml:237
+msgid "The Gnumeric Manual, version 1.12"
+msgstr "Руководство по Gnumeric, версия 1.12"
+
+#. (itstool) path: bookinfo/copyright
+#: C/gnumeric.xml:253
+msgid ""
+"<year>2012</year> <year>2010</year> <year>2009</year> <holder>Andreas J. "
+"Guelzow. </holder>"
+msgstr ""
+"<year>2012</year> <year>2010</year> <year>2009</year> <holder>Andreas J. "
+"Guelzow. </holder>"
+
+#. (itstool) path: bookinfo/copyright
+#: C/gnumeric.xml:262
+msgid ""
+"<year>2007</year> <year>2006</year> <year>2005</year> <year>2004</year> "
+"<holder>Adrian Custer, Ray Dassen, Jody Goldberg, Andreas J. Guelzow, Louis "
+"Luangkesorn. </holder>"
+msgstr ""
+"<year>2007</year> <year>2006</year> <year>2005</year> <year>2004</year> "
+"<holder>Adrian Custer, Ray Dassen, Jody Goldberg, Andreas J. Guelzow, Louis "
+"Luangkesorn. </holder>"
+
+#. (itstool) path: bookinfo/copyright
+#: C/gnumeric.xml:278
+msgid ""
+"<year>2003</year> <holder>Kevin Breit, Adrian Custer, Ray Dassen, Jody "
+"Goldberg, Andreas J. Guelzow, Jon K. Hellan, Jukka-Pekka Iivonen, Alexander "
+"Kirillov, Charles Twardy, Sebastian Klost, Thomas Miesbauer. </holder>"
+msgstr ""
+"<year>2003</year> <holder>Kevin Breit, Adrian Custer, Ray Dassen, Jody "
+"Goldberg, Andreas J. Guelzow, Jon K. Hellan, Jukka-Pekka Iivonen, Alexander "
+"Kirillov, Charles Twardy, Sebastian Klost, Thomas Miesbauer. </holder>"
+
+#. (itstool) path: bookinfo/copyright
+#: C/gnumeric.xml:287
+msgid ""
+"<year>2002</year> <holder>Jody Goldberg, Andreas J. Guelzow, Wayne Schuller, "
+"Adrian Custer, Kevin Breit, Aaron Weber, Alexander Kirillov, Eric Baudais, "
+"Gregory Leblanc. </holder>"
+msgstr ""
+"<year>2002</year> <holder>Jody Goldberg, Andreas J. Guelzow, Wayne Schuller, "
+"Adrian Custer, Kevin Breit, Aaron Weber, Alexander Kirillov, Eric Baudais, "
+"Gregory Leblanc. </holder>"
+
+#. (itstool) path: bookinfo/copyright
+#: C/gnumeric.xml:295
+msgid ""
+"<year>1998</year> <year>1999</year> <year>2000</year> <year>2001</year> "
+"<holder>Miguel de Icaza, Thomas Canty, Jukka-Pekka Iivonen, Almer S. "
+"Tigelaar, Morten Welinder. </holder>"
+msgstr ""
+"<year>1998</year> <year>1999</year> <year>2000</year> <year>2001</year> "
+"<holder>Miguel de Icaza, Thomas Canty, Jukka-Pekka Iivonen, Almer S. "
+"Tigelaar, Morten Welinder. </holder>"
+
+#. (itstool) path: publisher/publishername
+#. (itstool) path: revdescription/para
+#: C/gnumeric.xml:306 C/gnumeric.xml:437 C/gnumeric.xml:445 C/gnumeric.xml:453
+#: C/gnumeric.xml:461 C/gnumeric.xml:469 C/gnumeric.xml:477
+msgid "GNOME Documentation Project"
+msgstr "Проект документирования GNOME"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:316
+msgid "<firstname>Eric</firstname> <surname>Baudais</surname>"
+msgstr "<firstname>Eric</firstname> <surname>Baudais</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:321
+msgid "<firstname>Kevin</firstname> <surname>Breit</surname>"
+msgstr "<firstname>Kevin</firstname> <surname>Breit</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:326
+msgid "<firstname>Thomas</firstname> <surname>Canty</surname>"
+msgstr "<firstname>Thomas</firstname> <surname>Canty</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:331
+msgid "<firstname>Adrian</firstname> <surname>Custer</surname>"
+msgstr "<firstname>Adrian</firstname> <surname>Custer</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:336
+msgid "<firstname>Ray</firstname> <surname>Dassen</surname>"
+msgstr "<firstname>Ray</firstname> <surname>Dassen</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:341
+msgid "<firstname>Jody</firstname> <surname>Goldberg</surname>"
+msgstr "<firstname>Jody</firstname> <surname>Goldberg</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:346
+msgid "<firstname>Andreas J.</firstname> <surname>Guelzow</surname>"
+msgstr "<firstname>Andreas J.</firstname> <surname>Guelzow</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:351
+msgid "<firstname>Jon K.</firstname> <surname>Hellan</surname>"
+msgstr "<firstname>Jon K.</firstname> <surname>Hellan</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:356
+msgid "<firstname>Miguel</firstname> <surname>de Icaza</surname>"
+msgstr "<firstname>Miguel</firstname> <surname>de Icaza</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:361
+msgid "<firstname>Jukka-Pekka</firstname> <surname>Iivonen</surname>"
+msgstr "<firstname>Jukka-Pekka</firstname> <surname>Iivonen</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:366
+msgid "<firstname>Alexander</firstname> <surname>Kirillov</surname>"
+msgstr "<firstname>Alexander</firstname> <surname>Kirillov</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:371
+msgid "<firstname>Sebastian</firstname> <surname>Klost</surname>"
+msgstr "<firstname>Sebastian</firstname> <surname>Klost</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:376
+msgid "<firstname>Gregory</firstname> <surname>Leblanc</surname>"
+msgstr "<firstname>Gregory</firstname> <surname>Leblanc</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:381
+msgid "<firstname>Louis</firstname> <surname>Luangkesorn</surname>"
+msgstr "<firstname>Louis</firstname> <surname>Luangkesorn</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:386
+msgid "<firstname>Thomas</firstname> <surname>Miesbauer</surname>"
+msgstr "<firstname>Thomas</firstname> <surname>Miesbauer</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:391
+msgid "<firstname>Wayne</firstname> <surname>Schuller</surname>"
+msgstr "<firstname>Wayne</firstname> <surname>Schuller</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:396
+msgid "<firstname>Almer S.</firstname> <surname>Tigelaar</surname>"
+msgstr "<firstname>Almer S.</firstname> <surname>Tigelaar</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:401
+msgid "<firstname>Charles</firstname> <surname>Twardy</surname>"
+msgstr "<firstname>Charles</firstname> <surname>Twardy</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:406
+msgid "<firstname>Aaron</firstname> <surname>Weber</surname>"
+msgstr "<firstname>Aaron</firstname> <surname>Weber</surname>"
+
+#. (itstool) path: authorgroup/author
+#: C/gnumeric.xml:411
+msgid "<firstname>Morten</firstname> <surname>Welinder</surname>"
+msgstr "<firstname>Morten</firstname> <surname>Welinder</surname>"
+
+#. (itstool) path: revdescription/para
+#: C/gnumeric.xml:436 C/gnumeric.xml:444 C/gnumeric.xml:452 C/gnumeric.xml:460
+#: C/gnumeric.xml:468 C/gnumeric.xml:476
+msgid "The Gnumeric Team"
+msgstr "Разработчики Gnumeric"
+
+#. (itstool) path: revhistory/revision
+#: C/gnumeric.xml:432
+msgid ""
+"<revnumber>Gnumeric Manual: Version 1.12</revnumber> <date>July 2012</date> "
+"<_:revdescription-1/>"
+msgstr ""
+"<revnumber>Руководство по Gnumeric: версия 1.12</revnumber> <date>июль 2012 "
+"г.</date> <_:revdescription-1/>"
+
+#. (itstool) path: revhistory/revision
+#: C/gnumeric.xml:440
+msgid ""
+"<revnumber>Gnumeric Manual: Version 1.8</revnumber> <date>November 2007</"
+"date> <_:revdescription-1/>"
+msgstr ""
+"<revnumber>Руководство по Gnumeric: версия 1.8</revnumber> <date>ноябрь 2007 "
+"г.</date> <_:revdescription-1/>"
+
+#. (itstool) path: revhistory/revision
+#: C/gnumeric.xml:448
+msgid ""
+"<revnumber>Gnumeric Manual: Version 1.4</revnumber> <date>November 2004</"
+"date> <_:revdescription-1/>"
+msgstr ""
+"<revnumber>Руководство по Gnumeric: версия 1.4</revnumber> <date>ноябрь 2004 "
+"г.</date> <_:revdescription-1/>"
+
+#. (itstool) path: revhistory/revision
+#: C/gnumeric.xml:456
+msgid ""
+"<revnumber>Gnumeric Manual: Version 1.2</revnumber> <date>September 2002</"
+"date> <_:revdescription-1/>"
+msgstr ""
+"<revnumber>Руководство по Gnumeric: версия 1.2</revnumber> <date>сентябрь "
+"2002 г.</date> <_:revdescription-1/>"
+
+#. (itstool) path: revhistory/revision
+#: C/gnumeric.xml:464
+msgid ""
+"<revnumber>Gnumeric Manual: Version 1.0</revnumber> <date>January 2002</"
+"date> <_:revdescription-1/>"
+msgstr ""
+"<revnumber>Руководство по Gnumeric: версия 1.0</revnumber> <date>январь 2002 "
+"г.</date> <_:revdescription-1/>"
+
+#. (itstool) path: revhistory/revision
+#: C/gnumeric.xml:472
+msgid ""
+"<revnumber>Gnumeric Manual: Earlier Versions</revnumber> <date>1998-2001</"
+"date> <_:revdescription-1/>"
+msgstr ""
+"<revnumber>Руководство по Gnumeric: предыдущие версии</revnumber> <date>1998—"
+"2001 гг.</date> <_:revdescription-1/>"
+
+#. (itstool) path: bookinfo/releaseinfo
+#: C/gnumeric.xml:482
+msgid "This manual describes version 1.12 of Gnumeric"
+msgstr "В этом руководстве приводится описание версии 1.12 Gnumeric"
+
+#. (itstool) path: legalnotice/title
+#: C/gnumeric.xml:485
+msgid "Feedback"
+msgstr "Обратная связь"
+
+#. (itstool) path: legalnotice/para
+#: C/gnumeric.xml:486
+msgid ""
+"To report a bug or make a suggestion regarding the <application>Gnumeric</"
+"application> application or this manual, follow the directions in <xref "
+"linkend=\"chapter-bugs\"/>."
+msgstr ""
+"Чтобы сообщить об ошибке или внести предложение, касающееся программы "
+"<application>Gnumeric</application> или этого руководства пользователя, "
+"следуйте инструкциям в разделе <xref linkend=\"chapter-bugs\"/>."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:514
+msgid "Welcome!"
+msgstr "Добро пожаловать!"
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:523
+msgid "How to Use This Manual"
+msgstr "Как пользоваться этим руководством"
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:532
+msgid "A Quick Introduction"
+msgstr "Введение"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:534
+msgid ""
+"The best way to learn how to use <application>Gnumeric</application> is to "
+"begin exploring the program yourself. This chapter will help you get started "
+"trying new things and seeing what happens. The chapter explains the "
+"fundamentals of spreadsheets in general and of <application>Gnumeric</"
+"application> in particular. The chapter attempts to help new users get "
+"started with <application>Gnumeric</application> and provides background for "
+"the more detailed explanations given in the rest of the manual."
+msgstr ""
+"Программу <application>Gnumeric</application> проще всего освоить, начав "
+"самостоятельно разбираться с её работой. В этой главе рассказывается о том, "
+"как пробовать новые функции и оценивать результат. Приводится описание как "
+"электронных таблиц в целом, так и <application>Gnumeric</application> в "
+"частности. Эта глава поможет новым пользователям начать работу с "
+"<application>Gnumeric</application> и получить базовые знания, которые "
+"позволят понять более подробные объяснения, приведённые в оставшейся части "
+"руководства."
+
+#. (itstool) path: note/para
+#: C/gnumeric.xml:547
+msgid "<emphasis role=\"bold\">Getting started with computers</emphasis>"
+msgstr "<emphasis role=\"bold\">Работа на компьютерах</emphasis>"
+
+#. (itstool) path: note/para
+#: C/gnumeric.xml:551
+msgid ""
+"Unfortunately, this manual cannot teach you the very basics of interacting "
+"with a modern computer. If you have never used computers, don't know the "
+"names of the hardware components (the pieces you can touch) or don't know "
+"the names of the elements you see on the screen (like windows or the mouse "
+"pointer), you will probably want to get some basic advice from someone you "
+"know or read the manuals which came with your machine or your operating "
+"system. It's all pretty easy but, in order to understand this manual, you "
+"will need to know some basic terminology and have some basic computing "
+"skills."
+msgstr ""
+"К сожалению, это руководство не обучает азам работы на современном "
+"компьютере. Если вам раньше не доводилось работать на компьютере и вы не "
+"знаете, как называются компоненты аппаратного обеспечения (части, которых "
+"можно коснуться) или отображаемые на экране элементы (например, окна или "
+"указатель мыши), то лучше попросить помощи у знакомых или прочитать "
+"руководства, которые шли в комплекте с компьютером или операционной "
+"системой. Во всём этом довольно легко разобраться, но для понимания этого "
+"руководства потребуется освоить базовую терминологию и получить некоторые "
+"базовые навыки работы на компьютере."
+
+#. (itstool) path: note/para
+#: C/gnumeric.xml:564
+msgid ""
+"If you are using the GNOME desktop environment, you can read the <ulink type="
+"\"help\" url=\"ghelp:user-guide\">the GNOME Desktop User Guide</ulink> for "
+"help in getting started with computers."
+msgstr ""
+"Если работа ведётся в среде GNOME, можно прочитать <ulink type=\"help\" url="
+"\"ghelp:user-guide\">руководство пользователя GNOME</ulink>, чтобы начать "
+"осваивать работу на компьютере."
+
+#. (itstool) path: note/para
+#: C/gnumeric.xml:571
+msgid ""
+"If you are using the another desktop environment such as <ulink url=\"http://"
+"www.kde.org/\">KDE</ulink> or another operating system, please see the "
+"instructions from the web site linked with either your desktop environment, "
+"your operating system, your software distribution source or the people who "
+"provided you with your computer. There are also many books providing good "
+"introduction to computers."
+msgstr ""
+"Если работа ведётся в другом окружении рабочего стола (например, в <ulink "
+"url=\"http://www.kde.org/\">KDE</ulink>) или в другой операционной системе, "
+"ознакомьтесь с инструкциями на веб-сайте, связанном с используемым "
+"окружением рабочего стола, операционной системой, источником программного "
+"дистрибутива или людьми, предоставившими компьютер. Также доступно много "
+"книг, помогающих разобраться в теме работы на компьютере."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:589
+msgid "Gnumeric Elements"
+msgstr "Элементы Gnumeric"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:591
+msgid ""
+"This chapter describes all of the pieces of <application>Gnumeric</"
+"application> which a user can manipulate. The chapter provides explanations "
+"for each of the menus, menu entries, toolbar buttons and other elements of "
+"the graphical user interface."
+msgstr ""
+"В этой главе описаны все части <application>Gnumeric</application>, которыми "
+"может управлять пользователь. Перечислены функции всех меню, пунктов меню, "
+"кнопок панели задач и других элементов графического интерфейса пользователя."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:610
+msgid "Working with Data"
+msgstr "Работа с данными"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:612
+msgid ""
+"This chapter explains the core functionality of <application>Gnumeric</"
+"application> including the basic types of data manipulated by "
+"<application>Gnumeric</application>, the methods of entering, manipulating "
+"and formatting data, and the basic tools for analysis of these data. More "
+"advanced analysis is described in <xref linkend=\"chapter-advanced-analysis"
+"\"/>."
+msgstr ""
+"В этой главе приводится описание основных функций <application>Gnumeric</"
+"application>. В том числе, описаны базовые типы данных, с которыми работает "
+"<application>Gnumeric</application>, методы ввода данных, работы с ними и их "
+"форматирования, а также базовые инструменты анализа этих данных. Описание "
+"более сложного анализа приводится в разделе <xref linkend=\"chapter-advanced-"
+"analysis\"/>."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:641
+msgid "Advanced Analysis"
+msgstr "Расширенный анализ"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:643
+msgid ""
+"This chapter explains many of the advanced analytic tools available in "
+"<application>Gnumeric</application> including linear algebra calculations, "
+"the goal seek tool, simulation analysis, and scenarios."
+msgstr ""
+"В этой главе рассказывается о многих инструментах расширенного анализа, "
+"доступных в <application>Gnumeric</application>, в том числе о вычислениях "
+"линейной алгебры, инструменте подбора параметра, анализе с использованием "
+"моделирования и сценариях."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:658
+msgid "The Solver"
+msgstr "Решатель"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:660
+msgid ""
+"This chapter explains the linear programming solver available from within "
+"<application>Gnumeric</application>."
+msgstr ""
+"В этой главе приводится описание решателя линейного программирования, "
+"доступного в <application>Gnumeric</application>."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:670
+msgid "Statistical Analysis"
+msgstr "Статистический анализ"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:672
+msgid ""
+"This chapter explains the various statistical analysis tools available "
+"within <application>Gnumeric</application> including tools to create "
+"descriptive statistics, as well as parametric and non-parametric hypotheses "
+"tests."
+msgstr ""
+"В этой главе приводится описание различных инструментов статистического "
+"анализа, доступных в <application>Gnumeric</application>, в том числе "
+"инструментов для создания описательной статистики, а также проверок "
+"параметрических и непараметрических гипотез."
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:679
+msgid ""
+"<application>Gnumeric</application> includes various tools for statistical "
+"data analysis and data sampling. To use these tools select them from the "
+"<guilabel>Statistics</guilabel> menu and its submenus. The tools are "
+"described below. In this description as well as in the <guilabel>Statistics</"
+"guilabel> menu these tools are classified into six categories."
+msgstr ""
+"<application>Gnumeric</application> включает различные инструменты "
+"статистического анализа данных и выборки данных. Чтобы использовать эти "
+"инструменты, выберите их в меню <guilabel>Статистика</guilabel> и "
+"соответствующих подменю. Описание данных инструментов приводится далее. В "
+"этом описании, как и в меню <guilabel>Статистика</guilabel>, инструменты "
+"подразделяются на шесть категорий."
+
+#. (itstool) path: figure/title
+#: C/gnumeric.xml:689
+msgid "Statistical Analysis Tools"
+msgstr "Инструменты статистического анализа"
+
+#. (itstool) path: screenshot/screeninfo
+#: C/gnumeric.xml:691
+msgid "<application>Gnumeric</application>'s Data Analysis Tools"
+msgstr "Инструменты анализа данных <application>Gnumeric</application>"
+
+#. (itstool) path: imageobject/imagedata
+#. This is a reference to an external file such as an image or video. When
+#. the file changes, the md5 hash will change to let you know you need to
+#. update your localized copy. The msgstr is not used at all. Set it to
+#. whatever you like once you have updated your copy of the file.
+#: C/gnumeric.xml:695
+msgctxt "_"
+msgid ""
+"external ref='figures/analysistools-tools.png' "
+"md5='bd79d99c8be81a46fd0343df66956c7e'"
+msgstr ""
+"external ref='figures/analysistools-tools.png' "
+"md5='bd79d99c8be81a46fd0343df66956c7e'"
+
+#. (itstool) path: screenshot/mediaobject
+#: C/gnumeric.xml:692
+msgid ""
+"<imageobject> <imagedata fileref=\"figures/analysistools-tools.png\" format="
+"\"PNG\"/> </imageobject> <textobject> <phrase>An image of the statistical "
+"analysis tools available through the \"Tools\" menu.</phrase> </textobject>"
+msgstr ""
+"<imageobject> <imagedata fileref=\"figures/analysistools-tools.png\" format="
+"\"PNG\"/> </imageobject> <textobject> <phrase>Инструменты статистического "
+"анализа, доступные в меню «Сервис».</phrase> </textobject>"
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:712
+msgid "Graphics: Images, Widgets, and Drawings"
+msgstr "Графика: изображения, виджеты и рисунки"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:714
+msgid ""
+"This chapter explains how to add graphical elements to a "
+"<application>Gnumeric</application> worksheet, including images from "
+"external files, graphical user interface widgets which interact with "
+"worksheet data, and simple drawing elements."
+msgstr ""
+"В этой главе рассказывается, как добавлять графические элементы в таблицу "
+"<application>Gnumeric</application>, в том числе изображения из внешних "
+"файлов, виджеты графического интерфейса пользователя, которые "
+"взаимодействуют с данными таблицы, а также простые элементы рисунков."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:730
+msgid "Graphs"
+msgstr "Графики"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:732
+msgid ""
+"<application>Gnumeric</application> includes a powerful mechanism to create "
+"graphical charts which present visually the data contained in a worksheet."
+msgstr ""
+"<application>Gnumeric</application> содержит мощный механизм для создания "
+"диаграмм, которые визуально представляют заключённые в таблице данные."
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:738
+msgid ""
+"The first section of this chapter starts with an overview of graph creation, "
+"discusses terminology, and presents graph components and their organization. "
+"The next section explains the <interface>\"Chart Guru\"</interface> which is "
+"the tool used to configure graphs. The subsequent section presents the "
+"different types of plots which can be included in a graph and the final "
+"section explains how data can be pre-selected to speed up the process of "
+"graph creation."
+msgstr ""
+"Первый раздел этой главы содержит обзор создания графиков, разъясняет "
+"терминологию и представляет компоненты графиков и их организацию. Во втором "
+"разделе рассказывается о <interface>«Помощнике по графикам»</interface> — "
+"инструменте, который позволяет настраивать графики. В следующем разделе "
+"приводится описание различных типов графиков, которые можно создавать. В "
+"последнем разделе рассказывается о том, как можно предварительно выбрать "
+"данные, чтобы ускорить процесс создания графиков."
+
+#. (itstool) path: note/para
+#: C/gnumeric.xml:750
+msgid ""
+"Charts are exceedingly effective communication devices. Unfortunately, this "
+"means that one cannot determine, simply based on the data to be plotted, "
+"what type of plot will be the most effective. Instead users must familiarize "
+"themselves with the various types of plots which are available and decide "
+"for themselves which plot type is the most effective to communicate an idea. "
+"<xref linkend=\"sect-graphs-overview\"/> contains a detailed explanation of "
+"the plot types available in <application>Gnumeric</application>."
+msgstr ""
+"Графики позволяют сообщить много информации. К сожалению, просто на основе "
+"данных для построения графика нельзя определить, какой тип график будет "
+"наиболее эффективен. Пользователям необходимо ознакомиться с доступными "
+"типами графиков и принять для себя решение о том, какой из них передаст "
+"информацию лучше всего. В разделе <xref linkend=\"sect-graphs-overview\"/> в "
+"подробностях рассказывается о доступных в <application>Gnumeric</"
+"application> типах графиков."
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:764
+msgid "This chapter explains how to add graphs to plot worksheet data."
+msgstr ""
+"В этой главе рассказывается о создании графиков на основе данных листа."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:772
+msgid "Using Worksheets"
+msgstr "Использование листов"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:774
+msgid ""
+"This chapter explains the use and manipulation of worksheets in "
+"<application>Gnumeric</application>. The chapter explains how to move around "
+"a worksheet, how to alter the appearance and display organization of the "
+"worksheet contents, how to manipulate entire worksheets and how to protect "
+"worksheet contents."
+msgstr ""
+"В этой главе говорится об использовании листов и работе с ними в "
+"<application>Gnumeric</application>. Рассказывается о перемещении по листу, "
+"об изменении внешнего вида и организации отображения содержимого листа, об "
+"управлении листами целиком, а также о защите содержимого листов."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:789
+msgid "Workbook Settings"
+msgstr "Параметры рабочей книги"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:791
+msgid ""
+"This chapter explains the contents of a <application>Gnumeric</application> "
+"workbook which are not part of the worksheets. This includes several "
+"settings which apply to the workbook and are saved in the "
+"<application>Gnumeric</application> file. Settings which apply to the "
+"<application>Gnumeric</application> program itself are called `preferences' "
+"and are explained in <xref linkend=\"chapter-configuring\"/>."
+msgstr ""
+"В этой главе рассказывается о содержимом рабочей книги "
+"<application>Gnumeric</application>, которое не относится к листам. Среди "
+"такого содержимого несколько параметров, которые применяются к рабочей книге "
+"и хранятся в файле <application>Gnumeric</application>. Параметры, которые "
+"применяются к самой программе <application>Gnumeric</application>, "
+"называются «настройками». Их описание приводится в разделе <xref linkend="
+"\"chapter-configuring\"/>."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:807
+msgid "Configuring Gnumeric"
+msgstr "Настройка Gnumeric"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:809
+msgid ""
+"This chapter explains how to change the default behaviour of "
+"<application>Gnumeric</application> including the startup behaviour and "
+"default locale (language and number display)."
+msgstr ""
+"В этой главе рассказывается, как изменить стандартное поведение "
+"<application>Gnumeric</application>, включая поведение при запуске и "
+"стандартную локаль (отображение языка и чисел)."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:826
+msgid "Working with Files"
+msgstr "Работа с файлами"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:828
+msgid ""
+"This chapter explains how to use files in <application>Gnumeric</"
+"application>. The chapter provides an extensive description of the file "
+"formats used by <application>Gnumeric</application>. The chapter also "
+"explains how to open files, import data from text files, save files, export "
+"data to text files, send data to others via electronic mail, and convert "
+"files from one format to another."
+msgstr ""
+"В этой главе объясняется, как использовать файлы в <application>Gnumeric</"
+"application>. Приводится подробное описание форматов файлов, используемых в "
+"<application>Gnumeric</application>. Также рассказывается об открытии "
+"файлов, импорте данных из текстовых файлов, экспорте данных в текстовые "
+"файлы, отправке данных другим пользователям по электронной почте, а также "
+"преобразовании файлов из одного формата в другой."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:851
+msgid "Printing"
+msgstr "Печать"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:853
+msgid ""
+"This chapter explains how to print spreadsheets, tables and plots from "
+"<application>Gnumeric</application> to a printer directly or into PostScript "
+"or PDF (both are page description languages)."
+msgstr ""
+"В этой главе рассказывается о выводе таблиц и графиков из приложения  "
+"<application>Gnumeric</application> на печать непосредственно на принтер или "
+"в файл PostScript или PDF (оба являются языками описания страниц)."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:867
+msgid "Getting More Help"
+msgstr "Получение дополнительной справки"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:869
+msgid ""
+"This chapter describes other sources of help which are available to users "
+"including the <application>Gnumeric</application> web site, the mailing "
+"list, and the internet relay chat (IRC) discussion channel."
+msgstr ""
+"В этой главе описаны другие доступные пользователям источники справочной "
+"информации, в том числе веб-сайт <application>Gnumeric</application>, список "
+"рассылки и канал обсуждения в IRC-чате."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:883
+msgid "Reporting a Problem"
+msgstr "Сообщение об ошибке"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:885
+msgid ""
+"This chapter explains how to report a problem with <application>Gnumeric</"
+"application> so that the problem can be fixed. The same procedure can be "
+"used to file a report requesting an enhancement or a new feature."
+msgstr ""
+"В этой главе объясняется, как сообщить об ошибке в <application>Gnumeric</"
+"application>, чтобы её исправили. Таким же образом можно отправить запрос на "
+"улучшение или новую функцию программы."
+
+#. (itstool) path: chapter/title
+#: C/gnumeric.xml:949
+msgid "Extending Gnumeric"
+msgstr "Расширение функциональных возможностей Gnumeric"
+
+#. (itstool) path: chapter/para
+#: C/gnumeric.xml:951
+msgid ""
+"This chapter explains how to go about extending <application>Gnumeric</"
+"application> to provide extra functionality. Because <application>Gnumeric</"
+"application> is Free Software this is quite easy to do."
+msgstr ""
+"Эта глава содержит информацию о том, как расширить функциональные "
+"возможности <application>Gnumeric</application>. Так как "
+"<application>Gnumeric</application> является свободной программой, сделать "
+"это довольно просто."
