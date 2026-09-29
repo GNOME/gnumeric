@@ -1306,7 +1306,7 @@ gnm_export_range_for_sheet (Sheet const *sheet, GnmRange *dest)
  *
  * Miniature sscanf that understands _Decimal64 arguments.
  * Handles
- * * "%g", "%gl", "%Lg", "%Wg"
+ * * "%g", "%gl", "%Lg", "%Dg"
  * * "%d", "%u"
  * * "%s", "%c", "%*s"
  * * whitespace
@@ -1328,7 +1328,7 @@ gnm_sscanf (const char *str, const char *fmt, ...)
 		if (c == '%') {
 			int flag_l = 0, flag_L = 0, flag_ast = 0;
 #ifdef GNM_WITH_DECIMAL64
-			int flag_W = 0;
+			int flag_dec64 = 0;
 #endif
 			int nchars;
 
@@ -1342,7 +1342,7 @@ gnm_sscanf (const char *str, const char *fmt, ...)
 				if (*fmt == 'l') { fmt++; flag_l++; continue; }
 				if (*fmt == 'L') { fmt++; flag_L++; continue; }
 #ifdef GNM_WITH_DECIMAL64
-				if (*fmt == *GNM_SCANF_g) { fmt++; flag_W++; continue; }
+				if (*fmt == *GNM_SCANF_g) { fmt++; flag_dec64++; continue; }
 #endif
 				break;
 			}
@@ -1365,7 +1365,7 @@ gnm_sscanf (const char *str, const char *fmt, ...)
 			case 'e': case 'E': case 'f': case 'F':
 			case 'g': case 'G': case 'a': case 'A':
 #ifdef GNM_WITH_DECIMAL64
-				if (flag_W) {
+				if (flag_dec64) {
 					*va_arg(args, _Decimal64 *) = go_strtoDd (tmp, NULL);
 					break;
 				}

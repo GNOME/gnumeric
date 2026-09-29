@@ -64,12 +64,12 @@ typedef long double gnm_float;
 
 typedef _Decimal64 gnm_float;
 
-#define GNM_FORMAT_e	"We"
-#define GNM_FORMAT_E	"WE"
-#define GNM_FORMAT_f	"Wf"
-#define GNM_FORMAT_g	"Wg"
-#define GNM_FORMAT_G	"WG"
-#define GNM_SCANF_g	"Wg"
+#define GNM_FORMAT_e	"De"
+#define GNM_FORMAT_E	"DE"
+#define GNM_FORMAT_f	"Df"
+#define GNM_FORMAT_g	"Dg"
+#define GNM_FORMAT_G	"DG"
+#define GNM_SCANF_g	"Dg"
 #undef gnm_sscanf       // No support for _Decimal64 in libc.  Defined in gutils.c
 #define GNM_SUPPLIES_GNM_SSCANF
 #define GNM_DIG		DECIMAL64_DIG
