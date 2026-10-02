@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-06-17 21:10+0000\n"
-"PO-Revision-Date: 2026-06-18 17:10+0200\n"
+"POT-Creation-Date: 2026-10-02 01:28+0000\n"
+"PO-Revision-Date: 2026-10-02 10:08+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -197,8 +197,8 @@ msgstr "Če @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
 #: ../plugins/fn-logical/functions.c:50 ../plugins/fn-logical/functions.c:97
 #: ../plugins/fn-logical/functions.c:125 ../plugins/fn-logical/functions.c:175
 #: ../plugins/fn-logical/functions.c:220 ../plugins/fn-logical/functions.c:239
-#: ../plugins/fn-logical/functions.c:262 ../plugins/fn-logical/functions.c:307
-#: ../plugins/fn-logical/functions.c:363 ../plugins/fn-logical/functions.c:381
+#: ../plugins/fn-logical/functions.c:262 ../plugins/fn-logical/functions.c:310
+#: ../plugins/fn-logical/functions.c:366 ../plugins/fn-logical/functions.c:384
 #: ../plugins/fn-lookup/functions.c:1950 ../plugins/fn-lookup/functions.c:1989
 #: ../plugins/fn-math/functions.c:201 ../plugins/fn-math/functions.c:264
 #: ../plugins/fn-math/functions.c:370 ../plugins/fn-math/functions.c:388
@@ -232,9 +232,9 @@ msgstr "Če @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
 #: ../plugins/fn-math/functions.c:3277 ../plugins/fn-math/functions.c:3374
 #: ../plugins/fn-math/functions.c:3419 ../plugins/fn-numtheory/numtheory.c:697
 #: ../plugins/fn-numtheory/numtheory.c:737
-#: ../plugins/fn-numtheory/numtheory.c:780
-#: ../plugins/fn-numtheory/numtheory.c:824
-#: ../plugins/fn-numtheory/numtheory.c:855 ../plugins/fn-random/functions.c:46
+#: ../plugins/fn-numtheory/numtheory.c:777
+#: ../plugins/fn-numtheory/numtheory.c:821
+#: ../plugins/fn-numtheory/numtheory.c:852 ../plugins/fn-random/functions.c:46
 #: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:84
 #: ../plugins/fn-stat/functions.c:113 ../plugins/fn-stat/functions.c:141
 #: ../plugins/fn-stat/functions.c:170 ../plugins/fn-stat/functions.c:272
@@ -757,7 +757,7 @@ msgstr ""
 "<30\n"
 ">40     \t>46000\n"
 
-#: ../plugins/fn-database/functions.c:395
+#: ../plugins/fn-database/functions.c:393
 msgid ""
 "DAVERAGE:average of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -765,23 +765,23 @@ msgstr ""
 "DAVERAGE: srednja vrednost polja @{polje} v @{podatkovni zbirki}, ki pripada "
 "zapisom skladnimi s @{kriterijem}"
 
-#: ../plugins/fn-database/functions.c:404
+#: ../plugins/fn-database/functions.c:402
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
 msgstr "DAVERAGE(A1:C7, \"Plača\", A9:A11) je enako 42296.3333."
 
-#: ../plugins/fn-database/functions.c:405
+#: ../plugins/fn-database/functions.c:403
 msgid "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39."
 msgstr "DAVERAGE(A1:C7, \"Starost\", A9:A11) je enako 39."
 
-#: ../plugins/fn-database/functions.c:406
+#: ../plugins/fn-database/functions.c:404
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5."
 msgstr "DAVERAGE(A1:C7, \"Plača\", A9:B11) je enako 40782.5."
 
-#: ../plugins/fn-database/functions.c:407
+#: ../plugins/fn-database/functions.c:405
 msgid "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36."
 msgstr "DAVERAGE(A1:C7, \"Starost\", A9:B11) je enako 36."
 
-#: ../plugins/fn-database/functions.c:431
+#: ../plugins/fn-database/functions.c:429
 msgid ""
 "DCOUNT:count of numbers in @{field} in @{database} belonging to records that "
 "match @{criteria}"
@@ -789,19 +789,19 @@ msgstr ""
 "DCOUNT: seštevek števil @{polja} v @{podatkovni zbirki}, ki pripada zapisom "
 "skladnimi s @{kriterijem}"
 
-#: ../plugins/fn-database/functions.c:440
+#: ../plugins/fn-database/functions.c:438
 msgid "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3."
 msgstr "DCOUNT(A1:C7, \"Plača\", A9:A11) je enako 3."
 
-#: ../plugins/fn-database/functions.c:441
+#: ../plugins/fn-database/functions.c:439
 msgid "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2."
 msgstr "DCOUNT(A1:C7, \"Plača\", A9:B11) je enako 2."
 
-#: ../plugins/fn-database/functions.c:442
+#: ../plugins/fn-database/functions.c:440
 msgid "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0."
 msgstr "DCOUNT(A1:C7, \"Ime\", A9:B11) je enako 0."
 
-#: ../plugins/fn-database/functions.c:475
+#: ../plugins/fn-database/functions.c:473
 msgid ""
 "DCOUNTA:count of cells with data in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -809,19 +809,19 @@ msgstr ""
 "DCOUNTA: seštevek vrednosti podatkov celic @{polja} v @{podatkovni zbirki}, "
 "ki pripada zapisom skladnimi s @{kriterijem}"
 
-#: ../plugins/fn-database/functions.c:484
+#: ../plugins/fn-database/functions.c:482
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
 msgstr "DCOUNTA(A1:C7, \"Plača\", A9:A11) je enako 3."
 
-#: ../plugins/fn-database/functions.c:485
+#: ../plugins/fn-database/functions.c:483
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2."
 msgstr "DCOUNTA(A1:C7, \"Plača\", A9:B11) je enako 2."
 
-#: ../plugins/fn-database/functions.c:486
+#: ../plugins/fn-database/functions.c:484
 msgid "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2."
 msgstr "DCOUNTA(A1:C7, \"Ime\", A9:B11) je enako 2."
 
-#: ../plugins/fn-database/functions.c:508
+#: ../plugins/fn-database/functions.c:506
 msgid ""
 "DGET:a value from @{field} in @{database} belonging to records that match "
 "@{criteria}"
@@ -829,25 +829,25 @@ msgstr ""
 "DGET: vrednost @{polja} v @{podatkovni zbirki}, ki pripada zapisom skladnimi "
 "s @{kriterijem}"
 
-#: ../plugins/fn-database/functions.c:517
+#: ../plugins/fn-database/functions.c:515
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
 msgstr ""
 "Če ni skladnega zadetka s pogoji kriterija, funkcija vrne vrednost #VALUE!"
 
-#: ../plugins/fn-database/functions.c:518
+#: ../plugins/fn-database/functions.c:516
 msgid "If more than one record match the conditions, DGET returns #NUM!"
 msgstr ""
 "Če je več kot en zapis skladen s pogoji, funkcija DGET vrne napako #NUM!."
 
-#: ../plugins/fn-database/functions.c:519
+#: ../plugins/fn-database/functions.c:517
 msgid "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
 msgstr "DGET(A1:C7, \"Plača\", A9:A10) je enako 34323."
 
-#: ../plugins/fn-database/functions.c:520
+#: ../plugins/fn-database/functions.c:518
 msgid "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\"."
 msgstr "DGET(A1:C7, \"Ime\", A9:A10) je enako \"Clark\"."
 
-#: ../plugins/fn-database/functions.c:550
+#: ../plugins/fn-database/functions.c:548
 msgid ""
 "DMAX:largest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
@@ -855,19 +855,19 @@ msgstr ""
 "DMAX: največje število @{polja} v @{podatkovni zbirki}, ki pripada zapisom "
 "skladnimi s @{kriterijem}"
 
-#: ../plugins/fn-database/functions.c:559
+#: ../plugins/fn-database/functions.c:557
 msgid "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242."
 msgstr "DMAX(A1:C7, \"Plača\", A9:A11) je enako 47242."
 
-#: ../plugins/fn-database/functions.c:560
+#: ../plugins/fn-database/functions.c:558
 msgid "DMAX(A1:C7, \"Age\", A9:A11) equals 45."
 msgstr "DMAX(A1:C7, \"Starost\", A9:A11) je enako 45."
 
-#: ../plugins/fn-database/functions.c:561
+#: ../plugins/fn-database/functions.c:559
 msgid "DMAX(A1:C7, \"Age\", A9:B11) equals 43."
 msgstr "DMAX(A1:C7, \"Starost\", A9:B11) je enako 43."
 
-#: ../plugins/fn-database/functions.c:586
+#: ../plugins/fn-database/functions.c:584
 msgid ""
 "DMIN:smallest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
@@ -875,15 +875,15 @@ msgstr ""
 "DMIN: najmanjše število @{polja} v @{zbirki_podatkov}, ki pripada zapisom, "
 "skladnim s @{pogojem}"
 
-#: ../plugins/fn-database/functions.c:595
+#: ../plugins/fn-database/functions.c:593
 msgid "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323."
 msgstr "DMIN(A1:C7, \"Plača\", A9:B11) je enako 34323."
 
-#: ../plugins/fn-database/functions.c:596
+#: ../plugins/fn-database/functions.c:594
 msgid "DMIN(A1:C7, \"Age\", A9:B11) equals 29."
 msgstr "DMIN(A1:C7, \"Starost\", A9:B11) je enako 29."
 
-#: ../plugins/fn-database/functions.c:619
+#: ../plugins/fn-database/functions.c:617
 msgid ""
 "DPRODUCT:product of all values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -891,11 +891,11 @@ msgstr ""
 "DPRODUCT: zmnožek vseh vrednosti @{polja} v @{podatkovni zbirki}, ki pripada "
 "vpisom, skladnim s @{pogoji}"
 
-#: ../plugins/fn-database/functions.c:628
+#: ../plugins/fn-database/functions.c:626
 msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
 msgstr "DPRODUCT(A1:C7, \"Starost\", A9:B11) je enako 1247."
 
-#: ../plugins/fn-database/functions.c:652
+#: ../plugins/fn-database/functions.c:650
 msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
@@ -903,15 +903,15 @@ msgstr ""
 "DSTDEV: standardni odklon vrednosti @{polja} v @{zbirki_podatkov}, ki "
 "pripada zapisom skladnimi s @{pogoji}"
 
-#: ../plugins/fn-database/functions.c:661
+#: ../plugins/fn-database/functions.c:659
 msgid "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949."
 msgstr "DSTDEV(A1:C7, \"Starost\", A9:B11) je enako 9.89949."
 
-#: ../plugins/fn-database/functions.c:662
+#: ../plugins/fn-database/functions.c:660
 msgid "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506."
 msgstr "DSTDEV(A1:C7, \"Plača\", A9:B11) je enako 9135.112506."
 
-#: ../plugins/fn-database/functions.c:685
+#: ../plugins/fn-database/functions.c:683
 msgid ""
 "DSTDEVP:standard deviation of the population of values in @{field} in "
 "@{database} belonging to records that match @{criteria}"
@@ -919,15 +919,15 @@ msgstr ""
 "DSTDEVP: standardni odklon vrednosti populacije @{polja} v @{podatkovni "
 "zbirki}, ki pripada zapisom skladnimi s @{kriterijem}"
 
-#: ../plugins/fn-database/functions.c:695
+#: ../plugins/fn-database/functions.c:693
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
 msgstr "DSTDEVP(A1:C7, \"Starost\", A9:B11) je enako 7."
 
-#: ../plugins/fn-database/functions.c:696
+#: ../plugins/fn-database/functions.c:694
 msgid "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5."
 msgstr "DSTDEVP(A1:C7, \"Plača\", A9:B11) je enako 6459.5."
 
-#: ../plugins/fn-database/functions.c:719
+#: ../plugins/fn-database/functions.c:717
 msgid ""
 "DSUM:sum of the values in @{field} in @{database} belonging to records that "
 "match @{criteria}"
@@ -935,15 +935,15 @@ msgstr ""
 "DSUM: vsota vrednosti @{polja} v @{podatkovni zbirki}, ki pripada vpisom, ki "
 "so skladni s @{kriterijem}"
 
-#: ../plugins/fn-database/functions.c:728
+#: ../plugins/fn-database/functions.c:726
 msgid "DSUM(A1:C7, \"Age\", A9:B11) equals 72."
 msgstr "DSUM(A1:C7, \"Starost\", A9:B11) je enako 72."
 
-#: ../plugins/fn-database/functions.c:729
+#: ../plugins/fn-database/functions.c:727
 msgid "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565."
 msgstr "DSUM(A1:C7, \"Plača\", A9:B11) je enako 81565."
 
-#: ../plugins/fn-database/functions.c:753
+#: ../plugins/fn-database/functions.c:751
 msgid ""
 "DVAR:sample variance of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -951,15 +951,15 @@ msgstr ""
 "DVAR: varianca vrednosti @{polja} v @{zbirki_podatkov}, ki pripada vpisom, "
 "ki so skladni s @{pogoji}"
 
-#: ../plugins/fn-database/functions.c:762
+#: ../plugins/fn-database/functions.c:760
 msgid "DVAR(A1:C7, \"Age\", A9:B11) equals 98."
 msgstr "DVAR(A1:C7, \"Starost\", A9:B11) je enako 98."
 
-#: ../plugins/fn-database/functions.c:763
+#: ../plugins/fn-database/functions.c:761
 msgid "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5."
 msgstr "DVAR(A1:C7, \"Plača\", A9:B11) je enako 83450280.5."
 
-#: ../plugins/fn-database/functions.c:786
+#: ../plugins/fn-database/functions.c:784
 msgid ""
 "DVARP:variance of the population of values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
@@ -967,28 +967,28 @@ msgstr ""
 "DVARP: varianca populacije vrednosti @{polja} v @{zbirki_podatkov}, ki "
 "pripada vpisom, ki so skladni s @{pogoji}"
 
-#: ../plugins/fn-database/functions.c:796
+#: ../plugins/fn-database/functions.c:794
 msgid "DVARP(A1:C7, \"Age\", A9:B11) equals 49."
 msgstr "DVARP(A1:C7, \"Starost\", A9:B11) je enako 49."
 
-#: ../plugins/fn-database/functions.c:797
+#: ../plugins/fn-database/functions.c:795
 msgid "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25."
 msgstr "DVARP(A1:C7, \"Plača\", A9:B11) je enako 41725140.25."
 
-#: ../plugins/fn-database/functions.c:820
+#: ../plugins/fn-database/functions.c:818
 msgid "GETPIVOTDATA:summary data from a pivot table"
 msgstr "GETPIVOTDATA: povzeti podatki iz vrtilne razpredelnice"
 
-#: ../plugins/fn-database/functions.c:821
+#: ../plugins/fn-database/functions.c:819
 msgid "pivot_table:cell range containing the pivot table"
 msgstr ""
 "vrtilna razpredelnica: podatkovna vrsta, ki vsebuje vrtilno razpredelnico"
 
-#: ../plugins/fn-database/functions.c:822
+#: ../plugins/fn-database/functions.c:820
 msgid "field_name:name of the field for which the summary data is requested"
 msgstr "ime polja: ime polja za katerega je zahtevan povzetek podatkov"
 
-#: ../plugins/fn-database/functions.c:823
+#: ../plugins/fn-database/functions.c:821
 msgid "If the summary data is unavailable, GETPIVOTDATA returns #REF!"
 msgstr ""
 "Če povzetek podatkov ni na voljo, funkcija GETPIVOTDATA vrne napako #REF!"
@@ -2637,8 +2637,8 @@ msgstr ""
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr "BASE: niz števk, ki predstavljajo število @{n} z osnovo @{b}"
 
-#: ../plugins/fn-eng/functions.c:215 ../plugins/fn-numtheory/numtheory.c:822
-#: ../plugins/fn-numtheory/numtheory.c:853
+#: ../plugins/fn-eng/functions.c:215 ../plugins/fn-numtheory/numtheory.c:819
+#: ../plugins/fn-numtheory/numtheory.c:850
 msgid "n:integer"
 msgstr "n: celo število"
 
@@ -3466,20 +3466,20 @@ msgstr ""
 "Funkcija INVSUMINV izračuna recipročno (inverzno) vrednost vsote recipročnih "
 "(inverznih) vrednosti vseh argumentov."
 
-#: ../plugins/fn-erlang/functions.c:103
+#: ../plugins/fn-erlang/functions.c:105
 msgid "PROBBLOCK:probability of blocking"
 msgstr "PROBBLOCK: verjetnost blokade"
 
-#: ../plugins/fn-erlang/functions.c:104 ../plugins/fn-erlang/functions.c:190
+#: ../plugins/fn-erlang/functions.c:106 ../plugins/fn-erlang/functions.c:192
 msgid "traffic:number of calls"
 msgstr "promet: število klicev"
 
-#: ../plugins/fn-erlang/functions.c:105 ../plugins/fn-erlang/functions.c:129
-#: ../plugins/fn-erlang/functions.c:228
+#: ../plugins/fn-erlang/functions.c:107 ../plugins/fn-erlang/functions.c:131
+#: ../plugins/fn-erlang/functions.c:232
 msgid "circuits:number of circuits"
 msgstr "kanali: število kanalov"
 
-#: ../plugins/fn-erlang/functions.c:106
+#: ../plugins/fn-erlang/functions.c:108
 msgid ""
 "PROBBLOCK returns probability of blocking when @{traffic} calls load into "
 "@{circuits} circuits."
@@ -3487,15 +3487,15 @@ msgstr ""
 "Funkcija PROBBLOCK vrne verjetnost blokade, ko se klicni @{promet} prevede v "
 "razpoložljive @{kanale}."
 
-#: ../plugins/fn-erlang/functions.c:127
+#: ../plugins/fn-erlang/functions.c:129
 msgid "OFFTRAF:predicted number of offered calls"
 msgstr "OFFTRAF: predvideno število ponujenih klicev"
 
-#: ../plugins/fn-erlang/functions.c:128
+#: ../plugins/fn-erlang/functions.c:130
 msgid "traffic:number of carried calls"
 msgstr "promet: število izvedenih nakupnih opcij"
 
-#: ../plugins/fn-erlang/functions.c:130
+#: ../plugins/fn-erlang/functions.c:132
 msgid ""
 "OFFTRAF returns the predicted number of offered calls given @{traffic} "
 "carried calls (taken from measurements) on @{circuits} circuits."
@@ -3503,19 +3503,19 @@ msgstr ""
 "Funkcija OFFTRAF vrne predvideno število ponujenih klicev glede na @{promet} "
 "(na osnovi meritev) na določenem številu @{kanalov}."
 
-#: ../plugins/fn-erlang/functions.c:131
+#: ../plugins/fn-erlang/functions.c:133
 msgid "@{traffic} cannot exceed @{circuits}."
 msgstr "Vrednost @{prometa} ne more preseči števila @{kanalov}."
 
-#: ../plugins/fn-erlang/functions.c:189
+#: ../plugins/fn-erlang/functions.c:191
 msgid "DIMCIRC:number of circuits required"
 msgstr "DIMCIRC: število zahtevanih kanalov"
 
-#: ../plugins/fn-erlang/functions.c:191 ../plugins/fn-erlang/functions.c:229
+#: ../plugins/fn-erlang/functions.c:193 ../plugins/fn-erlang/functions.c:233
 msgid "gos:grade of service"
 msgstr "ocena: ocena storitve"
 
-#: ../plugins/fn-erlang/functions.c:192
+#: ../plugins/fn-erlang/functions.c:194
 msgid ""
 "DIMCIRC returns the number of circuits required given @{traffic} calls with "
 "grade of service @{gos}."
@@ -3523,11 +3523,11 @@ msgstr ""
 "Funkcija DIMCIRC vrne število kanalov, ki so zahtevani za podan @{promet} "
 "klicev z določeno @oceno} storitve."
 
-#: ../plugins/fn-erlang/functions.c:227
+#: ../plugins/fn-erlang/functions.c:231
 msgid "OFFCAP:traffic capacity"
 msgstr "OFFCAP: zmogljivost prometa"
 
-#: ../plugins/fn-erlang/functions.c:230
+#: ../plugins/fn-erlang/functions.c:234
 msgid ""
 "OFFCAP returns the traffic capacity given @{circuits} circuits with grade of "
 "service @{gos}."
@@ -5462,31 +5462,31 @@ msgstr ""
 "Vsak @{pogoj} mora imeti vrednost logičnega izraza (boolean). Vsaka druga "
 "vrsta bo povzročila napako #VALUE!."
 
-#: ../plugins/fn-logical/functions.c:300
+#: ../plugins/fn-logical/functions.c:303
 msgid "SWITCH:multi-branch selector"
 msgstr "SWITCH: izbirnik z več vejami"
 
-#: ../plugins/fn-logical/functions.c:301
+#: ../plugins/fn-logical/functions.c:304
 msgid "ref:value"
 msgstr "ref:vrednost"
 
-#: ../plugins/fn-logical/functions.c:302
+#: ../plugins/fn-logical/functions.c:305
 msgid "choice1:value"
 msgstr "izbira1: vrednost"
 
-#: ../plugins/fn-logical/functions.c:303
+#: ../plugins/fn-logical/functions.c:306
 msgid "value1:result"
 msgstr "vrednost1: rezultat"
 
-#: ../plugins/fn-logical/functions.c:304
+#: ../plugins/fn-logical/functions.c:307
 msgid "choice2:value"
 msgstr "izbira2: vrednost"
 
-#: ../plugins/fn-logical/functions.c:305
+#: ../plugins/fn-logical/functions.c:308
 msgid "value2:result"
 msgstr "vrednost2: rezultat"
 
-#: ../plugins/fn-logical/functions.c:306
+#: ../plugins/fn-logical/functions.c:309
 msgid ""
 "SWITCH compares @{ref} against @{choice1}, @{choice2}, etc. and returns the "
 "corresponding @{value} for the first match. A final optional argument may be "
@@ -5496,28 +5496,28 @@ msgstr ""
 "@{vrednost} za prvi zadetek. Končni neobvezni argument lahko podate kot "
 "privzeto vrednost."
 
-#: ../plugins/fn-logical/functions.c:308
+#: ../plugins/fn-logical/functions.c:311
 msgid "If no match is found and no default is provided, #N/A is returned."
 msgstr ""
 "Če zadetkov ni možno najti in ni podana privzeta vrednost, vrne napako #N/A."
 
-#: ../plugins/fn-logical/functions.c:361
+#: ../plugins/fn-logical/functions.c:364
 msgid "TRUE:the value TRUE"
 msgstr "TRUE: logična vrednost PRAV"
 
-#: ../plugins/fn-logical/functions.c:362
+#: ../plugins/fn-logical/functions.c:365
 msgid "TRUE returns the value TRUE."
 msgstr "Vrednost PRAV vrne odgovor PRAV"
 
-#: ../plugins/fn-logical/functions.c:366 ../plugins/fn-logical/functions.c:384
+#: ../plugins/fn-logical/functions.c:369 ../plugins/fn-logical/functions.c:387
 msgid "wiki:en:Logical_value"
 msgstr "wiki:en:Logical_value"
 
-#: ../plugins/fn-logical/functions.c:379
+#: ../plugins/fn-logical/functions.c:382
 msgid "FALSE:the value FALSE"
 msgstr "FALSE: logična vrednost NAPAK"
 
-#: ../plugins/fn-logical/functions.c:380
+#: ../plugins/fn-logical/functions.c:383
 msgid "FALSE returns the value FALSE."
 msgstr "Vrednost NAPAK vrne odgovor NAPAK"
 
@@ -6128,40 +6128,55 @@ msgid "v:value"
 msgstr "v: vrednost"
 
 #: ../plugins/fn-lookup/functions.c:2199
-msgid "SORT:sorted list of numbers as vertical array"
-msgstr "SORT: razvrščen seznam števil kot navpično podatkovno polje"
+msgid "SORT:sorted rows or columns of an area"
+msgstr "SORT: razvrščene vrstice ali stolpci v določenem območju"
 
-#: ../plugins/fn-lookup/functions.c:2200 ../plugins/fn-stat/functions.c:167
-#: ../plugins/fn-stat/functions.c:215
-msgid "ref:list of numbers"
-msgstr "sklic: seznam števil"
+#: ../plugins/fn-lookup/functions.c:2200
+msgid "array:range or array to sort"
+msgstr "array:obseg ali polje, ki ga je treba razvrstiti"
 
 #: ../plugins/fn-lookup/functions.c:2201
-msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
-msgstr "red: 0 (padajoče) ali 1 (naraščajoče); privzeta je vrednost 0"
+msgid ""
+"sort_index:index of the row (if by_col is TRUE) or column (if by_col is "
+"FALSE) to sort by; defaults to 1"
+msgstr ""
+"sort_index: indeks vrstice (če je by_col TRUE) ali stolpca (če je by_col "
+"FALSE), po katerem naj se razvrsti; privzeta vrednost je 1"
 
 #: ../plugins/fn-lookup/functions.c:2202
-msgid "Strings, booleans, and empty cells are ignored."
-msgstr ""
-"Celice z besedilnimi nizi, logičnimi vrednostmi in prazne celice so prezrte."
+msgid "sort_order:1 (ascending, the default) or -1 (descending)"
+msgstr "sort_order: 1 (naraščajoče, privzeto) ali -1 (padajoče)"
 
 #: ../plugins/fn-lookup/functions.c:2203
-msgid "SORT({4,3,5}) evaluates to {5,4,3}"
-msgstr "SORT({4,3,5}) vrne razvrstitev {5,4,3}"
+msgid ""
+"by_col:when TRUE (the default), columns are sorted based on the sort_index "
+"row; when FALSE, rows are sorted based on the sort_index column"
+msgstr ""
+"by_col: če je vrednost TRUE (privzeto), se stolpci razvrstijo na podlagi "
+"vrstice sort_index; če je vrednost FALSE, se vrstice razvrstijo na podlagi "
+"stolpca sort_index"
 
-#: ../plugins/fn-lookup/functions.c:2251
+#: ../plugins/fn-lookup/functions.c:2204
+msgid "Numbers and text are compared in the normal order."
+msgstr "Številke in besedilo se primerjajo v običajnem vrstnem redu."
+
+#: ../plugins/fn-lookup/functions.c:2205
+msgid "SORT({4,3,5}) evaluates to {3,4,5}"
+msgstr "SORT({4,3,5}) vrne {3,4,5}"
+
+#: ../plugins/fn-lookup/functions.c:2308
 msgid "UNIQUE:unique values in a range or array"
 msgstr "UNIQUE:enolične vrednosti v obsegu ali matriki"
 
-#: ../plugins/fn-lookup/functions.c:2252
+#: ../plugins/fn-lookup/functions.c:2309
 msgid "data:range or array"
 msgstr "podatki: obseg ali matrika"
 
-#: ../plugins/fn-lookup/functions.c:2253
+#: ../plugins/fn-lookup/functions.c:2310
 msgid "by_col:by column if TRUE, by row otherwise; defaults to FALSE"
 msgstr "by_col:po stolpcu, če je TRUE, sicer po vrstici; privzeto FALSE"
 
-#: ../plugins/fn-lookup/functions.c:2254
+#: ../plugins/fn-lookup/functions.c:2311
 msgid "exactly_once:suppress values present multiple times; defaults to FALSE"
 msgstr "exactly_once:potlači vrednosti, ki so prisotne večkrat; privzeto FALSE"
 
@@ -6740,7 +6755,7 @@ msgid "COMBIN:binomial coefficient"
 msgstr "COMBIN:binominalni koeficient"
 
 #: ../plugins/fn-math/functions.c:1174 ../plugins/fn-math/functions.c:1206
-#: ../plugins/fn-math/functions.c:2646 ../plugins/fn-numtheory/numtheory.c:883
+#: ../plugins/fn-math/functions.c:2646 ../plugins/fn-numtheory/numtheory.c:880
 msgid "n:non-negative integer"
 msgstr "n: ne-negativno celo število"
 
@@ -7879,7 +7894,7 @@ msgstr "BITOR: bitni logični ALI"
 
 #: ../plugins/fn-numtheory/numtheory.c:695
 #: ../plugins/fn-numtheory/numtheory.c:735
-#: ../plugins/fn-numtheory/numtheory.c:778
+#: ../plugins/fn-numtheory/numtheory.c:775
 msgid "values:non-negative integers"
 msgstr "vrednosti: ne-negativna cela števila"
 
@@ -7900,26 +7915,26 @@ msgstr ""
 "Funkcija BITXOR vrne bitni logični izključujoči ALI dvojiške predstavitve "
 "argumentov"
 
-#: ../plugins/fn-numtheory/numtheory.c:777
+#: ../plugins/fn-numtheory/numtheory.c:774
 msgid "BITAND:bitwise and"
 msgstr "BITAND: bitni logični IN"
 
-#: ../plugins/fn-numtheory/numtheory.c:779
+#: ../plugins/fn-numtheory/numtheory.c:776
 msgid ""
 "BITAND returns the bitwise and of the binary representations of its "
 "arguments."
 msgstr "Funkcija BITAND vrne bitni logični IN dvojiške predstavitve argumentov"
 
-#: ../plugins/fn-numtheory/numtheory.c:820
+#: ../plugins/fn-numtheory/numtheory.c:817
 msgid "BITLSHIFT:bit-shift to the left"
 msgstr "BITLSHIFT: bitni zamik v levo"
 
-#: ../plugins/fn-numtheory/numtheory.c:821
-#: ../plugins/fn-numtheory/numtheory.c:852
+#: ../plugins/fn-numtheory/numtheory.c:818
+#: ../plugins/fn-numtheory/numtheory.c:849
 msgid "a:non-negative integer"
 msgstr "a: ne-negativno celo število"
 
-#: ../plugins/fn-numtheory/numtheory.c:823
+#: ../plugins/fn-numtheory/numtheory.c:820
 msgid ""
 "BITLSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the left."
@@ -7927,7 +7942,7 @@ msgstr ""
 "Funkcija BITLSHIFT vrne dvojiško predstavitev @{a} zamaknjen za @{n} mest v "
 "levo."
 
-#: ../plugins/fn-numtheory/numtheory.c:825
+#: ../plugins/fn-numtheory/numtheory.c:822
 msgid ""
 "If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) "
 "positions."
@@ -7935,11 +7950,11 @@ msgstr ""
 "Če je @{n} negativno število, funkcija BITLSHIFT zamakne število za "
 "ABS(@{n}) mest v desno."
 
-#: ../plugins/fn-numtheory/numtheory.c:851
+#: ../plugins/fn-numtheory/numtheory.c:848
 msgid "BITRSHIFT:bit-shift to the right"
 msgstr "BITRSHIFT: bitni zamik v desno"
 
-#: ../plugins/fn-numtheory/numtheory.c:854
+#: ../plugins/fn-numtheory/numtheory.c:851
 msgid ""
 "BITRSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the right."
@@ -7947,7 +7962,7 @@ msgstr ""
 "Funkcija BITRSHIFT vrne dvojiško predstavitev @{a} zamaknjen za @{n} mest v "
 "desno."
 
-#: ../plugins/fn-numtheory/numtheory.c:856
+#: ../plugins/fn-numtheory/numtheory.c:853
 msgid ""
 "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) "
 "positions."
@@ -7955,11 +7970,11 @@ msgstr ""
 "Če je @{n} negativno število, funkcija BITRSHIFT zamakne število za "
 "ABS(@{n}) mest v levo."
 
-#: ../plugins/fn-numtheory/numtheory.c:882
+#: ../plugins/fn-numtheory/numtheory.c:879
 msgid "PARTITIONS:number of partitions"
 msgstr "PARTITIONS: število različnih vsot"
 
-#: ../plugins/fn-numtheory/numtheory.c:884
+#: ../plugins/fn-numtheory/numtheory.c:881
 msgid ""
 "PARTITIONS calculates the number of ways of writing the integer @{n} as a "
 "sum of positive integers."
@@ -9620,6 +9635,10 @@ msgstr "RANK: rang števila na seznamu števil"
 #: ../plugins/fn-stat/functions.c:166 ../plugins/fn-stat/functions.c:214
 msgid "x:number whose rank you want to find"
 msgstr "x: število, kateremu naj se določi rang"
+
+#: ../plugins/fn-stat/functions.c:167 ../plugins/fn-stat/functions.c:215
+msgid "ref:list of numbers"
+msgstr "sklic: seznam števil"
 
 #: ../plugins/fn-stat/functions.c:168 ../plugins/fn-stat/functions.c:216
 msgid "order:0 (descending order) or non-zero (ascending order); defaults to 0"
