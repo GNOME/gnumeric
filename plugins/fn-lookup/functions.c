@@ -2196,53 +2196,110 @@ gnumeric_array (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_sort[] = {
-	{ GNM_FUNC_HELP_NAME, F_("SORT:sorted list of numbers as vertical array")},
-	{ GNM_FUNC_HELP_ARG, F_("ref:list of numbers")},
-	{ GNM_FUNC_HELP_ARG, F_("order:0 (descending order) or 1 (ascending order); defaults to 0")},
-	{ GNM_FUNC_HELP_NOTE, F_("Strings, booleans, and empty cells are ignored.")},
-	{ GNM_FUNC_HELP_EXAMPLES, F_("SORT({4,3,5}) evaluates to {5,4,3}")},
-	{ GNM_FUNC_HELP_SEEALSO, ("ARRAY")},
+	{ GNM_FUNC_HELP_NAME, F_("SORT:sorted rows or columns of an area")},
+	{ GNM_FUNC_HELP_ARG, F_("array:range or array to sort")},
+	{ GNM_FUNC_HELP_ARG, F_("sort_index:index of the row (if by_col is TRUE) or column (if by_col is FALSE) to sort by; defaults to 1")},
+	{ GNM_FUNC_HELP_ARG, F_("sort_order:1 (ascending, the default) or -1 (descending)")},
+	{ GNM_FUNC_HELP_ARG, F_("by_col:when TRUE (the default), columns are sorted based on the sort_index row; when FALSE, rows are sorted based on the sort_index column")},
+	{ GNM_FUNC_HELP_NOTE, F_("Numbers and text are compared in the normal order.")},
+	{ GNM_FUNC_HELP_EXAMPLES, F_("SORT({4,3,5}) evaluates to {3,4,5}")},
+	{ GNM_FUNC_HELP_SEEALSO, ("UNIQUE")},
 	{ GNM_FUNC_HELP_END }
 };
+
+typedef struct {
+	GnmValue const *data;
+	GnmEvalPos const *ep;
+	gboolean by_col;
+	int key;   /* sort_index - 1 */
+	int order; /* sort_order */
+} SortCtx;
+
+static int
+sort_indices_compare (gconstpointer a_, gconstpointer b_, gpointer ctx_)
+{
+	int const *a = a_, *b = b_;
+	SortCtx const *ctx = ctx_;
+	int xa, ya, xb, yb;
+
+	if (ctx->by_col) {
+		xa = *a, xb = *b;
+		ya = yb = ctx->key;
+	} else {
+		xa = xb = ctx->key;
+		ya = *a, yb = *b;
+	}
+
+	GnmValue const *va = value_area_get_x_y (ctx->data, xa, ya, ctx->ep);
+	GnmValue const *vb = value_area_get_x_y (ctx->data, xb, yb, ctx->ep);
+	GnmValDiff diff = value_compare (va, vb, FALSE);
+	int c = (diff == IS_LESS) ? -1 : (diff == IS_GREATER) ? 1 : 0;
+	return ctx->order == 1 ? c : -c;
+}
 
 static GnmValue *
 gnumeric_sort (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float *xs;
-	int i, j, n;
-	GnmValue *result = NULL;
+	GnmEvalPos const * const ep = ei->pos;
+	GnmValue const * const data = argv[0];
+	int sx = value_area_get_width (data, ep);
+	int sy = value_area_get_height (data, ep);
+	int sort_index = argv[1] ? value_get_as_int (argv[1]) : 1;
+	int sort_order = argv[2] ? value_get_as_int (argv[2]) : 1;
+	gboolean by_col = argv[3] ? value_get_as_checked_bool (argv[3]) : TRUE;
+	int n, i, *perm;
+	GnmValue *res;
+	SortCtx ctx;
 
-	xs = collect_floats_value (argv[0], ei->pos,
-				   COLLECT_IGNORE_STRINGS |
-				   COLLECT_IGNORE_BOOLS |
-				   COLLECT_IGNORE_BLANKS |
-				   COLLECT_SORT,
-				   &n, &result);
-	if (result)
-		goto out;
+	if (sort_order != 1 && sort_order != -1)
+		return value_new_error_VALUE (ep);
 
-	switch (argv[1] ? value_get_as_int (argv[1]) : 0) {
-	case 0:
-		result = value_new_array_empty (1, n);
-
-		for (i = 0, j = n - 1; i < n; i++, j--)
-			result->v_array.vals[0][i] = value_new_float (xs[j]);
-		break;
-	case 1:
-		result = value_new_array_empty (1, n);
-
-		for (i = 0; i < n; i++)
-			result->v_array.vals[0][i] = value_new_float (xs[i]);
-		break;
-	default:
-		result = value_new_error_VALUE (ei->pos);
-		break;
+	if (by_col) {
+		if (sort_index < 1 || sort_index > sy)
+			return value_new_error_VALUE (ep);
+		n = sx;
+	} else {
+		if (sort_index < 1 || sort_index > sx)
+			return value_new_error_VALUE (ep);
+		n = sy;
 	}
 
- out:
-	g_free (xs);
+	perm = g_new (int, n);
+	for (i = 0; i < n; i++)
+		perm[i] = i;
 
-	return result;
+	ctx.data = data;
+	ctx.ep = ep;
+	ctx.by_col = by_col;
+	ctx.key = sort_index - 1;
+	ctx.order = sort_order;
+
+#if GLIB_CHECK_VERSION(2, 82, 0)
+	g_sort_array
+#else
+	g_qsort_with_data
+#endif
+		(perm, n, sizeof (int), sort_indices_compare, &ctx);
+
+	res = value_new_array_empty (sx, sy);
+	if (by_col) {
+		for (int i = 0; i < sx; i++) {
+			int x = perm[i];
+			for (int y = 0; y < sy; y++)
+				res->v_array.vals[i][y] = value_dup (
+					value_area_get_x_y (data, x, y, ep));
+		}
+	} else {
+		for (int i = 0; i < sy; i++) {
+			int y = perm[i];
+			for (int x = 0; x < sx; x++)
+				res->v_array.vals[x][i] = value_dup (
+					value_area_get_x_y (data, x, y, ep));
+		}
+	}
+
+	g_free (perm);
+	return res;
 }
 
 /***************************************************************************/
@@ -2443,7 +2500,7 @@ GnmFuncDescriptor const lookup_functions[] = {
 	{ "sheet",      "|?",
 	  help_sheet,     gnumeric_sheet, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-	{ "sort",         "r|f",
+	{ "sort",         "A|ffb",
 	  help_sort, gnumeric_sort, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_SUBSET, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "transpose", "A",

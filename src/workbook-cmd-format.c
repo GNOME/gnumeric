@@ -196,6 +196,7 @@ workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 	GnmExpr const *expr;
 	GnmFunc	   *fd_sort;
 	GnmFunc	   *fd_array;
+	GnmFunc	   *fd_transpose;
 	GnmExprTop const *texpr;
 	struct workbook_cmd_wrap_sort_t cl = {NULL, NULL, NULL};
 
@@ -209,14 +210,17 @@ workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 
 		return;
 	}
-	if (range_height (cl.r) > 1 && range_width (cl.r) > 1) {
+
+	int h = range_height (cl.r);
+	int w = range_width (cl.r);
+	if (h > 1 && w > 1) {
 		go_cmd_context_error_invalid
 			(GO_CMD_CONTEXT (wbc), _("Wrap SORT"),
 			 _("An n\342\250\2571 or 1\342\250\257n "
 			   "selection is required."));
 		return;
 	}
-	if (range_height (cl.r) == 1 && range_width (cl.r) == 1) {
+	if (h == 1 && w == 1) {
 		go_cmd_context_error_invalid
 			(GO_CMD_CONTEXT (wbc), _("Wrap SORT"),
 			 _("There is no point in sorting a single cell."));
@@ -232,6 +236,7 @@ workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 	}
 	fd_sort = gnm_func_lookup_or_add_placeholder ("sort");
 	fd_array = gnm_func_lookup_or_add_placeholder ("array");
+	fd_transpose = (h == 1 ? gnm_func_lookup_or_add_placeholder ("transpose") : NULL);
 
 	sheet_foreach_cell_in_range
 		(sv->sheet, CELL_ITER_ALL, cl.r,
@@ -239,8 +244,14 @@ workbook_cmd_wrap_sort (WorkbookControl *wbc, int type)
 
 	cl.args = g_slist_reverse (cl.args);
 	expr = gnm_expr_new_funcall (fd_array, cl.args);
-	expr = gnm_expr_new_funcall2
-		(fd_sort, expr, gnm_expr_new_constant (value_new_int (type)));
+	if (h == 1)
+		expr = gnm_expr_new_funcall1 (fd_transpose, expr);
+	expr = gnm_expr_new_funcall4
+		(fd_sort,
+		 expr,
+		 gnm_expr_new_constant (value_new_empty ()),
+		 gnm_expr_new_constant (value_new_int (type)),
+		 gnm_expr_new_constant (value_new_bool (h == 1)));
 	texpr = gnm_expr_top_new (expr);
 	cmd_area_set_array_expr (wbc, sv, texpr);
 	gnm_expr_top_unref (texpr);
