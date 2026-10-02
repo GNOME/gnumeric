@@ -1,22 +1,22 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 #
 # Yuri Syrota <rasta@renome.rovno.ua>, 1999.
-# Yuri Chornoivan <yurchor@ukr.net>, 2020, 2021, 2023, 2024, 2026.
+# SPDX-FileCopyrightText: 2020, 2021, 2023, 2024, 2026 Yuri Chornoivan <yurchor@ukr.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-06-18 15:14+0000\n"
-"PO-Revision-Date: 2026-06-20 21:50+0300\n"
+"POT-Creation-Date: 2026-10-02 08:12+0000\n"
+"PO-Revision-Date: 2026-10-02 18:10+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 23.04.3\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<"
+"=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Lokalize 25.12.1\n"
 
 #: ../plugins/fn-christian-date/functions.c:130
 msgid ""
@@ -179,8 +179,8 @@ msgstr "Якщо @{i} ні \"i\", ні \"j\", COMPLEX повертає #VALUE!"
 #: ../plugins/fn-logical/functions.c:50 ../plugins/fn-logical/functions.c:97
 #: ../plugins/fn-logical/functions.c:125 ../plugins/fn-logical/functions.c:175
 #: ../plugins/fn-logical/functions.c:220 ../plugins/fn-logical/functions.c:239
-#: ../plugins/fn-logical/functions.c:262 ../plugins/fn-logical/functions.c:307
-#: ../plugins/fn-logical/functions.c:363 ../plugins/fn-logical/functions.c:381
+#: ../plugins/fn-logical/functions.c:262 ../plugins/fn-logical/functions.c:310
+#: ../plugins/fn-logical/functions.c:366 ../plugins/fn-logical/functions.c:384
 #: ../plugins/fn-lookup/functions.c:1950 ../plugins/fn-lookup/functions.c:1989
 #: ../plugins/fn-math/functions.c:201 ../plugins/fn-math/functions.c:264
 #: ../plugins/fn-math/functions.c:370 ../plugins/fn-math/functions.c:388
@@ -214,9 +214,9 @@ msgstr "Якщо @{i} ні \"i\", ні \"j\", COMPLEX повертає #VALUE!"
 #: ../plugins/fn-math/functions.c:3277 ../plugins/fn-math/functions.c:3374
 #: ../plugins/fn-math/functions.c:3419 ../plugins/fn-numtheory/numtheory.c:697
 #: ../plugins/fn-numtheory/numtheory.c:737
-#: ../plugins/fn-numtheory/numtheory.c:780
-#: ../plugins/fn-numtheory/numtheory.c:824
-#: ../plugins/fn-numtheory/numtheory.c:855 ../plugins/fn-random/functions.c:46
+#: ../plugins/fn-numtheory/numtheory.c:777
+#: ../plugins/fn-numtheory/numtheory.c:821
+#: ../plugins/fn-numtheory/numtheory.c:852 ../plugins/fn-random/functions.c:46
 #: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:84
 #: ../plugins/fn-stat/functions.c:113 ../plugins/fn-stat/functions.c:141
 #: ../plugins/fn-stat/functions.c:170 ../plugins/fn-stat/functions.c:272
@@ -328,7 +328,6 @@ msgstr "z:комплексне число"
 #: ../plugins/fn-complex/functions.c:1130
 #: ../plugins/fn-complex/functions.c:1157
 #: ../plugins/fn-complex/functions.c:1183
-#| msgid "If @{z} is not a valid complex number, #VALUE! is returned."
 msgid "If @{z} is not a valid complex number, #NUM! is returned."
 msgstr "Якщо @{z} не є коректним комплексним числом, буде повернуто #NUM!."
 
@@ -443,12 +442,10 @@ msgstr "z2:комплексне число"
 
 #: ../plugins/fn-complex/functions.c:554 ../plugins/fn-complex/functions.c:588
 #: ../plugins/fn-complex/functions.c:1245
-#| msgid ""
-#| "If @{z1} or @{z2} is not a valid complex number, #VALUE! is returned."
 msgid "If @{z1} or @{z2} is not a valid complex number, #NUM! is returned."
 msgstr ""
-"Якщо @{z1} чи @{z2} не є коректними комплексними числами, буде повернуто"
-" #NUM!."
+"Якщо @{z1} чи @{z2} не є коректними комплексними числами, буде повернуто "
+"#NUM!."
 
 #: ../plugins/fn-complex/functions.c:585
 msgid "IMDIV:the quotient of two complex numbers @{z1}/@{z2}"
@@ -622,9 +619,6 @@ msgstr ""
 
 #: ../plugins/fn-complex/functions.c:1277
 #: ../plugins/fn-complex/functions.c:1349
-#| msgid ""
-#| "If any of @{z1}, @{z2},... is not a valid complex number, #VALUE! is "
-#| "returned."
 msgid ""
 "If any of @{z1}, @{z2},... is not a valid complex number, #NUM! is returned."
 msgstr ""
@@ -718,7 +712,7 @@ msgstr ""
 "<30\n"
 ">40     \t>46000\n"
 
-#: ../plugins/fn-database/functions.c:395
+#: ../plugins/fn-database/functions.c:393
 msgid ""
 "DAVERAGE:average of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -726,23 +720,23 @@ msgstr ""
 "DAVERAGE:середнє значень у @{field} в @{database}, що належать до записів, "
 "які підходять до @{criteria}"
 
-#: ../plugins/fn-database/functions.c:404
+#: ../plugins/fn-database/functions.c:402
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333."
 msgstr "DAVERAGE(A1:C7, \"Salary\", A9:A11) дорівнює 42296.3333."
 
-#: ../plugins/fn-database/functions.c:405
+#: ../plugins/fn-database/functions.c:403
 msgid "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39."
 msgstr "DAVERAGE(A1:C7, \"Age\", A9:A11) дорівнює 39."
 
-#: ../plugins/fn-database/functions.c:406
+#: ../plugins/fn-database/functions.c:404
 msgid "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5."
 msgstr "DAVERAGE(A1:C7, \"Salary\", A9:B11) дорівнює 40782.5."
 
-#: ../plugins/fn-database/functions.c:407
+#: ../plugins/fn-database/functions.c:405
 msgid "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36."
 msgstr "DAVERAGE(A1:C7, \"Age\", A9:B11) дорівнює 36."
 
-#: ../plugins/fn-database/functions.c:431
+#: ../plugins/fn-database/functions.c:429
 msgid ""
 "DCOUNT:count of numbers in @{field} in @{database} belonging to records that "
 "match @{criteria}"
@@ -750,19 +744,19 @@ msgstr ""
 "DCOUNT:кількість чисел у @{field} в @{database}, що належать до записів, які "
 "підходять за @{criteria}"
 
-#: ../plugins/fn-database/functions.c:440
+#: ../plugins/fn-database/functions.c:438
 msgid "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3."
 msgstr "DCOUNT(A1:C7, \"Salary\", A9:A11) дорівнює 3."
 
-#: ../plugins/fn-database/functions.c:441
+#: ../plugins/fn-database/functions.c:439
 msgid "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2."
 msgstr "DCOUNT(A1:C7, \"Salary\", A9:B11) дорівнює 2."
 
-#: ../plugins/fn-database/functions.c:442
+#: ../plugins/fn-database/functions.c:440
 msgid "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0."
 msgstr "DCOUNT(A1:C7, \"Name\", A9:B11) дорівнює 0."
 
-#: ../plugins/fn-database/functions.c:475
+#: ../plugins/fn-database/functions.c:473
 msgid ""
 "DCOUNTA:count of cells with data in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -770,19 +764,19 @@ msgstr ""
 "DCOUNTA:кількість клітин із даними у @{field} в @{database}, що належать до "
 "записів, які підходять за @{criteria}"
 
-#: ../plugins/fn-database/functions.c:484
+#: ../plugins/fn-database/functions.c:482
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3."
 msgstr "DCOUNTA(A1:C7, \"Salary\", A9:A11) дорівнює 3."
 
-#: ../plugins/fn-database/functions.c:485
+#: ../plugins/fn-database/functions.c:483
 msgid "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2."
 msgstr "DCOUNTA(A1:C7, \"Salary\", A9:B11) дорівнює 2."
 
-#: ../plugins/fn-database/functions.c:486
+#: ../plugins/fn-database/functions.c:484
 msgid "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2."
 msgstr "DCOUNTA(A1:C7, \"Name\", A9:B11) дорівнює 2."
 
-#: ../plugins/fn-database/functions.c:508
+#: ../plugins/fn-database/functions.c:506
 msgid ""
 "DGET:a value from @{field} in @{database} belonging to records that match "
 "@{criteria}"
@@ -790,23 +784,23 @@ msgstr ""
 "DGET:значення із @{field} в @{database}, що належить до записів, що "
 "підходять за @{criteria}"
 
-#: ../plugins/fn-database/functions.c:517
+#: ../plugins/fn-database/functions.c:515
 msgid "If none of the records match the conditions, DGET returns #VALUE!"
 msgstr "Якщо жодний з записів не відповідає умовам, DGET видає #VALUE!"
 
-#: ../plugins/fn-database/functions.c:518
+#: ../plugins/fn-database/functions.c:516
 msgid "If more than one record match the conditions, DGET returns #NUM!"
 msgstr "Якщо більше ніж один запис відповідає умовам, DGET видає #NUM!"
 
-#: ../plugins/fn-database/functions.c:519
+#: ../plugins/fn-database/functions.c:517
 msgid "DGET(A1:C7, \"Salary\", A9:A10) equals 34323."
 msgstr "DGET(A1:C7, \"Salary\", A9:A10) дорівнює 34323."
 
-#: ../plugins/fn-database/functions.c:520
+#: ../plugins/fn-database/functions.c:518
 msgid "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\"."
 msgstr "DGET(A1:C7, \"Name\", A9:A10) дорівнює \"Clark\"."
 
-#: ../plugins/fn-database/functions.c:550
+#: ../plugins/fn-database/functions.c:548
 msgid ""
 "DMAX:largest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
@@ -814,19 +808,19 @@ msgstr ""
 "DMAX:найбільше число у @{field} в @{database}, що належить запису, що "
 "підходить за @{criteria}"
 
-#: ../plugins/fn-database/functions.c:559
+#: ../plugins/fn-database/functions.c:557
 msgid "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242."
 msgstr "DMAX(A1:C7, \"Salary\", A9:A11) дорівнює 47242."
 
-#: ../plugins/fn-database/functions.c:560
+#: ../plugins/fn-database/functions.c:558
 msgid "DMAX(A1:C7, \"Age\", A9:A11) equals 45."
 msgstr "DMAX(A1:C7, \"Age\", A9:A11) дорівнює 45."
 
-#: ../plugins/fn-database/functions.c:561
+#: ../plugins/fn-database/functions.c:559
 msgid "DMAX(A1:C7, \"Age\", A9:B11) equals 43."
 msgstr "DMAX(A1:C7, \"Age\", A9:B11) дорівнює 43."
 
-#: ../plugins/fn-database/functions.c:586
+#: ../plugins/fn-database/functions.c:584
 msgid ""
 "DMIN:smallest number in @{field} in @{database} belonging to a record that "
 "match @{criteria}"
@@ -834,15 +828,15 @@ msgstr ""
 "DMIN:найменше число у @{field} в @{database}, що належить запису, що "
 "підходить за @{criteria}"
 
-#: ../plugins/fn-database/functions.c:595
+#: ../plugins/fn-database/functions.c:593
 msgid "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323."
 msgstr "DMIN(A1:C7, \"Salary\", A9:B11) дорівнює 34323."
 
-#: ../plugins/fn-database/functions.c:596
+#: ../plugins/fn-database/functions.c:594
 msgid "DMIN(A1:C7, \"Age\", A9:B11) equals 29."
 msgstr "DMIN(A1:C7, \"Age\", A9:B11) дорівнює 29."
 
-#: ../plugins/fn-database/functions.c:619
+#: ../plugins/fn-database/functions.c:617
 msgid ""
 "DPRODUCT:product of all values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
@@ -850,93 +844,93 @@ msgstr ""
 "DPRODUCT:продукт усіх значень у @{field} в @{database}, що належить запису, "
 "що підходить за @{criteria}"
 
-#: ../plugins/fn-database/functions.c:628
+#: ../plugins/fn-database/functions.c:626
 msgid "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247."
 msgstr "DPRODUCT(A1:C7, \"Age\", A9:B11) дорівнює 1247."
 
-#: ../plugins/fn-database/functions.c:652
+#: ../plugins/fn-database/functions.c:650
 msgid ""
 "DSTDEV:sample standard deviation of the values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:661
+#: ../plugins/fn-database/functions.c:659
 msgid "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949."
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:662
+#: ../plugins/fn-database/functions.c:660
 msgid "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506."
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:685
+#: ../plugins/fn-database/functions.c:683
 msgid ""
 "DSTDEVP:standard deviation of the population of values in @{field} in "
 "@{database} belonging to records that match @{criteria}"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:695
+#: ../plugins/fn-database/functions.c:693
 msgid "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7."
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:696
+#: ../plugins/fn-database/functions.c:694
 msgid "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5."
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:719
+#: ../plugins/fn-database/functions.c:717
 msgid ""
 "DSUM:sum of the values in @{field} in @{database} belonging to records that "
 "match @{criteria}"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:728
+#: ../plugins/fn-database/functions.c:726
 msgid "DSUM(A1:C7, \"Age\", A9:B11) equals 72."
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:729
+#: ../plugins/fn-database/functions.c:727
 msgid "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565."
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:753
+#: ../plugins/fn-database/functions.c:751
 msgid ""
 "DVAR:sample variance of the values in @{field} in @{database} belonging to "
 "records that match @{criteria}"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:762
+#: ../plugins/fn-database/functions.c:760
 msgid "DVAR(A1:C7, \"Age\", A9:B11) equals 98."
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:763
+#: ../plugins/fn-database/functions.c:761
 msgid "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5."
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:786
+#: ../plugins/fn-database/functions.c:784
 msgid ""
 "DVARP:variance of the population of values in @{field} in @{database} "
 "belonging to records that match @{criteria}"
 msgstr ""
 
-#: ../plugins/fn-database/functions.c:796
+#: ../plugins/fn-database/functions.c:794
 msgid "DVARP(A1:C7, \"Age\", A9:B11) equals 49."
 msgstr "DVARP(A1:C7, \"Age\", A9:B11) дорівнює 49."
 
-#: ../plugins/fn-database/functions.c:797
+#: ../plugins/fn-database/functions.c:795
 msgid "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25."
 msgstr "DVARP(A1:C7, \"Salary\", A9:B11) дорівнює 41725140.25."
 
-#: ../plugins/fn-database/functions.c:820
+#: ../plugins/fn-database/functions.c:818
 msgid "GETPIVOTDATA:summary data from a pivot table"
 msgstr "GETPIVOTDATA:дані резюме зі зведеної таблиці"
 
-#: ../plugins/fn-database/functions.c:821
+#: ../plugins/fn-database/functions.c:819
 msgid "pivot_table:cell range containing the pivot table"
 msgstr "pivot_table:діапазон комірок, що містять зведену таблицю"
 
-#: ../plugins/fn-database/functions.c:822
+#: ../plugins/fn-database/functions.c:820
 msgid "field_name:name of the field for which the summary data is requested"
 msgstr "field_name:нава поля, для якого потрібні дані резюме"
 
-#: ../plugins/fn-database/functions.c:823
+#: ../plugins/fn-database/functions.c:821
 msgid "If the summary data is unavailable, GETPIVOTDATA returns #REF!"
 msgstr "Якщо дані резюме недоступні, GETPIVOTDATA повертає #REF!"
 
@@ -1210,9 +1204,8 @@ msgid ""
 "While the return value is automatically formatted to look like a time "
 "between 0:00 and 24:00, the underlying serial time value can be any number."
 msgstr ""
-"Хоча видані значення автоматично форматуються, щоб виглядати як час між"
-" 00:00 "
-"і 24:00, послідовне значення часу може бути будь-яким."
+"Хоча видані значення автоматично форматуються, щоб виглядати як час між "
+"00:00 і 24:00, послідовне значення часу може бути будь-яким."
 
 #: ../plugins/fn-date/functions.c:533 ../plugins/fn-date/functions.c:874
 #: ../plugins/fn-date/functions.c:1109 ../plugins/fn-date/functions.c:1473
@@ -2409,8 +2402,8 @@ msgstr ""
 msgid "BASE:string of digits representing the number @{n} in base @{b}"
 msgstr ""
 
-#: ../plugins/fn-eng/functions.c:215 ../plugins/fn-numtheory/numtheory.c:822
-#: ../plugins/fn-numtheory/numtheory.c:853
+#: ../plugins/fn-eng/functions.c:215 ../plugins/fn-numtheory/numtheory.c:819
+#: ../plugins/fn-numtheory/numtheory.c:850
 msgid "n:integer"
 msgstr ""
 
@@ -3193,62 +3186,62 @@ msgid ""
 "reciprocals (inverses) of all its arguments."
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:103
+#: ../plugins/fn-erlang/functions.c:105
 msgid "PROBBLOCK:probability of blocking"
 msgstr "PROBBLOCK:імовірність блокування"
 
-#: ../plugins/fn-erlang/functions.c:104 ../plugins/fn-erlang/functions.c:190
+#: ../plugins/fn-erlang/functions.c:106 ../plugins/fn-erlang/functions.c:192
 msgid "traffic:number of calls"
 msgstr "traffic:кількість викликів"
 
-#: ../plugins/fn-erlang/functions.c:105 ../plugins/fn-erlang/functions.c:129
-#: ../plugins/fn-erlang/functions.c:228
+#: ../plugins/fn-erlang/functions.c:107 ../plugins/fn-erlang/functions.c:131
+#: ../plugins/fn-erlang/functions.c:232
 msgid "circuits:number of circuits"
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:106
+#: ../plugins/fn-erlang/functions.c:108
 msgid ""
 "PROBBLOCK returns probability of blocking when @{traffic} calls load into "
 "@{circuits} circuits."
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:127
+#: ../plugins/fn-erlang/functions.c:129
 msgid "OFFTRAF:predicted number of offered calls"
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:128
+#: ../plugins/fn-erlang/functions.c:130
 msgid "traffic:number of carried calls"
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:130
+#: ../plugins/fn-erlang/functions.c:132
 msgid ""
 "OFFTRAF returns the predicted number of offered calls given @{traffic} "
 "carried calls (taken from measurements) on @{circuits} circuits."
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:131
+#: ../plugins/fn-erlang/functions.c:133
 msgid "@{traffic} cannot exceed @{circuits}."
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:189
+#: ../plugins/fn-erlang/functions.c:191
 msgid "DIMCIRC:number of circuits required"
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:191 ../plugins/fn-erlang/functions.c:229
+#: ../plugins/fn-erlang/functions.c:193 ../plugins/fn-erlang/functions.c:233
 msgid "gos:grade of service"
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:192
+#: ../plugins/fn-erlang/functions.c:194
 msgid ""
 "DIMCIRC returns the number of circuits required given @{traffic} calls with "
 "grade of service @{gos}."
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:227
+#: ../plugins/fn-erlang/functions.c:231
 msgid "OFFCAP:traffic capacity"
 msgstr ""
 
-#: ../plugins/fn-erlang/functions.c:230
+#: ../plugins/fn-erlang/functions.c:234
 msgid ""
 "OFFCAP returns the traffic capacity given @{circuits} circuits with grade of "
 "service @{gos}."
@@ -5003,58 +4996,58 @@ msgstr ""
 "Кожна @{condition} має бути булевим (вірним/хибним, true/false) значенням. "
 "Будь-який інший тип викличе помилку #VALUE!"
 
-#: ../plugins/fn-logical/functions.c:300
+#: ../plugins/fn-logical/functions.c:303
 msgid "SWITCH:multi-branch selector"
 msgstr ""
 
-#: ../plugins/fn-logical/functions.c:301
+#: ../plugins/fn-logical/functions.c:304
 msgid "ref:value"
 msgstr "ref:значення"
 
-#: ../plugins/fn-logical/functions.c:302
+#: ../plugins/fn-logical/functions.c:305
 msgid "choice1:value"
 msgstr "choice1:значення"
 
-#: ../plugins/fn-logical/functions.c:303
+#: ../plugins/fn-logical/functions.c:306
 msgid "value1:result"
 msgstr "value1:результат"
 
-#: ../plugins/fn-logical/functions.c:304
+#: ../plugins/fn-logical/functions.c:307
 msgid "choice2:value"
 msgstr "choice2:значення"
 
-#: ../plugins/fn-logical/functions.c:305
+#: ../plugins/fn-logical/functions.c:308
 msgid "value2:result"
 msgstr "value2:результат"
 
-#: ../plugins/fn-logical/functions.c:306
+#: ../plugins/fn-logical/functions.c:309
 msgid ""
 "SWITCH compares @{ref} against @{choice1}, @{choice2}, etc. and returns the "
 "corresponding @{value} for the first match. A final optional argument may be "
 "provided as a default value."
 msgstr ""
 
-#: ../plugins/fn-logical/functions.c:308
+#: ../plugins/fn-logical/functions.c:311
 msgid "If no match is found and no default is provided, #N/A is returned."
 msgstr ""
 
-#: ../plugins/fn-logical/functions.c:361
+#: ../plugins/fn-logical/functions.c:364
 msgid "TRUE:the value TRUE"
 msgstr "TRUE:значення ВІРНО (TRUE)"
 
-#: ../plugins/fn-logical/functions.c:362
+#: ../plugins/fn-logical/functions.c:365
 msgid "TRUE returns the value TRUE."
 msgstr "TRUE видає значення ВІРНО (TRUE)"
 
-#: ../plugins/fn-logical/functions.c:366 ../plugins/fn-logical/functions.c:384
+#: ../plugins/fn-logical/functions.c:369 ../plugins/fn-logical/functions.c:387
 msgid "wiki:en:Logical_value"
 msgstr "wiki:en:Logical_value"
 
-#: ../plugins/fn-logical/functions.c:379
+#: ../plugins/fn-logical/functions.c:382
 msgid "FALSE:the value FALSE"
 msgstr "FALSE:значення ХИБНО (FALSE)"
 
-#: ../plugins/fn-logical/functions.c:380
+#: ../plugins/fn-logical/functions.c:383
 msgid "FALSE returns the value FALSE."
 msgstr "FALSE видає значення ХИБНО (FALSE)"
 
@@ -5571,46 +5564,58 @@ msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:2141
 msgid "ARRAY:vertical array of the arguments"
-msgstr ""
+msgstr "ARRAY:вертикальний масив аргументів"
 
 #: ../plugins/fn-lookup/functions.c:2142
 msgid "v:value"
-msgstr ""
+msgstr "v:значення"
 
 #: ../plugins/fn-lookup/functions.c:2199
-msgid "SORT:sorted list of numbers as vertical array"
-msgstr ""
+msgid "SORT:sorted rows or columns of an area"
+msgstr "SORT:упорядковані рядки або стовпчики області"
 
-#: ../plugins/fn-lookup/functions.c:2200 ../plugins/fn-stat/functions.c:167
-#: ../plugins/fn-stat/functions.c:215
-msgid "ref:list of numbers"
-msgstr ""
+#: ../plugins/fn-lookup/functions.c:2200
+#| msgid "lookup_array:range to search"
+msgid "array:range or array to sort"
+msgstr "array:діапазон або масив для упорядковування"
 
 #: ../plugins/fn-lookup/functions.c:2201
-msgid "order:0 (descending order) or 1 (ascending order); defaults to 0"
+msgid ""
+"sort_index:index of the row (if by_col is TRUE) or column (if by_col is "
+"FALSE) to sort by; defaults to 1"
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:2202
-msgid "Strings, booleans, and empty cells are ignored."
+msgid "sort_order:1 (ascending, the default) or -1 (descending)"
 msgstr ""
 
 #: ../plugins/fn-lookup/functions.c:2203
-msgid "SORT({4,3,5}) evaluates to {5,4,3}"
+msgid ""
+"by_col:when TRUE (the default), columns are sorted based on the sort_index "
+"row; when FALSE, rows are sorted based on the sort_index column"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2251
+#: ../plugins/fn-lookup/functions.c:2204
+msgid "Numbers and text are compared in the normal order."
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:2205
+msgid "SORT({4,3,5}) evaluates to {3,4,5}"
+msgstr ""
+
+#: ../plugins/fn-lookup/functions.c:2308
 msgid "UNIQUE:unique values in a range or array"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2252
+#: ../plugins/fn-lookup/functions.c:2309
 msgid "data:range or array"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2253
+#: ../plugins/fn-lookup/functions.c:2310
 msgid "by_col:by column if TRUE, by row otherwise; defaults to FALSE"
 msgstr ""
 
-#: ../plugins/fn-lookup/functions.c:2254
+#: ../plugins/fn-lookup/functions.c:2311
 msgid "exactly_once:suppress values present multiple times; defaults to FALSE"
 msgstr ""
 
@@ -6120,7 +6125,7 @@ msgid "COMBIN:binomial coefficient"
 msgstr ""
 
 #: ../plugins/fn-math/functions.c:1174 ../plugins/fn-math/functions.c:1206
-#: ../plugins/fn-math/functions.c:2646 ../plugins/fn-numtheory/numtheory.c:883
+#: ../plugins/fn-math/functions.c:2646 ../plugins/fn-numtheory/numtheory.c:880
 msgid "n:non-negative integer"
 msgstr ""
 
@@ -6975,9 +6980,8 @@ msgid ""
 "If arrays or range arguments do not have the same dimensions, return #VALUE! "
 "error."
 msgstr ""
-"Якщо аргументи областей чи діапазонів не мають однакові розміри, буде"
-" повернуто "
-"помилка #VALUE!."
+"Якщо аргументи областей чи діапазонів не мають однакові розміри, буде "
+"повернуто помилка #VALUE!."
 
 #: ../plugins/fn-math/functions.c:3411
 msgid ""
@@ -7152,7 +7156,7 @@ msgstr ""
 
 #: ../plugins/fn-numtheory/numtheory.c:695
 #: ../plugins/fn-numtheory/numtheory.c:735
-#: ../plugins/fn-numtheory/numtheory.c:778
+#: ../plugins/fn-numtheory/numtheory.c:775
 msgid "values:non-negative integers"
 msgstr ""
 
@@ -7171,58 +7175,58 @@ msgid ""
 "arguments."
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:777
+#: ../plugins/fn-numtheory/numtheory.c:774
 msgid "BITAND:bitwise and"
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:779
+#: ../plugins/fn-numtheory/numtheory.c:776
 msgid ""
 "BITAND returns the bitwise and of the binary representations of its "
 "arguments."
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:820
+#: ../plugins/fn-numtheory/numtheory.c:817
 msgid "BITLSHIFT:bit-shift to the left"
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:821
-#: ../plugins/fn-numtheory/numtheory.c:852
+#: ../plugins/fn-numtheory/numtheory.c:818
+#: ../plugins/fn-numtheory/numtheory.c:849
 msgid "a:non-negative integer"
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:823
+#: ../plugins/fn-numtheory/numtheory.c:820
 msgid ""
 "BITLSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the left."
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:825
+#: ../plugins/fn-numtheory/numtheory.c:822
 msgid ""
 "If @{n} is negative, BITLSHIFT shifts the bits to the right by ABS(@{n}) "
 "positions."
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:851
+#: ../plugins/fn-numtheory/numtheory.c:848
 msgid "BITRSHIFT:bit-shift to the right"
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:854
+#: ../plugins/fn-numtheory/numtheory.c:851
 msgid ""
 "BITRSHIFT returns the binary representations of @{a} shifted @{n} positions "
 "to the right."
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:856
+#: ../plugins/fn-numtheory/numtheory.c:853
 msgid ""
 "If @{n} is negative, BITRSHIFT shifts the bits to the left by ABS(@{n}) "
 "positions."
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:882
+#: ../plugins/fn-numtheory/numtheory.c:879
 msgid "PARTITIONS:number of partitions"
 msgstr ""
 
-#: ../plugins/fn-numtheory/numtheory.c:884
+#: ../plugins/fn-numtheory/numtheory.c:881
 msgid ""
 "PARTITIONS calculates the number of ways of writing the integer @{n} as a "
 "sum of positive integers."
@@ -8668,8 +8672,8 @@ msgstr ""
 msgid ""
 "The random variates are drawn from a skew-normal distribution with shape "
 "parameter @{𝛼}. When @{𝛼}=0, the skewness vanishes, and we obtain the "
-"standard normal density; as 𝛼 increases (in absolute value), the skewness"
-" of "
+"standard normal density; as 𝛼 increases (in absolute value), the skewness of"
+" "
 "the distribution increases; when @{𝛼} approaches infinity  the density "
 "converges to the so-called half-normal (or folded normal) density function; "
 "if the sign of @{𝛼} changes, the density is reflected on the opposite side "
@@ -8678,8 +8682,8 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:902
 msgid ""
-"The mean of a skew-normal distribution with location parameter @{𝜉}=0 is"
-" not "
+"The mean of a skew-normal distribution with location parameter @{𝜉}=0 is not"
+" "
 "0."
 msgstr ""
 
@@ -8806,6 +8810,10 @@ msgstr ""
 
 #: ../plugins/fn-stat/functions.c:166 ../plugins/fn-stat/functions.c:214
 msgid "x:number whose rank you want to find"
+msgstr ""
+
+#: ../plugins/fn-stat/functions.c:167 ../plugins/fn-stat/functions.c:215
+msgid "ref:list of numbers"
 msgstr ""
 
 #: ../plugins/fn-stat/functions.c:168 ../plugins/fn-stat/functions.c:216
