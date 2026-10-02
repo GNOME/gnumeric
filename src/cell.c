@@ -352,7 +352,6 @@ gnm_cell_set_array_formula (Sheet *sheet,
 static void
 gnm_cell_set_array_formula_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 {
-	sheet_region_queue_recalc (sr->sheet, &sr->range);
 	gnm_expr_top_ref (texpr);
 	gnm_cell_set_array_formula (sr->sheet,
 				    sr->range.start.col, sr->range.start.row,
@@ -361,6 +360,7 @@ gnm_cell_set_array_formula_cb (GnmSheetRange const *sr, GnmExprTop const *texpr)
 	sheet_region_queue_recalc (sr->sheet, &sr->range);
 	sheet_flag_status_update_range (sr->sheet, &sr->range);
 	sheet_queue_respan (sr->sheet, sr->range.start.row, sr->range.end.row);
+	sheet_redraw_range (sr->sheet, &sr->range);
 }
 
 /**
