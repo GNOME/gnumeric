@@ -4,6 +4,7 @@ Morten:
 	* Fix crash on corrupted files with components/graphs.  [#897]
 	* Plug leaks.
 	* Make SORT xl compatible.  [#883]
+	* XLSX: at least roundtrip Print_Titles
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

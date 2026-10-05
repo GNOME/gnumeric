@@ -3039,35 +3039,70 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	return rId;
 }
 
+/*
+ * Names that Excel stores with an "_xlnm." prefix.  This is the same list
+ * as in ms-excel-write.c; the xlsx reader strips the prefix on import.
+ */
+static gboolean
+xlsx_is_builtin_name (char const *name)
+{
+	static char const * const builtins[] = {
+		"Consolidate_Area", "Auto_Open", "Auto_Close", "Extract",
+		"Database", "Criteria", "Print_Area", "Print_Titles",
+		"Recorder", "Data_Form", "Auto_Activate", "Auto_Deactivate",
+		"Sheet_Title", "_FilterDatabase"
+	};
+	unsigned ui;
+
+	for (ui = 0; ui < G_N_ELEMENTS (builtins); ui++)
+		if (strcmp (name, builtins[ui]) == 0)
+			return TRUE;
+	return FALSE;
+}
+
 static void
 xlsx_write_named_expression (G_GNUC_UNUSED gpointer key, GnmNamedExpr *nexpr, XLSXClosure *closure)
 {
 	char *formula;
+	GnmValue const *v;
+	gboolean q_print_titles;
 
 	g_return_if_fail (nexpr != NULL);
 	if (!expr_name_is_active (nexpr))
 		return;
 
+	const char *name = expr_name_name (nexpr);
+
+	// Print_Titles is kept as the text read from the file, see
+	// xlsx_wb_name_end.  This isn't necessarily marked permanent.
+	v = nexpr->texpr ? gnm_expr_top_get_constant (nexpr->texpr) : NULL;
+	q_print_titles = (nexpr->pos.sheet != NULL &&
+			  v != NULL && VALUE_IS_STRING (v) &&
+			  strcmp (name, "Print_Titles") == 0);
+
 	gsf_xml_out_start_element (closure->xml, "definedName");
 
-	if (nexpr->is_permanent) {
-		char const *expr_name = expr_name_name (nexpr);
-		if (0 == strcmp (expr_name, "Print_Area"))
-			gsf_xml_out_add_cstr (closure->xml, "name", "_xlnm.Print_Area");
-		else if (0 == strcmp (expr_name, "Sheet_Title"))
-			gsf_xml_out_add_cstr (closure->xml, "name", "_xlnm.Sheet_Title");
-		else
-			gsf_xml_out_add_cstr (closure->xml, "name", expr_name);
-	} else {
-		gsf_xml_out_add_cstr (closure->xml, "name", expr_name_name (nexpr));
-	}
+	gboolean xl_special_name =
+		(q_print_titles ||
+		 (nexpr->is_permanent && xlsx_is_builtin_name (name)));
+	if (xl_special_name) {
+		char *full = g_strconcat ("_xlnm.", name, NULL);
+		gsf_xml_out_add_cstr (closure->xml, "name", full);
+		g_free (full);
+	} else
+		gsf_xml_out_add_cstr (closure->xml, "name", name);
+
 	if (nexpr->pos.sheet != NULL)
 		gsf_xml_out_add_int (closure->xml, "localSheetId",
 				     nexpr->pos.sheet->index_in_wb);
 
-	formula = expr_name_as_string (nexpr, NULL, closure->state->convs);
-	gsf_xml_out_add_cstr (closure->xml, NULL, formula);
-	g_free (formula);
+	if (q_print_titles) {
+		gsf_xml_out_add_cstr (closure->xml, NULL, value_peek_string (v));
+	} else {
+		formula = expr_name_as_string (nexpr, NULL, closure->state->convs);
+		gsf_xml_out_add_cstr (closure->xml, NULL, formula);
+		g_free (formula);
+	}
 
 	gsf_xml_out_end_element (closure->xml);
 }

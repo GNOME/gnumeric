@@ -3859,6 +3859,7 @@ xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	const char *thename = state->defined_name;
 	const char *thevalue = xin->content->str;
 	gboolean bogus = FALSE;
+	gboolean as_text = FALSE;
 
 	g_return_if_fail (thename != NULL);
 
@@ -3869,6 +3870,8 @@ xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 		thename += 6;
 		editable = g_str_equal (thename, "Sheet_Title");
+
+		as_text = g_str_equal (thename, "Print_Titles");  // A bit of a hack
 		bogus = g_str_equal (thename, "Print_Area") &&
 			g_str_equal (thevalue, "!#REF!");
 		nexpr = bogus
@@ -3887,6 +3890,10 @@ xlsx_wb_name_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (bogus) {
 		/* Silently ignore */
+	} else if (nexpr && as_text) {
+		expr_name_set_expr (nexpr,
+				    gnm_expr_top_new_constant
+				    (value_new_string (thevalue)));
 	} else if (nexpr) {
 		state->delayed_names =
 			g_list_prepend (state->delayed_names, sheet);
