@@ -3668,26 +3668,10 @@ biff_get_rk (guint8 const *ptr)
 static char const *
 excel_builtin_name (guint8 const *ptr)
 {
-	switch (*ptr) {
-	case 0x00: return "Consolidate_Area";
-	case 0x01: return "Auto_Open";
-	case 0x02: return "Auto_Close";
-	case 0x03: return "Extract";
-	case 0x04: return "Database";
-	case 0x05: return "Criteria";
-	case 0x06: return "Print_Area";
-	case 0x07: return "Print_Titles";
-	case 0x08: return "Recorder";
-	case 0x09: return "Data_Form";
-	case 0x0A: return "Auto_Activate";
-	case 0x0B: return "Auto_Deactivate";
-	case 0x0C: return "Sheet_Title";
-	case 0x0D: return "_FilterDatabase";
-
-	default:
+	const char *name = xls_get_permanent_name (*ptr);
+	if (!name)
 		g_warning ("Unknown builtin named expression %d", (int)*ptr);
-	}
-	return NULL;
+	return name;
 }
 
 // This has the same owning convensions as expr_name_add: if link_to_container,

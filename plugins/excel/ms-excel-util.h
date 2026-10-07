@@ -121,6 +121,8 @@ typedef struct {
 GHashTable *xls_collect_validations  (GnmStyleList *ptr,
 				      int max_col, int max_row);
 
+const char *xls_get_permanent_name (int i);
+
 /*****************************************************************************/
 
 #endif /* GNM_MS_EXCEL_UTIL_H_ */

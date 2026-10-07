@@ -3039,24 +3039,13 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	return rId;
 }
 
-/*
- * Names that Excel stores with an "_xlnm." prefix.  This is the same list
- * as in ms-excel-write.c; the xlsx reader strips the prefix on import.
- */
 static gboolean
 xlsx_is_builtin_name (char const *name)
 {
-	static char const * const builtins[] = {
-		"Consolidate_Area", "Auto_Open", "Auto_Close", "Extract",
-		"Database", "Criteria", "Print_Area", "Print_Titles",
-		"Recorder", "Data_Form", "Auto_Activate", "Auto_Deactivate",
-		"Sheet_Title", "_FilterDatabase"
-	};
-	unsigned ui;
-
-	for (ui = 0; ui < G_N_ELEMENTS (builtins); ui++)
-		if (strcmp (name, builtins[ui]) == 0)
+	for (int i = 0; i <= 0xd; i++) {
+		if (g_str_equal (xls_get_permanent_name (i), name))
 			return TRUE;
+	}
 	return FALSE;
 }
 
