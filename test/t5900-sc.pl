@@ -11,5 +11,5 @@ my $mode = ((shift @ARGV) || "check");
 my $args = { 'mode' => $mode, 'nofont' => 1 };
 
 &message ("Check the sc importer.");
-&test_importer ("$samples/sc/demo_func", "054ca74cb329d2eb52d1d7728ad5d3b162c34e8c", $args);
-&test_importer ("$samples/sc/demo_math", "29115530871d13a3bbf57c2b220ed6d594a449dc", $args);
+&test_importer ("$samples/sc/demo_func", "b14faf5786d30b497102adfcf9322bd3817c9d6d", $args);
+&test_importer ("$samples/sc/demo_math", "f2d9856bd85265953d03592f87c61c2309059983", $args);
