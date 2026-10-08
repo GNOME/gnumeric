@@ -57,7 +57,7 @@
   <project_group>GNOME</project_group>
   <_developer_name>The Gnumeric Team</_developer_name>
   <url type="homepage">http://www.gnumeric.org/</url>
-  <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnumeric/issues</url>
+  <url type="bugtracker">https://gitlab.gnome.org/GNOME/gnumeric/-/work_items</url>
   <!-- These guys need your donations more than we do: -->
   <url type="donation">https://www.doctorswithoutborders.org/</url>
   <url type="help">https://gnome.pages.gitlab.gnome.org/gnumeric/manual/</url>
