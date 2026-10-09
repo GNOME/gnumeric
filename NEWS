@@ -5,6 +5,7 @@ Morten:
 	* Plug leaks.
 	* Make SORT xl compatible.  [#883]
 	* XLSX: at least roundtrip Print_Titles
+	* Fix DEC2BIN problem [#899]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

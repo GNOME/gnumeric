@@ -142,8 +142,6 @@ val_to_base (GnmFuncEvalInfo *ei,
 		char *err;
 		gboolean fail;
 
-		value_release (vstring);
-
 		if (val < min_value || val > max_value)
 			return value_new_error_NUM (ei->pos);
 
