@@ -116,7 +116,7 @@ gnm_dao_class_init (GObjectClass *klass)
 {
 	((GtkWidgetClass *)(klass))->destroy = gnm_dao_destroy;
 
-	gnm_dao_parent_class = g_type_class_peek (gtk_box_get_type ());
+	gnm_dao_parent_class = g_type_class_peek_parent (klass);
 
 	gnm_dao_signals[GNM_DAO_CHANGED] =
 		g_signal_new ("readiness-changed",

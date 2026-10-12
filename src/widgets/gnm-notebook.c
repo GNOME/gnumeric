@@ -429,7 +429,7 @@ gnm_notebook_class_init (GtkWidgetClass *klass)
 	GtkWidgetClass *wclass = (GtkWidgetClass *)klass;
 	GtkContainerClass *cclass = (GtkContainerClass *)klass;
 
-	gnm_notebook_parent_class = g_type_class_peek (GTK_TYPE_NOTEBOOK);
+	gnm_notebook_parent_class = g_type_class_peek_parent (klass);
 	klass->size_allocate = gnm_notebook_size_allocate;
 
 	cclass->child_type = gnm_notebook_child_type;

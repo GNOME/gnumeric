@@ -108,7 +108,7 @@ complete_sheet_class_init (GObjectClass *object_class)
 {
 	GnmCompleteClass *auto_complete_class = (GnmCompleteClass *) object_class;
 
-	parent_class = g_type_class_peek (PARENT_TYPE);
+	parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = complete_sheet_finalize;
 	auto_complete_class->search_iteration = complete_sheet_search_iteration;
 }

@@ -323,6 +323,8 @@ icg_processing_file (GOIOContext *ioc, char const *file)
 	}
 }
 
+static GObjectClass *icg_parent_class;
+
 static void
 icg_finalize (GObject *obj)
 {
@@ -330,7 +332,7 @@ icg_finalize (GObject *obj)
 
 	gnm_io_context_gtk_discharge_splash (icg);
 	g_free (icg->progress_msg);
-	G_OBJECT_CLASS (g_type_class_peek (GO_TYPE_IO_CONTEXT))->finalize (obj);
+	icg_parent_class->finalize (obj);
 }
 
 static void
@@ -365,6 +367,8 @@ static void
 icg_class_init (GObjectClass *gobj_klass)
 {
 	GOIOContextClass *ioc_klass = (GOIOContextClass *)gobj_klass;
+
+	icg_parent_class = g_type_class_peek_parent (gobj_klass);
 
 	gobj_klass->finalize	   = icg_finalize;
 	gobj_klass->set_property   = icg_set_property;

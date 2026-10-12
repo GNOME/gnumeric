@@ -570,17 +570,17 @@ typedef struct {
 	void (*cond_changed) (GnmFilterCombo *);
 } GnmFilterComboClass;
 
+static GObjectClass *gnm_filter_combo_parent_class;
+
 static void
 gnm_filter_combo_finalize (GObject *object)
 {
 	GnmFilterCombo *fcombo = GNM_FILTER_COMBO (object);
-	GObjectClass *parent;
 
 	gnm_filter_condition_free (fcombo->cond);
 	fcombo->cond = NULL;
 
-	parent = g_type_class_peek (GNM_SO_TYPE);
-	parent->finalize (object);
+	gnm_filter_combo_parent_class->finalize (object);
 }
 
 static void
@@ -599,6 +599,8 @@ static void
 gnm_filter_combo_class_init (GObjectClass *gobject_class)
 {
 	SheetObjectClass *so_class = GNM_SO_CLASS (gobject_class);
+
+	gnm_filter_combo_parent_class = g_type_class_peek_parent (gobject_class);
 
 	/* Object class method overrides */
 	gobject_class->finalize = gnm_filter_combo_finalize;

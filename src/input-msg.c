@@ -35,10 +35,11 @@ typedef struct {
 	GObjectClass obj;
 } GnmInputMsgClass;
 
+static GObjectClass *parent_class;
+
 static void
 gnm_input_msg_finalize (GObject *obj)
 {
-	GObjectClass *parent_class;
 	GnmInputMsg *msg = (GnmInputMsg *)obj;
 
 	go_string_unref (msg->title);
@@ -47,13 +48,13 @@ gnm_input_msg_finalize (GObject *obj)
 	go_string_unref (msg->msg);
 	msg->msg = NULL;
 
-	parent_class = g_type_class_peek (G_TYPE_OBJECT);
 	parent_class->finalize (obj);
 }
 
 static void
 gnm_input_msg_class_init (GObjectClass *object_class)
 {
+	parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = gnm_input_msg_finalize;
 }
 static void

@@ -43,11 +43,12 @@ struct GnmPluginServiceFunctionGroup_ {
 	char *tdomain;
 };
 
+static GObjectClass *plugin_service_function_group_parent_class;
+
 static void
 plugin_service_function_group_finalize (GObject *obj)
 {
 	GnmPluginServiceFunctionGroup *sfg = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (obj);
-	GObjectClass *parent_class;
 
 	g_free (sfg->category_name);
 	sfg->category_name = NULL;
@@ -61,8 +62,7 @@ plugin_service_function_group_finalize (GObject *obj)
 	g_free (sfg->tdomain);
 	sfg->tdomain = NULL;
 
-	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
-	parent_class->finalize (obj);
+	plugin_service_function_group_parent_class->finalize (obj);
 }
 
 static void
@@ -300,6 +300,8 @@ plugin_service_function_group_class_init (GObjectClass *gobject_class)
 {
 	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
+	plugin_service_function_group_parent_class = g_type_class_peek_parent (gobject_class);
+
 	gobject_class->finalize		= plugin_service_function_group_finalize;
 	plugin_service_class->read_xml	= plugin_service_function_group_read_xml;
 	plugin_service_class->activate	= plugin_service_function_group_activate;
@@ -337,19 +339,19 @@ plugin_service_ui_init (PluginServiceUI *s)
 	s->cbs.plugin_func_exec_action = NULL;
 }
 
+static GObjectClass *plugin_service_ui_parent_class;
+
 static void
 plugin_service_ui_finalize (GObject *obj)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (obj);
-	GObjectClass *parent_class;
 
 	g_free (service_ui->file_name);
 	service_ui->file_name = NULL;
 	g_slist_free_full (service_ui->actions, (GDestroyNotify)gnm_action_unref);
 	service_ui->actions = NULL;
 
-	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
-	parent_class->finalize (obj);
+	plugin_service_ui_parent_class->finalize (obj);
 }
 
 static void
@@ -534,6 +536,8 @@ plugin_service_ui_class_init (GObjectClass *gobject_class)
 {
 	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
 
+	plugin_service_ui_parent_class = g_type_class_peek_parent (gobject_class);
+
 	gobject_class->finalize = plugin_service_ui_finalize;
 	plugin_service_class->read_xml = plugin_service_ui_read_xml;
 	plugin_service_class->activate = plugin_service_ui_activate;
@@ -617,17 +621,17 @@ plugin_service_solver_init (PluginServiceSolver *ssol)
 	ssol->cbs.creator = NULL;
 }
 
+static GObjectClass *plugin_service_solver_parent_class;
+
 static void
 plugin_service_solver_finalize (GObject *obj)
 {
 	PluginServiceSolver *ssol = GNM_PLUGIN_SERVICE_SOLVER (obj);
-	GObjectClass *parent_class;
 
 	if (ssol->factory)
 		g_object_unref (ssol->factory);
 
-	parent_class = g_type_class_peek (GO_TYPE_PLUGIN_SERVICE);
-	parent_class->finalize (obj);
+	plugin_service_solver_parent_class->finalize (obj);
 }
 
 static void
@@ -719,6 +723,8 @@ static void
 plugin_service_solver_class_init (GObjectClass *gobject_class)
 {
 	GOPluginServiceClass *plugin_service_class = GO_PLUGIN_SERVICE_CLASS (gobject_class);
+
+	plugin_service_solver_parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->finalize = plugin_service_solver_finalize;
 	plugin_service_class->read_xml = plugin_service_solver_read_xml;

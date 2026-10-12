@@ -35,10 +35,11 @@ enum {
 
 static guint complete_signals[LAST_SIGNAL] = { 0 };
 
+static GObjectClass *parent_class;
+
 static void
 complete_finalize (GObject *object)
 {
-	GObjectClass *parent;
 	GnmComplete *complete = GNM_COMPLETE (object);
 
 	if (complete->idle_tag) {
@@ -49,8 +50,7 @@ complete_finalize (GObject *object)
 	g_free (complete->text);
 	complete->text = NULL;
 
-	parent = g_type_class_peek (PARENT_TYPE);
-	parent->finalize (object);
+	parent_class->finalize (object);
 }
 
 static gint
@@ -105,6 +105,7 @@ complete_class_init (GObjectClass *object_class)
 {
 	GnmCompleteClass *complete_class = (GnmCompleteClass *) object_class;
 
+	parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = complete_finalize;
 	complete_class->search_iteration = default_search_iteration;
 

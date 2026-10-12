@@ -144,7 +144,7 @@ gnm_sheet_sel_get_property (GObject *object, guint property_id,
 static void
 gnm_sheet_sel_class_init (GObjectClass *klass)
 {
-	gnm_sheet_sel_parent_class = g_type_class_peek (GO_TYPE_OPTION_MENU);
+	gnm_sheet_sel_parent_class = g_type_class_peek_parent (klass);
 
 	klass->set_property	= gnm_sheet_sel_set_property;
 	klass->get_property	= gnm_sheet_sel_get_property;

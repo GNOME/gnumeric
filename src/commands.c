@@ -127,19 +127,26 @@
 #define GNM_IS_COMMAND(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_COMMAND_TYPE))
 #define CMD_CLASS(o)		GNM_COMMAND_CLASS (G_OBJECT_GET_CLASS(cmd))
 
-GSF_CLASS (GnmCommand, gnm_command, NULL, NULL, G_TYPE_OBJECT)
+static GObjectClass *gnm_command_parent_class;
 
+static void
+gnm_command_class_init (GObjectClass *klass)
+{
+	gnm_command_parent_class = g_type_class_peek_parent (klass);
+}
+
+GSF_CLASS (GnmCommand, gnm_command, gnm_command_class_init, NULL, G_TYPE_OBJECT)
+
+/* Called from the finalizers of the individual command types. */
 void
 gnm_command_finalize (GObject *obj)
 {
 	GnmCommand *cmd = GNM_COMMAND (obj);
-	GObjectClass *parent;
 
 	g_free (cmd->cmd_descriptor);
 	cmd->cmd_descriptor = NULL;
 
-	parent = g_type_class_peek (g_type_parent (G_TYPE_FROM_INSTANCE (obj)));
-	(*parent->finalize) (obj);
+	gnm_command_parent_class->finalize (obj);
 }
 
 /******************************************************************/
