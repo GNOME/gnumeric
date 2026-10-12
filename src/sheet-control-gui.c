@@ -1533,8 +1533,11 @@ struct resize_closure {
 static gboolean
 idle_resize (struct resize_closure *r)
 {
-
-	set_resize_pane_pos (r->scg, r->p);
+	if (r->scg) {
+		g_object_remove_weak_pointer (G_OBJECT (r->scg),
+					      (gpointer *) &r->scg);
+		set_resize_pane_pos (r->scg, r->p);
+	}
 	g_free (r);
 	return FALSE;
 }
@@ -1546,16 +1549,26 @@ cb_canvas_resize (GtkWidget *w, G_GNUC_UNUSED GtkAllocation *allocation,
 	struct resize_closure *r = g_new (struct resize_closure, 1);
 	r->scg = scg;
 	r->p = (w == GTK_WIDGET (scg->pane[0]->col.canvas))? scg->hpane: scg->vpane;
+	/* The scg might go away before the idle handler runs. */
+	g_object_add_weak_pointer (G_OBJECT (scg), (gpointer *) &r->scg);
 	/* The allocation is not correct at this point, weird */
 	g_idle_add ((GSourceFunc) idle_resize, r);
 }
 
 static gboolean
-post_create_cb (SheetControlGUI *scg)
+post_create_cb (SheetControlGUI **pscg)
 {
-	Sheet *sheet = sc_sheet (GNM_SHEET_CONTROL (scg));
-	if (sheet->sheet_objects)
-		scg_object_select (scg, (SheetObject *) sheet->sheet_objects->data);
+	SheetControlGUI *scg = *pscg;
+
+	if (scg) {
+		Sheet *sheet = sc_sheet (GNM_SHEET_CONTROL (scg));
+
+		g_object_remove_weak_pointer (G_OBJECT (scg),
+					      (gpointer *) pscg);
+		if (sheet->sheet_objects)
+			scg_object_select (scg, (SheetObject *) sheet->sheet_objects->data);
+	}
+	g_free (pscg);
 	return FALSE;
 }
 
@@ -1796,7 +1809,12 @@ sheet_control_gui_new (SheetView *sv, WBCGtk *wbcg)
 				/* we need an idle function because not everything is initialized at this point */
 				sheet_object_new_view ((SheetObject *) sheet->sheet_objects->data,
 						       (SheetObjectViewContainer*) scg->vs);
-				g_idle_add ((GSourceFunc) post_create_cb, scg);
+				/* The scg might go away before the idle runs. */
+				SheetControlGUI **pscg = g_new (SheetControlGUI *, 1);
+				*pscg = scg;
+				g_object_add_weak_pointer (G_OBJECT (scg),
+							   (gpointer *) pscg);
+				g_idle_add ((GSourceFunc) post_create_cb, pscg);
 			}
 		}
 	}

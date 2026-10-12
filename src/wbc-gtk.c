@@ -2633,6 +2633,8 @@ show_gui (WBCGtk *wbcg)
 	GdkScreen *screen = wbcg_get_screen (wbcg);
 	gboolean debug = gnm_debug_flag ("window-size");
 
+	wbcg->show_gui_handler = 0;
+
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902.  */
 	gdk_screen_get_monitor_geometry (screen, 0, &rect);
@@ -4612,6 +4614,11 @@ wbc_gtk_finalize (GObject *obj)
 		wbcg->template_loader_handler = 0;
 	}
 
+	if (wbcg->show_gui_handler != 0) {
+		g_source_remove (wbcg->show_gui_handler);
+		wbcg->show_gui_handler = 0;
+	}
+
 	if (wbcg->file_history.merge_id != 0)
 		gtk_ui_manager_remove_ui (wbcg->ui, wbcg->file_history.merge_id);
 	g_clear_object (&wbcg->file_history.actions);
@@ -5301,7 +5308,8 @@ wbc_gtk_new (WorkbookView *optional_view,
 		gtk_window_set_screen (wbcg_toplevel (wbcg), optional_screen);
 
 	/* Postpone showing the GUI, so that we may resize it freely. */
-	g_idle_add ((GSourceFunc)show_gui, wbcg);
+	wbcg->show_gui_handler =
+		g_idle_add ((GSourceFunc)show_gui, wbcg);
 
 	/* Load this later when thing have calmed down.  If this does not
 	   trigger by the time the file menu is activated, then the UI is

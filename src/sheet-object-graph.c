@@ -193,6 +193,21 @@ cb_post_new_view (GocItem *item)
 	return FALSE;
 }
 
+/* Idle wrapper; *pitem is cleared by a weak pointer if the item dies first. */
+static gboolean
+cb_post_new_view_idle (GocItem **pitem)
+{
+	GocItem *item = *pitem;
+
+	if (item) {
+		g_object_remove_weak_pointer (G_OBJECT (item),
+					      (gpointer *) pitem);
+		cb_post_new_view (item);
+	}
+	g_free (pitem);
+	return FALSE;
+}
+
 static SheetObjectView *
 gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
@@ -218,8 +233,15 @@ gnm_sog_new_view (SheetObject *so, SheetObjectViewContainer *container)
 			      GOC_TYPE_GRAPH,
 			      "renderer", sog->renderer,
 			      NULL);
-		g_idle_add ((GSourceFunc) cb_post_new_view, item);
-		g_signal_connect_swapped (canvas, "size_allocate", G_CALLBACK (cb_graph_size_changed), item);
+		/* The item might go away before the idle runs. */
+		GocItem **pitem = g_new (GocItem *, 1);
+		*pitem = item;
+		g_object_add_weak_pointer (G_OBJECT (item), (gpointer *) pitem);
+		g_idle_add ((GSourceFunc) cb_post_new_view_idle, pitem);
+		/* Disconnects automatically when the item goes away. */
+		g_signal_connect_object (canvas, "size_allocate",
+					 G_CALLBACK (cb_graph_size_changed),
+					 item, G_CONNECT_SWAPPED);
 		return (SheetObjectView *) view;
 	}
 }

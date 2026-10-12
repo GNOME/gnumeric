@@ -108,6 +108,7 @@ struct WBCGtk_ {
 	} file_history, toolbar, windows, templates;
 
 	guint template_loader_handler;
+	guint show_gui_handler;
 
 	GOActionComboStack	*undo_haction, *redo_haction;
 	GtkAction		*undo_vaction, *redo_vaction;
