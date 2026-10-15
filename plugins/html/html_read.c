@@ -88,10 +88,10 @@ html_get_sheet (char const *name, Workbook *wb)
 /* (This may or may not be what you want, e.g. <pre>...</pre>) */
 /* It's up to the caller to deal with the possible final trailing space. */
 static void
-html_append_trim_text (GString *buf, const xmlChar *text)
+html_append_trim_text (GString *buf, char const *text)
 {
-	const xmlChar *p;
-	const xmlChar *last_sp;
+	char const *p;
+	char const *last_sp;
 
 	while (*text) {
 		// collect a run of spaces, if any
@@ -144,8 +144,8 @@ html_read_content (htmlNodePtr cur, GString *buf, GnmStyle *mstyle,
 
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type == XML_TEXT_NODE) {
-			if (g_utf8_validate (ptr->content, -1, NULL))
-				html_append_trim_text (buf, ptr->content);
+			if (g_utf8_validate (CXML2C (ptr->content), -1, NULL))
+				html_append_trim_text (buf, CXML2C (ptr->content));
 			else
 				g_string_append (buf, _("[Warning: Invalid text string has been removed.]"));
 		} else if (ptr->type == XML_ELEMENT_NODE) {
@@ -491,12 +491,12 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 	if (xmlStrEqual (cur->name, CC2XML ("table"))) {
 		html_read_table (cur, doc, wb_view, tc);
 	} else if (starts_inferred_table (cur) || starts_inferred_row (cur)) {
-		htmlNodePtr tnode = xmlNewNode (NULL, "table");
+		htmlNodePtr tnode = xmlNewNode (NULL, CC2XML ("table"));
 
 		/* Link in a table node */
 		xmlAddPrevSibling (cur, tnode);
 		if (starts_inferred_row (cur)) {
-			htmlNodePtr rnode = xmlNewNode (NULL, "tr");
+			htmlNodePtr rnode = xmlNewNode (NULL, CC2XML ("tr"));
 
 			/* Link in a row node */
 			xmlAddChild (tnode, rnode);

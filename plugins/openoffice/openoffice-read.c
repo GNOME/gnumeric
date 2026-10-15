@@ -266,7 +266,7 @@ typedef struct {
 	unsigned	 z_axis_count;	/* reset for each plotarea */
 
 	GogObject	*axis;
-	xmlChar         *cat_expr;
+	char            *cat_expr;
 	GogObject	*regression;
 	GogObject	*legend;
 
@@ -1978,7 +1978,7 @@ odf_text_span_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TEXT, "style-name"))
-				ssi->style_name = g_strdup (attrs[1]);
+				ssi->style_name = g_strdup (CXML2C (attrs[1]));
 
 		ptr->span_style_stack = g_slist_prepend (ptr->span_style_stack, ssi);
 		ptr->span_style_list = g_slist_prepend (ptr->span_style_list, ssi);
@@ -4120,10 +4120,10 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					    "number-rows-spanned", &merge_rows, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
-			style_name = attrs[1];
+			style_name = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE,
 					     "content-validation-name"))
-			validation_name = attrs[1];
+			validation_name = CXML2C (attrs[1]);
 	}
 
 	if (columns_spanned_fake)
@@ -5681,9 +5681,9 @@ odf_map (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition"))
-			condition = attrs[1];
+			condition = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "apply-style-name"))
-			style_name = attrs[1];
+			style_name = CXML2C (attrs[1]);
 
 	if (condition != NULL && style_name != NULL && g_str_has_prefix (condition, "value()")) {
 		condition += 7;
@@ -6787,9 +6787,9 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 				       text_line_through_types, &strike_through_type));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					     OO_NS_STYLE, "text-position")) {
-			if (g_str_has_prefix (attrs[1],"super"))
+			if (g_str_has_prefix (CXML2C (attrs[1]),"super"))
 				gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUPER);
-			else if (g_str_has_prefix (attrs[1], "sub"))
+			else if (g_str_has_prefix (CXML2C (attrs[1]), "sub"))
 				gnm_style_set_font_script (style, GO_FONT_SCRIPT_SUB);
 			else
 				gnm_style_set_font_script (style, GO_FONT_SCRIPT_STANDARD);
@@ -6846,11 +6846,11 @@ oo_page_break_type (GsfXMLIn *xin, xmlChar const *attr)
 
 	/* Note that truly automatic of soft page breaks are stored */
 	/* via text:soft-page-break tags                            */
-	if (!strcmp (attr, "page"))
+	if (!strcmp (CXML2C (attr), "page"))
 		return OO_PAGE_BREAK_MANUAL;
-	if (!strcmp (attr, "column"))
+	if (!strcmp (CXML2C (attr), "column"))
 		return OO_PAGE_BREAK_MANUAL;
-	if (!strcmp (attr, "auto"))
+	if (!strcmp (CXML2C (attr), "auto"))
 		return OO_PAGE_BREAK_NONE;
 	oo_warning (state,
 		_("Unknown break type '%s' defaulting to NONE"), attr);
@@ -6967,11 +6967,11 @@ oo_style_map (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "condition"))
-			condition = attrs[1];
+			condition = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "apply-style-name"))
-			style_name = attrs[1];
+			style_name = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_STYLE, "base-cell-address"))
-			base = attrs[1];
+			base = CXML2C (attrs[1]);
 	if (style_name == NULL || condition == NULL)
 		return;
 
@@ -7904,11 +7904,11 @@ od_style_prop_text (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 					       OO_NS_STYLE, "text-position")) {
 			attr = NULL;
-			if (g_str_has_prefix (attrs[1],"super"))
+			if (g_str_has_prefix (CXML2C (attrs[1]),"super"))
 				attr = go_pango_attr_superscript_new (1);
-			else if (g_str_has_prefix (attrs[1], "sub"))
+			else if (g_str_has_prefix (CXML2C (attrs[1]), "sub"))
 				attr = go_pango_attr_subscript_new (1);
-			else if (g_str_has_prefix (attrs[1], "0")) {
+			else if (g_str_has_prefix (CXML2C (attrs[1]), "0")) {
 				attr = go_pango_attr_superscript_new (0);
 				attr->start_index = 0;
 				attr->end_index = 0;
@@ -9165,7 +9165,7 @@ gog_series_map_dim_by_name (GogSeries const *series, char const *dim_name)
 /* If range == %NULL use an implicit range */
 /* If general_expr, then range contains an expression not necessarily a range. */
 static void
-oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char const *dim_name,
+oo_plot_assign_dim (GsfXMLIn *xin, char const *range, int dim_type, char const *dim_name,
 		    gboolean general_expr)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
@@ -9190,11 +9190,11 @@ oo_plot_assign_dim (GsfXMLIn *xin, xmlChar const *range, int dim_type, char cons
 
 	if (NULL != range) {
 		if (general_expr) {
-			texpr = odf_parse_range_address_or_expr (xin, CXML2C (range));
+			texpr = odf_parse_range_address_or_expr (xin, range);
 			if (state->debug)
 				g_print ("%d = rangeref (%s) -- general expression\n", dim, range);
 		} else {
-			char const *range_list = CXML2C (range);
+			char const *range_list = range;
 			GnmParsePos pp;
 			GnmExprList *args = NULL;
 			GnmExpr const *expr;
@@ -9786,7 +9786,7 @@ oo_plot_series (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	if (label != NULL) {
-		GnmExprTop const *texpr = odf_parse_range_address_or_expr (xin, label);
+		GnmExprTop const *texpr = odf_parse_range_address_or_expr (xin, CXML2C (label));
 		if (texpr != NULL)
 			gog_series_set_name (state->chart.series,
 					     GO_DATA_SCALAR (gnm_go_data_scalar_new_expr
@@ -9858,7 +9858,7 @@ oo_series_domain (GsfXMLIn *xin, xmlChar const **attrs)
 		dim = GOG_MS_DIM_CATEGORIES;
 		break;
 	}
-	oo_plot_assign_dim (xin, (cell_range_expression != NULL) ? cell_range_expression : src, dim, name,
+	oo_plot_assign_dim (xin, CXML2C ((cell_range_expression != NULL) ? cell_range_expression : src), dim, name,
 			    cell_range_expression != NULL);
 	state->chart.domain_count++;
 }
@@ -9875,7 +9875,7 @@ oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 		if (oo_attr_int_range (xin, attrs, OO_NS_CHART, "repeated", &repeat_count, 0, INT_MAX))
 			;
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name")) {
-			style_name = attrs[1];
+			style_name = CXML2C (attrs[1]);
 		}
 	if (repeat_count == 0)
 		return; /* Why does ODF allow repeat counts of 0 ??*/

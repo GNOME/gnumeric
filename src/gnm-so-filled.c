@@ -382,7 +382,7 @@ gnm_so_filled_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 		if (attr_eq (attrs[0], "Label"))
 			g_object_set (G_OBJECT (sof), "text", attrs[1], NULL);
 		else if (attr_eq (attrs[0], "LabelFormat")) {
-			GOFormat * fmt = go_format_new_from_XL (attrs[1]);
+			GOFormat * fmt = go_format_new_from_XL (CXML2C (attrs[1]));
 			if (go_format_is_markup (fmt))
 				g_object_set (G_OBJECT (sof),
 					      "markup", go_format_get_markup (fmt),

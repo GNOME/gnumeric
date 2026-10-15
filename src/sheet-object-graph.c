@@ -51,6 +51,8 @@
 #include <math.h>
 #include <string.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 static void
 so_graph_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean visible)
 {
@@ -888,8 +890,8 @@ vector_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GuppiReadState *state = (GuppiReadState *) xin->user_state;
 	int i;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "ID"))
-			state->cur_index = strtoul (attrs[i+1], NULL, 10);
+		if (0 == strcmp (CXML2C (attrs[i]), "ID"))
+			state->cur_index = strtoul (CXML2C (attrs[i+1]), NULL, 10);
 	if (state->cur_index < 256 && state->cur_index >= state->max_data) {
 		state->max_data += 10;
 		g_ptr_array_set_size (state->data, state->max_data);
@@ -915,8 +917,8 @@ plot_type_start (GsfXMLIn *xin, xmlChar const **attrs)
 	int i;
 	char const *name = NULL;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "name"))
-			name = attrs[i+1];
+		if (0 == strcmp (CXML2C (attrs[i]), "name"))
+			name = CXML2C (attrs[i+1]);
 	if (name) {
 		if (0 == strcmp (name, "Scatter")) {
 			state->plot = gog_plot_new_by_name ("GogXYPlot");
@@ -977,7 +979,7 @@ series_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	state->cur = GOG_OBJECT (gog_plot_new_series (state->plot));
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "name"))
+		if (0 == strcmp (CXML2C (attrs[i]), "name"))
 			name = g_strdup_printf ("\"%s\"", attrs[i+1]);
 	if (name) {
 		data = g_object_new (GNM_GO_DATA_SCALAR_TYPE, NULL);
@@ -999,10 +1001,10 @@ dim_start (GsfXMLIn *xin, xmlChar const **attrs)
 	GogPlotDesc const *desc = gog_plot_description (state->plot);
 	GError *err = NULL;
 	for (i = 0; attrs != NULL && attrs[i] && attrs[i+1] ; i += 2)
-		if (0 == strcmp (attrs[i], "dim_name"))
-			name = attrs[i+1];
-		else if (0 == strcmp (attrs[i], "ID"))
-			id = strtoul (attrs[i+1], NULL, 10);
+		if (0 == strcmp (CXML2C (attrs[i]), "dim_name"))
+			name = CXML2C (attrs[i+1]);
+		else if (0 == strcmp (CXML2C (attrs[i]), "ID"))
+			id = strtoul (CXML2C (attrs[i+1]), NULL, 10);
 	if (!desc ||
 	    id >= state->data->len || g_ptr_array_index (state->data, id) == NULL)
 		return;

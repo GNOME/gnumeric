@@ -410,7 +410,7 @@ sop_sax_path (GsfXMLIn *xin, xmlChar const **attrs)
 		sop->paths = g_ptr_array_new_with_free_func ((GDestroyNotify) go_path_free);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "Path")) {
-			path = go_path_new_from_svg (attrs[1]);
+			path = go_path_new_from_svg (CXML2C (attrs[1]));
 			if (path)
 				g_ptr_array_add (sop->paths, path);
 			/* we need to update the extents, not optimal */
@@ -453,14 +453,14 @@ gnm_so_path_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 		if (attr_eq (attrs[0], "Label"))
 			g_object_set (G_OBJECT (sop), "text", attrs[1], NULL);
 		else if (attr_eq (attrs[0], "LabelFormat")) {
-			GOFormat * fmt = go_format_new_from_XL (attrs[1]);
+			GOFormat * fmt = go_format_new_from_XL (CXML2C (attrs[1]));
 			if (go_format_is_markup (fmt))
 				g_object_set (G_OBJECT (sop),
 					      "markup", go_format_get_markup (fmt),
 					      NULL);
 			go_format_unref (fmt);
 		} else if (attr_eq (attrs[0], "Path")) {
-			GOPath *path = go_path_new_from_svg (attrs[1]);
+			GOPath *path = go_path_new_from_svg (CXML2C (attrs[1]));
 			if (path) {
 				g_object_set (G_OBJECT (sop), "path", path, NULL);
 				go_path_free (path);

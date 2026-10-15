@@ -53,6 +53,8 @@
 #include <string.h>
 #include <errno.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 /*****************************************************************************/
 
 /* A fake value of the right type, different from all the real enum values.  */
@@ -147,11 +149,11 @@ attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 
 	for (; enums->name != NULL ; enums++)
-		if (!strcmp (enums->name, attrs[1])) {
+		if (!strcmp (enums->name, CXML2C (attrs[1]))) {
 			*res = enums->val;
 			return TRUE;
 		}
@@ -167,9 +169,9 @@ attr_bool (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
-	*res = g_ascii_strcasecmp ((gchar *)attrs[1], "false") && strcmp (attrs[1], "0");
+	*res = g_ascii_strcasecmp ((gchar *)attrs[1], "false") && strcmp (CXML2C (attrs[1]), "0");
 
 	return TRUE;
 }
@@ -185,7 +187,7 @@ attr_int (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 
 	errno = 0;
@@ -212,7 +214,7 @@ attr_float (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 
 	tmp = gnm_strto ((gchar *)attrs[1], &end);
@@ -230,7 +232,7 @@ parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
 
 	g_return_val_if_fail (str != NULL, NULL);
 
-	if (3 == sscanf (str, "#%2x%2x%2x", &r, &g, &b))
+	if (3 == sscanf (CXML2C (str), "#%2x%2x%2x", &r, &g, &b))
 		return gnm_color_new_rgb8 (r, g, b);
 
 	xl_xml_warning (xin, "Invalid attribute '%s', expected color, received '%s'",
@@ -245,13 +247,13 @@ attr_color (GsfXMLIn *xin, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs != NULL, NULL);
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
 
-	if (!gsf_xml_in_namecmp (xin, attrs[0], ns_id, name))
+	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return NULL;
 	return parse_color (xin, attrs[1], name);
 }
 
 static GnmExprTop const *
-xl_xml_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
+xl_xml_parse_expr (GsfXMLIn *xin, char const *expr_str,
 		   GnmParsePos const *pp)
 {
 	GnmExprTop const *texpr;
@@ -383,7 +385,7 @@ xl_xml_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (attr_bool (xin, attrs, XL_NS_SS, "Hidden", &hidden))
 			;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "StyleID"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "StyleID"))
 			style = g_hash_table_lookup (state->style_hash, attrs[1]);
 		else if (attr_float (xin, attrs, XL_NS_SS, "Width", &width))
 			;
@@ -427,7 +429,7 @@ xl_xml_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (attr_int (xin, attrs, XL_NS_SS, "Span", &tmp)) {
 			if (tmp > 0)
 				span = tmp;
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "StyleID"))
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "StyleID"))
 			style = g_hash_table_lookup (state->style_hash, attrs[1]);
 		else if (attr_bool (xin, attrs, XL_NS_SS, "AutoFitHeight", &auto_fit))
 			;
@@ -476,22 +478,22 @@ xl_xml_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (attr_int (xin, attrs, XL_NS_SS, "Index", &tmp)) {
 			if (tmp > 0)
 				state->pos.col = tmp -1;
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Formula")) {
-			GnmExprTop const *texpr = xl_xml_parse_expr (xin, attrs[1], &pp);
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "Formula")) {
+			GnmExprTop const *texpr = xl_xml_parse_expr (xin, CXML2C (attrs[1]), &pp);
 			if (NULL != texpr) {
 				gnm_expr_top_unref (state->texpr);
 				state->texpr = texpr;
 			}
-		} else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ArrayRange")) {
+		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "ArrayRange")) {
 			GnmRangeRef rr;
-			xmlChar const *end = rangeref_parse (&rr, attrs[1], &pp, gnm_conventions_xls_r1c1);
-			if (end != attrs[1] && *end == '\0')
+			char const *end = rangeref_parse (&rr, CXML2C (attrs[1]), &pp, gnm_conventions_xls_r1c1);
+			if (end != CXML2C (attrs[1]) && *end == '\0')
 				range_init_rangeref (&state->array_range, &rr);
 		} else if (attr_int (xin, attrs, XL_NS_SS, "MergeAcross", &across))
 			   ;
 		else if (attr_int (xin, attrs, XL_NS_SS, "MergeDown", &down))
 			;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "StyleID"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "StyleID"))
 			style = g_hash_table_lookup (state->style_hash, attrs[1]);
 		else
 			unknown_attr (xin, attrs, "Cell");
@@ -615,9 +617,9 @@ xl_xml_font (GsfXMLIn *xin, xmlChar const **attrs)
 	gnm_float tmp;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Family"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "Family"))
 			;
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "FontName"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "FontName"))
 			;
 		else if (attr_float (xin, attrs, XL_NS_SS, "Size", &tmp))
 			gnm_style_set_font_size	(state->style, tmp);
@@ -826,21 +828,21 @@ xl_xml_num_fmt (GsfXMLIn *xin, xmlChar const **attrs)
 	};
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Format")) {
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "Format")) {
 			GOFormat *fmt = NULL;
 			int i;
 
 			for (i = 0 ; named_formats[i].name ; i++)
-				if (0 == strcmp (attrs[1], named_formats[i].name))
+				if (0 == strcmp (CXML2C (attrs[1]), named_formats[i].name))
 					fmt = go_format_new_from_XL (named_formats[i].format);
 
 			if (NULL == fmt)
 				for (i = 0 ; named_magic_formats[i].name ; i++)
-					if (0 == strcmp (attrs[1], named_magic_formats[i].name))
+					if (0 == strcmp (CXML2C (attrs[1]), named_magic_formats[i].name))
 						fmt = go_format_new_magic (named_magic_formats[i].id);
 
 			if (NULL == fmt)
-				fmt = go_format_new_from_XL (attrs[1]);
+				fmt = go_format_new_from_XL (CXML2C (attrs[1]));
 			gnm_style_set_format (state->style, fmt);
 			go_format_unref (fmt);
 		} else
@@ -853,9 +855,9 @@ xl_xml_style_start (GsfXMLIn *xin, xmlChar const **attrs)
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin->user_state;
 	char const *id = NULL;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "ID"))
-			id = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Name"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "ID"))
+			id = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "Name"))
 			; /* does anything use this ? */
 		else
 			unknown_attr (xin, attrs, "Style");
@@ -887,10 +889,10 @@ xl_xml_named_range (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *expr_str = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Name"))
-			name = attrs[1];
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "RefersTo"))
-			expr_str = attrs[1];
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "Name"))
+			name = CXML2C (attrs[1]);
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "RefersTo"))
+			expr_str = CXML2C (attrs[1]);
 
 	if (NULL != name && NULL != expr_str) {
 		GnmParsePos pp;
@@ -909,8 +911,8 @@ xl_xml_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_SS, "Name"))
-			name = attrs[1];
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_SS, "Name"))
+			name = CXML2C (attrs[1]);
 		else
 			unknown_attr (xin, attrs, "Worksheet");
 
@@ -1012,8 +1014,8 @@ xl_xml_auto_filter_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	char const *end, *range = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_XL, "Range"))
-			range = attrs[1];
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_XL, "Range"))
+			range = CXML2C (attrs[1]);
 		else
 			unknown_attr (xin, attrs, "AutoFilter");
 
@@ -1168,9 +1170,9 @@ xl_xml_probe_start_element (const xmlChar *name,
 			    G_GNUC_UNUSED const xmlChar **attributes)
 {
 	/* starts with <Workbook> in namespace "schemas-microsoft-com:office:spreadsheet" */
-	return 0 == strcmp (name, "Workbook") &&
+	return 0 == strcmp (CXML2C (name), "Workbook") &&
 		NULL != URI &&
-		NULL != strstr (URI, "schemas-microsoft-com:office:spreadsheet");
+		NULL != strstr (CXML2C (URI), "schemas-microsoft-com:office:spreadsheet");
 }
 
 gboolean

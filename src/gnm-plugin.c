@@ -21,7 +21,6 @@
 #include <string.h>
 
 #define CXML2C(s) ((char const *)(s))
-#define CC2XML(s) ((xmlChar const *)(s))
 
 static char *
 xml2c (xmlChar *src)
@@ -94,7 +93,7 @@ plugin_service_function_group_read_xml (GOPluginService *service, xmlNode *tree,
 	} else {
 		translated_category_name = NULL;
 	}
-	functions_node = go_xml_get_child_by_name (tree, CC2XML ("functions"));
+	functions_node = go_xml_get_child_by_name (tree, "functions");
 	if (functions_node != NULL) {
 		xmlNode *node;
 
@@ -381,7 +380,7 @@ static void
 plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo **ret_error)
 {
 	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
-	xmlChar *file_name;
+	char *file_name;
 	xmlNode *verbs_node;
 	GSList *actions = NULL;
 
@@ -414,7 +413,7 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 
 			label_node = go_xml_get_child_by_name_by_lang (ptr, "label");
 			if (label_node != NULL) {
-				gchar *lang;
+				xmlChar *lang;
 
 				lang = go_xml_node_get_cstr (label_node, "lang");
 				if (lang != NULL) {
@@ -426,7 +425,7 @@ plugin_service_ui_read_xml (GOPluginService *service, xmlNode *tree, GOErrorInfo
 			icon  = go_xml_node_get_cstr (ptr, "icon");
 			if (!go_xml_node_get_bool (ptr, "always_available", &always_available))
 				always_available = FALSE;
-			action = gnm_action_new (name, label, icon, always_available,
+			action = gnm_action_new (CXML2C (name), label, CXML2C (icon), always_available,
 						 (GnmActionHandler) cb_ui_service_activate,
 						 service, NULL);
 			if (NULL != name) xmlFree (name);

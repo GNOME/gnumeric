@@ -312,7 +312,7 @@ xlsx_rpr_latin (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs && *attrs; attrs += 2) {
 		if (attr_eq (attrs[0], "typeface")) {
 			PangoFontDescription *desc = pango_font_description_copy (style->font.font->desc);
-			pango_font_description_set_family (desc, attrs[1]);
+			pango_font_description_set_family (desc, CXML2C (attrs[1]));
 			style->font.auto_font = FALSE;
 			go_style_set_font (style, go_font_new_by_desc (desc));
 		}
@@ -384,7 +384,7 @@ xlsx_user_shape (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; *attrs; attrs += 2)
 		if (attr_eq (attrs[0], "textlink") && *attrs[1]) {
 			GnmParsePos pp;
-			state->texpr = xlsx_parse_expr (xin, attrs[1],
+			state->texpr = xlsx_parse_expr (xin, CXML2C (attrs[1]),
 				parse_pos_init_sheet (&pp, state->sheet));
 		}
 }
@@ -543,7 +543,7 @@ xlsx_read_cnvpr (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "name")) {
 			g_free (state->object_name);
-			state->object_name = g_strdup (attrs[1]);
+			state->object_name = g_strdup (CXML2C (attrs[1]));
 		}
 	}
 }
@@ -646,10 +646,10 @@ xlsx_chart_user_shapes (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const *part_id = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 	if (NULL != part_id) {
-		xlsx_parse_rel_by_id (xin, part_id, xlsx_chart_drawing_dtd, xlsx_ns);
+		xlsx_parse_rel_by_id (xin, CXML2C (part_id), xlsx_chart_drawing_dtd, xlsx_ns);
 	}
 }
 
@@ -928,10 +928,10 @@ xlsx_axis_format (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean shared = TRUE;
 	char const *fmt = NULL;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "sourceLinked"))
+		if (0 == strcmp (CXML2C (attrs[0]), "sourceLinked"))
 			attr_bool (xin, attrs, "sourceLinked", &shared);
-		else if (0 == strcmp (attrs[0], "formatCode"))
-			fmt = attrs[1];
+		else if (0 == strcmp (CXML2C (attrs[0]), "formatCode"))
+			fmt = CXML2C (attrs[1]);
 	if (fmt && !shared)
 		g_object_set (G_OBJECT (state->axis.obj),
 			"assigned-format-string-XL", fmt, NULL);
@@ -2365,7 +2365,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 		int i;
 
 		if (attr_eq (attrs[0], "pattern")) {
-			GOPatternType p = go_pattern_from_str (attrs[1]);
+			GOPatternType p = go_pattern_from_str (CXML2C (attrs[1]));
 			if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID &&
 			    p == GO_PATTERN_SOLID) {
 				/* We read the wrong color */
@@ -2380,7 +2380,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (attr_bool (xin, attrs, "auto-back", &i)) {
 			style->fill.auto_back = i != 0;
 		} else if (start_arrow && attr_eq (attrs[0], "StartArrowType")) {
-			start_arrow->typ = go_arrow_type_from_str (attrs[1]);
+			start_arrow->typ = go_arrow_type_from_str (CXML2C (attrs[1]));
 		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeA", &f)) {
 			start_arrow->a = f;
 		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeB", &f)) {
@@ -2388,7 +2388,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeC", &f)) {
 			start_arrow->c = f;
 		} else if (start_arrow && attr_eq (attrs[0], "EndArrowType")) {
-			end_arrow->typ = go_arrow_type_from_str (attrs[1]);
+			end_arrow->typ = go_arrow_type_from_str (CXML2C (attrs[1]));
 		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeA", &f)) {
 			end_arrow->a = f;
 		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeB", &f)) {
@@ -2398,7 +2398,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 		} else if (attr_bool (xin, attrs, "reverse-gradient", &rev_gradient)) {
 			/* Nothing */
 		} else if (attr_eq (attrs[0], "markerSymbol")) {
-			const char *s = attrs[1];
+			const char *s = CXML2C (attrs[1]);
 			if (strcmp (s, "auto") == 0) {
 				style->marker.auto_shape = TRUE;
 			} else {
@@ -2406,7 +2406,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 				go_marker_set_shape (state->marker, go_marker_shape_from_str (s));
 			}
 		} else if (attr_eq (attrs[0], "dashType")) {
-			const char *s = attrs[1];
+			const char *s = CXML2C (attrs[1]);
 			if (strcmp (s, "auto") == 0) {
 				style->line.auto_dash = TRUE;
 			} else {
@@ -3157,7 +3157,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const *part_id = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 	if (NULL != part_id) {
 		/* leave it in 'state' for the frame to insert */
@@ -3175,7 +3175,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		state->axis.by_obj = g_hash_table_new (g_direct_hash, g_direct_equal);
 		xlsx_reset_chart_pos (state);
 
-		xlsx_parse_rel_by_id (xin, part_id, xlsx_chart_dtd, xlsx_ns);
+		xlsx_parse_rel_by_id (xin, CXML2C (part_id), xlsx_chart_dtd, xlsx_ns);
 
 		if (NULL != state->obj_stack) {
 			g_warning ("left-over content on chart object stack");
@@ -3458,9 +3458,9 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	g_return_if_fail (GNM_IS_SO_IMAGE (state->so));
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "embed")) {
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "embed")) {
 			GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_id (
-				gsf_xml_in_get_input (xin), attrs[1]);
+				gsf_xml_in_get_input (xin), CXML2C (attrs[1]));
 			GsfInput *input = gsf_open_pkg_open_rel (
 			        gsf_xml_in_get_input (xin), rel, NULL);
 			size_t size;
@@ -3697,10 +3697,10 @@ xlsx_sheet_drawing (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	xmlChar const *part_id = NULL;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 	if (NULL != part_id)
-		xlsx_parse_rel_by_id (xin, part_id, xlsx_drawing_dtd, xlsx_ns);
+		xlsx_parse_rel_by_id (xin, CXML2C (part_id), xlsx_drawing_dtd, xlsx_ns);
 }
 
 /******************************************************************************
@@ -3721,7 +3721,7 @@ xlsx_vml_group (GsfXMLIn *xin, xmlChar const **attrs)
 		coords[i] = local_coords[i] = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_eq (attrs[0], "style")) {
-			elts =  g_strsplit (attrs[1], ";", 0);
+			elts =  g_strsplit (CXML2C (attrs[1]), ";", 0);
 			for (cur =  elts; *cur; cur++) {
 				value = strchr (*cur, ':');
 				if (!value)
@@ -3758,11 +3758,11 @@ xlsx_vml_group (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 			g_strfreev (elts);
 		} else if (attr_eq (attrs[0], "coordorigin")) {
-			local_coords[0] = strtol (attrs[1], &end, 10) * XLSX_SHEET_HSCALE;
+			local_coords[0] = strtol (CXML2C (attrs[1]), &end, 10) * XLSX_SHEET_HSCALE;
 			if (*end == ',')
 				local_coords[1] = strtol (end + 1, &end, 10);
 		} else if (attr_eq (attrs[0], "coordsize")) {
-			local_coords[2] = strtol (attrs[1], &end, 10) * XLSX_SHEET_HSCALE;
+			local_coords[2] = strtol (CXML2C (attrs[1]), &end, 10) * XLSX_SHEET_HSCALE;
 			if (*end == ',')
 				local_coords[3] = strtol (end + 1, &end, 10);
 		}
@@ -3805,7 +3805,7 @@ xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "style")) {
-			char **elts = g_strsplit (attrs[1], ";", 0), **cur;
+			char **elts = g_strsplit (CXML2C (attrs[1]), ";", 0), **cur;
 			for (cur =  elts; *cur; cur++) {
 				double dim;
 				char *key, *end;
@@ -3913,7 +3913,7 @@ xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 		int tmp;
 		if (attr_enum (xin, attrs, "ObjectType", types, &tmp)) {
 			typ = gtypes[tmp];
-			tname = attrs[1];
+			tname = CXML2C (attrs[1]);
 		}
 	}
 
@@ -4173,11 +4173,11 @@ xlsx_sheet_legacy_drawing (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	xmlChar const *part_id = NULL;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
 			part_id = attrs[1];
 	if (NULL != part_id) {
 		XLSXReadState *state = (XLSXReadState *)xin->user_state;
 		state->radio_value = 1;
-		xlsx_parse_rel_by_id (xin, part_id, xlsx_legacy_drawing_dtd, xlsx_ns);
+		xlsx_parse_rel_by_id (xin, CXML2C (part_id), xlsx_legacy_drawing_dtd, xlsx_ns);
 	}
 }

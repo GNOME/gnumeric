@@ -517,7 +517,7 @@ attr_int (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	errno = 0;
-	tmp = strtol (attrs[1], &end, 10);
+	tmp = strtol (CXML2C (attrs[1]), &end, 10);
 	if (errno == ERANGE || tmp > G_MAXINT || tmp < G_MININT)
 		return xlsx_warning (xin,
 			_("Integer '%s' is out of range for attribute %s"),
@@ -546,7 +546,7 @@ attr_uint (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	errno = 0;
-	tmp = strtoul (attrs[1], &end, 10);
+	tmp = strtoul (CXML2C (attrs[1]), &end, 10);
 	if (errno == ERANGE || tmp != (unsigned)tmp)
 		return xlsx_warning (xin,
 			_("Unsigned integer '%s' is out of range for attribute %s"),
@@ -576,7 +576,7 @@ attr_int64 (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	errno = 0;
-	tmp = g_ascii_strtoll (attrs[1], &end, 10);
+	tmp = g_ascii_strtoll (CXML2C (attrs[1]), &end, 10);
 	if (errno == ERANGE)
 		return xlsx_warning (xin,
 			_("Integer '%s' is out of range for attribute %s"),
@@ -606,7 +606,7 @@ attr_gocolor (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	errno = 0;
-	rgb = strtoul (attrs[1], &end, 16);
+	rgb = strtoul (CXML2C (attrs[1]), &end, 16);
 	if (errno == ERANGE || *end)
 		return xlsx_warning (xin,
 			_("Invalid RRGGBB color '%s' for attribute %s"),
@@ -637,7 +637,7 @@ attr_float (GsfXMLIn *xin, xmlChar const **attrs,
 	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
-	tmp = gnm_strto (attrs[1], &end);
+	tmp = gnm_strto (CXML2C (attrs[1]), &end);
 	if (*end)
 		return xlsx_warning (xin,
 			_("Invalid number '%s' for attribute %s"),
@@ -661,7 +661,7 @@ attr_double (GsfXMLIn *xin, xmlChar const **attrs,
 	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
-	tmp = go_strtod (attrs[1], &end);
+	tmp = go_strtod (CXML2C (attrs[1]), &end);
 	if (*end)
 		return xlsx_warning (xin,
 			_("Invalid number '%s' for attribute %s"),
@@ -691,7 +691,7 @@ attr_percent (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	errno = 0;
-	tmp = strtol (attrs[1], &end, 10);
+	tmp = strtol (CXML2C (attrs[1]), &end, 10);
 	if (errno == ERANGE || tmp > G_MAXINT / 1000 || tmp < G_MININT / 1000)
 		return xlsx_warning (xin,
 			_("Integer '%s' is out of range for attribute %s"),
@@ -725,7 +725,7 @@ attr_pos (GsfXMLIn *xin, xmlChar const **attrs,
 	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
-	end = cellpos_parse (attrs[1], gnm_sheet_get_size (state->sheet), &tmp, TRUE);
+	end = cellpos_parse (CXML2C (attrs[1]), gnm_sheet_get_size (state->sheet), &tmp, TRUE);
 	if (NULL == end || *end != '\0')
 		return xlsx_warning (xin,
 			_("Invalid cell position '%s' for attribute %s"),
@@ -750,7 +750,7 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
-	if (!range_parse (res, attrs[1], &xlsx_size))
+	if (!range_parse (res, CXML2C (attrs[1]), &xlsx_size))
 		xlsx_warning (xin, _("Invalid range '%s' for attribute %s"),
 			attrs[1], target);
 	return TRUE;
@@ -771,7 +771,7 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 	if (!attr_eq (attrs[0], target))
 		return NULL;
 
-	n = gnm_sscanf (attrs[1], "%u-%u-%uT%u:%u:%" GNM_SCANF_g, &y, &m, &d, &h, &mi, &s);
+	n = gnm_sscanf (CXML2C (attrs[1]), "%u-%u-%uT%u:%u:%" GNM_SCANF_g, &y, &m, &d, &h, &mi, &s);
 	if (n >= 3) {
 		GDate date;
 		g_date_set_dmy (&date, d, m, y);
@@ -1220,7 +1220,7 @@ xlsx_get_num_fmt (GsfXMLIn *xin, char const *id, gboolean quiet)
 }
 
 static GnmExprTop const *
-xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
+xlsx_parse_expr (GsfXMLIn *xin, char const *expr_str,
 		 GnmParsePos const *pp)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
@@ -1256,11 +1256,11 @@ xlsx_parse_expr (GsfXMLIn *xin, xmlChar const *expr_str,
 /* Returns: a GSList of GnmRange in _reverse_ order
  * caller frees the list and the content */
 static GSList *
-xlsx_parse_sqref (GsfXMLIn *xin, xmlChar const *refs)
+xlsx_parse_sqref (GsfXMLIn *xin, char const *refs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GnmRange  r;
-	xmlChar const *tmp;
+	char const *tmp;
 	GSList	 *res = NULL;
 
 	while (NULL != refs && *refs) {
@@ -1313,7 +1313,7 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs, gboolean allow_alpha)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "rgb")) {
 			guint a, r, g, b;
-			if (4 != sscanf (attrs[1], "%02x%02x%02x%02x", &a, &r, &g, &b)) {
+			if (4 != sscanf (CXML2C (attrs[1]), "%02x%02x%02x%02x", &a, &r, &g, &b)) {
 				xlsx_warning (xin,
 					_("Invalid color '%s' for attribute rgb"),
 					attrs[1]);
@@ -1478,7 +1478,7 @@ xlsx_cell_expr_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		if (!has_range)
 			state->texpr = g_hash_table_lookup (state->shared_exprs, shared_id);
 		if (state->texpr == NULL)
-			state->shared_id = g_strdup (shared_id);
+			state->shared_id = g_strdup (CXML2C (shared_id));
 		else
 			gnm_expr_top_ref (state->texpr);
 	} else
@@ -2311,7 +2311,7 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	/* order matters, we need the 1st item */
 	state->validation_regions = g_slist_reverse (
-		xlsx_parse_sqref (xin, refs));
+		xlsx_parse_sqref (xin, CXML2C (refs)));
 
 	if (state->validation_regions) {
 		GnmRange const *r = state->validation_regions->data;
@@ -2324,13 +2324,13 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		state->validation = gnm_validation_new
 			(val_style, val_type, val_op,
 			 state->sheet,
-			 errorTitle, error,
+			 CXML2C (errorTitle), CXML2C (error),
 			 NULL, NULL, allowBlank, !showDropDown);
 		// Note: inverted sense of showDropDown
 	}
 
 	if (showInputMessage && (NULL != promptTitle || NULL != prompt))
-		state->input_msg = gnm_input_msg_new (prompt, promptTitle);
+		state->input_msg = gnm_input_msg_new (CXML2C (prompt), CXML2C (promptTitle));
 }
 
 static void
@@ -2708,7 +2708,7 @@ xlsx_cond_fmt_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "sqref"))
-			refs = attrs[1];
+			refs = CXML2C (attrs[1]);
 	}
 
 	state->cond_regions = xlsx_parse_sqref (xin, refs);
@@ -2838,7 +2838,7 @@ xlsx_cond_fmt_rule_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			op = tmp;
 		else if (attr_enum (xin, attrs, "type", types, &tmp)) {
 			type = tmp;
-			type_str = attrs[1];
+			type_str = CXML2C (attrs[1]);
 		}
 	}
 #if 0
@@ -3054,7 +3054,7 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "sqref"))
-			refs = attrs[1];
+			refs = CXML2C (attrs[1]);
 		else if (attr_enum (xin, attrs, "activePane", pane_types, &i))
 			pane_pos = i;
 		else if (attr_pos (xin, attrs, "activeCell", &edit_pos))
@@ -3252,7 +3252,7 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 			location = CXML2C (attrs[1]);
 		else if (attr_eq (attrs[0], "tooltip"))
 			tooltip = CXML2C (attrs[1]);
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
 			extern_id = CXML2C (attrs[1]);
 #if 0 /* ignore "display" on import, it always seems to be the cell content */
 		else if (attr_eq (attrs[0], "display"))
@@ -3477,7 +3477,7 @@ xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "rgb")) {
 			unsigned r, g, b, a;
-			if (4 != sscanf (attrs[1], "%02x%02x%02x%02x", &a, &r, &g, &b)) {
+			if (4 != sscanf (CXML2C (attrs[1]), "%02x%02x%02x%02x", &a, &r, &g, &b)) {
 				xlsx_warning (xin,
 					      _("Invalid color '%s' for attribute rgb"),
 					      attrs[1]);
@@ -3680,7 +3680,7 @@ xlsx_CT_PivotCache (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const *cacheId = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
 			id = attrs[1];
 		else if (attr_eq (attrs[0], "cacheId"))
 			cacheId = attrs[1];
@@ -3689,14 +3689,14 @@ xlsx_CT_PivotCache (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != id && NULL != cacheId) {
 		g_return_if_fail (NULL == state->pivot.cache);
 
-		xlsx_parse_rel_by_id (xin, id,
+		xlsx_parse_rel_by_id (xin, CXML2C (id),
 			xlsx_pivot_cache_def_dtd, xlsx_ns);
 
 		g_return_if_fail (NULL != state->pivot.cache);
 
 		/* absorb the reference to the cache */
 		g_hash_table_replace (state->pivot.cache_by_id,
-			g_strdup (cacheId), state->pivot.cache);
+			g_strdup (CXML2C (cacheId)), state->pivot.cache);
 		state->pivot.cache = NULL;
 	}
 }
@@ -3810,11 +3810,11 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "name"))
-			name = attrs[1];
+			name = CXML2C (attrs[1]);
 		else if (attr_enum (xin, attrs, "state", visibilities, &viz))
 			; /* Nothing */
-		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
-			part_id = attrs[1];
+		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
+			part_id = CXML2C (attrs[1]);
 	}
 
 	if (NULL == name) {
@@ -3842,7 +3842,7 @@ xlsx_wb_name_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "name"))
-			name = attrs[1];
+			name = CXML2C (attrs[1]);
 		else if (attr_int (xin, attrs, "localSheetId", &sheet_idx))
 			; /* Nothing */
 	}
@@ -3989,7 +3989,7 @@ xlsx_read_external_sheetname (GsfXMLIn *xin, xmlChar const **attrs)
 				workbook_sheet_attach
 					(state->external_ref,
 					 state->external_ref_sheet =
-					 wrap_sheet_new (state->external_ref, attrs[1], 256, 65536));
+					 wrap_sheet_new (state->external_ref, CXML2C (attrs[1]), 256, 65536));
 		}
 }
 static void
@@ -4018,8 +4018,8 @@ static void
 xlsx_wb_external_ref (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
-			xlsx_parse_rel_by_id (xin, attrs[1], xlsx_extern_dtd, xlsx_ns);
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
+			xlsx_parse_rel_by_id (xin, CXML2C (attrs[1]), xlsx_extern_dtd, xlsx_ns);
 	}
 }
 
@@ -4070,9 +4070,9 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "ref"))
-			range_parse (&anchor_r, attrs[1], gnm_sheet_get_size (state->sheet));
+			range_parse (&anchor_r, CXML2C (attrs[1]), gnm_sheet_get_size (state->sheet));
 		else if (attr_eq (attrs[0], "authorId")) {
-			unsigned id = atoi (attrs[1]);
+			unsigned id = atoi (CXML2C (attrs[1]));
 			char const *name;
 			if (id < state->authors->len) {
 				name = g_ptr_array_index (state->authors, id);
@@ -4352,14 +4352,14 @@ xlsx_numfmt_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean apply)
 	}
 
 	if (NULL != id && NULL != fmt) {
-		GOFormat *gfmt = go_format_new_from_XL (fmt);
+		GOFormat *gfmt = go_format_new_from_XL (CXML2C (fmt));
 		if (apply)
 			gnm_style_set_format (state->style_accum, gfmt);
-		if (xlsx_get_num_fmt (xin, id, TRUE)) {
+		if (xlsx_get_num_fmt (xin, CXML2C (id), TRUE)) {
 			g_printerr ("Ignoring attempt to override number format %s\n", id);
 			go_format_unref (gfmt);
 		} else
-			g_hash_table_replace (state->num_fmts, g_strdup (id), gfmt);
+			g_hash_table_replace (state->num_fmts, g_strdup (CXML2C (id)), gfmt);
 	}
 }
 
@@ -4780,7 +4780,7 @@ xlsx_xf_begin (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "numFmtId")) {
-			GOFormat *fmt = xlsx_get_num_fmt (xin, attrs[1], FALSE);
+			GOFormat *fmt = xlsx_get_num_fmt (xin, CXML2C (attrs[1]), FALSE);
 			if (NULL != fmt)
 				gnm_style_set_format (accum, fmt);
 		} else if (attr_int (xin, attrs, "fontId", &indx))
@@ -4925,7 +4925,7 @@ xlsx_cell_style (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (NULL != style && NULL != id) {
 		gnm_style_ref (style);
-		g_hash_table_replace (state->cell_styles, g_strdup (id), style);
+		g_hash_table_replace (state->cell_styles, g_strdup (CXML2C (id)), style);
 	}
 }
 

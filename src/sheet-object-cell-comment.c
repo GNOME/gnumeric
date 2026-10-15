@@ -36,6 +36,8 @@
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
 
+#define CXML2C(s) ((char const *)(s))
+
 struct GnmComment_ {
 	SheetObject	base;
 
@@ -355,12 +357,12 @@ cell_comment_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
 	GnmComment *cc = GNM_CELL_COMMENT (so);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (attrs[0], "Text"))
-			cc->text = g_strdup (attrs[1]);
-		else if (!strcmp (attrs[0], "Author"))
-			cc->author = g_strdup (attrs[1]);
-		else if (!strcmp (attrs[0], "TextFormat")) {
-			GOFormat * fmt = go_format_new_from_XL (attrs[1]);
+		if (!strcmp (CXML2C (attrs[0]), "Text"))
+			cc->text = g_strdup (CXML2C (attrs[1]));
+		else if (!strcmp (CXML2C (attrs[0]), "Author"))
+			cc->author = g_strdup (CXML2C (attrs[1]));
+		else if (!strcmp (CXML2C (attrs[0]), "TextFormat")) {
+			GOFormat * fmt = go_format_new_from_XL (CXML2C (attrs[1]));
 			if (go_format_is_markup (fmt))
 				g_object_set (G_OBJECT (cc),
 					      "markup", go_format_get_markup (fmt),

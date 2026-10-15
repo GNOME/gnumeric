@@ -801,7 +801,7 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_bool (attrs, "Protected", &tmp))
 			state->is_protected = tmp;
 		else if (strcmp (CXML2C (attrs[0]), "ExprConvention") == 0)
-			update_str (&state->expr_conv_name, attrs[1]);
+			update_str (&state->expr_conv_name, CXML2C (attrs[1]));
 		else if (xml_sax_attr_color (attrs, "TabColor", &color)) {
 			style_color_unref (state->tab_color);
 			state->tab_color = color;
