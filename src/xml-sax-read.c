@@ -3976,8 +3976,8 @@ gnm_xml_probe_element (const xmlChar *name,
 		       G_GNUC_UNUSED int nb_defaulted,
 		       G_GNUC_UNUSED const xmlChar **attributes)
 {
-	return 0 == strcmp (name, "Workbook") &&
-		NULL != URI && NULL != strstr (URI, "gnumeric");
+	return 0 == strcmp (CXML2C (name), "Workbook") &&
+		NULL != URI && NULL != strstr (CXML2C (URI), "gnumeric");
 }
 
 static gboolean

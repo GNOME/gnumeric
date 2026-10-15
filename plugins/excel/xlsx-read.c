@@ -84,6 +84,12 @@
 
 #define CXML2C(s) ((char const *)(s))
 
+static inline gboolean
+attr_eq (const xmlChar *a, const char *s)
+{
+	return !strcmp (CXML2C (a), s);
+}
+
 enum {
 	ECMA_376_2006 = 1,
 	ECMA_376_2008 = 2
@@ -462,11 +468,11 @@ attr_enum (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	for (; enums->name != NULL ; enums++)
-		if (!strcmp (enums->name, attrs[1])) {
+		if (attr_eq (attrs[1], enums->name)) {
 			*res = enums->val;
 			return TRUE;
 		}
@@ -487,10 +493,10 @@ attr_bool (G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
-	*res = (0 == strcmp (attrs[1], "1") || 0 == strcmp (attrs[1], "true")) ;
+	*res = (attr_eq (attrs[1], "1") || attr_eq (attrs[1], "true")) ;
 
 	return TRUE;
 }
@@ -507,7 +513,7 @@ attr_int (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	errno = 0;
@@ -536,7 +542,7 @@ attr_uint (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	errno = 0;
@@ -566,7 +572,7 @@ attr_int64 (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	errno = 0;
@@ -596,7 +602,7 @@ attr_gocolor (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	errno = 0;
@@ -628,7 +634,7 @@ attr_float (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	tmp = gnm_strto (attrs[1], &end);
@@ -652,7 +658,7 @@ attr_double (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	tmp = go_strtod (attrs[1], &end);
@@ -681,7 +687,7 @@ attr_percent (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	errno = 0;
@@ -716,7 +722,7 @@ attr_pos (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	end = cellpos_parse (attrs[1], gnm_sheet_get_size (state->sheet), &tmp, TRUE);
@@ -741,7 +747,7 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	if (!range_parse (res, attrs[1], &xlsx_size))
@@ -762,7 +768,7 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, NULL);
 	g_return_val_if_fail (attrs[1] != NULL, NULL);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return NULL;
 
 	n = gnm_sscanf (attrs[1], "%u-%u-%uT%u:%u:%" GNM_SCANF_g, &y, &m, &d, &h, &mi, &s);
@@ -847,7 +853,7 @@ attr_distance (GsfXMLIn *xin, xmlChar const **attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], target))
+	if (!attr_eq (attrs[0], target))
 		return FALSE;
 
 	return xlsx_parse_distance (xin, attrs[1], target, pts);
@@ -904,7 +910,7 @@ static const char *
 simple_string (G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const **attrs)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (strcmp (attrs[0], "val") == 0)
+		if (attr_eq (attrs[0], "val"))
 			return CXML2C (attrs[1]);
 	return NULL;
 }
@@ -1305,7 +1311,7 @@ elem_color (GsfXMLIn *xin, xmlChar const **attrs, gboolean allow_alpha)
 	gboolean has_color = FALSE;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "rgb")) {
+		if (attr_eq (attrs[0], "rgb")) {
 			guint a, r, g, b;
 			if (4 != sscanf (attrs[1], "%02x%02x%02x%02x", &a, &r, &g, &b)) {
 				xlsx_warning (xin,
@@ -1457,12 +1463,12 @@ xlsx_cell_expr_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	/* for some of the issues surrounding shared formulas.   */
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "t")) {
-			if (0 == strcmp (attrs[1], "array"))
+		if (attr_eq (attrs[0], "t")) {
+			if (attr_eq (attrs[1], "array"))
 				is_array = TRUE;
-			else if (0 == strcmp (attrs[1], "shared"))
+			else if (attr_eq (attrs[1], "shared"))
 				is_shared = TRUE;
-		} else if (0 == strcmp (attrs[0], "si"))
+		} else if (attr_eq (attrs[0], "si"))
 			shared_id = attrs[1];
 		else if (attr_range (xin, attrs, "ref", &range))
 			has_range = TRUE;
@@ -2074,7 +2080,7 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (attr_bool (xin, attrs, "draft", &tmp_bool))
 			pi->print_as_draft = tmp_bool;
-		else if (strcmp (attrs[0], "firstPageNumber") == 0 &&
+		else if (attr_eq (attrs[0], "firstPageNumber") &&
 			 attrs[1][0] == '-') {
 			// Supposed to be unsigned but we see a negative.
 			// Parse and then see -1 (which will map to don't-use
@@ -2276,7 +2282,7 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	int tmp;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "sqref"))
+		if (attr_eq (attrs[0], "sqref"))
 			refs = attrs[1];
 		else if (attr_enum (xin, attrs, "errorStyle", val_styles, &tmp))
 			val_style = tmp;
@@ -2293,13 +2299,13 @@ xlsx_CT_DataValidation_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 		else if (attr_bool (xin, attrs, "showErrorMessage", &showErrorMessage))
 			;
-		else if (0 == strcmp (attrs[0], "errorTitle"))
+		else if (attr_eq (attrs[0], "errorTitle"))
 			errorTitle = attrs[1];
-		else if (0 == strcmp (attrs[0], "error"))
+		else if (attr_eq (attrs[0], "error"))
 			error = attrs[1];
-		else if (0 == strcmp (attrs[0], "promptTitle"))
+		else if (attr_eq (attrs[0], "promptTitle"))
 			promptTitle = attrs[1];
-		else if (0 == strcmp (attrs[0], "prompt"))
+		else if (attr_eq (attrs[0], "prompt"))
 			prompt = attrs[1];
 	}
 
@@ -2451,7 +2457,7 @@ xlsx_CT_Filters_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "val")) {
+		if (attr_eq (attrs[0], "val")) {
 		}
 	}
 	state->filter_items = NULL;
@@ -2469,7 +2475,7 @@ xlsx_CT_Filter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "val")) {
+		if (attr_eq (attrs[0], "val")) {
 		}
 #endif
 }
@@ -2481,7 +2487,7 @@ xlsx_CT_CustomFilters_begin (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 
 #if 0
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "val")) {
+		if (attr_eq (attrs[0], "val")) {
 		}
 #endif
 	state->filter_items = NULL;
@@ -2513,7 +2519,7 @@ xlsx_CT_CustomFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const *
 	GODateConventions const *date_conv = workbook_date_conv (state->wb);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "val")) {
+		if (attr_eq (attrs[0], "val")) {
 			const char *txt = CXML2C (attrs[1]);
 			value_release (v);
 			v = format_match (txt, NULL, date_conv);
@@ -2701,7 +2707,7 @@ xlsx_cond_fmt_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	char const *refs = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "sqref"))
+		if (attr_eq (attrs[0], "sqref"))
 			refs = attrs[1];
 	}
 
@@ -3047,7 +3053,7 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 	g_return_if_fail (state->sv != NULL);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "sqref"))
+		if (attr_eq (attrs[0], "sqref"))
 			refs = attrs[1];
 		else if (attr_enum (xin, attrs, "activePane", pane_types, &i))
 			pane_pos = i;
@@ -3184,8 +3190,8 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 	/* <pane xSplit="2" ySplit="3" topLeftCell="J15" activePane="bottomRight" state="frozen"/> */
 	state->pane_pos = XLSX_PANE_TOP_LEFT;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "state"))
-			frozen = (0 == strcmp (attrs[1], "frozen"));
+		if (attr_eq (attrs[0], "state"))
+			frozen = (attr_eq (attrs[1], "frozen"));
 		else if (attr_pos (xin, attrs, "topLeftCell", &topLeft))
 			;
 		else if (attr_double (xin, attrs, "xSplit", &xSplit))
@@ -3242,14 +3248,14 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_range (xin, attrs, "ref", &r))
 			has_ref = TRUE;
-		else if (0 == strcmp (attrs[0], "location"))
+		else if (attr_eq (attrs[0], "location"))
 			location = CXML2C (attrs[1]);
-		else if (0 == strcmp (attrs[0], "tooltip"))
+		else if (attr_eq (attrs[0], "tooltip"))
 			tooltip = CXML2C (attrs[1]);
 		else if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			extern_id = CXML2C (attrs[1]);
 #if 0 /* ignore "display" on import, it always seems to be the cell content */
-		else if (0 == strcmp (attrs[0], "display"))
+		else if (attr_eq (attrs[0], "display"))
 			;
 #endif
 	}
@@ -3329,7 +3335,7 @@ xlsx_ext_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	gboolean warned = FALSE;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "uri")) {
+		if (attr_eq (attrs[0], "uri")) {
 #if 0
 			xlsx_warning (xin,
 				      _("Encountered uninterpretable \"ext\" extension in namespace \"%s\""),
@@ -3469,7 +3475,7 @@ xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 	GOColor c = GO_COLOR_BLACK;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (strcmp (attrs[0], "rgb") == 0) {
+		if (attr_eq (attrs[0], "rgb")) {
 			unsigned r, g, b, a;
 			if (4 != sscanf (attrs[1], "%02x%02x%02x%02x", &a, &r, &g, &b)) {
 				xlsx_warning (xin,
@@ -3479,7 +3485,7 @@ xlsx_run_color (GsfXMLIn *xin, xmlChar const **attrs)
 			}
 
 			c = GO_COLOR_FROM_RGBA (r, g, b, a);
-		} else if (strcmp (attrs[0], "indexed") == 0) {
+		} else if (attr_eq (attrs[0], "indexed")) {
 			int idx = atoi (CXML2C (attrs[1]));
 			c = indexed_color (state, idx);
 		}
@@ -3676,7 +3682,7 @@ xlsx_CT_PivotCache (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, attrs[0], XL_NS_DOC_REL, "id"))
 			id = attrs[1];
-		else if (0 == strcmp (attrs[0], "cacheId"))
+		else if (attr_eq (attrs[0], "cacheId"))
 			cacheId = attrs[1];
 	}
 
@@ -3803,7 +3809,7 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	maybe_update_progress (xin);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "name"))
+		if (attr_eq (attrs[0], "name"))
 			name = attrs[1];
 		else if (attr_enum (xin, attrs, "state", visibilities, &viz))
 			; /* Nothing */
@@ -3835,7 +3841,7 @@ xlsx_wb_name_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	int sheet_idx = -1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "name"))
+		if (attr_eq (attrs[0], "name"))
 			name = attrs[1];
 		else if (attr_int (xin, attrs, "localSheetId", &sheet_idx))
 			; /* Nothing */
@@ -3979,7 +3985,7 @@ xlsx_read_external_sheetname (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (state->external_ref)
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-			if (0 == strcmp (attrs[0], "val"))
+			if (attr_eq (attrs[0], "val"))
 				workbook_sheet_attach
 					(state->external_ref,
 					 state->external_ref_sheet =
@@ -4063,9 +4069,9 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 	anchor_r = sheet_object_get_anchor (so)->cell_bound;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (strcmp (attrs[0], "ref") == 0)
+		if (attr_eq (attrs[0], "ref"))
 			range_parse (&anchor_r, attrs[1], gnm_sheet_get_size (state->sheet));
-		else if (strcmp (attrs[0], "authorId") == 0) {
+		else if (attr_eq (attrs[0], "authorId")) {
 			unsigned id = atoi (attrs[1]);
 			char const *name;
 			if (id < state->authors->len) {
@@ -4229,7 +4235,7 @@ static void
 xlsx_webpub_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (strcmp (attrs[0], "characterSet") == 0) {
+		if (attr_eq (attrs[0], "characterSet")) {
 			XLSXReadState *state = (XLSXReadState *)xin->user_state;
 			state->version = ECMA_376_2008;
 		}
@@ -4339,9 +4345,9 @@ xlsx_numfmt_common (GsfXMLIn *xin, xmlChar const **attrs, gboolean apply)
 	xmlChar const *id = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "numFmtId"))
+		if (attr_eq (attrs[0], "numFmtId"))
 			id = attrs[1];
-		else if (0 == strcmp (attrs[0], "formatCode"))
+		else if (attr_eq (attrs[0], "formatCode"))
 			fmt = attrs[1];
 	}
 
@@ -4773,7 +4779,7 @@ xlsx_xf_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	int indx;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (attrs[0], "numFmtId")) {
+		if (attr_eq (attrs[0], "numFmtId")) {
 			GOFormat *fmt = xlsx_get_num_fmt (xin, attrs[1], FALSE);
 			if (NULL != fmt)
 				gnm_style_set_format (accum, fmt);
@@ -4911,9 +4917,9 @@ xlsx_cell_style (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_int (xin, attrs, "xfId", &tmp))
 			style = xlsx_get_style_xf (xin, tmp);
-		else /* if (0 == strcmp (attrs[0], "name")) */
+		else /* if (attr_eq (attrs[0], "name")) */
 		/* 	name = attrs[1]; */
-		/* else */ if (0 == strcmp (attrs[0], "builtinId"))
+		/* else */ if (attr_eq (attrs[0], "builtinId"))
 			id = attrs[1];
 	}
 

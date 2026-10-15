@@ -310,7 +310,7 @@ xlsx_rpr_latin (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (; attrs && *attrs; attrs += 2) {
-		if (strcmp (attrs[0], "typeface") == 0) {
+		if (attr_eq (attrs[0], "typeface")) {
 			PangoFontDescription *desc = pango_font_description_copy (style->font.font->desc);
 			pango_font_description_set_family (desc, attrs[1]);
 			style->font.auto_font = FALSE;
@@ -335,7 +335,7 @@ xlsx_body_pr (GsfXMLIn *xin, xmlChar const **attrs)
 
 			if (attr_enum (xin, attrs, "wrap", wrap_types, &val)) {
 				g_object_set (state->cur_obj, "allow-wrap", val, NULL);
-			} else if (!strcmp (attrs[0], "rot")) {
+			} else if (attr_eq (attrs[0], "rot")) {
 				/* FIXME: be careful if the "vert" property exists (not yet supported) */
 				int rotation;
 				if (attr_int (xin, attrs, "rot", &rotation)) {
@@ -382,7 +382,7 @@ xlsx_user_shape (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	for (; *attrs; attrs += 2)
-		if (!strcmp (attrs[0], "textlink") && *attrs[1]) {
+		if (attr_eq (attrs[0], "textlink") && *attrs[1]) {
 			GnmParsePos pp;
 			state->texpr = xlsx_parse_expr (xin, attrs[1],
 				parse_pos_init_sheet (&pp, state->sheet));
@@ -541,7 +541,7 @@ xlsx_read_cnvpr (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (attrs[0], "name")) {
+		if (attr_eq (attrs[0], "name")) {
 			g_free (state->object_name);
 			state->object_name = g_strdup (attrs[1]);
 		}
@@ -2364,7 +2364,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 		gnm_float f;
 		int i;
 
-		if (strcmp (attrs[0], "pattern") == 0) {
+		if (attr_eq (attrs[0], "pattern")) {
 			GOPatternType p = go_pattern_from_str (attrs[1]);
 			if (style->fill.pattern.pattern == GO_PATTERN_FOREGROUND_SOLID &&
 			    p == GO_PATTERN_SOLID) {
@@ -2379,7 +2379,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 			style->fill.auto_type = i != 0;
 		} else if (attr_bool (xin, attrs, "auto-back", &i)) {
 			style->fill.auto_back = i != 0;
-		} else if (start_arrow && strcmp (attrs[0], "StartArrowType") == 0) {
+		} else if (start_arrow && attr_eq (attrs[0], "StartArrowType")) {
 			start_arrow->typ = go_arrow_type_from_str (attrs[1]);
 		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeA", &f)) {
 			start_arrow->a = f;
@@ -2387,7 +2387,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 			start_arrow->b = f;
 		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeC", &f)) {
 			start_arrow->c = f;
-		} else if (start_arrow && strcmp (attrs[0], "EndArrowType") == 0) {
+		} else if (start_arrow && attr_eq (attrs[0], "EndArrowType")) {
 			end_arrow->typ = go_arrow_type_from_str (attrs[1]);
 		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeA", &f)) {
 			end_arrow->a = f;
@@ -2397,7 +2397,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 			end_arrow->c = f;
 		} else if (attr_bool (xin, attrs, "reverse-gradient", &rev_gradient)) {
 			/* Nothing */
-		} else if (strcmp (attrs[0], "markerSymbol") == 0) {
+		} else if (attr_eq (attrs[0], "markerSymbol")) {
 			const char *s = attrs[1];
 			if (strcmp (s, "auto") == 0) {
 				style->marker.auto_shape = TRUE;
@@ -2405,7 +2405,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 				style->marker.auto_shape = FALSE;
 				go_marker_set_shape (state->marker, go_marker_shape_from_str (s));
 			}
-		} else if (strcmp (attrs[0], "dashType") == 0) {
+		} else if (attr_eq (attrs[0], "dashType")) {
 			const char *s = attrs[1];
 			if (strcmp (s, "auto") == 0) {
 				style->line.auto_dash = TRUE;
@@ -3720,7 +3720,7 @@ xlsx_vml_group (GsfXMLIn *xin, xmlChar const **attrs)
 	for (i = 0; i < 4; i++)
 		coords[i] = local_coords[i] = 0.;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (!strcmp (attrs[0], "style")) {
+		if (attr_eq (attrs[0], "style")) {
 			elts =  g_strsplit (attrs[1], ";", 0);
 			for (cur =  elts; *cur; cur++) {
 				value = strchr (*cur, ':');
@@ -3757,11 +3757,11 @@ xlsx_vml_group (GsfXMLIn *xin, xmlChar const **attrs)
 				}
 			}
 			g_strfreev (elts);
-		} else if (!strcmp (attrs[0], "coordorigin")) {
+		} else if (attr_eq (attrs[0], "coordorigin")) {
 			local_coords[0] = strtol (attrs[1], &end, 10) * XLSX_SHEET_HSCALE;
 			if (*end == ',')
 				local_coords[1] = strtol (end + 1, &end, 10);
-		} else if (!strcmp (attrs[0], "coordsize")) {
+		} else if (attr_eq (attrs[0], "coordsize")) {
 			local_coords[2] = strtol (attrs[1], &end, 10) * XLSX_SHEET_HSCALE;
 			if (*end == ',')
 				local_coords[3] = strtol (end + 1, &end, 10);
@@ -3804,7 +3804,7 @@ xlsx_vml_shape (GsfXMLIn *xin, xmlChar const **attrs)
 	xlsx_reset_chart_pos (state);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (attrs[0], "style")) {
+		if (attr_eq (attrs[0], "style")) {
 			char **elts = g_strsplit (attrs[1], ";", 0), **cur;
 			for (cur =  elts; *cur; cur++) {
 				double dim;

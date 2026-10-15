@@ -109,14 +109,14 @@ xlsx_read_property_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const *fmt_id = NULL, *pid = NULL, *name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (attrs[0], "fmtid"))
+		if (attr_eq (attrs[0], "fmtid"))
 			fmt_id = attrs[1];
-		else if (0 == strcmp (attrs[0], "pid"))
+		else if (attr_eq (attrs[0], "pid"))
 			pid = attrs[1];
-		else if (0 == strcmp (attrs[0], "name"))
+		else if (attr_eq (attrs[0], "name"))
 			name = attrs[1];
 	if (name != NULL)
-		state->meta_prop_name = g_strdup (name);
+		state->meta_prop_name = g_strdup (CXML2C (name));
 	else
 		state->meta_prop_name = g_strdup_printf ("%s-%s", fmt_id, pid);
 }
