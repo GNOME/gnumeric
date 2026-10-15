@@ -2560,7 +2560,7 @@ control_point_set_cursor (SheetControlGUI const *scg, GocItem *ctrl_pt)
 static void
 target_list_add_list (GtkTargetList *targets, GtkTargetList *added_targets)
 {
-	unsigned n;
+	int n;
 	GtkTargetEntry *gte;
 
 	g_return_if_fail (targets != NULL);
@@ -2619,9 +2619,9 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 
 
 	if (gnm_debug_flag ("dnd")) {
-		unsigned i, n;
+		int i, n;
 		GtkTargetEntry *gte = gtk_target_table_new_from_list (targets, &n);
-		g_printerr ("%u offered formats:\n", n);
+		g_printerr ("%d offered formats:\n", n);
 		for (i = 0; i < n; i++)
 			g_printerr ("%s\n", gte[n].target);
 		gtk_target_table_free (gte, n);

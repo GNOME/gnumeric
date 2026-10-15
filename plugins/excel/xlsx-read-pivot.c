@@ -961,9 +961,9 @@ xlsx_CT_pivotCacheDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 				go_val_free (refreshedDate);
 			refreshedDate = date;
 			state->version = ECMA_376_2008;
-		} else if (attr_int (xin, attrs, "createdVersion", &createdVersion))
+		} else if (attr_uint (xin, attrs, "createdVersion", &createdVersion))
 			;
-		else if (attr_int (xin, attrs, "refreshedVersion", &refreshedVersion))
+		else if (attr_uint (xin, attrs, "refreshedVersion", &refreshedVersion))
 			;
 		else if (attr_bool (xin, attrs, "upgradeOnRefresh", &upgradeOnRefresh))
 			;

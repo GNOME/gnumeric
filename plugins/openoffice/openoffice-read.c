@@ -5229,13 +5229,13 @@ static void
 odf_embedded_text_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-
-	state->cur_format.offset = 0;
+	int offset = 0;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (oo_attr_int (xin, attrs, OO_NS_NUMBER,
-				 "position", &(state->cur_format.offset)))
+				 "position", &offset))
 			;
+	state->cur_format.offset = offset;
 }
 
 static void
@@ -9868,7 +9868,7 @@ oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 	char const *style_name = NULL;
-	guint repeat_count = 1;
+	int repeat_count = 1;
 	OOChartStyle *style = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)

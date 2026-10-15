@@ -817,13 +817,13 @@ parse_bool (const char *s)
 static gboolean
 parse_property_based_options (GnmAnalysisTool *atool, GHashTable *args)
 {
-	int n;
+	guint n;
 	GParamSpec **specs;
 	GObjectClass *klass = G_OBJECT_GET_CLASS (atool);
 	gboolean err = FALSE;
 
 	specs = g_object_class_list_properties (klass, &n);
-	for (int i = 0; i < n; i++) {
+	for (guint i = 0; i < n; i++) {
 		GParamSpec *spec = specs[i];
 		gpointer arg_;
 		const char *arg;

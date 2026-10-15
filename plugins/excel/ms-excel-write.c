@@ -5443,7 +5443,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 	ExcelStyleVariant esv_cache;
 	int esv_cache_xf;
 
-	xf_list = g_new (gint16, gnm_sheet_get_max_cols (esheet->gnum_sheet));
+	xf_list = g_new (guint16, gnm_sheet_get_max_cols (esheet->gnum_sheet));
 	if (nrows > esheet->max_row - (int) begin) /* Incomplete final block? */
 		nrows = esheet->max_row - (int) begin;
 	max_row = begin + nrows - 1;

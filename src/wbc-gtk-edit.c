@@ -762,15 +762,16 @@ void
 wbcg_edit_add_markup (WBCGtk *wbcg, PangoAttribute *attr)
 {
 	GObject *entry = (GObject *)wbcg_get_entry (wbcg);
+	int start, end;
 	if (wbcg->edit_line.full_content == NULL)
 		wbcg_edit_init_markup (wbcg, pango_attr_list_new ());
 
 	if (gtk_editable_get_selection_bounds (GTK_EDITABLE (entry),
-					       &attr->start_index, &attr->end_index)) {
+					       &start, &end)) {
 		char const *str = gtk_entry_get_text (GTK_ENTRY (entry));
 
-		attr->start_index = g_utf8_offset_to_pointer (str, attr->start_index) - str;
-		attr->end_index = g_utf8_offset_to_pointer (str, attr->end_index) - str;
+		attr->start_index = g_utf8_offset_to_pointer (str, start) - str;
+		attr->end_index = g_utf8_offset_to_pointer (str, end) - str;
 		set_or_unset (wbcg->edit_line.full_content, attr,
 			      wbcg->edit_line.cell_attrs);
 		set_or_unset (wbcg->edit_line.markup, attr,

@@ -238,6 +238,17 @@ gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 	return TRUE;
 }
 
+static gboolean
+xml_sax_attr_uint (xmlChar const * const *attrs, char const *name, unsigned *res)
+{
+	int i;
+
+	if (!gnm_xml_attr_int (attrs, name, &i))
+		return FALSE;
+	*res = i;
+	return TRUE;
+}
+
 /* NOT SUITABLE FOR HIGH VOLUME VALUES
  * Checking both name and nick gets expensive */
 static gboolean
@@ -2870,7 +2881,7 @@ xml_sax_solver_start (GsfXMLIn *xin, xmlChar const **attrs)
 					  TRUE);
 			gnm_solver_param_set_target (sp, &cr);
 		} else if (gnm_xml_attr_int (attrs, "MaxTime", &(sp->options.max_time_sec)) ||
-			   gnm_xml_attr_int (attrs, "MaxIter", &(sp->options.max_iter)) ||
+			   xml_sax_attr_uint (attrs, "MaxIter", &(sp->options.max_iter)) ||
 			   gnm_xml_attr_bool (attrs, "NonNeg", &(sp->options.assume_non_negative)) ||
 			   gnm_xml_attr_bool (attrs, "Discr", &(sp->options.assume_discrete)) ||
 			   gnm_xml_attr_bool (attrs, "AutoScale", &(sp->options.automatic_scaling)) ||
