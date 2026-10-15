@@ -42,6 +42,8 @@
 #include <glib/gi18n-lib.h>
 #include <gmodule.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+
 static int
 font_equal (gconstpointer a_, gconstpointer b_)
 {
@@ -91,17 +93,17 @@ sylk_write (SylkWriter *state, char const *str)
 		c = g_utf8_get_char (p);
 
 		if (c == ';') {
-			gsf_output_write (state->output, p - str, str);
-			gsf_output_write (state->output, 2, ";;");
+			gsf_output_write (state->output, p - str, CC2U (str));
+			gsf_output_puts (state->output, ";;");
 			str = next;
 		} else if ((next - p) > 1) {
-			gsf_output_write (state->output, p - str, str);
-			gsf_output_write (state->output, 1, "?");
+			gsf_output_write (state->output, p - str, CC2U (str));
+			gsf_output_puts (state->output, "?");
 			str = next;
 		}
 #warning "handle the magic ascii escaping"
 	}
-	gsf_output_write (state->output, p - str, str);
+	gsf_output_write (state->output, p - str, CC2U (str));
 }
 
 static void
@@ -129,14 +131,14 @@ cb_sylk_write_cell (GnmCellIter const *iter, SylkWriter *state)
 	v = iter->cell->value;
 	if (v) {
 		if (VALUE_IS_STRING (v)) {
-			gsf_output_write (state->output, 3, ";K\"");
+			gsf_output_puts (state->output, ";K\"");
 			sylk_write (state, v->v_str.val->str);
-			gsf_output_write (state->output, 1, "\"");
+			gsf_output_puts (state->output, "\"");
 		} else if (VALUE_IS_NUMBER (v) || VALUE_IS_ERROR (v)) {
 			GString *res = g_string_sized_new (10);
 			value_get_as_gstring (v, res, state->convs);
-			gsf_output_write (state->output, 2, ";K");
-			gsf_output_write (state->output, res->len, res->str);
+			gsf_output_puts (state->output, ";K");
+			gsf_output_write (state->output, res->len, CC2U (res->str));
 			g_string_free (res, TRUE);
 		} /* ignore the rest */
 	}
@@ -151,10 +153,10 @@ cb_sylk_write_cell (GnmCellIter const *iter, SylkWriter *state)
 					   iter->pp.eval.row + rows,
 					   iter->pp.eval.col + cols);
 		} else if (gnm_expr_top_is_array_elem (texpr, NULL, NULL)) {
-			gsf_output_write (state->output, 2, ";I");
+			gsf_output_puts (state->output, ";I");
 			texpr = NULL;
 		} else
-			gsf_output_write (state->output, 2, ";E");
+			gsf_output_puts (state->output, ";E");
 
 		if (texpr != NULL) {
 			GnmConventionsOut out;
@@ -166,7 +168,7 @@ cb_sylk_write_cell (GnmCellIter const *iter, SylkWriter *state)
 			g_string_free (out.accum, TRUE);
 		}
 	}
-	gsf_output_write (state->output, 2, "\r\n");
+	gsf_output_puts (state->output, "\r\n");
 	return NULL;
 }
 
@@ -356,7 +358,7 @@ sylk_write_sheet (SylkWriter *state)
 		workbook_date_conv (state->wb)->use_1904 ? 4 : 0);
 	if (sheet->hide_zero)
 		gsf_output_puts (state->output, ";Z");
-	gsf_output_write (state->output, 2, "\r\n");
+	gsf_output_puts (state->output, "\r\n");
 
 /* dump content */
 	state->cur_row = -1;

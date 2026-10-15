@@ -203,7 +203,7 @@ soc_cb_save_as (SheetObject *so, SheetControl *sc)
 		if (err != NULL)
 			go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
 		else {
-			char *buf;
+			guint8 *buf;
 			int length;
 			gpointer user_data = NULL;
 			void (*clearfunc) (gpointer) = NULL;
@@ -281,7 +281,7 @@ gnm_soc_write_object (SheetObject const *so, char const *format,
 		      GnmConventions const *convs)
 {
 	SheetObjectComponent *soc = GNM_SO_COMPONENT (so);
-	char *buf;
+	guint8 *buf;
 	int length;
 	gpointer user_data = NULL;
 	void (*clearfunc) (gpointer) = NULL;

@@ -516,7 +516,7 @@ xls_read_SXStreamID (GnmXLImporter *imp, BiffQuery *q, GsfInfile *container)
 			switch (opcode) {
 			case BIFF_DCONREF: if (check_next_min (q, 8)) {
 				GnmRange r;
-				guint8 *source_name = excel_biff_text_2 (imp, q, 6);
+				char *source_name = excel_biff_text_2 (imp, q, 6);
 				xls_read_range8 (&r, q->data);
 				if (source_name) {
 					if (source_name[0] == 2) {

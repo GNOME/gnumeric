@@ -32,7 +32,7 @@ G_MODULE_EXPORT void     lotus_file_open (GOFileOpener const *fo, GOIOContext *i
 gboolean
 lotus_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
-	char const *h = NULL;
+	guint8 const *h = NULL;
 	int len;
 	LotusVersion version;
 

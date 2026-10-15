@@ -86,6 +86,7 @@ GNM_PLUGIN_MODULE_HEADER;
 
 #define CXML2C(s) ((char const *)(s))
 #define CC2XML(s) ((xmlChar const *)(s))
+#define CU2C(s) ((char const *)(s))
 
 static inline gboolean
 attr_eq (xmlChar const *a, char const *s)
@@ -13972,7 +13973,7 @@ identified_google_docs (GsfInfile *zip)
 		/* pick arbitrary size limit of 0.5k for the manifest to avoid
 		 * potential of any funny business */
 		size_t size = MIN (gsf_input_size (content), 512);
-		char const *mf = gsf_input_read (content, size, NULL);
+		char const *mf = CU2C (gsf_input_read (content, size, NULL));
 		if (mf)
 			google_docs =
 				(NULL != g_strstr_len
@@ -14001,7 +14002,7 @@ determine_oo_version (GsfInfile *zip, OOVer def)
 	/* pick arbitrary size limit of 2k for the mimetype to avoid
 	 * potential of any funny business */
 	size = MIN (gsf_input_size (mimetype), 2048);
-	header = gsf_input_read (mimetype, size, NULL);
+	header = CU2C (gsf_input_read (mimetype, size, NULL));
 
 	if (header) {
 		unsigned ui;

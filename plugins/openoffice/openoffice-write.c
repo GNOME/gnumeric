@@ -83,6 +83,8 @@
 #include <glib.h>
 #include <glib/gi18n-lib.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+
 #define MANIFEST "manifest:"
 #define OFFICE	 "office:"
 #define STYLE	 "style:"
@@ -8831,7 +8833,7 @@ _gsf_gdk_pixbuf_save (const gchar *buf,
 		      gpointer data)
 {
 	GsfOutput *output = GSF_OUTPUT (data);
-	gboolean ok = gsf_output_write (output, count, buf);
+	gboolean ok = gsf_output_write (output, count, CC2U (buf));
 
 	if (!ok && error)
 		*error = g_error_copy (gsf_output_error (output));

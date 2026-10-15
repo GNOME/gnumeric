@@ -35,6 +35,8 @@
 
 #include <string.h>
 
+#define U2C(s) ((char *)(s))
+
 GNM_PLUGIN_MODULE_HEADER;
 
 typedef struct {
@@ -121,7 +123,7 @@ readline (MpsState *state)
 {
 	do {
 		char *line = state->line =
-			gsf_input_textline_utf8_gets (state->input);
+			U2C (gsf_input_textline_utf8_gets (state->input));
 
 		if (!line)
 			return FALSE;

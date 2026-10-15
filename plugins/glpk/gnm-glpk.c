@@ -15,6 +15,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#define CU2C(s) ((char const *)(s))
+
 #define SOLVER_PROGRAM "glpsol"
 #define SOLVER_URL "http://www.gnu.org/software/glpk/"
 #define PRIVATE_KEY "::glpk::"
@@ -67,6 +69,12 @@ write_program (GnmSolver *sol, WorkbookControl *wbc, GError **err)
 				  err);
 }
 
+static char const *
+glpk_gets (GsfInputTextline *tl)
+{
+	return CU2C (gsf_input_textline_utf8_gets (tl));
+}
+
 static char **
 my_strsplit (const char *line)
 {
@@ -113,7 +121,7 @@ gnm_glpk_detect_version (GnmGlpk *lp,
 	const char *line;
 	unsigned cols, rows;
 
-	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
+	if ((line = glpk_gets (tl)) == NULL)
 		goto out;
 	if (gnm_sscanf (line, "%u %u", &rows, &cols) == 2 &&
 	    cols == g_hash_table_size (subsol->cell_from_name)) {
@@ -150,13 +158,13 @@ gnm_glpk_read_solution_457 (GnmGlpk *lp,
 	int pstat, dstat;
 	gnm_float val;
 
-	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
+	if ((line = glpk_gets (tl)) == NULL)
 		goto fail;
 	if (gnm_sscanf (line, "%u %u", &rows, &cols) != 2 ||
 	    cols != g_hash_table_size (subsol->cell_from_name))
 		goto fail;
 
-	if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
+	if ((line = glpk_gets (tl)) == NULL)
 		goto fail;
 
 	if (has_integer
@@ -187,7 +195,7 @@ gnm_glpk_read_solution_457 (GnmGlpk *lp,
 		unsigned rstat;
 		unsigned cidx = r;
 
-		if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
+		if ((line = glpk_gets (tl)) == NULL)
 			goto fail;
 
 		if (has_integer)
@@ -205,7 +213,7 @@ gnm_glpk_read_solution_457 (GnmGlpk *lp,
 		unsigned cstat;
 		unsigned idx = c;
 
-		if ((line = gsf_input_textline_utf8_gets (tl)) == NULL)
+		if ((line = glpk_gets (tl)) == NULL)
 			goto fail;
 
 		if (has_integer
@@ -227,7 +235,7 @@ fail:
 }
 
 #define READ_LINE(tl,line) do {					\
-	line = gsf_input_textline_utf8_gets (tl);		\
+	line = glpk_gets (tl);		\
         if (!line) goto fail;					\
 	if (gnm_solver_debug ())				\
 		g_printerr ("%s\n", line);			\
@@ -392,7 +400,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 	// That is unfortunately because it implies rounding, for example.
 	// The information does not appear to be available elsewhere.
 
-	while ((line = gsf_input_textline_utf8_gets (tl)) != NULL) {
+	while ((line = glpk_gets (tl)) != NULL) {
 		gchar **items, **items2 = NULL;
 		int len, len2 = 0;
 
@@ -414,7 +422,7 @@ gnm_glpk_read_solution (GnmGlpk *lp)
 		len = g_strv_length (items);
 
 		if (len == 10 && g_ascii_isdigit (items[0][0])) {
-			line = gsf_input_textline_utf8_gets (tl);
+			line = glpk_gets (tl);
 			if (line) {
 				items2 = my_strsplit (line);
 				len2 = g_strv_length (items2);

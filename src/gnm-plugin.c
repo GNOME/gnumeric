@@ -21,6 +21,8 @@
 #include <string.h>
 
 #define CXML2C(s) ((char const *)(s))
+#define CC2U(s) ((guint8 const *)(s))
+#define CU2C(s) ((char const *)(s))
 
 static char *
 xml2c (xmlChar *src)
@@ -462,7 +464,7 @@ plugin_service_ui_activate (GOPluginService *service, GOErrorInfo **ret_error)
 			: NULL;
 	} else if (g_str_has_prefix (uifile, "data:")) {
 		const char *data = uifile + 5;
-		src = gsf_input_memory_new (data, strlen (data), FALSE);
+		src = gsf_input_memory_new (CC2U (data), strlen (data), FALSE);
 	} else {
 		char *full_file_name = g_path_is_absolute (uifile)
 			? g_strdup (uifile)
@@ -478,7 +480,7 @@ plugin_service_ui_activate (GOPluginService *service, GOErrorInfo **ret_error)
 
 	src = gsf_input_uncompress (src);
 	len = gsf_input_size (src);
-	xml_ui = g_strndup (gsf_input_read (src, len, NULL), len);
+	xml_ui = g_strndup (CU2C (gsf_input_read (src, len, NULL)), len);
 	if (!xml_ui)
 		goto err;
 

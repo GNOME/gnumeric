@@ -1972,7 +1972,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 					(GDestroyNotify)cb_delete_and_free);
 		tmp_file_name = NULL;
 	} else if (tmp_file_name) {
-		char buffer[64 * 1024];
+		guint8 buffer[64 * 1024];
 		gssize bytes_read;
 
 		if (lseek (tmp_file_fd, 0, SEEK_SET) < 0)
@@ -2093,7 +2093,7 @@ gnm_print_so (WorkbookControl *wbc, GPtrArray *sos,
 	gtk_print_operation_run (print, action, parent, NULL);
 
 	if (tmp_file_name) {
-		char buffer[64 * 1024];
+		guint8 buffer[64 * 1024];
 		gssize bytes_read;
 
 		if (lseek (tmp_file_fd, 0, SEEK_SET) < 0)

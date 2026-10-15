@@ -62,6 +62,8 @@
 #define GR_CHECKBOX_FORMULA   0x14
 #define GR_COMMON_OBJ_DATA    0x15
 
+static guint8 const zero_bytes[2] = { 0, 0 };
+
 MSObjAttr *
 ms_obj_attr_new_flag (MSObjAttrID id)
 {
@@ -1421,7 +1423,7 @@ ms_objv8_write_note (BiffPut *bp)
 static void
 ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active)
 {
-	char cboxdata[12];
+	guint8 cboxdata[12];
 
 	GSF_LE_SET_GUINT16 (cboxdata, GR_CHECKBOX_DATA);
 	GSF_LE_SET_GUINT16 (cboxdata + 2, sizeof (cboxdata) - 4);
@@ -1435,7 +1437,7 @@ ms_objv8_write_checkbox_data (BiffPut *bp, gboolean active)
 static void
 ms_objv8_write_checkbox_link (BiffPut *bp, gboolean active)
 {
-	char data[16];
+	guint8 data[16];
 
 	GSF_LE_SET_GUINT16 (data, GR_CHECKBOX_LINK);
 	GSF_LE_SET_GUINT16 (data + 2, sizeof (data) - 4);
@@ -1453,7 +1455,7 @@ ms_objv8_write_link_fmla (BiffPut *bp, guint16 typ,
 			  ExcelWriteSheet *esheet,
 			  GnmExprTop const *texpr)
 {
-	char hfmla[10];
+	guint8 hfmla[10];
 	unsigned pos, end_pos;
 	guint16 fmla_len;
 
@@ -1468,7 +1470,7 @@ ms_objv8_write_link_fmla (BiffPut *bp, guint16 typ,
 					esheet->gnum_sheet, 0, 0,
 					EXCEL_CALLED_FROM_OBJ);
 	if (fmla_len & 1)
-		ms_biff_put_var_write (bp, "", 1);
+		ms_biff_put_var_write (bp, zero_bytes, 1);
 	end_pos = bp->curpos;
 	ms_biff_put_var_seekto (bp, pos);
 	GSF_LE_SET_GUINT16 (hfmla + 2, (fmla_len + 7) & ~1);
@@ -1482,7 +1484,7 @@ ms_objv8_write_macro_fmla (BiffPut *bp,
 			   ExcelWriteSheet *esheet,
 			   GnmExprTop const *texpr)
 {
-	char hfmla[10];
+	guint8 hfmla[10];
 	unsigned pos, end_pos;
 	guint16 fmla_len;
 
@@ -1497,7 +1499,7 @@ ms_objv8_write_macro_fmla (BiffPut *bp,
 					esheet->gnum_sheet, 0, 0,
 					EXCEL_CALLED_FROM_OBJ);
 	if (fmla_len & 1)
-		ms_biff_put_var_write (bp, "", 1);
+		ms_biff_put_var_write (bp, zero_bytes, 1);
 	end_pos = bp->curpos;
 	ms_biff_put_var_seekto (bp, pos);
 	GSF_LE_SET_GUINT16 (hfmla + 2, (fmla_len + 7) & ~1);
@@ -1539,7 +1541,7 @@ ms_objv8_write_checkbox (BiffPut *bp,
 static void
 ms_objv8_write_radiobutton_rec (BiffPut *bp)
 {
-	char rb[10];
+	guint8 rb[10];
 
 	GSF_LE_SET_GUINT16 (rb, GR_RADIO_BUTTON);
 	GSF_LE_SET_GUINT16 (rb + 2, sizeof (rb) - 4);
@@ -1551,7 +1553,7 @@ ms_objv8_write_radiobutton_rec (BiffPut *bp)
 static void
 ms_objv8_write_radiobutton_data (BiffPut *bp, guint16 nobj, gboolean first)
 {
-	char rb[8];
+	guint8 rb[8];
 
 	GSF_LE_SET_GUINT16 (rb, GR_RADIO_BUTTON_DATA);
 	GSF_LE_SET_GUINT16 (rb + 2, sizeof (rb) - 4);
@@ -1582,7 +1584,7 @@ static void
 ms_objv8_write_adjustment (BiffPut *bp,
 			   GtkAdjustment *adj, gboolean horiz)
 {
-	char data[24];
+	guint8 data[24];
 
 	GSF_LE_SET_GUINT16 (data, GR_SCROLLBAR);
 	GSF_LE_SET_GUINT16 (data + 2, sizeof (data) - 4);
@@ -1637,8 +1639,8 @@ ms_objv8_write_list_data (BiffPut *bp,
 			  GnmExprTop const *texpr,
 			  guint16 N, guint16 selected)
 {
-	char hfmla[12];
-	char data[8];
+	guint8 hfmla[12];
+	guint8 data[8];
 	unsigned pos, end_pos;
 	guint16 fmla_len;
 	guint16 ui;
@@ -1658,11 +1660,11 @@ ms_objv8_write_list_data (BiffPut *bp,
 						esheet->gnum_sheet, 0, 0,
 						EXCEL_CALLED_FROM_OBJ);
 		if (fmla_len & 1)
-			ms_biff_put_var_write (bp, "", 1);
+			ms_biff_put_var_write (bp, zero_bytes, 1);
 		GSF_LE_SET_GUINT16 (hfmla + 6, fmla_len);
 	} else {
 		/* Needs testing.  */
-		ms_biff_put_var_write (bp, "\0", 2);
+		ms_biff_put_var_write (bp, zero_bytes, 2);
 		fmla_len = 0;
 	}
 
@@ -1672,7 +1674,7 @@ ms_objv8_write_list_data (BiffPut *bp,
 	ms_biff_put_var_write (bp, hfmla, sizeof hfmla);
 	ms_biff_put_var_seekto (bp, end_pos);
 
-	selection = g_new0 (char, N);
+	selection = g_new0 (guint8, N);
 	for (ui = 0; ui < N; ui++)
 		selection[ui] = (ui + 1 == selected);
 

@@ -52,6 +52,8 @@
 #include <cairo.h>
 #include <pango/pangocairo.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+
 GOPluginModuleDepend const go_plugin_depends[] = {
 	{ "goffice", GOFFICE_API_VERSION }
 };
@@ -134,7 +136,7 @@ go_gnm_component_set_data (GOComponent *component)
 	GOGnmComponent *gognm = GO_GNM_COMPONENT (component);
 	GOCmdContext *cc = go_component_get_command_context (component);
 	GOIOContext *io_context = go_io_context_new (cc);
-	GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
+	GsfInput *input = gsf_input_memory_new (CC2U (component->data), component->length, FALSE);
 
 	g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
 	if (gognm->wv != NULL) {
@@ -244,7 +246,7 @@ go_gnm_component_edit (GOComponent *component)
 	} else {
 		GOCmdContext *cc = go_component_get_command_context (component);
 		GOIOContext *io_context = GO_IS_IO_CONTEXT (cc)? GO_IO_CONTEXT (g_object_ref (cc)): go_io_context_new (cc);
-		GsfInput *input = gsf_input_memory_new (component->data, component->length, FALSE);
+		GsfInput *input = gsf_input_memory_new (CC2U (component->data), component->length, FALSE);
 
 		g_object_set (G_OBJECT (io_context), "exec-main-loop", FALSE, NULL);
 		wv = workbook_view_new_from_input (input, NULL, NULL, io_context, NULL);

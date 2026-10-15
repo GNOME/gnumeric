@@ -78,6 +78,11 @@
 #include <zlib.h>
 #include <crypt-md4.h>
 
+#define C2U(s) ((guint8 *)(s))
+#define U2C(s) ((char *)(s))
+
+#define CC2U(s) ((guint8 const *)(s))
+
 /* #define NO_DEBUG_EXCEL */
 #ifndef NO_DEBUG_EXCEL
 #define d(level, code)	do { if (ms_excel_write_debug > level) { code } } while (0)
@@ -268,15 +273,15 @@ excel_sheet_extent (Sheet const *sheet, GnmRange *extent, GPtrArray *col_styles,
  * bytes in @bytes.
  **/
 static unsigned int
-excel_strlen (guint8 const *str, size_t *bytes)
+excel_strlen (char const *str, size_t *bytes)
 {
-	guint8 const *p = str;
+	char const *p = str;
 	size_t i = 0;
 
 	g_return_val_if_fail (str != NULL, 0);
 
 	for (; *p ; i++)
-		p = (guint8 const *)g_utf8_next_char (p);
+		p = g_utf8_next_char (p);
 
 	if (bytes != NULL)
 		*bytes = p - str;
@@ -374,7 +379,7 @@ string_maxlen[4] = {
  **/
 unsigned
 excel_write_string (BiffPut *bp, WriteStringFlags flags,
-		    guint8 const *txt)
+		    char const *txt)
 {
 	size_t char_len, byte_len, out_bytes, len_len, max_len, items, conv_bytes;
 	gboolean need_uni_marker =
@@ -450,7 +455,7 @@ excel_write_string (BiffPut *bp, WriteStringFlags flags,
 		ms_biff_put_var_write (bp, &isunistr, 1);
 		out_bytes++;
 	}
-	ms_biff_put_var_write (bp, convdata ? convdata : txt, conv_bytes);
+	ms_biff_put_var_write (bp, convdata ? convdata : CC2U (txt), conv_bytes);
 	out_bytes += conv_bytes;
 
 	g_free (convdata);
@@ -3651,7 +3656,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 		GnmRange const *pos = sheet_object_get_range (GNM_SO (cc));
 		char const *in = cell_comment_text_get (cc);
 		size_t out_bytes, o;
-		gpointer convstr;
+		guint8 *convstr;
 
 		g_return_if_fail (in != NULL);
 		g_return_if_fail (pos != NULL);
@@ -3670,7 +3675,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelWriteSheet *esheet)
 			GSF_LE_SET_GUINT16 (data + 4, o ? this_len : out_bytes);
 			ms_biff_put_var_write (bp, data, 6);
 
-			ms_biff_put_var_write (bp, (char *)convstr + o, this_len);
+			ms_biff_put_var_write (bp, convstr + o, this_len);
 			ms_biff_put_commit (bp);
 		}
 		g_free (convstr);
@@ -4350,7 +4355,7 @@ excel_write_chart_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_escher_spcontainer_end (escher, spmark);
 
-	ms_biff_put_var_write (bp, escher->str, escher->len);
+	ms_biff_put_var_write (bp, CC2U (escher->str), escher->len);
 	ms_biff_put_commit (bp);
 	draw_len += escher->len;
 
@@ -4444,7 +4449,7 @@ blipinf_new (SheetObjectImage *soi)
 		if (buffer) {
 			g_free (blip->type);
 			blip->type = g_strdup ("png");
-			blip->bytes.data = buffer;
+			blip->bytes.data = C2U (buffer);
 			blip->needs_free = TRUE;
 			blip->header_len = BSE_HDR_LEN + RASTER_BLIP_HDR_LEN;
 		} else {
@@ -4798,7 +4803,7 @@ excel_write_other_v8 (ExcelWriteSheet *esheet,
 
 	draw_len += escher->len;
 
-	ms_biff_put_var_write (bp, escher->str, escher->len);
+	ms_biff_put_var_write (bp, CC2U (escher->str), escher->len);
 	ms_biff_put_commit (bp);
 
 	g_string_free (escher, TRUE);
@@ -5023,7 +5028,7 @@ excel_write_line_v8 (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_escher_spcontainer_end (escher, spmark);
 
-	ms_biff_put_var_write (bp, escher->str, escher->len);
+	ms_biff_put_var_write (bp, CC2U (escher->str), escher->len);
 	ms_biff_put_commit (bp);
 	draw_len += escher->len;
 
@@ -5965,8 +5970,8 @@ excel_write_SST (ExcelWriteState *ewb)
 	GPtrArray const *strings = ewb->sst.indicies;
 	BiffPut		*bp = ewb->bp;
 	SSTInf		*extsst = NULL;
-	char *ptr, data[8224];
-	char const * const last = data + sizeof (data);
+	guint8 *ptr, data[8224];
+	guint8 const * const last = data + sizeof (data);
 	size_t out_bytes, char_len, byte_len;
 	unsigned i, tmp, blocks, scale;
 	GOString const *string;
@@ -6008,7 +6013,7 @@ excel_write_SST (ExcelWriteState *ewb)
 		if (char_len == byte_len) {
 			while ((ptr + 1 + char_len) > last) {
 				*ptr++ = 0;	/* unicode header == 0 */
-				strncpy (ptr, str, last - ptr);
+				strncpy (U2C (ptr), str, last - ptr);
 				str += (last - ptr);
 				char_len -= (last - ptr);
 				ptr = data;
@@ -6019,7 +6024,7 @@ excel_write_SST (ExcelWriteState *ewb)
 			}
 
 			*ptr = 0;	/* unicode header == 0 */
-			strncpy (ptr + 1, str, char_len);
+			strncpy (U2C (ptr + 1), str, char_len);
 			ptr += char_len + 1;
 		} else {
 			size_t old_out_bytes, count = 0;

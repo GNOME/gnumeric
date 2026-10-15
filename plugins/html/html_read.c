@@ -53,6 +53,7 @@
 #define C2XML(s) ((xmlChar *)(s))
 #define CXML2C(s) ((char const *)(s))
 #define XML2C(s) ((char *)(s))
+#define CU2C(s) ((char const *)(s))
 
 typedef struct {
 	Sheet *sheet;
@@ -651,7 +652,7 @@ html_file_probe (G_GNUC_UNUSED GOFileOpener const *fo, GsfInput *input,
 			return res;
 	}
 
-	if (go_guess_encoding (buf, size, NULL, &ustr, NULL)) {
+	if (go_guess_encoding (CU2C (buf), size, NULL, &ustr, NULL)) {
 		ulstr = g_utf8_strdown (ustr->str, -1);
 		g_string_free (ustr, TRUE);
 	}

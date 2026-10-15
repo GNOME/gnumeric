@@ -29,6 +29,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define CU2C(s) ((char const *)(s))
+
 #define OLEO_DEBUG 0
 
 
@@ -92,7 +94,7 @@ oleo_parse_formula (OleoReader *state, char const *expr_str)
 }
 
 static void
-oleo_parse_cell (OleoReader *state, guint8 *str, GnmStyle *style)
+oleo_parse_cell (OleoReader *state, char *str, GnmStyle *style)
 {
 	GnmCell *cell;
 	GnmExprTop const *texpr = NULL;
@@ -177,7 +179,7 @@ oleo_parse_cell (OleoReader *state, guint8 *str, GnmStyle *style)
 /* NOTE : We don't care too much about formatting as such, but we need to
  * parse the command as it may update current row/column */
 static void
-oleo_parse_style (OleoReader *state, guint8 *str, GnmStyle **res)
+oleo_parse_style (OleoReader *state, char *str, GnmStyle **res)
 {
 	char *ptr = str + 1;
 	GnmStyle *style = gnm_style_new_default ();
@@ -265,7 +267,7 @@ oleo_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 
 	while (NULL != (line = gsf_input_textline_ascii_gets (state.textline))) {
 		char *utf8line =
-			g_convert_with_iconv (line, -1, state.converter, NULL, NULL, NULL);
+			g_convert_with_iconv (CU2C (line), -1, state.converter, NULL, NULL, NULL);
 
 		switch (utf8line[0]) {
 		case '#': /* Comment */

@@ -25,6 +25,12 @@
 #include <gsf/gsf-msole-utils.h>
 #include <goffice/goffice.h>
 
+#define C2U(s) ((guint8 *)(s))
+
+#define CC2U(s) ((guint8 const *)(s))
+#define CU2C(s) ((char const *)(s))
+#define U2C(s) ((char *)(s))
+
 #define BIFF_DEBUG 0
 #define sizeof_BIFF_8_FILEPASS	 (6 + 3*16)
 #define sizeof_BIFF_2_7_FILEPASS  4
@@ -96,7 +102,7 @@ ms_biff_query_bound_check (BiffQuery *q, guint32 offset, unsigned len)
 static guint16
 ms_biff_password_hash  (guint8 const *password)
 {
-	int tmp, index = 0, len = strlen ((char const *)password);
+	int tmp, index = 0, len = strlen (CU2C (password));
 	guint16 chr, hash= 0;
 
 	do {
@@ -111,7 +117,7 @@ ms_biff_password_hash  (guint8 const *password)
 }
 
 static void
-ms_biff_crypt_seq (BiffQuery *q, guint16 key, guint8 const *password)
+ms_biff_crypt_seq (BiffQuery *q, guint16 key, char const *password)
 {
 	static guint8 const preset[] = {
 		0xbb, 0xff, 0xff, 0xba, 0xff, 0xff, 0xb9, 0x80,
@@ -119,10 +125,10 @@ ms_biff_crypt_seq (BiffQuery *q, guint16 key, guint8 const *password)
 	};
 	guint8 const low  =        key & 0xff;
 	guint8 const high = (key >> 8) & 0xff;
-	unsigned i, len = strlen ((char const*)password);
+	unsigned i, len = strlen (password);
 	guint8 *seq = q->xor_key;
 
-	strncpy (seq, password, 16);
+	strncpy (U2C (seq), password, 16);
 	for (i = 0; (len + i) < 16; i++)
 		seq[len + i] = preset[i];
 
@@ -136,10 +142,10 @@ ms_biff_crypt_seq (BiffQuery *q, guint16 key, guint8 const *password)
 }
 
 static gboolean
-ms_biff_pre_biff8_query_set_decrypt  (BiffQuery *q, guint8 const *password)
+ms_biff_pre_biff8_query_set_decrypt  (BiffQuery *q, char const *password)
 {
 	guint16 hash, key;
-	guint16 pw_hash = ms_biff_password_hash (password);
+	guint16 pw_hash = ms_biff_password_hash (CC2U (password));
 
 
 	if (q->length == 4) {
@@ -194,7 +200,7 @@ makekey (guint32 block, RC4_KEY *key, const unsigned char *valDigest)
  * convert UTF-8-password into UTF-16
  */
 static gboolean
-verify_password (guint8 const *password, guint8 const *docid,
+verify_password (char const *password, guint8 const *docid,
 		 guint8 const *salt_data, guint8 const *hashedsalt_data,
 		 unsigned char *valDigest)
 {
@@ -312,7 +318,7 @@ skip_bytes (BiffQuery *q, guint32 start, guint32 count)
  **/
 gboolean
 ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
-			   guint8 const *password)
+			   char const *password)
 {
 	g_return_val_if_fail (q->opcode == BIFF_FILEPASS, FALSE);
 
@@ -561,18 +567,18 @@ ms_biff_query_next (BiffQuery *q)
 
 		while (ms_biff_query_peek_next (q, &opcode) &&
 		       opcode == BIFF_CONTINUE) {
-			GString *data = g_string_new_len (q->data, q->length);
+			GString *data = g_string_new_len (CU2C (q->data), q->length);
 			opcode = q->opcode;
 			if (!ms_biff_query_next (q)) {
 				g_string_free (data, TRUE);
 				return FALSE; /* Probably shouldn't happen */
 			}
 			q->opcode = opcode;
-			g_string_append_len (data, q->data, q->length);
+			g_string_append_len (data, CU2C (q->data), q->length);
 			if (q->data_malloced)
 				g_free (q->data);
 			q->length = data->len;
-			q->data = g_string_free (data, FALSE);
+			q->data = C2U (g_string_free (data, FALSE));
 			q->data_malloced = TRUE;
 		}
 	}
@@ -685,7 +691,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 
 	g_string_set_size (bp->record, len);
 
-	return bp->record->str;
+	return C2U (bp->record->str);
 }
 
 void
@@ -753,7 +759,7 @@ ms_biff_put_commit (BiffPut *bp)
 {
 	guint16 opcode;
 	size_t len, maxlen;
-	const char *data;
+	guint8 const *data;
 
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->output != NULL);
@@ -762,7 +768,7 @@ ms_biff_put_commit (BiffPut *bp)
 
 	opcode = bp->opcode;
 	len = bp->record->len;
-	data = bp->record->str;
+	data = CC2U (bp->record->str);
 	do {
 		guint8 tmp[4];
 		size_t thislen = MIN (len, maxlen);

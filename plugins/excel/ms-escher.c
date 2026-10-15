@@ -40,6 +40,8 @@
 #include <glib/gstdio.h>
 #include <zlib.h>
 
+#define CU2C(s) ((char const *)(s))
+
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:escher"
 
@@ -2289,7 +2291,7 @@ ms_escher_spcontainer_start (GString *buf)
 {
 	gsize res = buf->len;
 	guint8 tmp[8] = { 0xf, 0, 4, 0xf0, 0xde, 0xad, 0xbe, 0xef };
-	g_string_append_len (buf, tmp, sizeof tmp);
+	g_string_append_len (buf, CU2C (tmp), sizeof tmp);
 	return res;
 }
 
@@ -2312,7 +2314,7 @@ ms_escher_sp (GString *buf, guint32 spid, guint16 shape, guint32 flags)
 	GSF_LE_SET_GUINT32 (tmp + 4, sizeof (tmp) - 8);
 	GSF_LE_SET_GUINT32 (tmp + 8, spid);
 	GSF_LE_SET_GUINT32 (tmp + 12, flags);
-	g_string_append_len (buf, tmp, sizeof tmp);
+	g_string_append_len (buf, CU2C (tmp), sizeof tmp);
 	ms_escher_set_inst (buf, marker, shape);
 }
 
@@ -2321,7 +2323,7 @@ ms_escher_opt_start (GString *buf)
 {
 	gsize res = buf->len;
 	guint8 tmp[8] = { 0x03,   0, 0xb, 0xf0, 0xde, 0xad, 0xbe, 0xef };
-	g_string_append_len (buf, tmp, sizeof tmp);
+	g_string_append_len (buf, CU2C (tmp), sizeof tmp);
 	return res;
 }
 
@@ -2340,7 +2342,7 @@ ms_escher_opt_add_simple (GString *buf, gsize marker, guint16 pid, gint32 val)
 
 	GSF_LE_SET_GUINT16 (tmp, pid);
 	GSF_LE_SET_GINT32 (tmp + 2, val);
-	g_string_append_len (buf, tmp, sizeof tmp);
+	g_string_append_len (buf, CU2C (tmp), sizeof tmp);
 
 	ms_escher_set_inst (buf, marker,
 			    ms_escher_get_inst (buf, marker) + 1);
@@ -2383,7 +2385,7 @@ ms_escher_opt_add_str_wchar (GString *buf, gsize marker, GString *extra,
 
 	GSF_LE_SET_GUINT16 (tmp, pid | 0x8000);
 	GSF_LE_SET_GUINT32 (tmp + 2, ic * 2 + 2);
-	g_string_append_len (buf, tmp, sizeof tmp);
+	g_string_append_len (buf, CU2C (tmp), sizeof tmp);
 	g_string_append_len (extra, (gpointer)str16, ic * 2 + 2);
 
 	g_free (str16);
@@ -2425,7 +2427,7 @@ ms_escher_clientanchor (GString *buf, SheetObjectAnchor const *anchor)
 	GSF_LE_SET_GUINT16 (p + 10, (guint16)(anchor->offset[2]*1024. + .5));
 	GSF_LE_SET_GUINT16 (p + 12, anchor->cell_bound.end.row);
 	GSF_LE_SET_GUINT16 (p + 14, (guint16)(anchor->offset[3]*256. + .5));
-	g_string_append_len (buf, tmp, sizeof tmp);
+	g_string_append_len (buf, CU2C (tmp), sizeof tmp);
 }
 
 void
@@ -2433,5 +2435,5 @@ ms_escher_clientdata (GString *buf)
 {
 	guint8 tmp[8] = { 0, 0, 0x11, 0xf0, 0xde, 0xad, 0xbe, 0xef };
 	GSF_LE_SET_GUINT32 (tmp + 4, 0);
-	g_string_append_len (buf, tmp, sizeof tmp);
+	g_string_append_len (buf, CU2C (tmp), sizeof tmp);
 }

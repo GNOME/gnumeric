@@ -27,6 +27,8 @@
 #include <string.h>
 #include <math.h>
 
+#define CU2C(s) ((char const *)(s))
+
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean pln_file_probe (GOFileOpener const *fo, GsfInput *input,
@@ -153,7 +155,7 @@ static guint8 const signature[] =
     { 0xff, 'W','P','C', 0x10, 0, 0, 0, 0x9, 0xa };
 
 /* in charset.c. */
-guint8 *pln_get_str (guint8 const *ch, unsigned len);
+char *pln_get_str (guint8 const *ch, unsigned len);
 
 static char const *
 pln_get_func_table1 (unsigned i)
@@ -184,7 +186,7 @@ pln_file_probe (GOFileOpener const *fo, GsfInput *input,
 	 *	12-13	= encryption key
 	 *	14-15	= unused
 	 */
-	char const *header = NULL;
+	guint8 const *header = NULL;
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))
 		header = gsf_input_read (input, sizeof (signature), NULL);
 	return header != NULL &&
@@ -311,7 +313,7 @@ static char *
 pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 {
 	GString *expr = g_string_new (NULL);
-	guint8 *str;
+	char *str;
 	guint8 const *end;
 	int len, code;
 	unsigned ui;
@@ -351,7 +353,7 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 
 		case 10: /* Named block */
 			len = *ch;
-			g_string_append_len (expr, ch + 1, len);
+			g_string_append_len (expr, CU2C (ch + 1), len);
 			ch += len + 1;
 			break;
 
@@ -420,7 +422,7 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 
 		case 30:	/* Floating point constant */
 			len = ch[8];  /* they store the ascii ?? will we be screwed by locale ? */
-			g_string_append_len (expr, ch+9, len);
+			g_string_append_len (expr, CU2C (ch+9), len);
 			ch += 9 + len;
 			break;
 
@@ -438,14 +440,14 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 		case 33:	/* Temporary variable (#:=) */
 			len = ch[1];
 			g_string_append (expr, "_unknown33_");
-			g_string_append_len (expr, ch+2, len);
+			g_string_append_len (expr, CU2C (ch+2), len);
 			ch += 2 + len;
 			break;
 
 		case 34:	/* Temporary variable (#) */
 			len = ch[1];
 			g_string_append (expr, "_unknown34_");
-			g_string_append_len (expr, ch+2, len);
+			g_string_append_len (expr, CU2C (ch+2), len);
 			ch += 2 + len;
 			break;
 

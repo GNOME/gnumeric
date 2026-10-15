@@ -59,6 +59,9 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define CU2C(s) ((char const *)(s))
+#define U2C(s) ((char *)(s))
+
 typedef struct {
 	GsfInputTextline *input;
 	GOErrorInfo     *parse_error;
@@ -69,7 +72,7 @@ typedef struct {
 	GPtrArray     *attrs;
 	GPtrArray     *font_names;
 
-	unsigned char *buffer;
+	char *buffer;
 	size_t buffer_size;
 	size_t line_len;
 	int zoom;
@@ -89,12 +92,9 @@ static int debug_applix_read = 0;
 #endif
 
 static long
-au_strtol (const unsigned char *str, unsigned char **end)
+au_strtol (const char *str, char **end)
 {
-	char *send;
-	long res = strtol ((const char *)str, &send, 10);
-	if (end) *end = (unsigned char *)send;
-	return res;
+	return strtol (str, end, 10);
 }
 
 static long
@@ -296,15 +296,15 @@ applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *p
 	return tmp2;
 }
 
-static unsigned char *
+static char *
 applix_get_line (ApplixReadState *state)
 {
-	unsigned char *ptr, *end, *buf;
+	char *ptr, *end, *buf;
 	GString *line = g_string_new (NULL);
 	gboolean first = TRUE;
 
 	// Read line and continuation lines.
-	while (NULL != (ptr = gsf_input_textline_ascii_gets (state->input))) {
+	while (NULL != (ptr = U2C (gsf_input_textline_ascii_gets (state->input)))) {
 		size_t len = strlen (ptr);
 		// Clip at the state line length
 		size_t uselen = MIN (len, state->line_len);
@@ -355,7 +355,7 @@ applix_get_line (ApplixReadState *state)
 		} else {
 			guchar uc = ((ptr[1] - 'a') << 4) | (ptr[2] - 'a');
 			gsize utf8_len;
-			char *utf8buf = g_convert_with_iconv (&uc, 1, state->converter, NULL,
+			char *utf8buf = g_convert_with_iconv (CU2C (&uc), 1, state->converter, NULL,
 							      &utf8_len, NULL);
 			if (utf8buf) {
 				memcpy (buf, utf8buf, utf8_len);
@@ -386,7 +386,7 @@ applix_get_line (ApplixReadState *state)
 static gboolean
 applix_read_colormap (ApplixReadState *state)
 {
-	unsigned char *buffer, *pos, *iter, *end;
+	char *buffer, *pos, *iter, *end;
 	int count;
 	long numbers[6];
 
@@ -442,7 +442,7 @@ applix_read_colormap (ApplixReadState *state)
 static gboolean
 applix_read_typefaces (ApplixReadState *state)
 {
-	unsigned char *ptr;
+	char *ptr;
 
 	while (NULL != (ptr = applix_get_line (state))) {
 		if (g_str_has_prefix (ptr, "END TYPEFACE TABLE"))
@@ -482,7 +482,7 @@ applix_get_precision (char const *val)
 }
 
 static GnmStyle *
-applix_parse_style (ApplixReadState *state, unsigned char **buffer)
+applix_parse_style (ApplixReadState *state, char **buffer)
 {
 	GnmStyle *style;
 	char *start = *buffer, *tmp = start;
@@ -911,7 +911,7 @@ static gboolean
 applix_read_attributes (ApplixReadState *state)
 {
 	int count = 0;
-	unsigned char *ptr, *tmp;
+	char *ptr, *tmp;
 	GnmStyle *style;
 
 	while (NULL != (ptr = applix_get_line (state))) {
@@ -954,7 +954,7 @@ applix_fetch_sheet (ApplixReadState *state, char const *name)
 }
 
 static Sheet *
-applix_parse_sheet (ApplixReadState *state, unsigned char **buffer,
+applix_parse_sheet (ApplixReadState *state, char **buffer,
 		    char const separator)
 {
 	Sheet *sheet;
@@ -974,7 +974,7 @@ applix_parse_sheet (ApplixReadState *state, unsigned char **buffer,
 }
 
 static char *
-applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
+applix_parse_cellref (ApplixReadState *state, char *buffer,
 		      Sheet **sheet, GnmCellPos *pos,
 		      char const separator)
 {
@@ -982,10 +982,10 @@ applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
 
 	/* Get cell addr */
 	if (*sheet) {
-		buffer = (unsigned char *)applix_cellpos_parse
+		char const *end = applix_cellpos_parse
 			(buffer, *sheet, pos, FALSE);
-		if (buffer)
-			return buffer;
+		if (end)
+			return buffer + (end - buffer);
 	}
 
 	*sheet = NULL;
@@ -1018,10 +1018,10 @@ applix_pixels_to_pts (Sheet *sheet, gboolean is_horiz, int pixels)
 
 
 static int
-applix_read_current_view (ApplixReadState *state, unsigned char *buffer)
+applix_read_current_view (ApplixReadState *state, char *buffer)
 {
 	/* What is this ? */
-	unsigned char *ptr;
+	char *ptr;
 	while (NULL != (ptr = applix_get_line (state)))
 	       if (g_str_has_prefix (ptr, "End View, Name: ~Current~"))
 		       return 0;
@@ -1029,11 +1029,11 @@ applix_read_current_view (ApplixReadState *state, unsigned char *buffer)
 }
 
 static int
-applix_read_view (ApplixReadState *state, unsigned char *buffer)
+applix_read_view (ApplixReadState *state, char *buffer)
 {
 	Sheet *sheet = NULL;
-	unsigned char *name = buffer + 19;
-	unsigned char *tmp;
+	char *name = buffer + 19;
+	char *tmp;
 	gboolean ignore;
 
 	tmp = strchr (name, ':');
@@ -1139,7 +1139,7 @@ applix_read_cells (ApplixReadState *state)
 	GnmCell *cell;
 	GnmCellPos pos;
 	GnmParseError  perr;
-	unsigned char content_type, *tmp, *ptr;
+	char content_type, *tmp, *ptr;
 
 	while (NULL != (ptr = applix_get_line (state))) {
 		gboolean const val_is_string = (ptr[0] != '\0' && ptr[1] == '\'');
@@ -1324,9 +1324,9 @@ applix_read_cells (ApplixReadState *state)
 }
 
 static int
-applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
+applix_read_row_list (ApplixReadState *state, char *ptr)
 {
-	unsigned char *tmp;
+	char *tmp;
 	GnmRange	r;
 	Sheet *sheet = applix_parse_sheet (state, &ptr, ' ');
 
@@ -1366,8 +1366,8 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 static gboolean
 applix_read_sheet_table (ApplixReadState *state)
 {
-	unsigned char *ptr;
-	unsigned char *std_name, *real_name;
+	char *ptr;
+	char *std_name, *real_name;
 	while (NULL != (ptr = applix_get_line (state))) {
 	       if (g_str_has_prefix (ptr, "END SHEETS TABLE"))
 		       return FALSE;
@@ -1398,7 +1398,7 @@ applix_read_sheet_table (ApplixReadState *state)
 static gboolean
 applix_read_header_footer (ApplixReadState *state)
 {
-	unsigned char *ptr;
+	char *ptr;
 	while (NULL != (ptr = applix_get_line (state)))
 	       if (g_str_has_prefix (ptr, "Headers And Footers End"))
 		       return FALSE;
@@ -1486,10 +1486,10 @@ applix_read_impl (ApplixReadState *state)
 	Sheet *sheet;
 	GnmCellPos pos;
 	int ext_links = -1;
-	unsigned char *real_name = NULL;
+	char *real_name = NULL;
 	char top_cell_addr[30] = "";
 	char cur_cell_addr[30] = "";
-	unsigned char *buffer;
+	char *buffer;
 	char default_text_format[128] = "";
 	char default_number_format[128] = "";
 	int def_col_width = -1;

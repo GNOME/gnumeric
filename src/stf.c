@@ -57,6 +57,8 @@
 #include <gsf/gsf-utils.h>
 #include <locale.h>
 
+#define CU2C(s) ((char const *)(s))
+
 static void
 stf_warning (GOIOContext *context, char const *msg)
 {
@@ -254,10 +256,10 @@ cb_get_content (GnmCellIter const *iter, GsfOutput *buf)
 		else
 			tmp = value_get_as_string (cell->value);
 
-		gsf_output_write (buf, strlen (tmp), tmp);
+		gsf_output_puts (buf, tmp);
 		g_free (tmp);
 	}
-	gsf_output_write (buf, 1, "\n");
+	gsf_output_puts (buf, "\n");
 
 	return NULL;
 }
@@ -316,7 +318,7 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 		dialogresult = stf_dialog (WBC_GTK (wbc),
 					   NULL, FALSE, NULL, FALSE,
 					   _("Text to Columns"),
-					   data, data_len);
+					   CU2C (data), data_len);
 	}
 	if (dialogresult != NULL) {
 		GnmCellRegion *cr = stf_parse_region (dialogresult->parseoptions,
@@ -533,7 +535,7 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 		if (NULL == (header = gsf_input_read (input, i, NULL)))
 			return FALSE;
 
-		enc = go_guess_encoding (header, i, NULL, &header_utf8, NULL);
+		enc = go_guess_encoding (CU2C (header), i, NULL, &header_utf8, NULL);
 		if (!enc)
 			return FALSE;
 

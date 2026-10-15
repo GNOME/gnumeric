@@ -26,6 +26,8 @@
 #include <func.h>
 #include <gsf/gsf-utils.h>
 
+#define CU2C(s) ((char const *)(s))
+
 #define FORMULA_DEBUG 0
 
 
@@ -644,7 +646,7 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 		case LOTUS_FORMULA_STRING: {
 			size_t l;
 			CHECK_BYTES (2);
-			l = strnlen (data + i + 1, len - i - 1);
+			l = strnlen (CU2C (data + i + 1), len - i - 1);
 			parse_list_push_value (&stack,
 				lotus_new_string (data + i + 1, state->lmbcs_group));
 			i += 2 + l;
@@ -796,7 +798,7 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 		case LOTUS_FORMULA_STRING: {
 			size_t l;
 			CHECK_BYTES (2);
-			l = strnlen (data + i + 1, len - i - 1);
+			l = strnlen (CU2C (data + i + 1), len - i - 1);
 			parse_list_push_value (&stack,
 				lotus_new_string (data + i + 1, state->lmbcs_group));
 			i += 2 + l;

@@ -107,6 +107,7 @@ xml_sax_barf (const char *locus, const char *reason)
 
 
 #define CXML2C(s) ((char const *)(s))
+#define CC2U(s) ((guint8 const *)(s))
 
 static inline gboolean
 attr_eq (const xmlChar *a, const char *s)
@@ -3911,7 +3912,7 @@ gnm_xml_cellregion_read (WorkbookControl *wbc, GOIOContext *io_context,
 	GnmCellRegion *result;
 
 	wb_view = wb_control_view (wbc);
-	input = gsf_input_memory_new (buffer, length, FALSE);
+	input = gsf_input_memory_new (CC2U (buffer), length, FALSE);
 	read_file_common (READ_CLIPBOARD, &state,
        		       io_context, wb_view, sheet,
        		       input);

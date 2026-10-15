@@ -63,6 +63,8 @@
 #include <gsf/gsf-output.h>
 #include <string.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+
 typedef enum {
 	LATEX_NO_BORDER = 0,
 	LATEX_SINGLE_BORDER = 1,
@@ -165,7 +167,7 @@ latex_raw_str (char const *p, GsfOutput *output, gboolean utf8)
 					depth--;
 					if (depth == 0){
 						/* put the string beginning from p_begin to p to output */
-						gsf_output_write (output, p - p_begin, p_begin);
+						gsf_output_write (output, p - p_begin, CC2U (p_begin));
 						return p;
 					}
 			}
@@ -215,7 +217,7 @@ latex_fputs_utf (char const *p, GsfOutput *output)
 
 		default:
 			gsf_output_write (output,
-					  (g_utf8_next_char (p)) - p, p);
+					  (g_utf8_next_char (p)) - p, CC2U (p));
 			break;
 		}
 	}
@@ -256,7 +258,7 @@ latex_math_fputs_utf (char const *p, GsfOutput *output)
 				break;
 			default:
 				gsf_output_write (output,
-						  (g_utf8_next_char (p)) - p, p);
+						  (g_utf8_next_char (p)) - p, CC2U (p));
 				break;
 		}
 	}
@@ -354,7 +356,7 @@ latex_fputs_latin (char const *text, GsfOutput *output)
 			break;
 
 		default:
-			gsf_output_write (output, 1, p);
+			gsf_output_write (output, 1, CC2U (p));
 			break;
 		}
 	}
@@ -401,7 +403,7 @@ latex_math_fputs_latin (char const *text, GsfOutput *output)
 				break;
 
 			default:
-				gsf_output_write (output, 1, p);
+				gsf_output_write (output, 1, CC2U (p));
 				break;
 		}
 	}

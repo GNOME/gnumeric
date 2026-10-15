@@ -5826,18 +5826,18 @@ excel_read_SHEETPROTECTION (BiffQuery *q, Sheet *sheet)
 
 /***********************************************************************/
 
-static guchar *
+static char *
 read_utf16_str (int word_len, guint8 const *data)
 {
 	int i;
 	gunichar2 *uni_text = g_new (gunichar2, word_len);
-	guchar *res;
+	char *res;
 
 	/* be wary about endianness */
 	for (i = 0 ; i < word_len ; i++, data += 2)
 		uni_text [i] = GSF_LE_GET_GUINT16 (data);
 
-	res = (guchar *)g_utf16_to_utf8 (uni_text, word_len, NULL, NULL, NULL);
+	res = g_utf16_to_utf8 (uni_text, word_len, NULL, NULL, NULL);
 	g_free (uni_text);
 	return res;
 }
@@ -5870,10 +5870,10 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	guint32 options, len;
 	guint16 next_opcode;
 	guint8 const *data = q->data;
-	guchar *label = NULL;
-	guchar *target_base = NULL;
-	guchar *mark = NULL;
-	guchar *tip = NULL;
+	char *label = NULL;
+	char *target_base = NULL;
+	char *mark = NULL;
+	char *tip = NULL;
 	GnmHLink *link = NULL;
 
 	XL_CHECK_CONDITION (q->length > 32);
@@ -5922,7 +5922,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	}
 
 	if ((options & 0x163) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
-		guchar *url;
+		char *url;
 
 		data += sizeof (url_guid);
 		XL_NEED_ITEMS (1, 4);
@@ -5940,7 +5940,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 
 		/* File link */
 	} else if ((options & 0x1e1) == 0x001 && !memcmp (data, file_guid, sizeof (file_guid))) {
-		guchar  *path;
+		char  *path;
 		GString *accum;
 		int up;
 
@@ -5974,7 +5974,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 
 		/* UNC File link */
 	} else if ((options & 0x1e3) == 0x103) {
-		guchar  *path;
+		char  *path;
 
 		XL_NEED_ITEMS (1, 4);
 		len = GSF_LE_GET_GUINT32 (data);
@@ -6390,7 +6390,7 @@ excel_read_FILEPASS (BiffQuery *q, GnmXLImporter *importer)
 		return NULL;
 
 	while (TRUE) {
-		guint8 *passwd = go_cmd_context_get_password (
+		char *passwd = go_cmd_context_get_password (
 							      GO_CMD_CONTEXT (importer->context),
 							      go_doc_get_uri (GO_DOC (importer->wb)));
 		gboolean ok;

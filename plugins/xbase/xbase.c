@@ -14,6 +14,8 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
 
+#define CU2C(s) ((char const *)(s))
+
 #define XBASE_DEBUG 0
 #if XBASE_DEBUG > 0
 #define d(level, code)	do { if (XBASE_DEBUG > level) { code } } while (0)
@@ -309,7 +311,7 @@ xbase_field_new (XBfile *file)
 	field = g_new (XBfield, 1);
 	field->len = buf[16];
 
-	strncpy (field->name, buf, 10);
+	strncpy (field->name, CU2C (buf), 10);
 	field->name[10] = '\0';
 	if ((p = strchr (field_types, field->type = buf[11])) == NULL)
 		g_warning ("Unrecognised field type '%c'", field->type);

@@ -28,6 +28,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define U2C(s) ((char *)(s))
+
 GNM_PLUGIN_MODULE_HEADER;
 
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
@@ -86,7 +88,7 @@ dif_get_line (DifInputContext *ctxt)
 {
 	char *raw;
 
-	if (NULL == (raw = gsf_input_textline_ascii_gets (ctxt->input)))
+	if (NULL == (raw = U2C (gsf_input_textline_ascii_gets (ctxt->input))))
 		return FALSE;
 
 	g_free (ctxt->line);

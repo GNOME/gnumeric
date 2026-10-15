@@ -36,6 +36,9 @@
 #include <gsf/gsf-msole-utils.h>
 #include <string.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+#define CU2C(s) ((char const *)(s))
+
 #define LOTUS_DEBUG 0
 #undef DEBUG_RLDB
 #undef DEBUG_STYLE
@@ -1232,7 +1235,7 @@ lotus_rldb_walk_3d (LotusRLDB *rldb3,
 
 				data = rldb0->datanode;
 				handler (state, &r,
-					 data ? data->str : NULL,
+					 data ? CC2U (data->str) : NULL,
 					 data ? data->len : 0);
 			}
 		}
@@ -1286,7 +1289,7 @@ lotus_rldb_walk_2d (LotusRLDB *rldb2,
 
 			data = rldb0->datanode;
 			handler (state, sheet, start, end,
-				 data ? data->str : NULL,
+				 data ? CC2U (data->str) : NULL,
 				 data ? data->len : 0);
 		}
 	}
@@ -1729,15 +1732,15 @@ lmbcs_12 (const guint8 *p)
 
 
 char *
-lotus_get_lmbcs (char const *data, int maxlen, int def_group)
+lotus_get_lmbcs (guint8 const *data, int maxlen, int def_group)
 {
 	GString *res = g_string_sized_new (maxlen + 2);
 	guint8 const *p;
 	guint8 const *theend;
 
-	p = (guint8 const *)data;
+	p = data;
 	if (maxlen == -1)
-		maxlen = strlen (data);
+		maxlen = strlen (CU2C (data));
 	theend = p + maxlen;
 
 	while (p < theend) {
@@ -1975,10 +1978,10 @@ lotus_get_strval (const record_t *r, int ofs, int def_group)
 }
 
 GnmValue *
-lotus_new_string (gchar const *data, int def_group)
+lotus_new_string (guint8 const *data, int def_group)
 {
 	return value_new_string_nocopy
-		(lotus_get_lmbcs (data, strlen (data), def_group));
+		(lotus_get_lmbcs (data, strlen (CU2C (data)), def_group));
 }
 
 static gboolean
@@ -2281,7 +2284,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			case 0x36b0: CHECK_RECORD_SIZE (> 5) {
 				// Sheet name
 				guint8 sheetno = GSF_LE_GET_GUINT8 (r->data + 2);
-				char *name = g_strndup (r->data + 4, r->len - 5);
+				char *name = g_strndup (CU2C (r->data + 4), r->len - 5);
 				Sheet *sheet = lotus_get_sheet (state->wb, sheetno);
 				g_object_set (sheet, "name", name, NULL);
 				g_free (name);
@@ -2388,7 +2391,7 @@ lotus_read_new (LotusState *state, record_t *r)
 			int row = GSF_LE_GET_GUINT16 (r->data);
 			Sheet *sheet = lotus_get_sheet (state->wb, r->data[2]);
 			int col = r->data[3];
-			char *s = g_strndup (r->data + 4, r->len - 5);
+			char *s = g_strndup (CU2C (r->data + 4), r->len - 5);
 			GnmCell *cell = lotus_cell_fetch (state, sheet, col, row);
 			gnm_cell_assign_value (cell, value_new_string_nocopy (s));
 			break;
@@ -3006,7 +3009,7 @@ lotus_read_works (LotusState *state, record_t *r)
 			int fid = fontidx++;
 			int l;
 			font->variant = GSF_LE_GET_GUINT16(r->data + 0);
-			l = strnlen (r->data + 2, 34);
+			l = strnlen (CU2C (r->data + 2), 34);
 			font->typeface = g_malloc (l + 1);
 			/* verify UTF-8? */
 			memcpy (font->typeface, r->data + 2, l);

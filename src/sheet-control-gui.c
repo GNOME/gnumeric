@@ -72,6 +72,9 @@
 
 #include <string.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+#define CU2C(s) ((char const *)(s))
+
 static GObjectClass *scg_parent_class;
 
 static void scg_unant (SheetControl *sc);
@@ -4342,14 +4345,16 @@ scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
 			double x, double y, GtkSelectionData *selection_data)
 {
 	gchar *target_type = gdk_atom_name (gtk_selection_data_get_target (selection_data));
-	const char *sel_data = (const char *)gtk_selection_data_get_data (selection_data);
+	const char *sel_data = CU2C (gtk_selection_data_get_data (selection_data));
 	gsize sel_len = gtk_selection_data_get_length (selection_data);
 
 	if (!strcmp (target_type, "text/uri-list")) {
 		scg_drag_receive_uri_list (scg, x, y, sel_data, sel_len);
 
 	} else if (g_str_has_prefix (target_type, "image/")) {
-		scg_drag_receive_img_data (scg, x, y, sel_data, sel_len);
+		scg_drag_receive_img_data (scg, x, y,
+					   gtk_selection_data_get_data (selection_data),
+					   sel_len);
 	} else if (!strcmp (target_type, "GNUMERIC_SAME_PROC")) {
 		scg_drag_receive_same_process (scg, source_widget, x, y);
 	} else if (!strcmp (target_type, "application/x-gnumeric")) {
@@ -4500,7 +4505,7 @@ scg_drag_send_text (SheetControlGUI *scg, GtkSelectionData *sd)
 	if (!s)
 		return;
 	gtk_selection_data_set (sd, gtk_selection_data_get_target (sd),
-				8, s->str, s->len);
+				8, CC2U (s->str), s->len);
 	g_string_free (s, TRUE);
 }
 

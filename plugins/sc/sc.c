@@ -48,6 +48,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+#define U2C(s) ((char *)(s))
+
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean sc_file_probe (GOFileOpener const *fo, GsfInput *input,
@@ -923,10 +925,10 @@ sc_parse_line (ScParseState *state, char *buf)
 static GOErrorInfo *
 sc_parse_sheet (ScParseState *state)
 {
-	unsigned char *data;
+	char *data;
 	GOErrorInfo *res = NULL;
 
-	while ((data = gsf_input_textline_ascii_gets (state->textline)) != NULL) {
+	while ((data = U2C (gsf_input_textline_ascii_gets (state->textline))) != NULL) {
 		char *utf8data;
 
 		g_strchomp (data);
@@ -1064,7 +1066,7 @@ gboolean
 sc_file_probe (GOFileOpener const *fo, GsfInput *input,
 	       GOFileProbeLevel pl)
 {
-	char const *header = NULL;
+	guint8 const *header = NULL;
 
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))
 		header = gsf_input_read (input, sizeof (signature)-1, NULL);

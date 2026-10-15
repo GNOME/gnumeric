@@ -47,6 +47,8 @@
 #include <gsf/gsf-output.h>
 #include <string.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+
 /*
  * html_version_t:
  *
@@ -104,7 +106,7 @@ html_print_encoded (GsfOutput *output, char const *str)
 				c = g_utf8_get_char (str);
 				if (((c >= 0x20) && (c < 0x80)) ||
 				    (c == '\n') || (c == '\r') || (c == '\t'))
-					gsf_output_write (output, 1, str);
+					gsf_output_write (output, 1, CC2U (str));
 				else
 					gsf_output_printf (output, "&#%u;", c);
 				break;

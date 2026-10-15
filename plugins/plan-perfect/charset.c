@@ -387,9 +387,9 @@ map_wp_char (int charset, int charcode)
   return ucode;
 }
 
-guint8 *pln_get_str (guint8 const *ch, unsigned len);
+char *pln_get_str (guint8 const *ch, unsigned len);
 
-guint8 *
+char *
 pln_get_str (guint8 const *ch, unsigned len)
 {
 	GString *buf = g_string_sized_new (len);

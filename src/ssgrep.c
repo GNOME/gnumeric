@@ -28,6 +28,8 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
+#define CU2C(s) ((char const *)(s))
+
 static gboolean ssgrep_locus_values = TRUE;
 static gboolean ssgrep_locus_expressions = TRUE;
 static gboolean ssgrep_locus_results = FALSE;
@@ -454,7 +456,7 @@ main (int argc, char const **argv)
 		GsfInput	 *input;
 		GsfInputTextline *textline;
 		GError		 *err = NULL;
-		const unsigned char *line;
+		char const *line;
 		GString *pat;
 
 		input = go_file_open (uri, &err);
@@ -471,7 +473,7 @@ main (int argc, char const **argv)
 		g_object_unref (input);
 
 		pat = g_string_new (NULL);
-		while (NULL != (line = gsf_input_textline_ascii_gets (textline))) {
+		while (NULL != (line = CU2C (gsf_input_textline_ascii_gets (textline)))) {
 			if (pat->len)
 				g_string_append_c (pat, '|');
 

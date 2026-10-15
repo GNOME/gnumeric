@@ -39,6 +39,9 @@
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-utils.h>
 
+#define CU2C(s) ((char const *)(s))
+#define U2C(s) ((char *)(s))
+
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean sylk_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl);
@@ -802,7 +805,7 @@ sylk_parse_sheet (SylkReader *state)
 	gsize utf8_len;
 
 	while (!state->finished &&
-	       (buf = gsf_input_textline_ascii_gets (state->input)) != NULL) {
+	       (buf = U2C (gsf_input_textline_ascii_gets (state->input))) != NULL) {
 		g_strchomp (buf);
 
 		utf8buf = g_convert_with_iconv (buf, -1, state->converter, NULL,
@@ -870,6 +873,6 @@ sylk_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
 {
 	char const *header = NULL;
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))
-		header = gsf_input_read (input, 3, NULL);
+		header = CU2C (gsf_input_read (input, 3, NULL));
 	return (header != NULL && g_str_has_prefix (header, "ID;"));
 }

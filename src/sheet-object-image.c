@@ -35,6 +35,8 @@
 
 #define CC2XML(s) ((xmlChar const *)(s))
 #define CXML2C(s) ((char const *)(s))
+#define CC2U(s) ((guint8 const *)(s))
+#define C2U(s) ((guint8 *)(s))
 
 static inline gboolean
 attr_eq (const xmlChar *a, const char *s)
@@ -393,10 +395,10 @@ content_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	GString *data = xin->content;
 
 	if (data->len >= 4) {
-		size_t len = gsf_base64_decode_simple (data->str, data->len);
+		size_t len = gsf_base64_decode_simple (C2U (data->str), data->len);
 		if (soi->image)
 			g_object_unref (soi->image);
-		soi->image = go_image_new_from_data (soi->type, data->str, len,
+		soi->image = go_image_new_from_data (soi->type, CC2U (data->str), len,
 						     NULL, NULL);
 	}
 }

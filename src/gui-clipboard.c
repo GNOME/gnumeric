@@ -46,6 +46,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#define CU2C(s) ((char const *)(s))
+
 #define APP_CLIP_DISP_KEY "clipboard-displays"
 
 #define EXCEL_FILE_OPENER "Gnumeric_Excel:excel"
@@ -519,7 +521,7 @@ urilist_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	paste_to_gnumeric (sel, "urilist");
 
 	if (sel_len > 0) {
-		char *text = g_strndup (gtk_selection_data_get_data (sel), sel_len);
+		char *text = g_strndup (CU2C (gtk_selection_data_get_data (sel)), sel_len);
 		GSList *uris = go_file_split_urls (text);
 		GSList *l;
 		g_free (text);
@@ -673,7 +675,7 @@ table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 
 		if (target == atoms[ATOM_TEXT_HTML_WINDOWS]) {
 			/* See bug 143084 */
-			parse_ms_headers (buffer, sel_len, &start, &end);
+			parse_ms_headers (CU2C (buffer), sel_len, &start, &end);
 		}
 
 		content = table_cellregion_read (wbc, HTML_FILE_OPENER,

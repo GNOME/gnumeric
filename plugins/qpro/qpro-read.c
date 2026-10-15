@@ -51,6 +51,10 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+
+#define CU2C(s) ((char const *)(s))
+
 GNM_PLUGIN_MODULE_HEADER;
 
 gboolean qpro_file_probe (GOFileOpener const *fo, GsfInput *input,
@@ -136,11 +140,12 @@ q_condition_barf (QProReadState *state, const char *cond)
 
 
 static GnmValue *
-qpro_new_string (QProReadState *state, gchar const *data, gssize maxlen)
+qpro_new_string (QProReadState *state, guint8 const *data, gssize maxlen)
 {
-	gsize len = (maxlen < 0) ? strlen (data) : strnlen (data, maxlen);
+	char const *s = CU2C (data);
+	gsize len = (maxlen < 0) ? strlen (s) : strnlen (s, maxlen);
 	return value_new_string_nocopy (
-		g_convert_with_iconv (data, len, state->converter,
+		g_convert_with_iconv (s, len, state->converter,
 				      NULL, NULL, NULL));
 }
 
@@ -161,7 +166,7 @@ qpro_get_record (QProReadState *state, guint16 *id, guint16 *len)
 #endif
 
 	if (*len == 0)
-		return "";
+		return CC2U ("");
 
 	data = gsf_input_read (state->input, *len, NULL);
 
@@ -504,7 +509,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			break;
 
 		case QPRO_OP_CONST_STR: {
-			gsize l = strnlen (fmla, refs - fmla);
+			gsize l = strnlen (CU2C (fmla), refs - fmla);
 			expr = gnm_expr_new_constant (qpro_new_string (state, fmla, l));
 			fmla += l + 1;
 			break;

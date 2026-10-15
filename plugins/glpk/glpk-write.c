@@ -34,6 +34,8 @@
 
 #include <string.h>
 
+#define CC2U(s) ((guint8 const *)(s))
+
 
 static const char *
 glpk_var_name (GnmSubSolver *ssol, GnmCell const *cell)
@@ -365,7 +367,7 @@ glpk_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 		goto fail;
 	}
 
-	gsf_output_write (output, prg->len, prg->str);
+	gsf_output_write (output, prg->len, CC2U (prg->str));
 	g_string_free (prg, TRUE);
 
 fail:

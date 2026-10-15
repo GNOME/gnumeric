@@ -396,7 +396,7 @@ static GnmFuncHelp const help_leftb[] = {
 static GnmValue *
 gnumeric_leftb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
+	const char *peek = value_peek_string (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	int len = strlen (peek);
 	int icount, newlen;
@@ -407,7 +407,7 @@ gnumeric_leftb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (icount >= len)
 		return value_new_string (peek);
 
-	newlen = ((const guchar *)g_utf8_find_prev_char (peek, peek + icount + 1)) - peek;
+	newlen = g_utf8_find_prev_char (peek, peek + icount + 1) - peek;
 
 	return value_new_string_nocopy (g_strndup (peek, newlen));
 }
@@ -490,7 +490,7 @@ static GnmFuncHelp const help_midb[] = {
 static GnmValue *
 gnumeric_midb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
+	const char *peek = value_peek_string (argv[0]);
 	gnm_float pos = value_get_as_float (argv[1]);
 	gnm_float len = value_get_as_float (argv[2]);
 	int slen = strlen (peek);
@@ -507,7 +507,7 @@ gnumeric_midb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if ((ipos + ilen) > slen)
 		return value_new_string (peek + ipos);
 
-	newlen = ((const guchar *)g_utf8_find_prev_char (peek + ipos, peek + ipos + ilen + 1))
+	newlen = g_utf8_find_prev_char (peek + ipos, peek + ipos + ilen + 1)
 		- (peek + ipos);
 
 	return value_new_string_nocopy (g_strndup (peek + ipos, newlen));
@@ -611,7 +611,7 @@ static GnmFuncHelp const help_rightb[] = {
 static GnmValue *
 gnumeric_rightb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const guchar *peek = (const guchar *)value_peek_string (argv[0]);
+	const char *peek = value_peek_string (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	int len = strlen (peek);
 	int icount;
