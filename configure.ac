@@ -739,7 +739,7 @@ if test "$GCC" = yes -a "x$set_more_warnings" != xno; then
 			 -Wmissing-noreturn \
 			 -Werror=missing-prototypes -Werror=nested-externs \
 			 -Werror=implicit-function-declaration \
-			 -Wmissing-declarations -Wno-pointer-sign \
+			 -Wmissing-declarations \
 			 -Werror=format-security -Wbitwise -Wcast-to-as \
 			 -Wdefault-bitfield-sign -Wdo-while -Wparen-string \
 			 -Wptr-subtraction-blows -Wreturn-void -Wtypesign \
