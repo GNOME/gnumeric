@@ -928,9 +928,9 @@ xlsx_axis_format (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean shared = TRUE;
 	char const *fmt = NULL;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (CXML2C (attrs[0]), "sourceLinked"))
+		if (attr_eq (attrs[0], "sourceLinked"))
 			attr_bool (xin, attrs, "sourceLinked", &shared);
-		else if (0 == strcmp (CXML2C (attrs[0]), "formatCode"))
+		else if (attr_eq (attrs[0], "formatCode"))
 			fmt = CXML2C (attrs[1]);
 	if (fmt && !shared)
 		g_object_set (G_OBJECT (state->axis.obj),

@@ -109,9 +109,9 @@ xlsx_CT_pivotTableDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 #endif
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (CXML2C (attrs[0]), "cacheId"))
+		if (attr_eq (attrs[0], "cacheId"))
 			cache = g_hash_table_lookup (state->pivot.cache_by_id, attrs[1]);
-		else if (0 == strcmp (CXML2C (attrs[0]), "name")) name = go_string_new (CXML2C (attrs[1]));
+		else if (attr_eq (attrs[0], "name")) name = go_string_new (CXML2C (attrs[1]));
 		else if (attr_bool (xin, attrs, "dataOnRows", &tmp)) dataOnRows = tmp;
 		else if (attr_bool (xin, attrs, "showError", &tmp)) showError = tmp;
 		else if (attr_bool (xin, attrs, "showMissing", &tmp)) showMissing = tmp;
@@ -354,7 +354,7 @@ xlsx_CT_PivotField (GsfXMLIn *xin, xmlChar const **attrs)
 		state->pivot.slicer_field);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (0 == strcmp (CXML2C (attrs[0]), "name"))	name = go_string_new (CXML2C (attrs[1]));
+		if (attr_eq (attrs[0], "name"))	name = go_string_new (CXML2C (attrs[1]));
 		else if (attr_enum (xin, attrs, "axis", ST_Axis_types, &tmp))
 			go_data_slicer_field_set_field_type_pos (state->pivot.slicer_field, tmp, G_MAXINT);
 		else if (attr_bool (xin, attrs, "dataField", &tmp) && tmp)
@@ -811,7 +811,7 @@ xlsx_CT_Error (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (CXML2C (attrs[0]), "v"))
+		if (attr_eq (attrs[0], "v"))
 			xlsx_pivot_insert_value (state, value_new_error (NULL, CXML2C (attrs[1])));
 }
 
@@ -820,7 +820,7 @@ xlsx_CT_String (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (CXML2C (attrs[0]), "v"))
+		if (attr_eq (attrs[0], "v"))
 			xlsx_pivot_insert_value (state, go_val_new_str (CXML2C (attrs[1])));
 }
 static void
@@ -946,7 +946,7 @@ xlsx_CT_pivotCacheDefinition (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
 			state->pivot.cache_record_part_id = g_strdup (CXML2C (attrs[1]));
-		else if (0 == strcmp (CXML2C (attrs[0]), "refreshedBy")) refreshedBy = CXML2C (attrs[1]);
+		else if (attr_eq (attrs[0], "refreshedBy")) refreshedBy = CXML2C (attrs[1]);
 		else if (attr_float (xin, attrs, "refreshedDate", &v)) {
 			 /* idiots : why not use an actual date ?
 			  * Assume that this is in the same date convention as the workbook */
@@ -1044,9 +1044,9 @@ xlsx_CT_WorksheetSource (GsfXMLIn *xin, xmlChar const **attrs)
 	range_init_invalid (&range);
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_range (xin, attrs, "ref", &range)) ;
-		else if (0 == strcmp (CXML2C (attrs[0]), "sheet"))
+		else if (attr_eq (attrs[0], "sheet"))
 			sheetName = attrs[1];
-		else if (0 == strcmp (CXML2C (attrs[0]), "name"))
+		else if (attr_eq (attrs[0], "name"))
 			targetName = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), XL_NS_DOC_REL, "id"))
 			sheetID = attrs[1];
@@ -1137,7 +1137,7 @@ xlsx_CT_CacheField (GsfXMLIn *xin, xmlChar const **attrs)
 	GOString *name = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (0 == strcmp (CXML2C (attrs[0]), "name"))
+		if (attr_eq (attrs[0], "name"))
 			name = go_string_new (CXML2C (attrs[1]));
 
 	state->pivot.cache_field = g_object_new (GO_DATA_CACHE_FIELD_TYPE,

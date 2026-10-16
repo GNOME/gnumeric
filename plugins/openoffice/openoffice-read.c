@@ -681,7 +681,7 @@ oo_attr_bool (GsfXMLIn *xin, xmlChar const * const *attrs,
 	if (!gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), ns_id, name))
 		return FALSE;
 	*res = (g_ascii_strcasecmp (CXML2C (attrs[1]), "false") &&
-		strcmp (CXML2C (attrs[1]), "0"));
+		!attr_eq (attrs[1], "0"));
 
 	return TRUE;
 }
@@ -834,7 +834,7 @@ oo_parse_color (GsfXMLIn *xin, xmlChar const *str, char const *name)
 	if (3 == sscanf (CXML2C (str), "#%2x%2x%2x", &r, &g, &b))
 		return gnm_color_new_rgb8 (r, g, b);
 
-	if (0 == strcmp (CXML2C (str), "transparent"))
+	if (attr_eq (str, "transparent"))
 		return style_color_ref (magic_transparent);
 
 	oo_warning (state, _("Invalid attribute '%s', expected color, received '%s'"),
@@ -1505,7 +1505,7 @@ oo_attr_enum (GsfXMLIn *xin, xmlChar const * const *attrs,
 		return FALSE;
 
 	for (; enums->name != NULL ; enums++)
-		if (!strcmp (enums->name, CXML2C (attrs[1]))) {
+		if (attr_eq (attrs[1], enums->name)) {
 			*res = enums->val;
 			return TRUE;
 		}
@@ -2456,7 +2456,7 @@ oo_iteration (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "status"))
 			workbook_iteration_enabled (state->pos.wb,
-				strcmp (CXML2C (attrs[1]), "enable") == 0);
+						    attr_eq (attrs[1], "enable"));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_TABLE, "maximum-difference"))
 			workbook_iteration_tolerance (state->pos.wb,
 						      gnm_strto (CXML2C (attrs[1]), NULL));
@@ -4485,22 +4485,11 @@ oo_covered_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	state->col_inc = 1;
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (oo_attr_int_range (xin, attrs, OO_NS_TABLE, "number-columns-repeated",
 				       &state->col_inc, 0, INT_MAX - state->pos.eval.col))
 			;
-#if 0
-		/* why bother it is covered ? */
-		else if (!strcmp (CXML2C (attrs[0]), OO_NS_TABLE, "style-name"))
-			style = g_hash_table_lookup (state->styles.cell, attrs[1]);
-
-	if (style != NULL) {
-		gnm_style_ref (style);
-		sheet_style_apply_pos (state->pos.sheet,
-		     state->pos.eval.col, state->pos.eval.row,
-		     style);
 	}
-#endif
 }
 
 static void
@@ -6847,11 +6836,11 @@ oo_page_break_type (GsfXMLIn *xin, xmlChar const *attr)
 
 	/* Note that truly automatic of soft page breaks are stored */
 	/* via text:soft-page-break tags                            */
-	if (!strcmp (CXML2C (attr), "page"))
+	if (attr_eq (attr, "page"))
 		return OO_PAGE_BREAK_MANUAL;
-	if (!strcmp (CXML2C (attr), "column"))
+	if (attr_eq (attr, "column"))
 		return OO_PAGE_BREAK_MANUAL;
-	if (!strcmp (CXML2C (attr), "auto"))
+	if (attr_eq (attr, "auto"))
 		return OO_PAGE_BREAK_NONE;
 	oo_warning (state,
 		_("Unknown break type '%s' defaulting to NONE"), attr);
@@ -7367,12 +7356,12 @@ od_style_prop_chart (GsfXMLIn *xin, xmlChar const **attrs)
 						     ftmp));
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART,
 					     "axis-position")) {
-			if (0 == strcmp (CXML2C(attrs[1]), "start"))
+			if (attr_eq (attrs[1], "start"))
 				style->axis_props = g_slist_prepend
 					(style->axis_props,
 					 oo_prop_new_string ("pos-str",
 							     "low"));
-			else if (0 == strcmp (CXML2C(attrs[1]), "end"))
+			else if (attr_eq (attrs[1], "end"))
 				style->axis_props = g_slist_prepend
 					(style->axis_props,
 					 oo_prop_new_string ("pos-str",
@@ -11282,7 +11271,7 @@ odf_form_control (GsfXMLIn *xin, xmlChar const **attrs, GType t)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		/* ODF does not declare an xml: namespace but uses this attribute */
-		if (0 == strcmp (CXML2C (attrs[0]), "xml:id")) {
+		if (attr_eq (attrs[0], "xml:id")) {
 			g_free (name);
 			name = g_strdup (CXML2C (attrs[1]));
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),

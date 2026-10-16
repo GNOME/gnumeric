@@ -208,7 +208,7 @@ gnm_xml_attr_bool (xmlChar const * const *attrs, char const *name, gboolean *res
 	if (!attr_eq (attrs[0], name))
 		return FALSE;
 
-	*res = g_ascii_strcasecmp (CXML2C (attrs[1]), "false") && strcmp (CXML2C (attrs[1]), "0");
+	*res = g_ascii_strcasecmp (CXML2C (attrs[1]), "false") && !attr_eq (attrs[1], "0");
 
 	return TRUE;
 }
@@ -534,8 +534,8 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 	 * with ->version in xml_sax_version.
 	 */
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (strcmp (CXML2C (attrs[0]), "xmlns:gmr") == 0 ||
-		    strcmp (CXML2C (attrs[0]), "xmlns:gnm") == 0) {
+		if (attr_eq (attrs[0], "xmlns:gmr") ||
+		    attr_eq (attrs[0], "xmlns:gnm")) {
 			static struct {
 				char const * const id;
 				GnumericXMLVersion const version;
@@ -558,7 +558,7 @@ xml_sax_wb (GsfXMLIn *xin, xmlChar const **attrs)
 			};
 			int i;
 			for (i = 0 ; GnumericVersions[i].id != NULL ; ++i )
-				if (strcmp (CXML2C (attrs[1]), GnumericVersions[i].id) == 0) {
+				if (attr_eq (attrs[1], GnumericVersions[i].id)) {
 					if (state->version != GNM_XML_UNKNOWN)
 						go_io_warning (state->context,
 							_("Multiple version specifications.  Assuming %d"),
@@ -635,8 +635,8 @@ xml_sax_wb_sheetsize (GsfXMLIn *xin, xmlChar const **attrs)
 			; /* Nothing more */
 		else if (gnm_xml_attr_int (attrs, "gnm:Rows", &state->sheet_rows))
 			; /* Nothing more */
-		else if (!strcmp (CXML2C (attrs[0]), "gnm:SheetType") &&
-			 !strcmp (CXML2C (attrs[1]), "object"))
+		else if (attr_eq (attrs[0], "gnm:SheetType") &&
+			 attr_eq (attrs[1], "object"))
 			state->sheet_type = GNM_SHEET_OBJECT;
 		else
 			unknown_attr (xin, attrs);
@@ -709,7 +709,7 @@ xml_sax_calculation (GsfXMLIn *xin, xmlChar const **attrs)
 			workbook_iteration_max_number (state->wb, i);
 		else if (gnm_xml_attr_float (attrs, "IterationTolerance", &tol))
 			workbook_iteration_tolerance (state->wb, tol);
-		else if (strcmp (CXML2C (attrs[0]), "DateConvention") == 0) {
+		else if (attr_eq (attrs[0], "DateConvention")) {
 			GODateConventions const *date_conv =
 				go_date_conv_from_str (CXML2C (attrs[1]));
 			if (date_conv)
@@ -812,7 +812,7 @@ xml_sax_sheet_start (GsfXMLIn *xin, xmlChar const **attrs)
 			state->text_is_rtl = tmp;
 		else if (gnm_xml_attr_bool (attrs, "Protected", &tmp))
 			state->is_protected = tmp;
-		else if (strcmp (CXML2C (attrs[0]), "ExprConvention") == 0)
+		else if (attr_eq (attrs[0], "ExprConvention"))
 			update_str (&state->expr_conv_name, CXML2C (attrs[1]));
 		else if (xml_sax_attr_color (attrs, "TabColor", &color)) {
 			style_color_unref (state->tab_color);
@@ -1037,7 +1037,7 @@ xml_sax_page_break (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gnm_xml_attr_int (attrs, "pos", &pos)) ;
-		else if (!strcmp (CXML2C (attrs[0]), "type"))
+		else if (attr_eq (attrs[0], "type"))
 			type = gnm_page_break_type_from_str (CXML2C (attrs[1]));
 
 	/* drops invalid positions */
@@ -1079,7 +1079,7 @@ xml_sax_print_scale (GsfXMLIn *xin, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_eq (attrs[0], "type"))
-			pi->scaling.type = !strcmp (CXML2C (attrs[1]), "percentage")
+			pi->scaling.type = attr_eq (attrs[1], "percentage")
 				? PRINT_SCALE_PERCENTAGE : PRINT_SCALE_FIT_PAGES;
 		else if (gnm_xml_attr_double (attrs, "percentage", &percentage))
 			pi->scaling.percentage.x = pi->scaling.percentage.y = percentage;
@@ -1216,7 +1216,7 @@ xml_sax_repeat_top (GsfXMLIn *xin, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (CXML2C (attrs[0]), "value"))
+		if (attr_eq (attrs[0], "value"))
 			update_str (&pi->repeat_top, CXML2C (attrs[1]));
 	}
 }
@@ -1232,7 +1232,7 @@ xml_sax_repeat_left (GsfXMLIn *xin, xmlChar const **attrs)
 	pi = state->sheet->print_info;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (!strcmp (CXML2C (attrs[0]), "value"))
+		if (attr_eq (attrs[0], "value"))
 			update_str (&pi->repeat_left, CXML2C (attrs[1]));
 	}
 }
@@ -3988,7 +3988,7 @@ gnm_xml_probe_element (const xmlChar *name,
 		       G_GNUC_UNUSED int nb_defaulted,
 		       G_GNUC_UNUSED const xmlChar **attributes)
 {
-	return 0 == strcmp (CXML2C (name), "Workbook") &&
+	return attr_eq (name, "Workbook") &&
 		NULL != URI && NULL != strstr (CXML2C (URI), "gnumeric");
 }
 
