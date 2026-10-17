@@ -3911,6 +3911,8 @@ gnm_xml_cellregion_read (WorkbookControl *wbc, GOIOContext *io_context,
 	XMLSaxParseState state;
 	GnmCellRegion *result;
 
+	memset (&state, 0, sizeof (state));
+
 	wb_view = wb_control_view (wbc);
 	input = gsf_input_memory_new (CC2U (buffer), length, FALSE);
 	read_file_common (READ_CLIPBOARD, &state,
