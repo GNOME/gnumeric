@@ -195,6 +195,22 @@ notebook.buttons tab label {
   font-weight: bold;
 }
 
+/* Give the (possibly colored) tab background some room around the text. */
+GnmNotebookButton,
+notebook.buttons tab label {
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 0 0 6px 6px;
+}
+
+/* The notebook tracks hover on the tab, not on our label, so key off the
+   parent.  Tint with the foreground color so this works on any tab color
+   and in dark themes.  */
+notebook.buttons tab:hover label {
+  background-image: linear-gradient(alpha(@theme_fg_color, 0.12),
+                                    alpha(@theme_fg_color, 0.12));
+}
+
 progressbar.menu_tooltip_container {
     font-size: medium;
     color: @theme_fg_color;

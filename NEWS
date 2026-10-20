@@ -7,6 +7,7 @@ Morten:
 	* XLSX: at least roundtrip Print_Titles
 	* Fix DEC2BIN problem [#899]
 	* Harden some idle handlers.
+	* Improve the look of coloured tabs.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

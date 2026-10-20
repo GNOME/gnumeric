@@ -88,8 +88,12 @@ gnm_notebook_button_set_property (GObject      *obj,
 		gdk_rgba_free (nbb->bg);
 		nbb->bg = g_value_dup_boxed (value);
 		gtk_widget_queue_draw (GTK_WIDGET (obj));
-		g_clear_object (&nbb->layout);
-		g_clear_object (&nbb->layout_active);
+		gtk_widget_override_background_color (GTK_WIDGET (obj),
+						      GTK_STATE_FLAG_NORMAL,
+						      nbb->bg);
+		gtk_widget_override_background_color (GTK_WIDGET (obj),
+						      GTK_STATE_FLAG_ACTIVE,
+						      nbb->bg);
 		break;
 	case NBB_PROP_TEXT_COLOR:
 		gdk_rgba_free (nbb->fg);
@@ -130,15 +134,9 @@ gnm_notebook_button_ensure_layout (GnmNotebookButton *nbb)
 		nbb->layout_active = gtk_widget_create_pango_layout (widget, text);
 
 		/* Common */
+		// The background color is painted in the draw method so
+		// that it covers the whole widget, not just the text.
 		attrs = pango_attr_list_new ();
-		if (nbb->bg) {
-			attr = go_color_to_pango
-				(go_color_from_gdk_rgba (nbb->bg, NULL),
-				 FALSE);
-			attr->start_index = 0;
-			attr->end_index = -1;
-			pango_attr_list_insert (attrs, attr);
-		}
 		attrs_active = pango_attr_list_copy (attrs);
 
 		// As-of gtk+ 3.20 we have to set the context state to the state
@@ -195,6 +193,8 @@ gnm_notebook_button_draw (GtkWidget *widget, cairo_t *cr)
 	GtkStateFlags state =
 		is_active ? GTK_STATE_FLAG_ACTIVE : GTK_STATE_FLAG_NORMAL;
 	GtkBorder padding;
+	int w = gtk_widget_get_allocated_width (widget);
+	int h = gtk_widget_get_allocated_height (widget);
 
 	gtk_style_context_save (context);
 	gtk_style_context_set_state (context, state);
@@ -203,9 +203,17 @@ gnm_notebook_button_draw (GtkWidget *widget, cairo_t *cr)
 
 	gnm_notebook_button_ensure_layout (nbb);
 
+	// The explicit background color is installed as a style override
+	// (see set_property), so CSS paints it.  That gives us
+	// border-radius for free, and lets gnumeric.css's tab:hover rule
+	// layer on top of the color.
+	gtk_render_background (context, cr, 0, 0, w, h);
+
+	// x_offset already centers the text in the full allocation,
+	// padding included, so do not add padding.left here.
 	gtk_render_layout (context, cr,
-			   padding.left + (is_active ? nbb->x_offset_active : nbb->x_offset),
-			   0,
+			   is_active ? nbb->x_offset_active : nbb->x_offset,
+			   padding.top,
 			   is_active ? nbb->layout_active : nbb->layout);
 
 	gtk_style_context_restore (context);
@@ -355,16 +363,13 @@ static GtkNotebookClass *gnm_notebook_parent_class;
 
 #define DUMMY_KEY "GNM-NOTEBOOK-DUMMY-WIDGET"
 
-static void
-gnm_notebook_size_allocate (GtkWidget     *widget,
-			    GtkAllocation *allocation)
+static int
+gnm_notebook_page_height (GnmNotebook *gnb)
 {
 	int i, h = 0;
-	GnmNotebook *gnb = (GnmNotebook *)widget;
-	GtkAllocation alc = *allocation;
 
 	for (i = 0; TRUE; i++) {
-		GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (widget), i);
+		GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (gnb), i);
 		GtkAllocation a;
 		if (!page)
 			break;
@@ -374,11 +379,39 @@ gnm_notebook_size_allocate (GtkWidget     *widget,
 		h = MAX (h, a.height);
 	}
 
-	gnb->dummy_height = h;
+	return h;
+}
 
-	alc.y -= h;
-	((GtkWidgetClass *)gnm_notebook_parent_class)->size_allocate
-		(widget, &alc);
+static void
+gnm_notebook_size_allocate (GtkWidget     *widget,
+			    GtkAllocation *allocation)
+{
+	GnmNotebook *gnb = (GnmNotebook *)widget;
+	int pass;
+
+	/*
+	 * The height of the dummy pages is read from their previous
+	 * allocation.  That is stale when the set of tabs has just
+	 * changed (for example when a loaded workbook replaces the
+	 * initial blank one), in which case the tabs would end up
+	 * a pixel or two off until some later, unrelated, reallocation.
+	 * Allocate again if the allocation changed the height we used.
+	 */
+	for (pass = 0; pass < 3; pass++) {
+		GtkAllocation alc = *allocation;
+		int h = gnm_notebook_page_height (gnb);
+
+		gnb->dummy_height = h;
+		alc.y -= h;
+		((GtkWidgetClass *)gnm_notebook_parent_class)->size_allocate
+			(widget, &alc);
+
+		if (gnm_notebook_page_height (gnb) == h)
+			break;
+	}
+
+	/* Make sure nothing keeps showing the tabs at the old position. */
+	gtk_widget_queue_draw (widget);
 }
 
 static gboolean
