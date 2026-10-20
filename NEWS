@@ -8,6 +8,7 @@ Morten:
 	* Fix DEC2BIN problem [#899]
 	* Harden some idle handlers.
 	* Improve the look of coloured tabs.
+	* Implement automatic bins for frequency tool.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

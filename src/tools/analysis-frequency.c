@@ -27,6 +27,7 @@
 #include <tools/analysis-frequency.h>
 #include <tools/analysis-tools.h>
 #include <value.h>
+#include <position.h>
 #include <ranges.h>
 #include <expr.h>
 #include <func.h>
@@ -152,6 +153,7 @@ gnm_frequency_tool_init (GnmFrequencyTool *tool)
 	tool->exact = FALSE;
 	tool->chart = GNM_FREQ_TOOL_NO_CHART;
 	tool->bin = NULL;
+	tool->categories = NULL;
 }
 
 static void
@@ -159,7 +161,110 @@ gnm_frequency_tool_finalize (GObject *obj)
 {
 	GnmFrequencyTool *tool = GNM_FREQUENCY_TOOL (obj);
 	value_release (tool->bin);
+	g_clear_pointer (&tool->categories, g_ptr_array_unref);
 	G_OBJECT_CLASS (gnm_frequency_tool_parent_class)->finalize (obj);
+}
+
+/*
+ * Automatic categories: the distinct values found in the input, in
+ * ascending order, at most ftool->n of them.  Values that are equal
+ * according to the comparison used for counting (see "exact") are
+ * the same category.
+ */
+
+static int
+frequency_value_cmp (GnmValue const *a, GnmValue const *b, gboolean exact)
+{
+	switch (value_compare (a, b, exact)) {
+	case IS_EQUAL:   return 0;
+	case IS_LESS:    return -1;
+	case IS_GREATER: return 1;
+	default:         return (int)a->v_any.type - (int)b->v_any.type;
+	}
+}
+
+static int
+frequency_value_cmp_data (gconstpointer pa, gconstpointer pb, gpointer user)
+{
+	return frequency_value_cmp (*(GnmValue const **)pa,
+				    *(GnmValue const **)pb,
+				    GPOINTER_TO_INT (user));
+}
+
+static GnmValue *
+cb_frequency_collect (GnmValueIter const *iter, gpointer user)
+{
+	GPtrArray *vals = user;
+	GnmValue const *v = iter->v;
+
+	if (!VALUE_IS_EMPTY (v) && !VALUE_IS_ERROR (v))
+		g_ptr_array_add (vals, value_dup (v));
+	return NULL;
+}
+
+static void
+gnm_frequency_tool_collect_categories (GnmFrequencyTool *ftool,
+				       data_analysis_output_t *dao)
+{
+	GnmGenericAnalysisTool *gtool = &ftool->parent;
+	GPtrArray *vals = g_ptr_array_new_with_free_func
+		((GDestroyNotify)value_release);
+	GSList *l;
+	guint ui;
+
+	g_clear_pointer (&ftool->categories, g_ptr_array_unref);
+	ftool->categories = g_ptr_array_new_with_free_func
+		((GDestroyNotify)value_release);
+
+	for (l = gtool->base.input; l; l = l->next) {
+		GnmValue *val = value_dup ((GnmValue const *)l->data);
+		GnmEvalPos ep;
+		Sheet *sheet;
+
+		if (!VALUE_IS_CELLRANGE (val)) {
+			value_release (val);
+			continue;
+		}
+
+		// Skip the labels, like perform_calc does.
+		if (gtool->base.labels) {
+			switch (gtool->base.group_by) {
+			case GNM_TOOL_GROUPED_BY_ROW:
+				val->v_range.cell.a.col++;
+				break;
+			default:
+				val->v_range.cell.a.row++;
+				break;
+			}
+		}
+
+		if (val->v_range.cell.a.col <= val->v_range.cell.b.col &&
+		    val->v_range.cell.a.row <= val->v_range.cell.b.row) {
+			sheet = val->v_range.cell.a.sheet;
+			if (!sheet)
+				sheet = dao->ref_sheet;
+			eval_pos_init_sheet (&ep, sheet);
+			value_area_foreach (val, &ep, CELL_ITER_IGNORE_BLANK,
+					    cb_frequency_collect, vals);
+		}
+		value_release (val);
+	}
+
+	g_ptr_array_sort_with_data (vals, frequency_value_cmp_data,
+				    GINT_TO_POINTER (ftool->exact));
+
+	for (ui = 0; ui < vals->len && ftool->categories->len < (guint)ftool->n; ui++) {
+		GnmValue const *v = g_ptr_array_index (vals, ui);
+		if (ftool->categories->len > 0) {
+			GnmValue const *last = g_ptr_array_index
+				(ftool->categories, ftool->categories->len - 1);
+			if (frequency_value_cmp (last, v, ftool->exact) == 0)
+				continue;
+		}
+		g_ptr_array_add (ftool->categories, value_dup (v));
+	}
+
+	g_ptr_array_unref (vals);
 }
 
 static gboolean
@@ -180,8 +285,10 @@ gnm_frequency_tool_update_dao (GnmAnalysisTool *tool, data_analysis_output_t *da
 		GnmRange range;
 		range_init_value (&range, ftool->bin);
 		j = range_height (&range) * range_width (&range);
-	} else
-		j = ftool->n;
+	} else {
+		gnm_frequency_tool_collect_categories (ftool, dao);
+		j = ftool->categories->len;
+	}
 
 	dao_adjust (dao, 1 + i, 1 + j);
 	return FALSE;
@@ -269,7 +376,16 @@ gnm_frequency_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, da
 			}
 		gnm_expr_free (expr_bin);
 	} else {
-		i_limit = ftool->n;
+		guint ui;
+
+		// Normally set up by update_dao.
+		if (!ftool->categories)
+			gnm_frequency_tool_collect_categories (ftool, dao);
+
+		i_limit = ftool->categories->len;
+		for (ui = 0; ui < ftool->categories->len; ui++)
+			dao_set_cell_value (dao, 0, 2 + ui,
+					    value_dup (g_ptr_array_index (ftool->categories, ui)));
 	}
 
 	for (l = gtool->base.input, col = 1; l; col++, l = l->next) {

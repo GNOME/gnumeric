@@ -48,6 +48,7 @@ struct _GnmFrequencyTool {
 	GnmGenericAnalysisTool parent;
 	gboolean   predetermined;
 	GnmValue   *bin;
+	GPtrArray  *categories;  /* Automatic categories; GnmValue* */
 	gnm_float max;
 	gnm_float min;
 	gint       n;
