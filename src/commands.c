@@ -5331,10 +5331,6 @@ cmd_set_comment (WorkbookControl *wbc,
 			      "text", &(me->old_text),
 			      "author", &(me->old_author),
 			      "markup", &(me->old_attributes), NULL);
-		if (me->old_attributes != NULL)
-			pango_attr_list_ref (me->old_attributes);
-		me->old_text = g_strdup (me->old_text);
-		me->old_author = g_strdup (me->old_author);
 	}
 
 	/* Register the command object */
@@ -5429,8 +5425,13 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	colrow_state_list_destroy (me->row_info);
 	me->row_info = dao_get_colrow_state_list (me->dao, FALSE);
 
-	if (gnm_analysis_tool_prepare_output_range (me->tool, wbc, me->dao)
-	    || ((me->cmd.cmd_descriptor = gnm_analysis_tool_update_descriptor (me->tool, me->dao)) == NULL)
+	if (gnm_analysis_tool_prepare_output_range (me->tool, wbc, me->dao))
+		return TRUE;
+
+	// Redo can run many times; do not leak the previous descriptor.
+	g_free (me->cmd.cmd_descriptor);
+	me->cmd.cmd_descriptor = gnm_analysis_tool_update_descriptor (me->tool, me->dao);
+	if (me->cmd.cmd_descriptor == NULL
 	    || cmd_dao_is_locked_effective (me->dao, wbc, me->cmd.cmd_descriptor)
 	    || gnm_analysis_tool_last_validity_check (me->tool, wbc, me->dao))
 		return TRUE;
