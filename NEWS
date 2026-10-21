@@ -9,6 +9,8 @@ Morten:
 	* Harden some idle handlers.
 	* Improve the look of coloured tabs.
 	* Implement automatic bins for frequency tool.
+	* Fix implicit intersection dep problem.
+	* Fix 3D range problems.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

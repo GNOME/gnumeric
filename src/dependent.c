@@ -886,7 +886,7 @@ deprange_equal (DependencyRange const *r1, DependencyRange const *r2)
 static guint
 depsingle_hash (DependencySingle const *depsingle)
 {
-	return (depsingle->pos.row << 8) ^ depsingle->pos.col;
+	return ((guint)depsingle->pos.row << 8) ^ (guint)depsingle->pos.col;
 }
 
 static gint
@@ -1155,7 +1155,7 @@ link_unlink_constant (GnmEvalPos *ep, GnmValue const *v, DepLinkFlags flags)
 		goto everything;
 
 	cr.col_relative = cr.row_relative = FALSE;
-	cr.sheet = ep->dep->sheet;
+	cr.sheet = start_sheet;
 	cr.col = col;
 	cr.row = row;
 
@@ -1470,6 +1470,7 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 	DynamicDep	 *dyn;
 	GnmCellPos const *pos;
 	DependencyRange   range;
+	Sheet const	 *sa, *sb;
 
 	g_return_if_fail (dep != NULL);
 
@@ -1491,15 +1492,22 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 
 	gnm_cellpos_init_cellref (&range.range.start, &rr->a, pos, dep->sheet);
 	gnm_cellpos_init_cellref (&range.range.end, &rr->b, pos, dep->sheet);
-	if (range_is_singleton (&range.range)) {
+	// A single-cell 3D reference (Sheet1:Sheet3!A1) is not a singleton
+	sa = eval_sheet (rr->a.sheet, dep->sheet);
+	sb = eval_sheet (rr->b.sheet, sa);
+	if (sa == sb && range_is_singleton (&range.range)) {
 		flags = link_single_dep (&dyn->base, pos, &rr->a);
 		dyn->singles = g_slist_prepend (dyn->singles, gnm_rangeref_dup (rr));
 	} else {
 		flags = link_unlink_cellrange_dep (&dyn->base, pos, &rr->a, &rr->b, DEP_LINK_LINK);
 		dyn->ranges = g_slist_prepend (dyn->ranges, gnm_rangeref_dup (rr));
 	}
-	if (flags & DEPENDENT_HAS_3D)
+	if (flags & DEPENDENT_HAS_3D) {
+		// Record this on the container so that dependent_unlink
+		// removes it from wb->sheet_order_dependents again.
+		dep->flags |= DEPENDENT_HAS_3D;
 		workbook_link_3d_dep (dep);
+	}
 }
 
 static void
@@ -2899,8 +2907,6 @@ dynamic_dep_free (DynamicDep *dyn)
 	g_slist_free (dyn->ranges);
 	dyn->ranges = NULL;
 
-	if (dyn->base.flags & DEPENDENT_HAS_3D)
-		workbook_unlink_3d_dep (&dyn->base);
 	g_free (dyn);
 }
 

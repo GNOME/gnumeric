@@ -1035,13 +1035,23 @@ pre_sheet_index_change (Workbook *wb)
 }
 
 static void
+cb_relink_and_recalc (GnmDependent *dep, G_GNUC_UNUSED gpointer value,
+		      G_GNUC_UNUSED gpointer user)
+{
+	dependent_link (dep);
+	// The set of sheets covered by a 3D reference may have changed,
+	// and unlinking dropped any dynamic dependencies.  Recalculate.
+	dependent_queue_recalc (dep);
+}
+
+static void
 post_sheet_index_change (Workbook *wb)
 {
 	g_return_if_fail (wb->being_reordered);
 
 	if (wb->sheet_order_dependents != NULL)
 		g_hash_table_foreach (wb->sheet_order_dependents,
-				      (GHFunc)dependent_link,
+				      (GHFunc)cb_relink_and_recalc,
 				      NULL);
 
 	wb->being_reordered = FALSE;
