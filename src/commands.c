@@ -366,9 +366,9 @@ update_after_action (Sheet *sheet, WorkbookControl *wbc)
 			WORKBOOK_VIEW_FOREACH_CONTROL (wb_control_view (wbc), control,
 				  wb_control_sheet_focus (control, sheet););
 	} else if (wbc != NULL) {
-		Sheet *sheet = wb_control_cur_sheet (wbc);
-		if (sheet)
-			sheet_update (sheet);
+		Sheet *cur_sheet = wb_control_cur_sheet (wbc);
+		if (cur_sheet)
+			sheet_update (cur_sheet);
 	}
 }
 
@@ -5306,7 +5306,7 @@ cmd_set_comment (WorkbookControl *wbc,
 		me->new_text = NULL;
 	else
 		me->new_text    = g_strdup (new_text);
-	if (strlen (new_author) < 1)
+	if (new_author == NULL || new_author[0] == 0)
 		me->new_author = NULL;
 	else
 		me->new_author    = g_strdup (new_author);
