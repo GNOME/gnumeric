@@ -442,8 +442,10 @@ dependent_set_expr (GnmDependent *dep, GnmExprTop const *new_texpr)
 
 	if (dependent_is_linked (dep))
 		dependent_unlink (dep);
-	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
+	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
 		dependent_clear_dynamic_deps (dep);
+		dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
+	}
 
 	if (klass->set_expr)
 		klass->set_expr (dep, new_texpr);
@@ -1042,6 +1044,9 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		dr.range.start.row = MAX (r->start.row, start);
 		dr.range.end.row = MIN (r->end.row, next_start - 1);
 
+		if (deps->range_hash[i] == NULL)
+			continue;
+
 		result = g_hash_table_lookup (deps->range_hash[i], &dr);
 		if (result) {
 			micro_hash_remove (&result->deps, dep);
@@ -1180,6 +1185,7 @@ link_unlink_funcall (GnmEvalPos *ep, GnmExprFunction const *call, DepLinkFlags f
 	int amin, amax;
 
 	gnm_func_load_if_stub (call->func);
+	memset (&fei, 0, sizeof (fei));
 	fei.pos = ep;
 	fei.func_call = call;
 	flag = gnm_func_link_dep (call->func, &fei, (flags & DEP_LINK_LINK) != 0);
@@ -1259,7 +1265,8 @@ link_unlink_expr_dep (GnmEvalPos *ep, GnmExpr const *tree, DepLinkFlags flags)
 		GnmCellPos const *cpos = dependent_pos (ep->dep);
 		GnmCell const *cell = sheet_cell_get (ep->dep->sheet, cpos->col, cpos->row);
 		GnmEvalPos pos = *ep;
-		pos.array_texpr = cell->base.texpr;
+		// The cell might not be in the sheet yet; use the dependent
+		pos.array_texpr = cell ? cell->base.texpr : ep->dep->texpr;
 		/* Corner cell depends on the contents of the expr */
 		return link_unlink_expr_dep (&pos, tree->array_corner.expr,
 					     flags | DEP_LINK_NON_SCALAR);
@@ -1342,11 +1349,11 @@ cell_dep_changed (GnmDependent *dep, GPtrArray *extra)
 	gnm_dep_deps_of_cell (GNM_DEP_TO_CELL (dep), extra);
 
 	for (size_t i = oldlen; i < extra->len; /* nothing */) {
-		GnmDependent *dep = g_ptr_array_index (extra, i);
-		if (dependent_needs_recalc (dep))
+		GnmDependent *d = g_ptr_array_index (extra, i);
+		if (dependent_needs_recalc (d))
 			g_ptr_array_remove_index_fast (extra, i);
 		else {
-			dependent_flag_recalc (dep);
+			dependent_flag_recalc (d);
 			i++;
 		}
 	}
@@ -1476,9 +1483,10 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 
 	pos = dependent_pos (dep);
 
-	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
-		dyn = g_hash_table_lookup (dep->sheet->deps->dynamic_deps, dep);
-	else {
+	dyn = (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
+		? g_hash_table_lookup (dep->sheet->deps->dynamic_deps, dep)
+		: NULL;
+	if (!dyn) {
 		dep->flags |= DEPENDENT_HAS_DYNAMIC_DEPS;
 		dyn = g_new (DynamicDep, 1);
 		dyn->base.flags		= DEPENDENT_DYNAMIC_DEP;
@@ -1513,7 +1521,9 @@ dependent_add_dynamic_dep (GnmDependent *dep, GnmRangeRef const *rr)
 static void
 dependent_clear_dynamic_deps (GnmDependent *dep)
 {
-	g_hash_table_remove (dep->sheet->deps->dynamic_deps, dep);
+	GnmDepContainer *deps = dep->sheet->deps;
+	if (deps && deps->dynamic_deps)
+		g_hash_table_remove (deps->dynamic_deps, dep);
 }
 
 /*****************************************************************************/
@@ -1908,6 +1918,7 @@ sheet_region_queue_recalc (Sheet const *sheet, GnmRange const *r)
 
 	sb = r ? bucket_of_row (r->start.row) : 0;
 	eb = r ? bucket_of_row (r->end.row) : sheet->deps->buckets - 1;
+	eb = MIN (eb, sheet->deps->buckets - 1);
 
 	/* mark the contained depends dirty non recursively */
 	SHEET_FOREACH_DEPENDENT (sheet, dep, {
@@ -1966,6 +1977,8 @@ typedef struct
 		GnmDependent *dep;
 	} u;
 	GnmExprTop const *oldtree;
+	// We hold a reference to u.pos.sheet (cells only) so it cannot go away
+	// while the undo information is around.
 } ExprRelocateStorage;
 
 /**
@@ -1981,6 +1994,8 @@ dependents_unrelocate_free (GSList *info)
 	for (; ptr != NULL ; ptr = ptr->next) {
 		ExprRelocateStorage *tmp = ptr->data;
 		gnm_expr_top_unref (tmp->oldtree);
+		if (tmp->dep_type == DEPENDENT_CELL)
+			g_clear_object (&tmp->u.pos.sheet);
 		g_free (tmp);
 	}
 	g_slist_free (info);
@@ -2000,12 +2015,10 @@ dependents_unrelocate (GSList *info)
 		ExprRelocateStorage *tmp = ptr->data;
 
 		if (tmp->dep_type == DEPENDENT_CELL) {
-			if (!IS_SHEET (tmp->u.pos.sheet)) {
-				/* FIXME : happens when undoing a move from a deleted
-				 * sheet.  Do we want to do something here */
-			} else {
+			Sheet *sheet = tmp->u.pos.sheet;
+			if (sheet) {
 				GnmCell *cell = sheet_cell_get
-					(tmp->u.pos.sheet,
+					(sheet,
 					 tmp->u.pos.eval.col, tmp->u.pos.eval.row);
 
 				/* It is possible to have a NULL if the relocation info
@@ -2016,7 +2029,7 @@ dependents_unrelocate (GSList *info)
 						int cols, rows;
 
 						gnm_expr_top_get_array_size (tmp->oldtree, &cols, &rows);
-						gnm_cell_set_array_formula (tmp->u.pos.sheet,
+						gnm_cell_set_array_formula (sheet,
 									    tmp->u.pos.eval.col,
 									    tmp->u.pos.eval.row,
 									    tmp->u.pos.eval.col + cols - 1,
@@ -2196,7 +2209,9 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 	{
 		int const first = bucket_of_row (r->start.row);
 		GHashTable *hash;
-		for (i = bucket_of_row (r->end.row); i >= first ; i--) {
+		int const last = MIN (bucket_of_row (r->end.row),
+				      sheet->deps->buckets - 1);
+		for (i = last; i >= first ; i--) {
 			hash = sheet->deps->range_hash[i];
 			if (hash != NULL)
 				g_hash_table_foreach (hash,
@@ -2211,7 +2226,6 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 		GnmDependent *dep = l->data;
 
 		dep->flags &= ~DEPENDENT_FLAGGED;
-		sheet_flag_status_update_range (dep->sheet, NULL);
 
 		parse_pos_init_dep (&local_rinfo.pos, dep);
 
@@ -2220,16 +2234,21 @@ dependents_relocate (GnmExprRelocateInfo const *rinfo)
 		newtree = gnm_expr_top_relocate (dep->texpr, &local_rinfo, FALSE);
 		if (newtree != NULL) {
 			int const t = dependent_type (dep);
-			ExprRelocateStorage *tmp =
-				g_new (ExprRelocateStorage, 1);
 
-			tmp->dep_type = t;
 			if (t == DEPENDENT_NAME) {
-#warning "What should we do here and why do we leak tmp?"
+				// Names are handled elsewhere; there is nothing
+				// to do (or undo) here.
+				gnm_expr_top_unref (newtree);
 			} else {
-				if (t == DEPENDENT_CELL)
+				ExprRelocateStorage *tmp =
+					g_new0 (ExprRelocateStorage, 1);
+
+				tmp->dep_type = t;
+				if (t == DEPENDENT_CELL) {
 					tmp->u.pos = local_rinfo.pos;
-				else
+					if (tmp->u.pos.sheet)
+						g_object_ref (tmp->u.pos.sheet);
+				} else
 					tmp->u.dep = dep;
 				tmp->oldtree = dep->texpr;
 				gnm_expr_top_ref (tmp->oldtree);
@@ -2630,9 +2649,7 @@ do_deps_invalidate (Sheet *sheet)
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->being_invalidated);
-	g_return_if_fail (sheet->revive == NULL);
-
-	sheet->revive = go_undo_group_new ();
+	g_return_if_fail (sheet->revive != NULL);
 
 	gnm_named_expr_collection_unlink (sheet->names);
 
@@ -2706,10 +2723,21 @@ dependents_invalidate_sheets (GSList *sheets, gboolean destroy)
 	GSList *tmp;
 	Workbook *last_wb;
 
+	if (!destroy) {
+		for (tmp = sheets; tmp; tmp = tmp->next) {
+			Sheet *sheet = tmp->data;
+			g_return_if_fail (sheet->revive == NULL);
+		}
+	}
+
 	/* Mark all first.  */
 	for (tmp = sheets; tmp; tmp = tmp->next) {
 		Sheet *sheet = tmp->data;
 		sheet->being_invalidated = TRUE;
+		// The undo group must exist before tweak_3d runs, so that
+		// fixups of 3D references can be undone.
+		if (!destroy)
+			sheet->revive = go_undo_group_new ();
 	}
 
 	/*
@@ -2786,6 +2814,9 @@ dependents_workbook_destroy (Workbook *wb)
 void
 dependents_revive_sheet (Sheet *sheet)
 {
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet->revive != NULL);
+
 	go_undo_undo (GO_UNDO (sheet->revive));
 	g_object_unref (sheet->revive);
 	sheet->revive = NULL;
@@ -2975,8 +3006,20 @@ gnm_dep_container_resize (GnmDepContainer *deps, int rows)
 		GHashTable *hash = deps->range_hash[i];
 		if (hash != NULL) {
 			int s = g_hash_table_size (hash);
+			GHashTableIter hiter;
+			gpointer key;
+
 			if (s)
 				g_printerr ("Hash table size: %d\n", s);
+
+			// The hash has no destroy notifiers, so release
+			// the entries ourselves.
+			g_hash_table_iter_init (&hiter, hash);
+			while (g_hash_table_iter_next (&hiter, &key, NULL)) {
+				DependencyRange *dr = key;
+				micro_hash_release (&dr->deps);
+				go_mem_chunk_free (deps->range_pool, dr);
+			}
 			g_hash_table_destroy (hash);
 			deps->range_hash[i] = NULL;
 		}
