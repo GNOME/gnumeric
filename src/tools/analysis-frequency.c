@@ -166,11 +166,38 @@ gnm_frequency_tool_finalize (GObject *obj)
 }
 
 /*
- * Automatic categories: the distinct values found in the input, in
- * ascending order, at most ftool->n of them.  Values that are equal
- * according to the comparison used for counting (see "exact") are
- * the same category.
+ * Automatic categories: the distinct values found in the input.  Values
+ * that are equal according to the comparison used for counting (see
+ * "exact") are the same category.  If there are more than ftool->n
+ * of them, the rarest are dropped (ties are resolved in favor of the
+ * smaller values).  The categories that remain are in ascending order.
  */
+
+typedef struct {
+	GnmValue const *v;
+	guint count;
+	guint pos;
+} FrequencyRun;
+
+static int
+frequency_run_cmp_count (gconstpointer pa, gconstpointer pb)
+{
+	FrequencyRun const *a = pa;
+	FrequencyRun const *b = pb;
+
+	if (a->count != b->count)
+		return a->count > b->count ? -1 : 1;
+	return (a->pos > b->pos) - (a->pos < b->pos);
+}
+
+static int
+frequency_run_cmp_pos (gconstpointer pa, gconstpointer pb)
+{
+	FrequencyRun const *a = pa;
+	FrequencyRun const *b = pb;
+
+	return (a->pos > b->pos) - (a->pos < b->pos);
+}
 
 static int
 frequency_value_cmp (GnmValue const *a, GnmValue const *b, gboolean exact)
@@ -209,6 +236,7 @@ gnm_frequency_tool_collect_categories (GnmFrequencyTool *ftool,
 	GnmGenericAnalysisTool *gtool = &ftool->parent;
 	GPtrArray *vals = g_ptr_array_new_with_free_func
 		((GDestroyNotify)value_release);
+	GArray *runs;
 	GSList *l;
 	guint ui;
 
@@ -253,16 +281,37 @@ gnm_frequency_tool_collect_categories (GnmFrequencyTool *ftool,
 	g_ptr_array_sort_with_data (vals, frequency_value_cmp_data,
 				    GINT_TO_POINTER (ftool->exact));
 
-	for (ui = 0; ui < vals->len && ftool->categories->len < (guint)ftool->n; ui++) {
+	// Collapse the sorted values into runs of equal values.
+	runs = g_array_new (FALSE, FALSE, sizeof (FrequencyRun));
+	for (ui = 0; ui < vals->len; ui++) {
 		GnmValue const *v = g_ptr_array_index (vals, ui);
-		if (ftool->categories->len > 0) {
-			GnmValue const *last = g_ptr_array_index
-				(ftool->categories, ftool->categories->len - 1);
-			if (frequency_value_cmp (last, v, ftool->exact) == 0)
-				continue;
+		FrequencyRun *last = runs->len > 0
+			? &g_array_index (runs, FrequencyRun, runs->len - 1)
+			: NULL;
+
+		if (last && frequency_value_cmp (last->v, v, ftool->exact) == 0) {
+			last->count++;
+		} else {
+			FrequencyRun run;
+			run.v = v;
+			run.count = 1;
+			run.pos = runs->len;
+			g_array_append_val (runs, run);
 		}
-		g_ptr_array_add (ftool->categories, value_dup (v));
 	}
+
+	// Too many?  Keep the most frequent ones, but retain value order.
+	if (runs->len > (guint)ftool->n) {
+		g_array_sort (runs, frequency_run_cmp_count);
+		g_array_set_size (runs, ftool->n);
+		g_array_sort (runs, frequency_run_cmp_pos);
+	}
+
+	for (ui = 0; ui < runs->len; ui++) {
+		FrequencyRun const *run = &g_array_index (runs, FrequencyRun, ui);
+		g_ptr_array_add (ftool->categories, value_dup (run->v));
+	}
+	g_array_free (runs, TRUE);
 
 	g_ptr_array_unref (vals);
 }
