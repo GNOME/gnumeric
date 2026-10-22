@@ -941,7 +941,7 @@ bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
 		break;
 
 	case GNM_EXPR_OP_EXP:
-		if ((va == 0 && vb <= 0) || (va < 0 && vb != (int)vb))
+		if ((va == 0 && vb <= 0) || (va < 0 && vb != gnm_floor (vb)))
 			return value_new_error_NUM (ep);
 
 		res = gnm_pow (va, vb);
@@ -1318,7 +1318,9 @@ gnm_expr_range_op (GnmExpr const *expr, GnmEvalPos const *ep,
 	}
 
 	res = value_new_cellrange_r (a_start, &res_range);
-	dependent_add_dynamic_dep (ep->dep, &res->v_range.cell);
+	// ep->dep can be NULL for conditional formats; see FUNCALL above
+	if (ep->dep)
+		dependent_add_dynamic_dep (ep->dep, &res->v_range.cell);
 	if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
 		res = value_intersection (res, ep);
 		return (res != NULL)
@@ -3318,6 +3320,7 @@ gnm_expr_top_relocate (GnmExprTop const *texpr,
 
 	rinfo_tmp.details = rinfo;
 	rinfo_tmp.check_rels = !ignore_rel;
+	rinfo_tmp.from_inside = FALSE;
 	if (rinfo->reloc_type != GNM_EXPR_RELOCATE_INVALIDATE_SHEET)
 		rinfo_tmp.from_inside = (rinfo->origin_sheet == rinfo->pos.sheet) &&
 			range_contains (&rinfo->origin, rinfo->pos.eval.col, rinfo->pos.eval.row);
@@ -3859,7 +3862,7 @@ gnm_expr_top_transpose (GnmExprTop const *texpr)
 		return gnm_expr_top_new_array_corner
 			(texpr->expr->array_corner.rows,
 			 texpr->expr->array_corner.cols,
-			 gnm_expr_copy (texpr->expr));
+			 gnm_expr_copy (texpr->expr->array_corner.expr));
 	case GNM_EXPR_OP_ARRAY_ELEM:
 		/* Transpose coordinates  */
 		return gnm_expr_top_new_array_elem

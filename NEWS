@@ -11,6 +11,7 @@ Morten:
 	* Implement automatic bins for frequency tool.
 	* Fix implicit intersection dep problem.
 	* Fix 3D range problems.
+	* Fix transposed pasting of array formula.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
