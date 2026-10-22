@@ -1906,11 +1906,12 @@ static void
 sheet_colrow_add (Sheet *sheet, ColRowInfo *cp, gboolean is_cols, int n)
 {
 	ColRowCollection *info = is_cols ? &sheet->cols : &sheet->rows;
-	ColRowSegment **psegment = (ColRowSegment **)&COLROW_GET_SEGMENT (info, n);
+	ColRowSegment **psegment;
 
 	g_return_if_fail (n >= 0);
 	g_return_if_fail (n < colrow_max (is_cols, sheet));
 
+	psegment = (ColRowSegment **)&COLROW_GET_SEGMENT (info, n);
 	if (*psegment == NULL)
 		*psegment = g_new0 (ColRowSegment, 1);
 	colrow_free ((*psegment)->info[COLROW_SUB_INDEX (n)]);
@@ -2454,7 +2455,11 @@ sheet_get_extent (Sheet const *sheet, gboolean spans_and_merges_extend, gboolean
  * sheet_get_cells_extent:
  * @sheet: the sheet
  *
- * Calculates the area occupied by cells, including empty cells.
+ * Calculates the area occupied by cells, including empty cells.  But note
+ * that unallocated cells are not included.
+ *
+ * If there are no cells (a pristine sheet), an inverted range will be
+ * returned.
  *
  * Returns: the range.
  **/
@@ -2746,6 +2751,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row, int scol, int ecol,
 
 	data.max = -1;
 	data.ignore_strings = ignore_strings;
+	data.only_when_needed = FALSE;  // Not currently used
 	sheet_foreach_cell_in_region (sheet,
 		CELL_ITER_IGNORE_NONEXISTENT |
 		CELL_ITER_IGNORE_HIDDEN |
@@ -3325,16 +3331,8 @@ sheet_range_bounding_box (Sheet const *sheet, GnmRange *bound)
 	/* no need to iterate, one pass is enough */
 	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
 		GnmRange const * const test = ptr->data;
-		if (r.start.row <= test->end.row || r.end.row >= test->start.row) {
-			if (bound->start.col > test->start.col)
-				bound->start.col = test->start.col;
-			if (bound->end.col < test->end.col)
-				bound->end.col = test->end.col;
-			if (bound->start.row > test->start.row)
-				bound->start.row = test->start.row;
-			if (bound->end.row < test->end.row)
-				bound->end.row = test->end.row;
-		}
+		if (range_overlap (&r, test))
+			*bound = range_union (bound, test);
 	}
 }
 
@@ -3853,7 +3851,8 @@ sheet_range_splits_region (Sheet const *sheet,
 			   GnmRange const *r, GnmRange const *ignore,
 			   GOCmdContext *cc, char const *cmd_name)
 {
-	GSList *merged;
+	GSList *merged, *ptr;
+	gboolean qsplit = FALSE;
 
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
@@ -3862,25 +3861,23 @@ sheet_range_splits_region (Sheet const *sheet,
 		return TRUE;
 
 	merged = gnm_sheet_merge_get_overlap (sheet, r);
-	if (merged) {
-		GSList *ptr;
-
-		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-			GnmRange const *m = ptr->data;
-			if (ignore != NULL && range_contained (m, ignore))
-				continue;
-			if (!range_contained (m, r))
-				break;
-		}
-		g_slist_free (merged);
-
-		if (cc != NULL && ptr != NULL) {
-			go_cmd_context_error_invalid (cc, cmd_name,
-				_("Target region contains merged cells"));
-			return TRUE;
+	for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+		GnmRange const *m = ptr->data;
+		if (ignore != NULL && range_contained (m, ignore))
+			continue;
+		if (!range_contained (m, r)) {
+			qsplit = TRUE;
+			break;
 		}
 	}
-	return FALSE;
+	g_slist_free (merged);
+
+	if (cc != NULL && qsplit) {
+		go_cmd_context_error_invalid (cc, cmd_name,
+					      _("Target region contains merged cells"));
+	}
+
+	return qsplit;
 }
 
 /**
