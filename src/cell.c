@@ -189,8 +189,11 @@ void
 gnm_cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr,
 			     GnmValue *v, gboolean link_expr)
 {
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (texpr != NULL);
+	if (cell == NULL || texpr == NULL) {
+		value_release (v);
+		g_return_if_fail (cell != NULL);
+		g_return_if_fail (texpr != NULL);
+	}
 	if (gnm_cell_is_nonsingleton_array (cell)) {
 		value_release (v);
 		g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
@@ -277,8 +280,8 @@ gnm_cell_set_expr_unsafe (GnmCell *cell, GnmExprTop const *texpr)
 void
 gnm_cell_set_expr (GnmCell *cell, GnmExprTop const *texpr)
 {
-	g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
 	g_return_if_fail (cell != NULL);
+	g_return_if_fail (!gnm_cell_is_nonsingleton_array (cell));
 	g_return_if_fail (texpr != NULL);
 
 	cell_set_expr_internal (cell, texpr);
@@ -522,12 +525,12 @@ gnm_cell_array_bound (GnmCell const *cell, GnmRange *res)
 	int x, y;
 	int cols, rows;
 
+	g_return_val_if_fail (res != NULL, FALSE);
+
 	range_init (res, 0, 0, 0, 0);
 
 	if (NULL == cell || !gnm_cell_has_expr (cell))
 		return FALSE;
-
-	g_return_val_if_fail (res != NULL, FALSE);
 
 	texpr = cell->base.texpr;
 	if (gnm_expr_top_is_array_elem (texpr, &x, &y)) {
@@ -1121,11 +1124,15 @@ gnm_cell_convert_expr_to_value (GnmCell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (gnm_cell_has_expr (cell));
 
+	texpr = cell->base.texpr;
+	// Check this before we change anything.
+	if (!gnm_expr_top_is_array_corner (texpr))
+		g_return_if_fail (!gnm_cell_is_array (cell));
+
 	/* Clipboard cells, e.g., are not attached to a sheet.  */
 	if (gnm_cell_expr_is_linked (cell))
 		dependent_unlink (GNM_CELL_TO_DEP (cell));
 
-	texpr = cell->base.texpr;
 	if (gnm_expr_top_is_array_corner (texpr)) {
 		int rows, cols;
 
@@ -1137,8 +1144,6 @@ gnm_cell_convert_expr_to_value (GnmCell *cell)
 					     cell->pos.row + rows - 1,
 					     cb_set_array_value,
 					     gnm_expr_top_get_array_value (texpr));
-	} else {
-		g_return_if_fail (!gnm_cell_is_array (cell));
 	}
 
 	gnm_expr_top_unref (texpr);
