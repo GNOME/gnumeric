@@ -831,7 +831,7 @@ range_transpose (GnmRange *range, Sheet const *sheet, GnmCellPos const *origin)
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->start.col = 0;
-	}
+	} else
 		range->start.col = t;
 
 	/* Start row */
@@ -842,7 +842,7 @@ range_transpose (GnmRange *range, Sheet const *sheet, GnmCellPos const *origin)
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->start.row = 0;
-	}
+	} else
 		range->start.row = t;
 
 
@@ -854,7 +854,7 @@ range_transpose (GnmRange *range, Sheet const *sheet, GnmCellPos const *origin)
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->end.col = 0;
-	}
+	} else
 		range->end.col = t;
 
 	/* End row */
@@ -865,7 +865,7 @@ range_transpose (GnmRange *range, Sheet const *sheet, GnmCellPos const *origin)
 	} else if (t < 0) {
 		clipped = TRUE;
 		range->end.row = 0;
-	}
+	} else
 		range->end.row = t;
 
 	g_assert (range_valid (range));
