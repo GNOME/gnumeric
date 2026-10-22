@@ -30,9 +30,9 @@ int       gnm_range_compare (GnmRange const *a, GnmRange const *b);
  * @a: First range
  * @b: Second range
  *
- * NB. commutative, symmetric, but not transitive.
+ * Note: reflexive, symmetric, but not transitive.
  *
- * Returns: True if the ranges overlap at all.
+ * Returns: %TRUE if the ranges overlap at all.
  **/
 #define range_overlap(a,b) (((a)->end.row >= (b)->start.row) && \
 			    ((b)->end.row >= (a)->start.row) && \
@@ -41,13 +41,13 @@ int       gnm_range_compare (GnmRange const *a, GnmRange const *b);
 
 /**
  * range_contains:
- * @r:   range to operate on
- * @x:   column,
- * @y:   row co-ordinate
+ * @r: range to query
+ * @x: column,
+ * @y: row co-ordinate
  *
- * Determine if a range contains a col,row co-ordinate.
+ * Determine if a range contains (col,row)
  *
- * Returns: %TRUE if co-ordinate contained.
+ * Returns: %TRUE if coordinate contained.
  **/
 #define range_contains(r,x,y)	(((y) <= (r)->end.row) && \
 				 ((y) >= (r)->start.row) && \

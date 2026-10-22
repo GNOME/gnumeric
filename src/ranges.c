@@ -628,25 +628,10 @@ range_union (GnmRange const *a, GnmRange const *b)
 {
 	GnmRange ans;
 
-	if (a->start.col < b->start.col)
-		ans.start.col = a->start.col;
-	else
-		ans.start.col = b->start.col;
-
-	if (a->end.col > b->end.col)
-		ans.end.col   = a->end.col;
-	else
-		ans.end.col   = b->end.col;
-
-	if (a->start.row < b->start.row)
-		ans.start.row = a->start.row;
-	else
-		ans.start.row = b->start.row;
-
-	if (a->end.row > b->end.row)
-		ans.end.row   = a->end.row;
-	else
-		ans.end.row   = b->end.row;
+	ans.start.col = MIN (a->start.col, b->start.col);
+	ans.start.row = MIN (a->start.row, b->start.row);
+	ans.end.col = MAX (a->end.col, b->end.col);
+	ans.end.row = MAX (a->end.row, b->end.row);
 
 	return ans;
 }
