@@ -216,6 +216,13 @@ sheet_set_conventions (Sheet *sheet, GnmConventions const *convs)
 		return;
 	g_object_unref (sheet->convs);
 	sheet->convs = g_object_ref ((gpointer)convs);
+	if (sheet->name_unquoted) {
+		// Quoting of the name can depend on the conventions
+		g_free (sheet->name_quoted);
+		sheet->name_quoted = g_string_free
+			(gnm_expr_conv_quote (sheet->convs, sheet->name_unquoted),
+			 FALSE);
+	}
 	SHEET_FOREACH_VIEW (sheet, sv,
 		sv->edit_pos_changed.content = TRUE;);
 	sheet_mark_dirty (sheet);
@@ -1481,6 +1488,10 @@ gnm_sheet_resize_main (Sheet *sheet, int cols, int rows,
 	return;
 
  handle_error:
+	if (common_row_styles)
+		g_ptr_array_free (common_row_styles, TRUE);
+	if (common_col_styles)
+		g_ptr_array_free (common_col_styles, TRUE);
 	if (pundo) {
 		go_undo_undo_with_data (*pundo, cc);
 		g_object_unref (*pundo);
@@ -2862,6 +2873,7 @@ cb_set_cell_content (GnmCellIter const *iter, closure_set_cell_value *info)
 			rinfo.target_sheet = iter->pp.sheet;
 			rinfo.col_offset = 0;
 			rinfo.row_offset = 0;
+			rinfo.sticky_end = FALSE;
 
 			relo = gnm_expr_top_relocate (texpr, &rinfo, FALSE);
 			if (relo)
@@ -3512,7 +3524,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 				int base_row, int count,
 				gboolean jump_to_boundaries)
 {
-	gboolean find_nonblank = sheet_is_cell_empty (sheet, start_col, move_row);
+	gboolean find_nonblank;
 	gboolean keep_looking = FALSE;
 	int new_col, prev_col, lagged_start_col, max_col = gnm_sheet_get_last_col (sheet);
 	int iterations = 0;
@@ -3522,6 +3534,8 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_col);
 	g_return_val_if_fail (IS_SHEET (sheet), start_col);
+
+	find_nonblank = sheet_is_cell_empty (sheet, start_col, move_row);
 
 	if (move_row < base_row) {
 		check_merge.start.row = move_row;
@@ -3614,7 +3628,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 			      int base_col, int count,
 			      gboolean jump_to_boundaries)
 {
-	gboolean find_nonblank = sheet_is_cell_empty (sheet, move_col, start_row);
+	gboolean find_nonblank;
 	gboolean keep_looking = FALSE;
 	int new_row, prev_row, lagged_start_row, max_row = gnm_sheet_get_last_row (sheet);
 	int iterations = 0;
@@ -3624,6 +3638,8 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_row);
 	g_return_val_if_fail (IS_SHEET (sheet), start_row);
+
+	find_nonblank = sheet_is_cell_empty (sheet, move_col, start_row);
 
 	if (move_col < base_col) {
 		check_merge.start.col = move_col;
@@ -4543,7 +4559,7 @@ sheet_foreach_cell_in_region (Sheet *sheet, CellIterFlags flags,
 
 		/* no need to check visibility, that would require a colinfo to exist */
 		if (iter.ri == NULL) {
-			if (only_existing) {
+			if (only_existing || ignore_empty) {
 				/* skip segments with no cells */
 				if (iter.pp.eval.row == COLROW_SEGMENT_START (iter.pp.eval.row)) {
 					ColRowSegment const *segment =
@@ -4554,6 +4570,9 @@ sheet_foreach_cell_in_region (Sheet *sheet, CellIterFlags flags,
 			} else {
 				iter.cell = NULL;
 				for (iter.pp.eval.col = start_col; iter.pp.eval.col <= end_col; ++iter.pp.eval.col) {
+					iter.ci = sheet_col_get (sheet, iter.pp.eval.col);
+					if (visibility_matters && iter.ci && !iter.ci->visible)
+						continue;
 					cont = (*callback) (&iter, closure);
 					if (cont != NULL)
 						return cont;
@@ -5428,13 +5447,16 @@ static void
 sheet_colrow_move (Sheet *sheet, gboolean is_cols,
 		   int const old_pos, int const new_pos)
 {
-	ColRowSegment *segment = COLROW_GET_SEGMENT (is_cols ? &sheet->cols : &sheet->rows, old_pos);
-	ColRowInfo *info = segment
-		? segment->info[COLROW_SUB_INDEX (old_pos)]
-		: NULL;
+	ColRowSegment *segment;
+	ColRowInfo *info;
 
 	g_return_if_fail (old_pos >= 0);
 	g_return_if_fail (new_pos >= 0);
+
+	segment = COLROW_GET_SEGMENT (is_cols ? &sheet->cols : &sheet->rows, old_pos);
+	info = segment
+		? segment->info[COLROW_SUB_INDEX (old_pos)]
+		: NULL;
 
 	if (info == NULL)
 		return;
@@ -5918,7 +5940,9 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 		cell = cells->data;
 
 		/* check for out of bounds and delete if necessary */
-		if ((cell->pos.col + rinfo->col_offset) >= gnm_sheet_get_max_cols (rinfo->target_sheet) ||
+		if ((cell->pos.col + rinfo->col_offset) < 0 ||
+		    (cell->pos.row + rinfo->row_offset) < 0 ||
+		    (cell->pos.col + rinfo->col_offset) >= gnm_sheet_get_max_cols (rinfo->target_sheet) ||
 		    (cell->pos.row + rinfo->row_offset) >= gnm_sheet_get_max_rows (rinfo->target_sheet)) {
 			cell_free (cell);
 			continue;
