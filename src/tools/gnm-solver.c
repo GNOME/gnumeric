@@ -906,7 +906,7 @@ gnm_solver_dispose (GObject *obj)
 
 	if (sol->status == GNM_SOLVER_STATUS_RUNNING) {
 		gboolean ok = gnm_solver_stop (sol, NULL);
-		if (ok) {
+		if (!ok) {
 			g_warning ("Failed to stop solver -- now what?");
 		}
 	}
@@ -1558,7 +1558,11 @@ gnm_solver_update_derived (GnmSolver *sol)
 
 				if (idx < 0)
 					continue;
-				if (!cell_is_constant (rhs, &cr))
+				/*
+				 * When rhs is NULL, get_part has already put the
+				 * constant (or 0 for an empty cell) into cr.
+				 */
+				if (rhs && !cell_is_constant (rhs, &cr))
 					continue;
 
 				switch (c->type) {
@@ -1836,6 +1840,7 @@ gnm_solver_create_sensitivity_report (GnmSolver *solver, WorkbookControl *wbc, c
 	int R = 0;
 	data_analysis_output_t *dao;
 	GSList *l;
+	int cidx = 0;  /* Index into sols->constraints; spans all constraints */
 
 	if (!sols)
 		return;
@@ -1900,7 +1905,7 @@ gnm_solver_create_sensitivity_report (GnmSolver *solver, WorkbookControl *wbc, c
 
 	for (l = params->constraints; l; l = l->next) {
 		GnmSolverConstraint *c = l->data;
-		int i, cidx = 0;
+		int i;
 		gnm_float cl, cr;
 		GnmCell *lhs, *rhs;
 
@@ -2314,7 +2319,7 @@ gnm_solver_line_search (GnmSolver *sol,
 	gnm_float s, s0, s1, s2;
 	gnm_float y, y0, y1, y2;
 	gnm_float const phi = (gnm_sqrt (5) + 1) / 2;
-	gboolean rbig;
+	gnm_float sgn = 1;
 	gboolean debug = gnm_solver_debug ();
 
 	g_return_val_if_fail (eps >= 0, gnm_nan);
@@ -2330,14 +2335,16 @@ gnm_solver_line_search (GnmSolver *sol,
 	y0 = gnm_solver_get_target_value (sol);
 	s0 = 0;
 
+	/*
+	 * From phase 1 on, s0, s1 and s2 are non-negative and ascending and
+	 * the actual step along @dir is sgn*s.  That way the reverse
+	 * direction does not need special handling.
+	 */
 	s = step;
 	while (phase == 0) {
 		gboolean flat = TRUE;
 
 		y = try_step (sol, x0, dir, s);
-		if (0 && debug)
-			g_printerr ("LS0: s:%.6" GNM_FORMAT_g "  y:%.6" GNM_FORMAT_g "\n",
-				    s, y);
 		if (y < y0 && gnm_solver_check_constraints (sol)) {
 			y1 = y;
 			s1 = s;
@@ -2348,12 +2355,10 @@ gnm_solver_line_search (GnmSolver *sol,
 
 		if (try_reverse) {
 			y = try_step (sol, x0, dir, -s);
-			if (0 && debug)
-				g_printerr ("LS0: s:%.6" GNM_FORMAT_g "  y:%.6" GNM_FORMAT_g "\n",
-					    -s, y);
 			if (y < y0 && gnm_solver_check_constraints (sol)) {
 				y1 = y;
-				s1 = -s;
+				s1 = s;
+				sgn = -1;
 				phase = 1;
 				break;
 			} else if (y != y0)
@@ -2367,18 +2372,26 @@ gnm_solver_line_search (GnmSolver *sol,
 	}
 
 	while (phase == 1) {
+		gboolean clamped = FALSE;
+
 		s = s1 * (phi + 1);
+		if (s >= max_step) {
+			if (s1 >= max_step)
+				goto bail;
+			/* Probe the largest allowed step rather than give up.  */
+			s = max_step;
+			clamped = TRUE;
+		}
 
-		if (gnm_abs (s) >= max_step)
-			goto bail;
-
-		y = try_step (sol, x0, dir, s);
+		y = try_step (sol, x0, dir, sgn * s);
 		if (!gnm_finite (y) || !gnm_solver_check_constraints (sol))
 			goto bail;
 
 		if (y < y1) {
 			y1 = y;
 			s1 = s;
+			if (clamped)
+				goto bail;
 			continue;
 		}
 
@@ -2388,34 +2401,28 @@ gnm_solver_line_search (GnmSolver *sol,
 	}
 
 	/*
-	 * Phase 2: we have three steps, s0/s1/s2, in order (descending or ascending) such
-	 * that
+	 * Phase 2: we have three steps, s0<s1<s2, such that
 	 *   1.  y1<=y0 (equality unlikely)
 	 *   2.  y1<=y2 (equality unlikely)
-	 *   3a. (s2-s1)=phi*(s1-s0) or
-	 *   3b. (s2-s1)*phi=(s1-s0)
+	 * Probe inside the larger of the two intervals, at the golden
+	 * section point.  When the intervals are in golden ratio (the
+	 * usual case) this is the classic golden-section search.
 	 */
-	rbig = TRUE;  /* Initially 3a holds. */
 	while (phase == 2) {
-		if (0 && debug) {
-			gnm_float s01 = s1 - s0;
-			gnm_float s12 = s2 - s1;
-			g_printerr ("LS2: s0:%.6" GNM_FORMAT_g "  s01=%.6" GNM_FORMAT_g "  s12=%.6" GNM_FORMAT_g
-				    "  r=%" GNM_FORMAT_g
-				    "  y:%.10" GNM_FORMAT_g "/%.10" GNM_FORMAT_g "/%.10" GNM_FORMAT_g "\n",
-				    s0, s01, s12, s12 / s01, y0, y1, y2);
-		}
+		gboolean right = (s2 - s1 > s1 - s0);
 
-		s = rbig ? s1 + (s1 - s0) * (phi - 1) : s1 - (s2 - s1) * (phi - 1);
+		s = right
+			? s1 + (s2 - s1) * (2 - phi)
+			: s1 - (s1 - s0) * (2 - phi);
 		if (s <= s0 || s >= s2 || gnm_abs (s - s1) <= eps)
 			break;
 
-		y = try_step (sol, x0, dir, s);
+		y = try_step (sol, x0, dir, sgn * s);
 		if (!gnm_finite (y) || !gnm_solver_check_constraints (sol))
 			goto bail;
 
 		if (y < y1) {
-			if (rbig) {
+			if (right) {
 				y0 = y1;
 				s0 = s1;
 			} else {
@@ -2425,14 +2432,13 @@ gnm_solver_line_search (GnmSolver *sol,
 			y1 = y;
 			s1 = s;
 		} else {
-			if (rbig) {
+			if (right) {
 				y2 = y;
 				s2 = s;
 			} else {
 				y0 = y;
 				s0 = s;
 			}
-			rbig = !rbig;
 
 			if (y0 == y1 && y1 == y2)
 				break;
@@ -2440,6 +2446,7 @@ gnm_solver_line_search (GnmSolver *sol,
 	}
 
 bail:
+	s1 *= sgn;
 	if (debug)
 		g_printerr ("LS: step %.6" GNM_FORMAT_g "\n", s1);
 
@@ -2483,7 +2490,7 @@ gnm_solver_pick_lp_coords (GnmSolver *sol,
 
 			if (x1[ui] + 1 <= H)
 				x2[ui] = x1[ui] + 1;
-			else if (x1[ui] - 1 >= H)
+			else if (x1[ui] - 1 >= L)
 				x2[ui] = x1[ui] - 1;
 			else if (x1[ui] != H)
 				x2[ui] = (x1[ui] + H) / 2;
@@ -2523,7 +2530,7 @@ gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 	for (ui = 0; ui < n; ui++) {
 		gnm_float dx = x2[ui] - x1[ui], dy, y1;
 
-		if (dx <= 0) {
+		if (dx == 0) {
 			res[ui] = 0;
 			continue;
 		}
@@ -2536,7 +2543,7 @@ gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 		if (!gnm_finite (res[ui]))
 			goto fail_calc;
 
-		if (!sol->discrete[ui] || dx != 1) {
+		if (!sol->discrete[ui] || gnm_abs (dx) != 1) {
 			gnm_float x01, y01, e, emax;
 
 			x01 = (x1[ui] + x2[ui]) / 2;
@@ -2546,9 +2553,8 @@ gnm_solver_get_lp_coeffs (GnmSolver *sol, GnmCell *ycell,
 			if (!gnm_finite (y01))
 				goto fail_calc;
 
-			emax = dy == 0
-				? GNM_const(1e-10)
-				: gnm_abs (dy) / GNM_const(1e-10);  // ????
+			emax = GNM_const(1e-10) *
+				(gnm_abs (y0) + gnm_abs (y1) + gnm_abs (y01));
 			e = dy - 2 * (y01 - y0);
 			if (gnm_abs (e) > emax)
 				goto fail_linear;
@@ -3038,7 +3044,7 @@ gnm_sub_solver_spawn (GnmSubSolver *subsol,
 		 &subsol->child_pid,
 		 NULL,			/* stdin */
 		 io_stdout ? &subsol->fd[1] : NULL,	/* stdout */
-		 io_stdout ? &subsol->fd[2] : NULL,	/* stderr */
+		 io_stderr ? &subsol->fd[2] : NULL,	/* stderr */
 		 err);
 	if (!ok)
 		goto fail;
@@ -3619,6 +3625,7 @@ gnm_iter_solver_dispose (GObject *obj)
 {
 	GnmIterSolver *isol = GNM_ITER_SOLVER (obj);
 	gnm_iter_solver_clear (isol);
+	g_clear_object (&isol->iterator);
 	gnm_iter_solver_parent_class->dispose (obj);
 }
 

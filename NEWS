@@ -12,6 +12,10 @@ Morten:
 	* Fix implicit intersection dep problem.
 	* Fix 3D range problems.
 	* Fix transposed pasting of array formula.
+	* Fix detection of a failed solver subprocess.
+	* Fix problems with solver sensitivity report.
+	* Fix problem with solver program linearity check.
+	* Fix various other solver problems.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
