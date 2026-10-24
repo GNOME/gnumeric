@@ -22,6 +22,9 @@ Morten:
 	* Fix problems with complicated multisheet renames.
 	* Make workbook iteration settings and recursive dirtying
 	  GObject properties.
+	* Fix autofill problem with irregular quarters.
+	* Fix autofill overflow problem.
+	* Introspection fixes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

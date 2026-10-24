@@ -286,10 +286,17 @@ as_check_prefix_suffix (ArithString *as, char const *s, gsize slen)
 	return FALSE;
 }
 
+static int
+as_compute_phase (ArithString *as, int n)
+{
+	return (int)gnm_fmod (n * as->step + as->base_phase, as->phases);
+}
+
 static gnm_float
 as_compute_val (ArithString *as, int n)
 {
-	int pn = (n * as->step + as->base_phase) / as->phases;
+	/* Not an int: n * step can be much larger than INT_MAX.  */
+	gnm_float pn = gnm_floor ((n * as->step + as->base_phase) / as->phases);
 	gnm_float f = as->base + pn;
 	if (as->fixed_length)
 		f = gnm_fmod (f, as->p10);
@@ -384,8 +391,10 @@ as_teach_rest (ArithString *as, char const *s, int n, int phase)
 		 * version gets a chance.
 		 */
 		char const *s3 = s2;
-		if (!g_ascii_isdigit (*s3))
+		if (*s3 == '+' || *s3 == '-')
 			s3++;
+		if (!g_ascii_isdigit (*s3))
+			return TRUE;
 		if (s3[0] == '0' && g_ascii_isdigit (s3[1]))
 			return TRUE;
 		val = strtol (s2, &end, 10);
@@ -401,6 +410,8 @@ as_teach_rest (ArithString *as, char const *s, int n, int phase)
 	} else {
 		gnm_float f = as_compute_val (as, n);
 		if (gnm_abs (f - val) > GNM_const(0.5))
+			return TRUE;
+		if (as_compute_phase (as, n) != phase)
 			return TRUE;
 	}
 
@@ -677,8 +688,7 @@ afl_finalize (AutoFiller *af)
 static int
 afl_compute_phase (AutoFillerList *afl, int n)
 {
-	return (int)(n * afl->as.step + afl->as.base_phase) %
-		afl->as.phases;
+	return as_compute_phase (&afl->as, n);
 }
 
 static void
@@ -874,7 +884,7 @@ afc_set_cell_hint (AutoFiller *af, GnmCell *cell, GnmCellPos const *pos,
 			if (doit)
 				gnm_cell_set_array_formula
 					(cell->base.sheet,
-					 pos->col, cell->pos.row,
+					 pos->col, pos->row,
 					 pos->col + (cols - 1),
 					 pos->row + (rows - 1),
 					 gnm_expr_top_new (aexpr));
@@ -1302,25 +1312,38 @@ sheet_autofill_internal (Sheet *sheet, gboolean singleton,
 
 /**
  * gnm_autofill_fill:
- * @sheet: #Sheet
- * @default_increment: boolean
- * @base_col: start column
- * @base_row: start row
- * @w: width
- * @h: height
- * @end_col: end column
- * @end_row: end row
+ * @sheet: #Sheet to fill in
+ * @default_increment: if %TRUE, a source consisting of a single cell is
+ * continued as a sequence with the default step (1 for numbers) instead
+ * of being copied
+ * @base_col: column of the source corner the fill starts from
+ * @base_row: row of the source corner the fill starts from
+ * @w: width of the source area, in cells
+ * @h: height of the source area, in cells
+ * @end_col: column of the far corner of the area being filled
+ * @end_row: row of the far corner of the area being filled
  *
- * An internal routine to autofill a region.  It does NOT
- * queue a recalc, flag a status update, or regen spans.
+ * Extends the source area into the rest of the rectangle spanned by
+ * (@base_col,@base_row) and (@end_col,@end_row), recognizing numeric,
+ * date, month, weekday, quarter and numbered-text series and falling back
+ * to copying (with formula relocation) otherwise.
+ *
+ * Filling down or to the right: (@base_col,@base_row) is the top-left
+ * cell of the source and (@end_col,@end_row) is the bottom-right cell of
+ * the whole area.  Filling up or to the left: (@base_col,@base_row) is the
+ * bottom-right cell of the source and (@end_col,@end_row) is the top-left
+ * cell of the whole area.
+ *
+ * This is an internal routine.  It does NOT queue a recalc, flag a status
+ * update, or regenerate spans.
  **/
 void
-gnm_autofill_fill (Sheet *sheet, gboolean singleton,
+gnm_autofill_fill (Sheet *sheet, gboolean default_increment,
 		   int base_col, int base_row,
 		   int w, int h,
 		   int end_col, int end_row)
 {
-	sheet_autofill_internal (sheet, singleton,
+	sheet_autofill_internal (sheet, default_increment,
 				 base_col, base_row,
 				 w, h,
 				 end_col, end_row,
@@ -1330,15 +1353,23 @@ gnm_autofill_fill (Sheet *sheet, gboolean singleton,
 /**
  * gnm_autofill_hint:
  * @sheet: #Sheet
- * @default_increment: boolean
- * @base_col: start column
- * @base_row: start row
- * @w: width
- * @h: height
- * @end_col: end column
- * @end_row: end row
+ * @default_increment: see gnm_autofill_fill()
+ * @base_col: column of the source corner the fill starts from
+ * @base_row: row of the source corner the fill starts from
+ * @w: width of the source area, in cells
+ * @h: height of the source area, in cells
+ * @end_col: column of the far corner of the area being filled
+ * @end_row: row of the far corner of the area being filled
  *
- * Returns: (transfer full): a string representation of the fill hint.
+ * Computes what gnm_autofill_fill() would put in the last cell of each
+ * row (when filling left or right) or column (when filling up or down)
+ * of the target area, without changing the sheet.  This is used for the
+ * tooltip shown while dragging the autofill handle.  The arguments have
+ * the same meaning as for gnm_autofill_fill().
+ *
+ * Returns: (transfer full): the hint text.  Values for several rows are
+ * separated by newlines, values for several columns by " | ".  A series
+ * that cannot be previewed is shown as "?".
  **/
 GString *
 gnm_autofill_hint (Sheet *sheet, gboolean default_increment,
