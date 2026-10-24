@@ -384,7 +384,7 @@ workbook_class_init (GObjectClass *gobject_class)
 		 g_param_spec_boolean ("being-loaded",
 				       P_("Being loaded"),
 				       P_("Workbook is currently being loaded."),
-				       TRUE,
+				       FALSE,
 				       GSF_PARAM_STATIC |
 				       G_PARAM_READWRITE));
 
@@ -528,7 +528,7 @@ workbook_set_saveinfo (Workbook *wb, GOFileFormatLevel level, GOFileSaver *fs)
 	g_return_val_if_fail (level > GO_FILE_FL_NONE && level < GO_FILE_FL_LAST,
 			      FALSE);
 
-	if (level != GO_FILE_FL_AUTO) {
+	if (level == GO_FILE_FL_WRITE_ONLY) {
 		if (wb->file_exporter != NULL)
 			g_object_weak_unref (G_OBJECT (wb->file_exporter),
 					     (GWeakNotify) cb_exporter_finalize, wb);
@@ -547,7 +547,7 @@ workbook_set_saveinfo (Workbook *wb, GOFileFormatLevel level, GOFileSaver *fs)
 					   (GWeakNotify) cb_saver_finalize, wb);
 	}
 
-	if (level != GO_FILE_FL_AUTO) {
+	if (level == GO_FILE_FL_WRITE_ONLY) {
 		wb->file_export_format_level = level;
 		return FALSE;
 	}
@@ -1369,11 +1369,16 @@ workbook_sheet_move (Sheet *sheet, int direction)
 
 	wb = sheet->workbook;
 
-	pre_sheet_index_change (wb);
-        old_pos = sheet->index_in_wb;
+	old_pos = sheet->index_in_wb;
 	new_pos = old_pos + direction;
 
-	if (0 <= new_pos && new_pos < workbook_sheet_count (wb)) {
+	// Nothing to do (and no signals or dirtying) for an out-of-range move.
+	if (new_pos < 0 || new_pos >= workbook_sheet_count (wb) ||
+	    new_pos == old_pos)
+		return;
+
+	pre_sheet_index_change (wb);
+	{
 		int min_pos = MIN (old_pos, new_pos);
 		int max_pos = MAX (old_pos, new_pos);
 
@@ -1381,11 +1386,10 @@ workbook_sheet_move (Sheet *sheet, int direction)
 		g_ptr_array_insert (wb->sheets, new_pos, sheet);
 
 		for (; max_pos >= min_pos ; max_pos--) {
-			Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
-			sheet->index_in_wb = max_pos;
+			Sheet *s = g_ptr_array_index (wb->sheets, max_pos);
+			s->index_in_wb = max_pos;
 		}
 	}
-
 	post_sheet_index_change (wb);
 
 	workbook_mark_dirty (wb);
@@ -1443,8 +1447,13 @@ workbook_sheet_get_free_name (Workbook *wb,
 
 	g_free (name);
 	g_free (base_name);
-	name = g_strdup_printf ("%s (%i)", base, 2);
-	return name;
+	// Last resort: keep going until we find an unused name.
+	for (i = 2; ; i++) {
+		name = g_strdup_printf ("%s (%u)", base, i);
+		if (workbook_sheet_by_name (wb, name) == NULL)
+			return name;
+		g_free (name);
+	}
 }
 
 /**
@@ -1470,9 +1479,14 @@ workbook_sheet_rename (Workbook *wb,
 
 	while (new_name && sheet_index) {
 		int ix = GPOINTER_TO_INT (sheet_index->data);
-		const char *name = new_name->data;
-		if (ix != -1)
-			g_hash_table_remove (wb->sheet_hash_private, name);
+		if (ix != -1) {
+			// Drop the sheet's *current* (casefolded) name so that
+			// sheets can swap names without clobbering each other.
+			Sheet *sheet = workbook_sheet_by_index (wb, ix);
+			if (sheet)
+				g_hash_table_remove (wb->sheet_hash_private,
+						     sheet->name_case_insensitive);
+		}
 		sheet_index = sheet_index->next;
 		new_name = new_name->next;
 	}
@@ -1536,6 +1550,14 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order)
 
 	g_return_val_if_fail (GNM_IS_WORKBOOK (wb), FALSE);
 	g_return_val_if_fail (g_slist_length (new_order) == wb->sheets->len, FALSE);
+
+	// Every sheet must appear exactly once.
+	for (ptr = new_order; ptr; ptr = ptr->next) {
+		sheet = ptr->data;
+		g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+		g_return_val_if_fail (sheet->workbook == wb, FALSE);
+		g_return_val_if_fail (g_slist_find (ptr->next, sheet) == NULL, FALSE);
+	}
 
 	pre_sheet_index_change (wb);
 

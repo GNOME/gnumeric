@@ -19,6 +19,7 @@ Morten:
 	* Fix empty-lhs or constant-rhs problem with solver.
 	* Fix various other solver problems.
 	* Fix solver tests that fail as xfail.
+	* Fix problems with complicated multisheet renames.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
