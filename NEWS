@@ -20,6 +20,8 @@ Morten:
 	* Fix various other solver problems.
 	* Fix solver tests that fail as xfail.
 	* Fix problems with complicated multisheet renames.
+	* Make workbook iteration settings and recursive dirtying
+	  GObject properties.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
