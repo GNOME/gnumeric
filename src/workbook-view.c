@@ -93,6 +93,9 @@ enum {
 	LAST_SIGNAL
 };
 
+#define DEFAULT_PREFERRED_HEIGHT 768
+#define DEFAULT_PREFERRED_WIDTH 1024
+
 /**
  * wb_view_get_workbook:
  * @wbv: #WorkbookView
@@ -288,10 +291,10 @@ wb_view_set_attribute (WorkbookView *wbv, char const *name, char const *value)
 /**
  * wb_view_preferred_size:
  * @wbv: #WorkbookView
- * @w_pixels: preferred width in pixels
- * @h_pixels: preferred height in pixels
+ * @w_pixels: preferred width in pixels, or a non-positive value for the default
+ * @h_pixels: preferred height in pixels, or a non-positive value for the default
  *
- * Sets the preferred size for @wbv.
+ * Sets the preferred window size for @wbv.
  **/
 void
 wb_view_preferred_size (WorkbookView *wbv, int w, int h)
@@ -299,9 +302,9 @@ wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 	g_return_if_fail (GNM_IS_WORKBOOK_VIEW (wbv));
 
 	if (w <= 0)
-		w = 768; /* use default */
+		w = DEFAULT_PREFERRED_WIDTH; /* use default */
 	if (h <= 0)
-		h = 768; /* use default */
+		h = DEFAULT_PREFERRED_HEIGHT; /* use default */
 
 	g_object_set (G_OBJECT (wbv),
 		      "preferred-width", w,
@@ -1091,7 +1094,7 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		 g_param_spec_int ("preferred-width",
 				   P_("Preferred width"),
 				   P_("Preferred width"),
-				   1, G_MAXINT, 1024,
+				   1, G_MAXINT, DEFAULT_PREFERRED_WIDTH,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READWRITE));
         g_object_class_install_property
@@ -1100,7 +1103,7 @@ workbook_view_class_init (GObjectClass *gobject_class)
 		 g_param_spec_int ("preferred-height",
 				   P_("Preferred height"),
 				   P_("Preferred height"),
-				   1, G_MAXINT, 768,
+				   1, G_MAXINT, DEFAULT_PREFERRED_HEIGHT,
 				   GSF_PARAM_STATIC |
 				   G_PARAM_READWRITE));
         g_object_class_install_property
@@ -1354,10 +1357,8 @@ workbook_view_save (WorkbookView *wbv, GOCmdContext *context)
 	if (fs == NULL)
 		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
-	else {
-		char const *uri = go_doc_get_uri (GO_DOC (wb));
+	else
 		workbook_view_save_to_uri (wbv, fs, uri, io_context);
-	}
 
 	has_error   = go_io_error_occurred (io_context);
 	has_warning = go_io_warning_occurred (io_context);
@@ -1366,7 +1367,8 @@ workbook_view_save (WorkbookView *wbv, GOCmdContext *context)
 		go_doc_set_modtime (GO_DOC (wb), modtime);
 		if (gnm_debug_flag ("modtime"))
 			g_printerr ("Modtime set\n");
-		g_date_time_unref (modtime);
+		if (modtime)
+			g_date_time_unref (modtime);
 		go_doc_set_saved_state (GO_DOC (wb),
 					go_doc_get_state (GO_DOC (wb)));
 		go_doc_set_dirty (GO_DOC (wb), FALSE);
@@ -1491,15 +1493,20 @@ workbook_view_new_from_input (GsfInput *input,
 		}
 	} else {
 		if (io_context) {
-			char *bn = go_basename_from_uri (uri);
-			char *errtxt = g_strdup_printf
-				(_("Unsupported file format for file \"%s\""),
-				 bn);
+			char *errtxt;
+
+			if (uri) {
+				char *bn = go_basename_from_uri (uri);
+				errtxt = g_strdup_printf
+					(_("Unsupported file format for file \"%s\""),
+					 bn);
+				g_free (bn);
+			} else
+				errtxt = g_strdup (_("Unsupported file format"));
 			go_cmd_context_error_import
 				(GO_CMD_CONTEXT (io_context),
 				 errtxt);
 			g_free (errtxt);
-			g_free (bn);
 		}
 	}
 

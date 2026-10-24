@@ -170,9 +170,16 @@ wb_control_claim_selection (WorkbookControl *wbc)
 
 /**
  * wb_control_validation_msg:
- *	 1 : ignore invalid and accept result
- *	 0 : discard invalid and finish editing
- *	-1 : continue editing
+ * @wbc: #WorkbookControl
+ * @v: the #ValidationStyle of the failed validation
+ * @title: title for the message
+ * @msg: the message to show
+ *
+ * Reports a failed validation to the user and asks how to proceed.
+ *
+ * Returns: 1 to ignore the invalid value and accept the result, 0 to
+ * discard the invalid value and finish editing, -1 to continue editing.
+ * Without a handler, 1 is returned.
  **/
 int
 wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
@@ -410,8 +417,14 @@ wb_control_navigate_to_cell (WorkbookControl *wbc, wb_control_navigator_t to)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmRange region;
-	GnmRange const *first = selection_first_range (sv, NULL, NULL);
+	GnmRange const *first;
 	GnmRangeRef rangeref;
+
+	if (sv == NULL)
+		return;
+
+	first = selection_first_range (sv, NULL, NULL);
+	g_return_if_fail (first != NULL);
 
 	region = *first;
 	gnm_sheet_guess_data_range (sheet, &region);
@@ -572,8 +585,9 @@ GSF_CLASS_FULL (WorkbookControl, workbook_control, NULL, NULL,
  * @optional_view: (nullable): #WorkbookView
  * @optional_wb: (nullable): #Workbook
  *
- * Sets the view for @wbc. If @optional_view is %NULL, a new view is
- * created for @optional_wb.
+ * Sets the view for @wbc to @optional_view.  If @optional_view is %NULL, a
+ * new view is created for @optional_wb (or for a fresh workbook if that is
+ * %NULL too).
  **/
 void
 wb_control_set_view (WorkbookControl *wbc,
