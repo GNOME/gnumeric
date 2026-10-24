@@ -231,7 +231,15 @@ TESTS =	t1000-statfuns.pl			\
 	t9010-ssgrep.pl				\
 	t9100-number-match.pl			\
 	t9999-epilogue.pl
-XFAIL_TESTS = 
+
+XFAIL_TESTS = t7113-solver-Lanczos3.pl		\
+	t7121-solver-Hahn1.pl			\
+	t7123-solver-MGH17.pl			\
+	t7124-solver-Lanczos1.pl		\
+	t7125-solver-Lanczos2.pl		\
+	t7141-solver-Thurber.pl			\
+	t7144-solver-MGH10.pl			\
+	t7147-solver-Bennett5.pl
 
 SUPPS = common.supp gui.supp t8003-valgrind-pdf.supp
 

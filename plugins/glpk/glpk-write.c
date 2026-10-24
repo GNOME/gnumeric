@@ -48,7 +48,7 @@ glpk_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 static gboolean
 glpk_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 		  gnm_float const *x1, gnm_float const *x2,
-		  gboolean zero_too,
+		  gboolean zero_too, gboolean need_var,
 		  gnm_float cst, GError **err)
 {
 	GnmSolver *sol = GNM_SOLVER (ssol);
@@ -99,6 +99,16 @@ glpk_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 
 		g_string_append (dst, glpk_var_name (ssol, cell));
 
+		any = TRUE;
+	}
+
+	if (!any && need_var && input_cells->len > 0) {
+		/*
+		 * The LP syntax needs at least one variable on the left hand
+		 * side, so use one with a zero coefficient.
+		 */
+		g_string_append_printf (dst, "0 %s",
+					glpk_var_name (ssol, g_ptr_array_index (input_cells, 0)));
 		any = TRUE;
 	}
 
@@ -191,7 +201,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 
 	g_string_append (objfunc, " obj: ");
 	if (!glpk_affine_func (objfunc, target_cell, ssol, x1, x2,
-			       TRUE, 0, err))
+			       TRUE, FALSE, 0, err))
 		goto fail;
 	g_string_append (objfunc, "\n");
 	go_io_count_progress_update (io_context, 1);
@@ -273,7 +283,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 				ok = glpk_affine_func
 					(constraints, lhs, ssol,
 					 x1, x2,
-					 FALSE, cl, err);
+					 FALSE, TRUE, cl, err);
 				if (!ok)
 					goto fail;
 
@@ -284,7 +294,7 @@ glpk_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **err)
 				ok = glpk_affine_func
 					(constraints, rhs, ssol,
 					 x1, x2,
-					 FALSE, cr, err);
+					 FALSE, FALSE, cr, err);
 				if (!ok)
 					goto fail;
 

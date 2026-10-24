@@ -52,6 +52,7 @@ lpsolve_var_name (GnmSubSolver *ssol, GnmCell const *cell)
 static gboolean
 lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 		     gnm_float const *x1, gnm_float const *x2,
+		     gboolean need_var,
 		     gnm_float cst, GError **err)
 {
 	GnmSolver *sol = GNM_SOLVER (ssol);
@@ -102,6 +103,16 @@ lpsolve_affine_func (GString *dst, GnmCell *target, GnmSubSolver *ssol,
 
 		g_string_append (dst, lpsolve_var_name (ssol, cell));
 
+		any = TRUE;
+	}
+
+	if (!any && need_var && input_cells->len > 0) {
+		/*
+		 * The LP syntax needs at least one variable on the left hand
+		 * side, so use one with a zero coefficient.
+		 */
+		g_string_append_printf (dst, "0 %s",
+					lpsolve_var_name (ssol, g_ptr_array_index (input_cells, 0)));
 		any = TRUE;
 	}
 
@@ -178,7 +189,7 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 
 	if (!lpsolve_affine_func (objfunc, target_cell, ssol,
 				  x1, x2,
-				  0, err))
+				  FALSE, 0, err))
 		goto fail;
 	g_string_append (objfunc, ";\n");
 	go_io_count_progress_update (io_context, 1);
@@ -259,7 +270,7 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 				ok = lpsolve_affine_func
 					(constraints, lhs, ssol,
 					 x1, x2,
-					 cl, err);
+					 TRUE, cl, err);
 				if (!ok)
 					goto fail;
 
@@ -270,7 +281,7 @@ lpsolve_create_program (GnmSubSolver *ssol, GOIOContext *io_context, GError **er
 				ok = lpsolve_affine_func
 					(constraints, rhs, ssol,
 					 x1, x2,
-					 cr, err);
+					 FALSE, cr, err);
 				if (!ok)
 					goto fail;
 

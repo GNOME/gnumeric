@@ -410,9 +410,13 @@ sub test_sheet_calc {
     $tmp = &invent_junkfile ($tmp);
 
     my $cmd = "$ssconvert " . &quotearg (@$pargs, '--recalc', "--export-range=$range", $file, $tmp);
-    print STDERR "# $cmd\n" if $verbose;
-    my $code = system ("$cmd 2>&1 | sed -e 's/^/| /' ");
-    &system_failure ($ssconvert, $code) if $code;
+    if (0) {
+	&test_valgrind ($cmd, 1, 1);
+    } else {
+	print STDERR "# $cmd\n" if $verbose;
+	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /' ");
+	&system_failure ($ssconvert, $code) if $code;
+    }
 
     my $actual = &read_file ($tmp);
 

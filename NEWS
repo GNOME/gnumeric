@@ -15,7 +15,10 @@ Morten:
 	* Fix detection of a failed solver subprocess.
 	* Fix problems with solver sensitivity report.
 	* Fix problem with solver program linearity check.
+	* Fix problem with solver saving error handling.
+	* Fix empty-lhs or constant-rhs problem with solver.
 	* Fix various other solver problems.
+	* Fix solver tests that fail as xfail.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

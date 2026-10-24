@@ -50,6 +50,8 @@ typedef struct {
 
 	/* Rosenbrock state */
 	gnm_float **xi;
+	gboolean basis_rotated;  /* xi is not the coordinate axes */
+	int explorations;
 	int smallsteps;
 	int tentative;
 	gnm_float *tentative_xk, tentative_yk;
@@ -279,6 +281,8 @@ nlsolve_init (GnmNlsolve *nl)
 		for (j = 0; j < n; j++)
 			nl->xi[i][j] = (i == j);
 	}
+	nl->basis_rotated = FALSE;
+	nl->explorations = 0;
 
 	nl->smallsteps = 0;
 
@@ -302,6 +306,83 @@ rosenbrock_tentative_end (GnmNlsolve *nl, gboolean accept)
 	nl->tentative_xk = NULL;
 
 	nl->smallsteps = 0;
+}
+
+/*
+ * Last resort before we give up: probe each coordinate at a range of coarse
+ * scales, in both directions.  The normal search only grows a step after a
+ * success, so on a stretch where the objective is flat to within rounding
+ * noise (typically a model term that has underflowed relative to the rest)
+ * it never tries a step big enough to see anything.  Take the best clear
+ * improvement, if any.
+ */
+static gboolean
+explore_axes (GnmNlsolve *nl)
+{
+	GnmIterSolver *isol = nl->isol;
+	GnmSolver *sol = nl->sol;
+	const int n = nl->n;
+	gnm_float *x = g_new (gnm_float, n);
+	gnm_float *best = g_new (gnm_float, n);
+	gnm_float ybest = isol->yk;
+	gnm_float ymin = isol->yk - gnm_abs (isol->yk) * GNM_const(1e-9);
+	gboolean found = FALSE;
+	int i, k, sgn;
+
+	if (nl->explorations >= 50)
+		goto out;
+	nl->explorations++;
+
+	for (i = 0; i < n; i++) {
+		gnm_float x0 = isol->xk[i];
+		gnm_float base = (x0 == 0) ? 1 : gnm_abs (x0);
+
+		for (sgn = -1; sgn <= 1; sgn += 2) {
+			for (k = -12; k <= 8; k++) {
+				gnm_float y;
+
+				memcpy (x, isol->xk, n * sizeof (gnm_float));
+				x[i] = x0 + sgn * base * gnm_pow2 (k);
+				set_vector (nl, x);
+				y = get_value (nl);
+				if (y < ybest && y < ymin &&
+				    gnm_solver_check_constraints (sol)) {
+					ybest = y;
+					memcpy (best, x, n * sizeof (gnm_float));
+					found = TRUE;
+				}
+			}
+		}
+	}
+
+	if (found) {
+		if (nl->debug)
+			g_printerr ("Exploration: y %.15" GNM_FORMAT_g
+				    " -> %.15" GNM_FORMAT_g "\n",
+				    isol->yk, ybest);
+		isol->yk = ybest;
+		memcpy (isol->xk, best, n * sizeof (gnm_float));
+	}
+	set_vector (nl, isol->xk);
+	if (found)
+		set_solution (nl);
+
+out:
+	g_free (x);
+	g_free (best);
+	return found;
+}
+
+static void
+reset_basis (GnmNlsolve *nl)
+{
+	const int n = nl->n;
+	int i, j;
+
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			nl->xi[i][j] = (i == j);
+	nl->basis_rotated = FALSE;
 }
 
 static gboolean
@@ -339,11 +420,8 @@ rosenbrock_iter (GnmNlsolve *nl)
 			return TRUE;
 	}
 
-	if (isol->iterations % 20 == 0) {
-		for (i = 0; i < n; i++)
-			for (j = 0; j < n; j++)
-				nl->xi[i][j] = (i == j);
-	}
+	if (isol->iterations % 20 == 0)
+		reset_basis (nl);
 
 	A = g_new (gnm_float *, n);
 	for (i = 0; i < n; i++)
@@ -358,9 +436,18 @@ rosenbrock_iter (GnmNlsolve *nl)
 
 	d = g_new (gnm_float, n);
 	for (i = 0; i < n; i++) {
-		d[i] = (isol->xk[i] == 0)
-			? eps
-			: gnm_abs (isol->xk[i]) * eps;
+		/*
+		 * Initial step along direction i.  With a rotated basis
+		 * direction i is not coordinate i, so scale by the
+		 * coordinates the direction actually moves.  (For the
+		 * coordinate axes this is |xk[i]| * eps.)  Using xk[i]
+		 * regardless can give a step that is far too small to
+		 * register, costing about a hundred wasted rounds.
+		 */
+		gnm_float scale = 0;
+		for (j = 0; j < n; j++)
+			scale = MAX (scale, gnm_abs (isol->xk[j] * nl->xi[i][j]));
+		d[i] = (scale == 0) ? eps : scale * eps;
 	}
 
 	xkm1 = go_memdup_n (isol->xk, n, sizeof (gnm_float));
@@ -427,6 +514,7 @@ rosenbrock_iter (GnmNlsolve *nl)
 
 	if (any_at_all) {
 		gnm_float div, sum;
+		gboolean bad = FALSE;
 
                 for (j = n - 1; j >= 0; j--)
 			for (i = 0; i < n; i++)
@@ -444,7 +532,8 @@ rosenbrock_iter (GnmNlsolve *nl)
 				for (j = 0; j < n; j++) {
 					nl->xi[i][j] = (dx[i - 1] * A[i][j] -
 							nl->xi[i - 1][j] * t[i]) / div;
-					g_assert (gnm_finite (nl->xi[i][j]));
+					if (!gnm_finite (nl->xi[i][j]))
+						bad = TRUE;
 				}
                 }
 
@@ -457,10 +546,19 @@ rosenbrock_iter (GnmNlsolve *nl)
 						    " %" GNM_FORMAT_g
 						    " %" GNM_FORMAT_g "\n",
 						    div, A[0][i], nl->xi[0][i]);
-					g_assert (gnm_finite (nl->xi[0][i]));
+					bad = TRUE;
 				}
 			}
 		}
+
+		/*
+		 * If the basis update overflowed, start over with the
+		 * coordinate axes instead of aborting.
+		 */
+		if (bad)
+			reset_basis (nl);
+		else
+			nl->basis_rotated = TRUE;
 
 		/* ---------------------------------------- */
 
@@ -491,6 +589,24 @@ rosenbrock_iter (GnmNlsolve *nl)
 	g_free (d);
 	free_matrix (A, n);
 	g_free (state);
+
+	/*
+	 * No improvement along any direction of a rotated basis does not mean
+	 * we are at a minimum.  The rotated directions get step sizes derived
+	 * from the wrong coordinates and, on a numerically flat stretch, a
+	 * direction can have the wrong sign without ever seeing a failure
+	 * that would flip it.  Go back to the coordinate axes and try again.
+	 * (If that fails too, we are done.)
+	 */
+	if (!any_at_all && nl->basis_rotated) {
+		if (nl->debug)
+			g_printerr ("Stalled; restarting from coordinate axes\n");
+		reset_basis (nl);
+		any_at_all = TRUE;
+	} else if (!any_at_all && explore_axes (nl)) {
+		reset_basis (nl);
+		any_at_all = TRUE;
+	}
 
 	return any_at_all;
 }

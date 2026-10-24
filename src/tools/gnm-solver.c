@@ -480,12 +480,23 @@ gnm_solver_constraint_part_as_str (GnmSolverConstraint const *c, int i,
 
 	buf = g_string_new (NULL);
 
-	g_string_append (buf, cell_name (lhs));
+	/*
+	 * A side that is not a cell is either a constant (rhs given as a
+	 * number) or an empty cell; in both cases the value is what we have.
+	 */
+	if (lhs)
+		g_string_append (buf, cell_name (lhs));
+	else
+		g_string_append_printf (buf, "%.*" GNM_FORMAT_g, GNM_DIG, cl);
 	g_string_append_c (buf, ' ');
 	g_string_append (buf, translate ? _(type) : type);
 	if (gnm_solver_constraint_has_rhs (c)) {
 		g_string_append_c (buf, ' ');
-		g_string_append (buf, cell_name (rhs));
+		if (rhs)
+			g_string_append (buf, cell_name (rhs));
+		else
+			g_string_append_printf (buf, "%.*" GNM_FORMAT_g,
+						GNM_DIG, cr);
 	}
 
 	return g_string_free (buf, FALSE);
@@ -1338,7 +1349,7 @@ gnm_solver_check_constraints (GnmSolver *solver)
 
 			switch (c->type) {
 			case GNM_SOLVER_INTEGER:
-				if (cl == gnm_floor (cl))
+				if (gnm_finite (cl) && cl == gnm_floor (cl))
 					continue;
 				return FALSE;
 			case GNM_SOLVER_BOOLEAN:
@@ -1384,17 +1395,18 @@ gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 	gboolean ok;
 	WorkbookView *wbv = wb_control_view (wbc);
 
+	/* g_file_open_tmp has already set @err on failure.  */
 	fd = g_file_open_tmp (templ, filename, err);
-	if (fd == -1) {
-		g_set_error (err, G_FILE_ERROR, 0,
-			     _("Failed to create file for linear program"));
+	if (fd == -1)
 		return FALSE;
-	}
 
 	file = fdopen (fd, "wb");
 	if (!file) {
 		/* This shouldn't really happen.  */
 		close (fd);
+		g_unlink (*filename);
+		g_free (*filename);
+		*filename = NULL;
 		g_set_error (err, G_FILE_ERROR, 0,
 			     _("Failed to create linear program file"));
 		return FALSE;
@@ -2131,10 +2143,11 @@ gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs)
 	const int order = sol->params->options.gradient_order;
 
 	gnm_solver_set_vars (sol, xs);
-	y0 = gnm_solver_get_target_value (sol);
 
 	if (gnm_solver_has_analytic_gradient (sol))
 		return gnm_solver_compute_gradient_analytically (sol, xs);
+
+	y0 = gnm_solver_get_target_value (sol);
 
 	g = g_new (gnm_float, n);
 	for (i = 0; i < n; i++) {
@@ -2153,6 +2166,13 @@ gnm_solver_compute_gradient (GnmSolver *sol, gnm_float const *xs)
 		 * integer power of 2.
 		 */
 		dx = 16 * (gnm_add_epsilon (x0) - x0);
+		/*
+		 * There is no neighbouring number for x0==0 that is useful
+		 * as a step size; gnm_add_epsilon gives 0 and the gradient
+		 * would be 0/0.
+		 */
+		if (dx == 0)
+			dx = GNM_const(1e-8);
 		dy = 0;
 		for (j = -order; j <= order; j++) {
 			gnm_float y;
@@ -3093,8 +3113,23 @@ const char *
 gnm_sub_solver_name_cell (GnmSubSolver *subsol, GnmCell const *cell,
 			  const char *name)
 {
-	char *name_copy = g_strdup (name);
+	char *name_copy;
+	gpointer orig_key;
 
+	/*
+	 * Inserting an existing key frees the new key, which we would then
+	 * hand back to the caller.  Keep the original key instead.
+	 */
+	if (g_hash_table_lookup_extended (subsol->cell_from_name, name,
+					  &orig_key, NULL)) {
+		if (g_hash_table_lookup (subsol->cell_from_name, name) != cell)
+			g_warning ("Duplicate cell name %s", name);
+		g_hash_table_insert (subsol->name_from_cell,
+				     (gpointer)cell, orig_key);
+		return orig_key;
+	}
+
+	name_copy = g_strdup (name);
 	g_hash_table_insert (subsol->cell_from_name,
 			     name_copy,
 			     (gpointer)cell);
@@ -3123,8 +3158,17 @@ gnm_sub_solver_name_constraint (GnmSubSolver *subsol,
 				int cidx,
 				const char *name)
 {
-	char *name_copy = g_strdup (name);
+	char *name_copy;
+	gpointer orig_key, idx;
 
+	if (g_hash_table_lookup_extended (subsol->constraint_from_name, name,
+					  &orig_key, &idx)) {
+		if (GPOINTER_TO_INT (idx) != cidx)
+			g_warning ("Duplicate constraint name %s", name);
+		return orig_key;
+	}
+
+	name_copy = g_strdup (name);
 	g_hash_table_insert (subsol->constraint_from_name,
 			     name_copy,
 			     GINT_TO_POINTER (cidx));
@@ -3606,8 +3650,11 @@ gnm_iter_solver_set_solution (GnmIterSolver *isol)
 	g_object_set (sol, "result", result, NULL);
 	g_object_unref (result);
 
-	if (!gnm_solver_check_constraints (sol)) {
-		g_printerr ("Infeasible solution set\n");
+	if (gnm_solver_debug ()) {
+		/* Sanity check; the sheet might hold some other point.  */
+		gnm_solver_set_vars (sol, isol->xk);
+		if (!gnm_solver_check_constraints (sol))
+			g_printerr ("Infeasible solution set\n");
 	}
 }
 
