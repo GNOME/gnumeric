@@ -177,9 +177,10 @@ wb_control_claim_selection (WorkbookControl *wbc)
  *
  * Reports a failed validation to the user and asks how to proceed.
  *
- * Returns: 1 to ignore the invalid value and accept the result, 0 to
- * discard the invalid value and finish editing, -1 to continue editing.
- * Without a handler, 1 is returned.
+ * Returns: a #ValidationStatus: %GNM_VALIDATION_STATUS_VALID to accept
+ * the value, %GNM_VALIDATION_STATUS_INVALID_DISCARD to discard it and
+ * finish editing, or %GNM_VALIDATION_STATUS_INVALID_EDIT to continue
+ * editing.  Without a handler, the value is accepted.
  **/
 int
 wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
@@ -187,12 +188,12 @@ wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 {
 	WorkbookControlClass *wbc_class;
 
-	g_return_val_if_fail (GNM_IS_WBC (wbc), 1);
+	g_return_val_if_fail (GNM_IS_WBC (wbc), GNM_VALIDATION_STATUS_VALID);
 
 	wbc_class = WBC_CLASS (wbc);
 	if (wbc_class != NULL && wbc_class->validation_msg != NULL)
 		return wbc_class->validation_msg (wbc, v, title, msg);
-	return 1; /* no handler, always accept */
+	return GNM_VALIDATION_STATUS_VALID; /* no handler, always accept */
 }
 
 /**

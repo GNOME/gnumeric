@@ -8344,10 +8344,10 @@ cmd_page_break_toggle (WorkbookControl *wbc, Sheet *sheet, gboolean is_vert)
 
 	if (gnm_page_breaks_get_break (new, rc) != GNM_PAGE_BREAK_MANUAL) {
 		type = GNM_PAGE_BREAK_MANUAL;
-		label = is_vert ? _("Remove Column Page Break") : _("Remove Row Page Break");
+		label = is_vert ? _("Add Column Page Break") : _("Add Row Page Break");
 	} else {
 		type = GNM_PAGE_BREAK_NONE;
-		label = is_vert ? _("Add Column Page Break") : _("Add Row Page Break");
+		label = is_vert ? _("Remove Column Page Break") : _("Remove Row Page Break");
 	}
 
 	gnm_page_breaks_set_break (new, rc, type);

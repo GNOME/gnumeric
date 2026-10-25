@@ -25,6 +25,7 @@ Morten:
 	* Fix autofill problem with irregular quarters.
 	* Fix autofill overflow problem.
 	* Introspection fixes.
+	* Fix page break problems.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

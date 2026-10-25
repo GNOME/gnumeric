@@ -215,7 +215,7 @@ wbcg_set_action_feedback (WBCGtk *wbcg,
 		g_signal_handler_block (action, handler);
 	}
 	gtk_toggle_action_set_active (action, active);
-	if (sig) {
+	if (handler) {
 		if (debug)
 			g_printerr ("Unblocking signal %d %s\n", sig, name);
 		g_signal_handler_unblock (action, handler);
@@ -421,7 +421,8 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 	if (wbcg->snotebook) {
 		gboolean tab_context_menu =
 			enable_actions ||
-			scg_sheet (scg)->sheet_type == GNM_SHEET_OBJECT;
+			(scg != NULL &&
+			 scg_sheet (scg)->sheet_type == GNM_SHEET_OBJECT);
 		int i, N = wbcg_get_n_scg (wbcg);
 		for (i = 0; i < N; i++) {
 			GtkWidget *label =
@@ -1493,7 +1494,7 @@ wbcg_auto_expr_value_changed (WorkbookView *wbv,
 				: strlen (AUTO_EXPR_SAMPLE) - g_utf8_strlen (str->str, -1);
 			GOFormatNumberError err =
 				format_value_layout (layout, format, v,
-						     max_width, date_conv);
+						     MAX (1, max_width), date_conv);
 			switch (err) {
 			case GO_FORMAT_NUMBER_OK:
 			case GO_FORMAT_NUMBER_DATE_ERROR: {
@@ -1625,7 +1626,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		wbc_gtk_set_action_label (wbcg, "FilePrintAreaToggleColPageBreak",
 					  NULL, new_label, new_tip);
 		if (pi->page_breaks.h != NULL &&
-		    gnm_page_breaks_get_break (pi->page_breaks.h, col) == GNM_PAGE_BREAK_MANUAL) {
+		    gnm_page_breaks_get_break (pi->page_breaks.h, row) == GNM_PAGE_BREAK_MANUAL) {
 			new_label = _("Remove Row Page Break");
 			new_tip = _("Remove the page break above the current row");
 		} else {
@@ -1768,11 +1769,11 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 							    base);
 			g_free (base);
 			wbc_gtk_set_action_label (wbcg, "DataExportRepeat", NULL,
-						  new_label, N_("Repeat the last data export"));
+						  new_label, _("Repeat the last data export"));
 			g_free (new_label);
 		} else
 			wbc_gtk_set_action_label (wbcg, "DataExportRepeat", NULL,
-						  N_("Repeat Export"), N_("Repeat the last data export"));
+						  _("Repeat Export"), _("Repeat the last data export"));
 	}
 	{
 		gboolean const has_slicer = (NULL != gnm_sheet_view_editpos_in_slicer (sv));
@@ -2775,6 +2776,10 @@ cb_wbcg_drag_motion (GtkWidget *widget, GdkDragContext *context,
 {
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 
+	/* NULL when the drag comes from another application.  */
+	if (source_widget == NULL)
+		return TRUE;
+
 	if (GNM_IS_NOTEBOOK (gtk_widget_get_parent (source_widget))) {
 		/* The user wants to reorder sheets. We simulate a
 		 * drag motion over a label.
@@ -2796,6 +2801,10 @@ cb_wbcg_drag_leave (GtkWidget *widget, GdkDragContext *context,
 	GtkWidget *source_widget = gtk_drag_get_source_widget (context);
 
 	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
+
+	/* NULL when the drag comes from another application.  */
+	if (source_widget == NULL)
+		return;
 
 	if (GNM_IS_NOTEBOOK (gtk_widget_get_parent (source_widget)))
 		gtk_widget_hide (
@@ -4119,7 +4128,7 @@ cb_auto_expr_insert_formula (WBCGtk *wbcg, gboolean below)
 		g_object_set (specs, "function",
 			      func ? gnm_func_get_name (func, FALSE) : "sum",
 			      NULL);
-		g_object_unref (func);
+		g_clear_object (&func);
 	}
 
 	cmd_analysis_tool (GNM_WBC (wbcg), scg_sheet (scg), dao, tool);
@@ -4770,11 +4779,12 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 		/* TODO : add some error dialogs split out
 		 * the code in workbook_edit to add parens.  */
 		if (texpr == NULL) {
-			if (editor->data_type == GOG_DATA_SCALAR)
+			if (editor->data_type == GOG_DATA_SCALAR) {
 				texpr = gnm_expr_top_new_constant (
 					value_new_string (
 						gnm_expr_entry_get_text (editor->entry)));
-			else {
+				parse_error_free (&perr);
+			} else {
 				g_return_if_fail (perr.err != NULL);
 
 				wb_control_validation_msg (GNM_WBC (scg_wbcg (scg)),
