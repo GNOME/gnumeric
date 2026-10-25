@@ -26,6 +26,7 @@ Morten:
 	* Fix autofill overflow problem.
 	* Introspection fixes.
 	* Fix page break problems.
+	* Fix problem with dubious xlsx.  [#902]
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

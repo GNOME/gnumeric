@@ -4626,7 +4626,10 @@ xlsx_pattern (GsfXMLIn *xin, xmlChar const **attrs)
 	/* <dxf><font><color rgb="FF9C0006"/></font><fill><patternFill>
 	   <bgColor rgb="FFFFC7CE"/></patternFill></fill></dxf> */
 
-	gnm_style_set_pattern (state->style_accum, 1);
+	/* Only do so for dxfs; an ordinary cell fill with no patternType
+	   (e.g., from openpyxl) must not become solid white. */
+	gnm_style_set_pattern (state->style_accum,
+			       state->style_accum_partial ? 1 : 0);
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_enum (xin, attrs, "patternType", patterns, &val))
