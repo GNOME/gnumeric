@@ -895,7 +895,7 @@ stf_parse_fixed_line (Source_t *src, GnmStfParseOptions *parseoptions)
 	}
 
 	while (line->len < parseoptions->splitpositions->len)
-		g_ptr_array_add (line, g_strdup (""));
+		g_ptr_array_add (line, g_string_chunk_insert (src->pl->lines_chunk, ""));
 
 	return line;
 }
@@ -1001,7 +1001,7 @@ stf_parse_lines (GnmStfParseOptions *parseoptions,
 		g_ptr_array_add (pl->lines, line);
 
 		lineno++;
-		if (lineno >= maxlines)
+		if (lineno > maxlines)
 			break;
 	}
 
@@ -1088,7 +1088,7 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 			}
 
 			position++;
-			iterator++;
+			iterator = g_utf8_next_char (iterator);
 		}
 
 		if (position > max_line_length)
@@ -1196,15 +1196,14 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 						}
 					}
 
-					iterator++;
+					iterator = g_utf8_next_char (iterator);
 					pos++;
 				}
 
 				if (num_spaces < 2)
 					has_2_spaces = FALSE;
 
-				if (*iterator)
-					iterator++;
+				iterator += compare_terminator (iterator, parseoptions);
 			}
 
 			/*
@@ -1248,12 +1247,11 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 							only_spaces = FALSE;
 					}
 
-					iterator++;
+					iterator = g_utf8_next_char (iterator);
 					pos++;
 				}
 
-				if (*iterator)
-					iterator++;
+				iterator += compare_terminator (iterator, parseoptions);
 			}
 
 			/*
@@ -1380,7 +1378,7 @@ stf_parse_sheet (GnmStfParseOptions *parseoptions,
 
 	GnmStfParsedLines *pl = stf_parse_general (parseoptions, data, data_end);
 	if (pl == NULL)
-		result = FALSE;
+		return FALSE;
 
 	col = start_col;
 	nformats = parseoptions->formats->len;
@@ -1526,13 +1524,16 @@ stf_parse_region (GnmStfParseOptions *parseoptions, char const *data, char const
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
-	START_LOCALE_SWITCH;
-
-	cr = gnm_cell_region_new (NULL);
-
 	if (!data_end)
 		data_end = data + strlen (data);
 	GnmStfParsedLines *pl = stf_parse_general (parseoptions, data, data_end);
+	if (pl == NULL)
+		return NULL;
+
+	cr = gnm_cell_region_new (NULL);
+
+	START_LOCALE_SWITCH;
+
 	nformats = parseoptions->formats->len;
 	for (row = 0; row < pl->lines->len; row++) {
 		GPtrArray *line = g_ptr_array_index (pl->lines, row);
@@ -1671,7 +1672,7 @@ dump_guessed_options (const GnmStfParseOptions *res)
 			    res->sep.duplicates ? "yes" : "no");
 		break;
 	case PARSE_TYPE_FIXED:
-		g_printerr ("  type = sep\n");
+		g_printerr ("  type = fixed\n");
 		break;
 	default:
 		;
@@ -1887,7 +1888,7 @@ stf_parse_options_guess_csv (char const *data)
 				p = g_utf8_next_char (p);
 		}
 
-		if (*p) p = g_utf8_next_char (p);
+		/* p is already just past the closing quote.  */
 		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
 			p = g_utf8_next_char (p);
 		if (*p && g_utf8_get_char (p) != stringind &&
@@ -2072,6 +2073,12 @@ stf_parse_options_guess_formats (GnmStfParseOptions *po, char const *data)
 	g_ptr_array_set_size (po->formats_curr, 0);
 
 	GnmStfParsedLines *pl = stf_parse_general (po, data, data + strlen (data));
+	if (pl == NULL) {
+		g_string_free (s_dot, TRUE);
+		g_string_free (s_comma, TRUE);
+		g_string_free (s_dollar, TRUE);
+		return;
+	}
 
 	colcount = 0;
 	for (lno = 0; lno < pl->lines->len; lno++) {

@@ -439,6 +439,13 @@ stf_read_workbook_auto_csvtab (G_GNUC_UNUSED GOFileOpener const *fo, gchar const
 
 	GnmStfParsedLines *pl = stf_parse_general (po,
 						   utf8data->str, utf8data->str + utf8data->len);
+	if (pl == NULL) {
+		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
+			_("Parse error while trying to parse data into sheet"));
+		g_object_unref (po);
+		g_string_free (utf8data, TRUE);
+		return;
+	}
 	rows = pl->lines->len;
 	cols = 0;
 	for (i = 0; i < rows; i++) {

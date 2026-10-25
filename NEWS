@@ -27,6 +27,7 @@ Morten:
 	* Introspection fixes.
 	* Fix page break problems.
 	* Fix problem with dubious xlsx.  [#902]
+	* Fix fixed-width stf parse problems with non-ASCII.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
