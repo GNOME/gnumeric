@@ -901,6 +901,31 @@ stf_parse_fixed_line (Source_t *src, GnmStfParseOptions *parseoptions)
 }
 
 
+/*
+ * The low-level parsers stop at a NUL, not at the end of the data, and only
+ * look at the end of the data when starting a new line.  If there is text
+ * after *@data_end, arrange for them to stop at the right place by
+ * pointing *@data and *@data_end into a truncated copy.
+ *
+ * Returns: (transfer full) (nullable): the copy, to be g_free'd after the
+ * parse; %NULL if no copy was needed, in which case nothing was changed.
+ */
+static char *
+stf_limit_data (char const **data, char const **data_end)
+{
+	char *copy;
+	gsize len;
+
+	if (**data_end == 0)
+		return NULL;
+
+	len = *data_end - *data;
+	copy = g_strndup (*data, len);
+	*data = copy;
+	*data_end = copy + len;
+	return copy;
+}
+
 /**
  * stf_parse_general:
  * @parseoptions: #GnmStfParseOptions
@@ -923,6 +948,7 @@ stf_parse_general (GnmStfParseOptions *parseoptions,
 	g_return_val_if_fail (stf_parse_options_valid (parseoptions), NULL);
 	g_return_val_if_fail (g_utf8_validate (data, data_end-data, &valid_end), NULL);
 
+	char *copy = stf_limit_data (&data, &data_end);
 	GnmStfParsedLines *pl = gnm_stf_parsed_lines_new ();
 
 	src.pl = pl;
@@ -952,6 +978,7 @@ stf_parse_general (GnmStfParseOptions *parseoptions,
 		row++;
 	}
 
+	g_free (copy);
 	return pl;
 }
 
@@ -1052,7 +1079,7 @@ void
 stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 				      char const *data, char const *data_end)
 {
-	char const *iterator = data;
+	char const *iterator;
 	GSList *list = NULL;
 	GSList *list_start = NULL;
 	int effective_lines = 0;
@@ -1060,7 +1087,9 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 	int *line_begin_hits = NULL;
 	int *line_end_hits = NULL;
 	int i;
+	char *copy = stf_limit_data (&data, &data_end);
 
+	iterator = data;
 	stf_parse_options_fixed_splitpositions_clear (parseoptions);
 
 	/*
@@ -1274,6 +1303,7 @@ stf_parse_options_fixed_autodiscover (GnmStfParseOptions *parseoptions,
 
 	g_free (line_begin_hits);
 	g_free (line_end_hits);
+	g_free (copy);
 }
 
 /*******************************************************************************************************
@@ -1806,6 +1836,17 @@ stf_parse_options_guess (char const *data)
 	return res;
 }
 
+/*
+ * Is @c something we are willing to guess as a CSV separator when we find
+ * it next to a quoted field?  Punctuation is fine, and so is a tab even
+ * though it is not punctuation.
+ */
+static gboolean
+is_acceptable_separator (gunichar c)
+{
+	return g_unichar_ispunct (c) || c == '\t';
+}
+
 /**
  * stf_parse_options_guess_csv:
  * @data: the CSV input data.
@@ -1888,11 +1929,14 @@ stf_parse_options_guess_csv (char const *data)
 				p = g_utf8_next_char (p);
 		}
 
-		/* p is already just past the closing quote.  */
-		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
+		/* p is already just past the closing quote.  Skip white space,
+		   unless it is something that could be the separator.  */
+		while (*p &&
+		       !is_acceptable_separator (g_utf8_get_char (p)) &&
+		       g_unichar_isspace (g_utf8_get_char (p)))
 			p = g_utf8_next_char (p);
 		if (*p && g_utf8_get_char (p) != stringind &&
-		    g_unichar_ispunct (g_utf8_get_char (p))) {
+		    is_acceptable_separator (g_utf8_get_char (p))) {
 			// Use the character after the quote.
 			sep = g_strndup (p, g_utf8_next_char (p) - p);
 		} else {
@@ -1902,7 +1946,7 @@ stf_parse_options_guess_csv (char const *data)
 				p = p0;
 				p0 = g_utf8_prev_char (p0);
 				uc = g_utf8_get_char (p0);
-				if (g_unichar_ispunct (uc) &&
+				if (is_acceptable_separator (uc) &&
 				    uc != stringind)
 					sep = g_strndup (p0, p - p0);
 			}

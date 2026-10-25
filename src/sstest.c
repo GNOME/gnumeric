@@ -30,6 +30,8 @@
 #include <gnumeric-conf.h>
 #include <format-template.h>
 #include <file-autoft.h>
+#include <stf-parse.h>
+#include <clipboard.h>
 
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
@@ -1455,6 +1457,504 @@ test_nonascii_numbers (void)
 	res |= test_strtod_ok ("1.25", 1.25, 4);
 	res |= test_strtod_ok ("1.25e1", 12.5, 6);
 	res |= test_strtod_ok ("12.5e-1", 1.25, 7);
+
+	g_printerr ("Result = %d\n", res);
+
+	mark_test_end (test_name);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/*
+ * Tests for the text import (STF) parser.
+ *
+ * Results are compared in a compact textual form: each line is shown as
+ * [field|field|...], and the text "NULL" stands for a failed parse.
+ */
+
+static GLogFunc stf_saved_log_func;
+static GLogLevelFlags stf_saved_fatal_mask;
+
+/*
+ * Some of the tests below hand the parser garbage on purpose and expect it
+ * to refuse.  That is what we are testing, so keep the resulting criticals
+ * out of the test output.  Note that the test harness makes criticals
+ * fatal, so that has to be turned off too.
+ */
+static void
+stf_log_filter (const char *domain, GLogLevelFlags level,
+		const char *message, gpointer user_data)
+{
+	if (level & G_LOG_LEVEL_CRITICAL)
+		return;
+	g_log_default_handler (domain, level, message, user_data);
+}
+
+static void
+stf_quiet_begin (void)
+{
+	stf_saved_fatal_mask = g_log_set_always_fatal (G_LOG_LEVEL_ERROR);
+	g_log_set_always_fatal (stf_saved_fatal_mask & ~G_LOG_LEVEL_CRITICAL);
+	stf_saved_log_func = g_log_set_default_handler (stf_log_filter, NULL);
+}
+
+static void
+stf_quiet_end (void)
+{
+	g_log_set_default_handler (stf_saved_log_func, NULL);
+	g_log_set_always_fatal (stf_saved_fatal_mask);
+}
+
+static char *
+stf_lines_to_string (GnmStfParsedLines *pl)
+{
+	GString *s;
+	unsigned ui, uj;
+
+	if (!pl)
+		return g_strdup ("NULL");
+
+	s = g_string_new (NULL);
+	for (ui = 0; ui < pl->lines->len; ui++) {
+		GPtrArray *line = g_ptr_array_index (pl->lines, ui);
+		g_string_append_c (s, '[');
+		for (uj = 0; uj < line->len; uj++) {
+			if (uj)
+				g_string_append_c (s, '|');
+			g_string_append (s, g_ptr_array_index (line, uj));
+		}
+		g_string_append_c (s, ']');
+	}
+	return g_string_free (s, FALSE);
+}
+
+/* Takes ownership of @actual, but not of @expected */
+static int
+stf_expect (const char *what, char *actual, const char *expected)
+{
+	int res = 0;
+
+	if (strcmp (actual, expected) != 0) {
+		char *e1 = g_strescape (expected, NULL);
+		char *e2 = g_strescape (actual, NULL);
+		g_printerr ("FAIL %s:\n  expected: %s\n  actual:   %s\n",
+			    what, e1, e2);
+		g_free (e1);
+		g_free (e2);
+		res = 1;
+	}
+	g_free (actual);
+	return res;
+}
+
+/* Takes ownership of both strings */
+static int
+stf_expect_same (const char *what, char *actual, char *expected)
+{
+	int res = stf_expect (what, actual, expected);
+	g_free (expected);
+	return res;
+}
+
+/*
+ * Like stf_expect_same, but only the first failure with the same @failed
+ * is reported.  This is for checks done in bulk.
+ */
+static int
+stf_expect_same_once (const char *what, int *failed,
+		      char *actual, char *expected)
+{
+	int bad;
+
+	if (*failed) {
+		bad = (strcmp (actual, expected) != 0);
+		g_free (actual);
+		g_free (expected);
+	} else
+		bad = stf_expect_same (what, actual, expected);
+	*failed |= bad;
+	return bad;
+}
+
+/* Comma separated, "\n" terminated, trims spaces. */
+static GnmStfParseOptions *
+stf_csv_options (const char *term)
+{
+	GnmStfParseOptions *po = stf_parse_options_guess ("a,b\n");
+	stf_parse_options_clear_line_terminator (po);
+	stf_parse_options_add_line_terminator (po, term);
+	return po;
+}
+
+static GnmStfParseOptions *
+stf_fixed_options (const char *term)
+{
+	GnmStfParseOptions *po = stf_csv_options (term);
+	stf_parse_options_set_type (po, PARSE_TYPE_FIXED);
+	return po;
+}
+
+/* @quiet: we expect the parser to refuse the data */
+static char *
+stf_parse_to_string (GnmStfParseOptions *po,
+		     const char *data, const char *data_end,
+		     gboolean quiet)
+{
+	GnmStfParsedLines *pl;
+	char *s;
+
+	if (quiet)
+		stf_quiet_begin ();
+	pl = stf_parse_general (po, data, data_end);
+	if (quiet)
+		stf_quiet_end ();
+	s = stf_lines_to_string (pl);
+	if (pl)
+		g_object_unref (pl);
+	return s;
+}
+
+/* @data_end == NULL means the end of the string */
+static int
+stf_check_parse (const char *what, GnmStfParseOptions *po,
+		 const char *data, const char *data_end,
+		 const char *expected)
+{
+	if (!data_end)
+		data_end = data + strlen (data);
+	return stf_expect (what,
+			   stf_parse_to_string (po, data, data_end,
+						strcmp (expected, "NULL") == 0),
+			   expected);
+}
+
+static int
+stf_check_lines (const char *what, const char *data,
+		 int maxlines, gboolean with_lineno, const char *expected)
+{
+	GnmStfParseOptions *po = stf_csv_options ("\n");
+	GnmStfParsedLines *pl = stf_parse_lines (po, data, maxlines, with_lineno);
+	int res = stf_expect (what, stf_lines_to_string (pl), expected);
+	g_object_unref (pl);
+	g_object_unref (po);
+	return res;
+}
+
+/* Replace each "\n" in @text by @term */
+static char *
+stf_set_terminator (const char *text, const char *term)
+{
+	char **v = g_strsplit (text, "\n", -1);
+	char *res = g_strjoinv (term, v);
+	g_strfreev (v);
+	return res;
+}
+
+/* Split positions found by autodiscovery, as "n n n" */
+static char *
+stf_discover (const char *term, const char *data, const char *data_end)
+{
+	GnmStfParseOptions *po = stf_fixed_options (term);
+	GString *s = g_string_new (NULL);
+	int i, n;
+
+	stf_parse_options_fixed_autodiscover (po, data, data_end);
+	n = stf_parse_options_fixed_splitpositions_count (po);
+	for (i = 0; i < n; i++) {
+		int pos = stf_parse_options_fixed_splitpositions_nth (po, i);
+		if (pos < 0)
+			continue;  /* End marker */
+		if (s->len)
+			g_string_append_c (s, ' ');
+		g_string_append_printf (s, "%d", pos);
+	}
+	g_object_unref (po);
+	return g_string_free (s, FALSE);
+}
+
+static int
+stf_check_discover (const char *what, const char *term,
+		    const char *text, const char *expected)
+{
+	char *data = stf_set_terminator (text, term);
+	int res = stf_expect (what,
+			      stf_discover (term, data, data + strlen (data)),
+			      expected);
+	g_free (data);
+	return res;
+}
+
+/*
+ * Parsing and autodiscovery of the first n bytes of @text must give the
+ * same result whether we pass a data_end or a string that ends there.
+ * Check all possible n.  @text must be plain ASCII.
+ */
+static int
+stf_check_data_end (const char *what, const char *term, const char *text)
+{
+	int res = 0;
+	char *data = stf_set_terminator (text, term);
+	size_t len = strlen (data), n;
+	GnmStfParseOptions *csv = stf_csv_options (term);
+	GnmStfParseOptions *fixed = stf_fixed_options (term);
+	int failed_discover = 0, failed_csv = 0, failed_fixed = 0;
+
+	stf_parse_options_fixed_splitpositions_add (fixed, 4);
+	stf_parse_options_fixed_splitpositions_add (fixed, 9);
+
+	for (n = 0; n <= len; n++) {
+		char *trunc = g_strndup (data, n);
+		char *w;
+
+		w = g_strdup_printf ("%s: autodiscover, first %d bytes",
+				     what, (int)n);
+		res |= stf_expect_same_once (w, &failed_discover,
+					     stf_discover (term, data, data + n),
+					     stf_discover (term, trunc, trunc + n));
+		g_free (w);
+
+		w = g_strdup_printf ("%s: csv, first %d bytes", what, (int)n);
+		res |= stf_expect_same_once (w, &failed_csv,
+					     stf_parse_to_string (csv, data, data + n, FALSE),
+					     stf_parse_to_string (csv, trunc, trunc + n, FALSE));
+		g_free (w);
+
+		w = g_strdup_printf ("%s: fixed, first %d bytes", what, (int)n);
+		res |= stf_expect_same_once (w, &failed_fixed,
+					     stf_parse_to_string (fixed, data, data + n, FALSE),
+					     stf_parse_to_string (fixed, trunc, trunc + n, FALSE));
+		g_free (w);
+
+		g_free (trunc);
+	}
+
+	g_object_unref (csv);
+	g_object_unref (fixed);
+	g_free (data);
+	return res;
+}
+
+static int
+stf_check_guess_csv (const char *what, const char *data, const char *expected)
+{
+	GnmStfParseOptions *po = stf_parse_options_guess_csv (data);
+	int res = stf_expect (what,
+			      g_strdup (po->sep.chr ? po->sep.chr : "(none)"),
+			      expected);
+	g_object_unref (po);
+	return res;
+}
+
+/*
+ * Invalid UTF-8 is refused by the parser.  Make sure that the code that
+ * calls it copes with that.
+ */
+static int
+stf_check_invalid_utf8 (void)
+{
+	const char bad[] = "a,\xff\xfe\nc,d\n";
+	const char numbers[] = "1.5,2.5\n3.5,4.5\n5.5,6.5\n";
+	int res = 0;
+	GnmStfParseOptions *po, *g;
+	GnmCellRegion *cr;
+	Workbook *wb;
+	Sheet *sheet;
+	GnmCell *cell;
+	gboolean ok;
+
+	po = stf_csv_options ("\n");
+	res |= stf_check_parse ("invalid UTF-8", po, bad, NULL, "NULL");
+
+	stf_quiet_begin ();
+	cr = stf_parse_region (po, bad, NULL, NULL);
+	stf_quiet_end ();
+	if (cr) {
+		g_printerr ("FAIL stf_parse_region on invalid UTF-8: got a region\n");
+		cellregion_unref (cr);
+		res = 1;
+	}
+	g_object_unref (po);
+
+	stf_quiet_begin ();
+	g = stf_parse_options_guess (bad);
+	stf_quiet_end ();
+	if (!g || g->formats->len != 0) {
+		g_printerr ("FAIL stf_parse_options_guess on invalid UTF-8\n");
+		res = 1;
+	}
+	if (g)
+		g_object_unref (g);
+
+	stf_quiet_begin ();
+	g = stf_parse_options_guess_csv (bad);
+	stf_quiet_end ();
+	if (!g || g->formats->len != 0) {
+		g_printerr ("FAIL stf_parse_options_guess_csv on invalid UTF-8\n");
+		res = 1;
+	}
+	if (g)
+		g_object_unref (g);
+
+	/*
+	 * stf_parse_sheet used to crash here, but only if some column has a
+	 * format that is not General.
+	 */
+	wb = workbook_new ();
+	sheet = workbook_sheet_add (wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
+	g = stf_parse_options_guess (numbers);
+	if (g->formats->len == 0 ||
+	    go_format_is_general (g_ptr_array_index (g->formats, 0))) {
+		g_printerr ("FAIL setup: expected a guessed format for column 0\n");
+		res = 1;
+	}
+
+	stf_quiet_begin ();
+	ok = stf_parse_sheet (g, bad, NULL, sheet, 0, 0);
+	stf_quiet_end ();
+	if (ok) {
+		g_printerr ("FAIL stf_parse_sheet on invalid UTF-8: succeeded\n");
+		res = 1;
+	}
+
+	ok = stf_parse_sheet (g, numbers, NULL, sheet, 0, 0);
+	cell = sheet_cell_get (sheet, 0, 0);
+	if (!ok || !cell || value_get_as_float (cell->value) != 1.5) {
+		g_printerr ("FAIL stf_parse_sheet on valid data\n");
+		res = 1;
+	}
+
+	g_object_unref (g);
+	g_object_unref (wb);
+	return res;
+}
+
+static void
+test_stf_parse (void)
+{
+	const char *test_name = "test_stf_parse";
+	int res = 0;
+	GnmStfParseOptions *po;
+	const char *d;
+	unsigned ti;
+	static const struct {
+		const char *name;
+		const char *term;
+	} terms[] = {
+		{ "LF", "\n" }, { "CRLF", "\r\n" }, { "CR", "\r" }
+	};
+	const char *aligned =
+		"Name     Age  City\n"
+		"Jose     41   Paris\n"
+		"Zoe      23   Rome\n"
+		"Anna     35   Oslo\n";
+	const char *aligned_utf8 =
+		"Name     Age  City\n"
+		"Jos\xc3\xa9     41   Paris\n"
+		"Zo\xc3\xab      23   Rome\n"
+		"Anna     35   Oslo\n";
+	/* Numbers are right aligned in the middle column */
+	const char *justified =
+		"A  Example     100  B\n"
+		"A  Example2      9  B\n"
+		"A  Example3     55  B\n";
+
+	mark_test_start (test_name);
+
+	/* stf_parse_lines used to return one line too few */
+	d = "a\nb\nc\nd\n";
+	res |= stf_check_lines ("stf_parse_lines, maxlines=3", d, 3, FALSE,
+				"[a][b][c]");
+	res |= stf_check_lines ("stf_parse_lines, maxlines=1", d, 1, FALSE,
+				"[a]");
+	res |= stf_check_lines ("stf_parse_lines, maxlines=100", d, 100, FALSE,
+				"[a][b][c][d]");
+	res |= stf_check_lines ("stf_parse_lines, maxlines=3, line numbers",
+				d, 3, TRUE, "[1|a][2|b][3|c]");
+
+	/* data_end used to be honoured only at the start of a line */
+	d = "a,b\nc,dddd\n";
+	po = stf_csv_options ("\n");
+	res |= stf_check_parse ("csv, data_end in middle of line",
+				po, d, d + 7, "[a|b][c|d]");
+	res |= stf_check_parse ("csv, data_end at end of line",
+				po, d, d + 4, "[a|b]");
+	res |= stf_check_parse ("csv, data_end at end of data",
+				po, d, NULL, "[a|b][c|dddd]");
+	res |= stf_check_parse ("csv, data_end at start of data",
+				po, d, d, "");
+	g_object_unref (po);
+
+	po = stf_fixed_options ("\n");
+	stf_parse_options_fixed_splitpositions_add (po, 1);
+	res |= stf_check_parse ("fixed, data_end in middle of line",
+				po, d, d + 7, "[a|,b][c|,d]");
+	res |= stf_check_parse ("fixed, data_end at end of data",
+				po, d, NULL, "[a|,b][c|,dddd]");
+	g_object_unref (po);
+
+	/* A data_end inside a UTF-8 character leaves invalid UTF-8 */
+	po = stf_csv_options ("\n");
+	d = "a,\xc3\xa9\n";
+	res |= stf_check_parse ("csv, data_end inside UTF-8 character",
+				po, d, d + 3, "NULL");
+	g_object_unref (po);
+
+	for (ti = 0; ti < G_N_ELEMENTS (terms); ti++) {
+		const char *name = terms[ti].name;
+		const char *term = terms[ti].term;
+		char *what;
+
+		/*
+		 * Autodiscovery counted bytes instead of characters, and it
+		 * did not skip a multi-byte terminator properly.
+		 */
+		what = g_strdup_printf ("autodiscover, aligned, %s", name);
+		res |= stf_check_discover (what, term, aligned, "9 14");
+		g_free (what);
+
+		what = g_strdup_printf ("autodiscover, aligned, non-ASCII, %s", name);
+		res |= stf_check_discover (what, term, aligned_utf8, "9 14");
+		g_free (what);
+
+		what = g_strdup_printf ("autodiscover, justified column, %s", name);
+		res |= stf_check_discover (what, term, justified, "3 13 20");
+		g_free (what);
+
+		what = g_strdup_printf ("data_end, aligned, %s", name);
+		res |= stf_check_data_end (what, term, aligned);
+		g_free (what);
+
+		what = g_strdup_printf ("data_end, justified, %s", name);
+		res |= stf_check_data_end (what, term, justified);
+		g_free (what);
+	}
+
+	/*
+	 * Separator guessing for .csv files.  The separator is found next
+	 * to a quoted field.
+	 */
+	res |= stf_check_guess_csv ("guess_csv, comma",
+				    "h1,h2\n\"abc\",\"def\"\n\"x\",\"y\"\n", ",");
+	res |= stf_check_guess_csv ("guess_csv, semicolon",
+				    "h1;h2\n\"abc\";\"def\"\n\"x\";\"y\"\n", ";");
+	res |= stf_check_guess_csv ("guess_csv, colon",
+				    "h1:h2\n\"abc\":\"def\"\n\"x\":\"y\"\n", ":");
+	res |= stf_check_guess_csv ("guess_csv, bar",
+				    "h1|h2\n\"abc\"|\"def\"\n\"x\"|\"y\"\n", "|");
+	res |= stf_check_guess_csv ("guess_csv, semicolon, first field unquoted",
+				    "h1;h2\nx;\"abc\"\ny;\"def\"\n", ";");
+	res |= stf_check_guess_csv ("guess_csv, semicolon, blank after quote",
+				    "h1;h2\n\"abc\" ;\"def\"\n\"x\" ;\"y\"\n", ";");
+	res |= stf_check_guess_csv ("guess_csv, tab",
+				    "h1\th2\n\"abc\"\t\"def\"\n\"x\"\t\"y\"\n", "\t");
+	res |= stf_check_guess_csv ("guess_csv, tab, first field unquoted",
+				    "h1\th2\nx\t\"abc\"\ny\t\"def\"\n", "\t");
+	res |= stf_check_guess_csv ("guess_csv, tab, blank after quote",
+				    "h1\th2\n\"abc\" \t\"def\"\n\"x\" \t\"y\"\n", "\t");
+	res |= stf_check_guess_csv ("guess_csv, no usable separator",
+				    "h1 h2\n\"abc\" \"def\"\n\"x\" \"y\"\n", ",");
+
+	res |= stf_check_invalid_utf8 ();
 
 	g_printerr ("Result = %d\n", res);
 
@@ -3979,6 +4479,7 @@ main (int argc, char const **argv)
 	MAYBE_DO ("test_insert_delete") test_insert_delete ();
 	MAYBE_DO ("test_func_help") test_func_help ();
 	MAYBE_DO ("test_nonascii_numbers") test_nonascii_numbers ();
+	MAYBE_DO ("test_stf_parse") test_stf_parse ();
 	MAYBE_DO ("test_random") test_random ();
 	MAYBE_DO ("test_dpq") test_dpq ();
 	if (argc > 2) {

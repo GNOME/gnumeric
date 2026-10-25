@@ -88,6 +88,8 @@ TESTS =	t1000-statfuns.pl			\
 	t5801-csv-number.pl			\
 	t5802-csv-separator.pl			\
 	t5803-csv-terminator.pl			\
+	t5804-csv-quoted-separator.pl		\
+	t5805-stf-parse.pl			\
 	t5900-sc.pl				\
 	t5901-qpro.pl				\
 	t5902-applix.pl				\
