@@ -126,7 +126,9 @@ sop_default_style (void)
 #include <dialogs/dialogs.h>
 
 static void
-cb_gnm_so_polygon_style_changed (GocItem *view, GnmSOPolygon const *sop)
+cb_gnm_so_polygon_style_changed (GnmSOPolygon const *sop,
+				 G_GNUC_UNUSED GParamSpec *pspec,
+				 GocItem *view)
 {
 	GocItem *item = sheet_object_view_get_item (GNM_SO_VIEW (view));
 	GOStyle const *style = sop->style;
@@ -144,7 +146,7 @@ gnm_so_polygon_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	goc_item_new (GOC_GROUP (item),
 		GOC_TYPE_POLYGON,
 		NULL);
-	cb_gnm_so_polygon_style_changed (item, sop);
+	cb_gnm_so_polygon_style_changed (sop, NULL, item);
 	g_signal_connect_object (sop,
 		"notify::style", G_CALLBACK (cb_gnm_so_polygon_style_changed),
 		item, 0);

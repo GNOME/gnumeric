@@ -1689,7 +1689,7 @@ static struct {
 };
 
 static void
-cb_validation_error_action_changed (G_GNUC_UNUSED GtkMenuShell *ignored,
+cb_validation_error_action_changed (G_GNUC_UNUSED GtkComboBox *ignored,
 				    FormatState *state)
 {
 	int index = gtk_combo_box_get_active (state->validation.error.action);
@@ -1713,7 +1713,7 @@ cb_validation_error_action_changed (G_GNUC_UNUSED GtkMenuShell *ignored,
 }
 
 static void
-cb_validation_sensitivity (G_GNUC_UNUSED GtkMenuShell *ignored,
+cb_validation_sensitivity (G_GNUC_UNUSED GtkComboBox *ignored,
 			   FormatState *state)
 {
 	gboolean has_operators = FALSE;

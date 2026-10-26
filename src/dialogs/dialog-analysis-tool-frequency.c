@@ -214,7 +214,7 @@ frequency_tool_set_predetermined (G_GNUC_UNUSED GtkWidget *widget,
  **/
 static gboolean
 frequency_tool_set_calculated (G_GNUC_UNUSED GtkWidget *widget,
-			       G_GNUC_UNUSED GdkEventFocus *event,
+			       G_GNUC_UNUSED GdkEventKey *event,
 			       FrequencyToolState *state)
 {
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->calculated_button), TRUE);

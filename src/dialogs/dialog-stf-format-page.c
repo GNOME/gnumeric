@@ -56,7 +56,7 @@ format_page_update_column_selection (StfDialogData *pagedata)
 }
 
 static void
-format_page_trim_menu_changed (G_GNUC_UNUSED GtkMenu *menu,
+format_page_trim_menu_changed (G_GNUC_UNUSED GtkComboBox *menu,
 				  StfDialogData *data)
 {
 	GnmStfTrimType trim;

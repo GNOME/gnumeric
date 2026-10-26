@@ -664,7 +664,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 
 /***************************************************************************/
 
-static void
+static gboolean
 cb_select_all_btn_draw (GtkWidget *widget, cairo_t *cr, SheetControlGUI *scg)
 {
 	int offset = scg_sheet (scg)->text_is_rtl ? -1 : 0;
@@ -679,6 +679,8 @@ cb_select_all_btn_draw (GtkWidget *widget, cairo_t *cr, SheetControlGUI *scg)
 			       a.width - 1, a.height - 1);
 	gtk_render_frame (ctxt, cr, offset, 0, a.width + 1, a.height + 1);
 	gtk_style_context_restore (ctxt);
+
+	return FALSE;
 }
 
 static gboolean

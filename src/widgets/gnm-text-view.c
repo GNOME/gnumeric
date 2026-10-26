@@ -224,9 +224,9 @@ gtv_remove_underline_tags (GtkTextBuffer *buffer, GtkTextIter *start, GtkTextIte
 
 
 static void
-gtv_underline_button_activated (GtkMenuItem *menuitem, GnmTextView *gtv)
+gtv_underline_button_activated (GObject *button, GnmTextView *gtv)
 {
-	char const *val = g_object_get_data (G_OBJECT (menuitem), "underlinevalue");
+	char const *val = g_object_get_data (button, "underlinevalue");
 	if (val != NULL) {
 		GtkTextIter start, end;
 		if (gtk_text_buffer_get_selection_bounds (gtv->buffer, &start, &end)) {
@@ -241,9 +241,9 @@ gtv_underline_button_activated (GtkMenuItem *menuitem, GnmTextView *gtv)
 }
 
 static void
-gtv_bold_button_activated (GtkMenuItem *menuitem, GnmTextView *gtv)
+gtv_bold_button_activated (GObject *button, GnmTextView *gtv)
 {
-	char const *val = g_object_get_data (G_OBJECT (menuitem), "boldvalue");
+	char const *val = g_object_get_data (button, "boldvalue");
 	if (val != NULL) {
 		GtkTextIter start, end;
 		if (gtk_text_buffer_get_selection_bounds (gtv->buffer, &start, &end)) {
