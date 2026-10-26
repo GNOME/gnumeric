@@ -190,6 +190,13 @@ gplp_unload_base (GOPluginLoader *loader, GOErrorInfo **ret_error)
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
 	g_object_steal_data (G_OBJECT (plugin), "python-loader");
+	/*
+	 * Release what the plugin script has in its namespace.  For example,
+	 * "from Gnumeric import *" copies plugin_..._info, which holds a
+	 * reference to the plugin itself.
+	 */
+	gnm_py_interpreter_switch_to (loader_python->py_interpreter_info);
+	PyDict_Clear (loader_python->main_module_dict);
 	gnm_python_destroy_interpreter (
 		loader_python->py_object, loader_python->py_interpreter_info);
 	g_object_unref (loader_python->py_object);
@@ -463,7 +470,8 @@ typedef struct {
 static void
 gplp_loader_data_fngroup_free (ServiceLoaderDataFunctionGroup *loader_data)
 {
-	Py_DECREF (loader_data->python_fn_info_dict);
+	/* NULL if the service has been unloaded. */
+	Py_XDECREF (loader_data->python_fn_info_dict);
 	g_free (loader_data);
 }
 
@@ -535,7 +543,16 @@ call_python_function_nodes (GnmFuncEvalInfo *ei,
 
 static void FuncHelpDestructor (PyObject *object)
 {
-	g_free (PyCapsule_GetPointer (object, "FuncHelp"));
+	GnmFuncHelp *help = PyCapsule_GetPointer (object, "FuncHelp");
+	unsigned ui;
+
+	if (!help)
+		return;
+
+	/* The array is terminated by a GNM_FUNC_HELP_END entry. */
+	for (ui = 0; help[ui].type != GNM_FUNC_HELP_END; ui++)
+		g_free ((char *)help[ui].text);
+	g_free (help);
 }
 
 static GnmFuncHelp const *
@@ -619,8 +636,8 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 						new_help[it].type = GNM_FUNC_HELP_ODF;
 						new_help[it].text = g_strdup ((*items) + strlen ("@GNM_FUNC_HELP_ODF@"));
 					} else if (n > 0) {
-						gchar *old_text = (gchar *) new_help[n].text;
-						new_help[n].text = g_strconcat (old_text, "\n", *items, NULL);
+						gchar *old_text = (gchar *) new_help[n - 1].text;
+						new_help[n - 1].text = g_strconcat (old_text, "\n", *items, NULL);
 						g_free (old_text);
 					}
 					items++;
@@ -778,15 +795,17 @@ gplp_unload_service_function_group (GOPluginLoader *loader,
 				    GOPluginService *service,
 				    GOErrorInfo **ret_error)
 {
-	ServiceLoaderDataFunctionGroup *loader_data;
-
 	g_return_if_fail (GNM_IS_PYTHON_PLUGIN_LOADER (loader));
 	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
 	GO_INIT_RET_ERROR_INFO (ret_error);
-	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (go_plugin_service_get_plugin (service));
-	Py_CLEAR (loader_data->python_fn_info_dict);
+	/*
+	 * Free the loader data now, which also drops the reference to the
+	 * function dict.  The service can outlive this module, so it must not
+	 * be left with a destroy notify that lives in here.
+	 */
+	g_object_set_data (G_OBJECT (service), "loader_data", NULL);
 }
 
 typedef struct {

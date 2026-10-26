@@ -28,6 +28,7 @@ Morten:
 	* Fix page break problems.
 	* Fix problem with dubious xlsx.  [#902]
 	* Fix fixed-width stf parse problems with non-ASCII.
+	* Fix python-loader crash.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

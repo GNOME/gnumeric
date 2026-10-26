@@ -1038,3 +1038,30 @@
    ...
    obj:*/libpython3*
 }
+
+{
+   Python-leaks2
+   Memcheck:Leak
+   match-leak-kinds: all
+   fun:malloc
+   ...
+   fun:gnm_python_object_get
+}
+
+{
+   Python-leaks3
+   Memcheck:Leak
+   match-leak-kinds: all
+   fun:malloc
+   ...
+   fun:gnm_py_interpreter_new
+}
+
+{
+   Python-leaks3
+   Memcheck:Leak
+   match-leak-kinds: all
+   fun:malloc
+   ...
+   fun:py_initgnumeric
+}
