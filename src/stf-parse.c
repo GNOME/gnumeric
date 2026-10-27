@@ -613,17 +613,12 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 
 		for (l = str; l != NULL; l = l->next) {
 			char const *s = l->data;
-			char const *r;
-			glong cnt;
-			glong const len = g_utf8_strlen (s, -1);
+			size_t blen = strlen (s);
 
-			/* Don't compare past the end of the buffer! */
-			for (r = character, cnt = 0; cnt < len; cnt++, r = g_utf8_next_char (r))
-				if (*r == '\0')
-					break;
-
-			if ((cnt == len) && (memcmp (character, s, len) == 0))
-				return g_utf8_offset_to_pointer (character, len);
+			/* Compare bytes, not characters; strncmp stops at the
+			   terminating NUL so we never read past the buffer.  */
+			if (blen > 0 && strncmp (character, s, blen) == 0)
+				return character + blen;
 		}
 	}
 

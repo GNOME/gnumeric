@@ -29,6 +29,7 @@ Morten:
 	* Fix problem with dubious xlsx.  [#902]
 	* Fix fixed-width stf parse problems with non-ASCII.
 	* Fix python-loader crash.
+	* Fix stf export quoting problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

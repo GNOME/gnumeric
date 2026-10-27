@@ -370,7 +370,7 @@ gnm_stf_export (GnmStfExport *stfe)
 		go_setlocale (LC_ALL, stfe->locale);
 	}
 
-	for (ptr = stfe->sheet_list; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = stfe->sheet_list; result && ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 		if (!stf_export_sheet (stfe, sheet)) {
 			result = FALSE;
@@ -614,6 +614,49 @@ GSF_CLASS (GnmStfExport, gnm_stf_export,
 #include <workbook-view.h>
 
 /**
+ * gnm_stf_export_update_triggers:
+ * @stfe: #GnmStfExport
+ *
+ * libgsf only quotes a field in "auto" quoting mode when it contains one of
+ * the characters in "quoting-triggers".  This recomputes the triggers from
+ * the current separator, quote, and eol so that they stay in sync.  In the
+ * other quoting modes the triggers are cleared.  Call this after changing
+ * any of "quoting-mode", "separator", "quote" or "eol".
+ **/
+void
+gnm_stf_export_update_triggers (GnmStfExport *stfe)
+{
+	int mode;
+	char *sep = NULL, *quote = NULL, *eol = NULL;
+	GString *triggers;
+
+	g_return_if_fail (GNM_IS_STF_EXPORT (stfe));
+
+	triggers = g_string_new (NULL);
+	g_object_get (G_OBJECT (stfe),
+		      "quoting-mode", &mode,
+		      "separator", &sep,
+		      "quote", &quote,
+		      "eol", &eol,
+		      NULL);
+	if (mode == GSF_OUTPUT_CSV_QUOTING_MODE_AUTO) {
+		g_string_append (triggers, " \t");
+		if (eol) g_string_append (triggers, eol);
+		if (quote) g_string_append (triggers, quote);
+		if (sep) g_string_append (triggers, sep);
+	}
+	/* Non-empty triggers force auto mode; empty ones leave it alone.  */
+	g_object_set (G_OBJECT (stfe), "quoting-triggers", triggers->str, NULL);
+
+	g_string_free (triggers, TRUE);
+	g_free (sep);
+	g_free (quote);
+	g_free (eol);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/**
  * gnm_stf_get_stfe:
  * @obj: #GObject with a #GnmStfExport attached as data.
  *
@@ -634,7 +677,6 @@ gnm_stf_get_stfe (GObject *obj)
 		int format = gnm_conf_get_stf_export_format ();
 		int transliteratemode = gnm_conf_get_stf_export_transliteration () ?
 			GNM_STF_TRANSLITERATE_MODE_TRANS : GNM_STF_TRANSLITERATE_MODE_ESCAPE;
-		GString *triggers = g_string_new (NULL);
 
 		if (*locale == 0)
 			locale = NULL;
@@ -645,15 +687,7 @@ gnm_stf_get_stfe (GObject *obj)
 		if (terminator == NULL || *terminator == 0)
 			terminator = "\n";
 
-		if (quotingmode == GSF_OUTPUT_CSV_QUOTING_MODE_AUTO) {
-			g_string_append (triggers, " \t");
-			g_string_append (triggers, terminator);
-			g_string_append (triggers, string_indicator);
-			g_string_append (triggers, sep);
-		}
-
 		stfe = g_object_new (GNM_STF_EXPORT_TYPE,
-				     "quoting-triggers", triggers->str,
 				     "separator", sep,
 				     "quote", string_indicator,
 				     "eol", terminator,
@@ -663,8 +697,8 @@ gnm_stf_get_stfe (GObject *obj)
 		      "transliterate-mode", transliteratemode,
 		      "format", format,
 				     NULL);
+		gnm_stf_export_update_triggers (stfe);
 		g_object_set_data_full (obj, "stfe", stfe, g_object_unref);
-		g_string_free (triggers, TRUE);
 	}
 	return stfe;
 }
@@ -743,6 +777,7 @@ cb_set_export_option (const char *key, const char *value,
 		}
 
 		g_object_set (G_OBJECT (stfe), "eol", eol, NULL);
+		gnm_stf_export_update_triggers (stfe);
 		return FALSE;
 	}
 
@@ -755,11 +790,15 @@ cb_set_export_option (const char *key, const char *value,
 	    strcmp (key, "transliterate-mode") == 0 ||
 	    strcmp (key, "quoting-mode") == 0 ||
 	    strcmp (key, "quoting-on-whitespace") == 0)
-		return go_object_set_property
+	{
+		gboolean fail = go_object_set_property
 			(G_OBJECT (stfe),
 			 key, key, value,
 			 err,
 			 (_("Invalid value for option %s: \"%s\"")));
+		gnm_stf_export_update_triggers (stfe);
+		return fail;
+	}
 
 	return gnm_file_saver_common_export_option (user->fs, wb,
 						    key, value, err);

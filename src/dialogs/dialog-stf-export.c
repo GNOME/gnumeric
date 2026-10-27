@@ -289,7 +289,6 @@ stf_export_dialog_finish (TextExportState *state)
 	GnmStfTransliterateMode transliteratemode;
 	GnmStfFormatMode format;
 	const char *eol;
-	GString *triggers = g_string_new (NULL);
 	char *separator, *quote;
 	const char *charset;
 	char *locale;
@@ -336,24 +335,17 @@ stf_export_dialog_finish (TextExportState *state)
 	charset = go_charmap_sel_get_encoding (GO_CHARMAP_SEL (state->format.charset));
 	locale = go_locale_sel_get_locale (GO_LOCALE_SEL (state->format.locale));
 
-	if (quotingmode == GSF_OUTPUT_CSV_QUOTING_MODE_AUTO) {
-		g_string_append (triggers, " \t");
-		g_string_append (triggers, eol);
-		g_string_append (triggers, quote);
-		g_string_append (triggers, separator);
-	}
-
 	g_object_set (state->stfe,
 		      "eol", eol,
 		      "quote", quote,
 		      "quoting-mode", quotingmode,
-		      "quoting-triggers", triggers->str,
 		      "separator", separator,
 		      "transliterate-mode", transliteratemode,
 		      "format", format,
 		      "charset", charset,
 		      "locale", locale,
 		      NULL);
+	gnm_stf_export_update_triggers (state->stfe);
 
 	if (gtk_toggle_button_get_active
 	    (GTK_TOGGLE_BUTTON (go_gtk_builder_get_widget (state->gui,
@@ -375,7 +367,6 @@ stf_export_dialog_finish (TextExportState *state)
 
 	g_free (separator);
 	g_free (quote);
-	g_string_free (triggers, TRUE);
 	g_free (locale);
 
 	state->cancelled = FALSE;
