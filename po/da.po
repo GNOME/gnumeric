@@ -10378,15 +10378,15 @@ msgid "Do _not activate this plugin next time I start Gnumeric"
 msgstr "Aktivér _ikke dette udvidelsesmodul næste gang jeg starter Gnumeric"
 
 #: ../src/dialogs/plugin-manager.ui.h:7
-#, fuzzy
 msgid ""
 "The plugin cannot be deactivated now because it is in use. However, if you "
 "use the check button below, the plugin won't be activated after restarting "
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
-"Modulet kan ikke deaktiveres eftersom det stadig er i brug.\n"
-"Vil du mærke det til deaktivering så det bliver inaktivt efter genstart af "
-"Gnumeric?"
+"Udvidelsesmodulet kan ikke deaktiveres nu, fordi det er i brug. Hvis du "
+"bruger afkrydsningsfeltet nedenfor, vil udvidelsesmodulet dog ikke blive "
+"aktiveret efter genstart af Gnumeric (medmindre det er nødvendigt for et "
+"andet udvidelsesmodul)."
 
 #: ../src/dialogs/plugin-manager.ui.h:8
 msgid "Plugin Details"
@@ -14149,9 +14149,8 @@ msgstr ""
 #. "from" and "above" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:279
-#, fuzzy
 msgid "\"from\" * General"
-msgstr "Formatér som tal"
+msgstr ""
 
 #: ../src/tools/analysis-histogram.c:279
 msgid "\"above\" * General"
@@ -14449,15 +14448,14 @@ msgid "z-Test"
 msgstr "z-test"
 
 #: ../src/tools/analysis-tools.c:1634
-#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
-"/Middel/Varians/Observationer/Samlet varians/Hypotetisk middelforskel/"
-"Observeret middelforskel/fg/t værdi/P(T<=t) ensidet/t kritisk værdi ensidet/"
-"P(T<=t) tosidet/t kritisk tosidet"
+"/Middel/Varians/Observationer/Pearson-korrelation/Hypotetisk middelforskel/"
+"Observeret middelforskel/Differensernes varians/fg/t værdi/P(T<=t) ensidet/t "
+"kritisk værdi ensidet/P(T<=t) tosidet/t kritisk tosidet"
 
 #: ../src/tools/analysis-tools.c:1862
 #, c-format
@@ -14514,13 +14512,12 @@ msgid "F-Test (%s)"
 msgstr "F-test (%s)"
 
 #: ../src/tools/analysis-tools.c:2888
-#, fuzzy
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R^2/Standard Error/"
 "Adjusted R^2/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
-"/SAMMENDRAGS UDDATA//Regressionsstatistik/Multipel R/R²/Justeret R²/"
-"Standardafvigelse/Observationer//ANOVA//Regression/Residual/Total///Skæring"
+"/SAMMENDRAGS UDDATA//Regressionsstatistik/Multipel R/R²/Standardafvigelse/"
+"Justeret R²/Observationer//ANOVA//Regression/Residual/Total///Skæring"
 
 #: ../src/tools/analysis-tools.c:2907
 msgid "Response Variable"
