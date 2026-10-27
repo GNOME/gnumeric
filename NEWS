@@ -30,6 +30,7 @@ Morten:
 	* Fix fixed-width stf parse problems with non-ASCII.
 	* Fix python-loader crash.
 	* Fix stf export quoting problem.
+	* Fix ssdiff problem with default col/row properties.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

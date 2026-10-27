@@ -198,7 +198,12 @@ def_colrow_changed (gpointer user, ColRowInfo const *oc, ColRowInfo const *nc,
 		    gboolean is_cols, int i)
 {
 	DiffState *state = user;
-	if (is_cols)
+	if (i < 0)  // Default column/row info
+		gsf_output_printf (state->output,
+				   is_cols
+				   ? _("Default column properties changed.\n")
+				   : _("Default row properties changed.\n"));
+	else if (is_cols)
 		gsf_output_printf (state->output, _("Column %s changed.\n"),
 				   col_name (i));
 	else
@@ -334,6 +339,16 @@ xml_sheet_end (gpointer user)
 	DiffState *state = user;
 	xml_close_section (state);
 	gsf_xml_out_end_element (state->xml); /* </Sheet> */
+}
+
+static void
+xml_sheet_order_changed (gpointer user)
+{
+	DiffState *state = user;
+
+	xml_close_section (state);
+	gsf_xml_out_start_element (state->xml, DIFF "SheetOrderChanged");
+	gsf_xml_out_end_element (state->xml); /* </SheetOrderChanged> */
 }
 
 static void
@@ -747,6 +762,7 @@ static const GnmDiffActions xml_actions = {
 	.dtor = xml_dtor,
 	.sheet_start = xml_sheet_start,
 	.sheet_end = xml_sheet_end,
+	.sheet_order_changed = xml_sheet_order_changed,
 	.sheet_attr_int_changed = xml_sheet_attr_int_changed,
 	.colrow_changed = xml_colrow_changed,
 	.cell_changed = xml_cell_changed,
@@ -932,7 +948,7 @@ main (int argc, char const **argv)
 		g_printerr (_("%s\nRun '%s --help' to see a full list of available command line options.\n"),
 			    error->message, argv[0]);
 		g_error_free (error);
-		return 1;
+		return 2;
 	}
 
 	if (ssdiff_show_version) {
@@ -944,7 +960,14 @@ main (int argc, char const **argv)
 	if (ssdiff_xml + ssdiff_highlight > 1) {
 		g_printerr (_("%s: Only one output format may be specified.\n"),
 			    g_get_prgname ());
-		return 1;
+		return 2;
+	}
+
+	if (argc != 3) {
+		g_printerr (_("Usage: %s [OPTION...] %s\n"),
+			    g_get_prgname (),
+			    _("OLDFILE NEWFILE"));
+		return 2;
 	}
 
 	if (ssdiff_highlight) {
@@ -965,7 +988,7 @@ main (int argc, char const **argv)
 			    g_get_prgname (),
 			    error ? error->message : "?");
 		g_clear_error (&error);
-		return 1;
+		return 2;
 	}
 
 	gnm_init ();
@@ -980,15 +1003,10 @@ main (int argc, char const **argv)
 	}
 	go_component_set_default_command_context (cc);
 
-	if (argc == 3) {
+	{
 		GOIOContext *ioc = go_io_context_new (cc);
 		res = diff (argv[1], argv[2], ioc, actions, output);
 		g_object_unref (ioc);
-	} else {
-		g_printerr (_("Usage: %s [OPTION...] %s\n"),
-			    g_get_prgname (),
-			    _("OLDFILE NEWFILE"));
-		res = 2;
 	}
 
 	// Release cached string.
