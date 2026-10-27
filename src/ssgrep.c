@@ -192,11 +192,13 @@ add_result (StringTableSearch *state, char const *clean, unsigned int n)
 {
 	gpointer prev;
 
+	// The table owns its keys: callers may free @clean right after this.
 	if (NULL == state->results)
-		state->results = g_hash_table_new (g_str_hash, g_str_equal);
+		state->results = g_hash_table_new_full (g_str_hash, g_str_equal,
+							g_free, NULL);
 	else if (NULL != (prev = g_hash_table_lookup (state->results, clean)))
 		n += GPOINTER_TO_UINT (prev);
-	g_hash_table_replace (state->results, (gpointer) clean, GUINT_TO_POINTER (n));
+	g_hash_table_replace (state->results, g_strdup (clean), GUINT_TO_POINTER (n));
 }
 
 static void
@@ -367,9 +369,10 @@ ssgrep (const char *arg, char const *uri, GOIOContext *ioc, GHashTable *targets,
 			}
 
 			case GNM_SRL_COMMENT: {
+				// (transfer none): we must not unref it.
 				GnmComment *comment = sheet_get_comment (item->ep.sheet, &item->ep.eval);
-				txt = g_strdup (cell_comment_text_get (comment));
-				g_object_unref (comment);
+				if (comment)
+					txt = g_strdup (cell_comment_text_get (comment));
 				locus_type = _("comment");
 				break;
 			}
@@ -409,6 +412,15 @@ add_target (GHashTable *ssgrep_targets, char const *target)
 {
 	char *orig = g_strstrip (g_strdup (target));
 	char *clean = g_utf8_strdown (orig, -1);
+
+	if (*clean == 0) {
+		// An empty target matches everywhere and would make the
+		// string-table search loop forever.
+		g_free (clean);
+		g_free (orig);
+		return;
+	}
+
 	g_hash_table_insert (ssgrep_targets, clean, orig);
 }
 
@@ -439,7 +451,7 @@ main (int argc, char const **argv)
 		g_printerr (_("%s\nRun '%s --help' to see a full list of available command line options.\n"),
 			    error->message, g_get_prgname ());
 		g_error_free (error);
-		return 1;
+		return 2;
 	}
 
 	if (ssgrep_show_version) {
@@ -466,7 +478,7 @@ main (int argc, char const **argv)
 			g_printerr (_("%s: Cannot read %s: %s\n"),
 				    g_get_prgname (), ssgrep_pattern_file, err->message);
 			g_error_free (err);
-			return 1;
+			return 2;
 		}
 
 		textline = (GsfInputTextline *)gsf_input_textline_new (input);
@@ -494,7 +506,7 @@ main (int argc, char const **argv)
 	} else {
 		if (argc < 2) {
 			g_printerr (_("%s: Missing pattern\n"), g_get_prgname ());
-			return 1;
+			return 2;
 		}
 
 		if (ssgrep_fixed_strings) {

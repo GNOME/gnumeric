@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH SSCONVERT 1 "2020-04-19" "gnumeric" "GNOME"
+.TH SSCONVERT 1 "2026-10-27" "gnumeric" "GNOME"
 .SH NAME
 ssconvert \- a command line spreadsheet format converter
 
@@ -59,15 +59,17 @@ Specify parameters for the chosen exporter.
 \fIoptionsstring\fR is a list of \fIparameter\fR=\fIvalue\fR pairs, separated
 by spaces.
 The parameter names and values allowed are specific to the exporter and are
-documented below. Multiple parameters can be specified
+documented below.  For example:
+\fB\-O 'separator=; format=raw'\fR.
 .TP
 .B \-\-export\-graphs
 Export the graphs (or charts) inside the input spreadsheet to
 numbered image files (SVG by default).  The list of available image
-formats can be printed with \-\-list\-image-formats
+formats can be printed with \-\-list\-image\-formats.
 .TP
 .B \-\-list\-importers
 List the available importers (file formats that can be read).
+.TP
 .B \-I, \-\-import\-type=\fIID\fR
 Specify which importer to use; see below for a list. This is only
 necessary when the right format does not follow from the input file
@@ -97,14 +99,15 @@ substitutions, a default of ".%n" is added.
 .B \-\-version
 Display ssconvert's version.
 .TP
-.B \-h, \-\-help, \-\-usage
-Display a brief usage message.
+.B \-h, \-\-help
+Display a brief help message.
 .TP
 .B \-\-help\-all
 Show all help options.
 .TP
 .B \-\-help\-libspreadsheet
-Show Gnumeric options.
+Show Gnumeric options.  These are the options shared by all Gnumeric
+programs; see \fBgnumeric\fR(1).
 
 .SH LIST OF IMPORTER/EXPORTER IDS
 The following IDs can be can be used both for import (reading) and export
@@ -277,6 +280,11 @@ size of the graph.
 .SH OPTIONS FOR THE CONFIGURABLE TEXT (*.txt) EXPORTER
 .\" Cf. "g_object_class_install_property" calls in src/stf-export.c
 
+Unless given explicitly, the defaults for \fBseparator\fR, \fBquote\fR,
+\fBeol\fR, \fBcharset\fR, \fBlocale\fR, \fBformat\fR, \fBquoting-mode\fR
+and \fBtransliterate-mode\fR are the settings last saved from the Gnumeric
+Text Export dialog; the defaults stated below apply if none were saved.
+
 .TP
 .B sheet
 Name of the workbook sheet to operate on.
@@ -293,6 +301,7 @@ End Of Line convention; how lines are terminated.
 "\fBunix\fR" for linefeed,
 "\fBmac\fR" for carriage return;
 "\fBwindows\fR" for carriage return plus linefeed.
+The default is "\fBunix\fR".
 
 .TP
 .B charset
@@ -311,7 +320,7 @@ The character or string used for quoting fields. Defaults to "\fB\\"\fR"
 
 .TP
 .B separator
-The string used to separate fields. Defaults to space.
+The string used to separate fields. Defaults to comma (\fB,\fR).
 
 .TP
 .B format
@@ -347,8 +356,9 @@ Acceptable values:
 The former will rewrite characters that cannot be represented in the output
 character set into an approximation with one or more characters that can.
 See iconv(1) for more details.
-The default is "\fBescape\fR" which will replace an unrepresentable character
+The latter will replace an unrepresentable character
 with an escape sequence identifying the unicode code point.
+The default is "\fBtransliterate\fR".
 
 .TP
 .B quoting-mode
@@ -423,10 +433,10 @@ The initial version of this manpage was written by J.H.M. Dassen (Ray)
 <jdassen@debian.org>.
 
 .SH SEE ALSO
-.BR gnumeric(1),
-.BR ssdiff(1),
-.BR ssgrep(1),
-.BR ssindex(1)
+.BR gnumeric (1),
+.BR ssdiff (1),
+.BR ssgrep (1),
+.BR ssindex (1)
 
 .URL "https://www.gnumeric.org/" "The Gnumeric Homepage" .
 

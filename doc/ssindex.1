@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH SSINDEX 1 "2009-02-08" gnumeric "GNOME"
+.TH SSINDEX 1 "2026-10-27" gnumeric "GNOME"
 .SH NAME
 ssindex \- generate index data for spreadsheet files
 
@@ -13,8 +13,9 @@ ssindex \- generate index data for spreadsheet files
 This manual page briefly documents the \fBssindex\fR command.
 
 \fBssindex\fR is a command line utility to generate index data for
-various spreadsheet file formats. It is primarily used by the \fBBeagle\fR
-indexing sub-system and search aggregator.
+various spreadsheet file formats. The index data is written to standard
+output as XML.  It was originally written for the \fBBeagle\fR desktop
+search system.
 
 .\".SH "RETURN VALUE"
 .\".SH "EXIT STATUS"
@@ -26,7 +27,7 @@ starting with two dashes (`--').
 
 .SS "Main options"
 .TP
-.B \-E, \-\-import\-encoding=\fIENCODING\fR
+.B \-E, \-\-encoding=\fIENCODING\fR
 Specify an encoding for imported content
 .TP
 .B \-i, \-\-index
@@ -42,9 +43,6 @@ Display ssindex's version
 .TP
 .B \-?, \-\-help
 Display the supported options
-.TP
-.B \-\-usage
-Display a brief usage message
 
 .\".SH USAGE
 .\".SH EXAMPLES
@@ -77,10 +75,9 @@ The initial version of this manpage was written by J.H.M. Dassen (Ray)
 <jdassen@debian.org>.
 
 .SH SEE ALSO
-\fBbeagled\fR(1),
 \fBgnumeric\fR(1),
 \fBssconvert\fR(1),
-\fBssdiff\fR(1)
+\fBssdiff\fR(1),
 \fBssgrep\fR(1)
 
 .URL "https://www.gnumeric.org/" "The Gnumeric Homepage" .

@@ -31,6 +31,8 @@ Morten:
 	* Fix python-loader crash.
 	* Fix stf export quoting problem.
 	* Fix ssdiff problem with default col/row properties.
+	* Fix ssgrep problem in string table mode.
+	* Update man pages.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

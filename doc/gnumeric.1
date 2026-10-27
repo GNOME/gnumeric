@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH GNUMERIC 1 "2009-02-08" gnumeric "GNOME"
+.TH GNUMERIC 1 "2026-10-27" gnumeric "GNOME"
 .SH NAME
 gnumeric \- a GNOME spreadsheet application.
 
@@ -46,11 +46,12 @@ letter options starting with a single dash (`-') and longer options
 starting with two dashes (`--').
 
 .SS "Help options"
-.B \-?, \-\-help
+.TP
+.B \-?, \-h, \-\-help
 Show help message.
 .TP
-.B \-\-usage
-Displays a brief usage message.
+.B \-\-help\-all
+Show all help options.
 
 .SS "Gnumeric options"
 .TP
@@ -58,13 +59,22 @@ Displays a brief usage message.
 Displays the version number of the installed instance of
 \fBgnumeric\fR.
 .TP
-.B \-\-no-splash
+.B \-L, \-\-lib\-dir=\fIDIR\fR
+Set the root library directory.
+.TP
+.B \-D, \-\-data\-dir=\fIDIR\fR
+Adjust the root data directory.
+.TP
+.B \-\-no\-splash
 Start \fBgnumeric\fR without showing the splash screen.  The splash 
 screen is normally shown if loading files takes too long.
+.TP
+.B \-\-no\-warnings
+Do not display warning dialogs when importing files.
 
 .SS "Options for window placement"
 .TP
-\fB\-g, \-\-geometry=WIDTHxHEIGHT+XOFF+YOFF 
+\fB\-g, \-\-geometry=\fIWIDTHxHEIGHT+XOFF+YOFF\fR
 Set the size and position of the first window. All units are in
 pixels. The X offset is from the left hand side of the screen, the Y
 offset is from the top of the screen. For example, \-g=800x600+20+30
@@ -88,20 +98,6 @@ above.
 
 .SH ADVANCED OPTIONS
 
-.SS "GNOME options"
-.TP
-.B \-\-disable-sound
-Disable sound server usage.
-.TP
-.B \-\-enable-sound
-Enable sound server usage.
-.TP
-\fB\-\-espeaker=\fR\fIHOSTNAME:PORT\fR
-Host:port on which the sound server to use is running.
-.TP
-.B \-\-disable-crash-dialog
-Disable the bug submission dialog which appears if Gnumeric crashes.
-
 .SS "GTK options"
 .TP
 \fB\-\-gdk-debug=\fR\fIFLAGS\fR
@@ -119,12 +115,6 @@ Program name as used by the window manager.
 \fB\-\-class=\fR\fICLASS\fR
 Program class as used by the window manager.
 .TP
-\fB\-\-gxid_host=\fR\fIHOST\fR
-The host on which to contact the gxid daemon. This overrides the GXID_HOST environment variable. This option is only available if GTK+ has been configured with \-\-gdk-target=x11.
-.TP
-\fB\-\-gxid_port=\fR\fIPORT\fR
-The port for the connection to gxid. This overrides the GXID_PORT environment variable. This option is only available if GTK+ has been configured with \-\-gdk-target=x11.
-.TP
 \fB\-\-gtk-debug=\fR\fIFLAGS\fR
 Gtk+ debugging flags to set.
 .TP
@@ -137,20 +127,8 @@ Make all warnings fatal.
 \fB\-\-gtk-module=\fR\fIMODULE\fR
 Load an additional Gtk module.
 
-.SS "Session management options"
-.TP
-\fB\-\-sm-client-id=\fR\fIID\fR
-Specify session management ID.
-.TP
-\fB\-\-sm-config-prefix=\fR\fIPREFIX\fR
-Specify prefix of saved configuration.
-.TP
-.B \-\-sm-disable
-Disable connection to session manager.
-
-
 .SH VERSION
-This manual page describes \fBgnumeric\fR version 1.8.
+This manual page describes the \fBgnumeric\fR 1.12 series.
 
 .SH BUGS
 For the list of known \fBgnumeric\fR bugs, or to report new ones
@@ -159,7 +137,7 @@ please visit \fIhttps://gitlab.gnome.org\fR.
 .SH "SEE ALSO"
 \fBssconvert\fR(1),
 \fBssindex\fR(1),
-\fBssdiff\fR(1)
+\fBssdiff\fR(1),
 \fBssgrep\fR(1)
 .PP
 .B The Gnumeric Manual

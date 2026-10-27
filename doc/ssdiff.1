@@ -2,7 +2,7 @@
 \\$2 \(laURL: \\$1 \(ra\\$3
 ..
 .if \n[.g] .mso www.tmac
-.TH SSDIFF 1 "2012-12-24" gnumeric "GNOME"
+.TH SSDIFF 1 "2026-10-27" gnumeric "GNOME"
 .SH NAME
 ssdiff \- compare two spreadsheets
 
@@ -12,7 +12,10 @@ ssdiff \- compare two spreadsheets
 .SH DESCRIPTION
 This manual page briefly documents the \fBssdiff\fR command.
 
-\fBssdiff\fR is a command line utility to compare two spreadsheets and list their differences
+\fBssdiff\fR is a command line utility to compare two spreadsheets and list their differences.
+Cell contents, cell styles, column and row properties, sheet attributes and
+defined names are compared.  Without output options, a short line of text
+is printed for each difference.
 
 .\".SH "RETURN VALUE"
 .\".SH "EXIT STATUS"
@@ -24,12 +27,22 @@ starting with two dashes (`--').
 
 .SS "Output options"
 .TP
+.B \-o, \-\-output=\fIFILE\fR
+Send output to \fIFILE\fR instead of standard output.
+.TP
 .B \-x, \-\-xml
-Display differences in xml format
+Display differences in xml format.
+.TP
+.B \-h, \-\-highlight
+Instead of a list of differences, write a copy of \fINEWFILE\fR in which
+changed cells and styles are highlighted with a yellow background.  The
+output file format is chosen from the file name given with \fB\-o\fR, so
+that option is required.  Only one of \fB\-\-xml\fR and
+\fB\-\-highlight\fR may be given.
 
 .SS "Help options"
 .TP
-.B \-V, \-\-version
+.B \-v, \-\-version
 Display ssdiff's version
 .TP
 .B \-?, \-\-help
@@ -43,7 +56,8 @@ To compare an old version of a file with a newer file, run:
 .PP
 
 The exit code will be 0 if no differences were found, 1 if differences
-were found, and 2 in case of trouble.
+were found, and 2 in case of trouble, including invalid options or
+the wrong number of file names.
 
 .\".SH FILES
 .\".SH ENVIRONMENT
@@ -73,7 +87,7 @@ code is held by the individual authors as is documented in the source code.
 .SH SEE ALSO
 \fBgnumeric\fR(1),
 \fBssconvert\fR(1),
-\fBssindex\fR(1)
+\fBssindex\fR(1),
 \fBssgrep\fR(1)
 
 .URL "https://www.gnumeric.org/" "The Gnumeric Homepage" .

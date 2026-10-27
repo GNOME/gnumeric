@@ -62,7 +62,7 @@ static GOptionEntry const ssindex_options[] = {
 
 	{
 		"encoding", 'E',
-		0, G_OPTION_ARG_NONE, &ssindex_import_encoding,
+		0, G_OPTION_ARG_STRING, &ssindex_import_encoding,
 		N_("Optionally specify an encoding for imported content"),
 		N_("ENCODING")
 	},
