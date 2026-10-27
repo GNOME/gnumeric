@@ -47,7 +47,7 @@
 typedef GocCanvasClass GnmPaneClass;
 static GocCanvasClass *parent_klass;
 
-static void cb_pane_popup_menu (GnmPane *pane);
+static gboolean cb_pane_popup_menu (GnmPane *pane);
 static void gnm_pane_clear_obj_size_tip (GnmPane *pane);
 static void gnm_pane_display_obj_size_tip (GnmPane *pane, GocItem *ctrl_pt);
 
@@ -2471,7 +2471,7 @@ cb_collect_selected_objs (SheetObject *so, double *coords, GSList **accum)
 	*accum = g_slist_prepend (*accum, so);
 }
 
-static void
+static gboolean
 cb_pane_popup_menu (GnmPane *pane)
 {
 	SheetControlGUI *scg = pane->simple.scg;
@@ -2510,6 +2510,8 @@ cb_pane_popup_menu (GnmPane *pane)
 
 		scg_context_menu (scg, NULL, is_col, is_row);
 	}
+
+	return TRUE;
 }
 
 static void
