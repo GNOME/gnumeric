@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-10-25 02:35+0000\n"
-"PO-Revision-Date: 2026-10-25 10:03+0100\n"
+"POT-Creation-Date: 2026-10-28 12:06+0000\n"
+"PO-Revision-Date: 2026-10-28 22:19+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -1488,7 +1488,7 @@ msgstr "Izraz »%s« se ne začne s prepoznavnim znakom"
 
 #: ../plugins/openoffice/openoffice-read.c:2542
 #: ../plugins/openoffice/openoffice-write.c:5290
-#: ../plugins/openoffice/openoffice-write.c:5302 ../src/ssgrep.c:354
+#: ../plugins/openoffice/openoffice-write.c:5302 ../src/ssgrep.c:356
 msgid "cell"
 msgstr "celica"
 
@@ -2219,42 +2219,42 @@ msgstr "Modul \"%s\" ne obstaja."
 msgid "Execution of module \"%s\" failed."
 msgstr "Izvajanje modula \"%s\" je spodletelo."
 
-#: ../plugins/python-loader/python-loader.c:281
+#: ../plugins/python-loader/python-loader.c:288
 msgid "Some name"
 msgstr "Neko ime"
 
-#: ../plugins/python-loader/python-loader.c:345
-#: ../plugins/python-loader/python-loader.c:442
-#: ../plugins/python-loader/python-loader.c:759
-#: ../plugins/python-loader/python-loader.c:874
+#: ../plugins/python-loader/python-loader.c:352
+#: ../plugins/python-loader/python-loader.c:449
+#: ../plugins/python-loader/python-loader.c:776
+#: ../plugins/python-loader/python-loader.c:893
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Neveljaven zapis datoteke Python \"%s\"."
 
-#: ../plugins/python-loader/python-loader.c:349
-#: ../plugins/python-loader/python-loader.c:447
+#: ../plugins/python-loader/python-loader.c:356
+#: ../plugins/python-loader/python-loader.c:454
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Datoteka ne vsebuje funkcije \"%s\"."
 
-#: ../plugins/python-loader/python-loader.c:764
-#: ../plugins/python-loader/python-loader.c:879
+#: ../plugins/python-loader/python-loader.c:781
+#: ../plugins/python-loader/python-loader.c:898
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Datoteka ne vsebuje slovarja \"%s\""
 
-#: ../plugins/python-loader/python-loader.c:769
-#: ../plugins/python-loader/python-loader.c:884
+#: ../plugins/python-loader/python-loader.c:786
+#: ../plugins/python-loader/python-loader.c:903
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Predmet \"%s\" ni slovar."
 
-#: ../plugins/python-loader/python-loader.c:822 ../src/gnm-plugin.c:866
+#: ../plugins/python-loader/python-loader.c:841 ../src/gnm-plugin.c:866
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Neznano dejanje: %s"
 
-#: ../plugins/python-loader/python-loader.c:827
+#: ../plugins/python-loader/python-loader.c:846
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Neveljavna funkcija za dejanje: %s"
@@ -2384,7 +2384,7 @@ msgid "Missing closing 'E'"
 msgstr "Manjka zaključni 'E'"
 
 #: ../plugins/sylk/sylk.c:842 ../src/dialogs/dialog-goto-cell.c:379
-#: ../src/dialogs/dialog-search.c:436 ../src/dialogs/dialog-stf-export.c:594
+#: ../src/dialogs/dialog-search.c:436 ../src/dialogs/dialog-stf-export.c:585
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:648
 #: ../src/workbook.c:1331 ../src/workbook.c:1361
@@ -6018,7 +6018,7 @@ msgstr "Filter"
 # 1. meni desnega klika
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2374
+#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2376
 #: ../src/tools/analysis-regression.c:286
 #: ../src/tools/analysis-regression.c:344
 msgid "Row"
@@ -6026,7 +6026,7 @@ msgstr "Vrstica"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2366
+#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2368
 #: ../src/tools/analysis-regression.c:286
 #: ../src/tools/analysis-regression.c:345
 msgid "Column"
@@ -6337,7 +6337,7 @@ msgstr "Raven delovnega zvezka"
 
 #: ../src/dialogs/dialog-goto-cell.c:385 ../src/dialogs/dialog-search.c:436
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2355 ../src/tools/gnm-solver.c:1684
+#: ../src/sheet-control-gui.c:2357 ../src/tools/gnm-solver.c:1684
 #: ../src/tools/gnm-solver.c:1729 ../src/tools/gnm-solver.c:1870
 msgid "Cell"
 msgstr "Celica"
@@ -7315,12 +7315,12 @@ msgstr "Splošno"
 
 #. start sub menu
 #: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
-#: ../src/sheet-control-gui.c:2335 ../src/wbc-gtk-actions.c:3883
+#: ../src/sheet-control-gui.c:2337 ../src/wbc-gtk-actions.c:3883
 msgid "Left"
 msgstr "Levo"
 
 #: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
-#: ../src/sheet-control-gui.c:2338 ../src/wbc-gtk-actions.c:3885
+#: ../src/sheet-control-gui.c:2340 ../src/wbc-gtk-actions.c:3885
 msgid "Right"
 msgstr "Desno"
 
@@ -7661,11 +7661,11 @@ msgstr "Upoštevanje omejitev"
 msgid "Could not create the Solver dialog."
 msgstr "Ni mogoče ustvariti pogovornega okna reševalnika."
 
-#: ../src/dialogs/dialog-stf-export.c:588
+#: ../src/dialogs/dialog-stf-export.c:579
 msgid "Export"
 msgstr "Izvozi"
 
-#: ../src/dialogs/dialog-stf-export.c:731
+#: ../src/dialogs/dialog-stf-export.c:722
 msgid "This workbook does not contain any exportable content."
 msgstr "Delovni zvezek ne vsebuje izvozljive vsebine."
 
@@ -10289,7 +10289,7 @@ msgid "Merge..."
 msgstr "Združi ..."
 
 #. start sub menu
-#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2356
+#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2358
 msgid "_Merge"
 msgstr "_Združi"
 
@@ -12412,7 +12412,7 @@ msgstr "Lastnosti polnjenih predmetov"
 msgid "Line/Arrow Properties"
 msgstr "Lastnosti črt in puščic"
 
-#: ../src/gnm-so-polygon.c:159
+#: ../src/gnm-so-polygon.c:161
 msgid "Polygon Properties"
 msgstr "Lastnosti mnogokotnika"
 
@@ -12671,7 +12671,7 @@ msgstr "%.2f znakovnih točk"
 msgid "_Move"
 msgstr "Pre_makni"
 
-#: ../src/item-cursor.c:835 ../src/sheet-control-gui.c:2269
+#: ../src/item-cursor.c:835 ../src/sheet-control-gui.c:2271
 #: ../src/sheet-object.c:294 ../src/sheet-object.c:312
 #: ../src/wbc-gtk-actions.c:2087
 msgid "_Copy"
@@ -12772,8 +12772,8 @@ msgstr "Končaj takoj po nalaganju izbranih knjig."
 msgid "[FILE ...]"
 msgstr "[DATOTEKA ...]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1627 ../src/ssdiff.c:932
-#: ../src/ssgrep.c:439 ../src/ssindex.c:259
+#: ../src/main-application.c:127 ../src/ssconvert.c:1627 ../src/ssdiff.c:948
+#: ../src/ssgrep.c:451 ../src/ssindex.c:259
 #, c-format
 msgid ""
 "%s\n"
@@ -13064,7 +13064,7 @@ msgstr "%dQ"
 msgid "(empty)"
 msgstr "(prazno)"
 
-#: ../src/sheet-control-gui.c:2181 ../src/wbc-gtk-actions.c:377
+#: ../src/sheet-control-gui.c:2183 ../src/wbc-gtk-actions.c:377
 #, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
@@ -13073,142 +13073,142 @@ msgstr[1] "Odstrani %d povezavo"
 msgstr[2] "Odstrani %d povezavi"
 msgstr[3] "Odstrani %d povezave"
 
-#: ../src/sheet-control-gui.c:2267 ../src/sheet-object.c:311
+#: ../src/sheet-control-gui.c:2269 ../src/sheet-object.c:311
 #: ../src/wbc-gtk-actions.c:2263
 msgid "Cu_t"
 msgstr "I_zreži"
 
-#: ../src/sheet-control-gui.c:2271 ../src/wbc-gtk-actions.c:2270
+#: ../src/sheet-control-gui.c:2273 ../src/wbc-gtk-actions.c:2270
 msgid "_Paste"
 msgstr "_Prilepi"
 
-#: ../src/sheet-control-gui.c:2273
+#: ../src/sheet-control-gui.c:2275
 msgid "Paste _Special"
 msgstr "Posebno _lepljenje"
 
-#: ../src/sheet-control-gui.c:2278
+#: ../src/sheet-control-gui.c:2280
 msgid "_Insert Cells..."
 msgstr "_Vstavi celice ..."
 
-#: ../src/sheet-control-gui.c:2281
+#: ../src/sheet-control-gui.c:2283
 msgid "_Delete Cells..."
 msgstr "_Izbriši celice ..."
 
-#: ../src/sheet-control-gui.c:2284
+#: ../src/sheet-control-gui.c:2286
 msgid "_Insert Column(s)"
 msgstr "_Vstavi stolpce"
 
-#: ../src/sheet-control-gui.c:2288
+#: ../src/sheet-control-gui.c:2290
 msgid "_Delete Column(s)"
 msgstr "_Izbriši stolpce"
 
-#: ../src/sheet-control-gui.c:2292
+#: ../src/sheet-control-gui.c:2294
 msgid "_Insert Row(s)"
 msgstr "_Vstavi vrstice"
 
-#: ../src/sheet-control-gui.c:2296
+#: ../src/sheet-control-gui.c:2298
 msgid "_Delete Row(s)"
 msgstr "_Izbriši vrstice"
 
-#: ../src/sheet-control-gui.c:2301
+#: ../src/sheet-control-gui.c:2303
 msgid "Clear Co_ntents"
 msgstr "Počisti _vsebino"
 
-#: ../src/sheet-control-gui.c:2306
+#: ../src/sheet-control-gui.c:2308
 msgid "Add _Comment..."
 msgstr "Dodaj _opombo ..."
 
-#: ../src/sheet-control-gui.c:2308
+#: ../src/sheet-control-gui.c:2310
 msgid "Edit Co_mment..."
 msgstr "Uredi o_pombo ..."
 
-#: ../src/sheet-control-gui.c:2310
+#: ../src/sheet-control-gui.c:2312
 msgid "_Remove Comments"
 msgstr "_Odstrani opombe"
 
-#: ../src/sheet-control-gui.c:2313
+#: ../src/sheet-control-gui.c:2315
 msgid "Add _Hyperlink..."
 msgstr "Dodaj _hiperpovezavo ..."
 
-#: ../src/sheet-control-gui.c:2316
+#: ../src/sheet-control-gui.c:2318
 msgid "Edit _Hyperlink..."
 msgstr "Uredi h_iperpovezavo ..."
 
-#: ../src/sheet-control-gui.c:2319
+#: ../src/sheet-control-gui.c:2321
 msgid "_Remove Hyperlink"
 msgstr "_Odstrani hiperpovezavo"
 
-#: ../src/sheet-control-gui.c:2325
+#: ../src/sheet-control-gui.c:2327
 msgid "_Edit DataSlicer"
 msgstr "_Uredi vrtilno razpredelnico"
 
-#: ../src/sheet-control-gui.c:2328
+#: ../src/sheet-control-gui.c:2330
 msgid "_Refresh DataSlicer"
 msgstr "Osveži _vrtilno razpredelnico"
 
-#: ../src/sheet-control-gui.c:2332
+#: ../src/sheet-control-gui.c:2334
 msgid "DataSlicer Field _Order "
 msgstr "_Razvrstitev polj vrtilne razpredelnice"
 
-#: ../src/sheet-control-gui.c:2341
+#: ../src/sheet-control-gui.c:2343
 msgid "Up"
 msgstr "Gor"
 
-#: ../src/sheet-control-gui.c:2344
+#: ../src/sheet-control-gui.c:2346
 msgid "Down"
 msgstr "Dol"
 
 #. end sub menu
-#: ../src/sheet-control-gui.c:2351
+#: ../src/sheet-control-gui.c:2353
 msgid "_Format All Cells..."
 msgstr "Oblikuj _vse celice ..."
 
-#: ../src/sheet-control-gui.c:2353
+#: ../src/sheet-control-gui.c:2355
 msgid "C_onditional Formatting..."
 msgstr "P_ogojno oblikovanje ..."
 
-#: ../src/sheet-control-gui.c:2358
+#: ../src/sheet-control-gui.c:2360
 msgid "_Unmerge"
 msgstr "_Razdruži"
 
-#: ../src/sheet-control-gui.c:2360 ../src/wbc-gtk-actions.c:2811
+#: ../src/sheet-control-gui.c:2362 ../src/wbc-gtk-actions.c:2811
 msgid "Auto Fit _Width"
 msgstr "Samodejno prilagodi _širino"
 
-#: ../src/sheet-control-gui.c:2361 ../src/wbc-gtk-actions.c:2805
+#: ../src/sheet-control-gui.c:2363 ../src/wbc-gtk-actions.c:2805
 msgid "Auto Fit _Height"
 msgstr "Samodejno prilagodi _višino"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2367 ../src/wbc-gtk-actions.c:2820
+#: ../src/sheet-control-gui.c:2369 ../src/wbc-gtk-actions.c:2820
 msgid "_Width..."
 msgstr "_Širina ..."
 
-#: ../src/sheet-control-gui.c:2368 ../src/wbc-gtk-actions.c:2826
+#: ../src/sheet-control-gui.c:2370 ../src/wbc-gtk-actions.c:2826
 msgid "_Auto Fit Width"
 msgstr "_Samodejno prilagodi širini"
 
-#: ../src/sheet-control-gui.c:2369 ../src/sheet-control-gui.c:2377
+#: ../src/sheet-control-gui.c:2371 ../src/sheet-control-gui.c:2379
 #: ../src/wbc-gtk-actions.c:2832 ../src/wbc-gtk-actions.c:2866
 msgid "_Hide"
 msgstr "_Skrij"
 
-#: ../src/sheet-control-gui.c:2370 ../src/sheet-control-gui.c:2378
+#: ../src/sheet-control-gui.c:2372 ../src/sheet-control-gui.c:2380
 #: ../src/wbc-gtk-actions.c:2839 ../src/wbc-gtk-actions.c:2873
 msgid "_Unhide"
 msgstr "_Pokaži"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2375
+#: ../src/sheet-control-gui.c:2377
 msgid "Hei_ght..."
 msgstr "_Višina ..."
 
-#: ../src/sheet-control-gui.c:2376 ../src/wbc-gtk-actions.c:2860
+#: ../src/sheet-control-gui.c:2378 ../src/wbc-gtk-actions.c:2860
 msgid "_Auto Fit Height"
 msgstr "_Samodejno prilagodi višini"
 
 #. xgettext : %d gives the number of links. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2511
+#: ../src/sheet-control-gui.c:2513
 #, c-format
 msgid "_Remove %d Link"
 msgid_plural "_Remove %d Links"
@@ -13218,7 +13218,7 @@ msgstr[2] "_Odstrani %d povezavi"
 msgstr[3] "_Odstrani %d povezave"
 
 #. xgettext : %d gives the number of comments. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2516
+#: ../src/sheet-control-gui.c:2518
 #, c-format
 msgid "_Remove %d Comment"
 msgid_plural "_Remove %d Comments"
@@ -13227,7 +13227,7 @@ msgstr[1] "_Odstrani %d opombo"
 msgstr[2] "_Odstrani %d opombi"
 msgstr[3] "_Odstrani %d opombe"
 
-#: ../src/sheet-control-gui.c:2519
+#: ../src/sheet-control-gui.c:2521
 #, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
@@ -13236,7 +13236,7 @@ msgstr[1] "_Vstavi %d celico ..."
 msgstr[2] "_Vstavi %d celici ..."
 msgstr[3] "_Vstavi %d celice ..."
 
-#: ../src/sheet-control-gui.c:2521
+#: ../src/sheet-control-gui.c:2523
 #, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
@@ -13245,7 +13245,7 @@ msgstr[1] "_Izbriši %d celico ..."
 msgstr[2] "_Izbriši %d celici ..."
 msgstr[3] "_Izbriši %d celice ..."
 
-#: ../src/sheet-control-gui.c:2527
+#: ../src/sheet-control-gui.c:2529
 #, c-format
 msgid "_Insert %d Column"
 msgid_plural "_Insert %d Columns"
@@ -13254,7 +13254,7 @@ msgstr[1] "_Vstavi %d stolpec"
 msgstr[2] "_Vstavi %d stolpca"
 msgstr[3] "_Vstavi %d stolpce"
 
-#: ../src/sheet-control-gui.c:2529
+#: ../src/sheet-control-gui.c:2531
 #, c-format
 msgid "_Delete %d Column"
 msgid_plural "_Delete %d Columns"
@@ -13263,7 +13263,7 @@ msgstr[1] "_Izbriši %d stolpec"
 msgstr[2] "_Izbriši %d stolpca"
 msgstr[3] "_Izbriši %d stolpce"
 
-#: ../src/sheet-control-gui.c:2532
+#: ../src/sheet-control-gui.c:2534
 #, c-format
 msgid "_Format %d Column"
 msgid_plural "_Format %d Columns"
@@ -13272,7 +13272,7 @@ msgstr[1] "_Oblikuj %d stolpec"
 msgstr[2] "_Oblikuj %d stolpca"
 msgstr[3] "_Oblikuj %d stolpce"
 
-#: ../src/sheet-control-gui.c:2539
+#: ../src/sheet-control-gui.c:2541
 #, c-format
 msgid "_Insert %d Row"
 msgid_plural "_Insert %d Rows"
@@ -13281,7 +13281,7 @@ msgstr[1] "_Vstavi %d vrstico"
 msgstr[2] "_Vstavi %d vrstici"
 msgstr[3] "_Vstavi %d vrstice"
 
-#: ../src/sheet-control-gui.c:2541
+#: ../src/sheet-control-gui.c:2543
 #, c-format
 msgid "_Delete %d Row"
 msgid_plural "_Delete %d Rows"
@@ -13290,7 +13290,7 @@ msgstr[1] "_Izbriši %d vrstico"
 msgstr[2] "_Izbriši %d vrstici"
 msgstr[3] "_Izbriši %d vrstice"
 
-#: ../src/sheet-control-gui.c:2545
+#: ../src/sheet-control-gui.c:2547
 #, c-format
 msgid "_Format %d Row"
 msgid_plural "_Format %d Rows"
@@ -13299,7 +13299,7 @@ msgstr[1] "_Oblikuj %d vrstico"
 msgstr[2] "_Oblikuj %d vrstici"
 msgstr[3] "_Oblikuj %d vrstice"
 
-#: ../src/sheet-control-gui.c:2552
+#: ../src/sheet-control-gui.c:2554
 #, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells..."
@@ -13309,7 +13309,7 @@ msgstr[2] "_Oblikuj %d celici …"
 msgstr[3] "_Oblikuj %d celice …"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:3001
+#: ../src/sheet-control-gui.c:3003
 #, c-format
 msgid "Duplicate %d Object"
 msgid_plural "Duplicate %d Objects"
@@ -13319,7 +13319,7 @@ msgstr[2] "Podvoji %d predmeta"
 msgstr[3] "Podvoji %d predmete"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:3004
+#: ../src/sheet-control-gui.c:3006
 #, c-format
 msgid "Insert %d Object"
 msgid_plural "Insert %d Objects"
@@ -13329,7 +13329,7 @@ msgstr[2] "Vstavi %d predmeta"
 msgstr[3] "Vstavi %d predmete"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:3008
+#: ../src/sheet-control-gui.c:3010
 #, c-format
 msgid "Move %d Object"
 msgid_plural "Move %d Objects"
@@ -13339,7 +13339,7 @@ msgstr[2] "Premakni %d predmeta"
 msgstr[3] "Premakni %d predmete"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:3011
+#: ../src/sheet-control-gui.c:3013
 #, c-format
 msgid "Resize %d Object"
 msgid_plural "Resize %d Objects"
@@ -13349,7 +13349,7 @@ msgstr[2] "Spremeni velikost %d predmetov"
 msgstr[3] "Spremeni velikost %d predmetov"
 
 #. xgettext: this is a by-line for cell comments
-#: ../src/sheet-control-gui.c:3252
+#: ../src/sheet-control-gui.c:3254
 #, c-format
 msgid "By %s:"
 msgstr "%s:"
@@ -13836,7 +13836,7 @@ msgstr ""
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "--export-file-per-sheet in --merge-to sta nezdružljiva\n"
 
-#: ../src/ssconvert.c:1692 ../src/ssdiff.c:988 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1692 ../src/ssdiff.c:967 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Uporaba: %s [MOŽNOST ...] %s\n"
@@ -13882,61 +13882,69 @@ msgstr "Vrstni red delovnih listov je spremenjen.\n"
 msgid "Sheet attribute %s changed.\n"
 msgstr "Atribut %s delovnega lista je spremenjen.\n"
 
-#: ../src/ssdiff.c:202
+#: ../src/ssdiff.c:204
+msgid "Default column properties changed.\n"
+msgstr "Spremenjene so bile privzete lastnosti stolpcev.\n"
+
+#: ../src/ssdiff.c:205
+msgid "Default row properties changed.\n"
+msgstr "Spremenjene so bile privzete lastnosti vrstic.\n"
+
+#: ../src/ssdiff.c:207
 #, c-format
 msgid "Column %s changed.\n"
 msgstr "Stolpec %s je spremenjen.\n"
 
-#: ../src/ssdiff.c:205
+#: ../src/ssdiff.c:210
 #, c-format
 msgid "Row %d changed.\n"
 msgstr "Vrstica %d je spremenjena.\n"
 
-#: ../src/ssdiff.c:214
+#: ../src/ssdiff.c:219
 #, c-format
 msgid "Cell %s changed.\n"
 msgstr "Celica %s je spremenjena.\n"
 
-#: ../src/ssdiff.c:216
+#: ../src/ssdiff.c:221
 #, c-format
 msgid "Cell %s removed.\n"
 msgstr "Celica %s je odstranjena.\n"
 
-#: ../src/ssdiff.c:218
+#: ../src/ssdiff.c:223
 #, c-format
 msgid "Cell %s added.\n"
 msgstr "Celica %s je dodana.\n"
 
-#: ../src/ssdiff.c:229
+#: ../src/ssdiff.c:234
 #, c-format
 msgid "Style of %s was changed.\n"
 msgstr "Slog %s je spremenjen.\n"
 
-#: ../src/ssdiff.c:239
+#: ../src/ssdiff.c:244
 #, c-format
 msgid "Name %s changed.\n"
 msgstr "Ime %s je spremenjeno.\n"
 
-#: ../src/ssdiff.c:241
+#: ../src/ssdiff.c:246
 #, c-format
 msgid "Name %s removed.\n"
 msgstr "Ime %s je odstranjena.\n"
 
-#: ../src/ssdiff.c:243
+#: ../src/ssdiff.c:248
 #, c-format
 msgid "Name %s added.\n"
 msgstr "Ime %s je dodano.\n"
 
-#: ../src/ssdiff.c:767
+#: ../src/ssdiff.c:783
 #, c-format
 msgid "%s: Unable to guess exporter to use for %s.\n"
 msgstr "%s: ni mogoče določiti izvoznika za %s.\n"
 
-#: ../src/ssdiff.c:925 ../src/ssdiff.c:990
+#: ../src/ssdiff.c:941 ../src/ssdiff.c:969
 msgid "OLDFILE NEWFILE"
 msgstr "STARA_DATOTEKA NOVA_DATOTEKA"
 
-#: ../src/ssdiff.c:939
+#: ../src/ssdiff.c:955
 #, c-format
 msgid ""
 "ssdiff version '%s'\n"
@@ -13947,12 +13955,12 @@ msgstr ""
 "podatkovna mapa := »%s«\n"
 "mapa knjižnic := »%s«\n"
 
-#: ../src/ssdiff.c:945
+#: ../src/ssdiff.c:961
 #, c-format
 msgid "%s: Only one output format may be specified.\n"
 msgstr "%s: navedena je lahko le ena možnost odvodnega zapisa.\n"
 
-#: ../src/ssdiff.c:964
+#: ../src/ssdiff.c:987
 #, c-format
 msgid "%s: Failed to create output file: %s\n"
 msgstr "%s: ni mogoče ustvariti odvodne datoteke %s.\n"
@@ -14021,19 +14029,19 @@ msgstr "Išči le cele besede"
 msgid "Recalculate all cells"
 msgstr "Ponovno preračunaj vse celice"
 
-#: ../src/ssgrep.c:365
+#: ../src/ssgrep.c:367
 msgid "result"
 msgstr "rezultat"
 
-#: ../src/ssgrep.c:373
+#: ../src/ssgrep.c:376
 msgid "comment"
 msgstr "opomba"
 
-#: ../src/ssgrep.c:432
+#: ../src/ssgrep.c:444
 msgid "PATTERN INFILE..."
 msgstr "DOVODNA_DATOTEKA VZORCA ..."
 
-#: ../src/ssgrep.c:446
+#: ../src/ssgrep.c:458
 #, c-format
 msgid ""
 "version '%s'\n"
@@ -14044,12 +14052,12 @@ msgstr ""
 "podatkovna mapa:= »%s«\n"
 "mapa knjižnic:= »%s«\n"
 
-#: ../src/ssgrep.c:466
+#: ../src/ssgrep.c:478
 #, c-format
 msgid "%s: Cannot read %s: %s\n"
 msgstr "%s: ni mogoče prebrati %s: %s\n"
 
-#: ../src/ssgrep.c:496
+#: ../src/ssgrep.c:508
 #, c-format
 msgid "%s: Missing pattern\n"
 msgstr "%s: manjka vzorec\n"
@@ -14077,24 +14085,24 @@ msgstr ""
 "podatkovna mapa := »%s«\n"
 "mapa knjižnic := »%s«\n"
 
-#: ../src/stf-export.c:707
+#: ../src/stf-export.c:741
 msgid "Error while trying to export file as text"
 msgstr "Napaka med izvažanjem datoteke kot besedilo"
 
-#: ../src/stf-export.c:741
+#: ../src/stf-export.c:775
 msgid "eol must be one of unix, mac, and windows"
 msgstr "oznaka konca vrstice mora biti unix, mac ali pa windows"
 
-#: ../src/stf-export.c:762
+#: ../src/stf-export.c:798
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
 msgstr "Neveljavna vrednost možnosti %s: \"%s\""
 
-#: ../src/stf-export.c:811
+#: ../src/stf-export.c:850
 msgid "Text (configurable)"
 msgstr "Besedilo (nastavljivo)"
 
-#: ../src/stf-parse.c:1468
+#: ../src/stf-parse.c:1491
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
@@ -14102,7 +14110,7 @@ msgstr ""
 "Več je vrstic podatkov kot je prostora na delovnem listu. Presežne vrstice "
 "bodo prezrte."
 
-#: ../src/stf-parse.c:1473
+#: ../src/stf-parse.c:1496
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -14157,29 +14165,29 @@ msgstr "Datoteka vsebuje neveljavne kodirane znake UTF-8 in je bila odrezana"
 msgid "That file is not in the given encoding."
 msgstr "Datoteka ni shranjena v podanem kodnem naboru znakov."
 
-#: ../src/stf.c:462
+#: ../src/stf.c:444 ../src/stf.c:481
+msgid "Parse error while trying to parse data into sheet"
+msgstr "Napaka razčlenjevanja med poskusom vstavljanja podatkov v delovni list"
+
+#: ../src/stf.c:469
 msgid "Some data did not fit on the sheet and was dropped."
 msgstr ""
 "Nekaterih podatkov ni bilo mogoče vključiti v delovni list, zato so bili "
 "izbrisani."
 
-#: ../src/stf.c:474
-msgid "Parse error while trying to parse data into sheet"
-msgstr "Napaka razčlenjevanja med poskusom vstavljanja podatkov v delovni list"
-
-#: ../src/stf.c:507
+#: ../src/stf.c:514
 msgid "Error while trying to write CSV file"
 msgstr "Napaka med zapisovanjem datoteke CSV."
 
-#: ../src/stf.c:617
+#: ../src/stf.c:624
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Z vejico ali tabulatorjem ločene vrednosti (CSV/TSV)"
 
-#: ../src/stf.c:625
+#: ../src/stf.c:632
 msgid "Text import (configurable)"
 msgstr "Uvoz besedila (nastavljivo)"
 
-#: ../src/stf.c:639
+#: ../src/stf.c:646
 msgid "Comma separated values (CSV)"
 msgstr "Z vejico ločene vrednosti (.csv)"
 
