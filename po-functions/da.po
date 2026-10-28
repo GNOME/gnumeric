@@ -5303,7 +5303,6 @@ msgid "HLOOKUP:search the first row of @{range} for @{value}"
 msgstr "HLOOKUP:Søg i første række af @{range} efter @{value}"
 
 #: ../plugins/fn-lookup/functions.c:1236
-#, fuzzy
 msgid "row:1-based row offset indicating the return values "
 msgstr "row:1-baseret rækkeforskydning der angiver returværdierne "
 
@@ -7370,9 +7369,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-numtheory/numtheory.c:882
-#, fuzzy
 msgid "PARTITIONS:number of partitions"
-msgstr "NPER:Antal perioder"
+msgstr "PARTITIONS:antal opdelinger"
 
 #: ../plugins/fn-numtheory/numtheory.c:884
 msgid ""
