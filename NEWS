@@ -33,6 +33,7 @@ Morten:
 	* Fix ssdiff problem with default col/row properties.
 	* Fix ssgrep problem in string table mode.
 	* Update man pages.
+	* Fix HEXREP problem in long double mode.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

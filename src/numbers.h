@@ -38,6 +38,7 @@ typedef long double gnm_float;
 #define GNM_FORMAT_f	"Lf"
 #define GNM_FORMAT_g	"Lg"
 #define GNM_FORMAT_G	"LG"
+#define GNM_FORMAT_a	"La"
 #define GNM_SCANF_g	"Lg"
 #define gnm_sscanf      sscanf
 #define GNM_DIG		LDBL_DIG
@@ -69,6 +70,7 @@ typedef _Decimal64 gnm_float;
 #define GNM_FORMAT_f	"Df"
 #define GNM_FORMAT_g	"Dg"
 #define GNM_FORMAT_G	"DG"
+#undef GNM_FORMAT_a
 #define GNM_SCANF_g	"Dg"
 #undef gnm_sscanf       // No support for _Decimal64 in libc.  Defined in gutils.c
 #define GNM_SUPPLIES_GNM_SSCANF
@@ -101,6 +103,7 @@ typedef double gnm_float;
 #define GNM_FORMAT_f	"f"
 #define GNM_FORMAT_g	"g"
 #define GNM_FORMAT_G	"G"
+#define GNM_FORMAT_a	"a"
 #define GNM_SCANF_g	"lg"
 #define gnm_sscanf      sscanf
 #define GNM_DIG		DBL_DIG

@@ -1532,7 +1532,7 @@ gnumeric_hexrep (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float x = value_get_as_float (argv[0]);
 #if GNM_RADIX == 2
 	// "%a" is a perfect match for this task
-	char *rep = g_strdup_printf ("%a", x);
+	char *rep = g_strdup_printf ("%" GNM_FORMAT_a, x);
 	return value_new_string_nocopy (rep);
 #elif GNM_RADIX == 10
 	// Shortest representation in base 10 is probably ok
