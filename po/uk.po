@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-10-25 13:17+0000\n"
-"PO-Revision-Date: 2026-10-25 15:53+0200\n"
+"POT-Creation-Date: 2026-10-29 17:47+0000\n"
+"PO-Revision-Date: 2026-10-29 20:08+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>="
-"2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2"
+" && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 25.12.1\n"
 
 #: ../org.gnumeric.gnumeric.desktop.in.h:1 ../src/dialogs/wbcg.ui.h:1
@@ -483,8 +483,7 @@ msgstr "Виявлено одразу атрибути «refreshedDate» і «re
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
 msgid "Skipping invalid pivot field group for field '%s' because: %s"
-msgstr ""
-"Пропускаємо некоректну групу полів зведення для поля «%s». Причина: %s"
+msgstr "Пропускаємо некоректну групу полів зведення для поля «%s». Причина: %s"
 
 #: ../plugins/excel/xlsx-read.c:388
 #, c-format
@@ -1472,7 +1471,7 @@ msgstr "Вираз «%s» не починається із розпізнано�
 
 #: ../plugins/openoffice/openoffice-read.c:2542
 #: ../plugins/openoffice/openoffice-write.c:5290
-#: ../plugins/openoffice/openoffice-write.c:5302 ../src/ssgrep.c:354
+#: ../plugins/openoffice/openoffice-write.c:5302 ../src/ssgrep.c:356
 msgid "cell"
 msgstr "комірка"
 
@@ -1695,8 +1694,7 @@ msgstr ""
 #: ../plugins/openoffice/openoffice-read.c:8519
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
-msgstr ""
-"Некоректний атрибут «форма:значення», очікувалося число, отримано «%s»"
+msgstr "Некоректний атрибут «форма:значення», очікувалося число, отримано «%s»"
 
 #: ../plugins/openoffice/openoffice-read.c:8485
 #, c-format
@@ -2124,8 +2122,7 @@ msgstr "Функції Python"
 
 #: ../plugins/py-func/plugin.xml.in.h:2
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
-"Зразок додатка Python, у якому реалізовано деякі (непотрібні) функції."
+msgstr "Зразок додатка Python, у якому реалізовано деякі (непотрібні) функції."
 
 #: ../plugins/py-func/plugin.xml.in.h:3
 msgid "Python"
@@ -2215,42 +2212,42 @@ msgstr "Модуля «%s» не існує."
 msgid "Execution of module \"%s\" failed."
 msgstr "Збій виконання модуля «%s»."
 
-#: ../plugins/python-loader/python-loader.c:281
+#: ../plugins/python-loader/python-loader.c:288
 msgid "Some name"
 msgstr "Якась назва"
 
-#: ../plugins/python-loader/python-loader.c:345
-#: ../plugins/python-loader/python-loader.c:442
-#: ../plugins/python-loader/python-loader.c:759
-#: ../plugins/python-loader/python-loader.c:874
+#: ../plugins/python-loader/python-loader.c:352
+#: ../plugins/python-loader/python-loader.c:449
+#: ../plugins/python-loader/python-loader.c:776
+#: ../plugins/python-loader/python-loader.c:893
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python-файл «%s» має невірний формат."
 
-#: ../plugins/python-loader/python-loader.c:349
-#: ../plugins/python-loader/python-loader.c:447
+#: ../plugins/python-loader/python-loader.c:356
+#: ../plugins/python-loader/python-loader.c:454
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Файл не містить функцію «%s»."
 
-#: ../plugins/python-loader/python-loader.c:764
-#: ../plugins/python-loader/python-loader.c:879
+#: ../plugins/python-loader/python-loader.c:781
+#: ../plugins/python-loader/python-loader.c:898
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Файл не містить словник «%s»."
 
-#: ../plugins/python-loader/python-loader.c:769
-#: ../plugins/python-loader/python-loader.c:884
+#: ../plugins/python-loader/python-loader.c:786
+#: ../plugins/python-loader/python-loader.c:903
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Об'єкт «%s» не є словником."
 
-#: ../plugins/python-loader/python-loader.c:822 ../src/gnm-plugin.c:866
+#: ../plugins/python-loader/python-loader.c:841 ../src/gnm-plugin.c:866
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Невідома дія: %s"
 
-#: ../plugins/python-loader/python-loader.c:827
+#: ../plugins/python-loader/python-loader.c:846
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Некоректна функція для дії: %s"
@@ -2379,7 +2376,7 @@ msgid "Missing closing 'E'"
 msgstr "Пропущено завершальне «E»"
 
 #: ../plugins/sylk/sylk.c:842 ../src/dialogs/dialog-goto-cell.c:379
-#: ../src/dialogs/dialog-search.c:436 ../src/dialogs/dialog-stf-export.c:594
+#: ../src/dialogs/dialog-search.c:436 ../src/dialogs/dialog-stf-export.c:585
 #: ../src/dialogs/hf-config.ui.h:16 ../src/dialogs/print.ui.h:53
 #: ../src/dialogs/sheet-compare.ui.h:3 ../src/print-info.c:648
 #: ../src/workbook.c:1331 ../src/workbook.c:1361
@@ -2837,8 +2834,7 @@ msgid "Preferred Display Unit"
 msgstr "Бажана одиниця показу"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:75
-msgid ""
-"This string gives the default unit to be used in the page setup dialog."
+msgid "This string gives the default unit to be used in the page setup dialog."
 msgstr ""
 "Цей рядок визначає типову одиницю виміру, яку буде використано у діалоговому "
 "вікні налаштовування сторінки."
@@ -5397,8 +5393,7 @@ msgstr ""
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr ""
-"Вказаний вхідний діапазон має містити принаймні два стовпчики і мітки."
+msgstr "Вказаний вхідний діапазон має містити принаймні два стовпчики і мітки."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3655
 msgid "The given input range should contain at least two columns of data."
@@ -6059,7 +6054,7 @@ msgstr "Фільтр"
 
 #. end sub menu
 #. Row specific (Note some labels duplicate col labels)
-#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2374
+#: ../src/dialogs/dialog-data-slicer.c:141 ../src/sheet-control-gui.c:2376
 #: ../src/tools/analysis-regression.c:286
 #: ../src/tools/analysis-regression.c:344
 msgid "Row"
@@ -6067,7 +6062,7 @@ msgstr "Рядок"
 
 #. end sub menu
 #. Column specific (Note some labels duplicate row labels)
-#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2366
+#: ../src/dialogs/dialog-data-slicer.c:142 ../src/sheet-control-gui.c:2368
 #: ../src/tools/analysis-regression.c:286
 #: ../src/tools/analysis-regression.c:345
 msgid "Column"
@@ -6375,7 +6370,7 @@ msgstr "Рівень робочої книги"
 
 #: ../src/dialogs/dialog-goto-cell.c:385 ../src/dialogs/dialog-search.c:436
 #: ../src/dialogs/hf-config.ui.h:22 ../src/dialogs/tabulate.ui.h:3
-#: ../src/sheet-control-gui.c:2355 ../src/tools/gnm-solver.c:1684
+#: ../src/sheet-control-gui.c:2357 ../src/tools/gnm-solver.c:1684
 #: ../src/tools/gnm-solver.c:1729 ../src/tools/gnm-solver.c:1870
 msgid "Cell"
 msgstr "Комірка"
@@ -7352,12 +7347,12 @@ msgstr "Загальний"
 
 #. start sub menu
 #: ../src/dialogs/dialog-sheet-compare.c:378 ../src/dialogs/cell-format.ui.h:42
-#: ../src/sheet-control-gui.c:2335 ../src/wbc-gtk-actions.c:3883
+#: ../src/sheet-control-gui.c:2337 ../src/wbc-gtk-actions.c:3883
 msgid "Left"
 msgstr "Ліворуч"
 
 #: ../src/dialogs/dialog-sheet-compare.c:379 ../src/dialogs/cell-format.ui.h:43
-#: ../src/sheet-control-gui.c:2338 ../src/wbc-gtk-actions.c:3885
+#: ../src/sheet-control-gui.c:2340 ../src/wbc-gtk-actions.c:3885
 msgid "Right"
 msgstr "Праворуч"
 
@@ -7697,11 +7692,11 @@ msgstr "Об'єкт обмежень:"
 msgid "Could not create the Solver dialog."
 msgstr "Не вдалося створити діалог пошуку розв'язання."
 
-#: ../src/dialogs/dialog-stf-export.c:588
+#: ../src/dialogs/dialog-stf-export.c:579
 msgid "Export"
 msgstr "Експорт"
 
-#: ../src/dialogs/dialog-stf-export.c:731
+#: ../src/dialogs/dialog-stf-export.c:722
 msgid "This workbook does not contain any exportable content."
 msgstr "У цій робочій книзі немає даних, які придатні до експортування."
 
@@ -7784,8 +7779,7 @@ msgstr "Автомасштаб"
 
 #: ../src/dialogs/dialog-stf-format-page.c:619
 #, c-format
-msgid ""
-"If this checkbox is selected, column %i will be imported into Gnumeric."
+msgid "If this checkbox is selected, column %i will be imported into Gnumeric."
 msgstr "Якщо позначено цей пункт, стовпчик %i буде імпортовано до Gnumeric."
 
 #: ../src/dialogs/dialog-stf-format-page.c:627
@@ -10338,7 +10332,7 @@ msgid "Merge..."
 msgstr "Об'єднати…"
 
 #. start sub menu
-#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2356
+#: ../src/dialogs/merge.ui.h:2 ../src/sheet-control-gui.c:2358
 msgid "_Merge"
 msgstr "_Об'єднати"
 
@@ -10554,8 +10548,7 @@ msgstr "Ширина стовпчиків"
 
 #: ../src/dialogs/paste-special.ui.h:31
 msgid "Set column widths of the destination to those of the source"
-msgstr ""
-"Зробити ширини стовпчиків призначення такими самими, як ширини джерела"
+msgstr "Зробити ширини стовпчиків призначення такими самими, як ширини джерела"
 
 #: ../src/dialogs/paste-special.ui.h:32
 msgid "Row heights"
@@ -12479,7 +12472,7 @@ msgstr "Властивості заповненого об'єкта"
 msgid "Line/Arrow Properties"
 msgstr "Властивості лінії/стрілки"
 
-#: ../src/gnm-so-polygon.c:159
+#: ../src/gnm-so-polygon.c:161
 msgid "Polygon Properties"
 msgstr "Властивості багатокутника"
 
@@ -12739,7 +12732,7 @@ msgstr "%.2f пт"
 msgid "_Move"
 msgstr "Перемістити"
 
-#: ../src/item-cursor.c:835 ../src/sheet-control-gui.c:2269
+#: ../src/item-cursor.c:835 ../src/sheet-control-gui.c:2271
 #: ../src/sheet-object.c:294 ../src/sheet-object.c:312
 #: ../src/wbc-gtk-actions.c:2087
 msgid "_Copy"
@@ -12840,8 +12833,8 @@ msgstr "Негайно вийти після завантаження позна
 msgid "[FILE ...]"
 msgstr "[ФАЙЛ ...]"
 
-#: ../src/main-application.c:127 ../src/ssconvert.c:1627 ../src/ssdiff.c:932
-#: ../src/ssgrep.c:439 ../src/ssindex.c:259
+#: ../src/main-application.c:127 ../src/ssconvert.c:1627 ../src/ssdiff.c:948
+#: ../src/ssgrep.c:451 ../src/ssindex.c:259
 #, c-format
 msgid ""
 "%s\n"
@@ -13132,7 +13125,7 @@ msgstr "%d кв."
 msgid "(empty)"
 msgstr "(порожньо)"
 
-#: ../src/sheet-control-gui.c:2181 ../src/wbc-gtk-actions.c:377
+#: ../src/sheet-control-gui.c:2183 ../src/wbc-gtk-actions.c:377
 #, c-format
 msgid "Remove %d Link"
 msgid_plural "Remove %d Links"
@@ -13141,142 +13134,142 @@ msgstr[1] "Вилучити %d посилання"
 msgstr[2] "Вилучити %d посилань"
 msgstr[3] "Вилучити %d посилання"
 
-#: ../src/sheet-control-gui.c:2267 ../src/sheet-object.c:311
+#: ../src/sheet-control-gui.c:2269 ../src/sheet-object.c:311
 #: ../src/wbc-gtk-actions.c:2263
 msgid "Cu_t"
 msgstr "Вирізати"
 
-#: ../src/sheet-control-gui.c:2271 ../src/wbc-gtk-actions.c:2270
+#: ../src/sheet-control-gui.c:2273 ../src/wbc-gtk-actions.c:2270
 msgid "_Paste"
 msgstr "Вставити"
 
-#: ../src/sheet-control-gui.c:2273
+#: ../src/sheet-control-gui.c:2275
 msgid "Paste _Special"
 msgstr "Особлива вставка"
 
-#: ../src/sheet-control-gui.c:2278
+#: ../src/sheet-control-gui.c:2280
 msgid "_Insert Cells..."
 msgstr "_Вставити комірки…"
 
-#: ../src/sheet-control-gui.c:2281
+#: ../src/sheet-control-gui.c:2283
 msgid "_Delete Cells..."
 msgstr "Ви_лучити комірки…"
 
-#: ../src/sheet-control-gui.c:2284
+#: ../src/sheet-control-gui.c:2286
 msgid "_Insert Column(s)"
 msgstr "Вставити стовпчики"
 
-#: ../src/sheet-control-gui.c:2288
+#: ../src/sheet-control-gui.c:2290
 msgid "_Delete Column(s)"
 msgstr "Стерти стовпчики"
 
-#: ../src/sheet-control-gui.c:2292
+#: ../src/sheet-control-gui.c:2294
 msgid "_Insert Row(s)"
 msgstr "Вставити рядки"
 
-#: ../src/sheet-control-gui.c:2296
+#: ../src/sheet-control-gui.c:2298
 msgid "_Delete Row(s)"
 msgstr "Стерти рядки"
 
-#: ../src/sheet-control-gui.c:2301
+#: ../src/sheet-control-gui.c:2303
 msgid "Clear Co_ntents"
 msgstr "Очистити вміст"
 
-#: ../src/sheet-control-gui.c:2306
+#: ../src/sheet-control-gui.c:2308
 msgid "Add _Comment..."
 msgstr "Додати _коментар…"
 
-#: ../src/sheet-control-gui.c:2308
+#: ../src/sheet-control-gui.c:2310
 msgid "Edit Co_mment..."
 msgstr "Редагувати ко_ментар…"
 
-#: ../src/sheet-control-gui.c:2310
+#: ../src/sheet-control-gui.c:2312
 msgid "_Remove Comments"
 msgstr "Ви_лучити коментарі"
 
-#: ../src/sheet-control-gui.c:2313
+#: ../src/sheet-control-gui.c:2315
 msgid "Add _Hyperlink..."
 msgstr "Додати _гіперпосилання…"
 
-#: ../src/sheet-control-gui.c:2316
+#: ../src/sheet-control-gui.c:2318
 msgid "Edit _Hyperlink..."
 msgstr "Редагувати _гіперпосилання…"
 
-#: ../src/sheet-control-gui.c:2319
+#: ../src/sheet-control-gui.c:2321
 msgid "_Remove Hyperlink"
 msgstr "Ви_лучити гіперпосилання"
 
-#: ../src/sheet-control-gui.c:2325
+#: ../src/sheet-control-gui.c:2327
 msgid "_Edit DataSlicer"
 msgstr "_Редагувати DataSlicer"
 
-#: ../src/sheet-control-gui.c:2328
+#: ../src/sheet-control-gui.c:2330
 msgid "_Refresh DataSlicer"
 msgstr "_Освіжити DataSlicer"
 
-#: ../src/sheet-control-gui.c:2332
+#: ../src/sheet-control-gui.c:2334
 msgid "DataSlicer Field _Order "
 msgstr "По_рядок полів DataSlicer "
 
-#: ../src/sheet-control-gui.c:2341
+#: ../src/sheet-control-gui.c:2343
 msgid "Up"
 msgstr "Вище"
 
-#: ../src/sheet-control-gui.c:2344
+#: ../src/sheet-control-gui.c:2346
 msgid "Down"
 msgstr "Нижче"
 
 #. end sub menu
-#: ../src/sheet-control-gui.c:2351
+#: ../src/sheet-control-gui.c:2353
 msgid "_Format All Cells..."
 msgstr "_Форматувати усі комірки…"
 
-#: ../src/sheet-control-gui.c:2353
+#: ../src/sheet-control-gui.c:2355
 msgid "C_onditional Formatting..."
 msgstr "_Умовне форматування…"
 
-#: ../src/sheet-control-gui.c:2358
+#: ../src/sheet-control-gui.c:2360
 msgid "_Unmerge"
 msgstr "_Роз'єднати"
 
-#: ../src/sheet-control-gui.c:2360 ../src/wbc-gtk-actions.c:2811
+#: ../src/sheet-control-gui.c:2362 ../src/wbc-gtk-actions.c:2811
 msgid "Auto Fit _Width"
 msgstr "Авто_ширина"
 
-#: ../src/sheet-control-gui.c:2361 ../src/wbc-gtk-actions.c:2805
+#: ../src/sheet-control-gui.c:2363 ../src/wbc-gtk-actions.c:2805
 msgid "Auto Fit _Height"
 msgstr "Ав_товисота"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2367 ../src/wbc-gtk-actions.c:2820
+#: ../src/sheet-control-gui.c:2369 ../src/wbc-gtk-actions.c:2820
 msgid "_Width..."
 msgstr "_Ширина…"
 
-#: ../src/sheet-control-gui.c:2368 ../src/wbc-gtk-actions.c:2826
+#: ../src/sheet-control-gui.c:2370 ../src/wbc-gtk-actions.c:2826
 msgid "_Auto Fit Width"
 msgstr "_Автоширина"
 
-#: ../src/sheet-control-gui.c:2369 ../src/sheet-control-gui.c:2377
+#: ../src/sheet-control-gui.c:2371 ../src/sheet-control-gui.c:2379
 #: ../src/wbc-gtk-actions.c:2832 ../src/wbc-gtk-actions.c:2866
 msgid "_Hide"
 msgstr "При_ховати"
 
-#: ../src/sheet-control-gui.c:2370 ../src/sheet-control-gui.c:2378
+#: ../src/sheet-control-gui.c:2372 ../src/sheet-control-gui.c:2380
 #: ../src/wbc-gtk-actions.c:2839 ../src/wbc-gtk-actions.c:2873
 msgid "_Unhide"
 msgstr "По_казати"
 
 #. start sub menu
-#: ../src/sheet-control-gui.c:2375
+#: ../src/sheet-control-gui.c:2377
 msgid "Hei_ght..."
 msgstr "В_исота…"
 
-#: ../src/sheet-control-gui.c:2376 ../src/wbc-gtk-actions.c:2860
+#: ../src/sheet-control-gui.c:2378 ../src/wbc-gtk-actions.c:2860
 msgid "_Auto Fit Height"
 msgstr "_Автовисота"
 
 #. xgettext : %d gives the number of links. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2511
+#: ../src/sheet-control-gui.c:2513
 #, c-format
 msgid "_Remove %d Link"
 msgid_plural "_Remove %d Links"
@@ -13286,7 +13279,7 @@ msgstr[2] "Ви_лучити %d посилань"
 msgstr[3] "Ви_лучити %d посилання"
 
 #. xgettext : %d gives the number of comments. This is input to ngettext.
-#: ../src/sheet-control-gui.c:2516
+#: ../src/sheet-control-gui.c:2518
 #, c-format
 msgid "_Remove %d Comment"
 msgid_plural "_Remove %d Comments"
@@ -13295,7 +13288,7 @@ msgstr[1] "Ви_лучити %d коментарі"
 msgstr[2] "Ви_лучити %d коментарів"
 msgstr[3] "Ви_лучити %d коментар"
 
-#: ../src/sheet-control-gui.c:2519
+#: ../src/sheet-control-gui.c:2521
 #, c-format
 msgid "_Insert %d Cell..."
 msgid_plural "_Insert %d Cells..."
@@ -13304,7 +13297,7 @@ msgstr[1] "_Вставити %d комірки…"
 msgstr[2] "_Вставити %d комірок…"
 msgstr[3] "_Вставити комірку…"
 
-#: ../src/sheet-control-gui.c:2521
+#: ../src/sheet-control-gui.c:2523
 #, c-format
 msgid "_Delete %d Cell..."
 msgid_plural "_Delete %d Cells..."
@@ -13313,7 +13306,7 @@ msgstr[1] "Ви_лучити %d комірки…"
 msgstr[2] "Ви_лучити %d комірок…"
 msgstr[3] "Ви_лучити комірку…"
 
-#: ../src/sheet-control-gui.c:2527
+#: ../src/sheet-control-gui.c:2529
 #, c-format
 msgid "_Insert %d Column"
 msgid_plural "_Insert %d Columns"
@@ -13322,7 +13315,7 @@ msgstr[1] "_Вставити %d стовпчики"
 msgstr[2] "_Вставити %d стовпчиків"
 msgstr[3] "_Вставити стовпчик"
 
-#: ../src/sheet-control-gui.c:2529
+#: ../src/sheet-control-gui.c:2531
 #, c-format
 msgid "_Delete %d Column"
 msgid_plural "_Delete %d Columns"
@@ -13331,7 +13324,7 @@ msgstr[1] "Ви_лучити %d стовпчики"
 msgstr[2] "Ви_лучити %d стовпчиків"
 msgstr[3] "Ви_лучити стовпчик"
 
-#: ../src/sheet-control-gui.c:2532
+#: ../src/sheet-control-gui.c:2534
 #, c-format
 msgid "_Format %d Column"
 msgid_plural "_Format %d Columns"
@@ -13340,7 +13333,7 @@ msgstr[1] "_Форматувати %d стовпчики"
 msgstr[2] "_Форматувати %d стовпчиків"
 msgstr[3] "_Форматувати стовпчик"
 
-#: ../src/sheet-control-gui.c:2539
+#: ../src/sheet-control-gui.c:2541
 #, c-format
 msgid "_Insert %d Row"
 msgid_plural "_Insert %d Rows"
@@ -13349,7 +13342,7 @@ msgstr[1] "_Вставити %d рядки"
 msgstr[2] "_Вставити %d рядків"
 msgstr[3] "_Вставити рядок"
 
-#: ../src/sheet-control-gui.c:2541
+#: ../src/sheet-control-gui.c:2543
 #, c-format
 msgid "_Delete %d Row"
 msgid_plural "_Delete %d Rows"
@@ -13358,7 +13351,7 @@ msgstr[1] "Ви_лучити %d рядки"
 msgstr[2] "Ви_лучити %d рядків"
 msgstr[3] "Ви_лучити рядок"
 
-#: ../src/sheet-control-gui.c:2545
+#: ../src/sheet-control-gui.c:2547
 #, c-format
 msgid "_Format %d Row"
 msgid_plural "_Format %d Rows"
@@ -13367,7 +13360,7 @@ msgstr[1] "_Форматувати %d рядки"
 msgstr[2] "_Форматувати %d рядків"
 msgstr[3] "_Форматувати рядок"
 
-#: ../src/sheet-control-gui.c:2552
+#: ../src/sheet-control-gui.c:2554
 #, c-format
 msgid "_Format %d Cell..."
 msgid_plural "_Format %d Cells..."
@@ -13377,7 +13370,7 @@ msgstr[2] "_Форматувати %d комірок…"
 msgstr[3] "_Форматувати комірку…"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:3001
+#: ../src/sheet-control-gui.c:3003
 #, c-format
 msgid "Duplicate %d Object"
 msgid_plural "Duplicate %d Objects"
@@ -13387,7 +13380,7 @@ msgstr[2] "Дублювати %d об'єктів"
 msgstr[3] "Дублювати об'єкт"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:3004
+#: ../src/sheet-control-gui.c:3006
 #, c-format
 msgid "Insert %d Object"
 msgid_plural "Insert %d Objects"
@@ -13397,7 +13390,7 @@ msgstr[2] "Вставити %d об'єктів"
 msgstr[3] "Вставити об'єкт"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:3008
+#: ../src/sheet-control-gui.c:3010
 #, c-format
 msgid "Move %d Object"
 msgid_plural "Move %d Objects"
@@ -13407,7 +13400,7 @@ msgstr[2] "Пересунути %d об'єктів"
 msgstr[3] "Пересунути об'єкт"
 
 #. xgettext : %d gives the number of objects. This is input to ngettext.
-#: ../src/sheet-control-gui.c:3011
+#: ../src/sheet-control-gui.c:3013
 #, c-format
 msgid "Resize %d Object"
 msgid_plural "Resize %d Objects"
@@ -13417,7 +13410,7 @@ msgstr[2] "Змінити розмір %d об'єктів"
 msgstr[3] "Змінити розмір об'єкта"
 
 #. xgettext: this is a by-line for cell comments
-#: ../src/sheet-control-gui.c:3252
+#: ../src/sheet-control-gui.c:3254
 #, c-format
 msgid "By %s:"
 msgstr "За %s:"
@@ -13528,8 +13521,7 @@ msgid "New graph sheet"
 msgstr "Новий графічний аркуш"
 
 #: ../src/sheet-object-widget.c:278
-msgid ""
-"Because of GTK bug #705640, a sheet object widget is not being printed."
+msgid "Because of GTK bug #705640, a sheet object widget is not being printed."
 msgstr "Через ваду GTK 705640, віджет об'єкта аркуша не буде надруковано."
 
 #: ../src/sheet-object-widget.c:460 ../src/wbc-gtk-actions.c:3326
@@ -13693,8 +13685,7 @@ msgstr "Список доступних засобів імпортування"
 
 #: ../src/ssconvert.c:139
 msgid "Merge listed files (all same format) to make this file"
-msgstr ""
-"Об'єднати файли зі списку (у одному форматі) для створення цього файла"
+msgstr "Об'єднати файли зі списку (у одному форматі) для створення цього файла"
 
 #: ../src/ssconvert.c:146
 msgid "Optionally specify which exporter to use"
@@ -13826,8 +13817,7 @@ msgstr "Розв'язувач: %s\n"
 #: ../src/ssconvert.c:1103
 #, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
-msgstr ""
-"Некоректний параметр експортування «%s=%s» для експортування зображень"
+msgstr "Некоректний параметр експортування «%s=%s» для експортування зображень"
 
 #: ../src/ssconvert.c:1279
 #, c-format
@@ -13910,7 +13900,7 @@ msgstr ""
 msgid "--export-file-per-sheet and --merge-to are incompatible\n"
 msgstr "--export-file-per-sheet і --merge-to є несумісними\n"
 
-#: ../src/ssconvert.c:1692 ../src/ssdiff.c:988 ../src/ssindex.c:270
+#: ../src/ssconvert.c:1692 ../src/ssdiff.c:967 ../src/ssindex.c:270
 #, c-format
 msgid "Usage: %s [OPTION...] %s\n"
 msgstr "Користування: %s [ПАРАМЕТР...] %s\n"
@@ -13956,62 +13946,72 @@ msgstr "Змінено порядок аркушів.\n"
 msgid "Sheet attribute %s changed.\n"
 msgstr "Змінено атрибут %s аркуша.\n"
 
-#: ../src/ssdiff.c:202
+#: ../src/ssdiff.c:204
+#| msgid "Column %s changed.\n"
+msgid "Default column properties changed.\n"
+msgstr "Змінено типові властивості стовпчика.\n"
+
+#: ../src/ssdiff.c:205
+#| msgid "Sheet order changed.\n"
+msgid "Default row properties changed.\n"
+msgstr "Змінено типові властивості рядка.\n"
+
+#: ../src/ssdiff.c:207
 #, c-format
 msgid "Column %s changed.\n"
 msgstr "Змінено стовпчик %s.\n"
 
-#: ../src/ssdiff.c:205
+#: ../src/ssdiff.c:210
 #, c-format
 msgid "Row %d changed.\n"
 msgstr "Змінено рядок %d.\n"
 
-#: ../src/ssdiff.c:214
+#: ../src/ssdiff.c:219
 #, c-format
 msgid "Cell %s changed.\n"
 msgstr "Змінено комірку %s.\n"
 
-#: ../src/ssdiff.c:216
+#: ../src/ssdiff.c:221
 #, c-format
 msgid "Cell %s removed.\n"
 msgstr "Вилучено комірку %s.\n"
 
-#: ../src/ssdiff.c:218
+#: ../src/ssdiff.c:223
 #, c-format
 msgid "Cell %s added.\n"
 msgstr "Додано комірку %s.\n"
 
-#: ../src/ssdiff.c:229
+#: ../src/ssdiff.c:234
 #, c-format
 msgid "Style of %s was changed.\n"
 msgstr "Змінено стиль %s.\n"
 
-#: ../src/ssdiff.c:239
+#: ../src/ssdiff.c:244
 #, c-format
 msgid "Name %s changed.\n"
 msgstr "Змінено назву %s.\n"
 
-#: ../src/ssdiff.c:241
+#: ../src/ssdiff.c:246
 #, c-format
 msgid "Name %s removed.\n"
 msgstr "Вилучено назву %s.\n"
 
-#: ../src/ssdiff.c:243
+#: ../src/ssdiff.c:248
 #, c-format
 msgid "Name %s added.\n"
 msgstr "Додано назву %s.\n"
 
-#: ../src/ssdiff.c:767
+#: ../src/ssdiff.c:783
 #, c-format
 msgid "%s: Unable to guess exporter to use for %s.\n"
 msgstr ""
 "%s: не вдалося вгадати засіб експортування, яким слід скористатися для %s.\n"
 
-#: ../src/ssdiff.c:925 ../src/ssdiff.c:990
+#: ../src/ssdiff.c:941 ../src/ssdiff.c:969
 msgid "OLDFILE NEWFILE"
 msgstr "СТАРИЙ_ФАЙЛ НОВИЙ_ФАЙЛ"
 
-#: ../src/ssdiff.c:939
+#: ../src/ssdiff.c:955
 #, c-format
 msgid ""
 "ssdiff version '%s'\n"
@@ -14022,12 +14022,12 @@ msgstr ""
 "Каталог даних: «%s»\n"
 "Каталог бібліотек: «%s»\n"
 
-#: ../src/ssdiff.c:945
+#: ../src/ssdiff.c:961
 #, c-format
 msgid "%s: Only one output format may be specified.\n"
 msgstr "%s: можна вказувати лише один формат виведення.\n"
 
-#: ../src/ssdiff.c:964
+#: ../src/ssdiff.c:987
 #, c-format
 msgid "%s: Failed to create output file: %s\n"
 msgstr "%s: не вдалося створити файл виведення даних: %s\n"
@@ -14096,19 +14096,19 @@ msgstr "Шукати лише цілі слова"
 msgid "Recalculate all cells"
 msgstr "Переобчислити усі комірки"
 
-#: ../src/ssgrep.c:365
+#: ../src/ssgrep.c:367
 msgid "result"
 msgstr "результат"
 
-#: ../src/ssgrep.c:373
+#: ../src/ssgrep.c:376
 msgid "comment"
 msgstr "коментар"
 
-#: ../src/ssgrep.c:432
+#: ../src/ssgrep.c:444
 msgid "PATTERN INFILE..."
 msgstr "ВЗІРЕЦЬ ВХІДНИЙ_ФАЙЛ…"
 
-#: ../src/ssgrep.c:446
+#: ../src/ssgrep.c:458
 #, c-format
 msgid ""
 "version '%s'\n"
@@ -14119,12 +14119,12 @@ msgstr ""
 "Каталог даних: «%s»\n"
 "Каталог бібліотек: «%s»\n"
 
-#: ../src/ssgrep.c:466
+#: ../src/ssgrep.c:478
 #, c-format
 msgid "%s: Cannot read %s: %s\n"
 msgstr "%s: не вдалося прочитати %s: %s\n"
 
-#: ../src/ssgrep.c:496
+#: ../src/ssgrep.c:508
 #, c-format
 msgid "%s: Missing pattern\n"
 msgstr "%s: пропущено взірець\n"
@@ -14152,31 +14152,31 @@ msgstr ""
 "Каталог даних: «%s»\n"
 "Каталог бібліотек: «%s»\n"
 
-#: ../src/stf-export.c:707
+#: ../src/stf-export.c:741
 msgid "Error while trying to export file as text"
 msgstr "Помилка під час спроби експортувати файл як текст"
 
-#: ../src/stf-export.c:741
+#: ../src/stf-export.c:775
 msgid "eol must be one of unix, mac, and windows"
 msgstr "eol має бути одним із таких значень: unix, mac або windows"
 
-#: ../src/stf-export.c:762
+#: ../src/stf-export.c:798
 #, c-format
 msgid "Invalid value for option %s: \"%s\""
 msgstr "Некоректне значення параметра %s: «%s»"
 
-#: ../src/stf-export.c:811
+#: ../src/stf-export.c:850
 msgid "Text (configurable)"
 msgstr "Текст (налаштовуваний)"
 
-#: ../src/stf-parse.c:1466
+#: ../src/stf-parse.c:1491
 msgid ""
 "There are more rows of data than there is room for in the sheet.  Extra rows "
 "will be ignored."
 msgstr ""
 "У даних більше рядків, ніж місця на аркуші. Зайві рядки буде проігноровано."
 
-#: ../src/stf-parse.c:1471
+#: ../src/stf-parse.c:1496
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -14223,8 +14223,7 @@ msgstr[3] "У файлі міститься один символ NUL. Його 
 #: ../src/stf.c:375
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
-msgstr ""
-"У файлі містяться некоректно кодовані символи UTF-8 — їх було обрізано"
+msgstr "У файлі містяться некоректно кодовані символи UTF-8 — їх було обрізано"
 
 #: ../src/stf.c:419
 msgid "That file is not in the given encoding."
@@ -14371,8 +14370,7 @@ msgstr "Перевірка однорідності"
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
 #: ../src/tools/analysis-chi-squared.c:183
-msgid ""
-"[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
+msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
 msgstr ""
 "[>=5]\"Перевірка незалежності\";[<5][Red]\"Некоректна перевірка "
 "незалежності\""
@@ -18394,7 +18392,6 @@ msgid "Unsupported file format for file \"%s\""
 msgstr "Непідтримуваний формат файлів для файла «%s»"
 
 #: ../src/workbook-view.c:1505
-#| msgid "Unsupported file format for file \"%s\""
 msgid "Unsupported file format"
 msgstr "Непідтримуваний формат файлів"
 
