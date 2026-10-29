@@ -1080,11 +1080,11 @@ uint128_to_gnm_float (const Uint128 *a)
 			(a->hi & ((G_GUINT64_CONSTANT (1) << t) - 1)) != 0;
 	}
 	return gnm_ldexp ((gnm_float)(v | sticky), s);
+#elif GNM_RADIX == 2
+	return gnm_ldexp ((gnm_float)a->hi, 64) + (gnm_float)a->lo;
 #else
-	// Either the hi part is exact (binary80) or we don't have a
-	// better way (decimal).
-	return (gnm_float)a->hi * GNM_const (18446744073709551616.0) +
-		(gnm_float)a->lo;
+	// We need a better way.
+	return gnm_ldexp ((gnm_float)a->hi, 64) + (gnm_float)a->lo;
 #endif
 }
 
