@@ -894,7 +894,7 @@ static GnmFuncHelp const help_partitions[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static gnm_float *partition_cache = NULL;
+static GnmQuad *partition_cache = NULL;
 static unsigned *sigma_cache = NULL;
 static int partition_cache_size = 0;
 static int partition_cache_edge = 0;
@@ -903,6 +903,8 @@ static gnm_float partitions_cutoff;
 static void
 partitions_helper (int n)
 {
+	GnmQuad qn;
+
 	guint64 sigma = 1;
 	if (walk_factorization (n, &sigma, walk_for_sigma) ||
 	    sigma > G_MAXUINT)
@@ -910,8 +912,8 @@ partitions_helper (int n)
 	sigma_cache[n] = sigma;
 
 	// The partition function never gets smaller
-	if (!gnm_finite (partition_cache[n - 1])) {
-		partition_cache[n] = gnm_pinf;
+	if (!gnm_finite (gnm_quad_value (&partition_cache[n - 1]))) {
+		partition_cache[n] = partition_cache[n - 1];
 		return;
 	}
 
@@ -928,17 +930,23 @@ partitions_helper (int n)
 	if (window_factor == 0) {
 		gnm_float a = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
 		// Decay length is 2*sqrt(n)/a.  Go out to e^-(digits + 5).
-		window_factor = (2 / a) * (-gnm_log (GNM_EPSILON) + 5);
+		window_factor = (2 / a) * (-1.5 * gnm_log (GNM_EPSILON) + 5);
 	}
 	gnm_float kmax = gnm_ceil (window_factor * gnm_sqrt (n));
 	int K = MIN (n, (int)kmax);
 
 	// We overflow a bit early due to the late division, but
 	// I can't be bothered.
-	gnm_float sum = 0;
-	for (int k = 1; k <= K; k++)
-		sum += sigma_cache[k] * partition_cache[n - k];
-	partition_cache[n] = sum / n;
+	GnmQuad sum = gnm_quad_zero;
+	for (int k = 1; k <= K; k++) {
+		GnmQuad t;
+		gnm_quad_init (&t, sigma_cache[k]);
+		gnm_quad_mul (&t, &t, &partition_cache[n - k]);
+		gnm_quad_add (&sum, &sum, &t);
+	}
+	gnm_quad_init (&qn, n);
+	gnm_quad_div (&sum, &sum, &qn);
+	partition_cache[n] = sum;
 }
 
 static gnm_float
@@ -948,10 +956,10 @@ partitions (int n)
 
 	if (n >= partition_cache_size) {
 		partition_cache_size = MAX (n + 1, partition_cache_size * 2);
-		partition_cache = g_renew (gnm_float, partition_cache, partition_cache_size);
+		partition_cache = g_renew (GnmQuad, partition_cache, partition_cache_size);
 		sigma_cache = g_renew (unsigned, sigma_cache, partition_cache_size);
 		if (partition_cache_edge == 0) {
-			partition_cache[0] = 1;
+			gnm_quad_init (&partition_cache[0], 1);
 			partition_cache_edge++;
 		}
 	}
@@ -961,7 +969,7 @@ partitions (int n)
 		partition_cache_edge++;
 	}
 
-	return partition_cache[n];
+	return gnm_quad_value (&partition_cache[n]);
 }
 
 static GnmValue *
