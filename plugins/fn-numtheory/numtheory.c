@@ -3,7 +3,7 @@
  *
  * Author:
  *    Marko R. Riedel (mriedel@neuearbeit.de)    [Functions]
- *    Morten Welinder (terra@gnome.org)          [Plugin framework]
+ *    Morten Welinder (terra@gnome.org)          [Plugin framework and more]
  *    Brian J. Murrell (brian@interlinx.bc.ca)	 [Bitwise operators]
  *
  * This program is free software; you can redistribute it and/or modify
@@ -28,6 +28,7 @@
 #include <gnm-plugin.h>
 #include <limits.h>
 #include <collect.h>
+#include <mathfunc.h>
 
 GNM_PLUGIN_MODULE_HEADER;
 
@@ -39,6 +40,9 @@ GNM_PLUGIN_MODULE_HEADER;
  * the latter part is irrelevant.)
  */
 static const gnm_float bit_max = MIN (GNM_RADIX / GNM_EPSILON, (gnm_float)G_MAXUINT64);
+
+// The largest odd number.  (This probably assumes even radix.)
+static const gnm_float last_odd = GNM_RADIX / GNM_EPSILON - 1;
 
 /* ------------------------------------------------------------------------- */
 
@@ -317,6 +321,9 @@ isprime (guint64 n)
 	static const guint8 bases[] = { 2, 3, 5, 7, 11, 13, 17, 19, 23 };
 	unsigned int i;
 
+	if (n >= 3825123056546413051ull)
+		return -1;
+
 	if (n < 2) return 0;
 	if (n == 2 || n == 3) return 1;
 	if (n % 2 == 0 || n % 3 == 0) return 0;
@@ -336,7 +343,7 @@ static GnmFuncHelp const help_nt_omega[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NT_OMEGA:Number of distinct prime factors")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_NOTE, F_("Returns the number of distinct prime factors without multiplicity.") },
-	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PHI(9)" },
+	{ GNM_FUNC_HELP_EXAMPLES, "=NT_OMEGA(9)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NT_D,ITHPRIME,NT_SIGMA"},
 	{ GNM_FUNC_HELP_END }
 };
@@ -436,9 +443,9 @@ static GnmFuncHelp const help_nt_mu[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NT_MU:Möbius mu function")},
 	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION,
-	  F_("NT_MU function (Möbius mu function) returns 0  if @{n} is "
+	  F_("NT_MU function (Möbius mu function) returns 0 if @{n} is "
 	     "divisible by the square of a prime. Otherwise, if @{n} has"
-	     " an odd  number of different prime factors, NT_MU returns "
+	     " an odd number of different prime factors, NT_MU returns "
 	     "-1, and if @{n} has an even number of different prime factors,"
 	     " it returns 1. If @{n} = 1, NT_MU returns 1.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=NT_MU(45)" },
@@ -552,7 +559,7 @@ static GnmFuncHelp const help_ithprime[] = {
 	{ GNM_FUNC_HELP_ARG, F_("i:positive integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ITHPRIME finds the @{i}th prime.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ITHPRIME(7)" },
-	{ GNM_FUNC_HELP_SEEALSO, "NT_D,NT_SIGMA"},
+	{ GNM_FUNC_HELP_SEEALSO, "ISPRIME,NT_D,NT_SIGMA"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -575,10 +582,10 @@ gnumeric_ithprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_isprime[] = {
 	{ GNM_FUNC_HELP_NAME, F_("ISPRIME:whether @{n} is prime")},
-	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("ISPRIME returns TRUE if @{n} is prime and FALSE otherwise.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=ISPRIME(57)" },
-	{ GNM_FUNC_HELP_SEEALSO, "NT_D,NT_SIGMA"},
+	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME,NT_D,NT_SIGMA"},
 	{ GNM_FUNC_HELP_EXTREF, F_("wolfram:PrimeNumber.html") },
 	{ GNM_FUNC_HELP_END }
 };
@@ -589,7 +596,7 @@ gnumeric_isprime (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	int yesno;
 	gnm_float i = gnm_floor (value_get_as_float (args[0]));
 
-	if (i < 0)
+	if (i < 2 || i > last_odd)
 		yesno = 0;
 	else if (i > bit_max)
 		yesno = -1;
@@ -646,7 +653,9 @@ gnumeric_pfactor (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	if (n < 2)
 		return value_new_error_VALUE (ei->pos);
-	if (n > bit_max)
+	if (n > last_odd)
+		p = 2;
+	else if (n > bit_max)
 		p = 0;
 	else
 		p = prime_factor ((guint64)n);
@@ -661,7 +670,7 @@ gnumeric_pfactor (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 static GnmFuncHelp const help_nt_pi[] = {
 	{ GNM_FUNC_HELP_NAME, F_("NT_PI:number of primes upto @{n}")},
-	{ GNM_FUNC_HELP_ARG, F_("n:positive integer")},
+	{ GNM_FUNC_HELP_ARG, F_("n:integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("NT_PI returns the number of primes less than or equal to @{n}.")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=NT_PI(11)" },
 	{ GNM_FUNC_HELP_SEEALSO, "ITHPRIME,NT_PHI,NT_D,NT_SIGMA"},
@@ -879,7 +888,7 @@ static GnmFuncHelp const help_partitions[] = {
 	{ GNM_FUNC_HELP_NAME, F_("PARTITIONS:number of partitions")},
 	{ GNM_FUNC_HELP_ARG, F_("n:non-negative integer")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("PARTITIONS calculates the number of ways of writing the integer @{n} as a sum of positive integers.")},
-	{ GNM_FUNC_HELP_EXTREF, "wiki:en:Partition_(number_theory)"},
+	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Partition_(number_theory)")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=PARTITIONS(5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "NT_PHI,NT_SIGMA"},
 	{ GNM_FUNC_HELP_END }
@@ -899,13 +908,19 @@ partitions_helper (int n)
 		g_assert_not_reached();
 	sigma_cache[n] = sigma;
 
+	// The partition function never gets smaller
+	if (!gnm_finite (partition_cache[n - 1])) {
+		partition_cache[n] = gnm_pinf;
+		return;
+	}
+
 	// This is a formula that only deals with positive numbers.
 	// Unlike Euler's recursion it avoids cancellation
 	// We overflow a bit early due to the late division, but
 	// I can't be bothered.
 	gnm_float sum = 0;
 	for (int k = 1; k <= n; k++)
-		sum += sigma_cache[k] * partition_cache[n - k];
+		sum +=  sigma_cache[k] * partition_cache[n - k];
 	partition_cache[n] = sum / n;
 }
 
@@ -935,15 +950,31 @@ partitions (int n)
 static GnmValue *
 gnumeric_partitions (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
+	static gnm_float cutoff = 0;
 	gnm_float fn = gnm_floor (value_get_as_float (argv[0]));
 
 	if (fn < 0)
 		return value_new_error_NUM (ei->pos);
-	if (fn > 100000)
-		return value_new_error_VALUE (ei->pos);  // Presumed overflow
+
+	if (cutoff == 0) {
+		// binary64: ~80k, decimal64: ~123k, binary80: ~20M
+		gnm_float L = gnm_log (GNM_MAX) + gnm_log (48) / 2;
+		gnm_float a = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
+		gnm_float sn = (L + 2 * gnm_log (L / a)) / a;
+		cutoff = (sn * sn * 1.01);
+
+		// Current algorithm gets slow
+		if (cutoff > 100000)
+			cutoff = 100000;
+	}
+	if (fn > cutoff)
+		return value_new_error_VALUE (ei->pos);
 
 	int n = (int)fn;
-	return value_new_float (partitions (n));
+	gnm_float pn = partitions (n);
+	return gnm_finite (pn)
+		? value_new_float (pn)
+		: value_new_error_VALUE (ei->pos);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -953,9 +984,13 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	g_free (prime_table);
 	prime_table = NULL;
+	prime_table_size = 0;
 
 	g_free (partition_cache);
 	partition_cache = NULL;
+	partition_cache_edge = 0;
+	partition_cache_size = 0;
+
 	g_free (sigma_cache);
 	sigma_cache = NULL;
 }
