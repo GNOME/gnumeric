@@ -1818,7 +1818,7 @@ stf_check_invalid_utf8 (void)
 
 	ok = stf_parse_sheet (g, numbers, NULL, sheet, 0, 0);
 	cell = sheet_cell_get (sheet, 0, 0);
-	if (!ok || !cell || value_get_as_float (cell->value) != 1.5) {
+	if (!ok || !cell || value_get_as_float (cell->value) != GNM_const(1.5)) {
 		g_printerr ("FAIL stf_parse_sheet on valid data\n");
 		res = 1;
 	}
