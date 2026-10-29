@@ -211,7 +211,7 @@ walk_factorization (guint64 n, void *data,
 	if (n <= 1)
 		return FALSE;
 
-	if (isprime (n)) {
+	if (isprime (n) == 1) {
 		walk_term (n, 1, data);
 		return FALSE;
 	}
@@ -229,7 +229,7 @@ walk_factorization (guint64 n, void *data,
 		if (v) {
 			/* We found a prime factor, p, with arity v.  */
 			walk_term (p, v, data);
-			if (isprime (n))
+			if (isprime (n) == 1)
 				break;
 		}
 
@@ -898,6 +898,7 @@ static gnm_float *partition_cache = NULL;
 static unsigned *sigma_cache = NULL;
 static int partition_cache_size = 0;
 static int partition_cache_edge = 0;
+static gnm_float partitions_cutoff;
 
 static void
 partitions_helper (int n)
@@ -916,11 +917,27 @@ partitions_helper (int n)
 
 	// This is a formula that only deals with positive numbers.
 	// Unlike Euler's recursion it avoids cancellation
+	//
+	// The formula is n*p(n) = sum_{k=1}^n sigma(k) * p(n-k).
+	//
+	// Since p(n-k)/p(n) <= ~exp(-a*k/(2*sqrt(n))) with a = pi*sqrt(2/3),
+	// terms with k beyond a few multiples of sqrt(n) are far below the
+	// rounding error of the sum and can be left out.  That turns an O(n^2)
+	// algorithm into O(n^1.5) without changing the result.
+	static gnm_float window_factor = 0;
+	if (window_factor == 0) {
+		gnm_float a = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
+		// Decay length is 2*sqrt(n)/a.  Go out to e^-(digits + 5).
+		window_factor = (2 / a) * (-gnm_log (GNM_EPSILON) + 5);
+	}
+	gnm_float kmax = gnm_ceil (window_factor * gnm_sqrt (n));
+	int K = MIN (n, (int)kmax);
+
 	// We overflow a bit early due to the late division, but
 	// I can't be bothered.
 	gnm_float sum = 0;
-	for (int k = 1; k <= n; k++)
-		sum +=  sigma_cache[k] * partition_cache[n - k];
+	for (int k = 1; k <= K; k++)
+		sum += sigma_cache[k] * partition_cache[n - k];
 	partition_cache[n] = sum / n;
 }
 
@@ -950,24 +967,12 @@ partitions (int n)
 static GnmValue *
 gnumeric_partitions (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	static gnm_float cutoff = 0;
 	gnm_float fn = gnm_floor (value_get_as_float (argv[0]));
 
 	if (fn < 0)
 		return value_new_error_NUM (ei->pos);
 
-	if (cutoff == 0) {
-		// binary64: ~80k, decimal64: ~123k, binary80: ~20M
-		gnm_float L = gnm_log (GNM_MAX) + gnm_log (48) / 2;
-		gnm_float a = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
-		gnm_float sn = (L + 2 * gnm_log (L / a)) / a;
-		cutoff = (sn * sn * 1.01);
-
-		// Current algorithm gets slow
-		if (cutoff > 100000)
-			cutoff = 100000;
-	}
-	if (fn > cutoff)
+	if (fn > partitions_cutoff)
 		return value_new_error_VALUE (ei->pos);
 
 	int n = (int)fn;
@@ -978,6 +983,25 @@ gnumeric_partitions (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 }
 
 /* ------------------------------------------------------------------------- */
+
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+{
+	// Compute the overflow point (with a margin) for partitions
+	{
+		// binary64: ~80k, decimal64: ~123k, binary80: ~20M
+		gnm_float L = gnm_log (GNM_MAX) + gnm_log (48) / 2;
+		gnm_float a = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
+		gnm_float sn = (L + 2 * gnm_log (L / a)) / a;
+		partitions_cutoff = (sn * sn * 1.01);
+
+		// Current algorithm gets slow
+		if (partitions_cutoff > 125000)
+			partitions_cutoff = 125000;
+	}
+}
+
+
 
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
