@@ -930,7 +930,7 @@ partitions_helper (int n)
 	if (window_factor == 0) {
 		gnm_float a = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
 		// Decay length is 2*sqrt(n)/a.  Go out to e^-(digits + 5).
-		window_factor = (2 / a) * (-1.5 * gnm_log (GNM_EPSILON) + 5);
+		window_factor = (2 / a) * (GNM_const(-1.5) * gnm_log (GNM_EPSILON) + 5);
 	}
 	gnm_float kmax = gnm_ceil (window_factor * gnm_sqrt (n));
 	int K = MIN (n, (int)kmax);
@@ -949,10 +949,149 @@ partitions_helper (int n)
 	partition_cache[n] = sum;
 }
 
+// Rademacher's series for the partition function:
+//
+//   p(n) = 1/(pi*sqrt(2)) * sum_{k>=1} A_k(n) * sqrt(k) *
+//          d/dn [ sinh (C/k * sqrt (n-1/24)) / sqrt (n-1/24) ]
+//
+// with C = pi*sqrt(2/3).  Term k is of size exp(C*sqrt(n)/k), so after
+// three terms the relative error is about exp(-0.75*C*sqrt(n)).
+// For binary64 that is below half an ulp from n=~375.  Use the series
+// from there on; below that the recurrence is cheap.
+static int
+partitions_rademacher_min (void)
+{
+	// binary64: 392
+	// binary80: 564
+	// decimal64: 361
+
+	static int nmin = 0;
+	if (nmin == 0) {
+		gnm_float C = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
+		gnm_float x = (-gnm_log (GNM_EPSILON) + 2) / (GNM_const (0.75) * C);
+		nmin = (int)gnm_ceil (x * x);
+
+		// An assert to ensure that everything smaller fits in 128 bits.
+		g_assert (nmin < 1459);
+	}
+	return nmin;
+}
+
+static gnm_float
+partitions_rademacher (int n)
+{
+	void *state = gnm_quad_start ();
+	GnmQuad q3, np, u, invu, C, x1, F, sum;
+	gnm_float e1 = 0;
+
+	gnm_quad_init (&q3, 3);
+
+	// np = n - 1/24; u = sqrt (np)
+	gnm_quad_init (&np, 1);
+	gnm_quad_init (&F, 24);
+	gnm_quad_div (&np, &np, &F);
+	gnm_quad_init (&F, n);
+	gnm_quad_sub (&np, &F, &np);
+	gnm_quad_sqrt (&u, &np);
+	gnm_quad_div (&invu, &gnm_quad_one, &u);
+
+	// C = pi * sqrt (2/3)
+	gnm_quad_init (&C, 2);
+	gnm_quad_div (&C, &C, &q3);
+	gnm_quad_sqrt (&C, &C);
+	gnm_quad_mul (&C, &C, &gnm_quad_pi);
+
+	gnm_quad_mul (&x1, &C, &u);
+
+	// F = 1 / (4 * sqrt(2) * pi * np).  This is the common factor of
+	// all terms once sinh and cosh have been replaced by exp(x)/2; the
+	// neglected exp(-x) parts are below exp(-2*x), which is under 1e-15
+	// for the k=3 term and far smaller for the others.
+	gnm_quad_mul (&F, &gnm_quad_sqrt2, &gnm_quad_pi);
+	gnm_quad_mul (&F, &F, &np);
+	gnm_quad_init (&sum, 4);
+	gnm_quad_mul (&F, &F, &sum);
+	gnm_quad_div (&F, &gnm_quad_one, &F);
+
+	sum = gnm_quad_zero;
+	for (int k = 1; k <= 3; k++) {
+		GnmQuad qk, xk, r, t, f, a;
+		gnm_float ek;
+
+		gnm_quad_init (&qk, k);
+
+		// exp(C*sqrt(np)/k) as r * 2^ek -- no overflow
+		gnm_quad_div (&xk, &x1, &qk);
+		gnm_quad_exp (&r, &ek, &xk);
+
+		// (C/k - 1/sqrt(np))
+		gnm_quad_div (&f, &C, &qk);
+		gnm_quad_sub (&f, &f, &invu);
+
+		// A_k(n) * sqrt(k)
+		switch (k) {
+		case 1:
+			a = gnm_quad_one;
+			break;
+		case 2:
+			// A_2(n) = (-1)^n
+			gnm_quad_sqrt (&a, &qk);
+			if (n & 1)
+				gnm_quad_sub (&a, &gnm_quad_zero, &a);
+			break;
+		default:
+		case 3: {
+			// A_3(n) = 2 cos (pi * (12n-1) / 18), which takes one of
+			// three values depending on n mod 3.  They are the roots
+			// of x^3 - 3x - sqrt(3) = 0.  Start from a native
+			// approximation and polish with Newton in quad precision;
+			// that is cheaper and better behaved than quad trig.
+			static const int m[3] = { 35, 11, 23 };  // (12n-1) mod 36
+			GnmQuad s3, x2, d;
+			gnm_quad_sqrt (&s3, &q3);
+			gnm_quad_init (&a, 2 * gnm_cospi (m[n % 3] / 18));
+			for (int i = 0; i < 2; i++) {
+				// f = x^3 - 3x - sqrt(3);  f' = 3 (x^2 - 1)
+				gnm_quad_mul (&x2, &a, &a);
+				gnm_quad_sub (&d, &x2, &q3);
+				gnm_quad_mul (&d, &d, &a);
+				gnm_quad_sub (&d, &d, &s3);
+				gnm_quad_sub (&t, &x2, &gnm_quad_one);
+				gnm_quad_mul (&t, &t, &q3);
+				gnm_quad_div (&d, &d, &t);
+				gnm_quad_sub (&a, &a, &d);
+			}
+			gnm_quad_sqrt (&t, &qk);
+			gnm_quad_mul (&a, &a, &t);
+			break;
+		}
+		}
+
+		gnm_quad_mul (&t, &F, &a);
+		gnm_quad_mul (&t, &t, &f);
+		gnm_quad_mul (&t, &t, &r);
+
+		if (k == 1) {
+			e1 = ek;
+			sum = t;
+		} else {
+			gnm_quad_scalbn (&t, &t, (int)(ek - e1));
+			gnm_quad_add (&sum, &sum, &t);
+		}
+	}
+
+	gnm_quad_end (state);
+
+	return gnm_scalbn (gnm_quad_value (&sum), (int)e1);
+}
+
 static gnm_float
 partitions (int n)
 {
 	if (n < 0) return 0;
+
+	if (n >= partitions_rademacher_min ())
+		return partitions_rademacher (n);
 
 	if (n >= partition_cache_size) {
 		partition_cache_size = MAX (n + 1, partition_cache_size * 2);
@@ -964,9 +1103,13 @@ partitions (int n)
 		}
 	}
 
-	while (n >= partition_cache_edge) {
-		partitions_helper (partition_cache_edge);
-		partition_cache_edge++;
+	if (n >= partition_cache_edge) {
+		void *state = gnm_quad_start ();
+		while (n >= partition_cache_edge) {
+			partitions_helper (partition_cache_edge);
+			partition_cache_edge++;
+		}
+		gnm_quad_end (state);
 	}
 
 	return gnm_quad_value (&partition_cache[n]);
@@ -1001,7 +1144,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 		gnm_float L = gnm_log (GNM_MAX) + gnm_log (48) / 2;
 		gnm_float a = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
 		gnm_float sn = (L + 2 * gnm_log (L / a)) / a;
-		partitions_cutoff = (sn * sn * 1.01);
+		partitions_cutoff = (sn * sn * GNM_const(1.01));
 
 		// Current algorithm gets slow
 		if (partitions_cutoff > 125000)
