@@ -894,60 +894,8 @@ static GnmFuncHelp const help_partitions[] = {
 	{ GNM_FUNC_HELP_END }
 };
 
-static GnmQuad *partition_cache = NULL;
-static unsigned *sigma_cache = NULL;
-static int partition_cache_size = 0;
-static int partition_cache_edge = 0;
+static gnm_float *partition_table = NULL;
 static gnm_float partitions_cutoff;
-
-static void
-partitions_helper (int n)
-{
-	GnmQuad qn;
-
-	guint64 sigma = 1;
-	if (walk_factorization (n, &sigma, walk_for_sigma) ||
-	    sigma > G_MAXUINT)
-		g_assert_not_reached();
-	sigma_cache[n] = sigma;
-
-	// The partition function never gets smaller
-	if (!gnm_finite (gnm_quad_value (&partition_cache[n - 1]))) {
-		partition_cache[n] = partition_cache[n - 1];
-		return;
-	}
-
-	// This is a formula that only deals with positive numbers.
-	// Unlike Euler's recursion it avoids cancellation
-	//
-	// The formula is n*p(n) = sum_{k=1}^n sigma(k) * p(n-k).
-	//
-	// Since p(n-k)/p(n) <= ~exp(-a*k/(2*sqrt(n))) with a = pi*sqrt(2/3),
-	// terms with k beyond a few multiples of sqrt(n) are far below the
-	// rounding error of the sum and can be left out.  That turns an O(n^2)
-	// algorithm into O(n^1.5) without changing the result.
-	static gnm_float window_factor = 0;
-	if (window_factor == 0) {
-		gnm_float a = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
-		// Decay length is 2*sqrt(n)/a.  Go out to e^-(digits + 5).
-		window_factor = (2 / a) * (GNM_const(-1.5) * gnm_log (GNM_EPSILON) + 5);
-	}
-	gnm_float kmax = gnm_ceil (window_factor * gnm_sqrt (n));
-	int K = MIN (n, (int)kmax);
-
-	// We overflow a bit early due to the late division, but
-	// I can't be bothered.
-	GnmQuad sum = gnm_quad_zero;
-	for (int k = 1; k <= K; k++) {
-		GnmQuad t;
-		gnm_quad_init (&t, sigma_cache[k]);
-		gnm_quad_mul (&t, &t, &partition_cache[n - k]);
-		gnm_quad_add (&sum, &sum, &t);
-	}
-	gnm_quad_init (&qn, n);
-	gnm_quad_div (&sum, &sum, &qn);
-	partition_cache[n] = sum;
-}
 
 // Rademacher's series for the partition function:
 //
@@ -1049,7 +997,7 @@ partitions_rademacher (int n)
 			static const int m[3] = { 35, 11, 23 };  // (12n-1) mod 36
 			GnmQuad s3, x2, d;
 			gnm_quad_sqrt (&s3, &q3);
-			gnm_quad_init (&a, 2 * gnm_cospi (m[n % 3] / 18));
+			gnm_quad_init (&a, 2 * gnm_cospi (m[n % 3] / GNM_const (18.)));
 			for (int i = 0; i < 2; i++) {
 				// f = x^3 - 3x - sqrt(3);  f' = 3 (x^2 - 1)
 				gnm_quad_mul (&x2, &a, &a);
@@ -1085,6 +1033,99 @@ partitions_rademacher (int n)
 	return gnm_scalbn (gnm_quad_value (&sum), (int)e1);
 }
 
+// Exact 128-bit unsigned arithmetic, wrapping modulo 2^128.  We only need
+// addition and subtraction.
+typedef struct {
+	guint64 lo, hi;
+} Uint128;
+
+static void
+uint128_add (Uint128 *a, const Uint128 *b)
+{
+	a->lo += b->lo;
+	a->hi += b->hi + (a->lo < b->lo);
+}
+
+static void
+uint128_sub (Uint128 *a, const Uint128 *b)
+{
+	guint64 borrow = a->lo < b->lo;
+	a->lo -= b->lo;
+	a->hi -= b->hi + borrow;
+}
+
+// Convert to gnm_float with a single rounding.
+static gnm_float
+uint128_to_gnm_float (const Uint128 *a)
+{
+	if (a->hi == 0)
+		return (gnm_float)a->lo;
+
+#if GNM_RADIX == 2 && GNM_MANT_DIG < 64
+	// Keep the top 62 bits and fold everything below into a sticky
+	// bit.  Converting that to gnm_float rounds correctly, and the
+	// final scaling by a power of 2 is exact.
+	int hb = 0, s;
+	guint64 v, sticky;
+	for (guint64 h = a->hi; h; h >>= 1)
+		hb++;
+	s = 64 + hb - 62;
+	if (s < 64) {
+		v = (a->hi << (64 - s)) | (a->lo >> s);
+		sticky = (a->lo & ((G_GUINT64_CONSTANT (1) << s) - 1)) != 0;
+	} else {
+		int t = s - 64;
+		v = a->hi >> t;
+		sticky = a->lo != 0 ||
+			(a->hi & ((G_GUINT64_CONSTANT (1) << t) - 1)) != 0;
+	}
+	return gnm_ldexp ((gnm_float)(v | sticky), s);
+#else
+	// Either the hi part is exact (binary80) or we don't have a
+	// better way (decimal).
+	return (gnm_float)a->hi * GNM_const (18446744073709551616.0) +
+		(gnm_float)a->lo;
+#endif
+}
+
+// Euler's pentagonal number recurrence
+//
+//   p(n) = sum_{j>=1} (-1)^(j+1) * (p(n - j(3j-1)/2) + p(n - j(3j+1)/2))
+//
+// is hopeless in floating point because of cancellation, but it is exact in
+// integers.  Everything below the Rademacher cutoff fits in 128 bits, so
+// wrapping arithmetic gives the right answer even if intermediate sums do
+// not.  We compute the whole table the first time any entry is needed.
+static void
+partitions_fill_table (void)
+{
+	int nmin = partitions_rademacher_min ();
+	Uint128 *p = g_new (Uint128, nmin);
+
+	p[0].lo = 1;
+	p[0].hi = 0;
+	for (int n = 1; n < nmin; n++) {
+		Uint128 pos = { 0, 0 }, neg = { 0, 0 };
+		for (int j = 1; ; j++) {
+			int g1 = j * (3 * j - 1) / 2;
+			int g2 = g1 + j;
+			Uint128 *acc = (j & 1) ? &pos : &neg;
+			if (g1 > n)
+				break;
+			uint128_add (acc, &p[n - g1]);
+			if (g2 <= n)
+				uint128_add (acc, &p[n - g2]);
+		}
+		uint128_sub (&pos, &neg);
+		p[n] = pos;
+	}
+
+	partition_table = g_new (gnm_float, nmin);
+	for (int n = 0; n < nmin; n++)
+		partition_table[n] = uint128_to_gnm_float (&p[n]);
+	g_free (p);
+}
+
 static gnm_float
 partitions (int n)
 {
@@ -1093,26 +1134,10 @@ partitions (int n)
 	if (n >= partitions_rademacher_min ())
 		return partitions_rademacher (n);
 
-	if (n >= partition_cache_size) {
-		partition_cache_size = MAX (n + 1, partition_cache_size * 2);
-		partition_cache = g_renew (GnmQuad, partition_cache, partition_cache_size);
-		sigma_cache = g_renew (unsigned, sigma_cache, partition_cache_size);
-		if (partition_cache_edge == 0) {
-			gnm_quad_init (&partition_cache[0], 1);
-			partition_cache_edge++;
-		}
-	}
+	if (!partition_table)
+		partitions_fill_table ();
 
-	if (n >= partition_cache_edge) {
-		void *state = gnm_quad_start ();
-		while (n >= partition_cache_edge) {
-			partitions_helper (partition_cache_edge);
-			partition_cache_edge++;
-		}
-		gnm_quad_end (state);
-	}
-
-	return gnm_quad_value (&partition_cache[n]);
+	return partition_table[n];
 }
 
 static GnmValue *
@@ -1161,13 +1186,8 @@ go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 	prime_table = NULL;
 	prime_table_size = 0;
 
-	g_free (partition_cache);
-	partition_cache = NULL;
-	partition_cache_edge = 0;
-	partition_cache_size = 0;
-
-	g_free (sigma_cache);
-	sigma_cache = NULL;
+	g_free (partition_table);
+	partition_table = NULL;
 }
 
 const GnmFuncDescriptor num_theory_functions[] = {
