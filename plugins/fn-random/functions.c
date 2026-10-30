@@ -172,6 +172,7 @@ error:
 static GnmFuncHelp const help_randexp[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDEXP:random variate from an exponential distribution") },
         { GNM_FUNC_HELP_ARG, F_("b:parameter of the exponential distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{b} < 0, RANDEXP returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDEXP(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDEXP(0.5)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND,RANDBETWEEN" },
@@ -244,6 +245,7 @@ static GnmFuncHelp const help_randbetween[] = {
         { GNM_FUNC_HELP_ARG, F_("bottom:lower limit") },
         { GNM_FUNC_HELP_ARG, F_("top:upper limit") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{bottom} > @{top}, RANDBETWEEN returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If there is no integer between @{bottom} and @{top} (e.g., for 1.2 and 1.8), RANDBETWEEN returns #NUM!") },
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDBETWEEN(3,7)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDBETWEEN(3,7)" },
@@ -266,6 +268,8 @@ gnumeric_randbetween (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	// the same thing.
 	bottom = gnm_ceil (bottom);
 	top = gnm_floor (top);
+	if (bottom > top)
+		return value_new_error_NUM (ei->pos);
 	return value_new_float (gnm_random_uniform_integer (bottom, top));
 }
 
@@ -275,7 +279,7 @@ static GnmFuncHelp const help_randnegbinom[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDNEGBINOM:random variate from a negative binomial distribution") },
         { GNM_FUNC_HELP_ARG, F_("p:probability of success in a single trial") },
         { GNM_FUNC_HELP_ARG, F_("n:number of failures") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 RANDNEGBINOM returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} \xe2\x89\xa4 0 or @{p} > 1, RANDNEGBINOM returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < 1 RANDNEGBINOM returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDNEGBINOM(0.5,5)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND,RANDBETWEEN" },
@@ -288,7 +292,7 @@ gnumeric_randnegbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float p = value_get_as_float (argv[0]);
 	gnm_float failures = value_get_as_float (argv[1]);
 
-	if (p < 0 || p > 1 || failures < 1)
+	if (p <= 0 || p > 1 || failures < 1)
 		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_negbinom (p, gnm_floor (failures)));
@@ -394,6 +398,7 @@ static GnmFuncHelp const help_randweibull[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDWEIBULL:random variate from a Weibull distribution") },
         { GNM_FUNC_HELP_ARG, F_("a:scale parameter of the Weibull distribution") },
         { GNM_FUNC_HELP_ARG, F_("b:shape parameter of the Weibull distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} < 0 or @{b} \xe2\x89\xa4 0, RANDWEIBULL returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDWEIBULL(1,2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDWEIBULL(1,2)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -414,6 +419,7 @@ gnumeric_randweibull (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_randlaplace[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDLAPLACE:random variate from a Laplace distribution") },
         { GNM_FUNC_HELP_ARG, F_("a:parameter of the Laplace distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} < 0, RANDLAPLACE returns #NUM!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=RANDLAPLACE(1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDLAPLACE(1)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -433,6 +439,7 @@ gnumeric_randlaplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_randrayleigh[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDRAYLEIGH:random variate from a Rayleigh distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("\xcf\x83:scale parameter of the Rayleigh distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\xcf\x83} < 0, RANDRAYLEIGH returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDRAYLEIGH(1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDRAYLEIGH(1)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -453,6 +460,7 @@ static GnmFuncHelp const help_randrayleightail[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDRAYLEIGHTAIL:random variate from the tail of a Rayleigh distribution") },
         { GNM_FUNC_HELP_ARG, F_("a:lower limit of the tail") },
 	{ GNM_FUNC_HELP_ARG, F_("\xcf\x83:scale parameter of the Rayleigh distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\xcf\x83} < 0, RANDRAYLEIGHTAIL returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDRAYLEIGHTAIL(0.3,1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDRAYLEIGHTAIL(0.3,1)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND,RANDRAYLEIGH" },
@@ -474,7 +482,7 @@ static GnmFuncHelp const help_randgamma[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDGAMMA:random variate from a Gamma distribution") },
         { GNM_FUNC_HELP_ARG, F_("a:shape parameter of the Gamma distribution") },
         { GNM_FUNC_HELP_ARG, F_("b:scale parameter of the Gamma distribution") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{a} \xe2\x89\xa4 0, RANDGAMMA returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} \xe2\x89\xa4 0 or @{b} < 0, RANDGAMMA returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDGAMMA(1,2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDGAMMA(1,2)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -487,7 +495,7 @@ gnumeric_randgamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
-	if (a <= 0)
+	if (a <= 0 || b < 0)
 		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_gamma (a, b));
@@ -499,6 +507,7 @@ static GnmFuncHelp const help_randpareto[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDPARETO:random variate from a Pareto distribution") },
         { GNM_FUNC_HELP_ARG, F_("a:parameter of the Pareto distribution") },
         { GNM_FUNC_HELP_ARG, F_("b:parameter of the Pareto distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} \xe2\x89\xa4 0 or @{b} < 0, RANDPARETO returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDPARETO(1,2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDPARETO(1,2)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -520,6 +529,7 @@ static GnmFuncHelp const help_randfdist[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDFDIST:random variate from an F distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("df1:numerator degrees of freedom") },
         { GNM_FUNC_HELP_ARG, F_("df2:denominator degrees of freedom") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{df1} \xe2\x89\xa4 0 or @{df2} \xe2\x89\xa4 0, RANDFDIST returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDFDIST(1,2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDFDIST(1,2)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND,RANDGAMMA" },
@@ -541,6 +551,7 @@ static GnmFuncHelp const help_randbeta[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDBETA:random variate from a Beta distribution") },
         { GNM_FUNC_HELP_ARG, F_("a:parameter of the Beta distribution") },
         { GNM_FUNC_HELP_ARG, F_("b:parameter of the Beta distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} \xe2\x89\xa4 0 or @{b} \xe2\x89\xa4 0, RANDBETA returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDBETA(1,2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDBETA(1,2)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND,RANDGAMMA" },
@@ -561,6 +572,7 @@ gnumeric_randbeta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_randlogistic[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDLOGISTIC:random variate from a logistic distribution") },
         { GNM_FUNC_HELP_ARG, F_("a:parameter of the logistic distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} < 0, RANDLOGISTIC returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDLOGISTIC(1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDLOGISTIC(1)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -580,7 +592,7 @@ gnumeric_randlogistic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_randgeom[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDGEOM:random variate from a geometric distribution") },
         { GNM_FUNC_HELP_ARG, F_("p:probability of success in a single trial") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 RANDGEOM returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} \xe2\x89\xa4 0 or @{p} > 1, RANDGEOM returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDGEOM(0.4)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDGEOM(0.4)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -592,7 +604,7 @@ gnumeric_randgeom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float p = value_get_as_float (argv[0]);
 
-	if (p < 0 || p > 1)
+	if (p <= 0 || p > 1)
 		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_geometric (p));
@@ -605,6 +617,7 @@ static GnmFuncHelp const help_randhyperg[] = {
         { GNM_FUNC_HELP_ARG, F_("n1:number of objects of type 1") },
         { GNM_FUNC_HELP_ARG, F_("n2:number of objects of type 2") },
         { GNM_FUNC_HELP_ARG, F_("t:total number of objects selected") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n1} < 0, @{n2} < 0, @{t} < 0 or @{t} > @{n1} + @{n2}, RANDHYPERG returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDHYPERG(21,1,9)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDHYPERG(21,1,9)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -628,7 +641,7 @@ gnumeric_randhyperg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_randlog[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDLOG:random variate from a logarithmic distribution") },
         { GNM_FUNC_HELP_ARG, F_("p:probability") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 RANDLOG returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{p} \xe2\x89\xa4 0 or @{p} \xe2\x89\xa5 1, RANDLOG returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDLOG(0.72)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDLOG(0.72)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -640,7 +653,7 @@ gnumeric_randlog (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float p = value_get_as_float (argv[0]);
 
-	if (p < 0 || p > 1)
+	if (p <= 0 || p >= 1)
 		return value_new_error_NUM (ei->pos);
 
         return value_new_float (random_logarithmic (p));
@@ -651,6 +664,7 @@ gnumeric_randlog (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_randchisq[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDCHISQ:random variate from a Chi-square distribution") },
         { GNM_FUNC_HELP_ARG, F_("df:degrees of freedom") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{df} < 0, RANDCHISQ returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDCHISQ(0.5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDCHISQ(0.5)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND,RANDGAMMA" },
@@ -670,6 +684,7 @@ gnumeric_randchisq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_randtdist[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDTDIST:random variate from a Student t distribution") },
         { GNM_FUNC_HELP_ARG, F_("df:degrees of freedom") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{df} \xe2\x89\xa4 0, RANDTDIST returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDTDIST(5)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDTDIST(5)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -691,6 +706,7 @@ static GnmFuncHelp const help_randgumbel[] = {
         { GNM_FUNC_HELP_ARG, F_("a:parameter of the Gumbel distribution") },
         { GNM_FUNC_HELP_ARG, F_("b:parameter of the Gumbel distribution") },
         { GNM_FUNC_HELP_ARG, F_("type:type of the Gumbel distribution, defaults to 1") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} = 0 or @{b} \xe2\x89\xa4 0, RANDGUMBEL returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDGUMBEL(0.5,1,2)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDGUMBEL(0.5,1,2)" },
@@ -726,6 +742,7 @@ static GnmFuncHelp const help_randlevy[] = {
 					"reduces to the normal distribution.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{\xce\xb1} \xe2\x89\xa4 0 or @{\xce\xb1} > 2, RANDLEVY returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{\xce\xb2} < -1 or @{\xce\xb2} > 1, RANDLEVY returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{c} \xe2\x89\xa4 0, RANDLEVY returns #NUM!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=RANDLEVY(0.5,0.1,1)" },
 	{ GNM_FUNC_HELP_EXAMPLES, "=RANDLEVY(0.5,0.1,1)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -755,6 +772,7 @@ static GnmFuncHelp const help_randexppow[] = {
 					"reduces to the Laplace distribution.") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("For @{b} = 2 the exponential power distribution "
 					"reduces to the normal distribution with \xcf\x83 = a/sqrt(2)") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{a} < 0 or @{b} \xe2\x89\xa4 0, RANDEXPPOW returns #NUM!") },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDEXPPOW(0.5,0.1)" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDEXPPOW(0.5,0.1)" },
         { GNM_FUNC_HELP_SEEALSO, "RAND" },
@@ -792,6 +810,7 @@ static GnmFuncHelp const help_randnormtail[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDNORMTAIL:random variate from the upper tail of a normal distribution with mean 0") },
         { GNM_FUNC_HELP_ARG, F_("a:lower limit of the tail") },
         { GNM_FUNC_HELP_ARG, F_("\xcf\x83:standard deviation of the normal distribution") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{\xcf\x83} \xe2\x89\xa4 0, RANDNORMTAIL returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("The method is based on Marsaglia's famous "
 				 "rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 "
 				 "(1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, "
@@ -942,6 +961,7 @@ static GnmFuncHelp const help_randstdist[] = {
         { GNM_FUNC_HELP_NAME, F_("RANDSTDIST:random variate from a skew-t distribution") },
         { GNM_FUNC_HELP_ARG, F_("df:degrees of freedom") },
         { GNM_FUNC_HELP_ARG, F_("\360\235\233\274:shape parameter of the skew-t distribution, defaults to 0") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{df} \xe2\x89\xa4 0, RANDSTDIST returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("The mean of a skew-t distribution is not 0.") },
 	{ GNM_FUNC_HELP_NOTE, F_("The standard deviation of a skew-t distribution is not 1.") },
 	{ GNM_FUNC_HELP_NOTE, F_("The skewness of a skew-t distribution is in general not @{\360\235\233\274}.") },
