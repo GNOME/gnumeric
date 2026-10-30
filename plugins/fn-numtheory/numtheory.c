@@ -925,6 +925,7 @@ partitions_rademacher_min (void)
 	return nmin;
 }
 
+// 3-term Rademacher asymptotic expansion
 static gnm_float
 partitions_rademacher (int n)
 {
@@ -1054,39 +1055,6 @@ uint128_sub (Uint128 *a, const Uint128 *b)
 	a->hi -= b->hi + borrow;
 }
 
-// Convert to gnm_float with a single rounding.
-static gnm_float
-uint128_to_gnm_float (const Uint128 *a)
-{
-	if (a->hi == 0)
-		return (gnm_float)a->lo;
-
-#if GNM_RADIX == 2 && GNM_MANT_DIG < 64
-	// Keep the top 62 bits and fold everything below into a sticky
-	// bit.  Converting that to gnm_float rounds correctly, and the
-	// final scaling by a power of 2 is exact.
-	int hb = 0, s;
-	guint64 v, sticky;
-	for (guint64 h = a->hi; h; h >>= 1)
-		hb++;
-	s = 64 + hb - 62;
-	if (s < 64) {
-		v = (a->hi << (64 - s)) | (a->lo >> s);
-		sticky = (a->lo & ((G_GUINT64_CONSTANT (1) << s) - 1)) != 0;
-	} else {
-		int t = s - 64;
-		v = a->hi >> t;
-		sticky = a->lo != 0 ||
-			(a->hi & ((G_GUINT64_CONSTANT (1) << t) - 1)) != 0;
-	}
-	return gnm_ldexp ((gnm_float)(v | sticky), s);
-#elif GNM_RADIX == 2
-	return gnm_ldexp ((gnm_float)a->hi, 64) + (gnm_float)a->lo;
-#else
-	// We need a better way.
-	return gnm_ldexp ((gnm_float)a->hi, 64) + (gnm_float)a->lo;
-#endif
-}
 
 // Euler's pentagonal number recurrence
 //
@@ -1122,7 +1090,7 @@ partitions_fill_table (void)
 
 	partition_table = g_new (gnm_float, nmin);
 	for (int n = 0; n < nmin; n++)
-		partition_table[n] = uint128_to_gnm_float (&p[n]);
+		partition_table[n] = gnm_uint128_to_gnm_float (p[n].hi, p[n].lo);
 	g_free (p);
 }
 
@@ -1170,10 +1138,6 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 		gnm_float a = M_PIgnum * gnm_sqrt (GNM_const (2.) / 3);
 		gnm_float sn = (L + 2 * gnm_log (L / a)) / a;
 		partitions_cutoff = (sn * sn * GNM_const(1.01));
-
-		// Current algorithm gets slow
-		if (partitions_cutoff > 125000)
-			partitions_cutoff = 125000;
 	}
 }
 

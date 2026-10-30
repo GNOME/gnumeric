@@ -6329,3 +6329,104 @@ gnm_logbase (gnm_float x, gnm_float b)
 
 	return l;
 }
+
+/* ------------------------------------------------------------------------- */
+
+#if GNM_RADIX == 10
+// Divide by 10 in place, returning the remainder.  This is the same trick as
+// render128 in goffice's go-decimal.c.  Write the value as u*2^64+l.  Since
+// 2^64 = 10*Md10 + Mr10, the contribution of u%10 to the quotient is
+// (u%10)*Md10 plus a carry from the remainder part.
+static unsigned
+uint128_divmod10 (guint64 *pu, guint64 *pl)
+{
+	const guint64 Md10 = G_MAXUINT64 / 10;
+	const unsigned Mr10 = G_MAXUINT64 % 10 + 1;
+	guint64 u = *pu, l = *pl;
+	unsigned u2 = u % 10;
+	unsigned l2 = l % 10;
+	unsigned t = Mr10 * u2 + l2;
+	guint64 v1 = u2 * Md10 + t / 10;
+
+	u /= 10;
+	l /= 10;
+	l += v1;
+	if (l < v1) u++;
+
+	*pu = u;
+	*pl = l;
+	return t % 10;
+}
+#endif
+
+
+/**
+ * gnm_uint128_to_gnm_float:
+ * @h: high 64 bits
+ * @l: high 64 bits
+ *
+ * Returns: correctly rounded h::l converted to gnm_float.  (I.e., what a cast
+ * from uint128_t to gnm_float would produce, were those types defined and
+ * properly compiler and library supported.)
+ */
+gnm_float
+gnm_uint128_to_gnm_float (guint64 h, guint64 l)
+{
+	if (h == 0)
+		return (gnm_float)l;
+
+#if GNM_RADIX == 10
+	// Strip decimal digits until we are down to GNM_MANT_DIG digits.
+	// The last digit removed is the rounding digit; the removed ones
+	// before that only matter as a sticky flag.  Then round to nearest,
+	// ties to even, and restore the magnitude by multiplying by 10 (which
+	// is exact since the coefficient does not change).
+
+	g_assert (GNM_MANT_DIG <= 19);
+	guint64 limit = (guint64)(GNM_RADIX / GNM_EPSILON);
+	unsigned round_digit = 0;
+	gboolean sticky = FALSE;
+	int shift = 0;
+	while (h != 0 || l >= limit) {
+		if (round_digit) sticky = TRUE;
+		round_digit = uint128_divmod10 (&h, &l);
+		shift++;
+	}
+
+	guint64 q = l;
+	if (round_digit > 5 ||
+	    (round_digit == 5 && (sticky || (q & 1))))
+		q++;  // At most limit, which is still exact.
+
+	return gnm_scalbn ((gnm_float)q, shift);
+#elif GNM_RADIX == 2
+
+#if GNM_MANT_DIG < 64
+	// Keep the top 62 bits and fold everything below into a sticky
+	// bit.  Converting that to gnm_float rounds correctly, and the
+	// final scaling by a power of 2 is exact.
+	int hb = 0, s;
+	guint64 v, sticky;
+	for (guint64 h2 = h; h2; h2 >>= 1)
+		hb++;
+	s = 64 + hb - 62;
+	if (s < 64) {
+		v = (h << (64 - s)) | (l >> s);
+		sticky = (l & ((G_GUINT64_CONSTANT (1) << s) - 1)) != 0;
+	} else {
+		int t = s - 64;
+		v = h >> t;
+		sticky = l != 0 ||
+			(h & ((G_GUINT64_CONSTANT (1) << t) - 1)) != 0;
+	}
+	return gnm_ldexp ((gnm_float)(v | sticky), s);
+#else
+	// The high part is exactly representable, so the sum rounds once.
+	return gnm_ldexp ((gnm_float)h, 64) + (gnm_float)l;
+#endif
+#else
+#error "This needs fixing for strange radix"
+#endif
+}
+
+/* ------------------------------------------------------------------------- */

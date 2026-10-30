@@ -34,6 +34,7 @@ Morten:
 	* Fix ssgrep problem in string table mode.
 	* Update man pages.
 	* Fix HEXREP problem in long double mode.
+	* Improve PARTITIONS speed, range, and accuracy.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

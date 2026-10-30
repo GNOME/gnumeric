@@ -164,6 +164,10 @@ GORegressionResult gnm_linear_solve_multiple (GnmMatrix const *A, GnmMatrix *B);
 
 /* ------------------------------------------------------------------------- */
 
+gnm_float gnm_uint128_to_gnm_float (guint64 h, guint64 l);
+
+/* ------------------------------------------------------------------------- */
+
 void mathfunc_init (void);
 
 /* ------------------------------------------------------------------------- */
