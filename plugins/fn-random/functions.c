@@ -1082,7 +1082,7 @@ GnmFuncDescriptor const random_functions[] = {
 	  gnumeric_randsnorm, NULL,
 	  GNM_FUNC_SIMPLE | GNM_FUNC_VOLATILE,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
-        { "randstdist", "ff",  help_randstdist,
+        { "randstdist", "f|f",  help_randstdist,
 	  gnumeric_randstdist, NULL,
 	  GNM_FUNC_SIMPLE | GNM_FUNC_VOLATILE,
 	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
