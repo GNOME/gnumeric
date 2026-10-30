@@ -92,6 +92,7 @@ static GnmFuncHelp const help_randdiscrete[] = {
 					"The probabilities for each value are given in the @{prob_range}.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If the sum of all values in @{prob_range} is not one, RANDDISCRETE returns #NUM!") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{val_range} and @{prob_range} are not the same size, RANDDISCRETE returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{prob_range} is given, a value in @{val_range} and the probability in the same position of @{prob_range} are used only if both are numbers.  Text, logical values, and empty cells in either range cause that pair to be skipped.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{val_range} or @{prob_range} is not a range, RANDDISCRETE returns #VALUE!") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=RANDDISCRETE({1;3;5;7})" },
         { GNM_FUNC_HELP_EXAMPLES, "=RANDDISCRETE({1;3;5;7})" },
@@ -105,46 +106,49 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue *res = NULL;
 	gnm_float *values = NULL;
 	gnm_float *probs = NULL;
-	int nv, np, i;
+	int nv, i;
 	gnm_float p;
-
-	values = collect_floats_value (argv[0], ei->pos,
-				       COLLECT_IGNORE_STRINGS |
-				       COLLECT_IGNORE_BOOLS |
-				       COLLECT_IGNORE_BLANKS,
-				       &nv, &res);
-	if (res)
-		goto out;
+	const CollectFlags flags =
+		COLLECT_IGNORE_STRINGS |
+		COLLECT_IGNORE_BOOLS |
+		COLLECT_IGNORE_BLANKS;
 
 	if (argv[1]) {
-		probs = collect_floats_value (argv[1], ei->pos,
-					      COLLECT_IGNORE_STRINGS |
-					      COLLECT_IGNORE_BOOLS |
-					      COLLECT_IGNORE_BLANKS,
-					      &np, &res);
+		// Collect the two ranges as pairs.  Ignoring cells in each range
+		// independently would shift probabilities onto the wrong values
+		// whenever the ranges contain text, booleans, or blanks in
+		// different places.  Here a value and its probability are
+		// dropped together.
+		res = collect_float_pairs (argv[0], argv[1], ei->pos, flags,
+					   &values, &probs, &nv, NULL);
+		if (res)
+			return res;
+	} else {
+		values = collect_floats_value (argv[0], ei->pos, flags,
+					       &nv, &res);
 		if (res)
 			goto out;
-	} else
-		np = nv;
+	}
 
-	if (nv < 1 || nv != np)
+	// nv < 0 means that the ranges were of different sizes.
+	if (nv < 1)
 		goto error;
 
 	if (probs) {
 		gnm_float pmin, psum;
 
-		gnm_range_min (probs, np, &pmin);
+		gnm_range_min (probs, nv, &pmin);
 		if (pmin < 0)
 			goto error;
 
-		gnm_range_sum (probs, np, &psum);
+		gnm_range_sum (probs, nv, &psum);
 		if (gnm_abs (psum - 1) > GNM_const(1e-10))
 			goto error;
 	}
 
 	if (probs) {
 		p = random_01 ();
-		for (i = 0; i < np; i++) {
+		for (i = 0; i < nv; i++) {
 			p -= probs[i];
 			if (p < 0)
 				break;
