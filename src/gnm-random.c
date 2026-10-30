@@ -502,9 +502,16 @@ random_negbinom (gnm_float p, gnm_float f)
 gnm_float
 random_exponential (gnm_float b)
 {
+	gnm_float u;
+
 	if (b < 0)
 		return gnm_nan;
-	return -b * gnm_log (random_01 ());
+
+	do {
+		u = random_01 ();
+	} while (u == 0);
+
+	return -b * gnm_log (u);
 }
 
 /*
