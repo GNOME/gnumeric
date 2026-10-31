@@ -35,6 +35,7 @@ Morten:
 	* Update man pages.
 	* Fix HEXREP problem in long double mode.
 	* Improve PARTITIONS speed, range, and accuracy.
+	* Fix R.PPOIS far-tail problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
