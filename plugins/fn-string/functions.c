@@ -80,8 +80,9 @@ gnumeric_char (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		result[1] = 0;
 		return value_new_string (result);
 	} else if (c >= 128 && c < 256) {
-		char c2 = (char)c;
-		char *str = g_convert_with_iconv (&c2, 1, CHAR_iconv,
+		/* Use an unsigned byte: plain char may be signed. */
+		guchar c2 = (guchar)c;
+		char *str = g_convert_with_iconv ((const gchar *)&c2, 1, CHAR_iconv,
 						  NULL, NULL, NULL);
 		if (str) {
 			int len = g_utf8_strlen (str, -1);
@@ -115,7 +116,7 @@ gnumeric_unichar (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float c = value_get_as_float (argv[0]);
 
-	if (c >= 0 && c <= INT_MAX && g_unichar_validate ((gunichar)c)) {
+	if (c >= 1 && c <= INT_MAX && g_unichar_validate ((gunichar)c)) {
 		char utf8[8];
 		int len = g_unichar_to_utf8 ((gunichar)c, utf8);
 		utf8[len] = 0;
@@ -141,6 +142,9 @@ compare_matches (Match const *a, Match const *b)
 {
 	if (a->byte_offset < b->byte_offset) return -1;
 	if (a->byte_offset > b->byte_offset) return 1;
+	// Fall back to sorting by length, longest first
+	if (a->byte_len > b->byte_len) return -1;
+	if (a->byte_len < b->byte_len) return 1;
 	return 0;
 }
 
@@ -175,7 +179,7 @@ gnumeric_code (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	char const *s = value_peek_string (argv[0]);
 	const unsigned char *us = (const unsigned char *)s;
-	gsize written, clen;
+	gsize written = 0, clen;
 	char *str;
 	GnmValue *res;
 
@@ -188,7 +192,7 @@ gnumeric_code (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	clen = g_utf8_next_char (s) - s;
 	str = g_convert_with_iconv (s, clen, CODE_iconv,
 				    NULL, &written, NULL);
-	if (written)
+	if (str != NULL && written > 0)
 		res = value_new_int ((unsigned char)*str);
 	else {
 		g_warning ("iconv failed for CODE(U%x)", g_utf8_get_char (s));
@@ -1035,33 +1039,40 @@ gnumeric_regexextract_mode_1 (GRegex *regex, char const *text)
 
 	while (pos <= text_len) {
 		GMatchInfo *match_info = NULL;
-		if (g_regex_match_full (regex, text, text_len, pos, 0, &match_info, NULL)) {
-			char *m = g_match_info_fetch (match_info, 0);
-			int start, end;
-			g_match_info_fetch_pos (match_info, 0, &start, &end);
+		int start, end;
 
-			if (start == end) {
-				/* Empty match. Append it, then try for a non-empty match at same position. */
-				matches = g_slist_prepend (matches, m);
-				g_match_info_free (match_info);
-				match_info = NULL;
-				if (g_regex_match_full (regex, text, text_len, pos, G_REGEX_MATCH_NOTEMPTY, &match_info, NULL)) {
-					m = g_match_info_fetch (match_info, 0);
-					g_match_info_fetch_pos (match_info, 0, &start, &end);
-					matches = g_slist_prepend (matches, m);
-					pos = end;
-				} else {
-					pos++;
-				}
-			} else {
-				matches = g_slist_prepend (matches, m);
-				pos = end;
-			}
-			g_match_info_free (match_info);
-		} else {
+		if (!g_regex_match_full (regex, text, text_len, pos, 0, &match_info, NULL)) {
 			g_match_info_free (match_info);
 			break;
 		}
+
+		g_match_info_fetch_pos (match_info, 0, &start, &end);
+		matches = g_slist_prepend (matches, g_match_info_fetch (match_info, 0));
+		g_match_info_free (match_info);
+
+		if (start != end) {
+			pos = end;
+			continue;
+		}
+
+		/*
+		 * Empty match at START.  Try for a non-empty match from the
+		 * same position; if there is none, step over one character
+		 * (measured from START, not from the previous POS, so the
+		 * same empty match is not found again).
+		 */
+		match_info = NULL;
+		if (g_regex_match_full (regex, text, text_len, start,
+					G_REGEX_MATCH_NOTEMPTY, &match_info, NULL)) {
+			g_match_info_fetch_pos (match_info, 0, &start, &end);
+			matches = g_slist_prepend (matches, g_match_info_fetch (match_info, 0));
+			pos = end;
+		} else if (start < text_len) {
+			pos = g_utf8_next_char (text + start) - text;
+		} else {
+			pos = text_len + 1;
+		}
+		g_match_info_free (match_info);
 	}
 
 	if (matches) {
@@ -1167,6 +1178,10 @@ translate_replacement (char const *replacement)
 			/* Already GLib style, keep it */
 			g_string_append_c (s, '\\');
 			p++;
+		} else if (*p == '\\') {
+			/* A literal backslash; GLib would treat it as an escape. */
+			g_string_append (s, "\\\\");
+			p++;
 		} else {
 			g_string_append_c (s, *p);
 			p++;
@@ -1210,37 +1225,58 @@ gnumeric_regexreplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		}
 	} else {
 		/* Replace specific occurrence (positive or negative) */
-		GMatchInfo *match_info;
-		GPtrArray *matches = g_ptr_array_new_with_free_func (NULL);
+		GMatchInfo *match_info = NULL;
+		int n = 0, target = -1, idx = 0;
+
+		/* Pass 1: count the matches. */
 		g_regex_match (regex, text, 0, &match_info);
 		while (g_match_info_matches (match_info)) {
-			int start, end;
-			g_match_info_fetch_pos (match_info, 0, &start, &end);
-			g_ptr_array_add (matches, GINT_TO_POINTER (start));
-			g_ptr_array_add (matches, GINT_TO_POINTER (end));
-			g_match_info_next (match_info, NULL);
+			n++;
+			if (!g_match_info_next (match_info, NULL))
+				break;
 		}
-		int n = matches->len / 2;
-		int target = -1;
-		if (occurrence > 0 && occurrence <= n) target = occurrence - 1;
-		else if (occurrence < 0 && -occurrence <= n) target = n + occurrence;
+		g_match_info_free (match_info);
 
+		if (occurrence > 0 && occurrence <= n)
+			target = occurrence - 1;
+		else if (occurrence < 0 && occurrence >= -n)
+			target = n + occurrence;
+
+		res_str = NULL;
 		if (target != -1) {
-			int start = GPOINTER_TO_INT (g_ptr_array_index (matches, target * 2));
-			int end = GPOINTER_TO_INT (g_ptr_array_index (matches, target * 2 + 1));
-
-			GString *s = g_string_new_len (text, start);
-			/* Replacement for this instance only */
-			char *rep = g_regex_replace (regex, text + start, end - start, 0, replacement, 0, NULL);
-			g_string_append (s, rep);
-			g_string_append (s, text + end);
-			res_str = g_string_free (s, FALSE);
-			g_free (rep);
+			/* Pass 2: expand the replacement in the context of the
+			   original match, so lookaround, anchors and group
+			   references behave as in the full string. */
+			match_info = NULL;
+			g_regex_match (regex, text, 0, &match_info);
+			while (g_match_info_matches (match_info)) {
+				if (idx++ == target) {
+					int start, end;
+					char *rep = g_match_info_expand_references
+						(match_info, replacement, NULL);
+					if (rep) {
+						GString *gs;
+						g_match_info_fetch_pos (match_info, 0, &start, &end);
+						gs = g_string_new_len (text, start);
+						g_string_append (gs, rep);
+						g_string_append (gs, text + end);
+						res_str = g_string_free (gs, FALSE);
+						g_free (rep);
+					}
+					break;
+				}
+				if (!g_match_info_next (match_info, NULL))
+					break;
+			}
+			g_match_info_free (match_info);
+			if (!res_str) {
+				g_regex_unref (regex);
+				g_free (replacement);
+				return value_new_error_VALUE (ei->pos);
+			}
 		} else {
 			res_str = g_strdup (text);
 		}
-		g_ptr_array_free (matches, TRUE);
-		g_match_info_free (match_info);
 	}
 
 	g_regex_unref (regex);
@@ -1695,6 +1731,7 @@ gnumeric_substitute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			g_string_append_len (s, old, oldlen);
 	}
 	g_string_append (s, p);
+	g_free (textcopy);
 
 	return value_new_string_nocopy (g_string_free (s, FALSE));
 }
@@ -1716,6 +1753,38 @@ static GnmFuncHelp const help_textbefore[] = {
 	{ GNM_FUNC_HELP_END}
 };
 
+/*
+ * Casefold TEXT and return a map from byte offsets in the folded string
+ * (plus one-past-the-end) to byte offsets in TEXT.  Offsets that fall
+ * inside the folded form of one source character map to (gsize)-1.
+ */
+static char *
+casefold_with_map (char const *text, gsize **pmap)
+{
+	GString *folded = g_string_new (NULL);
+	GArray *map = g_array_new (FALSE, FALSE, sizeof (gsize));
+	char const *p = text;
+
+	while (*p) {
+		char const *next = g_utf8_next_char (p);
+		char *f = g_utf8_casefold (p, next - p);
+		gsize i, flen = strlen (f);
+		for (i = 0; i < flen; i++) {
+			gsize o = (i == 0) ? p - text : -1;
+			g_array_append_val (map, o);
+		}
+		g_string_append_len (folded, f, flen);
+		g_free (f);
+		p = next;
+	}
+
+	gsize o = p - text;
+	g_array_append_val (map, o);
+
+	*pmap = (gsize *)g_array_free (map, FALSE);
+	return g_string_free (folded, FALSE);
+}
+
 static GArray *
 find_delimiter_matches (GnmEvalPos const *pos, char const *text,
 			GnmValue const *col_delim_val,
@@ -1724,11 +1793,12 @@ find_delimiter_matches (GnmEvalPos const *pos, char const *text,
 {
 	GSList *delims = NULL, *l;
 	char *folded_text = NULL;
+	gsize *fold_map = NULL;
 	GArray *matches;
 	int k;
 
 	if (match_mode == 1)
-		folded_text = g_utf8_casefold (text, -1);
+		folded_text = casefold_with_map (text, &fold_map);
 
 	matches = g_array_new (FALSE, FALSE, sizeof (Match));
 
@@ -1740,18 +1810,27 @@ find_delimiter_matches (GnmEvalPos const *pos, char const *text,
 		value_area_foreach (v, pos, CELL_ITER_ALL, cb_collect_delims, &delims);
 
 		for (l = delims; l; l = l->next) {
-			char const *d = (char const *)l->data;
+			char const *d = l->data;
 			char *folded_d = (match_mode == 1) ? g_utf8_casefold (d, -1) : NULL;
 			char const *search_needle = folded_d ? folded_d : d;
 			char const *search_haystack = folded_text ? folded_text : text;
-			int d_len_bytes = strlen (d);
 			char const *p = search_haystack;
 			size_t search_needle_bytes = strlen (search_needle);
 
 			while ((p = strstr (p, search_needle))) {
 				Match m;
-				m.byte_offset = p - search_haystack;
-				m.byte_len = d_len_bytes;
+				gsize s_off = p - search_haystack;
+				gsize e_off = s_off + search_needle_bytes;
+				gsize o_start = fold_map ? fold_map[s_off] : s_off;
+				gsize o_end = fold_map ? fold_map[e_off] : e_off;
+
+				if (o_start == (gsize)-1 || o_end == (gsize)-1) {
+					/* Match does not align with source characters. */
+					p = g_utf8_next_char (p);
+					continue;
+				}
+				m.byte_offset = o_start;
+				m.byte_len = o_end - o_start;
 				m.is_row_delim = (k == 1);
 				g_array_append_val (matches, m);
 				p += search_needle_bytes;
@@ -1761,6 +1840,7 @@ find_delimiter_matches (GnmEvalPos const *pos, char const *text,
 		}
 		g_slist_free_full (delims, g_free);
 	}
+	g_free (fold_map);
 	g_free (folded_text);
 
 	if (matches->len == 0) {
@@ -2148,6 +2228,14 @@ gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	/* Make istart zero-based.  */
 	istart = (size_t)start - 1;
+
+	/*
+	 * Do not hand the regexp engine a pointer into the middle of a UTF-8
+	 * sequence; skip forward to the next character boundary like FINDB.
+	 */
+	while (haystack[istart] != 0 &&
+	       ((guchar)haystack[istart] & 0xc0) == 0x80)
+		istart++;
 
 	if (gnm_regcomp_XL (&r, needle, GO_REG_ICASE, FALSE, FALSE) == GO_REG_OK) {
 		GORegmatch rm;
@@ -2606,12 +2694,19 @@ gnumeric_jis (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gunichar tc = g_utf8_get_char (peek);
 
 	while ((*peek) != '\0') {
-		gunichar fc;
+		gunichar fc, r;
 		char const *next = g_utf8_next_char(peek);
 		fc = g_utf8_get_char (next);
-		g_string_append_unichar (str, gnm_asc_full (tc, fc));
-		peek = next;
-		tc = fc;
+		r = gnm_asc_full (tc, fc);
+		g_string_append_unichar (str, r);
+		if (fc != 0 && r != gnm_asc_full (tc, 0)) {
+			/* The following (semi-)voiced mark was merged into r. */
+			peek = g_utf8_next_char (next);
+			tc = g_utf8_get_char (peek);
+		} else {
+			peek = next;
+			tc = fc;
+		}
 	}
 
 	return value_new_string_nocopy (g_string_free (str, FALSE));
@@ -2731,10 +2826,10 @@ GnmFuncDescriptor const string_functions[] = {
         { "text",       "Ss",           help_text,
 	  gnumeric_text, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "textafter",   "SA|ffff",      help_textafter,
+        { "textafter",   "SA|fff?",      help_textafter,
 	  gnumeric_textafter, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "textbefore",  "SA|ffff",      help_textbefore,
+        { "textbefore",  "SA|fff?",      help_textbefore,
 	  gnumeric_textbefore, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "textjoin", NULL, help_textjoin,
