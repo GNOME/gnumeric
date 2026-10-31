@@ -141,9 +141,8 @@ msgid "Invalid characters for encoding '%c%c'"
 msgstr "Ugyldige tegn for kodning '%c%c'"
 
 #: ../plugins/applix/applix-read.c:365
-#, fuzzy
 msgid "Character encoding error"
-msgstr "Tegn_kodning:"
+msgstr "Fejl i tegnkodning"
 
 #: ../plugins/applix/applix-read.c:1244
 #, c-format
@@ -3256,11 +3255,10 @@ msgid "Function Markers"
 msgstr "Funktionsmarkører"
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:44
-#, fuzzy
 msgid ""
 "This variable determines whether cells containing spreadsheet functions are "
 "marked."
-msgstr "Denne variabel bestemmer om funktionsnavn-værktøjstip skal vises."
+msgstr "Denne variabel bestemmer om celler, der indeholder regnearksfunktioner, er markeret."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:45
 msgid "Extension Markers"
@@ -4651,9 +4649,8 @@ msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
 #: ../src/dialogs/dialog-about.c:162
-#, fuzzy
 msgid "All-round powerhouse"
-msgstr "Alsidig kraftcenter"
+msgstr "Alsidigt kraftværk"
 
 #: ../src/dialogs/dialog-about.c:163
 msgid "Kevin Breit"
@@ -5139,9 +5136,8 @@ msgid "The cutoff range is not valid."
 msgstr "Afskæringsintervallet er ikke gyldigt."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3230
-#, fuzzy
 msgid "The number of cutoffs to be calculated is invalid."
-msgstr "Antallet af afskæringer der skal beregnes er ugyldigt."
+msgstr "Antallet af afskæringer, der skal beregnes, er ugyldigt."
 
 #: ../src/dialogs/dialog-analysis-tools.c:3372
 msgid "Could not create the Histogram Tool dialog."
@@ -13537,14 +13533,12 @@ msgid "Sheet attribute %s changed.\n"
 msgstr ""
 
 #: ../src/ssdiff.c:204
-#, fuzzy
 msgid "Default column properties changed.\n"
-msgstr "Kolonne %s er ændret.\n"
+msgstr "Standardegenskaber for kolonner er ændret.\n"
 
 #: ../src/ssdiff.c:205
-#, fuzzy
 msgid "Default row properties changed.\n"
-msgstr "Rækkefølgen af ark er ændret.\n"
+msgstr "Standardegenskaber for rækker er ændret.\n"
 
 #: ../src/ssdiff.c:207
 #, c-format
@@ -17904,9 +17898,8 @@ msgid "Unsupported file format for file \"%s\""
 msgstr "Ikke-understøttet filformat for filen \"%s\""
 
 #: ../src/workbook-view.c:1505
-#, fuzzy
 msgid "Unsupported file format"
-msgstr "Ikke-understøttet filformat for filen \"%s\""
+msgstr "Ikke-understøttet filformat"
 
 #: ../src/workbook-view.c:1559
 #, c-format
