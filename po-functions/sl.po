@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-10-29 18:10+0000\n"
-"PO-Revision-Date: 2026-10-29 19:53+0100\n"
+"POT-Creation-Date: 2026-10-31 03:20+0000\n"
+"PO-Revision-Date: 2026-10-31 12:46+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -235,7 +235,7 @@ msgstr "Če @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
 #: ../plugins/fn-numtheory/numtheory.c:786
 #: ../plugins/fn-numtheory/numtheory.c:830
 #: ../plugins/fn-numtheory/numtheory.c:861 ../plugins/fn-random/functions.c:46
-#: ../plugins/fn-random/functions.c:247 ../plugins/fn-stat/functions.c:84
+#: ../plugins/fn-random/functions.c:253 ../plugins/fn-stat/functions.c:84
 #: ../plugins/fn-stat/functions.c:113 ../plugins/fn-stat/functions.c:141
 #: ../plugins/fn-stat/functions.c:170 ../plugins/fn-stat/functions.c:272
 #: ../plugins/fn-stat/functions.c:320 ../plugins/fn-stat/functions.c:350
@@ -8989,54 +8989,66 @@ msgstr ""
 
 #: ../plugins/fn-random/functions.c:95
 msgid ""
+"If @{prob_range} is given, a value in @{val_range} and the probability in "
+"the same position of @{prob_range} are used only if both are numbers.  Text, "
+"logical values, and empty cells in either range cause that pair to be "
+"skipped."
+msgstr ""
+
+#: ../plugins/fn-random/functions.c:96
+msgid ""
 "If @{val_range} or @{prob_range} is not a range, RANDDISCRETE returns #VALUE!"
 msgstr ""
 "V primeru, da @{obsegu spremenljivk} ali pa @{obseg verjetnosti} ni obseg, "
 "funkcija RANDDISCRETE vrne napako #VALUE!."
 
-#: ../plugins/fn-random/functions.c:173
+#: ../plugins/fn-random/functions.c:177
 msgid "RANDEXP:random variate from an exponential distribution"
 msgstr "RANDEXP: naključna spremenljivka potenčne porazdelitve"
 
-#: ../plugins/fn-random/functions.c:174
+#: ../plugins/fn-random/functions.c:178
 msgid "b:parameter of the exponential distribution"
 msgstr "b: parameter potenčne porazdelitve"
 
-#: ../plugins/fn-random/functions.c:192
+#: ../plugins/fn-random/functions.c:179
+msgid "If @{b} < 0, RANDEXP returns #NUM!"
+msgstr "Če je vrednost @{b} < 0, funkcija RANDEXP vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:197
 msgid "RANDPOISSON:random variate from a Poisson distribution"
 msgstr "RANDPOISSON: naključna spremenljivka Poissonove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:193
+#: ../plugins/fn-random/functions.c:198
 msgid "λ:parameter of the Poisson distribution"
 msgstr "λ: parameter Poissonove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:194
+#: ../plugins/fn-random/functions.c:199
 msgid "If @{λ} < 0 RANDPOISSON returns #NUM!"
 msgstr "Če je vrednost @{λ} < 0, funkcija RANDPOISSON vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:216
+#: ../plugins/fn-random/functions.c:221
 msgid "RANDBINOM:random variate from a binomial distribution"
 msgstr "RANDBINOM: naključna spremenljivka binomske porazdelitve"
 
-#: ../plugins/fn-random/functions.c:217 ../plugins/fn-random/functions.c:276
-#: ../plugins/fn-random/functions.c:582
+#: ../plugins/fn-random/functions.c:222 ../plugins/fn-random/functions.c:284
+#: ../plugins/fn-random/functions.c:598
 msgid "p:probability of success in a single trial"
 msgstr "p: verjetnost uspeha ob enem samem poskusu"
 
-#: ../plugins/fn-random/functions.c:218
+#: ../plugins/fn-random/functions.c:223
 msgid "n:number of trials"
 msgstr "n: število poskusov"
 
-#: ../plugins/fn-random/functions.c:219
+#: ../plugins/fn-random/functions.c:224
 msgid "If @{p} < 0 or @{p} > 1 RANDBINOM returns #NUM!"
 msgstr ""
 "Če je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDBINOM vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:220
+#: ../plugins/fn-random/functions.c:225
 msgid "If @{n} < 0 RANDBINOM returns #NUM!"
 msgstr "Če je vrednost @{n} < 0, funkcija RANDBINOM vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:242
+#: ../plugins/fn-random/functions.c:247
 msgid ""
 "RANDBETWEEN:a random integer number between and including @{bottom} and "
 "@{top}"
@@ -9044,284 +9056,350 @@ msgstr ""
 "RANDBETWEEN:naključno celoštevilčno število med in vključno z vrednostma "
 "@{spodaj} in @{zgoraj}"
 
-#: ../plugins/fn-random/functions.c:244
+#: ../plugins/fn-random/functions.c:249
 msgid "bottom:lower limit"
 msgstr "spodaj: spodnja limita"
 
-#: ../plugins/fn-random/functions.c:245
+#: ../plugins/fn-random/functions.c:250
 msgid "top:upper limit"
 msgstr "zgoraj: zgornja limita"
 
-#: ../plugins/fn-random/functions.c:246
+#: ../plugins/fn-random/functions.c:251
 msgid "If @{bottom} > @{top}, RANDBETWEEN returns #NUM!"
 msgstr ""
 "Če je vrednost @{spodaj} > @{zgoraj}, funkcija RANDBETWEEN vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:275
+#: ../plugins/fn-random/functions.c:252
+#, fuzzy
+msgid ""
+"If there is no integer between @{bottom} and @{top} (e.g., for 1.2 and 1.8), "
+"RANDBETWEEN returns #NUM!"
+msgstr ""
+"Če ni celega števila med vrednostma @{spodaj} in @{zgoraj} (npr. Pri 1,2 in "
+"1,8), funkcija RANDBETWEEN vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:283
 msgid "RANDNEGBINOM:random variate from a negative binomial distribution"
 msgstr "RANDNEGBINOM: naključna spremenljivka negativne binomske porazdelitve"
 
-#: ../plugins/fn-random/functions.c:277
+#: ../plugins/fn-random/functions.c:285
 msgid "n:number of failures"
 msgstr "n: število neuspešnih poskusov"
 
-#: ../plugins/fn-random/functions.c:278
-msgid "If @{p} < 0 or @{p} > 1 RANDNEGBINOM returns #NUM!"
+#: ../plugins/fn-random/functions.c:286
+msgid "If @{p} ≤ 0 or @{p} > 1, RANDNEGBINOM returns #NUM!"
 msgstr ""
-"Če je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDNEGBINOM vrne napako "
+"Če je vrednost @{p} ≤ 0 ali @{p} > 1, funkcija RANDNEGBINOM vrne napako "
 "#NUM!."
 
-#: ../plugins/fn-random/functions.c:279
+#: ../plugins/fn-random/functions.c:287
 msgid "If @{n} < 1 RANDNEGBINOM returns #NUM!"
 msgstr "Če je @{n} < 1, funkcija RANDNEGBINOM vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:300
+#: ../plugins/fn-random/functions.c:308
 msgid "RANDBERNOULLI:random variate from a Bernoulli distribution"
 msgstr "RANDBERNOULLI: naključna spremenljivka Bernoullijeve porazdelitve"
 
-#: ../plugins/fn-random/functions.c:301 ../plugins/fn-stat/functions.c:1048
+#: ../plugins/fn-random/functions.c:309 ../plugins/fn-stat/functions.c:1048
 msgid "p:probability of success"
 msgstr "p: verjetnost uspeha"
 
-#: ../plugins/fn-random/functions.c:302
+#: ../plugins/fn-random/functions.c:310
 msgid "If @{p} < 0 or @{p} > 1 RANDBERNOULLI returns #NUM!"
 msgstr ""
 "Če je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDBERNOULLI vrne napako "
 "#NUM!."
 
-#: ../plugins/fn-random/functions.c:324
+#: ../plugins/fn-random/functions.c:332
 msgid "RANDNORM:random variate from a normal distribution"
 msgstr "RANDNORM: naključna spremenljivka normalne porazdelitve"
 
-#: ../plugins/fn-random/functions.c:325
+#: ../plugins/fn-random/functions.c:333
 msgid "μ:mean of the distribution"
 msgstr "μ: srednja vrednost porazdelitve"
 
-#: ../plugins/fn-random/functions.c:326 ../plugins/fn-random/functions.c:374
+#: ../plugins/fn-random/functions.c:334 ../plugins/fn-random/functions.c:382
 msgid "σ:standard deviation of the distribution"
 msgstr "σ: standardni odklon (deviacija) porazdelitve"
 
-#: ../plugins/fn-random/functions.c:327
+#: ../plugins/fn-random/functions.c:335
 msgid "If @{σ} < 0, RANDNORM returns #NUM!"
 msgstr "Če je vrednost @{σ} < 0, funkcija RANDNORM vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:349
+#: ../plugins/fn-random/functions.c:357
 msgid "RANDCAUCHY:random variate from a Cauchy or Lorentz distribution"
 msgstr ""
 "RANDCAUCHY: naključna spremenljivka Cauchyjeve ali Lorentzove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:350
+#: ../plugins/fn-random/functions.c:358
 msgid "a:scale parameter of the distribution"
 msgstr "a: parameter merila porazdelitve"
 
-#: ../plugins/fn-random/functions.c:351
+#: ../plugins/fn-random/functions.c:359
 msgid "If @{a} < 0 RANDCAUCHY returns #NUM!"
 msgstr "Če je vrednost @{a} < 0, funkcija RANDCAUCHY vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:372
+#: ../plugins/fn-random/functions.c:380
 msgid "RANDLOGNORM:random variate from a lognormal distribution"
 msgstr ""
 "RANDLOGNORM: naključna spremenljivka logaritemsko normalne porazdelitve"
 
-#: ../plugins/fn-random/functions.c:373
+#: ../plugins/fn-random/functions.c:381
 msgid "ζ:parameter of the lognormal distribution"
 msgstr "ζ: parameter logaritemsko normalne porazdelitve"
 
-#: ../plugins/fn-random/functions.c:375
+#: ../plugins/fn-random/functions.c:383
 msgid "If @{σ} < 0, RANDLOGNORM returns #NUM!"
 msgstr "Če je vrednost @{σ} < 0, funkcija RANDLOGNORM vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:394
+#: ../plugins/fn-random/functions.c:402
 msgid "RANDWEIBULL:random variate from a Weibull distribution"
 msgstr "RANDWEIBULL: naključna spremenljivka Weibullove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:395
+#: ../plugins/fn-random/functions.c:403
 msgid "a:scale parameter of the Weibull distribution"
 msgstr "a: parameter merila Weibullove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:396
+#: ../plugins/fn-random/functions.c:404
 msgid "b:shape parameter of the Weibull distribution"
 msgstr "b: parameter oblike Weibullove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:415
+#: ../plugins/fn-random/functions.c:405
+msgid "If @{a} < 0 or @{b} ≤ 0, RANDWEIBULL returns #NUM!"
+msgstr ""
+"Če je vrednost @{a} < 0 ali @{b} ≤ 0, funkcija RANDWEIBULL vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:424
 msgid "RANDLAPLACE:random variate from a Laplace distribution"
 msgstr "RANDLAPLACE: naključna spremenljivka Laplaceove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:416
+#: ../plugins/fn-random/functions.c:425
 msgid "a:parameter of the Laplace distribution"
 msgstr "a: parameter Laplaceove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:434
+#: ../plugins/fn-random/functions.c:426
+msgid "If @{a} < 0, RANDLAPLACE returns #NUM!"
+msgstr "Če je vrednost @{a} < 0, funkcija RANDLAPLACE vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:444
 msgid "RANDRAYLEIGH:random variate from a Rayleigh distribution"
 msgstr "RANDRAYLEIGH: naključna spremenljivka Rayleighove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:435 ../plugins/fn-random/functions.c:455
+#: ../plugins/fn-random/functions.c:445 ../plugins/fn-random/functions.c:466
 msgid "σ:scale parameter of the Rayleigh distribution"
 msgstr "σ: parameter merila Rayleighove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:453
+#: ../plugins/fn-random/functions.c:446
+msgid "If @{σ} < 0, RANDRAYLEIGH returns #NUM!"
+msgstr "Če je vrednost @{σ} < 0, funkcija RANDRAYLEIGH vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:464
 msgid ""
 "RANDRAYLEIGHTAIL:random variate from the tail of a Rayleigh distribution"
 msgstr ""
 "RANDRAYLEIGHTAIL: naključna spremenljivka repa Rayleighjeve porazdelitve"
 
-#: ../plugins/fn-random/functions.c:454 ../plugins/fn-random/functions.c:793
+#: ../plugins/fn-random/functions.c:465 ../plugins/fn-random/functions.c:815
 msgid "a:lower limit of the tail"
 msgstr "a: spodnja meja repa"
 
-#: ../plugins/fn-random/functions.c:474
+#: ../plugins/fn-random/functions.c:467
+msgid "If @{σ} < 0, RANDRAYLEIGHTAIL returns #NUM!"
+msgstr "Če je vrednost @{σ} < 0, funkcija RANDRAYLEIGHTAIL vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:486
 msgid "RANDGAMMA:random variate from a Gamma distribution"
 msgstr "RANDGAMMA: naključna spremenljivka porazdelitve gama"
 
-#: ../plugins/fn-random/functions.c:475
+#: ../plugins/fn-random/functions.c:487
 msgid "a:shape parameter of the Gamma distribution"
 msgstr "a: parameter oblike porazdelitve gama"
 
-#: ../plugins/fn-random/functions.c:476
+#: ../plugins/fn-random/functions.c:488
 msgid "b:scale parameter of the Gamma distribution"
 msgstr "b: parameter merila porazdelitve gama"
 
-#: ../plugins/fn-random/functions.c:477
-msgid "If @{a} ≤ 0, RANDGAMMA returns #NUM!"
-msgstr "Če je @{a} ≤ 0, funkcija RANDGAMMA vrne napako #NUM!."
+#: ../plugins/fn-random/functions.c:489
+msgid "If @{a} ≤ 0 or @{b} < 0, RANDGAMMA returns #NUM!"
+msgstr "Če je @{a} ≤ 0 ali @{b} < 0, funkcija RANDGAMMA vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:499
+#: ../plugins/fn-random/functions.c:511
 msgid "RANDPARETO:random variate from a Pareto distribution"
 msgstr "RANDPARETO: naključna spremenljivka Paretove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:500
+#: ../plugins/fn-random/functions.c:512
 msgid "a:parameter of the Pareto distribution"
 msgstr "a: parameter Pareto porazdelitve"
 
-#: ../plugins/fn-random/functions.c:501
+#: ../plugins/fn-random/functions.c:513
 msgid "b:parameter of the Pareto distribution"
 msgstr "b: parameter Pareto porazdelitve"
 
-#: ../plugins/fn-random/functions.c:520
+#: ../plugins/fn-random/functions.c:514
+msgid "If @{a} ≤ 0 or @{b} < 0, RANDPARETO returns #NUM!"
+msgstr ""
+"Če je vrednost @{a} ≤ 0 or @{b} > 2, funkcija RANDPARETO vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:533
 msgid "RANDFDIST:random variate from an F distribution"
 msgstr "RANDFDIST: naključna spremenljivka F porazdelitve"
 
-#: ../plugins/fn-random/functions.c:521
+#: ../plugins/fn-random/functions.c:534
 msgid "df1:numerator degrees of freedom"
 msgstr "df1: števec prostostnih stopenj"
 
-#: ../plugins/fn-random/functions.c:522
+#: ../plugins/fn-random/functions.c:535
 msgid "df2:denominator degrees of freedom"
 msgstr "df2: imenovalec prostostnih stopenj"
 
-#: ../plugins/fn-random/functions.c:541
+#: ../plugins/fn-random/functions.c:536
+msgid "If @{df1} ≤ 0 or @{df2} ≤ 0, RANDFDIST returns #NUM!"
+msgstr ""
+"Če je vrednost @{df1} ≤ 0 ali @{df2} ≤ 0, funkcija RANDFDIST vrne napako "
+"#NUM!."
+
+#: ../plugins/fn-random/functions.c:555
 msgid "RANDBETA:random variate from a Beta distribution"
 msgstr "RANDBETA: naključna spremenljivka Beta porazdelitve"
 
-#: ../plugins/fn-random/functions.c:542
+#: ../plugins/fn-random/functions.c:556
 msgid "a:parameter of the Beta distribution"
 msgstr "a: parameter Beta porazdelitve"
 
-#: ../plugins/fn-random/functions.c:543
+#: ../plugins/fn-random/functions.c:557
 msgid "b:parameter of the Beta distribution"
 msgstr "b: parameter Beta porazdelitve"
 
-#: ../plugins/fn-random/functions.c:562
+#: ../plugins/fn-random/functions.c:558
+msgid "If @{a} ≤ 0 or @{b} ≤ 0, RANDBETA returns #NUM!"
+msgstr ""
+"Če je vrednost @{a} ≤ 0 ali @{b} ≤ 0, funkcija RANDBETA vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:577
 msgid "RANDLOGISTIC:random variate from a logistic distribution"
 msgstr "RANDLOGISTIC: naključna spremenljivka logistične porazdelitve"
 
-#: ../plugins/fn-random/functions.c:563
+#: ../plugins/fn-random/functions.c:578
 msgid "a:parameter of the logistic distribution"
 msgstr "a: parameter logistične porazdelitve"
 
-#: ../plugins/fn-random/functions.c:581
+#: ../plugins/fn-random/functions.c:579
+msgid "If @{a} < 0, RANDLOGISTIC returns #NUM!"
+msgstr "Če je vrednost @{a} < 0, funkcija RANDLOGISTIC vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:597
 msgid "RANDGEOM:random variate from a geometric distribution"
 msgstr "RANDGEOM: naključna spremenljivka geometrične porazdelitve"
 
-#: ../plugins/fn-random/functions.c:583
-msgid "If @{p} < 0 or @{p} > 1 RANDGEOM returns #NUM!"
-msgstr "Če je @{p} < 0 ali pa @{p} > 1, funkcija RANDGEOM vrne napako #NUM!."
+#: ../plugins/fn-random/functions.c:599
+msgid "If @{p} ≤ 0 or @{p} > 1, RANDGEOM returns #NUM!"
+msgstr "Če je @{p} ≤ 0 ali pa @{p} > 1, funkcija RANDGEOM vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:604
+#: ../plugins/fn-random/functions.c:620
 msgid "RANDHYPERG:random variate from a hypergeometric distribution"
 msgstr "RANDHYPERG: naključna spremenljivka hipergeometrične porazdelitve"
 
-#: ../plugins/fn-random/functions.c:605
+#: ../plugins/fn-random/functions.c:621
 msgid "n1:number of objects of type 1"
 msgstr "n1: število predmetov prve (1) vrste"
 
-#: ../plugins/fn-random/functions.c:606
+#: ../plugins/fn-random/functions.c:622
 msgid "n2:number of objects of type 2"
 msgstr "n1: število predmetov druge (2) vrste"
 
-#: ../plugins/fn-random/functions.c:607
+#: ../plugins/fn-random/functions.c:623
 msgid "t:total number of objects selected"
 msgstr "t: skupno število izbranih predmetov"
 
-#: ../plugins/fn-random/functions.c:629
+#: ../plugins/fn-random/functions.c:624
+msgid ""
+"If @{n1} < 0, @{n2} < 0, @{t} < 0 or @{t} > @{n1} + @{n2}, RANDHYPERG "
+"returns #NUM!"
+msgstr ""
+"Če je vrednost @{n1} < 0, @{n2} < 0, @{t} < 0 ali @{t} > @{n1} + @{n2}, "
+"funkcija RANDHYPERG vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:646
 msgid "RANDLOG:random variate from a logarithmic distribution"
 msgstr "RANDLOG: naključna spremenljivka logaritemske porazdelitve"
 
-#: ../plugins/fn-random/functions.c:630 ../plugins/fn-stat/functions.c:577
+#: ../plugins/fn-random/functions.c:647 ../plugins/fn-stat/functions.c:577
 #: ../plugins/fn-stat/functions.c:1116 ../plugins/fn-stat/functions.c:1172
 #: ../plugins/fn-stat/functions.c:1361 ../plugins/fn-stat/functions.c:1688
 #: ../plugins/fn-stat/functions.c:2088
 msgid "p:probability"
 msgstr "p: verjetnost"
 
-#: ../plugins/fn-random/functions.c:631
-msgid "If @{p} < 0 or @{p} > 1 RANDLOG returns #NUM!"
+#: ../plugins/fn-random/functions.c:648
+msgid "If @{p} ≤ 0 or @{p} ≥ 1, RANDLOG returns #NUM!"
 msgstr ""
-"Če je vrednost @{p} < 0 ali @{p} > 1, funkcija RANDLOG vrne napako #NUM!."
+"Če je vrednost @{p} ≤ 0 ali @{p} ≥ 1, funkcija RANDLOG vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:652
+#: ../plugins/fn-random/functions.c:669
 msgid "RANDCHISQ:random variate from a Chi-square distribution"
 msgstr "RANDCHISQ: naključna spremenljivka porazdelitve hi-kvadrat"
 
-#: ../plugins/fn-random/functions.c:653 ../plugins/fn-random/functions.c:672
-#: ../plugins/fn-random/functions.c:943
+#: ../plugins/fn-random/functions.c:670 ../plugins/fn-random/functions.c:690
+#: ../plugins/fn-random/functions.c:966
 msgid "df:degrees of freedom"
 msgstr "df: stopnje prostosti"
 
 #: ../plugins/fn-random/functions.c:671
+msgid "If @{df} < 0, RANDCHISQ returns #NUM!"
+msgstr "Če je vrednost @{df} < 0, funkcija RANDCHISQ vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:689
 msgid "RANDTDIST:random variate from a Student t distribution"
 msgstr "RANDTDIST: naključna spremenljivka T porazdelitve"
 
-#: ../plugins/fn-random/functions.c:690
+#: ../plugins/fn-random/functions.c:691
+msgid "If @{df} ≤ 0, RANDTDIST returns #NUM!"
+msgstr "Če je @{df} ≤ 0, funkcija RANDTDIST vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:709
 msgid "RANDGUMBEL:random variate from a Gumbel distribution"
 msgstr "RANDGUMBEL: naključna spremenljivka Gumbelove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:691
+#: ../plugins/fn-random/functions.c:710
 msgid "a:parameter of the Gumbel distribution"
 msgstr "a: parameter Gumbelove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:692
+#: ../plugins/fn-random/functions.c:711
 msgid "b:parameter of the Gumbel distribution"
 msgstr "b: parameter Gumbelove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:693
+#: ../plugins/fn-random/functions.c:712
 msgid "type:type of the Gumbel distribution, defaults to 1"
 msgstr ""
 "vrsta: vrsta Gumbelove porazdelitve, ki je privzeto je določena na vrednost "
 "1."
 
-#: ../plugins/fn-random/functions.c:694
+#: ../plugins/fn-random/functions.c:713
+msgid "If @{a} = 0 or @{b} ≤ 0, RANDGUMBEL returns #NUM!"
+msgstr "Če je @{a} = 0 ali pa @{b} ≤ 0, funkcija RANDGUMBEL vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:714
 msgid "If @{type} is neither 1 nor 2, RANDGUMBEL returns #NUM!"
 msgstr "Če @{vrsta} ni niti 1 niti 2, funkcija RANDGUMBEL vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:719
+#: ../plugins/fn-random/functions.c:739
 msgid "RANDLEVY:random variate from a Lévy distribution"
 msgstr "RANDLEVY: naključna spremenljivka Lévyjeve porazdelitve"
 
-#: ../plugins/fn-random/functions.c:720
+#: ../plugins/fn-random/functions.c:740
 msgid "c:parameter of the Lévy distribution"
 msgstr "c: parameter Lévyjeve porazdelitve"
 
-#: ../plugins/fn-random/functions.c:721
+#: ../plugins/fn-random/functions.c:741
 msgid "α:parameter of the Lévy distribution"
 msgstr "α: parameter Lévyjeve porazdelitve"
 
-#: ../plugins/fn-random/functions.c:722
+#: ../plugins/fn-random/functions.c:742
 msgid "β:parameter of the Lévy distribution, defaults to 0"
 msgstr ""
 "β: parameter Lévyjeve porazdelitve, ki je privzeto je določena na vrednost 0."
 
-#: ../plugins/fn-random/functions.c:723
+#: ../plugins/fn-random/functions.c:743
 msgid ""
 "For @{α} = 1, @{β}=0, the Lévy distribution reduces to the Cauchy (or "
 "Lorentzian) distribution."
@@ -9329,7 +9407,7 @@ msgstr ""
 "Pri vrednostih @{α} = 1, @{β}=0 se Lévyjeva porazdelitev preoblikuje v "
 "Cauchyjevo (ali Lorentzovo) porazdelitev."
 
-#: ../plugins/fn-random/functions.c:725
+#: ../plugins/fn-random/functions.c:745
 msgid ""
 "For @{α} = 2, @{β}=0, the Lévy distribution reduces to the normal "
 "distribution."
@@ -9337,29 +9415,33 @@ msgstr ""
 "Pri vrednostih @{α} = 2, @{β}=0 se Lévyjeva porazdelitev preoblikuje v "
 "normalno porazdelitev."
 
-#: ../plugins/fn-random/functions.c:727
+#: ../plugins/fn-random/functions.c:747
 msgid "If @{α} ≤ 0 or @{α} > 2, RANDLEVY returns #NUM!"
 msgstr ""
 "Če je vrednost @{α} ≤ 0 or @{α} > 2, funkcija RANDLEVY vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:728
+#: ../plugins/fn-random/functions.c:748
 msgid "If @{β} < -1 or @{β} > 1, RANDLEVY returns #NUM!"
 msgstr ""
 "Če je vrednost @{β} < -1 ali @{β} >1, funkcija RANDLEVY vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:751
+#: ../plugins/fn-random/functions.c:749
+msgid "If @{c} ≤ 0, RANDLEVY returns #NUM!"
+msgstr "Če je @{c} ≤ 0, funkcija RANDLEVY vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:772
 msgid "RANDEXPPOW:random variate from an exponential power distribution"
 msgstr "RANDEXPPOW: naključna spremenljivka potenčne porazdelitve"
 
-#: ../plugins/fn-random/functions.c:752
+#: ../plugins/fn-random/functions.c:773
 msgid "a:scale parameter of the exponential power distribution"
 msgstr "a: parameter merila potenčne porazdelitve"
 
-#: ../plugins/fn-random/functions.c:753
+#: ../plugins/fn-random/functions.c:774
 msgid "b:exponent of the exponential power distribution"
 msgstr "b: potenca potenčne porazdelitve"
 
-#: ../plugins/fn-random/functions.c:754
+#: ../plugins/fn-random/functions.c:775
 msgid ""
 "For @{b} = 1 the exponential power distribution reduces to the Laplace "
 "distribution."
@@ -9367,7 +9449,7 @@ msgstr ""
 "Pri vrednosti @{b} = 1 se potenčna porazdelitev preoblikuje v Laplaceovo "
 "porazdelitev."
 
-#: ../plugins/fn-random/functions.c:756
+#: ../plugins/fn-random/functions.c:777
 msgid ""
 "For @{b} = 2 the exponential power distribution reduces to the normal "
 "distribution with σ = a/sqrt(2)"
@@ -9375,11 +9457,15 @@ msgstr ""
 "Pri vrednosti @{b} = 2 se potenčna porazdelitev spremeni v normalno "
 "porazdelitev z σ = a/sqrt(2)"
 
-#: ../plugins/fn-random/functions.c:776
+#: ../plugins/fn-random/functions.c:779
+msgid "If @{a} < 0 or @{b} ≤ 0, RANDEXPPOW returns #NUM!"
+msgstr "Če je @{a} < 0 ali pa @{b} > 1, funkcija RANDEXPPOW vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:798
 msgid "RANDLANDAU:random variate from the Landau distribution"
 msgstr "RANDLANDAU: naključna spremenljivka Landauove porazdelitve"
 
-#: ../plugins/fn-random/functions.c:792
+#: ../plugins/fn-random/functions.c:814
 msgid ""
 "RANDNORMTAIL:random variate from the upper tail of a normal distribution "
 "with mean 0"
@@ -9387,11 +9473,15 @@ msgstr ""
 "RANDNORMTAIL: naključna spremenljivka porazdelitve od zgornjega repa "
 "normalne porazdelitve s povprečjem 0."
 
-#: ../plugins/fn-random/functions.c:794
+#: ../plugins/fn-random/functions.c:816
 msgid "σ:standard deviation of the normal distribution"
 msgstr "σ: standardni odklon normalne porazdelitve"
 
-#: ../plugins/fn-random/functions.c:795
+#: ../plugins/fn-random/functions.c:817
+msgid "If @{σ} ≤ 0, RANDNORMTAIL returns #NUM!"
+msgstr "Če je vrednost @{σ} < 0, funkcija RANDNORMTAIL vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:818
 msgid ""
 "The method is based on Marsaglia's famous rectangle-wedge-tail algorithm "
 "(Ann Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, "
@@ -9401,7 +9491,7 @@ msgstr ""
 "Stat 32, 894-899 (1961)), pri čemer je ta vidik razložen v Knuth, v2, 3. "
 "izdaja, str.139, 586 (vaja 11)."
 
-#: ../plugins/fn-random/functions.c:816
+#: ../plugins/fn-random/functions.c:839
 msgid ""
 "SIMTABLE:one of the values in the given argument list depending on the round "
 "number of the simulation tool"
@@ -9409,15 +9499,15 @@ msgstr ""
 "SIMTABLE: ena izmed vrednosti na podanem seznamu argumentov, odvisna od "
 "zaokrožene številke orodja simulacije"
 
-#: ../plugins/fn-random/functions.c:818
+#: ../plugins/fn-random/functions.c:841
 msgid "d1:first value"
 msgstr "d1: prva vrednost"
 
-#: ../plugins/fn-random/functions.c:819
+#: ../plugins/fn-random/functions.c:842
 msgid "d2:second value"
 msgstr "d2: druga vrednost"
 
-#: ../plugins/fn-random/functions.c:820
+#: ../plugins/fn-random/functions.c:843
 msgid ""
 "SIMTABLE returns one of the values in the given argument list depending on "
 "the round number of the simulation tool. When the simulation tool is not "
@@ -9455,28 +9545,28 @@ msgstr ""
 "shranjene in ko je krog zaključen, se glede na vrednosti ustvarijo ustrezni "
 "opisni statistični podatki."
 
-#: ../plugins/fn-random/functions.c:885
+#: ../plugins/fn-random/functions.c:908
 msgid "RANDSNORM:random variate from a skew-normal distribution"
 msgstr "RANDSNORM: naključna spremenljivka nesimetrične normalne porazdelitve "
 
-#: ../plugins/fn-random/functions.c:886
+#: ../plugins/fn-random/functions.c:909
 msgid "𝛼:shape parameter of the skew-normal distribution, defaults to 0"
 msgstr ""
 "𝛼: parameter oblike nesimetrične normalne porazdelitve, privzeto določen kot "
 "0"
 
-#: ../plugins/fn-random/functions.c:888
+#: ../plugins/fn-random/functions.c:911
 msgid "𝜉:location parameter of the skew-normal distribution, defaults to 0"
 msgstr ""
 "𝜉: parameter mesta nesimetrične normalne porazdelitve, privzeto določen kot 0"
 
-#: ../plugins/fn-random/functions.c:890
+#: ../plugins/fn-random/functions.c:913
 msgid "𝜔:scale parameter of the skew-normal distribution, defaults to 1"
 msgstr ""
 "𝜔: parameter velikosti nesimetrične normalne porazdelitve, privzeto določene "
 "kot 1"
 
-#: ../plugins/fn-random/functions.c:892
+#: ../plugins/fn-random/functions.c:915
 msgid ""
 "The random variates are drawn from a skew-normal distribution with shape "
 "parameter @{𝛼}. When @{𝛼}=0, the skewness vanishes, and we obtain the "
@@ -9495,7 +9585,7 @@ msgstr ""
 "@{𝛼} spremeni, se gostota verjetnosti odrazi na nasprotni strani navpične "
 "osi."
 
-#: ../plugins/fn-random/functions.c:902
+#: ../plugins/fn-random/functions.c:925
 msgid ""
 "The mean of a skew-normal distribution with location parameter @{𝜉}=0 is not "
 "0."
@@ -9503,7 +9593,7 @@ msgstr ""
 "Povprečje nesimetrične normalne porazdelitve s parametrom mesta @{𝜉}=0 ni "
 "enako 0."
 
-#: ../plugins/fn-random/functions.c:904
+#: ../plugins/fn-random/functions.c:927
 msgid ""
 "The standard deviation of a skew-normal distribution with scale parameter "
 "@{𝜔}=1 is not 1."
@@ -9511,32 +9601,36 @@ msgstr ""
 "Standardni odklon nesimetrične normalne porazdelitve s parametrom velikosti "
 "@{𝜔}=1 ni enak 1."
 
-#: ../plugins/fn-random/functions.c:906
+#: ../plugins/fn-random/functions.c:929
 msgid "The skewness of a skew-normal distribution is in general not @{𝛼}."
 msgstr "Nesimetričnost nesimetrične normalne porazdelitve običajno ni @{𝛼}."
 
-#: ../plugins/fn-random/functions.c:907
+#: ../plugins/fn-random/functions.c:930
 msgid "If @{𝜔} < 0, RANDSNORM returns #NUM!"
 msgstr "Če je vrednost @{𝜔} < 0, funkcija RANDSNORM vrne napako #NUM!."
 
-#: ../plugins/fn-random/functions.c:942
+#: ../plugins/fn-random/functions.c:965
 msgid "RANDSTDIST:random variate from a skew-t distribution"
 msgstr "RANDSTDIST: naključna spremenljivka nesimetrične T porazdelitve"
 
-#: ../plugins/fn-random/functions.c:944
+#: ../plugins/fn-random/functions.c:967
 msgid "𝛼:shape parameter of the skew-t distribution, defaults to 0"
 msgstr ""
 "𝛼: parameter oblike nesimetrične T porazdelitve, privzeto določen kot 0"
 
-#: ../plugins/fn-random/functions.c:945
+#: ../plugins/fn-random/functions.c:968
+msgid "If @{df} ≤ 0, RANDSTDIST returns #NUM!"
+msgstr "Če je @{df} ≤ 0, funkcija RANDDIST vrne napako #NUM!."
+
+#: ../plugins/fn-random/functions.c:969
 msgid "The mean of a skew-t distribution is not 0."
 msgstr "Povprečna vrednosti nesimetrične T porazdelitve, ne more biti 0."
 
-#: ../plugins/fn-random/functions.c:946
+#: ../plugins/fn-random/functions.c:970
 msgid "The standard deviation of a skew-t distribution is not 1."
 msgstr "Standardni odklon nesimetrične T porazdelitve ne more biti 1."
 
-#: ../plugins/fn-random/functions.c:947
+#: ../plugins/fn-random/functions.c:971
 msgid "The skewness of a skew-t distribution is in general not @{𝛼}."
 msgstr "Nesimetričnost nesimetrične T porazdelitve običajno ni @{𝛼}."
 
