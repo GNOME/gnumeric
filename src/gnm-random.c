@@ -1592,10 +1592,17 @@ gnm_random_uniform_int (guint32 n)
 
 	g_return_val_if_fail (n > 0, 0);
 
-	// This is the number of value that we need to reject in order to ensure
-	// uniform distribution.  In the worst case we will end up rejecting
-	// about half the numbers but for sane-sized ranges it is practically
-	// zero.
+	// If 2^32/n is not a whole number then the pigeon-hole principle
+	// tells us that no function can map a single value from random_32
+	// to a uniform distribution.  The same argument holds for any finite
+	// set of random_32 values.  (But with just 3 such values one could
+	// get close enough that no practical observer could detect the
+	// problem.)
+
+	// This is the number of values that we need to reject in order to
+	// ensure uniform distribution.  In the worst case we will end up
+	// rejecting about half the numbers but for sane-sized ranges it
+	// is practically zero.
 	left = G_MAXUINT32 % n;
 
 	while (TRUE) {
@@ -1634,16 +1641,20 @@ gnm_random_uniform_integer (gnm_float l, gnm_float h)
 		if (random_01 () < q)
 			return gnm_random_uniform_integer (0, h);
 		else
-			return gnm_random_uniform_integer (l, 0);
+			return gnm_random_uniform_integer (l, -1);
 	}
 
 	if (range < G_MAXUINT32) {
+		// The loop is probably paranoia
 		do {
 			res = l + gnm_random_uniform_int (range);
 		} while (res > h);
 	} else {
-		// This could be better
+		// The loop here is because range might rounded up.  It's
+		// unlikely (maybe even impossible for some number
+		// systems) to trigger, but clearly can be for Decimal64.
 		do {
+			// This could be better
 			res = l + gnm_floor (range * random_01 ());
 		} while (res > h);
 	}
