@@ -49,7 +49,7 @@ gnumeric_flt_radix (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_flt_min[] = {
-        { GNM_FUNC_HELP_NAME, F_("FLT.MIN:return the smallest positive floating point number")},
+        { GNM_FUNC_HELP_NAME, F_("FLT.MIN:return the smallest positive normal floating point number")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The FLT.MIN function returns the smallest positive normal floating point number that can be represented.") },
         { GNM_FUNC_HELP_EXAMPLES, "=FLT.MIN()" },
         { GNM_FUNC_HELP_SEEALSO, "FLT.MAX,FLT.RADIX"},
@@ -87,7 +87,7 @@ static GnmFuncHelp const help_flt_nextafter[] = {
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The FLT.NEXTAFTER function returns the next floating point value after @{x} in the direction of @{y}.  \"+\" and \"-\" are special values for @{y} that represent positive and negative infinity.") },
         { GNM_FUNC_HELP_EXAMPLES, "=FLT.NEXTAFTER(1,\"+\")" },
         { GNM_FUNC_HELP_EXAMPLES, "=FLT.NEXTAFTER(1,0)" },
-        { GNM_FUNC_HELP_SEEALSO, "FLT.RADIX"},
+        { GNM_FUNC_HELP_SEEALSO, "FLT.MIN,FLT.MAX,FLT.RADIX"},
 	{ GNM_FUNC_HELP_END }
 };
 
@@ -102,6 +102,8 @@ gnumeric_flt_nextafter (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		y = gnm_pinf;
 	else if (VALUE_IS_STRING (yval) && g_str_equal (value_peek_string (yval), "-"))
 		y = gnm_ninf;
+	else if (VALUE_IS_EMPTY (yval))
+		y = 0;  // Blank cell, as for numeric arguments
 	else if (VALUE_IS_NUMBER (yval))
 		y = value_get_as_float (yval);
 	else
