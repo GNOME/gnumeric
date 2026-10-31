@@ -51,7 +51,7 @@ GNM_PLUGIN_MODULE_HEADER;
 
 
 // binary64 (double): 17
-// binary80 (long double): 20
+// binary80 (long double): 21
 // decimal64 (_Decimal64): 16
 static int dmax = -1;
 
@@ -1221,8 +1221,13 @@ gnumeric_combina (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float n = gnm_floor (value_get_as_float (argv[0]));
 	gnm_float k = gnm_floor (value_get_as_float (argv[1]));
 
-	if (k >= 0 && n >= 0)
+	if (k >= 0 && n >= 0) {
+		// The empty multiset is the one way to choose nothing from
+		// nothing; combin(-1,0) would be NaN.
+		if (n == 0 && k == 0)
+			return value_new_int (1);
 		return value_new_float (combin (n + k - 1, k));
+	}
 
 	return value_new_error_NUM (ei->pos);
 }
@@ -2069,7 +2074,7 @@ digit_counts (gnm_float x, int *pa, int *pb, int *pc)
 		*pa = e;  // Not actually right unless base==10
 #if GNM_RADIX == 2 && GNM_MANT_DIG <= 64
 		guint64 ml = (guint64)(gnm_scalbn (x - gnm_floor (x), 64));
-		*pc = ml ? 64 - __builtin_ctzl (ml) : 0;
+		*pc = ml ? 64 - __builtin_ctzll (ml) : 0;
 #elif GNM_RADIX == 10 && GNM_MANT_DIG <= 19
 		// Untested
 		guint64 ml = (guint64)(gnm_scalbn (x - gnm_floor (x), 19));
@@ -2087,7 +2092,7 @@ digit_counts (gnm_float x, int *pa, int *pb, int *pc)
 #if GNM_RADIX == 2 && GNM_MANT_DIG <= 64
 		guint64 ml = (guint64)(gnm_scalbn (x, 64 - e - 1));
 		g_return_if_fail (ml != 0);
-		*pc = -e - 1 + (64 - __builtin_ctzl (ml)) - *pb;
+		*pc = -e - 1 + (64 - __builtin_ctzll (ml)) - *pb;
 #elif GNM_RADIX == 10 && GNM_MANT_DIG <= 19
 		// Untested
 		guint64 ml = (guint64)(gnm_scalbn (x, 19 - e - 1));
@@ -3157,6 +3162,7 @@ static GnmFuncHelp const help_cholesky[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CHOLESKY:the Cholesky decomposition of the symmetric positive-definite @{matrix}")},
 	{ GNM_FUNC_HELP_ARG, F_("matrix:a symmetric positive definite matrix")},
 	{ GNM_FUNC_HELP_NOTE, F_("If the Cholesky-Banachiewicz algorithm applied to @{matrix} fails, Cholesky returns #NUM!") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} is not symmetric, matching off-diagonal cells will be averaged on the assumption that the non-symmetry is caused by unimportant rounding errors.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{matrix} does not contain an equal number of columns and rows, CHOLESKY returns #VALUE!") },
 	{ GNM_FUNC_HELP_SEEALSO, "MINVERSE,MMULT,MDETERM"},
 	{ GNM_FUNC_HELP_END}
@@ -3166,7 +3172,7 @@ static gboolean
 gnm_matrix_cholesky  (GnmMatrix const *A, GnmMatrix *B)
 {
 	int r, c, k;
-	gnm_float sum;
+	gnm_float sum, d;
 	int n = A->cols;
 
 	for (r = 0; r < n; r++) {
@@ -3180,8 +3186,21 @@ gnm_matrix_cholesky  (GnmMatrix const *A, GnmMatrix *B)
 		sum = 0;
 		for (k = 0; k < r; k++)
 			sum += B->data[r][k] * B->data[r][k];
-		B->data[r][r] = gnm_sqrt (A->data[r][r] - sum);
+
+		// The matrix is positive definite iff every pivot is
+		// positive.  Also catch NaN and infinity.
+		d = A->data[r][r] - sum;
+		if (!(d > 0) || !gnm_finite (d))
+			return FALSE;
+		B->data[r][r] = gnm_sqrt (d);
 	}
+
+	// Guard against overflow/NaN in the off-diagonal entries
+	for (r = 0; r < n; r++)
+		for (c = 0; c < r; c++)
+			if (!gnm_finite (B->data[r][c]))
+				return FALSE;
+
 	return TRUE;
 }
 
@@ -3318,7 +3337,7 @@ static GnmFuncHelp const help_linsolve[] = {
 	{ GNM_FUNC_HELP_ARG, F_("B:a matrix")},
 	{ GNM_FUNC_HELP_DESCRIPTION,
 	  F_("Solves the equation @{A}*X=@{B} and returns X.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If the matrix @{A} is singular, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If the matrix @{A} is singular, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_SEEALSO, "MINVERSE"},
 	{ GNM_FUNC_HELP_END}
 };
@@ -3446,7 +3465,7 @@ gnumeric_sumproduct_common (gboolean ignore_bools, GnmFuncEvalInfo *ei,
 	GnmValue *result;
 	int i;
 	gboolean size_error = FALSE;
-	int sizex = -1, sizey = -1;
+	gsize sizex = 0, sizey = 0;
 
 	if (argc == 0)
 		return value_new_error_VALUE (ei->pos);
@@ -3454,7 +3473,7 @@ gnumeric_sumproduct_common (gboolean ignore_bools, GnmFuncEvalInfo *ei,
 	data = g_new0 (gnm_float *, argc);
 
 	for (i = 0; i < argc; i++) {
-		int thissizex, thissizey, x, y;
+		gsize thissizex, thissizey, nelem, x, y;
 		GnmExpr const *expr = argv[i];
 		GnmValue *val = gnm_expr_eval
 			(expr, ei->pos,
@@ -3475,7 +3494,20 @@ gnumeric_sumproduct_common (gboolean ignore_bools, GnmFuncEvalInfo *ei,
 		} else if (sizex != thissizex || sizey != thissizey)
 			size_error = TRUE;
 
-		data[i] = g_new (gnm_float, thissizex * thissizey);
+		// Don't let a huge area wrap around to a small allocation.
+		if (thissizey > 0 && thissizex > G_MAXSIZE / thissizey) {
+			result = value_new_error_NUM (ei->pos);
+			value_release (val);
+			goto done;
+		}
+		nelem = thissizex * thissizey;
+		data[i] = g_try_new (gnm_float, nelem);
+		if (!data[i] && nelem > 0) {
+			// Out of memory (or request too large)
+			result = value_new_error_NUM (ei->pos);
+			value_release (val);
+			goto done;
+		}
 		for (y = 0; y < thissizey; y++) {
 			for (x = 0; x < thissizex; x++) {
 				/* FIXME: efficiency worries?  */
@@ -3526,7 +3558,7 @@ gnumeric_sumproduct_common (gboolean ignore_bools, GnmFuncEvalInfo *ei,
 
 		void *state = gnm_accumulator_start ();
 		GnmAccumulator *acc = gnm_accumulator_new ();
-		int j;
+		gsize j;
 
 		for (j = 0; j < sizex * sizey; j++) {
 			int i;

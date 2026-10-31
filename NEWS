@@ -37,6 +37,7 @@ Morten:
 	* Improve PARTITIONS speed, range, and accuracy.
 	* Fix R.PPOIS far-tail problem.
 	* Fix hang with extreme RANDBETWEEN call.
+	* Fix COMBINA(0,0).
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
