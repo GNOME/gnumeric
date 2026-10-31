@@ -36,6 +36,7 @@ Morten:
 	* Fix HEXREP problem in long double mode.
 	* Improve PARTITIONS speed, range, and accuracy.
 	* Fix R.PPOIS far-tail problem.
+	* Fix hang with extreme RANDBETWEEN call.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

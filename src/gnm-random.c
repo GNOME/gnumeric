@@ -1623,6 +1623,20 @@ gnm_random_uniform_integer (gnm_float l, gnm_float h)
 		return gnm_nan;
 
 	range = h - l + 1;
+	if (!gnm_finite (range)) {
+		// The range is *really* big.  Opposite signs and values near
+		// GNM_MAX are needed to trigger this.
+
+		// Compute the fraction that's on the positive side
+		// q = h / (h - l) = 1 / (1 - l / h)
+
+		gnm_float q = 1 / (1 - l / h);
+		if (random_01 () < q)
+			return gnm_random_uniform_integer (0, h);
+		else
+			return gnm_random_uniform_integer (l, 0);
+	}
+
 	if (range < G_MAXUINT32) {
 		do {
 			res = l + gnm_random_uniform_int (range);
