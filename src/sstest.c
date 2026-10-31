@@ -4065,7 +4065,10 @@ almost_eq (gnm_float a, gnm_float b, gnm_float tol)
 		BARF("p not increasing from 0");			\
 	if (i >= RIGHT ? !(p == 1) : !(p <= 1))				\
 		BARF("p not increasing to 1");				\
-	if (!almost_eq (prev_p + d, p, tol))				\
+	/* Close to the denormal range there are too few significant */	\
+	/* bits left for a relative comparison to be meaningful.  */	\
+	if (p >= GNM_MIN / GNM_EPSILON &&				\
+	    !almost_eq (prev_p + d, p, tol))				\
 		BARF("p does not cummulate");				\
 } while (0)
 

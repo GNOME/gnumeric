@@ -1701,6 +1701,19 @@ ppois_asymp (gnm_float x, gnm_float lambda, gboolean lower_tail, gboolean log_p)
 	REprintf ("pp*_asymp(): f=%.14" GNM_FORMAT_g "	 np=%.14" GNM_FORMAT_g "  nd=%.14" GNM_FORMAT_g "  f*nd=%.14" GNM_FORMAT_g "\n",
 		  f, np, nd, f * nd);
 #endif
+
+	if (np > GNM_const(0.9)) {
+	    /*
+	     * We are computing the major tail, i.e., a result that is
+	     * close to 1 when we are far out in the other tail.  (The
+	     * cutoff is not critical: the problem only occurs very close
+	     * to 1, but switching for np > 0.5 made results in the middle
+	     * of the distribution up to an ulp worse.)
+	     */
+	    gnm_float cnp = pnorm (s2pt, GNM_const(0.0), GNM_const(1.0),
+				   lower_tail, FALSE);
+	    return 1 - (cnp - f * nd);
+	}
 	return np + f * nd;
     }
 } /* ppois_asymp() */
