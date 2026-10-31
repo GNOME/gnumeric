@@ -38,6 +38,8 @@ Morten:
 	* Fix R.PPOIS far-tail problem.
 	* Fix hang with extreme RANDBETWEEN call.
 	* Fix COMBINA(0,0).
+	* Fix hang in DIMCIRC.
+	* Improve OFFTRAF accuracy.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

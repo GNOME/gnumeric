@@ -75,11 +75,17 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 	if (traffic == 0)
 		gos = comp ? 1 : 0;
 	else if (circuits < 100) {
-		gnm_float cir_iter = 1;
-		gos = 1;
-		for (cir_iter = 1; cir_iter <= circuits; cir_iter++)
-			gos = (traffic * gos) / (cir_iter + (traffic * gos));
-		if (comp) gos = 1 - gos;
+		gnm_float cir_iter, ag, g = 1;
+
+		// Run the recurrence B(n) = A*B(n-1) / (n + A*B(n-1)) up to
+		// circuits-1 and then do the last step by hand.  Since
+		// 1 - B(n) = n / (n + A*B(n-1)), that lets us get the
+		// complement without the cancellation in 1 - B(n), which
+		// is severe when the blocking probability is close to 1.
+		for (cir_iter = 1; cir_iter < circuits; cir_iter++)
+			g = (traffic * g) / (cir_iter + (traffic * g));
+		ag = traffic * g;
+		gos = (comp ? circuits : ag) / (circuits + ag);
 	} else if (circuits / traffic < GNM_const(0.9)) {
 		gnm_float sum = 0, term = 1, n = circuits;
 		while (n > 0) {
@@ -96,6 +102,58 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 	}
 
 	return gos;
+}
+
+/*
+ * Average number of idle circuits, i.e., the number of circuits (rounded
+ * down) minus the carried traffic A*(1-B).  Mathematically that is just a
+ * difference, but when B is close to 1 the carried traffic is very close
+ * to the number of circuits and the subtraction loses most of the
+ * precision.  Here we compute the result without cancellation.
+ *
+ * Returns -1 for invalid arguments.
+ */
+static gnm_float
+calculate_idle_circuits (gnm_float traffic, gnm_float circuits)
+{
+	circuits = gnm_floor (circuits);
+
+	if (circuits < 1 || traffic < 0)
+		return -1;
+
+	if (traffic == 0)
+		return circuits;
+
+	if (circuits < 100) {
+		// With I(n) = n - A*(1-B(n)) and B(n) = A*B(n-1) / (n + A*B(n-1))
+		// we have I(n) = n * (I(n-1) + 1) / (n + A*B(n-1)), I(0) = 0.
+		// All terms are positive and the recurrence is stable.
+		gnm_float n, b = 1, idle = 0;
+		for (n = 1; n <= circuits; n++) {
+			gnm_float den = n + traffic * b;
+			idle = n * (idle + 1) / den;
+			b = traffic * b / den;
+		}
+		return idle;
+	} else if (circuits / traffic < GNM_const(0.9)) {
+		// With B = 1/(1+S) and S = sum_j term_j as in calculate_gos
+		// we get I = (sum_j j * term_j) / (1+S).
+		gnm_float s = 0, w = 0, term = 1, n = circuits, j = 0;
+		while (n > 0) {
+			term *= n / traffic;
+			j++;
+			if (j * term < GNM_EPSILON * w)
+				break;
+			s += term;
+			w += j * term;
+			n--;
+		}
+		return w / (1 + s);
+	} else {
+		gnm_float loggos = calculate_loggos (traffic, circuits);
+		gnm_float carried = traffic * -gnm_expm1 (loggos);
+		return MAX (0, circuits - carried);
+	}
 }
 
 GNM_PLUGIN_MODULE_HEADER;
@@ -130,7 +188,7 @@ static GnmFuncHelp const help_offtraf[] = {
 	{ GNM_FUNC_HELP_ARG, F_("traffic:number of carried calls")},
 	{ GNM_FUNC_HELP_ARG, F_("circuits:number of circuits")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("OFFTRAF returns the predicted number of offered calls given @{traffic} carried calls (taken from measurements) on @{circuits} circuits.")},
-	{ GNM_FUNC_HELP_NOTE, F_("@{traffic} cannot exceed @{circuits}.") },
+	{ GNM_FUNC_HELP_NOTE, F_("@{traffic} must be less than @{circuits}, rounded down to an integer.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=OFFTRAF(24,30)" },
 	{ GNM_FUNC_HELP_SEEALSO, "PROBBLOCK,DIMCIRC,OFFCAP"},
 	{ GNM_FUNC_HELP_END }
@@ -138,16 +196,30 @@ static GnmFuncHelp const help_offtraf[] = {
 
 typedef struct {
 	gnm_float traffic, circuits;
+	// When the carried traffic is close to the number of circuits we
+	// solve for the number of idle circuits instead.  This is the same
+	// equation, but it is much better conditioned.
+	gboolean use_idle;
+	gnm_float target_idle;
 } gnumeric_offtraf_t;
 
 static GnmGoalSeekStatus
 gnumeric_offtraf_f (gnm_float off_traffic, gnm_float *y, void *user_data)
 {
 	gnumeric_offtraf_t *pudata = user_data;
-	gnm_float comp_gos = calculate_gos (off_traffic, pudata->circuits, TRUE);
-	if (!(comp_gos >= 0))
-		return GOAL_SEEK_ERROR;
-	*y = guess_carried_traffic (off_traffic, comp_gos) - pudata->traffic;
+
+	if (pudata->use_idle) {
+		gnm_float idle = calculate_idle_circuits (off_traffic, pudata->circuits);
+		if (!(idle >= 0))
+			return GOAL_SEEK_ERROR;
+		// carried - traffic == (circuits - traffic) - idle
+		*y = pudata->target_idle - idle;
+	} else {
+		gnm_float comp_gos = calculate_gos (off_traffic, pudata->circuits, TRUE);
+		if (!(comp_gos >= 0))
+			return GOAL_SEEK_ERROR;
+		*y = guess_carried_traffic (off_traffic, comp_gos) - pudata->traffic;
+	}
 	return GOAL_SEEK_OK;
 }
 
@@ -161,18 +233,27 @@ gnumeric_offtraf (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmGoalSeekStatus status;
 	gnumeric_offtraf_t udata;
 
-	/* Physical limit: Carried traffic cannot exceed or equal circuit count */
-	if (!(circuits >= 1) || !(traffic >= 0) || !(traffic < circuits))
+	/*
+	 * Physical limit: Carried traffic cannot exceed or equal circuit
+	 * count.  Fractional circuits are not used, see calculate_gos.
+	 */
+	if (!(circuits >= 1) || !(traffic >= 0) ||
+	    !(traffic < gnm_floor (circuits)))
 		return value_new_error_VALUE (ei->pos);
 
 	goal_seek_initialize (&data);
 	data.xmin = traffic;
+	// Carried traffic approaches the circuit count only slowly as
+	// offered traffic grows, so the default limit of 1e10 is too low.
+	data.xmax = GNM_MAX / 2;
 	udata.circuits = circuits;
 	udata.traffic = traffic;
+	udata.use_idle = (traffic >= gnm_floor (circuits) / 2);
+	udata.target_idle = gnm_floor (circuits) - traffic;
 
 	(void)goal_seek_point (&gnumeric_offtraf_f, &data, &udata, traffic);
 	upper = MAX (circuits, traffic * 2);
-	while (upper < data.xmax && !data.havexpos) {
+	while (upper < data.xmax && !data.havexpos && !data.have_root) {
 		(void)goal_seek_point (&gnumeric_offtraf_f, &data, &udata, upper);
 		if (data.havexpos) break;
 		upper *= 2;
@@ -217,7 +298,14 @@ gnumeric_dimcirc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	while (high - low > GNM_const(1.5)) {
 		gnm_float mid = gnm_floor ((high + low) / 2 + GNM_const(0.1));
-		gnm_float gos = calculate_gos (traffic, mid, FALSE);
+		gnm_float gos;
+
+		// Beyond 2^53 we cannot bisect integers any more and the
+		// midpoint will round to one of the end points.
+		if (!(mid > low && mid < high))
+			break;
+
+		gos = calculate_gos (traffic, mid, FALSE);
 		if (gos > des_gos)
 			low = mid;
 		else
