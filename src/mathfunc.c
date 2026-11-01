@@ -5047,6 +5047,16 @@ qf (gnm_float p, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p
 }
 
 
+/**
+ * pbinom2:
+ * @x0: the lower end of the interval
+ * @x1: the upper end of the interval
+ * @n: the number of trials
+ * @p: the probability of success in each trial
+ *
+ * Returns: the probability that a binomial random variable with @n
+ * trials and success probability @p takes a value in [@x0, @x1].
+ */
 gnm_float
 pbinom2 (gnm_float x0, gnm_float x1, gnm_float n, gnm_float p)
 {
@@ -6162,6 +6172,18 @@ gnm_owent_helper (gnm_float h, gnm_float a)
  *
  * Original code licensed under GPLv2+.
  */
+
+/**
+ * gnm_owent:
+ * @h: the first argument
+ * @a: the second argument
+ *
+ * Computes Owen's T function, the probability that two independent
+ * standard normal random variables @x and @y satisfy @x > @h and
+ * 0 < @y < @a @x.
+ *
+ * Returns: the value of Owen's T function at (@h, @a).
+ */
 gnm_float
 gnm_owent (gnm_float h, gnm_float a)
 {
@@ -6215,6 +6237,18 @@ gnm_owent (gnm_float h, gnm_float a)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_ilog:
+ * @x: a positive number
+ * @b: the base, a positive number different from 1
+ *
+ * Computes the logarithm of @x with base @b rounded down to an integer
+ * without the rounding problems of computing the logarithm first and
+ * then rounding down.
+ *
+ * Returns: the largest integer %i such that @b^i is no greater than @x,
+ * or NaN if the result is not implemented for the given arguments.
+ */
 gnm_float
 gnm_ilog (gnm_float x, gnm_float b)
 {
@@ -6293,6 +6327,13 @@ gnm_ilog (gnm_float x, gnm_float b)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_logbase:
+ * @x: a positive number
+ * @b: the base, a positive number different from 1
+ *
+ * Returns: the logarithm of @x with base @b.
+ */
 gnm_float
 gnm_logbase (gnm_float x, gnm_float b)
 {

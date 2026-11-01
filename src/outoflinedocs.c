@@ -76,6 +76,15 @@
  * gamma distribution.
  */
 
+/**
+ * lgamma1p:
+ * @a: a number greater than -1
+ *
+ * Returns: the logarithm of the gamma function of 1+@a, computed with
+ * less rounding error than the naive formula, especially for @a near
+ * zero.
+ */
+
 /* ------------------------------------------------------------------------- */
 
 /**
@@ -447,6 +456,29 @@
  *
  * Returns: the observation with cumulative probability @p for the
  * hypergeometric distribution.
+ */
+
+/* ------------------------------------------------------------------------- */
+
+/**
+ * dcauchy:
+ * @x: observation
+ * @location: the location parameter of the distribution
+ * @scale: the scale parameter of the distribution
+ * @give_log: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: density of the Cauchy distribution.
+ */
+
+/**
+ * pcauchy:
+ * @x: observation
+ * @location: the location parameter of the distribution
+ * @scale: the scale parameter of the distribution
+ * @lower_tail: if %TRUE, the lower tail of the distribution is considered.
+ * @log_p: if %TRUE, log of the result will be returned instead
+ *
+ * Returns: cumulative density of the Cauchy distribution.
  */
 
 /* ------------------------------------------------------------------------- */
