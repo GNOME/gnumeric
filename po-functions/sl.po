@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-10-31 18:28+0000\n"
-"PO-Revision-Date: 2026-10-31 21:35+0100\n"
+"POT-Creation-Date: 2026-11-01 17:02+0000\n"
+"PO-Revision-Date: 2026-11-01 20:04+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -276,21 +276,21 @@ msgstr "Če @{i} ni niti \"i\" niti \"j\" funkcija COMPLEX vrne napako #VALUE!."
 #: ../plugins/fn-stat/functions.c:3569 ../plugins/fn-stat/functions.c:4505
 #: ../plugins/fn-stat/functions.c:4562 ../plugins/fn-stat/functions.c:4610
 #: ../plugins/fn-stat/functions.c:4675 ../plugins/fn-string/functions.c:66
-#: ../plugins/fn-string/functions.c:105 ../plugins/fn-string/functions.c:167
-#: ../plugins/fn-string/functions.c:207 ../plugins/fn-string/functions.c:279
-#: ../plugins/fn-string/functions.c:298 ../plugins/fn-string/functions.c:315
-#: ../plugins/fn-string/functions.c:332 ../plugins/fn-string/functions.c:352
-#: ../plugins/fn-string/functions.c:419 ../plugins/fn-string/functions.c:439
-#: ../plugins/fn-string/functions.c:566 ../plugins/fn-string/functions.c:635
-#: ../plugins/fn-string/functions.c:655 ../plugins/fn-string/functions.c:676
-#: ../plugins/fn-string/functions.c:697 ../plugins/fn-string/functions.c:780
-#: ../plugins/fn-string/functions.c:849 ../plugins/fn-string/functions.c:880
-#: ../plugins/fn-string/functions.c:918 ../plugins/fn-string/functions.c:975
-#: ../plugins/fn-string/functions.c:1298 ../plugins/fn-string/functions.c:1408
-#: ../plugins/fn-string/functions.c:1432 ../plugins/fn-string/functions.c:1485
-#: ../plugins/fn-string/functions.c:1526 ../plugins/fn-string/functions.c:1564
-#: ../plugins/fn-string/functions.c:1637 ../plugins/fn-string/functions.c:1997
-#: ../plugins/fn-string/functions.c:2080
+#: ../plugins/fn-string/functions.c:106 ../plugins/fn-string/functions.c:171
+#: ../plugins/fn-string/functions.c:211 ../plugins/fn-string/functions.c:283
+#: ../plugins/fn-string/functions.c:302 ../plugins/fn-string/functions.c:319
+#: ../plugins/fn-string/functions.c:336 ../plugins/fn-string/functions.c:356
+#: ../plugins/fn-string/functions.c:423 ../plugins/fn-string/functions.c:443
+#: ../plugins/fn-string/functions.c:570 ../plugins/fn-string/functions.c:639
+#: ../plugins/fn-string/functions.c:659 ../plugins/fn-string/functions.c:680
+#: ../plugins/fn-string/functions.c:701 ../plugins/fn-string/functions.c:784
+#: ../plugins/fn-string/functions.c:853 ../plugins/fn-string/functions.c:884
+#: ../plugins/fn-string/functions.c:922 ../plugins/fn-string/functions.c:979
+#: ../plugins/fn-string/functions.c:1334 ../plugins/fn-string/functions.c:1444
+#: ../plugins/fn-string/functions.c:1468 ../plugins/fn-string/functions.c:1521
+#: ../plugins/fn-string/functions.c:1562 ../plugins/fn-string/functions.c:1600
+#: ../plugins/fn-string/functions.c:1673 ../plugins/fn-string/functions.c:2077
+#: ../plugins/fn-string/functions.c:2160
 msgid "This function is Excel compatible."
 msgstr "Ta funkcija je združljiva s funkcijami programa MS Excel."
 
@@ -1280,9 +1280,9 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:2578 ../plugins/fn-math/functions.c:3256
 #: ../plugins/fn-math/functions.c:3455 ../plugins/fn-stat/functions.c:1761
 #: ../plugins/fn-stat/functions.c:2707 ../plugins/fn-stat/functions.c:5064
-#: ../plugins/fn-string/functions.c:353 ../plugins/fn-string/functions.c:440
-#: ../plugins/fn-string/functions.c:567 ../plugins/fn-string/functions.c:1565
-#: ../plugins/fn-string/functions.c:2173 ../plugins/fn-string/functions.c:2422
+#: ../plugins/fn-string/functions.c:357 ../plugins/fn-string/functions.c:444
+#: ../plugins/fn-string/functions.c:571 ../plugins/fn-string/functions.c:1601
+#: ../plugins/fn-string/functions.c:2261 ../plugins/fn-string/functions.c:2510
 msgid "This function is OpenFormula compatible."
 msgstr "Funkcija je združljiva s funkcijami programa OpenFormula."
 
@@ -5228,14 +5228,14 @@ msgstr "ISTEXT: funkcija vrne PRAV, če je @{vrednost} besedilo"
 msgid "N:@{text} converted to a number"
 msgstr "N: @{besedilo} pretvorjeno v številčno vrednost"
 
-#: ../plugins/fn-info/functions.c:923 ../plugins/fn-string/functions.c:418
-#: ../plugins/fn-string/functions.c:634 ../plugins/fn-string/functions.c:778
-#: ../plugins/fn-string/functions.c:847 ../plugins/fn-string/functions.c:974
-#: ../plugins/fn-string/functions.c:1015 ../plugins/fn-string/functions.c:1144
-#: ../plugins/fn-string/functions.c:1254 ../plugins/fn-string/functions.c:1484
-#: ../plugins/fn-string/functions.c:1525 ../plugins/fn-string/functions.c:1558
-#: ../plugins/fn-string/functions.c:1706 ../plugins/fn-string/functions.c:1840
-#: ../plugins/fn-string/functions.c:1906 ../plugins/fn-string/functions.c:2168
+#: ../plugins/fn-info/functions.c:923 ../plugins/fn-string/functions.c:422
+#: ../plugins/fn-string/functions.c:638 ../plugins/fn-string/functions.c:782
+#: ../plugins/fn-string/functions.c:851 ../plugins/fn-string/functions.c:978
+#: ../plugins/fn-string/functions.c:1019 ../plugins/fn-string/functions.c:1155
+#: ../plugins/fn-string/functions.c:1290 ../plugins/fn-string/functions.c:1520
+#: ../plugins/fn-string/functions.c:1561 ../plugins/fn-string/functions.c:1594
+#: ../plugins/fn-string/functions.c:1743 ../plugins/fn-string/functions.c:1920
+#: ../plugins/fn-string/functions.c:1986 ../plugins/fn-string/functions.c:2256
 msgid "text:string"
 msgstr "besedilo: niz"
 
@@ -5813,8 +5813,8 @@ msgstr "polje_iskanja: obseg za iskanje"
 msgid "return_array:range of return values"
 msgstr "vrnjeno_polje: obseg vrnjenih vrednosti"
 
-#: ../plugins/fn-lookup/functions.c:1459 ../plugins/fn-string/functions.c:1711
-#: ../plugins/fn-string/functions.c:1845
+#: ../plugins/fn-lookup/functions.c:1459 ../plugins/fn-string/functions.c:1748
+#: ../plugins/fn-string/functions.c:1925
 msgid "if_not_found:value to return if no match is found; defaults to #N/A"
 msgstr ""
 "če_ni_zadetkov: vrnjena vrednost, če ni zadetkov; privzeto ima vrednost #N/A"
@@ -8009,8 +8009,8 @@ msgstr "R.DBETA: funkcija gostote verjetnosti porazdelitve beta"
 #: ../plugins/fn-r/functions.c:1190 ../plugins/fn-r/functions.c:1217
 #: ../plugins/fn-r/functions.c:1275 ../plugins/fn-r/functions.c:1300
 #: ../plugins/fn-r/functions.c:1354 ../plugins/fn-r/functions.c:1377
-#: ../plugins/fn-r/functions.c:1427 ../plugins/fn-r/functions.c:1483
-#: ../plugins/fn-r/functions.c:1508 ../plugins/fn-stat/functions.c:458
+#: ../plugins/fn-r/functions.c:1427 ../plugins/fn-r/functions.c:1485
+#: ../plugins/fn-r/functions.c:1510 ../plugins/fn-stat/functions.c:458
 #: ../plugins/fn-stat/functions.c:1846
 msgid "x:observation"
 msgstr "x: opazovanje"
@@ -8034,7 +8034,7 @@ msgstr "b: drugi parameter merila porazdelitve"
 #: ../plugins/fn-r/functions.c:962 ../plugins/fn-r/functions.c:1046
 #: ../plugins/fn-r/functions.c:1119 ../plugins/fn-r/functions.c:1194
 #: ../plugins/fn-r/functions.c:1278 ../plugins/fn-r/functions.c:1356
-#: ../plugins/fn-r/functions.c:1486
+#: ../plugins/fn-r/functions.c:1488
 msgid "give_log:if true, log of the result will be returned instead"
 msgstr "podaj logaritem: izbrana možnost omogoči izpis logaritma v rezultatu"
 
@@ -8066,8 +8066,8 @@ msgstr "R.PBETA: zbirna funkcija porazdelitve beta"
 #: ../plugins/fn-r/functions.c:1221 ../plugins/fn-r/functions.c:1250
 #: ../plugins/fn-r/functions.c:1303 ../plugins/fn-r/functions.c:1330
 #: ../plugins/fn-r/functions.c:1379 ../plugins/fn-r/functions.c:1404
-#: ../plugins/fn-r/functions.c:1431 ../plugins/fn-r/functions.c:1459
-#: ../plugins/fn-r/functions.c:1511 ../plugins/fn-r/functions.c:1538
+#: ../plugins/fn-r/functions.c:1431 ../plugins/fn-r/functions.c:1460
+#: ../plugins/fn-r/functions.c:1513 ../plugins/fn-r/functions.c:1540
 msgid ""
 "lower_tail:if true (the default), the lower tail of the distribution is "
 "considered"
@@ -8093,8 +8093,8 @@ msgstr ""
 #: ../plugins/fn-r/functions.c:1222 ../plugins/fn-r/functions.c:1251
 #: ../plugins/fn-r/functions.c:1304 ../plugins/fn-r/functions.c:1331
 #: ../plugins/fn-r/functions.c:1380 ../plugins/fn-r/functions.c:1405
-#: ../plugins/fn-r/functions.c:1432 ../plugins/fn-r/functions.c:1460
-#: ../plugins/fn-r/functions.c:1512 ../plugins/fn-r/functions.c:1539
+#: ../plugins/fn-r/functions.c:1432 ../plugins/fn-r/functions.c:1461
+#: ../plugins/fn-r/functions.c:1514 ../plugins/fn-r/functions.c:1541
 msgid ""
 "log_p:if true, the natural logarithm of the probability is given or "
 "returned; defaults to false"
@@ -8121,7 +8121,7 @@ msgstr "R.QBETA: kvantilna funkcija verjetnosti porazdelitve beta"
 #: ../plugins/fn-r/functions.c:1015 ../plugins/fn-r/functions.c:1092
 #: ../plugins/fn-r/functions.c:1165 ../plugins/fn-r/functions.c:1246
 #: ../plugins/fn-r/functions.c:1327 ../plugins/fn-r/functions.c:1402
-#: ../plugins/fn-r/functions.c:1455 ../plugins/fn-r/functions.c:1535
+#: ../plugins/fn-r/functions.c:1456 ../plugins/fn-r/functions.c:1537
 msgid "p:probability or natural logarithm of the probability"
 msgstr "p:verjetnost ali naravni logaritem verjetnosti"
 
@@ -8194,8 +8194,8 @@ msgstr "mesto: sredina porazdelitve"
 #: ../plugins/fn-r/functions.c:539 ../plugins/fn-r/functions.c:1118
 #: ../plugins/fn-r/functions.c:1141 ../plugins/fn-r/functions.c:1166
 #: ../plugins/fn-r/functions.c:1193 ../plugins/fn-r/functions.c:1220
-#: ../plugins/fn-r/functions.c:1249 ../plugins/fn-r/functions.c:1485
-#: ../plugins/fn-r/functions.c:1510 ../plugins/fn-r/functions.c:1537
+#: ../plugins/fn-r/functions.c:1249 ../plugins/fn-r/functions.c:1487
+#: ../plugins/fn-r/functions.c:1512 ../plugins/fn-r/functions.c:1539
 msgid "scale:the scale parameter of the distribution"
 msgstr "merilo: parameter merila porazdelitve"
 
@@ -8233,7 +8233,7 @@ msgstr "R.DCHISQ: kvantilna funkcija verjetnosti porazdelitve hi-kvadrat"
 
 #: ../plugins/fn-r/functions.c:258 ../plugins/fn-r/functions.c:282
 #: ../plugins/fn-r/functions.c:308 ../plugins/fn-r/functions.c:1429
-#: ../plugins/fn-r/functions.c:1457
+#: ../plugins/fn-r/functions.c:1458
 msgid "df:the number of degrees of freedom of the distribution"
 msgstr "df: število prostostnih stopenj porazdelitve"
 
@@ -8371,8 +8371,8 @@ msgstr "R.DGAMMA: funkcija gostote verjetnosti porazdelitve gama"
 #: ../plugins/fn-r/functions.c:538 ../plugins/fn-r/functions.c:1191
 #: ../plugins/fn-r/functions.c:1218 ../plugins/fn-r/functions.c:1247
 #: ../plugins/fn-r/functions.c:1277 ../plugins/fn-r/functions.c:1302
-#: ../plugins/fn-r/functions.c:1329 ../plugins/fn-r/functions.c:1484
-#: ../plugins/fn-r/functions.c:1509 ../plugins/fn-r/functions.c:1536
+#: ../plugins/fn-r/functions.c:1329 ../plugins/fn-r/functions.c:1486
+#: ../plugins/fn-r/functions.c:1511 ../plugins/fn-r/functions.c:1538
 msgid "shape:the shape parameter of the distribution"
 msgstr "oblika: parameter oblike porazdelitve"
 
@@ -8443,12 +8443,12 @@ msgstr "R.DGUMBEL:funkcija gostote verjetnosti za Gumblovo porazdelitev"
 
 #: ../plugins/fn-r/functions.c:638 ../plugins/fn-r/functions.c:663
 #: ../plugins/fn-r/functions.c:690
-msgid "mu:the location parameter of freedom of the distribution"
-msgstr "mu:lokacijski parameter svobode porazdelitve"
+msgid "mu:the location parameter of the distribution"
+msgstr "Mu: parameter mesta porazdelitve"
 
 #: ../plugins/fn-r/functions.c:639 ../plugins/fn-r/functions.c:664
 #: ../plugins/fn-r/functions.c:691
-msgid "beta:the scale parameter of freedom of the distribution"
+msgid "beta:the scale parameter of the distribution"
 msgstr "beta: parameter merila svobode porazdelitve"
 
 #: ../plugins/fn-r/functions.c:641
@@ -8867,11 +8867,11 @@ msgid ""
 "distribution"
 msgstr "R.PTUKEY: zbirna funkcija razmika T porazdelitve"
 
-#: ../plugins/fn-r/functions.c:1428 ../plugins/fn-r/functions.c:1456
+#: ../plugins/fn-r/functions.c:1428 ../plugins/fn-r/functions.c:1457
 msgid "nmeans:the number of means"
 msgstr "ns: število srednjih vrednosti"
 
-#: ../plugins/fn-r/functions.c:1430 ../plugins/fn-r/functions.c:1458
+#: ../plugins/fn-r/functions.c:1430 ../plugins/fn-r/functions.c:1459
 msgid "nranges:the number of ranges; default is 1"
 msgstr "no: število obsegov podatkov; privzeto je vrednost določena na 1"
 
@@ -8881,12 +8881,12 @@ msgid ""
 "Studentized range distribution."
 msgstr "Funkcija vrne zbirno funkcijo razmika porazdelitve za T porazdelitev"
 
-#: ../plugins/fn-r/functions.c:1454
+#: ../plugins/fn-r/functions.c:1455
 msgid ""
 "R.QTUKEY:probability quantile function of the Studentized range distribution"
 msgstr "R.QTUKEY: kvantilna funkcija verjetnosti razmika T porazdelitve"
 
-#: ../plugins/fn-r/functions.c:1461
+#: ../plugins/fn-r/functions.c:1462
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Studentized range "
@@ -8895,31 +8895,31 @@ msgstr ""
 "Funkcija vrne kvantilno funkcijo verjetnosti oziroma inverzno funkcijo "
 "razmika zbirne T porazdelitve."
 
-#: ../plugins/fn-r/functions.c:1482
+#: ../plugins/fn-r/functions.c:1484
 msgid "R.DWEIBULL:probability density function of the Weibull distribution"
 msgstr "R.DWEIBULL: funkcija gostote verjetnosti Weibullove porazdelitve"
 
-#: ../plugins/fn-r/functions.c:1487
+#: ../plugins/fn-r/functions.c:1489
 msgid ""
 "This function returns the probability density function of the Weibull "
 "distribution."
 msgstr "Funkcija vrne funkcijo gostote verjetnosti Weibullove porazdelitve"
 
-#: ../plugins/fn-r/functions.c:1507
+#: ../plugins/fn-r/functions.c:1509
 msgid "R.PWEIBULL:cumulative distribution function of the Weibull distribution"
 msgstr "R.PWEIBULL: zbirna funkcija Weibullove porazdelitve"
 
-#: ../plugins/fn-r/functions.c:1513
+#: ../plugins/fn-r/functions.c:1515
 msgid ""
 "This function returns the cumulative distribution function of the Weibull "
 "distribution."
 msgstr "Funkcija vrne zbirno funkcijo porazdelitve za Weibullovo porazdelitev."
 
-#: ../plugins/fn-r/functions.c:1534
+#: ../plugins/fn-r/functions.c:1536
 msgid "R.QWEIBULL:probability quantile function of the Weibull distribution"
 msgstr "R.QWEIBULL: kvantilna funkcija verjetnosti Weibullove porazdelitve"
 
-#: ../plugins/fn-r/functions.c:1540
+#: ../plugins/fn-r/functions.c:1542
 msgid ""
 "This function returns the probability quantile function, i.e., the inverse "
 "of the cumulative distribution function, of the Weibull distribution."
@@ -12149,7 +12149,7 @@ msgstr ""
 msgid "@{x} must be in the range 1 to 255."
 msgstr "Vrednost @{x} mora biti v območju od 1 do 255."
 
-#: ../plugins/fn-string/functions.c:58 ../plugins/fn-string/functions.c:163
+#: ../plugins/fn-string/functions.c:58 ../plugins/fn-string/functions.c:167
 msgid ""
 "CP1252 (Windows-1252) is also known as the \"ANSI code page\", but it is not "
 "an ANSI standard."
@@ -12167,7 +12167,7 @@ msgstr ""
 "ISO-8859-1 in vključuje vse natisljive znake. Vključuje tudi vse natisljive "
 "znake standarda ISO-8859-15, vendar delno na različnih mestih."
 
-#: ../plugins/fn-string/functions.c:64 ../plugins/fn-string/functions.c:165
+#: ../plugins/fn-string/functions.c:64 ../plugins/fn-string/functions.c:169
 msgid ""
 "In CP1252 (Windows-1252), 129, 141, 143, 144, and 157 do not have matching "
 "characters."
@@ -12175,7 +12175,7 @@ msgstr ""
 "V znakovnem naboru CP1252 (Windows-1252) na mestih 129, 141, 143, 144 in 157 "
 "ni skladnih znakov."
 
-#: ../plugins/fn-string/functions.c:65 ../plugins/fn-string/functions.c:166
+#: ../plugins/fn-string/functions.c:65 ../plugins/fn-string/functions.c:170
 msgid ""
 "For @{x} from 1 to 255 except 129, 141, 143, 144, and 157 we have "
 "CODE(CHAR(@{x}))=@{x}."
@@ -12183,27 +12183,27 @@ msgstr ""
 "Za vrednosti @{x} od 1 do 255, razen 129, 141, 143, 144, in 157, je mogoče "
 "uporabiti funkcijo CODE(CHAR(@{x}))=@{x}."
 
-#: ../plugins/fn-string/functions.c:103
+#: ../plugins/fn-string/functions.c:104
 msgid "UNICHAR:the Unicode character represented by the code point @{n}"
 msgstr "UNICHAR: znak v naboru Unicode, ki je določen s kodo @{n}"
 
-#: ../plugins/fn-string/functions.c:104
+#: ../plugins/fn-string/functions.c:105
 msgid "n:Unicode code point"
 msgstr "N: točka kode Unicode"
 
-#: ../plugins/fn-string/functions.c:160
+#: ../plugins/fn-string/functions.c:164
 msgid "CODE:the CP1252 (Windows-1252) code point for the character @{c}"
 msgstr "CODE: koda CP1252 (Windows-1252) za znak @{c}"
 
-#: ../plugins/fn-string/functions.c:161 ../plugins/fn-string/functions.c:206
+#: ../plugins/fn-string/functions.c:165 ../plugins/fn-string/functions.c:210
 msgid "c:character"
 msgstr "c: znak"
 
-#: ../plugins/fn-string/functions.c:162
+#: ../plugins/fn-string/functions.c:166
 msgid "@{c} must be a valid CP1252 (Windows-1252) character."
 msgstr "@{c} mora biti veljavni znak v naboru CP1252 (Windows-1252)."
 
-#: ../plugins/fn-string/functions.c:164
+#: ../plugins/fn-string/functions.c:168
 msgid ""
 "CP1252 (Windows-1252) is based on an early draft of ISO-8859-1, and contains "
 "all of its printable characters (but partially at different positions.)"
@@ -12212,76 +12212,76 @@ msgstr ""
 "ISO-8859-1 in vsebuje vse natisljive znake (vendar delno na različnih "
 "mestih)."
 
-#: ../plugins/fn-string/functions.c:205
+#: ../plugins/fn-string/functions.c:209
 msgid "UNICODE:the Unicode code point for the character @{c}"
 msgstr "UNICODE: kodna točka nabora Unikod za znak @{c}"
 
-#: ../plugins/fn-string/functions.c:276
+#: ../plugins/fn-string/functions.c:280
 msgid "EXACT:TRUE if @{string1} is exactly equal to @{string2}"
 msgstr "EXACT: funkcija vrne PRAV, če je @{niz1} natanko enak @{nizu2}"
 
-#: ../plugins/fn-string/functions.c:277
+#: ../plugins/fn-string/functions.c:281
 msgid "string1:first string"
 msgstr "niz1: prvi niz"
 
-#: ../plugins/fn-string/functions.c:278
+#: ../plugins/fn-string/functions.c:282
 msgid "string2:second string"
 msgstr "niz2: drugi niz"
 
-#: ../plugins/fn-string/functions.c:296
+#: ../plugins/fn-string/functions.c:300
 msgid "ENCODEURL:encode a string for use in a URL"
 msgstr "ENCODEURL:kodiranje niza za uporabo v URL-ju"
 
-#: ../plugins/fn-string/functions.c:297
+#: ../plugins/fn-string/functions.c:301
 msgid "string:string to encode"
 msgstr "niz: niz za kodiranje"
 
-#: ../plugins/fn-string/functions.c:313
+#: ../plugins/fn-string/functions.c:317
 msgid "LEN:the number of characters of the string @{s}"
 msgstr "LEN: število znakov niza @{s}"
 
-#: ../plugins/fn-string/functions.c:314 ../plugins/fn-string/functions.c:331
-#: ../plugins/fn-string/functions.c:349 ../plugins/fn-string/functions.c:384
-#: ../plugins/fn-string/functions.c:436 ../plugins/fn-string/functions.c:476
-#: ../plugins/fn-string/functions.c:563 ../plugins/fn-string/functions.c:599
+#: ../plugins/fn-string/functions.c:318 ../plugins/fn-string/functions.c:335
+#: ../plugins/fn-string/functions.c:353 ../plugins/fn-string/functions.c:388
+#: ../plugins/fn-string/functions.c:440 ../plugins/fn-string/functions.c:480
+#: ../plugins/fn-string/functions.c:567 ../plugins/fn-string/functions.c:603
 msgid "s:the string"
 msgstr "s: niz"
 
-#: ../plugins/fn-string/functions.c:330
+#: ../plugins/fn-string/functions.c:334
 msgid "LENB:the number of bytes in the string @{s}"
 msgstr "LENB: število bitov v nizu @{s}"
 
-#: ../plugins/fn-string/functions.c:348
+#: ../plugins/fn-string/functions.c:352
 msgid "LEFT:the first @{num_chars} characters of the string @{s}"
 msgstr ""
 "LEFT: določeno @{število znakov}, ki se pojavljajo na začetku niza @{s}"
 
-#: ../plugins/fn-string/functions.c:350 ../plugins/fn-string/functions.c:564
+#: ../plugins/fn-string/functions.c:354 ../plugins/fn-string/functions.c:568
 msgid "num_chars:the number of characters to return (defaults to 1)"
 msgstr "število znakov: število prikazanih znakov (privzeto določeno na 1)"
 
-#: ../plugins/fn-string/functions.c:351
+#: ../plugins/fn-string/functions.c:355
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned first "
 "characters are from the right of the string."
 msgstr ""
 "Če je niz @{s} zapisan od desne-proti-levi, so vrnjeni znaki z desne strani."
 
-#: ../plugins/fn-string/functions.c:383
+#: ../plugins/fn-string/functions.c:387
 msgid ""
 "LEFTB:the first characters of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr ""
 "LEFTB: prvi znaki niza @{s}, sestavljeni iz ne več kot @{num_bytes} bajtov"
 
-#: ../plugins/fn-string/functions.c:385 ../plugins/fn-string/functions.c:478
-#: ../plugins/fn-string/functions.c:600
+#: ../plugins/fn-string/functions.c:389 ../plugins/fn-string/functions.c:482
+#: ../plugins/fn-string/functions.c:604
 msgid "num_bytes:the maximum number of bytes to return (defaults to 1)"
 msgstr "število bajtov: največje število vrnjenih bajtov (privzeto 1)"
 
-#: ../plugins/fn-string/functions.c:386 ../plugins/fn-string/functions.c:479
-#: ../plugins/fn-string/functions.c:601 ../plugins/fn-string/functions.c:1351
-#: ../plugins/fn-string/functions.c:2123
+#: ../plugins/fn-string/functions.c:390 ../plugins/fn-string/functions.c:483
+#: ../plugins/fn-string/functions.c:605 ../plugins/fn-string/functions.c:1387
+#: ../plugins/fn-string/functions.c:2203
 msgid ""
 "The semantics of this function is subject to change as various applications "
 "implement it."
@@ -12289,16 +12289,16 @@ msgstr ""
 "Skladnja te funkcije bo verjetno spremenjena, saj je vgrajena v različne "
 "programe."
 
-#: ../plugins/fn-string/functions.c:387
+#: ../plugins/fn-string/functions.c:391
 msgid ""
 "If the string is in a right-to-left script, the returned first characters "
 "are from the right of the string."
 msgstr ""
 "Če je niz zapisan od desne-proti-levi, so vrnjeni znaki z desne strani niza."
 
-#: ../plugins/fn-string/functions.c:388 ../plugins/fn-string/functions.c:480
-#: ../plugins/fn-string/functions.c:524 ../plugins/fn-string/functions.c:603
-#: ../plugins/fn-string/functions.c:1352 ../plugins/fn-string/functions.c:2124
+#: ../plugins/fn-string/functions.c:392 ../plugins/fn-string/functions.c:484
+#: ../plugins/fn-string/functions.c:528 ../plugins/fn-string/functions.c:607
+#: ../plugins/fn-string/functions.c:1388 ../plugins/fn-string/functions.c:2204
 msgid ""
 "While this function is syntactically Excel compatible, the differences in "
 "the underlying text encoding will usually yield different results."
@@ -12307,9 +12307,9 @@ msgstr ""
 "pojavljajo razlike v znakovnem kodiranju, kar lahko povzroči razliko v "
 "rezultatu funkcije."
 
-#: ../plugins/fn-string/functions.c:389 ../plugins/fn-string/functions.c:482
-#: ../plugins/fn-string/functions.c:526 ../plugins/fn-string/functions.c:604
-#: ../plugins/fn-string/functions.c:1354 ../plugins/fn-string/functions.c:2126
+#: ../plugins/fn-string/functions.c:393 ../plugins/fn-string/functions.c:486
+#: ../plugins/fn-string/functions.c:530 ../plugins/fn-string/functions.c:608
+#: ../plugins/fn-string/functions.c:1390 ../plugins/fn-string/functions.c:2206
 msgid ""
 "While this function is OpenFormula compatible, most of its behavior is, at "
 "this time, implementation specific."
@@ -12317,11 +12317,11 @@ msgstr ""
 "Čeprav je ta funkcija združljiva s funkcijami programa OpenFormula, je "
 "delovanje še vedno značilno za posamezno izvedbo."
 
-#: ../plugins/fn-string/functions.c:417
+#: ../plugins/fn-string/functions.c:421
 msgid "LOWER:a lower-case version of the string @{text}"
 msgstr "LOWER: vrednost niza @{besedila} zapisanega z malimi črkami"
 
-#: ../plugins/fn-string/functions.c:435
+#: ../plugins/fn-string/functions.c:439
 msgid ""
 "MID:the substring of the string @{s} starting at position @{position} "
 "consisting of @{length} characters"
@@ -12329,15 +12329,15 @@ msgstr ""
 "MID: podniz niza @{s} z začetkom na @{mestu}, ki ga sestavlja @{dolžina} "
 "znakov"
 
-#: ../plugins/fn-string/functions.c:437
+#: ../plugins/fn-string/functions.c:441
 msgid "position:the starting position"
 msgstr "položaj: začetni položaj"
 
-#: ../plugins/fn-string/functions.c:438
+#: ../plugins/fn-string/functions.c:442
 msgid "length:the number of characters to return"
 msgstr "dolžina: število vrnjenih znakov"
 
-#: ../plugins/fn-string/functions.c:475
+#: ../plugins/fn-string/functions.c:479
 msgid ""
 "MIDB:the characters following the first @{start_pos} bytes comprising at "
 "most @{num_bytes} bytes"
@@ -12345,13 +12345,13 @@ msgstr ""
 "MIDB: število znakov ki so za @{začetnim položajem} bajtov, sestavljeni iz "
 "ne več kot @{število bajtov}."
 
-#: ../plugins/fn-string/functions.c:477
+#: ../plugins/fn-string/functions.c:481
 msgid "start_pos:the number of the byte with which to start (defaults to 1)"
 msgstr ""
 "začetni položaj: številka bajta, s katerim je treba začeti (privzeta "
 "vrednost je 1)"
 
-#: ../plugins/fn-string/functions.c:519
+#: ../plugins/fn-string/functions.c:523
 msgid ""
 "FINDB:first byte position of @{string1} in @{string2} following byte "
 "position @{start}"
@@ -12359,27 +12359,27 @@ msgstr ""
 "FIND: najde prvo bajtno pojavitev @{niza1} v @{nizu2} za @{začetnim} bajtnim "
 "mestom"
 
-#: ../plugins/fn-string/functions.c:520 ../plugins/fn-string/functions.c:876
+#: ../plugins/fn-string/functions.c:524 ../plugins/fn-string/functions.c:880
 msgid "string1:search string"
 msgstr "niz1: iskalni niz"
 
-#: ../plugins/fn-string/functions.c:521 ../plugins/fn-string/functions.c:877
+#: ../plugins/fn-string/functions.c:525 ../plugins/fn-string/functions.c:881
 msgid "string2:search field"
 msgstr "niz2: iskalno polje"
 
-#: ../plugins/fn-string/functions.c:522 ../plugins/fn-string/functions.c:2113
+#: ../plugins/fn-string/functions.c:526 ../plugins/fn-string/functions.c:2193
 msgid "start:starting byte position, defaults to 1"
 msgstr "začetek: začetno bitno mesto, privzeto 1"
 
-#: ../plugins/fn-string/functions.c:523 ../plugins/fn-string/functions.c:879
+#: ../plugins/fn-string/functions.c:527 ../plugins/fn-string/functions.c:883
 msgid "This search is case-sensitive."
 msgstr "Iskalnik upošteva velikost črk."
 
-#: ../plugins/fn-string/functions.c:562
+#: ../plugins/fn-string/functions.c:566
 msgid "RIGHT:the last @{num_chars} characters of the string @{s}"
 msgstr "RIGHT: določeno @{število znakov}, ki se pojavljajo na koncu niza @{s}"
 
-#: ../plugins/fn-string/functions.c:565 ../plugins/fn-string/functions.c:602
+#: ../plugins/fn-string/functions.c:569 ../plugins/fn-string/functions.c:606
 msgid ""
 "If the string @{s} is in a right-to-left script, the returned last "
 "characters are from the left of the string."
@@ -12387,65 +12387,65 @@ msgstr ""
 "Če je niz @{s} zapisan od desne-proti-levi, je vrnjeno število znakov z leve "
 "strani niza."
 
-#: ../plugins/fn-string/functions.c:598
+#: ../plugins/fn-string/functions.c:602
 msgid ""
 "RIGHTB:the last characters of the string @{s} comprising at most "
 "@{num_bytes} bytes"
 msgstr ""
 "RIGHTB: zadnji znaki niza @{s}, sestavljeni iz ne več kot @{števila bajtov}"
 
-#: ../plugins/fn-string/functions.c:633
+#: ../plugins/fn-string/functions.c:637
 msgid "UPPER:an upper-case version of the string @{text}"
 msgstr "UPPER: vrednost niza @{besedila} zapisanega z velikimi črkami"
 
-#: ../plugins/fn-string/functions.c:652
+#: ../plugins/fn-string/functions.c:656
 msgid "CONCATENATE:the concatenation of the strings @{s1}, @{s2},…"
 msgstr "CONCATENATE: združevanje izpisa nizov @{s1}, @{s2}, …"
 
-#: ../plugins/fn-string/functions.c:653 ../plugins/fn-string/functions.c:674
-#: ../plugins/fn-string/functions.c:695
+#: ../plugins/fn-string/functions.c:657 ../plugins/fn-string/functions.c:678
+#: ../plugins/fn-string/functions.c:699
 msgid "s1:first string"
 msgstr "s1: prvi niz"
 
-#: ../plugins/fn-string/functions.c:654 ../plugins/fn-string/functions.c:675
-#: ../plugins/fn-string/functions.c:696
+#: ../plugins/fn-string/functions.c:658 ../plugins/fn-string/functions.c:679
+#: ../plugins/fn-string/functions.c:700
 msgid "s2:second string"
 msgstr "s2: drugi niz"
 
-#: ../plugins/fn-string/functions.c:673
+#: ../plugins/fn-string/functions.c:677
 msgid "CONCAT:the concatenation of the strings @{s1}, @{s2},…"
 msgstr "CONCAT: združevanje izpisa nizov @{s1}, @{s2}, …"
 
-#: ../plugins/fn-string/functions.c:678
+#: ../plugins/fn-string/functions.c:682
 msgid "This function is identical to CONCATENATE"
 msgstr "Ta funkcija je identična funkciji CONCATENATE"
 
-#: ../plugins/fn-string/functions.c:692
+#: ../plugins/fn-string/functions.c:696
 msgid ""
 "TEXTJOIN:the concatenation of the strings @{s1}, @{s2},… delimited by @{del}"
 msgstr "TEXTJOIN: združevanje izpisa nizov @{s1}, @{s2}, … ločenih z @{del}"
 
-#: ../plugins/fn-string/functions.c:693
+#: ../plugins/fn-string/functions.c:697
 msgid "del:delimiter"
 msgstr "del:ločilo"
 
-#: ../plugins/fn-string/functions.c:694
+#: ../plugins/fn-string/functions.c:698
 msgid "blank:ignore blanks"
 msgstr "blank:prezri praznine"
 
-#: ../plugins/fn-string/functions.c:777
+#: ../plugins/fn-string/functions.c:781
 msgid "REPT:@{num} repetitions of string @{text}"
 msgstr "REPT: @{število} ponovitev niza @{besedila}"
 
-#: ../plugins/fn-string/functions.c:779
+#: ../plugins/fn-string/functions.c:783
 msgid "num:non-negative integer"
 msgstr "štev: ne-negativno celo število"
 
-#: ../plugins/fn-string/functions.c:846
+#: ../plugins/fn-string/functions.c:850
 msgid "CLEAN:@{text} with any non-printable characters removed"
 msgstr "CLEAN: @{besedilu} odstrani ne-natisljive znake"
 
-#: ../plugins/fn-string/functions.c:848
+#: ../plugins/fn-string/functions.c:852
 msgid ""
 "CLEAN removes non-printable characters from its argument leaving only "
 "regular characters and white-space."
@@ -12453,48 +12453,48 @@ msgstr ""
 "Funkcija CLEAN odstrani ne-natisljive znake iz argumentov in pusti le "
 "običajne znake in navadne presledne znake."
 
-#: ../plugins/fn-string/functions.c:875
+#: ../plugins/fn-string/functions.c:879
 msgid ""
 "FIND:first position of @{string1} in @{string2} following position @{start}"
 msgstr "FIND: najde prvo pojavitev @{niza1} v @{nizu2} za @{začetnim} mestom"
 
-#: ../plugins/fn-string/functions.c:878 ../plugins/fn-string/functions.c:2070
+#: ../plugins/fn-string/functions.c:882 ../plugins/fn-string/functions.c:2150
 msgid "start:starting position, defaults to 1"
 msgstr "začetek: začetni položaj, privzeto je enak 1"
 
-#: ../plugins/fn-string/functions.c:913
+#: ../plugins/fn-string/functions.c:917
 msgid "FIXED:formatted string representation of @{num}"
 msgstr "FIXED: oblikovana predstavitev niza @{številke}"
 
-#: ../plugins/fn-string/functions.c:914 ../plugins/fn-string/functions.c:1995
+#: ../plugins/fn-string/functions.c:918 ../plugins/fn-string/functions.c:2075
 msgid "num:number"
 msgstr "štev: število"
 
-#: ../plugins/fn-string/functions.c:915
+#: ../plugins/fn-string/functions.c:919
 msgid "decimals:number of decimals"
 msgstr "decimalke: število decimalnih mest"
 
-#: ../plugins/fn-string/functions.c:916
+#: ../plugins/fn-string/functions.c:920
 msgid ""
 "no_commas:TRUE if no thousand separators should be used, defaults to FALSE"
 msgstr ""
 "brez ločilnika: funkcija vrne PRAV, če ločilnik tisočic ni uporabljen; "
 "privzeto je izbrano NAPAK"
 
-#: ../plugins/fn-string/functions.c:973
+#: ../plugins/fn-string/functions.c:977
 msgid "PROPER:@{text} with initial of each word capitalised"
 msgstr "PROPER: @{besedilo} zapisano z veliko črko vsake besede"
 
-#: ../plugins/fn-string/functions.c:1014
+#: ../plugins/fn-string/functions.c:1018
 msgid "REGEXEXTRACT:extract text using a regular expression"
 msgstr "REGEXEXTRACT: izvleče besedilo z uporabo regularnega izraza"
 
-#: ../plugins/fn-string/functions.c:1016 ../plugins/fn-string/functions.c:1145
-#: ../plugins/fn-string/functions.c:1255
+#: ../plugins/fn-string/functions.c:1020 ../plugins/fn-string/functions.c:1156
+#: ../plugins/fn-string/functions.c:1291
 msgid "pattern:regular expression"
 msgstr "vzorec:regularni izraz"
 
-#: ../plugins/fn-string/functions.c:1017
+#: ../plugins/fn-string/functions.c:1021
 msgid ""
 "return_mode:0 for first match (default), 1 for all matches, 2 for capturing "
 "groups"
@@ -12502,15 +12502,15 @@ msgstr ""
 "return_mode: 0 za prvi zadetek (privzeto), 1 za vse zadetke, 2 za zajemanje "
 "skupin"
 
-#: ../plugins/fn-string/functions.c:1018 ../plugins/fn-string/functions.c:1148
-#: ../plugins/fn-string/functions.c:1256
+#: ../plugins/fn-string/functions.c:1022 ../plugins/fn-string/functions.c:1159
+#: ../plugins/fn-string/functions.c:1292
 msgid ""
 "case_insensitive:if TRUE, perform a case-insensitive match; defaults to FALSE"
 msgstr ""
 "case_insensitive: če je PRAV, izvedite ujemanje, ki ni občutljivo na velike "
 "in velike črke; privzeta vrednost je NAPAK"
 
-#: ../plugins/fn-string/functions.c:1019
+#: ../plugins/fn-string/functions.c:1023
 msgid ""
 "REGEXEXTRACT returns substrings from @{text} based on @{pattern}.\n"
 "If @{return_mode} is 0, it returns the first match.\n"
@@ -12524,19 +12524,19 @@ msgstr ""
 "Če je @{return_mode} 2, vrne zajemanje skupin iz prvega ujemanja kot "
 "vodoravno matriko."
 
-#: ../plugins/fn-string/functions.c:1143
+#: ../plugins/fn-string/functions.c:1154
 msgid "REGEXREPLACE:replace text matching a regular expression"
 msgstr "REGEXREPLACE: zamenja besedilo, ki se ujema z logičnim izrazom"
 
-#: ../plugins/fn-string/functions.c:1146
+#: ../plugins/fn-string/functions.c:1157
 msgid "replacement:new text"
 msgstr "zamenjava: nadomestni niz"
 
-#: ../plugins/fn-string/functions.c:1147
+#: ../plugins/fn-string/functions.c:1158
 msgid "occurrence:0 for all instances (default), n for the n-th instance"
 msgstr "Pojavitev:0 za vse pojavitve (privzeto), n za n-to pojavitev"
 
-#: ../plugins/fn-string/functions.c:1149
+#: ../plugins/fn-string/functions.c:1160
 msgid ""
 "REGEXREPLACE replaces occurrences of @{pattern} in @{text} with "
 "@{replacement}.\n"
@@ -12546,15 +12546,15 @@ msgstr ""
 "Niz @{replacement} lahko vključuje povratne sklice, kot so \\1, \\2 ali $1, "
 "$2."
 
-#: ../plugins/fn-string/functions.c:1253
+#: ../plugins/fn-string/functions.c:1289
 msgid "REGEXTEST:test if @{text} matches a regular expression"
 msgstr "REGEXTEST:preizkusi, če se @{besedilo} ujema z logičnim izrazom."
 
-#: ../plugins/fn-string/functions.c:1257
+#: ../plugins/fn-string/functions.c:1293
 msgid "REGEXTEST checks if @{text} matches the regular expression @{pattern}."
 msgstr "REGEXTEST preveri, če se @{text} ujema z logičnim izrazom @{pattern}."
 
-#: ../plugins/fn-string/functions.c:1292
+#: ../plugins/fn-string/functions.c:1328
 msgid ""
 "REPLACE:string @{old} with @{num} characters starting at @{start} replaced "
 "by @{new}"
@@ -12562,24 +12562,24 @@ msgstr ""
 "REPLACE: zamenja @{star} niz, ki ima določeno @{število} znakov in se začne "
 "na @{začetnem} mestu, z @{novim nizom}."
 
-#: ../plugins/fn-string/functions.c:1294 ../plugins/fn-string/functions.c:1345
+#: ../plugins/fn-string/functions.c:1330 ../plugins/fn-string/functions.c:1381
 msgid "old:original text"
 msgstr "staro: izvorno besedilo"
 
-#: ../plugins/fn-string/functions.c:1295
+#: ../plugins/fn-string/functions.c:1331
 msgid "start:starting position"
 msgstr "začetek: začetni položaj"
 
-#: ../plugins/fn-string/functions.c:1296
+#: ../plugins/fn-string/functions.c:1332
 msgid "num:number of characters to be replaced"
 msgstr "štev: število znakov za zamenjavo"
 
-#: ../plugins/fn-string/functions.c:1297 ../plugins/fn-string/functions.c:1348
-#: ../plugins/fn-string/functions.c:1634
+#: ../plugins/fn-string/functions.c:1333 ../plugins/fn-string/functions.c:1384
+#: ../plugins/fn-string/functions.c:1670
 msgid "new:replacement string"
 msgstr "novo: niz, s katerim bo zamenjan stari niz"
 
-#: ../plugins/fn-string/functions.c:1343
+#: ../plugins/fn-string/functions.c:1379
 msgid ""
 "REPLACEB:string @{old} with up to @{num} bytes starting at @{start} replaced "
 "by @{new}"
@@ -12587,15 +12587,15 @@ msgstr ""
 "REPLACEB: zamenja @{star} niz s skupno določenim @{številom} znakov na "
 "@{začetnem} mestu, z @{novim nizom}."
 
-#: ../plugins/fn-string/functions.c:1346
+#: ../plugins/fn-string/functions.c:1382
 msgid "start:starting byte position"
 msgstr "začetek: začetni bitni položaj"
 
-#: ../plugins/fn-string/functions.c:1347
+#: ../plugins/fn-string/functions.c:1383
 msgid "num:number of bytes to be replaced"
 msgstr "štev: število bajtov za zamenjavo"
 
-#: ../plugins/fn-string/functions.c:1349
+#: ../plugins/fn-string/functions.c:1385
 msgid ""
 "REPLACEB replaces the string of valid unicode characters starting at the "
 "byte @{start} and ending at @{start}+@{num}-1 with the string @{new}."
@@ -12604,47 +12604,47 @@ msgstr ""
 "unikod z @{začetnim} mestom in končnem mestu pri @{začetno}+@{število "
 "znakov}-1, z @{novim} nizom."
 
-#: ../plugins/fn-string/functions.c:1406
+#: ../plugins/fn-string/functions.c:1442
 msgid "T:@{value} if and only if @{value} is text, otherwise empty"
 msgstr "T: @{vrednost} le če je @{vrednost} besedilo, sicer je prazno polje"
 
-#: ../plugins/fn-string/functions.c:1407
+#: ../plugins/fn-string/functions.c:1443
 msgid "value:original value"
 msgstr "vrednost: izvorna vrednost"
 
-#: ../plugins/fn-string/functions.c:1429
+#: ../plugins/fn-string/functions.c:1465
 msgid "TEXT:@{value} as a string formatted as @{format}"
 msgstr "TEXT: @{vrednost} podana kot niz in oblikovana kot @{oblika}"
 
-#: ../plugins/fn-string/functions.c:1430
+#: ../plugins/fn-string/functions.c:1466
 msgid "value:value to be formatted"
 msgstr "vrednost: vrednost za oblikovanje"
 
-#: ../plugins/fn-string/functions.c:1431
+#: ../plugins/fn-string/functions.c:1467
 msgid "format:desired format"
 msgstr "oblika: želena oblika"
 
-#: ../plugins/fn-string/functions.c:1483
+#: ../plugins/fn-string/functions.c:1519
 msgid "TRIM:@{text} with only single spaces between words"
 msgstr "TRIM: okrajša @{besedilo} na le en presledek med besedami"
 
-#: ../plugins/fn-string/functions.c:1524
+#: ../plugins/fn-string/functions.c:1560
 msgid "VALUE:numeric value of @{text}"
 msgstr "VALUE: številčna vrednost @{besedila}"
 
-#: ../plugins/fn-string/functions.c:1557
+#: ../plugins/fn-string/functions.c:1593
 msgid "NUMBERVALUE:numeric value of @{text}"
 msgstr "NUMBERVALUE: številčna vrednost @{besedila}"
 
-#: ../plugins/fn-string/functions.c:1559
+#: ../plugins/fn-string/functions.c:1595
 msgid "separator:decimal separator"
 msgstr "ločilnik: ločilnik decimalnih mest"
 
-#: ../plugins/fn-string/functions.c:1560
+#: ../plugins/fn-string/functions.c:1596
 msgid "group_separator:group separator"
 msgstr "ločilo_skupine: ločilo skupine"
 
-#: ../plugins/fn-string/functions.c:1561
+#: ../plugins/fn-string/functions.c:1597
 msgid ""
 "If @{text} does not look like a decimal number, NUMBERVALUE returns the "
 "value VALUE would return (ignoring the given @{separator})."
@@ -12652,19 +12652,19 @@ msgstr ""
 "Če @{besedilo} ni decimalno število, funkcija NUMBERVALUE vrne vrednost "
 "VREDNOST (in prezre podan @{ločilnik})."
 
-#: ../plugins/fn-string/functions.c:1631
+#: ../plugins/fn-string/functions.c:1667
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
 msgstr "SUBSTITUTE: zamenjava vseh @{starih} nizov z @{novimi} v @{besedilu}"
 
-#: ../plugins/fn-string/functions.c:1632 ../plugins/fn-string/functions.c:2414
+#: ../plugins/fn-string/functions.c:1668 ../plugins/fn-string/functions.c:2502
 msgid "text:original text"
 msgstr "besedilo: izvorno besedilo"
 
-#: ../plugins/fn-string/functions.c:1633
+#: ../plugins/fn-string/functions.c:1669
 msgid "old:string to be replaced"
 msgstr "staro: niz, ki bo zamenjan"
 
-#: ../plugins/fn-string/functions.c:1635
+#: ../plugins/fn-string/functions.c:1671
 msgid ""
 "num:if @{num} is specified and a number only the @{num}th occurrence of "
 "@{old} is replaced"
@@ -12672,69 +12672,69 @@ msgstr ""
 "število: če je @{število} določeno in je številka, je zamenjana le "
 "@{števila}-ta pojavitev @{starega} niza."
 
-#: ../plugins/fn-string/functions.c:1705
+#: ../plugins/fn-string/functions.c:1742
 msgid "TEXTBEFORE:text before @{delimiter}"
 msgstr "TEXTBEFORE: besedilo pred @{locilo}"
 
-#: ../plugins/fn-string/functions.c:1707 ../plugins/fn-string/functions.c:1841
+#: ../plugins/fn-string/functions.c:1744 ../plugins/fn-string/functions.c:1921
 msgid "delimiter:delimiter string or array of strings"
 msgstr "locilo: niz ločila ali polje nizov"
 
-#: ../plugins/fn-string/functions.c:1708 ../plugins/fn-string/functions.c:1842
+#: ../plugins/fn-string/functions.c:1745 ../plugins/fn-string/functions.c:1922
 msgid "instance_num:the instance of the delimiter; defaults to 1"
 msgstr "št_pojavitve: številka pojavitve ločila; privzeta vrednost je 1"
 
-#: ../plugins/fn-string/functions.c:1709 ../plugins/fn-string/functions.c:1843
-#: ../plugins/fn-string/functions.c:1910
+#: ../plugins/fn-string/functions.c:1746 ../plugins/fn-string/functions.c:1923
+#: ../plugins/fn-string/functions.c:1990
 msgid "match_mode:0 for case-sensitive (default), 1 for case-insensitive"
 msgstr ""
 "način_ujemanja: 0 za razlikovanje velikih in malih črk (privzeto), 1 brez "
 "razlikovanja"
 
-#: ../plugins/fn-string/functions.c:1710 ../plugins/fn-string/functions.c:1844
+#: ../plugins/fn-string/functions.c:1747 ../plugins/fn-string/functions.c:1924
 msgid ""
 "match_end:0 for no match at the end (default), 1 to match the end of the text"
 msgstr ""
 "ujemanje_konca: 0 za  neujemanje na koncu (privzeto), 1 za ujemanje na koncu "
 "besedila"
 
-#: ../plugins/fn-string/functions.c:1712
+#: ../plugins/fn-string/functions.c:1749
 msgid "TEXTBEFORE returns the text that occurs before the given @{delimiter}."
 msgstr "TEXTBEFORE vrne besedilo, ki se pojavi pred danim @{locilo}."
 
-#: ../plugins/fn-string/functions.c:1839
+#: ../plugins/fn-string/functions.c:1919
 msgid "TEXTAFTER:text after @{delimiter}"
 msgstr "TEXTAFTER: besedilo po @{locilo}"
 
-#: ../plugins/fn-string/functions.c:1846
+#: ../plugins/fn-string/functions.c:1926
 msgid "TEXTAFTER returns the text that occurs after the given @{delimiter}."
 msgstr "TEXTAFTER vrne besedilo, ki se pojavi po podanem @{locilo}."
 
-#: ../plugins/fn-string/functions.c:1905
+#: ../plugins/fn-string/functions.c:1985
 msgid "TEXTSPLIT:split @{text} into an array using delimiters"
 msgstr "TEXTSPLIT: razdeli @{text} v polje s pomočjo ločil"
 
-#: ../plugins/fn-string/functions.c:1907
+#: ../plugins/fn-string/functions.c:1987
 msgid "col_delimiter:delimiter(s) for columns"
 msgstr "sto_locilo: ločilo/a za stolpce"
 
-#: ../plugins/fn-string/functions.c:1908
+#: ../plugins/fn-string/functions.c:1988
 msgid "row_delimiter:delimiter(s) for rows; optional"
 msgstr "vrs_locilo: ločilo/a za vrstice; neobvezno"
 
-#: ../plugins/fn-string/functions.c:1909
+#: ../plugins/fn-string/functions.c:1989
 msgid ""
 "ignore_empty:TRUE to ignore empty cells in the result; defaults to FALSE"
 msgstr ""
 "prezri_prazno: TRUE za prezrtje praznih celic v rezultatu; privzeta vrednost "
 "je FALSE"
 
-#: ../plugins/fn-string/functions.c:1911
+#: ../plugins/fn-string/functions.c:1991
 msgid "pad_with:value to pad the result array with; defaults to #N/A"
 msgstr ""
 "polni_z: vrednost za polnilo rezultatnega polja; privzeta vrednost je #N/A"
 
-#: ../plugins/fn-string/functions.c:1912
+#: ../plugins/fn-string/functions.c:1992
 msgid ""
 "TEXTSPLIT splits @{text} into multiple cells using the provided column and "
 "row delimiters."
@@ -12742,15 +12742,15 @@ msgstr ""
 "TEXTSPLIT razdeli @{besedilo} v več celic s pomočjo podanih ločil stolpcev "
 "in vrstic."
 
-#: ../plugins/fn-string/functions.c:1994
+#: ../plugins/fn-string/functions.c:2074
 msgid "DOLLAR:@{num} formatted as currency"
 msgstr "DOLLAR: @{število} oblikovano kot valuta"
 
-#: ../plugins/fn-string/functions.c:1996
+#: ../plugins/fn-string/functions.c:2076
 msgid "decimals:decimals"
 msgstr "decimalke: decimalne vrednosti"
 
-#: ../plugins/fn-string/functions.c:2066
+#: ../plugins/fn-string/functions.c:2146
 msgid ""
 "SEARCH:the location of the @{search} string within @{text} after position "
 "@{start}"
@@ -12758,16 +12758,16 @@ msgstr ""
 "SEARCH: vrne mesto @{iskalnega niza} znotraj @{besedila} po položaju "
 "@{začetek}"
 
-#: ../plugins/fn-string/functions.c:2068 ../plugins/fn-string/functions.c:2111
+#: ../plugins/fn-string/functions.c:2148 ../plugins/fn-string/functions.c:2191
 msgid "search:search string"
 msgstr "iskanje: iskalni niz"
 
-#: ../plugins/fn-string/functions.c:2069 ../plugins/fn-string/functions.c:2112
+#: ../plugins/fn-string/functions.c:2149 ../plugins/fn-string/functions.c:2192
 msgid "text:search field"
 msgstr "besedilo: iskalno polje"
 
 # @{search} = @{iskalni niz}
-#: ../plugins/fn-string/functions.c:2071 ../plugins/fn-string/functions.c:2114
+#: ../plugins/fn-string/functions.c:2151 ../plugins/fn-string/functions.c:2194
 msgid ""
 "@{search} may contain wildcard characters (*) and question marks (?). A "
 "question mark matches any single character, and a wildcard matches any "
@@ -12779,16 +12779,16 @@ msgstr ""
 "pa poljubno število znakov vključno s presledki. Iskanje znakov * ali ? je "
 "mogoče z uporabo ubežnega znaka ~."
 
-#: ../plugins/fn-string/functions.c:2076 ../plugins/fn-string/functions.c:2119
+#: ../plugins/fn-string/functions.c:2156 ../plugins/fn-string/functions.c:2199
 msgid "This search is not case sensitive."
 msgstr "To iskanje ne upošteva velikosti črk."
 
-#: ../plugins/fn-string/functions.c:2077
+#: ../plugins/fn-string/functions.c:2157
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
 msgstr ""
 "Če @{iskalnega niza} ni mogoče najti, funkcija SEARCH vrne napako #VALUE!."
 
-#: ../plugins/fn-string/functions.c:2078
+#: ../plugins/fn-string/functions.c:2158
 msgid ""
 "If @{start} is less than one or it is greater than the length of @{text}, "
 "SEARCH returns #VALUE!"
@@ -12796,7 +12796,7 @@ msgstr ""
 "Če je @{začetni} niz manjši od ena ali pa večji od dolžine @{besedila}, "
 "funkcija SEARCH vrne napako #VALUE!."
 
-#: ../plugins/fn-string/functions.c:2109
+#: ../plugins/fn-string/functions.c:2189
 msgid ""
 "SEARCHB:the location of the @{search} string within @{text} after byte "
 "position @{start}"
@@ -12804,12 +12804,12 @@ msgstr ""
 "SEARCHB: vrne mesto @{iskalnega niza} znotraj @{besedila} po @{začetnem} "
 "bitnem položaju"
 
-#: ../plugins/fn-string/functions.c:2120
+#: ../plugins/fn-string/functions.c:2200
 msgid "If @{search} is not found, SEARCHB returns #VALUE!"
 msgstr ""
 "Če @{iskalnega niza} ni mogoče najti, funkcija SEARCHB vrne napako #VALUE!."
 
-#: ../plugins/fn-string/functions.c:2121
+#: ../plugins/fn-string/functions.c:2201
 msgid ""
 "If @{start} is less than one or it is greater than the byte length of "
 "@{text}, SEARCHB returns #VALUE!"
@@ -12817,7 +12817,7 @@ msgstr ""
 "Če je @{začetni} niz manjši od ena ali pa večji od bajtne dolžine "
 "@{besedila}, funkcija SEARCHB vrne napako #VALUE!."
 
-#: ../plugins/fn-string/functions.c:2167
+#: ../plugins/fn-string/functions.c:2255
 msgid ""
 "ASC:text with full-width katakana and ASCII characters converted to half-"
 "width"
@@ -12825,7 +12825,7 @@ msgstr ""
 "ASC: spreminjanje znakov polne širine (dvobajtne) v nizu v znake polovične "
 "širine (enobajtne)."
 
-#: ../plugins/fn-string/functions.c:2169
+#: ../plugins/fn-string/functions.c:2257
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others."
@@ -12833,7 +12833,7 @@ msgstr ""
 "Funkcija ASC spremeni znake polne širine (dvobajtne) v naboru katakana ali "
 "ASCII v znake polovične širine (enobajtne), preostale znake pa kopira."
 
-#: ../plugins/fn-string/functions.c:2170 ../plugins/fn-string/functions.c:2417
+#: ../plugins/fn-string/functions.c:2258 ../plugins/fn-string/functions.c:2505
 msgid ""
 "The distinction between half-width and full-width characters is described in "
 "http://www.unicode.org/reports/tr11/."
@@ -12841,11 +12841,11 @@ msgstr ""
 "Razlikovanje med pol-širokimi in polno-širokimi znaki je podrobno "
 "predstavljeno na strani http://www.unicode.org/reports/tr11/."
 
-#: ../plugins/fn-string/functions.c:2171 ../plugins/fn-string/functions.c:2419
+#: ../plugins/fn-string/functions.c:2259 ../plugins/fn-string/functions.c:2507
 msgid "For most strings, this function has the same effect as in Excel."
 msgstr "Za večino nizov ima ta funkcija enak učinek kot v programu MS Excel."
 
-#: ../plugins/fn-string/functions.c:2172
+#: ../plugins/fn-string/functions.c:2260
 msgid ""
 "While in obsolete encodings ASC used to translate between 2-byte and 1-byte "
 "characters, this is not the case in UTF-8."
@@ -12853,7 +12853,7 @@ msgstr ""
 "V opuščenem kodiranju je ASC uporabljen za prevajanje med dvo-bajtnimi in "
 "eno-bajtnimi znaki, česar pa pri uporabi kodiranja UTF-8 ni treba uporabiti."
 
-#: ../plugins/fn-string/functions.c:2413
+#: ../plugins/fn-string/functions.c:2501
 msgid ""
 "JIS:text with half-width katakana and ASCII characters converted to full-"
 "width"
@@ -12861,7 +12861,7 @@ msgstr ""
 "JIS: spreminjanje znakov polovične širine (enobajtne) v nizu v znake polne "
 "širine (dvobajtne)."
 
-#: ../plugins/fn-string/functions.c:2415
+#: ../plugins/fn-string/functions.c:2503
 msgid ""
 "JIS converts half-width katakana and ASCII characters to full-width "
 "equivalent characters, copying all others."
@@ -12869,7 +12869,7 @@ msgstr ""
 "Funkcija JIS spremeni znake polovične širine (enobajtne) v naboru katakana "
 "ali ASCII v znake polne širine (dvobajtne), preostale znake pa kopira."
 
-#: ../plugins/fn-string/functions.c:2420
+#: ../plugins/fn-string/functions.c:2508
 msgid ""
 "While in obsolete encodings JIS used to translate between 1-byte and 2-byte "
 "characters, this is not the case in UTF-8."
