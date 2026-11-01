@@ -4062,7 +4062,9 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 				if (n >= 3) {
 					GDate date;
-					g_date_set_dmy (&date, d, m, y);
+					g_date_clear (&date, 1);
+					if (y <= G_MAXUINT16 && m <= 12 && d <= 31)
+						g_date_set_dmy (&date, d, m, y);
 					if (g_date_valid (&date)) {
 						unsigned d_serial = go_date_g_to_serial (&date,
 											 workbook_date_conv (state->pos.wb));
@@ -4084,10 +4086,15 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 					       OO_NS_OFFICE : OO_NS_TABLE,
 					       "time-value")) {
 			if (val == NULL) {
-				unsigned h, m, s;
-				if (3 == sscanf (CXML2C (attrs[1]), "PT%uH%uM%uS", &h, &m, &s)) {
-					unsigned secs = h * 3600 + m * 60 + s;
-					val = value_new_float (secs / (gnm_float)86400);
+				unsigned h, m;
+				gnm_float s;
+				if (3 == gnm_sscanf (CXML2C (attrs[1]),
+						     "PT%uH%uM%" GNM_SCANF_g "S",
+						     &h, &m, &s) &&
+				    s >= 0) {
+					gnm_float secs = h * (gnm_float)3600 +
+						m * (gnm_float)60 + s;
+					val = value_new_float (secs / 86400);
 					has_time = TRUE;
 				}
 			}
@@ -5729,7 +5736,7 @@ odf_number_color (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "color")){
-			int r, b, g;
+			guint r, b, g;
 			if (3 == sscanf (CXML2C (attrs[1]), "#%2x%2x%2x", &r, &g, &b)) {
 				GOColor col = GO_COLOR_FROM_RGB (r, g, b);
 				int i = go_format_palette_index_from_color (col);
@@ -11925,14 +11932,25 @@ oo_marker (GsfXMLIn *xin, xmlChar const **attrs)
 					 "arrow-b", &b));
 		else if (oo_attr_double (xin, attrs, OO_GNUM_NS_EXT,
 					 "arrow-c", &c));
-	if (!read_gnum_marker_info && g_str_has_prefix (name, "gnm-arrow-"))
-		sscanf (name, "gnm-arrow-%d-%lf-%lf-%lf", &type, &a, &b, &c);
+	if (!read_gnum_marker_info && name != NULL &&
+	    g_str_has_prefix (name, "gnm-arrow-")) {
+		int t = GO_ARROW_NONE;
+		double ta = 0., tb = 0., tc = 0.;
+		if (4 == sscanf (name, "gnm-arrow-%d-%lf-%lf-%lf",
+				 &t, &ta, &tb, &tc) &&
+		    t >= GO_ARROW_NONE && t <= GO_ARROW_OVAL) {
+			type = t;
+			a = ta;
+			b = tb;
+			c = tc;
+		}
+	}
 
 	if (type != GO_ARROW_NONE) {
 		marker->arrow = g_new0 (GOArrow, 1);
 		go_arrow_init (marker->arrow, type, a, b, c);
 		marker->width = 2. * (type == GO_ARROW_KITE ? c : a);
-	} else {
+	} else if (name != NULL && marker->d != NULL) {
 		/* At this time we are not implemeting drawing these markers  */
 		/* directly from the SVG string. So we are trying to at least */
 		/* recognize some common LibreOffice markers. Note that the   */

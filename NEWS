@@ -44,6 +44,7 @@ Morten:
 	* Properly allow string for TEXTBEFORE and TEXTAFTER's 6th arg.
 	* Fix log-case for R.DSNORM
 	* Fix overflow problem with R.DST
+	* Fix odf export problem with 1904 date-format sheets.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
