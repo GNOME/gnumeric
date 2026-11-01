@@ -4063,10 +4063,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 				if (n >= 3) {
 					GDate date;
-					g_date_clear (&date, 1);
-					if (y <= G_MAXUINT16 && m <= 12 && d <= 31)
-						g_date_set_dmy (&date, d, m, y);
-					if (g_date_valid (&date)) {
+					if (gnm_date_set_dmy_valid (&date, d, m, y)) {
 						unsigned d_serial = go_date_g_to_serial (&date,
 											 workbook_date_conv (state->pos.wb));
 						if (n >= 6) {

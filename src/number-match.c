@@ -871,9 +871,7 @@ format_match_datetime (char const *text,
 	return NULL;
 
  got_date:
-	g_date_clear (&date, 1);
-	g_date_set_dmy (&date, day, month, year);
-	if (!g_date_valid (&date))
+	if (!gnm_date_set_dmy_valid (&date, day, month, year))
 		goto out;
 	date_val = go_date_g_to_serial (&date, date_conv);
 

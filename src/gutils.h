@@ -41,6 +41,9 @@ gboolean   gnm_debug_flag (const char *flag);
 
 void       gnm_string_add_number (GString *buf, gnm_float d);
 
+/* Date handling */
+gboolean   gnm_date_set_dmy_valid (GDate *date, int day, int month, int year);
+
 /* Some Meta handling functions */
 
 void       gnm_insert_meta_date (GODoc *doc, char const *name);

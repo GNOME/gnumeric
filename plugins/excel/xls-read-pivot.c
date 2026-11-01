@@ -32,6 +32,7 @@
 #include <ranges.h>
 #include <gnm-data-cache-source.h>
 #include <gnm-sheet-slicer.h>
+#include <gutils.h>
 
 #include <go-data-cache.h>
 #include <go-data-cache-field.h>
@@ -143,8 +144,7 @@ xls_read_pivot_cache_value (XLSReadPivot *s, BiffQuery *q)
 			d (1, g_printerr ("%hu-%hu-%hhuT%hhu:%hhu:%hhu (data);\n",
 				       y, m, d, h, mi, se););
 
-			g_date_set_dmy (&date, d, m, y);
-			if (g_date_valid (&date)) {
+			if (gnm_date_set_dmy_valid (&date, d, m, y)) {
 				unsigned d_serial = go_date_g_to_serial (&date,
 					workbook_date_conv (s->imp->wb));
 				double time_frac = h + ((double)mi / 60.) + ((double)se / 3600.);

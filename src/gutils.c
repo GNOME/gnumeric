@@ -783,6 +783,35 @@ gnm_string_add_number (GString *buf, gnm_float d)
 /* ------------------------------------------------------------------------- */
 
 /**
+ * gnm_date_set_dmy_valid:
+ * @date: (out): #GDate
+ * @day: day of month
+ * @month: month of year
+ * @year: year
+ *
+ * Sets @date from the supplied date components, if they form a valid date.
+ *
+ * Returns: %TRUE on success.
+ **/
+gboolean
+gnm_date_set_dmy_valid (GDate *date, int day, int month, int year)
+{
+	g_return_val_if_fail (date != NULL, FALSE);
+
+	// Check the ranges before implicitly casting to the narrower GDate types.
+	if (day < 1 || day > 31 ||
+	    month < G_DATE_JANUARY || month > G_DATE_DECEMBER ||
+	    year < 1 || year > G_MAXUINT16 ||
+	    !g_date_valid_dmy (day, month, year))
+		return FALSE;
+
+	g_date_set_dmy (date, day, month, year);
+	return TRUE;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/**
  * gnm_insert_meta_date:
  * @doc: #GODoc
  * @name: metadata name

@@ -780,10 +780,7 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 	n = gnm_sscanf (CXML2C (attrs[1]), "%u-%u-%uT%u:%u:%" GNM_SCANF_g, &y, &m, &d, &h, &mi, &s);
 	if (n >= 3) {
 		GDate date;
-		g_date_clear (&date, 1);
-		if (y <= G_MAXUINT16 && m <= 12 && d <= 31)
-			g_date_set_dmy (&date, d, m, y);
-		if (g_date_valid (&date)) {
+		if (gnm_date_set_dmy_valid (&date, d, m, y)) {
 			XLSXReadState *state = (XLSXReadState *)xin->user_state;
 			unsigned d_serial = go_date_g_to_serial (&date,
 				workbook_date_conv (state->wb));
