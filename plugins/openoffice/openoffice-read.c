@@ -3000,6 +3000,7 @@ odf_validations_translate (GsfXMLIn *xin, char const *name)
 					    _("Ignoring invalid data "
 					      "validation because: %s"),
 					    _(err->message));
+				g_error_free (err);
 				gnm_validation_unref (validation);
 				return NULL;
 			}
