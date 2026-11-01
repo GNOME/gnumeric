@@ -2041,7 +2041,7 @@ odf_text_space (GsfXMLIn *xin, xmlChar const **attrs)
 	int count = 1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (oo_attr_int_range (xin, attrs, OO_NS_TEXT, "c", &count, 0, INT_MAX))
+		if (oo_attr_int_range (xin, attrs, OO_NS_TEXT, "c", &count, 0, 1000000))
 			;
 	odf_text_special (xin, count, " ");
 }
@@ -3755,7 +3755,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 		if (state->pos.eval.col + repeat_count > max_cols) {
 			oo_warning (state, _("Ignoring column information beyond"
 					     " column %i"), max_cols);
-			repeat_count = max_cols - state->pos.eval.col - 1;
+			repeat_count = max_cols - state->pos.eval.col;
 		}
 	}
 
@@ -3779,7 +3779,7 @@ oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 			sheet_col_set_default_size_pts (state->pos.sheet,
 							state->default_style.columns->size_pts);
 			if (col_info->break_before != OO_PAGE_BREAK_NONE)
-				for (i = state->pos.eval.row ; i < last; i++ )
+				for (i = state->pos.eval.col ; i < last; i++ )
 					oo_set_page_break (state, i, TRUE,
 							   col_info->break_before
 							   == OO_PAGE_BREAK_MANUAL);
@@ -3881,7 +3881,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->pos.eval.row + repeat_count > max_rows)
         	/* There are probably lots of empty lines at the end. */
-		repeat_count = max_rows - state->pos.eval.row - 1;
+		repeat_count = max_rows - state->pos.eval.row;
 
 	if (hidden)
 		colrow_set_visibility (state->pos.sheet, FALSE, FALSE, state->pos.eval.row,
@@ -4147,6 +4147,8 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	merge_cols = MIN (merge_cols, max_cols - state->pos.eval.col);
 	merge_rows = MIN (merge_rows, max_rows - state->pos.eval.row);
+	/* Do not let a huge repeat count run us off the sheet.  */
+	state->col_inc = MIN (state->col_inc, max_cols - state->pos.eval.col);
 
 	if (style_name != NULL) {
 		if (has_datetime)
@@ -4304,15 +4306,22 @@ oo_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
-	if (state->col_inc > 1 || state->row_inc > 1) {
+	int max_cols = gnm_sheet_get_max_cols (state->pos.sheet);
+	int max_rows = gnm_sheet_get_max_rows (state->pos.sheet);
+
+	if ((state->col_inc > 1 || state->row_inc > 1) &&
+	    state->pos.eval.col < max_cols &&
+	    state->pos.eval.row < max_rows) {
 		GnmCell *cell = sheet_cell_get (state->pos.sheet,
 						state->pos.eval.col, state->pos.eval.row);
 
 		if (!gnm_cell_is_empty (cell)) {
 			int i, j;
+			int ncols = MIN (state->col_inc, max_cols - state->pos.eval.col);
+			int nrows = MIN (state->row_inc, max_rows - state->pos.eval.row);
 			GnmCell *next;
-			for (j = 0; j < state->row_inc ; j++)
-				for (i = 0; i < state->col_inc ; i++)
+			for (j = 0; j < nrows ; j++)
+				for (i = 0; i < ncols ; i++)
 					if (j > 0 || i > 0) {
 						next = sheet_cell_fetch (state->pos.sheet,
 									 state->pos.eval.col + i, state->pos.eval.row + j);
@@ -8595,6 +8604,26 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 	GsfInput	*content = NULL;
 	int i;
 
+	/* Validate the link before touching any state, so that we do not  */
+	/* leave the chart state half set up (or index before the string). */
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href")) {
+			name_start = CXML2C (attrs[1]);
+			if (g_str_has_prefix (CXML2C (attrs[1]), "./"))
+				name_start += 2;
+			if (g_str_has_prefix (CXML2C (attrs[1]), "/"))
+				name_start = NULL;
+			break;
+		}
+
+	if (!name_start || *name_start == 0)
+		return;
+	name_len = strlen (name_start);
+	if (name_start[name_len - 1] == '/') /* OOo does not append a / */
+		name_len--;
+	if (name_len == 0)
+		return;
+
 	if (state->chart.so != NULL) {
 		if (GNM_IS_SO_GRAPH (state->chart.so))
 			/* Only one object per frame! */
@@ -8651,21 +8680,6 @@ od_draw_object (GsfXMLIn *xin, xmlChar const **attrs)
 
 	odf_free_cur_style (state);
 
-	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_XLINK, "href")) {
-			name_start = CXML2C (attrs[1]);
-			if (g_str_has_prefix (CXML2C (attrs[1]), "./"))
-				name_start += 2;
-			if (g_str_has_prefix (CXML2C (attrs[1]), "/"))
-				name_start = NULL;
-			break;
-		}
-
-	if (!name_start)
-		return;
-	name_len = strlen (name_start);
-	if (*(name_start + name_len - 1) == '/') /* OOo does not append a / */
-		name_len--;
 	name = g_strndup (name_start, name_len);
 	state->object_name = name;
 
@@ -8749,6 +8763,14 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 		SheetObjectImage *soi;
 		gsf_off_t len = gsf_input_size (input);
 		guint8 const *data = gsf_input_read (input, len, NULL);
+		if (data == NULL) {
+			/* Short read, directory, or similar. */
+			g_object_unref (input);
+			oo_warning (state, _("Unable to load "
+					     "the file \'%s\'."),
+				    file);
+			return;
+		}
 		soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
 		state->chart.so = GNM_SO (soi);
 		sheet_object_image_set_image (soi, "", data, len);
@@ -8758,8 +8780,10 @@ od_draw_image (GsfXMLIn *xin, xmlChar const **attrs)
 			g_object_get (G_OBJECT (soi),
 				      "image", &image,
 				      NULL);
-			go_image_set_name (image, state->chart.name);
-			g_object_unref (image);
+			if (image != NULL) {
+				go_image_set_name (image, state->chart.name);
+				g_object_unref (image);
+			}
 		}
 	} else
 		oo_warning (state, _("Unable to load "
@@ -10428,6 +10452,8 @@ oo_chart_axisline (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
 
+	if (state->chart.axis == NULL)
+		return;
 	axisline = gog_object_add_by_name (GOG_OBJECT (state->chart.axis), "AxisLine", NULL);
 
 	if (style_name != NULL && axisline != NULL) {
