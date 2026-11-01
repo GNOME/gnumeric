@@ -524,6 +524,7 @@ msgid ""
 "Encountered both the \"refreshedDate\" and the \"refreshedDateIso\" "
 "attributes!"
 msgstr ""
+"Både attributterne \"refreshedDate\" og \"refreshedDateIso\" blev fundet!"
 
 #: ../plugins/excel/xlsx-read-pivot.c:1293
 #, c-format
@@ -1519,7 +1520,7 @@ msgstr "celle"
 #, c-format
 msgid ""
 "Validation condition '%s' is not supported. It has been changed to '%s'."
-msgstr ""
+msgstr "Valideringsbetingelsen '%s' understøttes ikke. Den er ændret til '%s'."
 
 #: ../plugins/openoffice/openoffice-read.c:2982
 #, c-format
@@ -1532,6 +1533,8 @@ msgid ""
 "Unsupported validation condition encountered: \"%s\" with base address: "
 "\"%s\""
 msgstr ""
+"Ikke-understøttet valideringsbetingelse fundet: \"%s\" med basisadresse: "
+"\"%s\""
 
 #: ../plugins/openoffice/openoffice-read.c:3673
 #, c-format
@@ -1614,7 +1617,7 @@ msgstr "Duplikat standard diagram/grafikstil fundet."
 #: ../plugins/openoffice/openoffice-read.c:5240
 #, c-format
 msgid "Invalid embedded text position %d"
-msgstr ""
+msgstr "Ugyldig indlejret tekstposition %d"
 
 #: ../plugins/openoffice/openoffice-read.c:5441
 msgid "Unnamed date style ignored."
@@ -1647,6 +1650,8 @@ msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
 msgstr ""
+"Gnumeric understøtter ikke en anden stil for venstresider. Denne stil "
+"ignoreres."
 
 #. For OOO_VER_1 this may be acceptable
 #: ../plugins/openoffice/openoffice-read.c:6205
@@ -1720,6 +1725,8 @@ msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
 "has been dropped."
 msgstr ""
+"Gnumerics arkobjektlinjer understøtter ikke tilknyttet tekst. Teksten \"%s\" "
+"er blevet droppet."
 
 #: ../plugins/openoffice/openoffice-read.c:8480
 #: ../plugins/openoffice/openoffice-read.c:8519
@@ -1733,6 +1740,8 @@ msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
 "range' element."
 msgstr ""
+"Ugyldig værditype '%s' angivet for attributten 'form:value' i elementet "
+"'form:value-range'."
 
 #: ../plugins/openoffice/openoffice-read.c:8941
 msgid "Unable to determine manual position for a chart component!"
@@ -1748,11 +1757,13 @@ msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
 msgstr ""
+"Gnumeric understøtter ikke ikke-automatiske regressionsligninger. Bruger "
+"automatisk ligning i stedet."
 
 #: ../plugins/openoffice/openoffice-read.c:9966
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
-msgstr ""
+msgstr "Diagramstilen \"%s\" er ikke defineret!"
 
 #: ../plugins/openoffice/openoffice-read.c:10134
 msgid "Encountered drop lines in a plot not supporting them."
@@ -1774,6 +1785,8 @@ msgstr "Diagramstil med navn '%s' mangler."
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr ""
+"En ikke-understøttet billedtekst blev fundet og konverteret til et "
+"tekstrektangel."
 
 #: ../plugins/openoffice/openoffice-read.c:10645
 #, c-format
@@ -1798,11 +1811,15 @@ msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
 "rectangle."
 msgstr ""
+"En ikke-understøttet brugerdefineret figur af typen '%s' blev fundet og "
+"konverteret til et rektangel."
 
 #: ../plugins/openoffice/openoffice-read.c:10943
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr ""
+"En ikke-understøttet brugerdefineret figur blev fundet og konverteret til et "
+"rektangel."
 
 #: ../plugins/openoffice/openoffice-read.c:11341
 #, c-format
@@ -1815,6 +1832,8 @@ msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
 "Gnumeric's maximum supported sheet size"
 msgstr ""
+"Arkstørrelsen på %i kolonner og %i rækker, som bruges i denne fil, "
+"overskrider den maksimale arkstørrelse, som Gnumeric understøtter"
 
 #: ../plugins/openoffice/openoffice-read.c:12031
 #, c-format
@@ -1952,6 +1971,8 @@ msgstr "Første linje af arket skal indeholde databasespecifikationen."
 msgid ""
 "Field specification must be a comma separated value (Name,Type,Size,Prec)."
 msgstr ""
+"Feltspecifikationen skal være kommaseparerede værdier "
+"(Navn,Type,Størrelse,Præc)."
 
 #: ../plugins/paradox/paradox.c:354
 msgid "Allocate memory for column name."
@@ -1985,7 +2006,7 @@ msgstr "Feltspecifikation mangler kolonnestørrelsen."
 #, c-format
 msgid ""
 "The remainder '%s' of the specification for field %d is being disregarded."
-msgstr ""
+msgstr "Resten '%s' af specifikationen for felt %d ignoreres."
 
 #: ../plugins/paradox/paradox.c:478 ../plugins/paradox/paradox.c:485
 msgid "Could not create output file."
@@ -2004,8 +2025,8 @@ msgstr "Kunne ikke tildele hukommelse til postdata."
 msgid "Field %d in line %d has possibly been cut off. Data has %d character."
 msgid_plural ""
 "Field %d in line %d has possibly been cut off. Data has %d characters."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Felt %d i linje %d er muligvis blevet afkortet. Data har %d tegn."
+msgstr[1] "Felt %d i linje %d er muligvis blevet afkortet. Data har %d tegn."
 
 #: ../plugins/paradox/paradox.c:559
 #, c-format
@@ -2290,6 +2311,8 @@ msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
+"Kan ikke finde strømmen PerfectOffice_MAIN. Er dette virkelig en Quattro "
+"Pro-fil?"
 
 #: ../plugins/sample_datasource/plugin.xml.in.h:1
 msgid "Sample DataSource"
@@ -2325,6 +2348,8 @@ msgstr "Generel SC-importfejl"
 msgid ""
 "The cell in row %i and column %i is beyond Gnumeric's maximum sheet size."
 msgstr ""
+"Cellen i række %i og kolonne %i ligger uden for Gnumerics maksimale "
+"arkstørrelse."
 
 #: ../plugins/sc/sc.c:393
 msgid "The sheet is wider than Gnumeric can handle."
@@ -2396,7 +2421,7 @@ msgstr "Hello World-udvidelsesmodul der bruger ui-tjeneste"
 #: ../plugins/uihello/uihello.c:32
 #, c-format
 msgid "This is message from the \"%s\" plugin."
-msgstr ""
+msgstr "Dette er en meddelelse fra udvidelsesmodulet \"%s\"."
 
 #: ../plugins/xbase/boot.c:160
 msgid "Error while opening xbase file."
@@ -2427,6 +2452,8 @@ msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
 msgstr ""
+"Funktionsvælgeren gemmer en liste over nyligt brugte funktioner. Dette er "
+"den liste."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:3
 #: ../src/dialogs/dialog-preferences.c:1084
@@ -2438,6 +2465,8 @@ msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
 msgstr ""
+"Funktionsvælgeren gemmer en liste over nyligt brugte funktioner. Dette er "
+"listens maksimale længde."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:5
 msgid "Autocorrect initial caps"
@@ -2456,6 +2485,7 @@ msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
 msgstr ""
+"Autokorrekturen retter ikke indledende store bogstaver i ord på denne liste."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:9
 msgid "Autocorrect first letter"
@@ -2474,6 +2504,8 @@ msgid ""
 "The autocorrect engine does not capitalize the first letter of words "
 "following strings in this list."
 msgstr ""
+"Autokorrekturen sætter ikke stort begyndelsesbogstav i ord, der følger efter "
+"strenge på denne liste."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:13
 msgid "Autocorrect names of days"
@@ -2495,6 +2527,7 @@ msgstr "Aktivér nye udvidelsesmoduler"
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
 msgstr ""
+"Denne variabel bestemmer om hvert nyfundet udvidelsesmodul skal aktiveres."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:18
 msgid "List of Active Plugins."
@@ -2568,6 +2601,8 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
+"Denne værdi bestemmer om udskriftsopsætningsdialogen som standard gælder for "
+"alle ark samtidigt."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:34
 msgid "GTKPrintSetting"
@@ -2586,6 +2621,8 @@ msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"Standardsidehoved for nye dokumenter, som kan ændres med "
+"sideopsætningsdialogen."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:38
 msgid "Page Footer"
@@ -2596,6 +2633,8 @@ msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"Standardsidefod for nye dokumenter, som kan ændres med "
+"sideopsætningsdialogen."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:40
 msgid "Default Header/Footer Font Size"
@@ -2622,6 +2661,8 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
 msgstr ""
+"Denne værdi bestemmer om standardskrifttypen til sidehoveder og sidefødder "
+"er fed."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:46
 msgid "The default header/footer font is italic."
@@ -2632,6 +2673,8 @@ msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
 msgstr ""
+"Denne værdi bestemmer om standardskrifttypen til sidehoveder og sidefødder "
+"er kursiv."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:48
 msgid "Default Horizontal Centering"
@@ -2642,6 +2685,8 @@ msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages horizontally."
 msgstr ""
+"Denne værdi bestemmer om standardindstillingen i udskriftsopsætningsdialogen "
+"er at centrere siderne vandret."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:50
 msgid "Default Vertical Centering"
@@ -2652,6 +2697,8 @@ msgid ""
 "This value determines whether the default setting in the Print Setup dialog "
 "is to center pages vertically."
 msgstr ""
+"Denne værdi bestemmer om standardindstillingen i udskriftsopsætningsdialogen "
+"er at centrere siderne lodret."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:52
 msgid "Default Grid Line Printing"
@@ -2662,6 +2709,9 @@ msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "print grid lines. Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne værdi bestemmer standardindstillingen i udskriftsopsætningsdialogen "
+"for, om gitterlinjer skal udskrives. Brug venligst "
+"udskriftsopsætningsdialogen til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:54
 msgid "Default Print Cells with Only Styles"
@@ -2673,6 +2723,9 @@ msgid ""
 "to print empty but formatted cells. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
+"Denne værdi bestemmer standardindstillingen i udskriftsopsætningsdialogen "
+"for, om tomme, men formaterede celler skal udskrives. Brug venligst "
+"udskriftsopsætningsdialogen til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:56
 msgid "Default Black and White Printing"
@@ -2684,6 +2737,9 @@ msgid ""
 "to print in only black and white. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
+"Denne værdi bestemmer standardindstillingen i udskriftsopsætningsdialogen "
+"for, om der kun skal udskrives i sort/hvid. Brug venligst "
+"udskriftsopsætningsdialogen til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:58
 msgid "Default Title Printing"
@@ -2695,6 +2751,9 @@ msgid ""
 "to print row and column headers. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
+"Denne værdi bestemmer standardindstillingen i udskriftsopsætningsdialogen "
+"for, om række- og kolonneoverskrifter skal udskrives. Brug venligst "
+"udskriftsopsætningsdialogen til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:60
 msgid "Default Print Direction"
@@ -2706,6 +2765,9 @@ msgid ""
 "to print first right then down. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
+"Denne værdi bestemmer standardindstillingen i udskriftsopsætningsdialogen "
+"for, om der først skal udskrives mod højre og derefter nedad. Brug venligst "
+"udskriftsopsætningsdialogen til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:62
 msgid "Default Scale Type"
@@ -2717,6 +2779,9 @@ msgid ""
 "to scale pages by a given percentage. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
+"Denne værdi bestemmer standardindstillingen i udskriftsopsætningsdialogen "
+"for, om siderne skal skaleres med en given procentdel. Brug venligst "
+"udskriftsopsætningsdialogen til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:64
 msgid "Default Scale Percentage"
@@ -2727,6 +2792,8 @@ msgid ""
 "This value gives the percentage by which to scale each printed page. Please "
 "use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne værdi angiver den procentdel, som hver udskrevet side skal skaleres "
+"med. Brug venligst udskriftsopsætningsdialogen til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:66
 msgid "Default Scaling Width"
@@ -2738,6 +2805,9 @@ msgid ""
 "a printout of the current sheet. The sheet will be reduced to fit within "
 "this width. This value can be changed in the Page Setup dialog."
 msgstr ""
+"Denne værdi bestemmer det maksimale antal sider, som bredden af en udskrift "
+"af det aktuelle ark består af. Arket formindskes, så det passer inden for "
+"denne bredde. Denne værdi kan ændres i sideopsætningsdialogen."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:68
 msgid "Default Scaling Height"
@@ -2749,6 +2819,9 @@ msgid ""
 "a printout of the current sheet. The sheet will be reduced to fit within "
 "this height. This value can be changed in the Page Setup dialog."
 msgstr ""
+"Denne værdi bestemmer det maksimale antal sider, som højden af en udskrift "
+"af det aktuelle ark består af. Arket formindskes, så det passer inden for "
+"denne højde. Denne værdi kan ændres i sideopsætningsdialogen."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:70
 msgid "Default Repeated Top Region"
@@ -2759,6 +2832,9 @@ msgid ""
 "This string gives the default region to be repeated at the top of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne streng angiver det standardområde, der gentages øverst på hvert "
+"udskrevet ark. Brug venligst udskriftsopsætningsdialogen til at redigere "
+"denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:72
 msgid "Default Repeated Left Region"
@@ -2769,6 +2845,9 @@ msgid ""
 "This string gives the default region to be repeated at the left of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne streng angiver det standardområde, der gentages til venstre på hvert "
+"udskrevet ark. Brug venligst udskriftsopsætningsdialogen til at redigere "
+"denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:74
 msgid "Preferred Display Unit"
@@ -2789,6 +2868,9 @@ msgid ""
 "This value gives the default number of points from the top of a page to the "
 "start of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne værdi angiver standardantallet af punkter fra toppen af en side til "
+"begyndelsen af brødteksten. Brug venligst udskriftsopsætningsdialogen til at "
+"redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:78
 msgid "Default Bottom Margin"
@@ -2799,6 +2881,9 @@ msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne værdi angiver standardantallet af punkter fra bunden af en side til "
+"slutningen af brødteksten. Brug venligst udskriftsopsætningsdialogen til at "
+"redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:80
 msgid "Default Bottom Outside Margin"
@@ -2809,6 +2894,9 @@ msgid ""
 "This value gives the default number of points from the bottom of a page to "
 "the end of the footer. Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne værdi angiver standardantallet af punkter fra bunden af en side til "
+"slutningen af sidefoden. Brug venligst udskriftsopsætningsdialogen til at "
+"redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:82
 msgid "Default Top Outside Margin"
@@ -2819,6 +2907,9 @@ msgid ""
 "This value gives the default number of points from the top of a page to the "
 "top of the header. Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne værdi angiver standardantallet af punkter fra toppen af en side til "
+"toppen af sidehovedet. Brug venligst udskriftsopsætningsdialogen til at "
+"redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:84
 msgid "Default Left Margin"
@@ -2829,6 +2920,9 @@ msgid ""
 "This value gives the default number of points from the left of a page to the "
 "left of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne værdi angiver standardantallet af punkter fra venstre kant af en side "
+"til venstre kant af brødteksten. Brug venligst udskriftsopsætningsdialogen "
+"til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:86
 msgid "Default Right Margin"
@@ -2839,6 +2933,9 @@ msgid ""
 "This value gives the default number of points from the right of a page to "
 "the right of the body. Please use the Print Setup dialog to edit this value."
 msgstr ""
+"Denne værdi angiver standardantallet af punkter fra højre kant af en side "
+"til højre kant af brødteksten. Brug venligst udskriftsopsætningsdialogen til "
+"at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:88
 msgid "Paper"
@@ -2849,6 +2946,8 @@ msgid ""
 "This is the default paper specification. Please use the Print Setup dialog "
 "to edit this value."
 msgstr ""
+"Dette er standardpapirspecifikationen. Brug venligst "
+"udskriftsopsætningsdialogen til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:90
 msgid "Paper orientation"
@@ -2859,6 +2958,8 @@ msgid ""
 "This is the default paper orientation. Please use the Print Setup dialog to "
 "edit this value."
 msgstr ""
+"Dette er standardpapirorienteringen. Brug venligst "
+"udskriftsopsætningsdialogen til at redigere denne værdi."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:92
 msgid "Header/Footer Format (Left Portion)"
@@ -2887,6 +2988,9 @@ msgid ""
 "in the workbook. Setting this variable to TRUE directs selections to this "
 "entry even if the entry does not have keyboard focus."
 msgstr ""
+"Nogle dialoger indeholder kun ét indtastningsfelt, som tillader intervalvalg "
+"i arbejdsbogen. Hvis denne variabel sættes til TRUE, rettes markeringer til "
+"dette felt, selv om feltet ikke har tastaturfokus."
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:98
 msgid "Text Export String Indicator"
@@ -3018,6 +3122,7 @@ msgid ""
 "Search &amp; Replace keeps strings as strings even if they look like numbers "
 "as default"
 msgstr ""
+"Søg og erstat bevarer som standard strenge som strenge, selv om de ligner tal"
 
 #: ../schemas/org.gnome.gnumeric.dialogs.gschema.xml.in.in.h:129
 msgid "Search &amp; Replace Search Type"
@@ -3048,6 +3153,8 @@ msgid ""
 "This is the default error behavior of Search &amp; Replace indicated by an "
 "integer from 0 to 4."
 msgstr ""
+"Dette er standardfejlhåndteringen i Søg og erstat angivet som et heltal fra "
+"0 til 4."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:1
 msgid "Toolbar Style"
@@ -3067,6 +3174,7 @@ msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
+"Denne værdi bestemmer om arknavnene vises i fortryd- og gentag-listerne."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:5
 #: ../src/dialogs/dialog-preferences.c:768
@@ -3080,6 +3188,10 @@ msgid ""
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr ""
+"Denne værdi bestemmer længden af fortryd-kæden. Hver redigeringshandling har "
+"en tilknyttet størrelse, så den kan sammenlignes med hukommelseskravene for "
+"en simpel redigering af én celle (størrelse 1). Fortryd-listen afkortes, når "
+"dens samlede størrelse overstiger denne konfigurerbare værdi."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:7
 #: ../src/dialogs/dialog-preferences.c:773
@@ -3090,6 +3202,7 @@ msgstr "Antal fortryd-elementer"
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
+"Denne værdi bestemmer det maksimale antal elementer i fortryd/gentag-listen."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:9
 msgid "Length of the Undo Descriptors"
@@ -3100,6 +3213,8 @@ msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
 msgstr ""
+"Denne værdi angiver omtrent den maksimale længde af kommandobeskrivelserne i "
+"fortryd- og gentag-kæderne."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:11
 msgid "Default Font Size"
@@ -3125,6 +3240,7 @@ msgstr "Standard skrift er fed."
 msgid ""
 "This value determines whether the default font for a new workbook is bold."
 msgstr ""
+"Denne værdi bestemmer om standardskrifttypen i en ny arbejdsbog er fed."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:17
 msgid "The default font is italic."
@@ -3134,6 +3250,7 @@ msgstr "Standard skrift er kursiv."
 msgid ""
 "This value determines whether the default font for a new workbook is italic."
 msgstr ""
+"Denne værdi bestemmer om standardskrifttypen i en ny arbejdsbog er kursiv."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:19
 #: ../src/dialogs/dialog-preferences.c:859
@@ -3153,6 +3270,8 @@ msgid ""
 "The number of rows in each sheet. This setting will be used only in a new "
 "Gnumeric session."
 msgstr ""
+"Antallet af rækker i hvert ark. Denne indstilling bruges kun i en ny "
+"Gnumeric-session."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:23
 msgid "Default Number of columns in a sheet"
@@ -3163,6 +3282,8 @@ msgid ""
 "The number of columns in each sheet. This setting will be used only in a new "
 "Gnumeric session."
 msgstr ""
+"Antallet af kolonner i hvert ark. Denne indstilling bruges kun i en ny "
+"Gnumeric-session."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:25
 msgid "Autosave frequency"
@@ -3199,6 +3320,8 @@ msgid ""
 "This variable determines whether the standard toolbar should be visible "
 "initially."
 msgstr ""
+"Denne variabel bestemmer om standardværktøjslinjen skal være synlig fra "
+"start."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:33
 msgid "Standard toolbar position"
@@ -3209,6 +3332,8 @@ msgid ""
 "This variable determines where the standard toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
 msgstr ""
+"Denne variabel bestemmer, hvor standardværktøjslinjen skal vises. 0 er "
+"venstre, 1 er højre, 2 er øverst."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:35
 msgid "Format toolbar visible"
@@ -3219,6 +3344,7 @@ msgid ""
 "This variable determines whether the format toolbar should be visible "
 "initially."
 msgstr ""
+"Denne variabel bestemmer om formatværktøjslinjen skal være synlig fra start."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:37
 msgid "Format toolbar position"
@@ -3229,6 +3355,8 @@ msgid ""
 "This variable determines where the format toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
 msgstr ""
+"Denne variabel bestemmer, hvor formatværktøjslinjen skal vises. 0 er "
+"venstre, 1 er højre, 2 er øverst."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:39
 msgid "Object toolbar visible"
@@ -3239,6 +3367,7 @@ msgid ""
 "This variable determines whether the object toolbar should be visible "
 "initially."
 msgstr ""
+"Denne variabel bestemmer om objektværktøjslinjen skal være synlig fra start."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:41
 msgid "Object toolbar position"
@@ -3249,6 +3378,8 @@ msgid ""
 "This variable determines where the object toolbar should be shown. 0 is "
 "left, 1 is right, 2 is top."
 msgstr ""
+"Denne variabel bestemmer, hvor objektværktøjslinjen skal vises. 0 er "
+"venstre, 1 er højre, 2 er øverst."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:43
 msgid "Function Markers"
@@ -3267,7 +3398,7 @@ msgstr "Udvidelsesmarkører"
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:46
 msgid ""
 "This variable determines whether cells with truncated content are marked."
-msgstr ""
+msgstr "Denne variabel bestemmer om celler med afkortet indhold markeres."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:47
 #: ../src/dialogs/dialog-preferences.c:1059
@@ -3288,6 +3419,8 @@ msgid ""
 "This variable determines the minimum number of characters required for "
 "autocompletion."
 msgstr ""
+"Denne variabel bestemmer det mindste antal tegn, der kræves for "
+"autofuldførelse."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:51
 #: ../src/dialogs/dialog-preferences.c:1069
@@ -3329,6 +3462,13 @@ msgid ""
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milliseconds."
 msgstr ""
+"Hvis `lag' er 0, genberegner Gnumeric alle automatiske udtryk umiddelbart "
+"efter hver ændring. Værdier af `lag' forskellige fra 0 lader Gnumeric samle "
+"flere ændringer før hver genberegning. Hvis `lag' er positiv, venter "
+"Gnumeric `lag' millisekunder, når en ændring opstår, og genberegner "
+"derefter; hvis der opstår flere ændringer i den periode, behandles de også "
+"på det tidspunkt. Hvis `lag' er negativ, sker genberegningen kun efter en "
+"stille periode på |lag| millisekunder."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:59
 #: ../src/dialogs/dialog-preferences.c:1054
@@ -3341,6 +3481,10 @@ msgid ""
 "are a throwback to 1-2-3 style event handling. They turn Ctrl-arrow into "
 "page movement rather than jumping to the start/end of series."
 msgstr ""
+"Denne variabel bestemmer om overgangstaster er slået til. Overgangstaster er "
+"en levn fra håndteringen af hændelser i 1-2-3-stil. De får Ctrl-piletast til "
+"at bevæge sig en side ad gangen i stedet for at springe til "
+"starten/slutningen af en serie."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:61
 #: ../src/dialogs/dialog-preferences.c:849
@@ -3352,6 +3496,8 @@ msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
 msgstr ""
+"Dette tal (mellem 0,25 og 1,00) angiver den vandrette brøkdel af "
+"skærmstørrelsen, som standardvinduet dækker."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:63
 #: ../src/dialogs/dialog-preferences.c:844
@@ -3363,6 +3509,8 @@ msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
 msgstr ""
+"Dette tal (mellem 0,25 og 1,00) angiver den lodrette brøkdel af "
+"skærmstørrelsen, som standardvinduet dækker."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:65
 #: ../src/dialogs/dialog-preferences.c:854
@@ -3384,6 +3532,9 @@ msgid ""
 "by Gnumeric when saving files in the default file format. 0 is minimal "
 "compression while 9 is maximal compression."
 msgstr ""
+"Dette heltal (mellem 0 og 9) angiver mængden af komprimering, som Gnumeric "
+"udfører ved lagring af filer i standardfilformatet. 0 er minimal "
+"komprimering, mens 9 er maksimal komprimering."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:69
 #: ../src/dialogs/dialog-preferences.c:982
@@ -3396,6 +3547,8 @@ msgid ""
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
 msgstr ""
+"Nogle filformater kan kun indeholde ét ark. Denne variabel bestemmer om "
+"brugeren advares, hvis kun ét ark i en arbejdsbog med flere ark gemmes."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:71
 #: ../src/dialogs/dialog-preferences.c:977
@@ -3408,6 +3561,9 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
+"Før en eksisterende fil overskrives, viser Gnumeric en advarselsdialog. Hvis "
+"denne indstilling slås til, bliver overskrivningsknappen i dialogen "
+"standardknappen."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:73
 msgid "List of file savers with disabled extension check."
@@ -3418,6 +3574,8 @@ msgid ""
 "This list contains the ids of the file savers for which the extension check "
 "is disabled."
 msgstr ""
+"Denne liste indeholder id'erne for de lagringsmoduler, hvor kontrollen af "
+"filtypenavn er deaktiveret."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:75
 msgid "Sort is Case-Sensitive"
@@ -3429,6 +3587,10 @@ msgid ""
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
 msgstr ""
+"Hvis denne indstilling slås til, udfører sorteringsknapperne på "
+"værktøjslinjen en sortering, der skelner mellem store og små bogstaver, og "
+"den bestemmer startstatus for det tilsvarende afkrydsningsfelt i "
+"sorteringsdialogen."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:77
 #: ../src/dialogs/dialog-preferences.c:808
@@ -3441,6 +3603,10 @@ msgid ""
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
 msgstr ""
+"Hvis denne indstilling slås til, bevarer sorteringsknapperne på "
+"værktøjslinjen cellernes formater under sortering, og den bestemmer "
+"startstatus for afkrydsningsfeltet til bevarelse af formater i "
+"sorteringsdialogen."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:79
 #: ../src/dialogs/dialog-preferences.c:818 ../src/wbc-gtk-actions.c:3312
@@ -3452,6 +3618,8 @@ msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
 msgstr ""
+"Denne indstilling bestemmer startstatus for sorteringsrækkefølgeknappen i "
+"sorteringsdialogen."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:81
 #: ../src/dialogs/dialog-preferences.c:803
@@ -3464,6 +3632,9 @@ msgid ""
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 msgstr ""
+"Når et sorteringsområde vælges i sorteringsdialogen, tilføjes "
+"sorteringsklausuler automatisk. Dette tal bestemmer det maksimale antal "
+"klausuler, der tilføjes automatisk."
 
 #: ../schemas/org.gnome.gnumeric.gschema.xml.in.in.h:83
 msgid "Prefer CLIPBOARD over PRIMARY selection"
@@ -3475,6 +3646,9 @@ msgid ""
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
 "applications, like Xterm or Emacs, which set only the PRIMARY selection."
 msgstr ""
+"Når TRUE, foretrækker Gnumeric den moderne CLIPBOARD-markering frem for de "
+"ældre PRIMARY-markeringer. Sæt til FALSE, hvis du skal arbejde med ældre "
+"programmer som Xterm eller Emacs, der kun sætter PRIMARY-markeringen."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:1
 #: ../src/dialogs/dialog-preferences.c:988
@@ -3487,6 +3661,9 @@ msgid ""
 "ISO-8859-1 (Latin1). To use the UTF-8 files, you must have the ucs LaTeX "
 "package installed."
 msgstr ""
+"Denne indstilling bestemmer om oprettede LaTeX-filer bruger UTF-8 (unicode) "
+"eller ISO-8859-1 (Latin1). For at bruge UTF-8-filerne skal LaTeX-pakken ucs "
+"være installeret."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:3
 msgid "Full path of lp_solve program to use"
@@ -3497,6 +3674,8 @@ msgid ""
 "This is the full path to the lp_solve binary that the lpsolve plugin should "
 "use."
 msgstr ""
+"Dette er den fulde sti til lp_solve-programfilen, som udvidelsesmodulet "
+"lpsolve skal bruge."
 
 #: ../schemas/org.gnome.gnumeric.plugin.gschema.xml.in.in.h:5
 msgid "Full path of glpsol program to use"
@@ -3507,6 +3686,8 @@ msgid ""
 "This is the full path to the glpsol binary that the lpsolve plugin should "
 "use."
 msgstr ""
+"Dette er den fulde sti til glpsol-programfilen, som udvidelsesmodulet "
+"lpsolve skal bruge."
 
 #: ../src/application.c:303
 msgid "Cut Object"
@@ -3571,6 +3752,8 @@ msgid ""
 "Inserting these cells would push data off the sheet. Please enlarge the "
 "sheet first."
 msgstr ""
+"Indsættelse af disse celler ville skubbe data ud af arket. Gør venligst "
+"arket større først."
 
 #: ../src/cmd-edit.c:429
 #, c-format
@@ -3674,7 +3857,11 @@ msgid_plural ""
 "Inserting %i columns before column %s would push data off the sheet. Please "
 "enlarge the sheet first."
 msgstr[0] ""
+"Indsættelse af %i kolonne før kolonne %s ville skubbe data ud af arket. Gør "
+"venligst arket større først."
 msgstr[1] ""
+"Indsættelse af %i kolonner før kolonne %s ville skubbe data ud af arket. Gør "
+"venligst arket større først."
 
 #: ../src/commands.c:1515
 #, c-format
@@ -3692,7 +3879,11 @@ msgid_plural ""
 "Inserting %i rows before row %s would push data off the sheet. Please "
 "enlarge the sheet first."
 msgstr[0] ""
+"Indsættelse af %i række før række %s ville skubbe data ud af arket. Gør "
+"venligst arket større først."
 msgstr[1] ""
+"Indsættelse af %i rækker før række %s ville skubbe data ud af arket. Gør "
+"venligst arket større først."
 
 #: ../src/commands.c:1553
 #, c-format
@@ -3856,12 +4047,16 @@ msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
 msgstr ""
+"Er du sikker på, at du vil skjule alle kolonner? Hvis du gør det, kan du "
+"vise dem igen med menupunktet 'Format→Kolonne→Vis igen'."
 
 #: ../src/commands.c:2464
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
 msgstr ""
+"Er du sikker på, at du vil skjule alle rækker? Hvis du gør det, kan du vise "
+"dem igen med menupunktet 'Format→Række→Vis igen'."
 
 #: ../src/commands.c:2484
 msgid "Unhide columns"
@@ -3957,6 +4152,9 @@ msgid ""
 "It is possible that some dates could be copied\n"
 "incorrectly."
 msgstr ""
+"Kopiering mellem filer med forskellige datokonventioner.\n"
+"Det er muligt, at nogle datoer\n"
+"kopieres forkert."
 
 #: ../src/commands.c:3059
 msgid "Paste Copy"
@@ -4287,6 +4485,13 @@ msgid ""
 "\n"
 "Gnumeric comes with absolutely no warranty."
 msgstr ""
+"Gnumeric er tilgængelig under GNU General Public License, version 2 eller 3 "
+"efter eget valg.\n"
+"\n"
+"Se https://www.gnu.org/licenses/old-licenses/gpl-2.0.html\n"
+"eller https://www.gnu.org/licenses/gpl-3.0.html.\n"
+"\n"
+"Gnumeric leveres uden nogen form for garanti."
 
 #: ../src/dialogs/dialog-about.c:61
 msgid "Core"
@@ -5205,8 +5410,8 @@ msgstr "Kunne ikke oprette Anova (tofaktor)-værktøjsvinduet."
 #, c-format
 msgid "Show the largest item"
 msgid_plural "Show the %d largest items"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vis det største element"
+msgstr[1] "Vis de %d største elementer"
 
 #. xgettext : %d gives the number of items in the autofilter.
 #. This is input to ngettext.
@@ -5214,8 +5419,8 @@ msgstr[1] ""
 #, c-format
 msgid "Show the smallest item"
 msgid_plural "Show the %d smallest items"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vis det mindste element"
+msgstr[1] "Vis de %d mindste elementer"
 
 #: ../src/dialogs/dialog-autofilter.c:240
 #, c-format
@@ -5235,15 +5440,15 @@ msgstr[1] "Vis de mindste %d%% af værdier"
 #, c-format
 msgid "Show the top %d%% of all items"
 msgid_plural "Show the top %d%% of all items"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vis de øverste %d%% af alle elementer"
+msgstr[1] "Vis de øverste %d%% af alle elementer"
 
 #: ../src/dialogs/dialog-autofilter.c:271
 #, c-format
 msgid "Show the bottom %d%% of all items"
 msgid_plural "Show the bottom %d%% of all items"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vis de nederste %d%% af alle elementer"
+msgstr[1] "Vis de nederste %d%% af alle elementer"
 
 #: ../src/dialogs/dialog-autofilter.c:289
 msgid "Percentage:"
@@ -5497,6 +5702,8 @@ msgid ""
 "You did not add the defined conditional format. Do you really want to close "
 "the conditional formatting dialog?"
 msgstr ""
+"Du har ikke tilføjet det definerede betingede format. Vil du virkelig lukke "
+"dialogen for betinget formatering?"
 
 #: ../src/dialogs/dialog-cell-format-cond.c:236
 msgid "(defined)"
@@ -5606,11 +5813,14 @@ msgstr "Udvid betinget formatering"
 msgid ""
 "If the cell content is between these two values, a special style is used."
 msgstr ""
+"Hvis cellens indhold ligger mellem disse to værdier, bruges en særlig stil."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:867
 msgid ""
 "If the cell content is not between these two values, a special style is used."
 msgstr ""
+"Hvis cellens indhold ikke ligger mellem disse to værdier, bruges en særlig "
+"stil."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:875
 msgid "If the cell content is equal to this value, a special style is used."
@@ -5620,6 +5830,7 @@ msgstr "Hvis celleindholdet er lig med denne værdi, bruges en speciel stil."
 msgid ""
 "If the cell content is not equal to this value, a special style is used."
 msgstr ""
+"Hvis cellens indhold ikke er lig med denne værdi, bruges en særlig stil."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:891
 msgid "If the cell content is > this value, a special style is used."
@@ -5649,6 +5860,7 @@ msgstr "Hvis celleindholdet indeholder denne streng, bruges en speciel stil."
 msgid ""
 "If the cell content does not contain this string, a special style is used."
 msgstr ""
+"Hvis cellens indhold ikke indeholder denne streng, bruges en særlig stil."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:947
 msgid "If the cell content begins with this string, a special style is used."
@@ -5658,6 +5870,7 @@ msgstr "Hvis celleindholdet begynder med denne streng, bruges en speciel stil."
 msgid ""
 "If the cell content does not begin with this string, a special style is used."
 msgstr ""
+"Hvis cellens indhold ikke begynder med denne streng, bruges en særlig stil."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:962
 msgid "If the cell content ends with this string, a special style is used."
@@ -5667,6 +5880,7 @@ msgstr "Hvis celleindholdet slutter med denne streng, bruges en speciel stil."
 msgid ""
 "If the cell content does not end  with this string, a special style is used."
 msgstr ""
+"Hvis cellens indhold ikke ender med denne streng, bruges en særlig stil."
 
 #: ../src/dialogs/dialog-cell-format-cond.c:978
 msgid "If the cell contains an error value, a special style is used."
@@ -5812,6 +6026,8 @@ msgstr "Opret datatabel"
 msgid ""
 "The selection must have more than 1 column and row to create a Data Table."
 msgstr ""
+"Markeringen skal have mere end 1 kolonne og række for at kunne oprette en "
+"datatabel."
 
 #: ../src/dialogs/dialog-data-table.c:156
 #: ../src/dialogs/dialog-data-table.c:160 ../src/dialogs/data-table.ui.h:1
@@ -5872,7 +6088,7 @@ msgstr "Ukendt"
 #: ../src/dialogs/dialog-doc-metadata.c:785
 #, c-format
 msgid "Transform function of G_TYPE_STRING to %s is required!\n"
-msgstr ""
+msgstr "Transformationsfunktion fra G_TYPE_STRING til %s er påkrævet!\n"
 
 #: ../src/dialogs/dialog-doc-metadata.c:1259
 #: ../src/dialogs/dialog-doc-metadata.c:2199
@@ -6105,6 +6321,8 @@ msgid ""
 "Left click once to follow this link.\n"
 "Middle click once to select this cell"
 msgstr ""
+"Venstreklik én gang for at følge denne hyperhenvisning.\n"
+"Midterklik én gang for at markere denne celle"
 
 #: ../src/dialogs/dialog-hyperlink.c:184
 msgid "Not a range or name"
@@ -6182,6 +6400,8 @@ msgid ""
 "The data columns range in length from %i to %i. Shall we trim the lengths to "
 "%i and proceed?"
 msgstr ""
+"Datakolonnerne har længder fra %i til %i. Skal længderne beskæres til %i, og "
+"skal vi fortsætte?"
 
 #: ../src/dialogs/dialog-merge.c:376
 msgid "Input Data"
@@ -6242,6 +6462,8 @@ msgid ""
 "one:\n"
 "\n"
 msgstr ""
+"Følgende ekstra udvidelsesmoduler skal aktiveres for at aktivere dette:\n"
+"\n"
 
 #: ../src/dialogs/dialog-plugin-manager.c:590
 #, c-format
@@ -6253,6 +6475,8 @@ msgid ""
 "\n"
 "Do you want to activate this plugin together with its dependencies?"
 msgstr ""
+"\n"
+"Vil du aktivere dette udvidelsesmodul sammen med dets afhængigheder?"
 
 #: ../src/dialogs/dialog-plugin-manager.c:619
 #, c-format
@@ -7290,6 +7514,8 @@ msgid ""
 "First round number should be less than or equal to the number of the last "
 "round."
 msgstr ""
+"Nummeret på den første runde skal være mindre end eller lig med nummeret på "
+"den sidste runde."
 
 #: ../src/dialogs/dialog-simulation.c:422
 msgid "Could not create the Simulation dialog."
@@ -7316,6 +7542,8 @@ msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a "
 "solver for Gnumeric?"
 msgstr ""
+"Leder du efter et emne til dit speciale? Måske kunne du tænke dig at skrive "
+"en løser til Gnumeric?"
 
 #: ../src/dialogs/dialog-solver.c:454
 msgid "Changing solver parameters"
@@ -7384,7 +7612,7 @@ msgstr "Optimal løsning fundet af løsningsalgoritme.\n"
 
 #: ../src/dialogs/dialog-solver.c:836
 msgid "Feasible solution created by solver.\n"
-msgstr ""
+msgstr "Gennemførlig løsning oprettet af løseren.\n"
 
 #: ../src/dialogs/dialog-solver.c:1104
 msgid "Subject to the Constraints:"
@@ -7574,7 +7802,7 @@ msgstr "Målcellen bør indholde et udtryk"
 #: ../src/dialogs/dialog-view.c:81
 #, c-format
 msgid "Display \"%s\" could not be opened."
-msgstr ""
+msgstr "Skærmen \"%s\" kunne ikke åbnes."
 
 #: ../src/dialogs/dialog-view.c:159
 msgid "This screen"
@@ -8368,11 +8596,11 @@ msgstr "Sortér..."
 
 #: ../src/dialogs/cell-sort.ui.h:2
 msgid "<span weight=\"bold\">Sort Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Sorteringsindstillinger</span>"
 
 #: ../src/dialogs/cell-sort.ui.h:3
 msgid "<span weight=\"bold\">Sort Specification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Sorteringsspecifikation</span>"
 
 #: ../src/dialogs/cell-sort.ui.h:4
 msgid "Locale:"
@@ -8388,6 +8616,10 @@ msgid ""
 "fore and background colors will remain in the original location. Uncheck "
 "this checkbox to have these formats move with the content. "
 msgstr ""
+"Når dette afkrydsningsfelt er markeret, forbliver cellernes formatering, "
+"såsom kanter, hyperhenvisninger samt for- og baggrundsfarver, på den "
+"oprindelige placering. Fjern markeringen i dette afkrydsningsfelt for at "
+"lade disse formater følge med indholdet. "
 
 #: ../src/dialogs/cell-sort.ui.h:7
 msgid "Sort range has a _header"
@@ -8398,6 +8630,8 @@ msgid ""
 "The first row or column of the range is excluded from sorting and assumed to "
 "contain column or row headers."
 msgstr ""
+"Den første række eller kolonne i intervallet udelades fra sorteringen og "
+"antages at indeholde kolonne- eller rækkeoverskrifter."
 
 #: ../src/dialogs/cell-sort.ui.h:9 ../src/dialogs/so-scrollbar.ui.h:3
 msgid "Direction:"
@@ -8444,6 +8678,8 @@ msgid ""
 "Adds any fields in the range box to the left to the sort criteria or allows "
 "selection of fields from a menu."
 msgstr ""
+"Tilføjer felter i intervalfeltet til venstre til sorteringskriterierne eller "
+"tillader valg af felter fra en menu."
 
 #: ../src/dialogs/chi-squared.ui.h:1
 msgid "Contingency Table Analysis"
@@ -8686,7 +8922,7 @@ msgstr "Slet celler"
 
 #: ../src/dialogs/delete-cells.ui.h:2
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Sletningsmetode</span>"
 
 #: ../src/dialogs/delete-cells.ui.h:3
 msgid "Shift cells _left"
@@ -8722,6 +8958,8 @@ msgid ""
 "Use the ssmedian function with interval width 1 rather than the traditional "
 "median function.  "
 msgstr ""
+"Brug funktionen ssmedian med intervalbredde 1 i stedet for den traditionelle "
+"medianfunktion.  "
 
 #: ../src/dialogs/descriptive-stats.ui.h:14
 msgid "Confidence Interval for the _Mean"
@@ -8848,19 +9086,22 @@ msgid ""
 "Move the selected sheet to the top of the list of sheets to be exported "
 "first."
 msgstr ""
+"Flyt det valgte ark til toppen af listen over ark, så det eksporteres først."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:29
 msgid "Raise the selected sheet in the list of sheets to be exported earlier."
 msgstr ""
+"Flyt det valgte ark op i listen over ark, så det eksporteres tidligere."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:30
 msgid "Lower the selected sheet in the list of sheets to be exported later."
-msgstr ""
+msgstr "Flyt det valgte ark ned i listen over ark, så det eksporteres senere."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:31
 msgid ""
 "Move the selected sheet to the end of the list of sheets to be exported last."
 msgstr ""
+"Flyt det valgte ark til bunden af listen over ark, så det eksporteres sidst."
 
 #: ../src/dialogs/dialog-stf-export.ui.h:32
 msgid "Choose export formatting:"
@@ -8971,6 +9212,8 @@ msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
 msgstr ""
+"Rækkefølgen af vognretur og linjeskift (ASCII-koderne 13 og 10) adskiller "
+"linjer"
 
 #: ../src/dialogs/dialog-stf.ui.h:18
 msgid "_Mac pre-OS X (CR)"
@@ -9622,7 +9865,7 @@ msgstr "Målsøgning"
 
 #: ../src/dialogs/goalseek.ui.h:2
 msgid "<span weight=\"bold\">Goal</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Mål</span>"
 
 #: ../src/dialogs/goalseek.ui.h:3
 msgid "_Set Cell:"
@@ -9867,7 +10110,7 @@ msgstr "Indsæt celler"
 
 #: ../src/dialogs/insert-cells.ui.h:2
 msgid "<span weight=\"bold\">Insert Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Indsætningsmetode</span>"
 
 #: ../src/dialogs/insert-cells.ui.h:3
 msgid "_Shift cells right"
@@ -10215,6 +10458,8 @@ msgstr ""
 msgid ""
 "Transpose the source during the paste so columns become rows and vice versa"
 msgstr ""
+"Transponér kilden under indsættelsen, så kolonner bliver til rækker og "
+"omvendt"
 
 #: ../src/dialogs/paste-special.ui.h:26
 msgid "Flip Hori_zontally"
@@ -10225,6 +10470,8 @@ msgid ""
 "Flip the source horizontally during the paste so the first column becomes "
 "the last and vice versa"
 msgstr ""
+"Vend kilden vandret under indsættelsen, så den første kolonne bliver den "
+"sidste og omvendt"
 
 #: ../src/dialogs/paste-special.ui.h:28
 msgid "Fli_p Vertically"
@@ -10235,6 +10482,8 @@ msgid ""
 "Flip the source vertically during the paste so the first row becomes the "
 "last and vice versa"
 msgstr ""
+"Vend kilden lodret under indsættelsen, så den første række bliver den sidste "
+"og omvendt"
 
 #: ../src/dialogs/paste-special.ui.h:30
 msgid "Column widths"
@@ -10259,7 +10508,7 @@ msgstr "Spring _tomme over"
 #: ../src/dialogs/paste-special.ui.h:35
 msgid ""
 "When the source of the paste is a blank cell, leave the target unchanged"
-msgstr ""
+msgstr "Når kilden til indsættelsen er en tom celle, lades målet være uændret"
 
 #: ../src/dialogs/paste-special.ui.h:36
 msgid "<b>Options</b>"
@@ -10634,7 +10883,7 @@ msgstr "Rang og percentil"
 
 #: ../src/dialogs/rank.ui.h:11
 msgid "Ties:"
-msgstr "Bindinger:"
+msgstr "Sammenfald:"
 
 #: ../src/dialogs/rank.ui.h:12
 msgid "_Average rank"
@@ -10992,6 +11241,8 @@ msgid ""
 "When set, string values will remain as such after replacement, even if they "
 "look like numbers or expressions"
 msgstr ""
+"Når dette er slået til, forbliver strengværdier strenge efter erstatning, "
+"selv om de ligner tal eller udtryk"
 
 #: ../src/dialogs/search-replace.ui.h:50
 msgid "Save the current settings as default settings"
@@ -11002,6 +11253,8 @@ msgid ""
 "When set, the current settings will be saved as the default settings for "
 "future invocations of this and the Search dialog."
 msgstr ""
+"Når dette er slået til, gemmes de aktuelle indstillinger som "
+"standardindstillinger for fremtidige kald af denne dialog og Søg-dialogen."
 
 #: ../src/dialogs/search-replace.ui.h:52 ../src/dialogs/search.ui.h:43
 #: ../templates/autoformat/autoformat.General.advanced.xml.in.h:1
@@ -11181,6 +11434,7 @@ msgid ""
 "Sheet objects with this property do not print with the remainder of the "
 "sheet."
 msgstr ""
+"Arkobjekter med denne egenskab udskrives ikke sammen med resten af arket."
 
 #: ../src/dialogs/sheetobject-size.ui.h:9
 msgid "_Name:"
@@ -11191,6 +11445,9 @@ msgid ""
 "This name is used by some plugins that provide programmability to address "
 "this object. Most users will not need to set this name. "
 msgstr ""
+"Dette navn bruges af nogle udvidelsesmoduler, der giver programmerbarhed, "
+"til at adressere dette objekt. De fleste brugere behøver ikke at angive "
+"dette navn. "
 
 #: ../src/dialogs/sheetobject-size.ui.h:11
 msgid "Width in points:"
@@ -11592,6 +11849,7 @@ msgid ""
 "The number of data points used on each side when doing numerical "
 "differentiation"
 msgstr ""
+"Antallet af datapunkter, der bruges på hver side ved numerisk differentiering"
 
 #: ../src/dialogs/solver.ui.h:35
 msgid "P_rogram"
@@ -11793,6 +12051,8 @@ msgid ""
 "This checkbox determines whether each cell containing a spreadsheet formula "
 "is marked with a green top left corner."
 msgstr ""
+"Dette afkrydsningsfelt bestemmer om hver celle, der indeholder en "
+"regnearksformel, markeres med et grønt hjørne øverst til venstre."
 
 #: ../src/dialogs/workbook-attr.ui.h:12
 msgid "Show _Extension Markers"
@@ -11803,6 +12063,8 @@ msgid ""
 "This checkbox determines whether small red arrows indicate that the content "
 "has been truncated in that direction."
 msgstr ""
+"Dette afkrydsningsfelt bestemmer om små røde pile angiver, at indholdet er "
+"blevet afkortet i den retning."
 
 #: ../src/expr-name.c:695
 #, c-format
@@ -11887,6 +12149,8 @@ msgid ""
 "SUM computes the sum of all the values and cells referenced in the argument "
 "list."
 msgstr ""
+"SUM beregner summen af alle værdier og celler, der refereres til i "
+"argumentlisten."
 
 #: ../src/func-builtin.c:47 ../src/func-builtin.c:106
 msgid "This function is Excel compatible."
@@ -11911,6 +12175,8 @@ msgid ""
 "PRODUCT computes the product of all the values and cells referenced in the "
 "argument list."
 msgstr ""
+"PRODUCT beregner produktet af alle værdier og celler, der refereres til i "
+"argumentlisten."
 
 #: ../src/func-builtin.c:105
 msgid "If all cells are empty, the result will be 0."
@@ -11959,6 +12225,9 @@ msgid ""
 "then evaluate and return the second argument.  Otherwise, it will evaluate "
 "and return the last argument."
 msgstr ""
+"Denne funktion evaluerer først betingelsen.  Hvis resultatet er sandt, "
+"evaluerer den derefter og returnerer det andet argument.  Ellers evaluerer "
+"og returnerer den det sidste argument."
 
 #: ../src/func.c:133
 msgid "Function implementation not available."
@@ -12059,7 +12328,7 @@ msgstr "Funktionsgruppe er tom."
 
 #: ../src/gnm-plugin.c:175
 msgid "No load_stub method.\n"
-msgstr ""
+msgstr "Ingen load_stub-metode.\n"
 
 #: ../src/gnm-plugin.c:282
 #, c-format
@@ -12082,8 +12351,8 @@ msgstr "Kan ikke læse UI-beskrivelse fra %s: %s"
 #, c-format
 msgid "User interface with %d action"
 msgid_plural "User interface with %d actions"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Brugerflade med %d handling"
+msgstr[1] "Brugerflade med %d handlinger"
 
 #: ../src/gnm-plugin.c:657
 msgid "Invalid solver model type."
@@ -12161,7 +12430,7 @@ msgstr "Importér datafil"
 
 #: ../src/gui-file.c:388
 msgid "Open read-only"
-msgstr ""
+msgstr "Åbn skrivebeskyttet"
 
 #: ../src/gui-file.c:417 ../src/gui-file.c:652
 msgid "All Files"
@@ -12185,7 +12454,7 @@ msgstr "Fil_type:"
 
 #: ../src/gui-file.c:464
 msgid "Open read-_only"
-msgstr ""
+msgstr "Åbn skrive_beskyttet"
 
 #: ../src/gui-file.c:518
 msgid ""
@@ -12216,6 +12485,8 @@ msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 msgstr ""
+"Det angivne filtypenavn svarer ikke til den valgte filtype. Vil du alligevel "
+"bruge dette navn?"
 
 #: ../src/gui-file.c:856
 msgid "%F %T"
@@ -12250,6 +12521,8 @@ msgid ""
 "Do you want to export the <b>current sheet</b> of this workbook to the "
 "location '<b>%s</b>' using the '<b>%s</b>' exporter?"
 msgstr ""
+"Vil du eksportere <b>det aktuelle ark</b> i denne arbejdsbog til placeringen "
+"'<b>%s</b>' med eksportfilteret '<b>%s</b>'?"
 
 #: ../src/gui-file.c:973
 #, c-format
@@ -12257,12 +12530,16 @@ msgid ""
 "Do you want to export this workbook to the location '<b>%s</b>' using the "
 "'<b>%s</b>' exporter?"
 msgstr ""
+"Vil du eksportere denne arbejdsbog til placeringen '<b>%s</b>' med "
+"eksportfilteret '<b>%s</b>'?"
 
 #: ../src/gui-file.c:1000
 msgid ""
 "Unable to repeat export since no previous export information has been saved "
 "in this session."
 msgstr ""
+"Kan ikke gentage eksporten, da ingen tidligere eksportoplysninger er blevet "
+"gemt i denne session."
 
 #: ../src/gui-util.c:45
 msgid "Multiple errors\n"
@@ -12319,7 +12596,7 @@ msgstr "Ukendt ark \"%s\""
 #: ../src/gutils.c:1148
 #, c-format
 msgid "Invalid export option \"%s\" for format %s"
-msgstr ""
+msgstr "Ugyldig eksportindstilling \"%s\" for format %s"
 
 #: ../src/hlink.c:318
 msgid "Link target"
@@ -12348,8 +12625,8 @@ msgstr "Højde:"
 #, c-format
 msgid "(%d pixel)"
 msgid_plural "(%d pixels)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(%d pixel)"
+msgstr[1] "(%d pixels)"
 
 #. xgettext: This is input to ngettext based on the integer number of points.
 #: ../src/item-bar.c:867
@@ -12480,6 +12757,9 @@ msgid ""
 "%s\n"
 "Run '%s --help' to see a full list of available command line options.\n"
 msgstr ""
+"%s\n"
+"Kør '%s --help' for at se en fuld liste over tilgængelige "
+"kommandolinjeindstillinger.\n"
 
 #: ../src/parser.y:353
 #, c-format
@@ -12643,6 +12923,8 @@ msgid ""
 "You have chosen more than 1000 pages to preview. This may take a long time. "
 "Do you really want to proceed?"
 msgstr ""
+"Du har valgt at få vist mere end 1000 sider. Det kan tage lang tid. Vil du "
+"virkelig fortsætte?"
 
 #: ../src/print.c:1348
 msgid "Preparing to preview"
@@ -13208,6 +13490,10 @@ msgid ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
+"Dette er en speciel version af Gnumeric.  Den er kompileret\n"
+"med understøttelse af et meget stort antal kolonner. Adgang til\n"
+"kolonnen med navnet TRUE kan være i konflikt med konstanten med samme\n"
+"navn. Forvent mærkelig opførsel."
 
 #: ../src/sheet.c:957
 msgid "Display Zeros"
@@ -13356,7 +13642,7 @@ msgstr "Kan ikke fortolke eksportindstillinger."
 msgid ""
 "Selected exporter (%s) does not have the ability to split a workbook into "
 "sheets.\n"
-msgstr ""
+msgstr "Det valgte eksportfilter (%s) kan ikke opdele en arbejdsbog i ark.\n"
 
 #: ../src/ssconvert.c:363
 #, c-format
@@ -13364,11 +13650,12 @@ msgid ""
 "Selected exporter (%s) does not have the ability to export a subset of "
 "sheets.\n"
 msgstr ""
+"Det valgte eksportfilter (%s) kan ikke eksportere en delmængde af arkene.\n"
 
 #: ../src/ssconvert.c:370
 #, c-format
 msgid "Selected exporter (%s) can only export one sheet at a time.\n"
-msgstr ""
+msgstr "Det valgte eksportfilter (%s) kan kun eksportere ét ark ad gangen.\n"
 
 #: ../src/ssconvert.c:562
 #, c-format
@@ -13390,7 +13677,7 @@ msgstr "Kan ikke oprette løsningsalgoritme"
 #: ../src/ssconvert.c:787
 #, c-format
 msgid "Solver reached time or iteration limit\n"
-msgstr ""
+msgstr "Løseren nåede tids- eller iterationsgrænsen\n"
 
 #: ../src/ssconvert.c:791
 #, c-format
@@ -13405,7 +13692,7 @@ msgstr "Løsningsalgoritme: %s\n"
 #: ../src/ssconvert.c:1103
 #, c-format
 msgid "Invalid export option \"%s=%s\" for image export"
-msgstr ""
+msgstr "Ugyldig eksportindstilling \"%s=%s\" for billedeksport"
 
 #: ../src/ssconvert.c:1279
 #, c-format
@@ -13441,6 +13728,8 @@ msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Et uddatafilnavn eller en eksplicit eksporttype er påkrævet.\n"
+"Prøv --list-exporters for at se en liste over muligheder.\n"
 
 #: ../src/ssconvert.c:1359
 #, c-format
@@ -13530,7 +13819,7 @@ msgstr "Rækkefølgen af ark er ændret.\n"
 #: ../src/ssdiff.c:192
 #, c-format
 msgid "Sheet attribute %s changed.\n"
-msgstr ""
+msgstr "Arkattributten %s er ændret.\n"
 
 #: ../src/ssdiff.c:204
 msgid "Default column properties changed.\n"
@@ -13568,7 +13857,7 @@ msgstr "Celle %s er tilføjet.\n"
 #: ../src/ssdiff.c:234
 #, c-format
 msgid "Style of %s was changed.\n"
-msgstr ""
+msgstr "Stilen for %s blev ændret.\n"
 
 #: ../src/ssdiff.c:244
 #, c-format
@@ -13588,7 +13877,7 @@ msgstr "Defineret navn %s er tilføjet.\n"
 #: ../src/ssdiff.c:783
 #, c-format
 msgid "%s: Unable to guess exporter to use for %s.\n"
-msgstr ""
+msgstr "%s: Kan ikke gætte, hvilket eksportfilter der skal bruges til %s.\n"
 
 #: ../src/ssdiff.c:941 ../src/ssdiff.c:969
 msgid "OLDFILE NEWFILE"
@@ -13608,7 +13897,7 @@ msgstr ""
 #: ../src/ssdiff.c:961
 #, c-format
 msgid "%s: Only one output format may be specified.\n"
-msgstr ""
+msgstr "%s: Kun ét uddataformat kan angives.\n"
 
 #: ../src/ssdiff.c:987
 #, c-format
@@ -13801,12 +14090,13 @@ msgid "The file contains %d NUL character. It has been changed to a space."
 msgid_plural ""
 "The file contains %d NUL characters. They have been changed to spaces."
 msgstr[0] ""
-msgstr[1] ""
+"Filen indeholder %d NUL-tegn. Det er blevet ændret til et mellemrum."
+msgstr[1] "Filen indeholder %d NUL-tegn. De er blevet ændret til mellemrum."
 
 #: ../src/stf.c:375
 msgid ""
 "The file contains invalid UTF-8 encoded characters and has been truncated"
-msgstr ""
+msgstr "Filen indeholder ugyldige UTF-8-kodede tegn og er blevet afkortet"
 
 #: ../src/stf.c:419
 msgid "That file is not in the given encoding."
@@ -13875,7 +14165,7 @@ msgstr "Kolonne %i"
 
 #: ../src/tools/analysis-anova.c:388 ../src/tools/analysis-anova.c:723
 msgid "\"ANOVA\";[Red]\"Invalid ANOVA: Missing Observations\""
-msgstr ""
+msgstr "\"ANOVA\";[Red]\"Ugyldig ANOVA: Manglende observationer\""
 
 #: ../src/tools/analysis-anova.c:393
 msgid "/Source of Variation/Rows/Columns/Error/Total"
@@ -13953,10 +14243,11 @@ msgstr "Test af homogenitet"
 #: ../src/tools/analysis-chi-squared.c:183
 msgid "[>=5]\"Test of Independence\";[<5][Red]\"Invalid Test of Independence\""
 msgstr ""
+"[>=5]\"Test af uafhængighed\";[<5][Red]\"Ugyldig test af uafhængighed\""
 
 #: ../src/tools/analysis-chi-squared.c:184
 msgid "[>=5]\"Test of Homogeneity\";[<5][Red]\"Invalid Test of Homogeneity\""
-msgstr ""
+msgstr "[>=5]\"Test af homogenitet\";[<5][Red]\"Ugyldig test af homogenitet\""
 
 #: ../src/tools/analysis-chi-squared.c:187
 msgid "/Test Statistic/Degrees of Freedom/p-Value/Critical Value"
@@ -14008,6 +14299,9 @@ msgid ""
 "smoothing requires at least 2\n"
 "output columns for each data set."
 msgstr ""
+"Holts trendkorrigerede eksponentielle\n"
+"udjævning kræver mindst 2\n"
+"uddatakolonner for hvert datasæt."
 
 #: ../src/tools/analysis-exp-smoothing.c:923
 #: ../src/tools/analysis-exp-smoothing.c:1237
@@ -14026,6 +14320,9 @@ msgid ""
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
+"Den additive Holt-Winters eksponentielle\n"
+"udjævningsmetode kræver mindst 4\n"
+"uddatakolonner for hvert datasæt."
 
 #: ../src/tools/analysis-exp-smoothing.c:1521
 #: ../src/tools/analysis-exp-smoothing.c:1524
@@ -14034,6 +14331,9 @@ msgid ""
 "smoothing method requires at least 4\n"
 "output columns for each data set."
 msgstr ""
+"Den multiplikative Holt-Winters eksponentielle\n"
+"udjævningsmetode kræver mindst 4\n"
+"uddatakolonner for hvert datasæt."
 
 #: ../src/tools/analysis-frequency.c:349
 #, c-format
@@ -14082,36 +14382,36 @@ msgstr "Histogram (%s)"
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:381
 msgid "\"to below\" * General"
-msgstr ""
+msgstr "\"til under\" * General"
 
 #: ../src/tools/analysis-histogram.c:381
 msgid "\"up to\" * General"
-msgstr ""
+msgstr "\"op til\" * General"
 
 #. translator note: only translate the
 #. "to" and "\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:464
 msgid "\"to\" * \"∞\""
-msgstr ""
+msgstr "\"til\" * \"∞\""
 
 #. translator note: only translate the
 #. "from" and "above" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:477
 msgid "\"from\" * General"
-msgstr ""
+msgstr "\"fra\" * General"
 
 #: ../src/tools/analysis-histogram.c:477
 msgid "\"above\" * General"
-msgstr ""
+msgstr "\"over\" * General"
 
 #. translator note: only translate the
 #. "from" and "\xe2\x88\x92\xe2\x88\x9e" exclusive of
 #. the quotation marks:
 #: ../src/tools/analysis-histogram.c:484
 msgid "\"from\" * \"−∞\";\"from\" * \"−∞\""
-msgstr ""
+msgstr "\"fra\" * \"−∞\";\"fra\" * \"−∞\""
 
 #: ../src/tools/analysis-histogram.c:611
 msgid "Frequency Density"
@@ -14137,11 +14437,11 @@ msgstr "Kaplan-Meier"
 
 #: ../src/tools/analysis-kaplan-meier.c:346
 msgid "/At Risk/Deaths/Censures/Probability"
-msgstr ""
+msgstr "/I risiko/Dødsfald/Censureringer/Sandsynlighed"
 
 #: ../src/tools/analysis-kaplan-meier.c:352
 msgid "/At Risk/Deaths/Probability"
-msgstr ""
+msgstr "/I risiko/Dødsfald/Sandsynlighed"
 
 #: ../src/tools/analysis-kaplan-meier.c:612 ../src/tools/simulation.c:247
 msgid "Median"
@@ -14149,7 +14449,7 @@ msgstr "Median"
 
 #: ../src/tools/analysis-kaplan-meier.c:672
 msgid "/Log-Rank Test/Statistic/Degrees of Freedom/p-Value"
-msgstr ""
+msgstr "/Log-rang-test/Teststatistik/Frihedsgrader/p-værdi"
 
 #: ../src/tools/analysis-normality.c:143
 #, c-format
@@ -14166,6 +14466,9 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
+"For Anderson-Darling-testen\n"
+"skal stikprøvestørrelsen være\n"
+"mindst 8."
 
 #: ../src/tools/analysis-normality.c:185
 msgid ""
@@ -14173,12 +14476,17 @@ msgid ""
 "the sample size must be at\n"
 "least 8."
 msgstr ""
+"For Cramér-von Mises-testen\n"
+"skal stikprøvestørrelsen være\n"
+"mindst 8."
 
 #: ../src/tools/analysis-normality.c:192
 msgid ""
 "For the Lilliefors (Kolmogorov-Smirnov) Test\n"
 "the sample size must be at least 5."
 msgstr ""
+"For Lilliefors-testen (Kolmogorov-Smirnov)\n"
+"skal stikprøvestørrelsen være mindst 5."
 
 #: ../src/tools/analysis-normality.c:198
 msgid ""
@@ -14186,6 +14494,9 @@ msgid ""
 "the sample size must be at\n"
 "least 5 and at most 5000."
 msgstr ""
+"For Shapiro-Francia-testen\n"
+"skal stikprøvestørrelsen være\n"
+"mindst 5 og højst 5000."
 
 #. xgettext:
 #. * Note to translators: in the following string and others like it,
@@ -14196,7 +14507,7 @@ msgstr ""
 #.
 #: ../src/tools/analysis-normality.c:237
 msgid "/Alpha/p-Value/Statistic/N/Conclusion"
-msgstr ""
+msgstr "/Alfa/p-værdi/Statistik/N/Konklusion"
 
 #: ../src/tools/analysis-normality.c:277
 msgid "Not normal"
@@ -14221,15 +14532,17 @@ msgid ""
 "/Student-t Test/N/Observed Mean/Hypothesized Mean/Observed Variance/Test "
 "Statistic/df/α/P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
+"/Student-t-test/N/Observeret middelværdi/Hypotetisk middelværdi/Observeret "
+"varians/Teststatistik/fg/α/P(T≤t) ensidet/P(T≤t) tosidet"
 
 #: ../src/tools/analysis-principal-components.c:63
 #, c-format
 msgid "Principal Components Analysis (%s)"
-msgstr ""
+msgstr "Hovedkomponentanalyse (%s)"
 
 #: ../src/tools/analysis-principal-components.c:98
 msgid "Principal components analysis has insufficient space."
-msgstr ""
+msgstr "Hovedkomponentanalysen har utilstrækkelig plads."
 
 #. translator info: The quotation marks in the next strings need to
 #. remain since these are Excel-style format strings
@@ -14237,7 +14550,7 @@ msgstr ""
 msgid ""
 "\"Principal Components Analysis\";[Red]\"Principal Components Analysis is "
 "invalid.\""
-msgstr ""
+msgstr "\"Hovedkomponentanalyse\";[Red]\"Hovedkomponentanalysen er ugyldig.\""
 
 #: ../src/tools/analysis-principal-components.c:125
 #: ../src/tools/analysis-tools.c:512
@@ -14246,7 +14559,7 @@ msgstr "Kovarianser"
 
 #: ../src/tools/analysis-principal-components.c:152
 msgid "/Count/Mean/Variance//Eigenvalues/Eigenvectors"
-msgstr ""
+msgstr "/Antal/Middelværdi/Varians//Egenværdier/Egenvektorer"
 
 #: ../src/tools/analysis-principal-components.c:157
 msgid "Percent of Trace"
@@ -14295,6 +14608,11 @@ msgid ""
 "observed t-statistic, assuming the null\n"
 "hypothesis is in fact true."
 msgstr ""
+"Sandsynligheden for at observere en t-statistik,\n"
+"hvis absolutte værdi er mindst lige så stor\n"
+"som den absolutte værdi af den faktisk\n"
+"observerede t-statistik, hvis nulhypotesen\n"
+"virkelig er sand."
 
 #: ../src/tools/analysis-regression.c:445
 msgid ""
@@ -14304,6 +14622,11 @@ msgid ""
 "is, the proportion of the sum of\n"
 "squares explained by the model."
 msgstr ""
+"Denne værdi er ikke kvadratet på R,\n"
+"men den ucentrerede version af\n"
+"determinationskoefficienten, det vil sige\n"
+"andelen af kvadratsummen,\n"
+"som modellen forklarer."
 
 #: ../src/tools/analysis-regression.c:753
 msgid "Constant"
@@ -14314,22 +14637,24 @@ msgid ""
 "/Prediction//Residual/Leverages/Internally studentized/Externally "
 "studentized/p-Value"
 msgstr ""
+"/Forudsigelse//Residual/Leverage/Internt studentiseret/Eksternt "
+"studentiseret/p-værdi"
 
 #: ../src/tools/analysis-regression.c:920
 msgid "/SUMMARY OUTPUT//Independent Variable//Observations"
-msgstr ""
+msgstr "/OPSUMMERING AF RESULTAT//Uafhængig variabel//Observationer"
 
 #: ../src/tools/analysis-regression.c:925
 msgid "/SUMMARY OUTPUT//Response Variable//Observations"
-msgstr ""
+msgstr "/OPSUMMERING AF RESULTAT//Responsvariabel//Observationer"
 
 #: ../src/tools/analysis-regression.c:931
 msgid "/Response Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr ""
+msgstr "/Responsvariabel/R^2/Hældning/Skæring/F/Signifikans for F"
 
 #: ../src/tools/analysis-regression.c:937
 msgid "/Independent Variable/R^2/Slope/Intercept/F/Significance of F"
-msgstr ""
+msgstr "/Uafhængig variabel/R^2/Hældning/Skæring/F/Signifikans for F"
 
 #: ../src/tools/analysis-sign-test.c:101 ../src/tools/analysis-sign-test.c:331
 #, c-format
@@ -14341,12 +14666,16 @@ msgid ""
 "/Sign Test/Median/Predicted Median/Test Statistic/N/α/P(T≤t) one-tailed/"
 "P(T≤t) two-tailed"
 msgstr ""
+"/Fortegnstest/Median/Forudsagt median/Teststatistik/N/α/P(T≤t) "
+"ensidet/P(T≤t) tosidet"
 
 #: ../src/tools/analysis-sign-test.c:371
 msgid ""
 "/Sign Test/Median/Predicted Difference/Test Statistic/N/α/P(T≤t) one-tailed/"
 "P(T≤t) two-tailed"
 msgstr ""
+"/Fortegnstest/Median/Forudsagt forskel/Teststatistik/N/α/P(T≤t) "
+"ensidet/P(T≤t) tosidet"
 
 #: ../src/tools/analysis-signed-rank-test.c:115
 #: ../src/tools/analysis-signed-rank-test.c:434
@@ -14359,6 +14688,8 @@ msgid ""
 "/Wilcoxon Signed Rank Test/Median/Predicted Median/N/S−/S+/Test Statistic/α/"
 "P(T≤t) one-tailed/P(T≤t) two-tailed"
 msgstr ""
+"/Wilcoxon-rangtegnstest/Median/Forudsagt "
+"median/N/S−/S+/Teststatistik/α/P(T≤t) ensidet/P(T≤t) tosidet"
 
 #: ../src/tools/analysis-signed-rank-test.c:317
 #: ../src/tools/analysis-signed-rank-test.c:693
@@ -14366,6 +14697,8 @@ msgid ""
 "This p-value is calculated by a normal approximation.\n"
 "It is only valid if the sample size is at least 12."
 msgstr ""
+"Denne p-værdi er beregnet ved en normaltilnærmelse.\n"
+"Den er kun gyldig, hvis stikprøvestørrelsen er mindst 12."
 
 #: ../src/tools/analysis-signed-rank-test.c:484
 msgid ""
@@ -14373,6 +14706,8 @@ msgid ""
 "Median Difference/N/S−/S+/Test Statistic/α/P(T≤t) one-tailed/P(T≤t) two-"
 "tailed"
 msgstr ""
+"/Wilcoxon-rangtegnstest/Median/Observeret medianforskel/Forudsagt "
+"medianforskel/N/S−/S+/Teststatistik/α/P(T≤t) ensidet/P(T≤t) tosidet"
 
 #: ../src/tools/analysis-tools.c:412
 #, c-format
@@ -14430,7 +14765,7 @@ msgstr "Mindste (%d)"
 #: ../src/tools/analysis-tools.c:1100
 #, c-format
 msgid "Single Factor ANOVA (%s)"
-msgstr ""
+msgstr "Enkelfaktor ANOVA (%s)"
 
 #: ../src/tools/analysis-tools.c:1106 ../src/tools/analysis-tools.c:1113
 msgid "Single Factor ANOVA"
@@ -14469,7 +14804,7 @@ msgstr "Fourierrække"
 
 #: ../src/tools/analysis-tools.c:2041
 msgid "Inverse Fourier Transform"
-msgstr ""
+msgstr "Invers Fourier-transformation"
 
 #: ../src/tools/analysis-tools.c:2042
 msgid "Fourier Transform"
@@ -14527,7 +14862,7 @@ msgstr "Variabel %i"
 #: ../src/tools/analysis-ttest.c:109
 #, c-format
 msgid "t-Test, paired (%s)"
-msgstr ""
+msgstr "t-test, parret (%s)"
 
 #: ../src/tools/analysis-ttest.c:115 ../src/tools/analysis-ttest.c:122
 #: ../src/tools/analysis-ttest.c:446 ../src/tools/analysis-ttest.c:453
@@ -14577,7 +14912,7 @@ msgstr "Wilcoxon-Mann-Whitney Test (%s)"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:146
 msgid "/Rank-Sum/N/U/Ties/Statistic/U-Statistic/p-Value"
-msgstr ""
+msgstr "/Rangsum/N/U/Sammenfald/Statistik/U-statistik/p-værdi"
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:307
 msgid ""
@@ -14587,6 +14922,11 @@ msgid ""
 "at least 15 observations in each\n"
 "population, and few if any ties."
 msgstr ""
+"Denne p-værdi er beregnet ved en\n"
+"normaltilnærmelse, så den er\n"
+"kun gyldig for store stikprøver på\n"
+"mindst 15 observationer i hver\n"
+"population og få eller ingen sammenfald."
 
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:315
 #: ../src/tools/analysis-wilcoxon-mann-whitney.c:320
@@ -14596,6 +14936,9 @@ msgid ""
 "for the third column of output,\n"
 "this value is not calculated."
 msgstr ""
+"Da der ikke er tilstrækkelig plads\n"
+"til den tredje uddatakolonne,\n"
+"beregnes denne værdi ikke."
 
 #: ../src/tools/analysis-ztest.c:116
 #, c-format
@@ -14648,7 +14991,7 @@ msgstr "Avanceret filter (%s)"
 
 #: ../src/tools/filter.c:189
 msgid "/Advanced Filter:/Source Range:/Criteria Range:"
-msgstr ""
+msgstr "/Avanceret filter:/Kildeinterval:/Kriterieinterval:"
 
 #: ../src/tools/filter.c:315
 msgid "Filtered"
@@ -14750,6 +15093,8 @@ msgid ""
 "Reduced\n"
 "Cost"
 msgstr ""
+"Reducerede\n"
+"omkostninger"
 
 #: ../src/tools/gnm-solver.c:1873 ../src/tools/gnm-solver.c:1909
 msgid ""
@@ -14840,7 +15185,7 @@ msgstr "De oprindelige værdier tilfredsstiller ikke begrænsningerne."
 
 #: ../src/tools/gnm-solver.c:3720
 msgid "Iteration limit exceeded"
-msgstr ""
+msgstr "Iterationsgrænsen er overskredet"
 
 #: ../src/tools/random-generator-cor.c:72
 #, c-format
@@ -14854,15 +15199,15 @@ msgstr "Korrelerede tilfældige tal"
 
 #: ../src/tools/random-generator-cor.c:108
 msgid "Cholesky Decomposition of the Covariance Matrix"
-msgstr ""
+msgstr "Cholesky-nedbrydning af kovariansmatricen"
 
 #: ../src/tools/random-generator-cor.c:120
 msgid "Uncorrelated Random Variables"
-msgstr ""
+msgstr "Ukorrelerede tilfældige variable"
 
 #: ../src/tools/random-generator-cor.c:135
 msgid "Correlated Random Variables"
-msgstr ""
+msgstr "Korrelerede tilfældige variable"
 
 #: ../src/tools/random-generator.c:50
 msgid "Generating Random Numbers..."
@@ -14902,12 +15247,16 @@ msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
 msgstr ""
+"Inputvariablen gav ikke en numerisk værdi. Kontrollér modellen (måske er dit "
+"sidste rundenummer for højt)."
 
 #: ../src/tools/simulation.c:115
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
 msgstr ""
+"Outputvariablen gav ikke en numerisk værdi. Kontrollér outputvariablerne i "
+"din model (måske er dit sidste rundenummer for højt)."
 
 #: ../src/tools/simulation.c:232
 msgid "Simulation Report"
@@ -14932,11 +15281,11 @@ msgstr "Varians"
 
 #: ../src/tools/simulation.c:251
 msgid "Skewness"
-msgstr ""
+msgstr "Skævhed"
 
 #: ../src/tools/simulation.c:252
 msgid "Kurtosis"
-msgstr ""
+msgstr "Kurtosis"
 
 #: ../src/tools/simulation.c:253
 msgid "Range"
@@ -14960,7 +15309,7 @@ msgstr "Øvre grænse (95%)"
 
 #: ../src/tools/simulation.c:325
 msgid "SUMMARY OF SIMULATION ROUND #"
-msgstr ""
+msgstr "OPSUMMERING AF SIMULERINGSRUNDE #"
 
 #: ../src/tools/simulation.c:339
 msgid "Report"
@@ -14972,7 +15321,7 @@ msgstr "(Inddata) "
 
 #: ../src/tools/simulation.c:401
 msgid "Maximum time exceeded. Simulation was not completed."
-msgstr ""
+msgstr "Maksimal tid overskredet. Simuleringen blev ikke gennemført."
 
 #: ../src/tools/tabulate.c:150
 msgid "Tabulation"
@@ -14989,8 +15338,8 @@ msgstr "Tabeller"
 #, c-format
 msgid "%d row of %d matches"
 msgid_plural "%d rows of %d match"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d række af %d matcher"
+msgstr[1] "%d rækker af %d matcher"
 
 #. xgettext: The %d gives the number of rows that match.
 #. This is input to ngettext.
@@ -14998,8 +15347,8 @@ msgstr[1] ""
 #, c-format
 msgid "%d row matches"
 msgid_plural "%d rows match"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d række matcher"
+msgstr[1] "%d rækker matcher"
 
 #. Note: no entry for GNM_VALIDATION_OP_NONE
 #: ../src/validation.c:71
@@ -15037,12 +15386,12 @@ msgstr "Mindre end eller lig med"
 #: ../src/validation.c:518
 #, c-format
 msgid "Missing formula for validation"
-msgstr ""
+msgstr "Manglende formel til datavalidering"
 
 #: ../src/validation.c:521
 #, c-format
 msgid "Extra formula for validation"
-msgstr ""
+msgstr "Ekstra formel til datavalidering"
 
 #: ../src/validation.c:532
 msgid "Gnumeric: Validation"
@@ -15302,7 +15651,7 @@ msgstr "Slå visning af rækkeoverskrifter til/fra"
 
 #: ../src/wbc-gtk-actions.c:1969
 msgid "Toggle showing outlines"
-msgstr ""
+msgstr "Slå visning af konturer til/fra"
 
 #: ../src/wbc-gtk-actions.c:1970
 msgid "Toggle where to show outlines vertically"
@@ -15543,7 +15892,7 @@ msgstr "_ANOVA"
 
 #: ../src/wbc-gtk-actions.c:2191
 msgid "Contin_gency Table"
-msgstr ""
+msgstr "Kontin_genstabel"
 
 #: ../src/wbc-gtk-actions.c:2195
 msgid "_Data"
@@ -15747,7 +16096,7 @@ msgstr "Vælg udskriftsområde"
 
 #: ../src/wbc-gtk-actions.c:2386
 msgid "Set Column Page Break"
-msgstr ""
+msgstr "Angiv kolonnesidebrud"
 
 #: ../src/wbc-gtk-actions.c:2387
 msgid "Split the page to the left of this column"
@@ -15755,15 +16104,15 @@ msgstr "Opdel siden til venstre for denne kolonne"
 
 #: ../src/wbc-gtk-actions.c:2391
 msgid "Set Row Page Break"
-msgstr ""
+msgstr "Angiv rækkesidebrud"
 
 #: ../src/wbc-gtk-actions.c:2392
 msgid "Split the page above this row"
-msgstr ""
+msgstr "Del siden over denne række"
 
 #: ../src/wbc-gtk-actions.c:2397
 msgid "Remove all manual pagebreaks from this sheet"
-msgstr ""
+msgstr "Fjern alle manuelle sidebrud fra dette ark"
 
 #: ../src/wbc-gtk-actions.c:2405
 msgid "Clear the selected cells' formats, comments, and contents"
@@ -15918,7 +16267,7 @@ msgstr "Gå til bunden af dataene"
 
 #: ../src/wbc-gtk-actions.c:2550 ../src/wbc-gtk.c:2872
 msgid "Go to First"
-msgstr ""
+msgstr "Gå til første"
 
 #: ../src/wbc-gtk-actions.c:2551
 msgid "Go to the first data cell"
@@ -15926,7 +16275,7 @@ msgstr "Gå til den første datacelle"
 
 #: ../src/wbc-gtk-actions.c:2556 ../src/wbc-gtk.c:2873
 msgid "Go to Last"
-msgstr ""
+msgstr "Gå til sidste"
 
 #: ../src/wbc-gtk-actions.c:2557
 msgid "Go to the last data cell"
@@ -15942,7 +16291,7 @@ msgstr "Spring til en angivet celle"
 
 #: ../src/wbc-gtk-actions.c:2570 ../src/wbc-gtk-actions.c:2572
 msgid "Go to Current Cell Indicator"
-msgstr ""
+msgstr "Gå til indikatoren for aktuel celle"
 
 #: ../src/wbc-gtk-actions.c:2578
 msgid "Repeat"
@@ -16015,7 +16364,7 @@ msgstr "Egenskaber..."
 
 #: ../src/wbc-gtk-actions.c:2637
 msgid "Change Gnumeric Preferences"
-msgstr ""
+msgstr "Skift Gnumerics indstillinger"
 
 #: ../src/wbc-gtk-actions.c:2643 ../src/wbc-gtk.c:1655
 msgid "_Freeze Panes"
@@ -16048,7 +16397,7 @@ msgstr "Zoom _ud"
 
 #: ../src/wbc-gtk-actions.c:2664
 msgid "Decrease the zoom to make things smaller"
-msgstr ""
+msgstr "Formindsk zoom for at gøre tingene mindre"
 
 #: ../src/wbc-gtk-actions.c:2672 ../src/wbc-gtk-actions.c:2679
 msgid "Insert new cells"
@@ -16085,7 +16434,7 @@ msgstr "_Fra fil..."
 
 #: ../src/wbc-gtk-actions.c:2712
 msgid "Insert a new Goffice component object from a file"
-msgstr ""
+msgstr "Indsæt et nyt Goffice-komponentobjekt fra en fil"
 
 #: ../src/wbc-gtk-actions.c:2717
 msgid "_Image..."
@@ -16109,7 +16458,7 @@ msgstr "Sortér _faldende"
 
 #: ../src/wbc-gtk-actions.c:2738
 msgid "Wrap with SORT (descending)"
-msgstr ""
+msgstr "Omslut med SORT (faldende)"
 
 #: ../src/wbc-gtk-actions.c:2743
 msgid "Sort (_Ascending)"
@@ -16117,7 +16466,7 @@ msgstr "Sortér _stigende"
 
 #: ../src/wbc-gtk-actions.c:2744
 msgid "Wrap with SORT (ascending)"
-msgstr ""
+msgstr "Omslut med SORT (stigende)"
 
 #: ../src/wbc-gtk-actions.c:2750
 msgid "Current _Date"
@@ -16293,6 +16642,8 @@ msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
+"Test beslutningsalternativer ved hjælp af Monte Carlo-simulering for at "
+"finde sandsynlige resultater og de risici, der er forbundet med dem"
 
 #: ../src/wbc-gtk-actions.c:2918
 msgid "Compare Sheets..."
@@ -16308,7 +16659,7 @@ msgstr "_Vis..."
 
 #: ../src/wbc-gtk-actions.c:2926
 msgid "View, delete and report different scenarios"
-msgstr ""
+msgstr "Vis, slet og rapportér forskellige scenarier"
 
 #: ../src/wbc-gtk-actions.c:2930
 msgid "_Add..."
@@ -16360,7 +16711,7 @@ msgstr "_Histogram..."
 
 #: ../src/wbc-gtk-actions.c:2970
 msgid "Various frequency tables for numeric data"
-msgstr ""
+msgstr "Forskellige frekvenstabeller for numeriske data"
 
 #: ../src/wbc-gtk-actions.c:2974
 msgid "Ranks And _Percentiles..."
@@ -16408,7 +16759,7 @@ msgstr "_Kaplan-Meier estimater..."
 
 #: ../src/wbc-gtk-actions.c:3011
 msgid "Creation of Kaplan-Meier Survival Curves"
-msgstr ""
+msgstr "Oprettelse af Kaplan-Meier-overlevelseskurver"
 
 #: ../src/wbc-gtk-actions.c:3018
 msgid "_Normality Tests..."
@@ -16416,7 +16767,7 @@ msgstr "_Normalitetstests..."
 
 #: ../src/wbc-gtk-actions.c:3019
 msgid "Testing a sample for normality"
-msgstr ""
+msgstr "Test af en stikprøve for normalitet"
 
 #: ../src/wbc-gtk-actions.c:3023
 msgid "Claims About a _Mean..."
@@ -16436,7 +16787,7 @@ msgstr "Test af værdien af en median"
 
 #: ../src/wbc-gtk-actions.c:3036 ../src/wbc-gtk-actions.c:3083
 msgid "_Wilcoxon Signed Rank Test..."
-msgstr ""
+msgstr "_Wilcoxon-rangtegnstest..."
 
 #: ../src/wbc-gtk-actions.c:3044
 msgid "Claims About Two _Variances"
@@ -16490,15 +16841,16 @@ msgstr ""
 
 #: ../src/wbc-gtk-actions.c:3079 ../src/wbc-gtk-actions.c:3084
 msgid "Comparing the values of two medians of paired observations"
-msgstr ""
+msgstr "Sammenligning af værdierne af to medianer for parrede observationer"
 
 #: ../src/wbc-gtk-actions.c:3088
 msgid "Wilcoxon-_Mann-Whitney Test..."
-msgstr ""
+msgstr "Wilcoxon-_Mann-Whitney-test..."
 
 #: ../src/wbc-gtk-actions.c:3089
 msgid "Comparing the values of two medians of unpaired observations"
 msgstr ""
+"Sammenligning af værdierne af to medianer for ikke-parrede observationer"
 
 #: ../src/wbc-gtk-actions.c:3098
 msgid "_One Factor..."
@@ -16518,11 +16870,11 @@ msgstr "Tofaktoranalyse af varians..."
 
 #: ../src/wbc-gtk-actions.c:3111
 msgid "Test of _Homogeneity..."
-msgstr ""
+msgstr "Test af _homogenitet..."
 
 #: ../src/wbc-gtk-actions.c:3112
 msgid "Chi Squared Test of Homogeneity..."
-msgstr ""
+msgstr "Chi-i-anden-test af homogenitet..."
 
 #: ../src/wbc-gtk-actions.c:3116
 msgid "Test of _Independence..."
@@ -16530,7 +16882,7 @@ msgstr "Test af uafhængighed..."
 
 #: ../src/wbc-gtk-actions.c:3117
 msgid "Chi Squared Test of Independence..."
-msgstr ""
+msgstr "Chi-i-anden-test af uafhængighed..."
 
 #: ../src/wbc-gtk-actions.c:3124
 msgid "_Sort..."
@@ -16630,6 +16982,7 @@ msgstr "_Flet..."
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
+"Fletter kolonnedata ind i et ark og opretter dublerede ark for hver række"
 
 #: ../src/wbc-gtk-actions.c:3187
 msgid "_Tabulate Dependency..."
@@ -16645,7 +16998,7 @@ msgstr "_Rækker..."
 
 #: ../src/wbc-gtk-actions.c:3193
 msgid "Fill according to a linear or exponential series"
-msgstr ""
+msgstr "Udfyld efter en lineær eller eksponentiel serie"
 
 #: ../src/wbc-gtk-actions.c:3197
 msgid "_Uncorrelated..."
@@ -16653,7 +17006,7 @@ msgstr "_Ukorreleret..."
 
 #: ../src/wbc-gtk-actions.c:3198
 msgid "Generate random numbers of a selection of distributions"
-msgstr ""
+msgstr "Generér tilfældige tal fra et udvalg af fordelinger"
 
 #: ../src/wbc-gtk-actions.c:3202
 msgid "_Correlated..."
@@ -16661,7 +17014,7 @@ msgstr "_Korreleret..."
 
 #: ../src/wbc-gtk-actions.c:3203
 msgid "Generate variates for correlated normal distributed random variables"
-msgstr ""
+msgstr "Generér udfald for korrelerede normalfordelte tilfældige variable"
 
 #: ../src/wbc-gtk-actions.c:3207
 msgid "Fill Downwards"
@@ -16669,7 +17022,7 @@ msgstr "Udfyld nedad"
 
 #: ../src/wbc-gtk-actions.c:3209
 msgid "Copy the content from the top row to the cells below"
-msgstr ""
+msgstr "Kopiér indholdet fra den øverste række til cellerne nedenunder"
 
 #: ../src/wbc-gtk-actions.c:3213
 msgid "Fill to Right"
@@ -16677,7 +17030,7 @@ msgstr "Udfyld til Højre"
 
 #: ../src/wbc-gtk-actions.c:3215
 msgid "Copy the content from the left column to the cells on the right"
-msgstr ""
+msgstr "Kopiér indholdet fra den venstre kolonne til cellerne til højre"
 
 #: ../src/wbc-gtk-actions.c:3223
 msgid "_Hide Detail"
@@ -16718,7 +17071,7 @@ msgstr "Tilføj automatisk filter"
 
 #: ../src/wbc-gtk-actions.c:3252
 msgid "Add or remove a filter"
-msgstr ""
+msgstr "Tilføj eller fjern et filter"
 
 #: ../src/wbc-gtk-actions.c:3256
 msgid "_Clear Advanced Filter"
@@ -16726,7 +17079,7 @@ msgstr "_Ryd avanceret filter"
 
 #: ../src/wbc-gtk-actions.c:3257
 msgid "Show all rows hidden by an advanced filter"
-msgstr ""
+msgstr "Vis alle rækker, der er skjult af et avanceret filter"
 
 #: ../src/wbc-gtk-actions.c:3261
 msgid "Advanced _Filter..."
@@ -16762,11 +17115,11 @@ msgstr "Opret en dataskærer"
 
 #: ../src/wbc-gtk-actions.c:3285
 msgid "_Refresh"
-msgstr ""
+msgstr "_Opdatér"
 
 #: ../src/wbc-gtk-actions.c:3286
 msgid "Regenerate a data slicer from the source data"
-msgstr ""
+msgstr "Genskab en dataskærer ud fra kildedataene"
 
 #: ../src/wbc-gtk-actions.c:3290
 msgid "_Edit Data Slicer..."
@@ -17122,15 +17475,15 @@ msgstr "_Flet og centrér"
 
 #: ../src/wbc-gtk-actions.c:3612
 msgid "Merge the selection into 1 cell, and center horizontally."
-msgstr ""
+msgstr "Flet markeringen til 1 celle og centrér vandret."
 
 #: ../src/wbc-gtk-actions.c:3622
 msgid "Align _Top"
-msgstr ""
+msgstr "Justér _øverst"
 
 #: ../src/wbc-gtk-actions.c:3623
 msgid "Align Top"
-msgstr ""
+msgstr "Justér øverst"
 
 #: ../src/wbc-gtk-actions.c:3630
 msgid "_Vertically Center"
@@ -17211,7 +17564,7 @@ msgstr "Justér vandret"
 
 #: ../src/wbc-gtk-actions.c:3727
 msgid "Align numbers right, and text left"
-msgstr ""
+msgstr "Justér tal til højre og tekst til venstre"
 
 #: ../src/wbc-gtk-actions.c:3732
 msgid "Align top"
@@ -17351,7 +17704,7 @@ msgstr "Fjern format"
 
 #: ../src/wbc-gtk-edit.c:901
 msgid "Show this dialog next time."
-msgstr ""
+msgstr "Vis denne dialog næste gang."
 
 #: ../src/wbc-gtk.c:547
 msgid "Manage Sheets..."
@@ -17383,7 +17736,7 @@ msgstr "Markér (sorteret)"
 
 #: ../src/wbc-gtk.c:1346
 msgid " [Read-Only]"
-msgstr ""
+msgstr " [Skrivebeskyttet]"
 
 #: ../src/wbc-gtk.c:1348
 msgid " - Gnumeric [Decimal]"
@@ -17399,19 +17752,19 @@ msgstr "Ugyldigt format"
 
 #: ../src/wbc-gtk.c:1621
 msgid "Remove the page break to the left of the current column"
-msgstr ""
+msgstr "Fjern sidebruddet til venstre for den aktuelle kolonne"
 
 #: ../src/wbc-gtk.c:1624
 msgid "Add a page break to the left of the current column"
-msgstr ""
+msgstr "Tilføj et sidebrud til venstre for den aktuelle kolonne"
 
 #: ../src/wbc-gtk.c:1631
 msgid "Remove the page break above the current row"
-msgstr ""
+msgstr "Fjern sidebruddet over den aktuelle række"
 
 #: ../src/wbc-gtk.c:1634
 msgid "Add a page break above current row"
-msgstr ""
+msgstr "Tilføj et sidebrud over den aktuelle række"
 
 #: ../src/wbc-gtk.c:1654
 msgid "Un_freeze Panes"
@@ -17428,11 +17781,11 @@ msgstr "Udvid automatisk filter til %s"
 
 #: ../src/wbc-gtk.c:1677
 msgid "Extend the existing filter."
-msgstr ""
+msgstr "Udvid det eksisterende filter."
 
 #: ../src/wbc-gtk.c:1687
 msgid "The selection intersects an existing auto filter."
-msgstr ""
+msgstr "Markeringen skærer et eksisterende autofilter."
 
 #: ../src/wbc-gtk.c:1696
 msgid "Remove _Auto Filter"
@@ -17449,7 +17802,7 @@ msgstr "Tilføj automatisk filter"
 #: ../src/wbc-gtk.c:1768
 #, c-format
 msgid "Repeat Export to %s"
-msgstr ""
+msgstr "Gentag eksport til %s"
 
 #: ../src/wbc-gtk.c:1781
 msgid "Remove _Data Slicer"
@@ -17549,7 +17902,7 @@ msgstr "_Acceptér"
 #: ../src/wbc-gtk.c:3401
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
-msgstr ""
+msgstr "I menuen `%s' bruges tasten `%s' både til `%s' og `%s'."
 
 #: ../src/wbc-gtk.c:3700
 msgid "Display toolbar above sheets"
@@ -17620,11 +17973,11 @@ msgstr "(Tilpasset...)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:260
 msgid "(Blanks...)"
-msgstr ""
+msgstr "(Tomme...)"
 
 #: ../src/widgets/gnm-filter-combo-view.c:266
 msgid "(Non Blanks...)"
-msgstr ""
+msgstr "(Ikke-tomme...)"
 
 #: ../src/widgets/gnm-fontbutton.c:388 ../src/widgets/gnm-fontbutton.c:498
 msgid "Sans 12"
@@ -17632,7 +17985,7 @@ msgstr "Sans 12"
 
 #: ../src/widgets/gnm-fontbutton.c:463
 msgid "Dialog Type"
-msgstr ""
+msgstr "Dialogtype"
 
 #: ../src/widgets/gnm-fontbutton.c:464
 msgid "The type of the dialog"
@@ -17640,7 +17993,7 @@ msgstr "Dialogens type"
 
 #: ../src/widgets/gnm-fontbutton.c:481
 msgid "The title of the font chooser dialog"
-msgstr ""
+msgstr "Titlen på skrifttypevælger-dialogen"
 
 #: ../src/widgets/gnm-fontbutton.c:482 ../src/widgets/gnm-fontbutton.c:609
 msgid "Pick a Font"
@@ -17656,19 +18009,19 @@ msgstr "Navnet på den valgte skrifttype"
 
 #: ../src/widgets/gnm-fontbutton.c:513
 msgid "Use font in label"
-msgstr ""
+msgstr "Brug skrifttype i etiket"
 
 #: ../src/widgets/gnm-fontbutton.c:514
 msgid "Whether the label is drawn in the selected font"
-msgstr ""
+msgstr "Om etiketten tegnes med den valgte skrifttype"
 
 #: ../src/widgets/gnm-fontbutton.c:529
 msgid "Use size in label"
-msgstr ""
+msgstr "Brug størrelse i etiket"
 
 #: ../src/widgets/gnm-fontbutton.c:530
 msgid "Whether the label is drawn with the selected font size"
-msgstr ""
+msgstr "Om etiketten tegnes med den valgte skriftstørrelse"
 
 #: ../src/widgets/gnm-fontbutton.c:546
 msgid "Show style"
@@ -17692,7 +18045,7 @@ msgstr "<Blank>"
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:50
 msgid "Move and resize with cells"
-msgstr ""
+msgstr "Flyt og tilpas størrelse sammen med celler"
 
 #: ../src/widgets/gnm-so-anchor-mode-chooser.c:53
 msgid "Move with cells"
@@ -17825,7 +18178,7 @@ msgstr "Formindsk indrykning"
 #: ../src/workbook-cmd-format.c:218 ../src/workbook-cmd-format.c:225
 #: ../src/workbook-cmd-format.c:233
 msgid "Wrap SORT"
-msgstr ""
+msgstr "Omslut SORT"
 
 #: ../src/workbook-cmd-format.c:209
 msgid "A single selection is required."
@@ -17833,11 +18186,11 @@ msgstr "En enkelt markering er nødvendig."
 
 #: ../src/workbook-cmd-format.c:219
 msgid "An n⨯1 or 1⨯n selection is required."
-msgstr ""
+msgstr "Der kræves en markering på n⨯1 eller 1⨯n."
 
 #: ../src/workbook-cmd-format.c:226
 msgid "There is no point in sorting a single cell."
-msgstr ""
+msgstr "Det giver ingen mening at sortere en enkelt celle."
 
 #: ../src/workbook-cmd-format.c:234
 msgid "The range to be sorted may not contain any merged cells."
@@ -17859,13 +18212,13 @@ msgstr "Adresse"
 #: ../src/workbook-view.c:465
 #, c-format
 msgid "%dC"
-msgstr ""
+msgstr "%dK"
 
 #. Translators: "%dR" is a very short format to indicate the number of full rows
 #: ../src/workbook-view.c:468
 #, c-format
 msgid "%dR"
-msgstr ""
+msgstr "%dR"
 
 #. Translators: "%dR x %dC" is a very short format to indicate the number of rows and columns
 #: ../src/workbook-view.c:471
@@ -17891,6 +18244,8 @@ msgstr "Kan ikke åbne '%s' til skrivning"
 msgid ""
 "This workbook was opened read-only. Use Save As to save under a new name."
 msgstr ""
+"Denne arbejdsbog blev åbnet skrivebeskyttet. Brug Gem som for at gemme under "
+"et nyt navn."
 
 #: ../src/workbook-view.c:1501
 #, c-format
