@@ -522,7 +522,7 @@ attr_int (GsfXMLIn *xin, xmlChar const **attrs,
 		return xlsx_warning (xin,
 			_("Integer '%s' is out of range for attribute %s"),
 			attrs[1], target);
-	if (*end)
+	if (end == CXML2C (attrs[1]) || *end)
 		return xlsx_warning (xin,
 			_("Invalid integer '%s' for attribute %s"),
 			attrs[1], target);
@@ -551,7 +551,7 @@ attr_uint (GsfXMLIn *xin, xmlChar const **attrs,
 		return xlsx_warning (xin,
 			_("Unsigned integer '%s' is out of range for attribute %s"),
 			attrs[1], target);
-	if (*end)
+	if (end == CXML2C (attrs[1]) || *end)
 		return xlsx_warning (xin,
 			_("Invalid unsigned integer '%s' for attribute %s"),
 			attrs[1], target);
@@ -581,7 +581,7 @@ attr_int64 (GsfXMLIn *xin, xmlChar const **attrs,
 		return xlsx_warning (xin,
 			_("Integer '%s' is out of range for attribute %s"),
 			attrs[1], target);
-	if (*end)
+	if (end == CXML2C (attrs[1]) || *end)
 		return xlsx_warning (xin,
 			_("Invalid integer '%s' for attribute %s"),
 			attrs[1], target);
@@ -607,7 +607,7 @@ attr_gocolor (GsfXMLIn *xin, xmlChar const **attrs,
 
 	errno = 0;
 	rgb = strtoul (CXML2C (attrs[1]), &end, 16);
-	if (errno == ERANGE || *end)
+	if (errno == ERANGE || end == CXML2C (attrs[1]) || *end)
 		return xlsx_warning (xin,
 			_("Invalid RRGGBB color '%s' for attribute %s"),
 			attrs[1], target);
@@ -638,7 +638,7 @@ attr_float (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	tmp = gnm_strto (CXML2C (attrs[1]), &end);
-	if (*end)
+	if (end == CXML2C (attrs[1]) || *end)
 		return xlsx_warning (xin,
 			_("Invalid number '%s' for attribute %s"),
 			attrs[1], target);
@@ -662,7 +662,7 @@ attr_double (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	tmp = go_strtod (CXML2C (attrs[1]), &end);
-	if (*end)
+	if (end == CXML2C (attrs[1]) || *end)
 		return xlsx_warning (xin,
 			_("Invalid number '%s' for attribute %s"),
 			attrs[1], target);
@@ -696,7 +696,11 @@ attr_percent (GsfXMLIn *xin, xmlChar const **attrs,
 		return xlsx_warning (xin,
 			_("Integer '%s' is out of range for attribute %s"),
 			attrs[1], target);
-	if (*end == 0)
+	if (end == CXML2C (attrs[1]))
+		return xlsx_warning (xin,
+			_("Invalid integer '%s' for attribute %s"),
+			attrs[1], target);
+	else if (*end == 0)
 		*res = tmp;
 	else if (strcmp (end, "%") == 0)
 		*res = tmp * 1000;
@@ -751,8 +755,10 @@ attr_range (GsfXMLIn *xin, xmlChar const **attrs,
 		return FALSE;
 
 	if (!range_parse (res, CXML2C (attrs[1]), &xlsx_size))
-		xlsx_warning (xin, _("Invalid range '%s' for attribute %s"),
-			attrs[1], target);
+		/* Do not hand back a partially filled-in range.  */
+		return xlsx_warning (xin, _("Invalid range '%s' for attribute %s"),
+				     attrs[1], target);
+	range_normalize (res);
 	return TRUE;
 }
 
@@ -774,7 +780,9 @@ attr_datetime (GsfXMLIn *xin, xmlChar const **attrs,
 	n = gnm_sscanf (CXML2C (attrs[1]), "%u-%u-%uT%u:%u:%" GNM_SCANF_g, &y, &m, &d, &h, &mi, &s);
 	if (n >= 3) {
 		GDate date;
-		g_date_set_dmy (&date, d, m, y);
+		g_date_clear (&date, 1);
+		if (y <= G_MAXUINT16 && m <= 12 && d <= 31)
+			g_date_set_dmy (&date, d, m, y);
 		if (g_date_valid (&date)) {
 			XLSXReadState *state = (XLSXReadState *)xin->user_state;
 			unsigned d_serial = go_date_g_to_serial (&date,
@@ -1384,13 +1392,21 @@ xlsx_cell_val_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	}
 
 	switch (state->pos_type) {
-	case XLXS_TYPE_NUM:
-		state->val = value_new_float (gnm_strto (xin->content->str, &end));
+	case XLXS_TYPE_NUM: {
+		gnm_float v = gnm_strto (xin->content->str, &end);
+		if (end == xin->content->str) {
+			xlsx_warning (xin, _("Invalid number '%s'"), xin->content->str);
+			break;
+		}
+		state->val = value_new_float (v);
 		break;
+	}
 	case XLXS_TYPE_SST_STR:
 		i = xlsx_relaxed_strtol (xin->content->str, &end, 10);
 		if (end != xin->content->str && *end == '\0' &&
-		    0 <= i  && i < (int)state->sst->len) {
+		    0 <= i  && i < (int)state->sst->len &&
+		    /* uniqueCount can preallocate more entries than exist */
+		    NULL != g_array_index (state->sst, XLSXStr, i).str) {
 			entry = &g_array_index (state->sst, XLSXStr, i);
 			go_string_ref (entry->str);
 			state->val = value_new_string_str (entry->str);
@@ -1543,7 +1559,9 @@ xlsx_cell_begin (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_int (xin, attrs, "s", &tmp))
 			style = xlsx_get_xf (xin, tmp);
 
-	if (NULL != style) {
+	if (NULL != style &&
+	    state->pos.col >= 0 && state->pos.col < gnm_sheet_get_max_cols (state->sheet) &&
+	    state->pos.row >= 0 && state->pos.row < gnm_sheet_get_max_rows (state->sheet)) {
 		gnm_style_ref (style);
 		/* There may already be a row style set!*/
 		sheet_style_apply_pos (state->sheet,
@@ -1569,6 +1587,10 @@ xlsx_cell_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			cellpos_as_string (&state->pos));
 		value_release (state->val);
 		gnm_expr_top_unref (state->texpr);
+		/* Do not touch the released value or the missing cell below.  */
+		state->texpr = NULL;
+		state->val = NULL;
+		goto done;
 	} else if (NULL != state->texpr) {
 		if (state->array.start.col >= 0) {
 			gnm_cell_set_array (state->sheet,
@@ -1637,8 +1659,9 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 		row--;
 	state->pos.col = 0;
 
-	if (row >= 0) {
-		if (h >= 0)
+	/* sheet_row_fetch fails (returns NULL) outside the sheet.  */
+	if (row >= 0 && row < gnm_sheet_get_max_rows (state->sheet)) {
+		if (h > 0)
 			sheet_row_set_size_pts (state->sheet, row, h, cust_height);
 		if (hidden > 0)
 			colrow_set_visibility (state->sheet, FALSE, FALSE, row, row);
@@ -4074,7 +4097,7 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_eq (attrs[0], "authorId")) {
 			unsigned id = atoi (CXML2C (attrs[1]));
 			char const *name;
-			if (id < state->authors->len) {
+			if (state->authors != NULL && id < state->authors->len) {
 				name = g_ptr_array_index (state->authors, id);
 				if (*name) /* do not set an empty name */
 					g_object_set (state->comment, "author", name, NULL);

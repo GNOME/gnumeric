@@ -932,7 +932,7 @@ xlsx_axis_format (GsfXMLIn *xin, xmlChar const **attrs)
 			attr_bool (xin, attrs, "sourceLinked", &shared);
 		else if (attr_eq (attrs[0], "formatCode"))
 			fmt = CXML2C (attrs[1]);
-	if (fmt && !shared)
+	if (fmt && !shared && state->axis.obj)
 		g_object_set (G_OBJECT (state->axis.obj),
 			"assigned-format-string-XL", fmt, NULL);
 }
@@ -2996,8 +2996,12 @@ xlsx_axes_rename (XLSXReadState *state)
 		guint new_id = 1 + GPOINTER_TO_UINT (g_hash_table_lookup (role_to_id, (gpointer)role));
 		GogAxisType cross_atype;
 
-		if (new_id == old_id)
+		if (new_id == old_id) {
+			/* Remember this id is taken, or the next axis of the
+			   same role will be given the same one.  */
+			g_hash_table_replace (role_to_id, (gpointer)role, GUINT_TO_POINTER (new_id));
 			continue;
+		}
 #ifdef DEBUG_AXIS
 		g_printerr ("Changing id of %s to %u\n",
 			    gog_object_get_name (axis), new_id);
@@ -3184,9 +3188,12 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 
 		xlsx_axis_cleanup (state);
-		g_object_set (state->chart, "style", state->cur_style, NULL);
-		g_object_unref (state->cur_style);
-		state->cur_style = NULL;
+		if (state->cur_style) {
+			if (state->chart)
+				g_object_set (state->chart, "style", state->cur_style, NULL);
+			g_object_unref (state->cur_style);
+			state->cur_style = NULL;
+		}
 		if (NULL != state->style_stack) {
 			GSList *l;
 			g_warning ("left-over style");
@@ -3264,6 +3271,18 @@ xlsx_drawing_twoCellAnchor_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	} else if ((state->drawing_pos_flags & 0xFF) != 0xFF) {
 		xlsx_warning (xin,
 			      _("Dropping object with incomplete anchor %2x"), state->drawing_pos_flags);
+		g_object_unref (state->so);
+	} else if (state->drawing_pos[COL | FROM] < 0 ||
+		   state->drawing_pos[COL | FROM] > gnm_sheet_get_last_col (state->sheet) ||
+		   state->drawing_pos[COL | TO] < 0 ||
+		   state->drawing_pos[COL | TO] > gnm_sheet_get_last_col (state->sheet) ||
+		   state->drawing_pos[ROW | FROM] < 0 ||
+		   state->drawing_pos[ROW | FROM] > gnm_sheet_get_last_row (state->sheet) ||
+		   state->drawing_pos[ROW | TO] < 0 ||
+		   state->drawing_pos[ROW | TO] > gnm_sheet_get_last_row (state->sheet)) {
+		/* Positions are 64-bit in the file but used as ints below.  */
+		xlsx_warning (xin,
+			      _("Dropping object with anchor outside the sheet"));
 		g_object_unref (state->so);
 	} else {
 		SheetObjectAnchor anchor;
@@ -3469,8 +3488,9 @@ xlsx_blip_start (GsfXMLIn *xin, xmlChar const **attrs)
 			g_return_if_fail (input != NULL);
 			size = gsf_input_size (input);
 			data = gsf_input_read (input, size, NULL);
-			sheet_object_image_set_image (GNM_SO_IMAGE (state->so),
-						      NULL, data, size);
+			if (data != NULL)
+				sheet_object_image_set_image (GNM_SO_IMAGE (state->so),
+							      NULL, data, size);
 			g_object_unref (input);
 	}
 
@@ -3790,6 +3810,7 @@ xlsx_vml_group_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	/* assuming that a group can't be inside another group, otherwise we need a stack */
+	g_return_if_fail (state->grp_stack != NULL);
 	memcpy (state->grp_offset, state->grp_stack->data, sizeof (double) * 4);
 	g_free (state->grp_stack->data);
 	state->grp_stack = g_slist_delete_link (state->grp_stack, state->grp_stack);
@@ -3907,6 +3928,8 @@ xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 		gtypes[i++] = G_TYPE_NONE;
 		gtypes[i++] = G_TYPE_NONE;
 		gtypes[i++] = G_TYPE_NONE;
+		gtypes[i++] = G_TYPE_NONE; /* "Rect" */
+		g_assert (i == (int)G_N_ELEMENTS (gtypes));
 	}
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
@@ -3955,8 +3978,8 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 				break;
 			sum += size;
 		}
-		r.start.col = pos;
-		coords[0] = (state->chart_pos[0] - sum) / size;
+		r.start.col = MIN (pos, cols - 1);
+		coords[0] = size > 0 ? (state->chart_pos[0] - sum) / size : 0;
 		while (sum < state->chart_pos[2] && pos < cols) {
 			if (sum + size > state->chart_pos[2])
 				break;
@@ -3964,18 +3987,18 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			size = sheet_col_get_distance_pts (sheet, pos, pos + 1);
 			pos++;
 		}
-		r.end.col = pos;
-		coords[2] = (state->chart_pos[2] - sum) / size;
+		r.end.col = MIN (pos, cols - 1);
+		coords[2] = size > 0 ? (state->chart_pos[2] - sum) / size : 0;
 
 		size = sum = 0;
-		for (pos = 0; pos < cols; pos++) {
+		for (pos = 0; pos < rows; pos++) {
 			size = sheet_row_get_distance_pts (sheet, pos, pos + 1);
 			if (sum + size > state->chart_pos[1])
 				break;
 			sum += size;
 		}
-		r.start.row = pos;
-		coords[1] = (state->chart_pos[1] - sum) / size;
+		r.start.row = MIN (pos, rows - 1);
+		coords[1] = size > 0 ? (state->chart_pos[1] - sum) / size : 0;
 		while (sum < state->chart_pos[3] && pos < rows) {
 			if (sum + size > state->chart_pos[3])
 				break;
@@ -3983,8 +4006,8 @@ xlsx_vml_client_data_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			size = sheet_row_get_distance_pts (sheet, pos, pos + 1);
 			pos++;
 		}
-		r.end.row = pos;
-		coords[3] = (state->chart_pos[3] - sum) / size;
+		r.end.row = MIN (pos, rows - 1);
+		coords[3] = size > 0 ? (state->chart_pos[3] - sum) / size : 0;
 		sheet_object_anchor_init (&anchor, &r, coords, state->so_direction, state->so_anchor_mode);
 		sheet_object_set_anchor (state->so, &anchor);
 		if (GNM_IS_SOW_LIST (state->so) ||

@@ -769,13 +769,20 @@ xlsx_pivot_insert_value (XLSXReadState *state, GnmValue *v)
 			state->pivot.field_count++, state->pivot.record_count, v);
 	else {
 		GPtrArray *a = state->pivot.cache_field_values;
-		unsigned i = state->pivot.record_count++;
+		unsigned i;
+		if (a == NULL) {
+			/* Value outside of any items list */
+			value_release (v);
+			return;
+		}
+		i = state->pivot.record_count++;
 		if (i < a->len)
 			g_ptr_array_index (a, i) = v;
 		else if (i == a->len)
 			g_ptr_array_add (a, v);
 		else {
 			g_warning ("index out of whack");
+			value_release (v);
 		}
 	}
 }
@@ -1194,7 +1201,8 @@ xlsx_CT_SharedItems (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	state->pivot.record_count = 0;
-	state->pivot.cache_field_values = g_ptr_array_sized_new (n);
+	/* Don't trust huge (or negative) counts. */
+	state->pivot.cache_field_values = g_ptr_array_sized_new (CLAMP (n, 0, 10000));
 
 #if 0
     <xsd:attribute name="containsSemiMixedTypes" type="xsd:boolean" use="optional" default="true">
@@ -1225,7 +1233,8 @@ xlsx_CT_GroupItems (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	state->pivot.record_count = 0;
-	state->pivot.cache_field_values = g_ptr_array_sized_new (n);
+	/* Don't trust huge (or negative) counts. */
+	state->pivot.cache_field_values = g_ptr_array_sized_new (CLAMP (n, 0, 10000));
 }
 
 static void

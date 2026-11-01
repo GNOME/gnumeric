@@ -75,8 +75,11 @@ xlsx_read_prop_type (GsfXMLIn *xin, GType g_type)
 		gsf_doc_meta_data_insert
 			(state->metadata,
 			 g_strdup (xin->node->user_data.v_str), res);
-	else
+	else {
+		if (G_IS_VALUE (res))
+			g_value_unset (res);
 		g_free (res);
+	}
 }
 
 static void
@@ -115,10 +118,13 @@ xlsx_read_property_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			pid = attrs[1];
 		else if (attr_eq (attrs[0], "name"))
 			name = attrs[1];
+	g_free (state->meta_prop_name);
 	if (name != NULL)
 		state->meta_prop_name = g_strdup (CXML2C (name));
 	else
-		state->meta_prop_name = g_strdup_printf ("%s-%s", fmt_id, pid);
+		state->meta_prop_name = g_strdup_printf ("%s-%s",
+							 fmt_id ? CXML2C (fmt_id) : "",
+							 pid ? CXML2C (pid) : "");
 }
 
 static void
@@ -147,8 +153,11 @@ xlsx_read_custom_property_type (GsfXMLIn *xin, GType g_type)
 			(state->metadata,
 			 state->meta_prop_name, res);
 		state->meta_prop_name = NULL;
-	} else
+	} else {
+		if (G_IS_VALUE (res))
+			g_value_unset (res);
 		g_free (res);
+	}
 
 	maybe_update_progress (xin);
 }
