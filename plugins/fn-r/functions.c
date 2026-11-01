@@ -635,8 +635,8 @@ gnumeric_r_qgeom (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 static GnmFuncHelp const help_r_dgumbel[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.DGUMBEL:probability density function of the Gumbel distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
-	{ GNM_FUNC_HELP_ARG, F_("mu:the location parameter of freedom of the distribution") },
-	{ GNM_FUNC_HELP_ARG, F_("beta:the scale parameter of freedom of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("mu:the location parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("beta:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("give_log:if true, log of the result will be returned instead") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability density function of the Gumbel distribution.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=r.dgumbel(2.5,2,1)" },
@@ -660,8 +660,8 @@ gnumeric_r_dgumbel (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 static GnmFuncHelp const help_r_pgumbel[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.PGUMBEL:cumulative distribution function of the Gumbel distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("x:observation") },
-	{ GNM_FUNC_HELP_ARG, F_("mu:the location parameter of freedom of the distribution") },
-	{ GNM_FUNC_HELP_ARG, F_("beta:the scale parameter of freedom of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("mu:the location parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("beta:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Gumbel distribution.") },
@@ -687,8 +687,8 @@ gnumeric_r_pgumbel (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 static GnmFuncHelp const help_r_qgumbel[] = {
 	{ GNM_FUNC_HELP_NAME, F_("R.QGUMBEL:probability quantile function of the Gumbel distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("p:probability or natural logarithm of the probability") },
-	{ GNM_FUNC_HELP_ARG, F_("mu:the location parameter of freedom of the distribution") },
-	{ GNM_FUNC_HELP_ARG, F_("beta:the scale parameter of freedom of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("mu:the location parameter of the distribution") },
+	{ GNM_FUNC_HELP_ARG, F_("beta:the scale parameter of the distribution") },
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Gumbel distribution.") },
@@ -1431,6 +1431,7 @@ static GnmFuncHelp const help_r_ptukey[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the cumulative distribution function of the Studentized range distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.ptukey(3.5,3,20,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.QTUKEY" },
 	{ GNM_FUNC_HELP_END }
 };
@@ -1459,6 +1460,7 @@ static GnmFuncHelp const help_r_qtukey[] = {
 	{ GNM_FUNC_HELP_ARG, F_("lower_tail:if true (the default), the lower tail of the distribution is considered") },
 	{ GNM_FUNC_HELP_ARG, F_("log_p:if true, the natural logarithm of the probability is given or returned; defaults to false") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("This function returns the probability quantile function, i.e., the inverse of the cumulative distribution function, of the Studentized range distribution.") },
+	{ GNM_FUNC_HELP_EXAMPLES, "=r.qtukey(0.3,3,20,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "R.PTUKEY" },
 	{ GNM_FUNC_HELP_END }
 };

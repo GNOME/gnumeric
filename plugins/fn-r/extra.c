@@ -21,7 +21,7 @@ dsnorm (gnm_float x, gnm_float shape, gnm_float location, gnm_float scale, gbool
 	else if (give_log)
 		return M_LN2gnum + dnorm (x, location, scale, TRUE) + pnorm (shape * x, shape * location, scale, TRUE, TRUE);
 	else
-		return 2 * dnorm (x, location, scale, FALSE) * pnorm (shape * x, location/shape, scale, TRUE, FALSE);
+		return 2 * dnorm (x, location, scale, FALSE) * pnorm (shape * x, shape * location, scale, TRUE, FALSE);
 }
 
 gnm_float
@@ -106,7 +106,7 @@ qsnorm (gnm_float p, gnm_float shape, gnm_float location, gnm_float scale,
 		lower_tail = !lower_tail;
 	}
 
-	x0 = 0.0;
+	x0 = location;
 	params[0] = shape;
 	params[1] = location;
 	params[2] = scale;
@@ -127,6 +127,8 @@ dst (gnm_float x, gnm_float n, gnm_float shape, gboolean give_log)
 
 	if (shape == 0)
 		return dt (x, n, give_log);
+	else if (!gnm_finite (x))
+		return give_log ? gnm_ninf : 0;
 	else {
 		gnm_float pdf = dt (x, n, give_log);
 		gnm_float cdf = pt (shape * x * gnm_sqrt ((n + 1)/(x * x + n)),

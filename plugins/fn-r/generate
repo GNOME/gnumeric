@@ -178,14 +178,15 @@ my %defaults;
 	    'nmeans' => "the number of means",
 	    'df' => "the number of degrees of freedom $of",
 	    @common }),
+	 [ { 'x' => 3.5, 'nmeans' => 3, 'df' => 20, 'nranges' => 1 } ],
 	];
     $defaults{'ptukey:nranges'} = $defaults{'qtukey:nranges'} = 1;
 
     $funcs{'dgumbel'} = $funcs{'pgumbel'} = $funcs{'qgumbel'} =
 	[\&distribution,
 	 'Gumbel',
-	 ({ 'mu' => "the location parameter of freedom $of",
-	    'beta' => "the scale parameter of freedom $of",
+	 ({ 'mu' => "the location parameter $of",
+	    'beta' => "the scale parameter $of",
 	    @common }),
 	 [ { 'x' => 2.5, 'mu' => 2, 'beta' => 1 } ],
 	];
