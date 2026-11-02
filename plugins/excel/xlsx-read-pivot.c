@@ -259,10 +259,14 @@ xlsx_CT_Field (GsfXMLIn *xin, xmlChar const **attrs)
 		if (attr_int (xin, attrs, "x", &indx))
 			/* Nothing */ ;
 
-	if (indx >= 0)
-		go_data_slicer_field_set_field_type_pos (
-			go_data_slicer_get_field ((GODataSlicer *)state->pivot.slicer, indx),
-			xin->node->user_data.v_int, G_MAXINT);
+	if (indx >= 0 && state->pivot.slicer != NULL) {
+		/* Index comes from the file; the field may not exist.  */
+		GODataSlicerField *dsf =
+			go_data_slicer_get_field ((GODataSlicer *)state->pivot.slicer, indx);
+		if (dsf != NULL)
+			go_data_slicer_field_set_field_type_pos (
+				dsf, xin->node->user_data.v_int, G_MAXINT);
+	}
 }
 
 static void
@@ -296,10 +300,12 @@ xlsx_CT_DataField (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_enum (xin, attrs, "subtotal", aggregations, &aggregate_by))
 			/* Nothing */ ;
 
-	if (indx >= 0) {
+	if (indx >= 0 && state->pivot.slicer != NULL) {
 		GODataSlicerField *dsf = go_data_slicer_get_field ((GODataSlicer *)state->pivot.slicer, indx);
-		go_data_slicer_field_set_field_type_pos (dsf, GDS_FIELD_TYPE_DATA, G_MAXINT);
-		g_object_set (G_OBJECT (dsf), "aggregations", aggregate_by, NULL);
+		if (dsf != NULL) {
+			go_data_slicer_field_set_field_type_pos (dsf, GDS_FIELD_TYPE_DATA, G_MAXINT);
+			g_object_set (G_OBJECT (dsf), "aggregations", aggregate_by, NULL);
+		}
 	}
 }
 
@@ -1243,6 +1249,9 @@ xlsx_CT_FieldGroup (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int tmp;
 
+	if (state->pivot.cache_field == NULL)
+		return;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (attr_int (xin, attrs, "base", &tmp))
 			g_object_set (G_OBJECT (state->pivot.cache_field),
@@ -1275,6 +1284,9 @@ xlsx_CT_RangePr (GsfXMLIn *xin, xmlChar const **attrs)
 	GError *valid;
 	GOValBucketer	bucketer;
 
+	if (state->pivot.cache_field == NULL)
+		return;
+
 	go_val_bucketer_init (&bucketer);
 	bucketer.type   		= GO_VAL_BUCKET_SERIES_LINEAR;
 	bucketer.details.series.step	= 1.;
@@ -1299,8 +1311,9 @@ xlsx_CT_RangePr (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL == (valid = go_val_bucketer_validate (&bucketer)))
 		g_object_set (G_OBJECT (state->pivot.cache_field), "bucketer", &bucketer, NULL);
 	else {
+		GOString const *fname = go_data_cache_field_get_name (state->pivot.cache_field);
 		xlsx_warning (xin, _("Skipping invalid pivot field group for field '%s' because: %s"),
-			      go_data_cache_field_get_name (state->pivot.cache_field)->str,
+			      fname ? fname->str : "",
 			      valid->message);
 		g_error_free (valid);
 	}

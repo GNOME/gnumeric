@@ -1620,6 +1620,9 @@ done:
 	state->pos.col++;
 }
 
+/* ColRowInfo::outline_level is a 4-bit field; Excel itself stops at 7.  */
+#define XLSX_MAX_OUTLINE 7
+
 static void
 xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -1664,7 +1667,7 @@ xlsx_CT_Row (GsfXMLIn *xin, xmlChar const **attrs)
 			colrow_set_visibility (state->sheet, FALSE, FALSE, row, row);
 		if (outline >= 0)
 			colrow_info_set_outline (sheet_row_fetch (state->sheet, row),
-				outline, collapsed);
+				MIN (outline, XLSX_MAX_OUTLINE), collapsed);
 
 		if (NULL != style && cust_fmt) {
 			GnmRange r;
@@ -1760,7 +1763,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 				cust_width && !best_fit);
 		if (outline > 0)
 			colrow_info_set_outline (sheet_col_fetch (state->sheet, i),
-				outline, collapsed);
+				MIN (outline, XLSX_MAX_OUTLINE), collapsed);
 	}
 	if (NULL != style) {
 		GnmRange r;
@@ -1862,10 +1865,10 @@ xlsx_CT_SheetFormatPr (GsfXMLIn *xin, xmlChar const **attrs)
 			sheet_row_set_default_size_pts (state->sheet, h);
 		else if (attr_int (xin, attrs, "outlineLevelRow", &i)) {
 			if (i > 0)
-				sheet_colrow_gutter (state->sheet, FALSE, i);
+				sheet_colrow_gutter (state->sheet, FALSE, MIN (i, XLSX_MAX_OUTLINE));
 		} else if (attr_int (xin, attrs, "outlineLevelCol", &i)) {
 			if (i > 0)
-				sheet_colrow_gutter (state->sheet, TRUE, i);
+				sheet_colrow_gutter (state->sheet, TRUE, MIN (i, XLSX_MAX_OUTLINE));
 		}
 	}
 }
@@ -2115,8 +2118,10 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_int (xin, attrs, "fitToWidth", &(pi->scaling.dim.cols)))
 			;
 		else if (attr_int (xin, attrs, "scale", &scale)) {
-			pi->scaling.percentage.x = scale;
-			pi->scaling.percentage.y = scale;
+			if (scale > 0) {
+				pi->scaling.percentage.x = scale;
+				pi->scaling.percentage.y = scale;
+			}
 		} else if (attr_bool (xin, attrs, "useFirstPageNumber", &use_first_page_number))
 			;
 	}
@@ -2127,7 +2132,11 @@ xlsx_CT_PageSetup (GsfXMLIn *xin, xmlChar const **attrs)
 		? (int)first_page
 		: -1;
 
-	if (!xlsx_set_paper_from_code (pi, paper_code) && width > 0 && height > 0) {
+	if (pi->n_copies < 1)
+		pi->n_copies = 1;
+
+	if (!xlsx_set_paper_from_code (pi, paper_code) &&
+	    width > 0 && height > 0 && width < 1e6 && height < 1e6) {
 		GtkPaperSize *ps = xlsx_paper_size (width, height, GTK_UNIT_POINTS, 0);
 		gtk_page_setup_set_paper_size (pi->page_setup, ps);
 		gtk_paper_size_free (ps);
@@ -2365,6 +2374,7 @@ xlsx_CT_DataValidation_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	    NULL != (err = gnm_validation_is_ok (state->validation))) {
 		xlsx_warning (xin, _("Ignoring invalid data validation because: %s"),
 			      _(err->message));
+		g_error_free (err);
 		gnm_validation_unref (state->validation);
 		state->validation = NULL;
 	}
@@ -2519,6 +2529,21 @@ xlsx_CT_CustomFilters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->filter_items = NULL;
 }
 
+/* gnm_filter_set_condition takes ownership only on success.  */
+static void
+xlsx_filter_set_condition (XLSXReadState *state, GnmFilterCondition *cond)
+{
+	if (cond == NULL)
+		return;
+	if (state->filter != NULL &&
+	    state->filter_cur_field >= 0 &&
+	    (unsigned)state->filter_cur_field < state->filter->fields->len)
+		gnm_filter_set_condition (state->filter, state->filter_cur_field,
+					  cond, FALSE);
+	else
+		gnm_filter_condition_free (cond);
+}
+
 static void
 xlsx_CT_CustomFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
@@ -2551,9 +2576,7 @@ xlsx_CT_CustomFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const *
 	}
 
 	cond = gnm_filter_condition_new_single (op, v);
-	if (cond)
-		gnm_filter_set_condition (state->filter, state->filter_cur_field,
-					  cond, FALSE);
+	xlsx_filter_set_condition (state, cond);
 }
 
 static void
@@ -2574,9 +2597,8 @@ xlsx_CT_Top10 (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 	}
 
-	if (NULL != (cond = gnm_filter_condition_new_bucket (top, !percent, FALSE, val)))
-		gnm_filter_set_condition (state->filter, state->filter_cur_field,
-			cond, FALSE);
+	cond = gnm_filter_condition_new_bucket (top, !percent, FALSE, val);
+	xlsx_filter_set_condition (state, cond);
 }
 
 static void
@@ -3087,14 +3109,18 @@ xlsx_CT_Selection (GsfXMLIn *xin, xmlChar const **attrs)
 		return;
 
 	for (i = 0 ; NULL != refs && *refs ; i++) {
-		if (NULL == (refs = cellpos_parse (refs, gnm_sheet_get_size (state->sheet), &r.start, FALSE)))
+		if (NULL == (refs = cellpos_parse (refs, gnm_sheet_get_size (state->sheet), &r.start, FALSE))) {
+			g_slist_free_full (accum, g_free);
 			return;
+		}
 
 		if (*refs == '\0' || *refs == ' ')
 			r.end = r.start;
 		else if (*refs != ':' ||
-			 NULL == (refs = cellpos_parse (refs + 1, gnm_sheet_get_size (state->sheet), &r.end, FALSE)))
+			 NULL == (refs = cellpos_parse (refs + 1, gnm_sheet_get_size (state->sheet), &r.end, FALSE))) {
+			g_slist_free_full (accum, g_free);
 			return;
+		}
 
 		if (i == 0)
 			sv_selection_reset (state->sv);
@@ -3226,11 +3252,11 @@ xlsx_CT_Pane (GsfXMLIn *xin, xmlChar const **attrs)
 		GnmCellPos frozen, unfrozen;
 		frozen = unfrozen = state->sv->initial_top_left;
 		if (xSplit > 0)
-			unfrozen.col += xSplit;
+			unfrozen.col += (int)MIN (xSplit, gnm_sheet_get_last_col (state->sheet) - frozen.col);
 		else
 			topLeft.col = state->sv->initial_top_left.col;
 		if (ySplit > 0)
-			unfrozen.row += ySplit;
+			unfrozen.row += (int)MIN (ySplit, gnm_sheet_get_last_row (state->sheet) - frozen.row);
 		else
 			topLeft.row = state->sv->initial_top_left.row;
 		gnm_sheet_view_freeze_panes (state->sv, &frozen, &unfrozen);
@@ -3286,9 +3312,11 @@ xlsx_CT_HyperLinks (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != extern_id) {
 		GsfOpenPkgRel const *rel = gsf_open_pkg_lookup_rel_by_id (
 			gsf_xml_in_get_input (xin), extern_id);
+		char const *rel_type = rel ? gsf_open_pkg_rel_get_type (rel) : NULL;
 		if (NULL != rel &&
+		    rel_type != NULL &&
 		    gsf_open_pkg_rel_is_extern (rel) &&
-		    0 == strcmp (gsf_open_pkg_rel_get_type (rel),
+		    0 == strcmp (rel_type,
 				 "http://schemas.openxmlformats.org/officeDocument/2006/relationships/hyperlink")) {
 			const char *url = gsf_open_pkg_rel_get_target (rel);
 			if (url) {
@@ -3837,7 +3865,7 @@ xlsx_sheet_begin (GsfXMLIn *xin, xmlChar const **attrs)
 			part_id = CXML2C (attrs[1]);
 	}
 
-	if (NULL == name) {
+	if (NULL == name || *name == 0) {
 		xlsx_warning (xin, _("Ignoring a sheet without a name"));
 		return;
 	}
@@ -4089,9 +4117,12 @@ xlsx_comment_start (GsfXMLIn *xin, xmlChar const **attrs)
 	anchor_r = sheet_object_get_anchor (so)->cell_bound;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
-		if (attr_eq (attrs[0], "ref"))
-			range_parse (&anchor_r, CXML2C (attrs[1]), gnm_sheet_get_size (state->sheet));
-		else if (attr_eq (attrs[0], "authorId")) {
+		if (attr_eq (attrs[0], "ref")) {
+			/* Do not keep a partially parsed range.  */
+			GnmRange tmp;
+			if (range_parse (&tmp, CXML2C (attrs[1]), gnm_sheet_get_size (state->sheet)))
+				anchor_r = tmp;
+		} else if (attr_eq (attrs[0], "authorId")) {
 			unsigned id = atoi (CXML2C (attrs[1]));
 			char const *name;
 			if (state->authors != NULL && id < state->authors->len) {
@@ -4191,7 +4222,8 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 
 		/* Apply the 'Normal' style (aka builtin 0) to the entire sheet */
-		if (NULL != (style = g_hash_table_lookup(state->cell_styles, "0"))) {
+		if (state->cell_styles != NULL &&
+		    NULL != (style = g_hash_table_lookup(state->cell_styles, "0"))) {
 			GnmRange r;
 			gnm_style_ref (style);
 			range_init_full_sheet (&r, state->sheet);
@@ -4199,11 +4231,15 @@ xlsx_wb_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		}
 
 		sin = gsf_open_pkg_open_rel_by_id (gsf_xml_in_get_input (xin), part_id, &err);
-		if (NULL != err) {
+		if (NULL != err || NULL == sin) {
 			XLSXReadState *state = (XLSXReadState *)xin->user_state;
-			go_io_warning (state->context, "%s", err->message);
-			g_error_free (err);
-			err = NULL;
+			if (err) {
+				go_io_warning (state->context, "%s", err->message);
+				g_error_free (err);
+				err = NULL;
+			}
+			if (sin)
+				g_object_unref (sin);
 			continue;
 		}
 		/* load comments */
@@ -4488,8 +4524,8 @@ xlsx_col_border_begin (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (attr_bool (xin, attrs, "diagonalDown", &diagonal_down))
 			;
-		else (attr_bool (xin, attrs, "diagonalUp", &diagonal_up))
-			     ;
+		else if (attr_bool (xin, attrs, "diagonalUp", &diagonal_up))
+			;
 	}
 
 	if (diagonal_up) {
@@ -4554,14 +4590,16 @@ xlsx_font_color (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL != color)
 		gnm_style_set_font_color (state->style_accum, color);
 }
+
 static void
 xlsx_CT_FontSize (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	double val;
 	if (simple_double (xin, attrs, &val))
-		gnm_style_set_font_size	(state->style_accum, val);
+		gnm_style_set_font_size	(state->style_accum, CLAMP (val, 1.0, 1000.0));
 }
+
 static void
 xlsx_CT_vertAlign (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -4576,6 +4614,7 @@ xlsx_CT_vertAlign (GsfXMLIn *xin, xmlChar const **attrs)
 	(void)simple_enum (xin, attrs, types, &val);
 	gnm_style_set_font_script (state->style_accum, val);
 }
+
 static void
 xlsx_font_uline (GsfXMLIn *xin, xmlChar const **attrs)
 {
@@ -4902,10 +4941,13 @@ xlsx_xf_align (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 	gnm_style_set_align_h	   (state->style_accum, halign);
 	gnm_style_set_align_v	   (state->style_accum, valign);
+	/* Valid values are 0..180 and 255 (vertical).  Ignore anything else. */
+	if (rotation != 0xff && (rotation < 0 || rotation > 180))
+		rotation = 0;
 	gnm_style_set_rotation	   (state->style_accum,
 				    (rotation == 0xff) ? -1 : ((rotation > 90) ? (360 + 90 - rotation) : rotation));
 	gnm_style_set_wrap_text   (state->style_accum, wrapText);
-	gnm_style_set_indent	   (state->style_accum, indent);
+	gnm_style_set_indent	   (state->style_accum, CLAMP (indent, 0, 250));
 	gnm_style_set_shrink_to_fit (state->style_accum, shrinkToFit);
 }
 

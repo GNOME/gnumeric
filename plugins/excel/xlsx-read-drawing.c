@@ -86,9 +86,12 @@ xlsx_reset_chart_pos (XLSXReadState *state)
 static void
 xlsx_push_text_object (XLSXReadState *state, const char *name)
 {
-	GogObject *label = gog_object_add_by_name (state->cur_obj, name, NULL);
+	GogObject *label = state->cur_obj
+		? gog_object_add_by_name (state->cur_obj, name, NULL)
+		: NULL;
 	state->sp_type |= GO_STYLE_FONT;
-	g_object_set (G_OBJECT (label), "allow-wrap", TRUE, "justification", "center", NULL);
+	if (label)
+		g_object_set (G_OBJECT (label), "allow-wrap", TRUE, "justification", "center", NULL);
 	xlsx_chart_push_obj (state, label);
 }
 
@@ -155,7 +158,8 @@ xlsx_chart_text (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 					gnm_go_data_scalar_new_expr (state->sheet, state->texpr), NULL);
 				state->texpr = NULL;
 			}
-			if (go_finite (state->chart_pos[0])) {
+			if (go_finite (state->chart_pos[0]) && go_finite (state->chart_pos[1]) &&
+			    go_finite (state->chart_pos[2]) && go_finite (state->chart_pos[3])) {
 				GogViewAllocation alloc;
 				alloc.x = state->chart_pos[0];
 				alloc.w = state->chart_pos[1] - alloc.x;
@@ -340,7 +344,7 @@ xlsx_body_pr (GsfXMLIn *xin, xmlChar const **attrs)
 				int rotation;
 				if (attr_int (xin, attrs, "rot", &rotation)) {
 					state->cur_style->text_layout.auto_angle = FALSE;
-					state->cur_style->text_layout.angle = -rotation / 60000.0;
+					state->cur_style->text_layout.angle = rotation / -60000.0;
 				}
 			}
 		}
@@ -367,7 +371,7 @@ xlsx_user_shape_pos (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	char *end;
 	double tmp = gnm_strto (xin->content->str, &end);
-	if (*end) {
+	if (end == xin->content->str || *end) {
 		xlsx_warning (xin,
 			_("Invalid number '%s' for node %s"),
 			xin->content->str, xin->node->name);
@@ -381,7 +385,7 @@ xlsx_user_shape (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
-	for (; *attrs; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1]; attrs += 2)
 		if (attr_eq (attrs[0], "textlink") && *attrs[1]) {
 			GnmParsePos pp;
 			state->texpr = xlsx_parse_expr (xin, CXML2C (attrs[1]),
@@ -692,6 +696,8 @@ xlsx_chart_vary_colors (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	int vary = TRUE;  /* A somewhat crazy default */
+	if (!state->plot)
+		return;
 	(void)simple_bool (xin, attrs, &vary);
 	g_object_set (G_OBJECT (state->plot), "vary-style-by-element", vary, NULL);
 }
@@ -701,6 +707,8 @@ xlsx_chart_pie_sep (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	unsigned sep = 0;
+	if (!state->plot)
+		return;
 	(void)simple_uint (xin, attrs, &sep);
 	g_object_set (G_OBJECT (state->plot),
 		      "default-separation", (double)(CLAMP (sep, 0u, 500u)) / 100.0, NULL);
@@ -711,6 +719,8 @@ xlsx_chart_pie_angle (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	unsigned angle = 0;
+	if (!state->plot)
+		return;
 	(void)simple_uint (xin, attrs, &angle);
 	g_object_set (G_OBJECT (state->plot),
 		      "initial-angle", (double)angle, NULL);
@@ -721,6 +731,8 @@ xlsx_chart_ring_hole (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	unsigned size = 50;
+	if (!state->plot)
+		return;
 	(void)simple_uint (xin, attrs, &size);
 	/* Allow full range for size.  Spec says 10-90.  */
 	g_object_set (G_OBJECT (state->plot),
@@ -755,9 +767,11 @@ xlsx_chart_bar_overlap (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	const char *soverlap = simple_string (xin, attrs);
-	if (soverlap) {
+	char *end;
+	int overlap;
+	if (soverlap && state->plot &&
+	    (overlap = strtol (soverlap, &end, 10), end != soverlap)) {
 		/* Spec says add "%" at end; XL cannot handle that. */
-		int overlap = strtol (soverlap, NULL, 10);
 		g_object_set (G_OBJECT (state->plot),
 			      "overlap-percentage", CLAMP (overlap, -100, 100),
 			      NULL);
@@ -789,9 +803,11 @@ xlsx_chart_bar_gap (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	const char *sgap = simple_string (xin, attrs);
-	if (sgap) {
+	char *end;
+	int gap;
+	if (sgap && state->plot &&
+	    (gap = strtol (sgap, &end, 10), end != sgap)) {
 		/* Spec says add "%" at end; XL cannot handle that. */
-		int gap = strtol (sgap, NULL, 10);
 		g_object_set (G_OBJECT (state->plot),
 			      "gap-percentage", CLAMP (gap, 0, 500), NULL);
 	}
@@ -1025,6 +1041,11 @@ xlsx_create_axis_object (XLSXReadState *state)
 
 	axis = gog_object_add_by_name (GOG_OBJECT (state->chart), role, NULL);
 	state->axis.obj = GOG_AXIS (axis);
+	if (axis == NULL) {
+		/* Chart type does not support (another) axis of this role.
+		   Keep the dummy object on the stack.  */
+		return;
+	}
 #ifdef DEBUG_AXIS
 	g_printerr ("Created axis object %s with role %s\n",
 		    gog_object_get_name (axis), role);
@@ -1166,10 +1187,12 @@ xlsx_chart_gridlines (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean ismajor = xin->node->user_data.v_int;
-	GogObject *grid = gog_object_add_by_name
-		(GOG_OBJECT (state->axis.obj),
-		 ismajor ? "MajorGrid" : "MinorGrid",
-		 NULL);
+	GogObject *grid = state->axis.obj
+		? gog_object_add_by_name
+			(GOG_OBJECT (state->axis.obj),
+			 ismajor ? "MajorGrid" : "MinorGrid",
+			 NULL)
+		: NULL;
 	xlsx_chart_push_obj (state, grid);
 }
 
@@ -1188,6 +1211,8 @@ xlsx_axis_mark (GsfXMLIn *xin, xmlChar const **attrs)
 	int res = 3;
 
 	(void)simple_enum (xin, attrs, marks, &res);
+	if (state->axis.obj == NULL)
+		return;
 	g_object_set (G_OBJECT (state->axis.obj),
 		      (ismajor ? "major-tick-in" : "minor-tick-in"), (res & 1) != 0,
 		      (ismajor ? "major-tick-out" : "minor-tick-out"), (res & 2) != 0,
@@ -1208,7 +1233,8 @@ xslx_chart_tick_label_pos (GsfXMLIn *xin, xmlChar const **attrs)
 	int res = 2;
 
 	(void)simple_enum (xin, attrs, positions, &res);
-	g_object_set (G_OBJECT (state->axis.obj), "major-tick-labeled", res != 3, NULL);
+	if (state->axis.obj)
+		g_object_set (G_OBJECT (state->axis.obj), "major-tick-labeled", res != 3, NULL);
 }
 
 static void
@@ -1217,7 +1243,7 @@ xlsx_axis_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GogAxis *axis = state->axis.obj;
 
-	if (state->axis.info) {
+	if (state->axis.info && axis) {
 		GSList *ptr;
 		GogAxisElemType et;
 		XLSXAxisInfo *info = state->axis.info;
@@ -1407,11 +1433,16 @@ xlsx_ser_trendline_type (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 	(void)simple_enum (xin, attrs, styles, &typ);
 	state->cur_obj = GOG_OBJECT (gog_trend_line_new_by_name (types[typ]));
 	if (state->cur_obj) {
-		GogObject *trend =
-			gog_object_add_by_name (GOG_OBJECT (state->series),
-						"Trend line",
-						state->cur_obj);
-		if (state->chart_tx) {
+		GogObject *trend = state->series
+			? gog_object_add_by_name (GOG_OBJECT (state->series),
+						  "Trend line",
+						  state->cur_obj)
+			: NULL;
+		if (trend == NULL) {
+			/* Not attached to anything; do not leak it.  */
+			g_object_unref (state->cur_obj);
+			state->cur_obj = NULL;
+		} else if (state->chart_tx) {
 			GOData *dat =
 				gnm_go_data_scalar_new_expr (state->sheet,
 							     gnm_expr_top_new_constant (value_new_string (state->chart_tx)));
@@ -1429,9 +1460,10 @@ xlsx_get_trend_eq (XLSXReadState *state)
 	const char *role = "Equation";
 	GogObject *eq = gog_object_get_child_by_name (state->cur_obj, role);
 
-	if (!eq) {
+	if (!eq && state->cur_obj) {
 		eq = gog_object_add_by_name (state->cur_obj, role, NULL);
-		g_object_set (eq, "show-r2", FALSE, "show-eq", FALSE, NULL);
+		if (eq)
+			g_object_set (eq, "show-r2", FALSE, "show-eq", FALSE, NULL);
 	}
 
 	return eq;
@@ -1456,9 +1488,12 @@ xlsx_ser_trendline_disprsqr (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean disp = TRUE;
+	GogObject *eq;
 
 	(void)simple_bool (xin, attrs, &disp);
-	g_object_set (xlsx_get_trend_eq (state), "show-r2", disp, NULL);
+	eq = xlsx_get_trend_eq (state);
+	if (eq)
+		g_object_set (eq, "show-r2", disp, NULL);
 }
 
 static void
@@ -1466,9 +1501,12 @@ xlsx_ser_trendline_dispeq (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean disp = TRUE;
+	GogObject *eq;
 
 	(void)simple_bool (xin, attrs, &disp);
-	g_object_set (xlsx_get_trend_eq (state), "show-eq", disp, NULL);
+	eq = xlsx_get_trend_eq (state);
+	if (eq)
+		g_object_set (eq, "show-eq", disp, NULL);
 }
 
 static void
@@ -1480,9 +1518,10 @@ xlsx_ser_smooth (GsfXMLIn *xin, xmlChar const **attrs)
 
 	(void)simple_bool (xin, attrs, &smooth);
 	inter = smooth ? GO_LINE_INTERPOLATION_CUBIC_SPLINE : GO_LINE_INTERPOLATION_LINEAR;
-	g_object_set (state->cur_obj,
-		      "interpolation", go_line_interpolation_as_str (inter),
-		      NULL);
+	if (state->cur_obj)
+		g_object_set (state->cur_obj,
+			      "interpolation", go_line_interpolation_as_str (inter),
+			      NULL);
 }
 
 
@@ -1493,13 +1532,13 @@ xlsx_ser_labels_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean has_val = TRUE;
 
 	(void)simple_bool (xin, attrs, &has_val);
-	if (GOG_IS_SERIES_LABELS (state->cur_obj) && has_val) {
+	if (GOG_IS_SERIES_LABELS (state->cur_obj) && has_val && state->plot != NULL) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
 		g_object_get (state->cur_obj, "format", &f, NULL);
 		/* seems that xl does not show anything else if a custom label is given */
-		if (strstr (f, "%c") != NULL) {
+		if (f != NULL && strstr (f, "%c") != NULL) {
 			g_free (f);
 			return;
 		}
@@ -1522,13 +1561,13 @@ xlsx_ser_labels_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean has_cat = TRUE;
 
 	(void)simple_bool (xin, attrs, &has_cat);
-	if (GOG_IS_SERIES_LABELS (state->cur_obj) && has_cat) {
+	if (GOG_IS_SERIES_LABELS (state->cur_obj) && has_cat && state->plot != NULL) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
 		g_object_get (state->cur_obj, "format", &f, NULL);
 		/* seems that xl does not show anything else if a custom label is given */
-		if (strstr (f, "%c") != NULL) {
+		if (f != NULL && strstr (f, "%c") != NULL) {
 			g_free (f);
 			return;
 		}
@@ -1564,17 +1603,22 @@ xlsx_ser_labels_pos (GsfXMLIn *xin, xmlChar const **attrs)
 
 	/* No documented default.  */
 	(void)simple_enum (xin, attrs, pos, &position);
-	gog_series_labels_set_position (GOG_SERIES_LABELS (state->cur_obj), position);
+	if (GOG_IS_SERIES_LABELS (state->cur_obj))
+		gog_series_labels_set_position (GOG_SERIES_LABELS (state->cur_obj), position);
 }
 
 static void
 xlsx_ser_labels_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GogObject *data = gog_object_add_by_name (GOG_OBJECT (state->series), "Data labels", NULL);
-	GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
-	gog_dataset_set_dim (GOG_DATASET (data), 1, sep, NULL);
-	g_object_set (data, "format", "", "offset", 3, NULL);
+	GogObject *data = state->series
+		? gog_object_add_by_name (GOG_OBJECT (state->series), "Data labels", NULL)
+		: NULL;
+	if (data) {
+		GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
+		gog_dataset_set_dim (GOG_DATASET (data), 1, sep, NULL);
+		g_object_set (data, "format", "", "offset", 3, NULL);
+	}
 	xlsx_chart_push_obj (state, data);
 }
 
@@ -1582,12 +1626,14 @@ static void
 xlsx_ser_labels_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	if (!go_style_is_auto (state->cur_style)) {
+	if (state->cur_style && state->cur_obj &&
+	    !go_style_is_auto (state->cur_style)) {
 		/* NOTE: this is a hack, but seems xl uses something like that */
 		GSList *children, *ptr;
 		children = gog_object_get_children (state->cur_obj, NULL);
 		for (ptr = children; ptr; ptr = ptr->next)
-			if (go_style_is_auto (go_styled_object_get_style (GO_STYLED_OBJECT (ptr->data))))
+			if (GO_IS_STYLED_OBJECT (ptr->data) &&
+			    go_style_is_auto (go_styled_object_get_style (GO_STYLED_OBJECT (ptr->data))))
 			    g_object_set (ptr->data, "style", state->cur_style, NULL);
 		g_slist_free (children);
 	}
@@ -1614,7 +1660,8 @@ xlsx_data_label_pos (GsfXMLIn *xin, xmlChar const **attrs)
 
 	/* No documented default.  */
 	(void)simple_enum (xin, attrs, pos, &position);
-	gog_data_label_set_position (GOG_DATA_LABEL (state->cur_obj), position);
+	if (GOG_IS_DATA_LABEL (state->cur_obj))
+		gog_data_label_set_position (GOG_DATA_LABEL (state->cur_obj), position);
 }
 
 static void
@@ -1622,7 +1669,7 @@ xlsx_data_label_index (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	unsigned index;
-	if (simple_uint (xin, attrs, &index))
+	if (simple_uint (xin, attrs, &index) && GOG_IS_DATA_LABEL (state->cur_obj))
 		g_object_set (state->cur_obj, "index", index, NULL);
 }
 
@@ -1633,13 +1680,13 @@ xlsx_data_label_show_val (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean has_val = TRUE;
 
 	(void)simple_bool (xin, attrs, &has_val);
-	if (GOG_IS_DATA_LABEL (state->cur_obj) && has_val) {
+	if (GOG_IS_DATA_LABEL (state->cur_obj) && has_val && state->plot != NULL) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
 		g_object_get (state->cur_obj, "format", &f, NULL);
 		/* seems that xl does not show anything else if a custom label is given */
-		if (strstr (f, "%c") != NULL) {
+		if (f != NULL && strstr (f, "%c") != NULL) {
 			g_free (f);
 			return;
 		}
@@ -1662,13 +1709,13 @@ xlsx_data_label_show_cat (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean has_cat = TRUE;
 
 	(void)simple_bool (xin, attrs, &has_cat);
-	if (GOG_IS_DATA_LABEL (state->cur_obj) && has_cat) {
+	if (GOG_IS_DATA_LABEL (state->cur_obj) && has_cat && state->plot != NULL) {
 		GogPlotDesc const *desc = gog_plot_description (state->plot);
 		unsigned i;
 		char *f, *new_f;
 		g_object_get (state->cur_obj, "format", &f, NULL);
 		/* seems that xl does not show anything else if a custom label is given */
-		if (strstr (f, "%c") != NULL) {
+		if (f != NULL && strstr (f, "%c") != NULL) {
 			g_free (f);
 			return;
 		}
@@ -1688,10 +1735,14 @@ static void
 xlsx_data_label_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	GogObject *data = gog_object_add_by_name (state->cur_obj, "Point", NULL);
-	GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
-	gog_dataset_set_dim (GOG_DATASET (data), 1, sep, NULL);
-	g_object_set (data, "format", "", "offset", 3, NULL);
+	GogObject *data = state->cur_obj
+		? gog_object_add_by_name (state->cur_obj, "Point", NULL)
+		: NULL;
+	if (data) {
+		GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
+		gog_dataset_set_dim (GOG_DATASET (data), 1, sep, NULL);
+		g_object_set (data, "format", "", "offset", 3, NULL);
+	}
 	xlsx_chart_push_obj (state, data);
 }
 
@@ -1830,6 +1881,7 @@ xlsx_chart_pt_sep (GsfXMLIn *xin, xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	unsigned sep;
 	if (simple_uint (xin, attrs, &sep) &&
+	    state->series_pt != NULL &&
 	    g_object_class_find_property (G_OBJECT_GET_CLASS (state->series_pt), "separation"))
 		g_object_set (state->series_pt, "separation", (double)sep / 100.0, NULL);
 }
@@ -1855,7 +1907,8 @@ xlsx_style_line_start (GsfXMLIn *xin, xmlChar const **attrs)
 		state->cur_style->line.dash_type = GO_LINE_NONE;
 	} else if (w > 0) {
 		state->cur_style->line.auto_width = FALSE;
-		state->cur_style->line.width = w / 12700.;
+		/* 1584pt is the largest width Excel allows.  */
+		state->cur_style->line.width = MIN (w, 1584 * 12700) / 12700.;
 	}
 
 	xlsx_chart_push_color_state (state, XLSX_CS_LINE);
@@ -1916,7 +1969,7 @@ xlsx_draw_grad_linear (GsfXMLIn *xin, xmlChar const **attrs)
 			; /* Nothing */
 	}
 
-	ang_deg = ((ang + 30000) / 60000);
+	ang_deg = (int)(((gint64)ang + 30000) / 60000);
 	for (dir = 0; dir < GO_GRADIENT_MAX; dir++) {
 		int this_ang = xlsx_gradient_info[dir].angle;
 		gboolean this_mirrored = xlsx_gradient_info[dir].mirrored;
@@ -2078,6 +2131,8 @@ xlsx_draw_patt_fill (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 
+	if (!state->cur_style)
+		return;
 	state->cur_style->fill.type = GO_STYLE_FILL_PATTERN;
 	state->cur_style->fill.auto_type = (pat < 0);
 	state->cur_style->fill.pattern.pattern = (pat < 0 ? GO_PATTERN_SOLID : pat);
@@ -2106,12 +2161,14 @@ xlsx_draw_line_headtail (GsfXMLIn *xin, xmlChar const **attrs)
 	gboolean is_tail = xin->node->user_data.v_int;
 
 	static EnumVal const types[] = {
-		{ "arrow", GO_ARROW_KITE },
-		{ "diamond", GO_ARROW_KITE },
-		{ "none", GO_ARROW_NONE },
-		{ "oval", GO_ARROW_OVAL },
-		{ "stealth", GO_ARROW_KITE },
-		{ "triangle", GO_ARROW_KITE },
+		/* These are XLArrowType values, which is what
+		   xls_arrow_from_xl wants, not GOArrowType ones.  */
+		{ "arrow", XL_ARROW_OPEN },	/* open arrowhead; matches the writer */
+		{ "diamond", XL_ARROW_DIAMOND },
+		{ "none", XL_ARROW_NONE },
+		{ "oval", XL_ARROW_OVAL },
+		{ "stealth", XL_ARROW_STEALTH },
+		{ "triangle", XL_ARROW_REGULAR },
 		{ NULL, 0 }
 	};
 	static EnumVal const sizes[] = {
@@ -2131,7 +2188,7 @@ xlsx_draw_line_headtail (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 	}
 
-	if (GNM_IS_SO_LINE (state->so)) {
+	if (GNM_IS_SO_LINE (state->so) && state->cur_style != NULL) {
 		GOArrow arrow;
 		GOStyle const *style = state->cur_style;
 		double width = style->line.auto_width ? 0 : style->line.width;
@@ -2207,11 +2264,10 @@ xlsx_chart_marker_symbol (GsfXMLIn *xin, xmlChar const **attrs)
 
 	simple_enum (xin, attrs, symbols, &symbol);
 	if (NULL != state->marker) {
-		if (symbol < GO_MARKER_MAX) {
+		if (symbol < GO_MARKER_MAX)
 			go_marker_set_shape (state->marker, symbol);
-			state->cur_style->marker.auto_shape = FALSE;
-		} else
-			state->cur_style->marker.auto_shape = TRUE;
+		if (state->cur_style)
+			state->cur_style->marker.auto_shape = (symbol >= GO_MARKER_MAX);
 	}
 }
 
@@ -2283,6 +2339,13 @@ xlsx_chart_layout_manual (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	alloc.y = state->chart_pos[2];
 	alloc.h = state->chart_pos[3];
 
+	if (!go_finite (alloc.x) || !go_finite (alloc.y) ||
+	    !go_finite (alloc.w) || !go_finite (alloc.h)) {
+		/* Incomplete or invalid layout; ignore it.  */
+		xlsx_reset_chart_pos (state);
+		return;
+	}
+
 	if (state->cur_obj == NULL) {
 		/* plot area position, see xlsx_plot_area() and #748016 */
 
@@ -2295,7 +2358,7 @@ xlsx_chart_layout_manual (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			alloc.h = 1;
 		}
 
-		if (state->chart_pos_target) {/* inner mode */
+		if (state->chart_pos_target && state->chart) {/* inner mode */
 			gog_chart_set_plot_area (state->chart, &alloc);
 		}
 		/* else FIXME: how can we deal cleanly with an outer target? */
@@ -2387,7 +2450,7 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 			start_arrow->b = f;
 		} else if (start_arrow && attr_float (xin, attrs, "StartArrowShapeC", &f)) {
 			start_arrow->c = f;
-		} else if (start_arrow && attr_eq (attrs[0], "EndArrowType")) {
+		} else if (end_arrow && attr_eq (attrs[0], "EndArrowType")) {
 			end_arrow->typ = go_arrow_type_from_str (CXML2C (attrs[1]));
 		} else if (end_arrow && attr_float (xin, attrs, "EndArrowShapeA", &f)) {
 			end_arrow->a = f;
@@ -2403,7 +2466,8 @@ xlsx_ext_gostyle (GsfXMLIn *xin, xmlChar const **attrs)
 				style->marker.auto_shape = TRUE;
 			} else {
 				style->marker.auto_shape = FALSE;
-				go_marker_set_shape (state->marker, go_marker_shape_from_str (s));
+				if (state->marker)
+					go_marker_set_shape (state->marker, go_marker_shape_from_str (s));
 			}
 		} else if (attr_eq (attrs[0], "dashType")) {
 			const char *s = CXML2C (attrs[1]);
