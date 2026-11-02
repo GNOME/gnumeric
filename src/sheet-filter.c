@@ -947,6 +947,34 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 	gnm_filter_update_active (filter);
 }
 
+
+/**
+ * gnm_filter_set_condition_checked:
+ * @filter: (nullable):
+ * @i:
+ * @cond: (transfer full) (nullable): #GnmFilterCondition
+ * @apply:
+ *
+ * Like gnm_filter_set_condition, but null @filter or out-of-range @i is
+ * allowed.  The ownership of @cond is consumed regardless.
+ *
+ * Returns: %TRUE if the condition was set.
+ **/
+gboolean
+gnm_filter_set_condition_checked (GnmFilter *filter, unsigned i,
+				  GnmFilterCondition *cond,
+				  gboolean apply)
+{
+	if (filter == NULL || i >= filter->fields->len)
+		return FALSE;
+	else {
+		gnm_filter_set_condition (filter, i, cond, apply);
+		return TRUE;
+	}
+}
+
+
+
 /**
  * gnm_filter_overlaps_range:
  * @filter: #GnmFilter

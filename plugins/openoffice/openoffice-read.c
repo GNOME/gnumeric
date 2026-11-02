@@ -8307,13 +8307,8 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 			break;
 		}
 		value_release (v);
-		if (NULL != cond) {
-			/* Only takes ownership of cond when the field exists */
-			if ((unsigned)field_num < state->filter->fields->len)
-				gnm_filter_set_condition  (state->filter, field_num, cond, FALSE);
-			else
-				gnm_filter_condition_free (cond);
-		}
+		if (NULL != cond)
+			gnm_filter_set_condition_checked (state->filter, field_num, cond, FALSE);
 	}
 }
 

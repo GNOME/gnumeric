@@ -2586,7 +2586,7 @@ xml_sax_filter_condition (GsfXMLIn *xin, xmlChar const **attrs)
 		go_io_warning (state->context, _("Unknown filter type \"%s\""), type);
 	}
 	if (cond != NULL)
-		gnm_filter_set_condition (state->filter, cond_num, cond, FALSE);
+		gnm_filter_set_condition_checked (state->filter, cond_num, cond, FALSE);
 }
 
 static void

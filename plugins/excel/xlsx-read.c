@@ -2529,21 +2529,6 @@ xlsx_CT_CustomFilters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->filter_items = NULL;
 }
 
-/* gnm_filter_set_condition takes ownership only on success.  */
-static void
-xlsx_filter_set_condition (XLSXReadState *state, GnmFilterCondition *cond)
-{
-	if (cond == NULL)
-		return;
-	if (state->filter != NULL &&
-	    state->filter_cur_field >= 0 &&
-	    (unsigned)state->filter_cur_field < state->filter->fields->len)
-		gnm_filter_set_condition (state->filter, state->filter_cur_field,
-					  cond, FALSE);
-	else
-		gnm_filter_condition_free (cond);
-}
-
 static void
 xlsx_CT_CustomFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
@@ -2576,7 +2561,9 @@ xlsx_CT_CustomFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const *
 	}
 
 	cond = gnm_filter_condition_new_single (op, v);
-	xlsx_filter_set_condition (state, cond);
+	if (cond)
+		gnm_filter_set_condition_checked (state->filter, state->filter_cur_field,
+						  cond, FALSE);
 }
 
 static void
@@ -2598,7 +2585,9 @@ xlsx_CT_Top10 (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	cond = gnm_filter_condition_new_bucket (top, !percent, FALSE, val);
-	xlsx_filter_set_condition (state, cond);
+	if (cond)
+		gnm_filter_set_condition_checked (state->filter, state->filter_cur_field,
+						  cond, FALSE);
 }
 
 static void
