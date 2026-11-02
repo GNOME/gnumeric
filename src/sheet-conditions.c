@@ -139,6 +139,13 @@ cb_being_loaded (Sheet *sheet)
 		sheet_conditions_simplify (sheet);
 }
 
+/**
+ * sheet_conditions_init:
+ * @sheet: the #Sheet to initialize
+ *
+ * Initializes the conditional styling data for @sheet and hooks it into the
+ * workbook's load notification.
+ **/
 void
 sheet_conditions_init (Sheet *sheet)
 {
@@ -170,6 +177,13 @@ sheet_conditions_init (Sheet *sheet)
 }
 
 
+/**
+ * sheet_conditions_uninit:
+ * @sheet: the #Sheet to clean up
+ *
+ * Releases the conditional styling data for @sheet, including its dependent
+ * styles and linked conditions.
+ **/
 void
 sheet_conditions_uninit (Sheet *sheet)
 {
@@ -251,6 +265,13 @@ sheet_conditions_share_conditions_remove (GnmStyleConditions *conds)
 
 // ----------------------------------------------------------------------------
 
+/**
+ * sheet_conditions_simplify:
+ * @sheet: the #Sheet to simplify
+ *
+ * Coalesces the ranges in every conditional styling group of @sheet that is
+ * marked as needing simplification.
+ **/
 void
 sheet_conditions_simplify (Sheet *sheet)
 {
@@ -273,6 +294,13 @@ sheet_conditions_simplify (Sheet *sheet)
 	cd->needs_simplify = FALSE;
 }
 
+/**
+ * sheet_conditions_dump:
+ * @sheet: the #Sheet to dump
+ *
+ * Writes a debugging dump of the conditional styling of @sheet to standard
+ * error.
+ **/
 void
 sheet_conditions_dump (Sheet *sheet)
 {
@@ -333,6 +361,15 @@ find_group (GnmSheetConditionsData *cd, GnmStyle *style)
 }
 
 
+/**
+ * sheet_conditions_add:
+ * @sheet: the #Sheet to modify
+ * @r: the range to which the conditional style applies
+ * @style: (transfer none): the style holding the conditions
+ *
+ * Adds @r to the conditional styling group associated with the conditions of
+ * @style, creating the group if necessary.
+ **/
 void
 sheet_conditions_add (Sheet *sheet, GnmRange const *r, GnmStyle *style)
 {
@@ -362,6 +399,15 @@ sheet_conditions_add (Sheet *sheet, GnmRange const *r, GnmStyle *style)
 		update_group (g);
 }
 
+/**
+ * sheet_conditions_remove:
+ * @sheet: the #Sheet to modify
+ * @r: the range from which to remove the conditional style
+ * @style: (transfer none): the style holding the conditions
+ *
+ * Removes the overlap between @r and the conditional styling group
+ * associated with the conditions of @style.
+ **/
 void
 sheet_conditions_remove (Sheet *sheet, GnmRange const *r, GnmStyle *style)
 {
@@ -455,6 +501,15 @@ lu1 (GnmDependent *dep, gboolean qlink)
 		dependent_unlink (dep);
 }
 
+/**
+ * sheet_conditions_link_unlink_dependents:
+ * @sheet: the #Sheet to modify
+ * @r: (nullable): the range of interest, or %NULL for all ranges
+ * @qlink: %TRUE to link dependents, %FALSE to unlink them
+ *
+ * Links or unlinks the expressions in all conditional styling groups of
+ * @sheet that overlap @r.
+ **/
 void
 sheet_conditions_link_unlink_dependents (Sheet *sheet,
 					 GnmRange const *r,

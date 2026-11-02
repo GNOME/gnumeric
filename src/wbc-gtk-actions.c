@@ -1939,7 +1939,7 @@ static GNM_ACTION_DEF (cb_format_row_unhide)
 
 static GNM_ACTION_DEF (cb_file_menu)
 {
-	wbc_gtk_load_templates (wbcg);
+	wbcg_load_templates (wbcg);
 }
 
 static GNM_ACTION_DEF (cb_insert_menu)

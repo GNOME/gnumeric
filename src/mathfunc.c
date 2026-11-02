@@ -4105,6 +4105,22 @@ R_ptukey(gnm_float q, gnm_float rr, gnm_float cc, gnm_float df,
 }
 
 /* Silly order-of-arguments wrapper.  */
+/**
+ * ptukey:
+ * @x: the studentized range value
+ * @nmeans: the number of means
+ * @df: the degrees of freedom
+ * @nranges: the number of ranges
+ * @lower_tail: if %TRUE, return the lower-tail probability; otherwise
+ * return the upper-tail probability
+ * @log_p: if %TRUE, return the logarithm of the probability
+ *
+ * Computes the cumulative distribution function of the studentized range
+ * distribution.
+ *
+ * Returns: the requested tail probability, or its logarithm if @log_p is
+ * %TRUE.
+ */
 gnm_float
 ptukey(gnm_float x, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean lower_tail, gboolean log_p)
 {
@@ -4118,6 +4134,21 @@ ptukey1 (gnm_float x, const gnm_float shape[],
 	return ptukey (x, shape[0], shape[1], shape[2], lower_tail, log_p);
 }
 
+/**
+ * qtukey:
+ * @p: the probability
+ * @nmeans: the number of means
+ * @df: the degrees of freedom
+ * @nranges: the number of ranges
+ * @lower_tail: if %TRUE, @p is a lower-tail probability; otherwise it is an
+ * upper-tail probability
+ * @log_p: if %TRUE, @p is the logarithm of a probability
+ *
+ * Computes the quantile function of the studentized range distribution.
+ *
+ * Returns: the value @x such that the requested tail probability of the
+ * studentized range distribution equals @p.
+ */
 gnm_float
 qtukey (gnm_float p, gnm_float nmeans, gnm_float df, gnm_float nranges, gboolean lower_tail, gboolean log_p)
 {

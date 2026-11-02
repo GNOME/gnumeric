@@ -4512,7 +4512,7 @@ wbc_gtk_reload_templates (WBCGtk *gtk)
 }
 
 gboolean
-wbc_gtk_load_templates (WBCGtk *wbcg)
+wbcg_load_templates (WBCGtk *wbcg)
 {
 	if (wbcg->templates.merge_id == 0) {
 		wbc_gtk_reload_templates (wbcg);
@@ -5327,7 +5327,7 @@ wbc_gtk_new (WorkbookView *optional_view,
 	   "Templates" menu is empty (and thus not shown) until the
 	   update is done. */
 	wbcg->template_loader_handler =
-		g_timeout_add (1000, (GSourceFunc)wbc_gtk_load_templates, wbcg);
+		g_timeout_add (1000, (GSourceFunc)wbcg_load_templates, wbcg);
 
 	wb_control_init_state (wbc);
 	return wbcg;

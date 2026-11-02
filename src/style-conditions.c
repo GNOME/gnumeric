@@ -119,6 +119,16 @@ gnm_style_cond_is_valid (GnmStyleCond const *cond)
 	return TRUE;
 }
 
+/**
+ * gnm_style_cond_new:
+ * @op: the condition operation
+ * @sheet: the #Sheet the condition belongs to
+ *
+ * Creates a new style condition with the given operation and no expressions
+ * or overlay.
+ *
+ * Returns: (transfer full): the new #GnmStyleCond.
+ **/
 GnmStyleCond *
 gnm_style_cond_new (GnmStyleCondOp op, Sheet *sheet)
 {
@@ -173,6 +183,12 @@ gnm_style_cond_dup (GnmStyleCond const *src)
 	return gnm_style_cond_dup_to (src, gnm_style_cond_get_sheet (src));
 }
 
+/**
+ * gnm_style_cond_free:
+ * @cond: (transfer full): the #GnmStyleCond to free
+ *
+ * Releases the overlay and expressions of @cond and frees it.
+ **/
 void
 gnm_style_cond_free (GnmStyleCond *cond)
 {
@@ -231,6 +247,15 @@ gnm_style_cond_get_expr (GnmStyleCond const *cond, unsigned idx)
 	return cond->deps[idx].base.texpr;
 }
 
+/**
+ * gnm_style_cond_set_expr:
+ * @cond: the #GnmStyleCond to modify
+ * @texpr: (transfer none) (nullable): the new expression, or %NULL to clear it
+ * @idx: index of the operand, 0 or 1
+ *
+ * Sets operand @idx of @cond to @texpr.  The condition takes its own
+ * reference.
+ **/
 void
 gnm_style_cond_set_expr (GnmStyleCond *cond,
 			 GnmExprTop const *texpr,
@@ -244,6 +269,15 @@ gnm_style_cond_set_expr (GnmStyleCond *cond,
 		dependent_link (&cond->deps[idx].base);
 }
 
+/**
+ * gnm_style_cond_set_overlay:
+ * @cond: the #GnmStyleCond to modify
+ * @overlay: (transfer none) (nullable): the overlay #GnmStyle, or %NULL to
+ * clear it
+ *
+ * Sets the style overlay of @cond, releasing any previous overlay.  The
+ * condition takes its own reference.
+ **/
 void
 gnm_style_cond_set_overlay (GnmStyleCond *cond, GnmStyle *overlay)
 {
@@ -714,6 +748,14 @@ gnm_style_cond_set_pos (GnmStyleCond *sc, GnmCellPos const *pos)
 }
 
 // For debugging purposes
+/**
+ * gnm_style_cond_as_string:
+ * @cond: the #GnmStyleCond to format
+ *
+ * Creates a textual representation of @cond for debugging.
+ *
+ * Returns: (transfer full): the representation; free with g_free().
+ **/
 char *
 gnm_style_cond_as_string (GnmStyleCond const *cond)
 {
@@ -882,6 +924,15 @@ gnm_style_conditions_dup (GnmStyleConditions const *sc)
   H ^= (H >> 31);				\
 } while (0)
 
+/**
+ * gnm_style_conditions_hash:
+ * @sc: the #GnmStyleConditions to hash
+ *
+ * Computes a hash value for @sc based on its operations and overlays.  The
+ * hash deliberately does not depend on the expressions or the sheet.
+ *
+ * Returns: the hash value.
+ **/
 guint32
 gnm_style_conditions_hash (GnmStyleConditions const *sc)
 {
@@ -1017,6 +1068,14 @@ gnm_style_conditions_insert (GnmStyleConditions *sc,
 	}
 }
 
+/**
+ * gnm_style_conditions_delete:
+ * @sc: the #GnmStyleConditions to modify
+ * @pos: index of the condition to delete
+ *
+ * Deletes the condition at @pos, frees it, and releases the condition array
+ * if it becomes empty.
+ **/
 void
 gnm_style_conditions_delete (GnmStyleConditions *sc, guint pos)
 {

@@ -2729,6 +2729,17 @@ gnm_bessel_y_phase (gnm_float x, gnm_float nu)
 
 /* ------------------------------------------------------------------------ */
 
+/**
+ * gnm_bessel_i:
+ * @x: the argument
+ * @alpha: the order
+ *
+ * Computes the modified Bessel function of the first kind, I_@alpha(@x).
+ * Negative @x is only supported for integer @alpha, in which case the
+ * symmetry of the function is used.
+ *
+ * Returns: the function value, or NaN for unsupported arguments.
+ */
 gnm_float
 gnm_bessel_i (gnm_float x, gnm_float alpha)
 {
@@ -2751,6 +2762,17 @@ gnm_bessel_i (gnm_float x, gnm_float alpha)
 		return bessel_i (x, alpha, 1);
 }
 
+/**
+ * gnm_bessel_j:
+ * @x: the argument
+ * @alpha: the order
+ *
+ * Computes the Bessel function of the first kind, J_@alpha(@x).  Negative
+ * @x is only supported for integer @alpha, in which case the symmetry of the
+ * function is used.
+ *
+ * Returns: the function value, or NaN for unsupported arguments.
+ */
 gnm_float
 gnm_bessel_j (gnm_float x, gnm_float alpha)
 {
@@ -2771,12 +2793,33 @@ gnm_bessel_j (gnm_float x, gnm_float alpha)
 	}
 }
 
+/**
+ * gnm_bessel_k:
+ * @x: the argument
+ * @alpha: the order
+ *
+ * Computes the modified Bessel function of the second kind, K_@alpha(@x).
+ * Negative @x is not supported.
+ *
+ * Returns: the function value, or NaN for unsupported arguments.
+ */
 gnm_float
 gnm_bessel_k (gnm_float x, gnm_float alpha)
 {
 	return bessel_k (x, alpha, 1);
 }
 
+/**
+ * gnm_bessel_y:
+ * @x: the argument
+ * @alpha: the order
+ *
+ * Computes the Bessel function of the second kind, Y_@alpha(@x).  Negative
+ * @x is only supported for integer @alpha, in which case the symmetry of the
+ * function is used.
+ *
+ * Returns: the function value, or NaN for unsupported arguments.
+ */
 gnm_float
 gnm_bessel_y (gnm_float x, gnm_float alpha)
 {

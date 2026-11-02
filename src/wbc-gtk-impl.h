@@ -166,7 +166,7 @@ void	 wbc_gtk_markup_changer	(WBCGtk *wbcg);
 
 void     wbcg_font_action_set_font_desc (GtkAction *act, PangoFontDescription *desc);
 
-gboolean wbc_gtk_load_templates (WBCGtk *gtk);
+gboolean wbcg_load_templates (WBCGtk *gtk);
 
 GtkAction *wbcg_find_action (WBCGtk *wbcg, const char *name);
 

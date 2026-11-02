@@ -137,6 +137,14 @@ gnm_solver_problem_type_get_type (void)
 
 static GObjectClass *gnm_solver_parent_class;
 
+/**
+ * gnm_solver_constraint_new:
+ * @sheet: (nullable): the default sheet for cell references
+ *
+ * Creates a new solver constraint with empty left- and right-hand sides.
+ *
+ * Returns: (transfer full): the new constraint
+ */
 GnmSolverConstraint *
 gnm_solver_constraint_new (Sheet *sheet)
 {
@@ -146,6 +154,12 @@ gnm_solver_constraint_new (Sheet *sheet)
 	return res;
 }
 
+/**
+ * gnm_solver_constraint_free:
+ * @c: (transfer full): the constraint to free
+ *
+ * Frees @c and the expressions it holds.
+ */
 void
 gnm_solver_constraint_free (GnmSolverConstraint *c)
 {
@@ -154,6 +168,13 @@ gnm_solver_constraint_free (GnmSolverConstraint *c)
 	g_free (c);
 }
 
+/**
+ * gnm_solver_constraint_dup:
+ * @c: the constraint to duplicate
+ * @sheet: (nullable): the sheet to use for the duplicate
+ *
+ * Returns: (transfer full): a copy of @c using @sheet
+ */
 GnmSolverConstraint *
 gnm_solver_constraint_dup (GnmSolverConstraint *c, Sheet *sheet)
 {
@@ -182,6 +203,13 @@ gnm_solver_constraint_get_type (void)
 	return t;
 }
 
+/**
+ * gnm_solver_constraint_equal:
+ * @a: one constraint
+ * @b: another constraint
+ *
+ * Returns: %TRUE if @a and @b are equal
+ */
 gboolean
 gnm_solver_constraint_equal (GnmSolverConstraint const *a,
 			     GnmSolverConstraint const *b)
@@ -192,6 +220,12 @@ gnm_solver_constraint_equal (GnmSolverConstraint const *a,
 		 gnm_expr_top_equal (a->rhs.base.texpr, b->rhs.base.texpr)));
 }
 
+/**
+ * gnm_solver_constraint_has_rhs:
+ * @c: a constraint
+ *
+ * Returns: %TRUE if @c has a right-hand side
+ */
 gboolean
 gnm_solver_constraint_has_rhs (GnmSolverConstraint const *c)
 {
@@ -209,6 +243,15 @@ gnm_solver_constraint_has_rhs (GnmSolverConstraint const *c)
 	}
 }
 
+/**
+ * gnm_solver_constraint_valid:
+ * @c: a constraint
+ * @sp: the solver parameters that @c belongs to
+ *
+ * Checks that @c is structurally valid and fits the input range of @sp.
+ *
+ * Returns: %TRUE if @c is valid
+ */
 gboolean
 gnm_solver_constraint_valid (GnmSolverConstraint const *c,
 			     GnmSolverParameters const *sp)
@@ -384,6 +427,20 @@ gnm_solver_constraint_get_part (GnmSolverConstraint const *c,
 	return TRUE;
 }
 
+/**
+ * gnm_solver_constraint_set_old:
+ * @c: the constraint to modify
+ * @type: the constraint type
+ * @lhs_col: column of the left-hand side
+ * @lhs_row: row of the left-hand side
+ * @rhs_col: column of the right-hand side
+ * @rhs_row: row of the right-hand side
+ * @cols: number of columns in both sides
+ * @rows: number of rows in both sides
+ *
+ * Sets @c from the old-style cell layout used by file loaders.  The cell
+ * references are relative to the default sheet of @c.
+ */
 void
 gnm_solver_constraint_set_old (GnmSolverConstraint *c,
 			       GnmSolverConstraintType type,
@@ -411,6 +468,15 @@ gnm_solver_constraint_set_old (GnmSolverConstraint *c,
 		gnm_solver_constraint_set_rhs (c, NULL);
 }
 
+/**
+ * gnm_solver_constraint_side_as_str:
+ * @c: a constraint
+ * @sheet: the sheet to use for formatting cell references
+ * @buf: the string to append to
+ * @lhs: %TRUE for the left-hand side, %FALSE for the right-hand side
+ *
+ * Appends a textual representation of one side of @c to @buf.
+ */
 void
 gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
 				   Sheet const *sheet,
@@ -433,6 +499,13 @@ gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
 						   sheet->convs->output.translated));
 }
 
+/**
+ * gnm_solver_constraint_as_str:
+ * @c: a constraint
+ * @sheet: the sheet to use for formatting cell references
+ *
+ * Returns: (transfer full): a textual representation of @c
+ */
 char *
 gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet)
 {
@@ -458,6 +531,15 @@ gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet)
 	return g_string_free (buf, FALSE);
 }
 
+/**
+ * gnm_solver_constraint_part_as_str:
+ * @c: a constraint
+ * @i: the index of the part
+ * @sp: the solver parameters that @c belongs to
+ *
+ * Returns: (transfer full) (nullable): a textual representation of the
+ * @i'th part of @c, or %NULL if there is no such part
+ */
 char *
 gnm_solver_constraint_part_as_str (GnmSolverConstraint const *c, int i,
 				   GnmSolverParameters *sp)
@@ -512,6 +594,12 @@ enum {
 
 static GObjectClass *gnm_solver_param_parent_class;
 
+/**
+ * gnm_solver_param_new:
+ * @sheet: (nullable): the default sheet for cell references
+ *
+ * Returns: (transfer full): a new solver parameters object
+ */
 GnmSolverParameters *
 gnm_solver_param_new (Sheet *sheet)
 {
@@ -556,6 +644,13 @@ gnm_solver_param_dup (GnmSolverParameters *src, Sheet *new_sheet)
 	return dst;
 }
 
+/**
+ * gnm_solver_param_equal:
+ * @a: one parameters object
+ * @b: another parameters object
+ *
+ * Returns: %TRUE if @a and @b are equal
+ */
 gboolean
 gnm_solver_param_equal (GnmSolverParameters const *a,
 			GnmSolverParameters const *b)
@@ -654,6 +749,13 @@ gnm_solver_param_get_input_cells (GnmSolverParameters const *sp)
 	return input_cells;
 }
 
+/**
+ * gnm_solver_param_set_target:
+ * @sp: the parameters to modify
+ * @cr: (nullable): the target cell reference, or %NULL to clear the target
+ *
+ * Sets the target cell of @sp.  The reference is made absolute.
+ */
 void
 gnm_solver_param_set_target (GnmSolverParameters *sp, GnmCellRef const *cr)
 {
@@ -672,6 +774,12 @@ gnm_solver_param_set_target (GnmSolverParameters *sp, GnmCellRef const *cr)
 		dependent_managed_set_expr (&sp->target, NULL);
 }
 
+/**
+ * gnm_solver_param_get_target:
+ * @sp: a parameters object
+ *
+ * Returns: (transfer none) (nullable): the target cell reference, or %NULL
+ */
 const GnmCellRef *
 gnm_solver_param_get_target (GnmSolverParameters const *sp)
 {
@@ -680,6 +788,13 @@ gnm_solver_param_get_target (GnmSolverParameters const *sp)
 		: NULL;
 }
 
+/**
+ * gnm_solver_param_get_target_cell:
+ * @sp: a parameters object
+ *
+ * Returns: (transfer none) (nullable): the target cell, or %NULL if there is
+ * no target or it does not exist
+ */
 GnmCell *
 gnm_solver_param_get_target_cell (GnmSolverParameters const *sp)
 {
@@ -691,6 +806,11 @@ gnm_solver_param_get_target_cell (GnmSolverParameters const *sp)
 			       cr->col, cr->row);
 }
 
+/**
+ * gnm_solver_param_set_algorithm:
+ * @sp: the parameters to modify
+ * @algo: (nullable): the solver factory to use, or %NULL
+ */
 void
 gnm_solver_param_set_algorithm (GnmSolverParameters *sp,
 				GnmSolverFactory *algo)
@@ -698,6 +818,15 @@ gnm_solver_param_set_algorithm (GnmSolverParameters *sp,
 	sp->options.algorithm = algo;
 }
 
+/**
+ * gnm_solver_param_valid:
+ * @sp: the parameters to check
+ * @err: (out) (nullable) (optional): location to store an error, or %NULL
+ *
+ * Checks that @sp has a valid target, input range, and constraints.
+ *
+ * Returns: %TRUE if @sp is valid
+ */
 gboolean
 gnm_solver_param_valid (GnmSolverParameters const *sp, GError **err)
 {
@@ -1149,6 +1278,13 @@ current_time (void)
 }
 
 
+/**
+ * gnm_solver_elapsed:
+ * @solver: a solver
+ *
+ * Returns: the number of seconds @solver has been running, or 0 if it has not
+ * started
+ */
 double
 gnm_solver_elapsed (GnmSolver *solver)
 {
@@ -1166,6 +1302,15 @@ gnm_solver_elapsed (GnmSolver *solver)
 	return endtime - solver->starttime;
 }
 
+/**
+ * gnm_solver_check_timeout:
+ * @solver: a solver
+ *
+ * Checks whether @solver has exceeded its time limit.  If so, stops it and
+ * records "Timeout" as the reason.
+ *
+ * Returns: %TRUE if the time limit was exceeded
+ */
 gboolean
 gnm_solver_check_timeout (GnmSolver *solver)
 {
@@ -1187,6 +1332,13 @@ gnm_solver_check_timeout (GnmSolver *solver)
 	return TRUE;
 }
 
+/**
+ * gnm_solver_store_result:
+ * @solver: a solver
+ *
+ * Stores the solution in the input cells.  If no solution is available,
+ * stores #GNM_ERROR_NA instead.
+ */
 void
 gnm_solver_store_result (GnmSolver *sol)
 {
@@ -1209,6 +1361,12 @@ gnm_solver_store_result (GnmSolver *sol)
 	}
 }
 
+/**
+ * gnm_solver_finished:
+ * @solver: a solver
+ *
+ * Returns: %TRUE if @sol has finished, failed, or been cancelled
+ */
 gboolean
 gnm_solver_finished (GnmSolver *sol)
 {
@@ -1229,6 +1387,13 @@ gnm_solver_finished (GnmSolver *sol)
 	}
 }
 
+/**
+ * gnm_solver_set_status:
+ * @solver: the solver to modify
+ * @status: the new status
+ *
+ * Sets the status of @solver and updates the running time.
+ */
 void
 gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status)
 {
@@ -1256,6 +1421,13 @@ gnm_solver_set_status (GnmSolver *solver, GnmSolverStatus status)
 			      NULL);
 }
 
+/**
+ * gnm_solver_set_reason:
+ * @solver: the solver to modify
+ * @reason: (nullable): the new reason, or %NULL
+ *
+ * Sets the human-readable reason for the current status of @solver.
+ */
 void
 gnm_solver_set_reason (GnmSolver *solver, const char *reason)
 {
@@ -1274,6 +1446,12 @@ gnm_solver_set_reason (GnmSolver *solver, const char *reason)
 }
 
 
+/**
+ * gnm_solver_has_solution:
+ * @solver: a solver
+ *
+ * Returns: %TRUE if @solver has a feasible or optimal solution
+ */
 gboolean
 gnm_solver_has_solution (GnmSolver *solver)
 {
@@ -1301,6 +1479,15 @@ get_cell_value (GnmCell *cell)
 		: gnm_nan;
 }
 
+/**
+ * gnm_solver_check_constraints:
+ * @solver: a solver
+ *
+ * Checks the current values of the input cells against the constraints of
+ * @solver, including the non-negative and discrete assumptions.
+ *
+ * Returns: %TRUE if all constraints are satisfied and the target is numeric
+ */
 gboolean
 gnm_solver_check_constraints (GnmSolver *solver)
 {
@@ -1382,6 +1569,20 @@ gnm_solver_check_constraints (GnmSolver *solver)
 	return TRUE;
 }
 
+/**
+ * gnm_solver_saveas:
+ * @solver: a solver
+ * @wbc: the workbook control
+ * @fs: the file saver to use
+ * @templ: (nullable): template for the temporary file name
+ * @filename: (out) (transfer full): location to store the created file name
+ * @err: (out) (nullable) (optional): location to store an error, or %NULL
+ *
+ * Saves the current workbook as a temporary file using @fs.  The name of the
+ * file is returned in @filename.
+ *
+ * Returns: %TRUE on success
+ */
 gboolean
 gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 		   GOFileSaver *fs,
@@ -1435,6 +1636,14 @@ gnm_solver_saveas (GnmSolver *solver, WorkbookControl *wbc,
 	return TRUE;
 }
 
+/**
+ * gnm_solver_cell_index:
+ * @solver: a solver
+ * @cell: a cell
+ *
+ * Returns: the index of @cell among the input cells of @solver, or -1 if it is
+ * not an input cell
+ */
 int
 gnm_solver_cell_index (GnmSolver *solver, GnmCell const *cell)
 {
@@ -1963,6 +2172,15 @@ gnm_solver_create_sensitivity_report (GnmSolver *solver, WorkbookControl *wbc, c
 	dao_free (dao);
 }
 
+/**
+ * gnm_solver_create_report:
+ * @solver: a solver
+ * @wbc: the workbook control
+ * @name: printf-style format for report sheet names
+ *
+ * Creates the program and sensitivity reports requested by the options of
+ * @solver.
+ */
 void
 gnm_solver_create_report (GnmSolver *solver, WorkbookControl *wbc, const char *base)
 {
@@ -1999,6 +2217,14 @@ gnm_solver_get_target_value (GnmSolver *solver)
 	return solver->flip_sign ? 0 - y : y;
 }
 
+/**
+ * gnm_solver_set_var:
+ * @sol: a solver
+ * @i: index of the input cell to set
+ * @x: the new value
+ *
+ * Sets input cell @i of @sol and queues a recalculation.
+ */
 void
 gnm_solver_set_var (GnmSolver *sol, int i, gnm_float x)
 {
@@ -2013,6 +2239,13 @@ gnm_solver_set_var (GnmSolver *sol, int i, gnm_float x)
 	gnm_cell_queue_recalc (cell);
 }
 
+/**
+ * gnm_solver_set_vars:
+ * @sol: a solver
+ * @xs: (array): the new values for all input cells, in input-cell order
+ *
+ * Sets all input cells of @sol and queues recalculations.
+ */
 void
 gnm_solver_set_vars (GnmSolver *sol, gnm_float const *xs)
 {
@@ -2858,6 +3091,12 @@ gnm_solver_sensitivity_class_init (GObjectClass *object_class)
 GSF_CLASS (GnmSolverSensitivity, gnm_solver_sensitivity,
 	   gnm_solver_sensitivity_class_init, NULL, G_TYPE_OBJECT)
 
+/**
+ * gnm_solver_sensitivity_new:
+ * @sol: a solver
+ *
+ * Returns: (transfer full): a new sensitivity object for @sol
+ */
 GnmSolverSensitivity *
 gnm_solver_sensitivity_new (GnmSolver *sol)
 {
@@ -2875,6 +3114,14 @@ enum {
 
 static guint sub_solver_signals[SUB_SOL_SIG_LAST] = { 0 };
 
+/**
+ * gnm_sub_solver_clear:
+ * @subsol: a subprocess solver
+ *
+ * Terminates any running child process, closes its channels, removes its
+ * temporary file, and clears the name maps.  This is safe to call more than
+ * once.
+ */
 void
 gnm_sub_solver_clear (GnmSubSolver *subsol)
 {
@@ -3109,6 +3356,17 @@ fail:
 	return FALSE;
 }
 
+/**
+ * gnm_sub_solver_name_cell:
+ * @subsol: a subprocess solver
+ * @cell: the cell to name
+ * @name: the name to assign
+ *
+ * Assigns @name to @cell and returns the interned copy of the name.  If
+ * @name is already assigned to a different cell, a warning is issued.
+ *
+ * Returns: (transfer none): the interned name
+ */
 const char *
 gnm_sub_solver_name_cell (GnmSubSolver *subsol, GnmCell const *cell,
 			  const char *name)
@@ -3140,12 +3398,26 @@ gnm_sub_solver_name_cell (GnmSubSolver *subsol, GnmCell const *cell,
 	return name_copy;
 }
 
+/**
+ * gnm_sub_solver_find_cell:
+ * @subsol: a subprocess solver
+ * @name: the name to look up
+ *
+ * Returns: (transfer none) (nullable): the cell named @name, or %NULL
+ */
 GnmCell *
 gnm_sub_solver_find_cell (GnmSubSolver *subsol, const char *name)
 {
 	return g_hash_table_lookup (subsol->cell_from_name, name);
 }
 
+/**
+ * gnm_sub_solver_get_cell_name:
+ * @subsol: a subprocess solver
+ * @cell: the cell to look up
+ *
+ * Returns: (transfer none) (nullable): the name of @cell, or %NULL
+ */
 const char *
 gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
 			      GnmCell const *cell)
@@ -3153,6 +3425,18 @@ gnm_sub_solver_get_cell_name (GnmSubSolver *subsol,
 	return g_hash_table_lookup (subsol->name_from_cell, (gpointer)cell);
 }
 
+/**
+ * gnm_sub_solver_name_constraint:
+ * @subsol: a subprocess solver
+ * @cidx: the constraint index
+ * @name: the name to assign
+ *
+ * Assigns @name to constraint @cidx and returns the interned copy of the
+ * name.  If @name is already assigned to a different constraint, a warning
+ * is issued.
+ *
+ * Returns: (transfer none): the interned name
+ */
 const char *
 gnm_sub_solver_name_constraint (GnmSubSolver *subsol,
 				int cidx,
@@ -3176,6 +3460,14 @@ gnm_sub_solver_name_constraint (GnmSubSolver *subsol,
 	return name_copy;
 }
 
+/**
+ * gnm_sub_solver_find_constraint:
+ * @subsol: a subprocess solver
+ * @name: the name to look up
+ *
+ * Returns: the index of the constraint named @name, or -1 if there is no such
+ * constraint
+ */
 int
 gnm_sub_solver_find_constraint (GnmSubSolver *subsol, const char *name)
 {
@@ -3190,6 +3482,18 @@ gnm_sub_solver_find_constraint (GnmSubSolver *subsol, const char *name)
 }
 
 
+/**
+ * gnm_sub_solver_locate_binary:
+ * @binary: the name of the program to locate
+ * @solver: the name of the solver that needs it
+ * @url: a URL with more information
+ * @wbcg: (nullable): the controlling window, or %NULL
+ *
+ * Asks the user to locate @binary.
+ *
+ * Returns: (transfer full) (nullable): the path to the program, or %NULL if
+ * the user declined or selected no usable program
+ */
 char *
 gnm_sub_solver_locate_binary (const char *binary, const char *solver,
 			      const char *url,
@@ -3256,6 +3560,12 @@ gnm_sub_solver_locate_binary (const char *binary, const char *solver,
 }
 
 
+/**
+ * gnm_sub_solver_flush:
+ * @subsol: a subprocess solver
+ *
+ * Processes any pending data from the child process output channels.
+ */
 void
 gnm_sub_solver_flush (GnmSubSolver *subsol)
 {
@@ -3315,6 +3625,14 @@ gnm_solver_iterator_class_init (GObjectClass *object_class)
 			      G_TYPE_BOOLEAN, 0);
 }
 
+/**
+ * gnm_solver_iterator_iterate:
+ * @iter: a solver iterator
+ *
+ * Runs one iteration by emitting the "iterate" signal.
+ *
+ * Returns: %TRUE if the iteration made progress
+ */
 gboolean
 gnm_solver_iterator_iterate (GnmSolverIterator *iter)
 {
@@ -3594,6 +3912,13 @@ GSF_CLASS (GnmSolverIteratorCompound, gnm_solver_iterator_compound,
 
 static GObjectClass *gnm_iter_solver_parent_class;
 
+/**
+ * gnm_iter_solver_set_iterator:
+ * @isol: an iterative solver
+ * @iterator: (nullable): the new iterator, or %NULL
+ *
+ * Sets the iterator used by @isol, releasing the previous one.
+ */
 void
 gnm_iter_solver_set_iterator (GnmIterSolver *isol, GnmSolverIterator *iterator)
 {
@@ -3607,6 +3932,16 @@ gnm_iter_solver_set_iterator (GnmIterSolver *isol, GnmSolverIterator *iterator)
 		g_object_unref (old_iterator);
 }
 
+/**
+ * gnm_iter_solver_get_initial_solution:
+ * @isol: an iterative solver
+ * @err: (out) (nullable) (optional): location to store an error, or %NULL
+ *
+ * Loads the current values of the input cells into @isol and verifies that
+ * they satisfy the constraints.
+ *
+ * Returns: %TRUE on success
+ */
 gboolean
 gnm_iter_solver_get_initial_solution (GnmIterSolver *isol, GError **err)
 {
@@ -3637,6 +3972,12 @@ got_it:
 	return TRUE;
 }
 
+/**
+ * gnm_iter_solver_set_solution:
+ * @isol: an iterative solver
+ *
+ * Stores the current point of @isol as a feasible result on the solver.
+ */
 void
 gnm_iter_solver_set_solution (GnmIterSolver *isol)
 {
@@ -3882,6 +4223,16 @@ gnm_solver_factory_create (GnmSolverFactory *factory,
 	return factory->creator (factory, param, factory->data);
 }
 
+/**
+ * gnm_solver_factory_functional:
+ * @factory: (nullable): a solver factory, or %NULL
+ * @wbcg: (nullable): the controlling window, or %NULL
+ *
+ * Checks whether @factory is usable in the current environment.  A %NULL
+ * factory is never functional.
+ *
+ * Returns: %TRUE if @factory is functional
+ */
 gboolean
 gnm_solver_factory_functional (GnmSolverFactory *factory,
 			       WBCGtk *wbcg)
@@ -3899,6 +4250,12 @@ cb_compare_factories (GnmSolverFactory *a, GnmSolverFactory *b)
 	return go_utf8_collate_casefold (a->name, b->name);
 }
 
+/**
+ * gnm_solver_db_register:
+ * @factory: the solver factory to register
+ *
+ * Registers @factory in the global solver database.
+ */
 void
 gnm_solver_db_register (GnmSolverFactory *factory)
 {
@@ -3909,6 +4266,12 @@ gnm_solver_db_register (GnmSolverFactory *factory)
 					 (GCompareFunc)cb_compare_factories);
 }
 
+/**
+ * gnm_solver_db_unregister:
+ * @factory: the solver factory to unregister
+ *
+ * Removes @factory from the global solver database.
+ */
 void
 gnm_solver_db_unregister (GnmSolverFactory *factory)
 {

@@ -369,6 +369,18 @@ dnorm (gnm_float x, gnm_float mu, gnm_float sigma, gboolean give_log)
 	}
 }
 
+/**
+ * pnorm2:
+ * @x1: the lower limit
+ * @x2: the upper limit
+ *
+ * Computes the probability that a standard normal random variable lies
+ * between @x1 and @x2, i.e., the difference between the cumulative
+ * distribution function at @x2 and at @x1.  The result is negative if
+ * @x1 is greater than @x2.
+ *
+ * Returns: the signed probability mass between @x1 and @x2.
+ */
 gnm_float
 pnorm2 (gnm_float x1, gnm_float x2)
 {
