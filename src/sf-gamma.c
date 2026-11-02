@@ -221,6 +221,19 @@ static gnm_float lgammacor(gnm_float x)
  */
 
 
+/**
+ * gnm_lbeta:
+ * @a: a number
+ * @b: a number
+ *
+ * Computes the natural logarithm of the Beta function, i.e.,
+ * log(B(@a,@b)) = log(Gamma(@a)) + log(Gamma(@b)) - log(Gamma(@a+@b)).
+ * Both arguments must be non-negative.
+ *
+ * Returns: the logarithm of the Beta function, +inf if one argument is
+ * zero, -inf if the larger argument is +inf, and NaN for negative or
+ * non-numeric arguments.
+ */
 gnm_float gnm_lbeta(gnm_float a, gnm_float b)
 {
     gnm_float corr, p, q;
@@ -285,6 +298,16 @@ dstirlerr (gnm_float x)
  *
  * stirlerr(n) = log(n!) - log( sqrt(2*pi*n)*(n/e)^n )
  *             = log(n!) - (n + 1/2) * log(n) + n - log(2*pi)/2
+ */
+/**
+ * stirlerr:
+ * @n: a positive number
+ *
+ * Computes the error term in Stirling's approximation, i.e.,
+ * log(@n!) - log(sqrt(2*pi*@n)*(@n/e)^@n), or equivalently
+ * log(@n!) - (@n+1/2)*log(@n) + @n - log(2*pi)/2.
+ *
+ * Returns: the Stirling error term for @n, or NaN if @n is not positive.
  */
 gnm_float
 stirlerr (gnm_float n)
@@ -368,6 +391,18 @@ stirlerr (gnm_float n)
 
 
 
+/**
+ * gnm_gammax:
+ * @x: a number
+ * @expb: (out): location to store the base exponent
+ *
+ * Computes the Gamma function at @x with the result split into a mantissa
+ * and an exponent.  Together they satisfy
+ * Gamma(@x) = return-value * GNM_RADIX^(*@expb).
+ *
+ * Returns: the mantissa of the Gamma function at @x.  Non-positive
+ * integers are poles and produce NaN.
+ */
 gnm_float
 gnm_gammax (gnm_float x, int *expb)
 {
@@ -393,6 +428,18 @@ gnm_gamma (gnm_float x)
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_factx:
+ * @x: a number, not a negative integer
+ * @expb: (out): location to store the base exponent
+ *
+ * Computes the factorial of @x with the result split into a mantissa and an
+ * exponent.  Together they satisfy @x! = return-value * GNM_RADIX^(*@expb).
+ * Non-integer arguments are evaluated using the Gamma function.
+ *
+ * Returns: the mantissa of the factorial of @x, NaN for NaN or negative
+ * integers, and +inf on overflow.
+ */
 gnm_float
 gnm_factx (gnm_float x, int *expb)
 {
@@ -863,6 +910,21 @@ qfacti (int n, GnmQuad *mant, int *expb)
 }
 
 /* 0: ok, 1: overflow, 2: nan */
+/**
+ * qfactf:
+ * @x: a number, not a negative integer
+ * @mant: (out): location to store the mantissa
+ * @expb: (out): location to store the base exponent
+ *
+ * Computes the factorial of @x in quad precision with the result split into
+ * a mantissa and an exponent.  Together they satisfy
+ * @x! = *@mant * GNM_RADIX^(*@expb).  Non-integer arguments are evaluated
+ * using the Gamma function.
+ *
+ * Returns: 0 on success, 1 on overflow, or 2 for NaN or negative integer
+ * arguments.  On overflow @mant is set to +inf; on input errors it is set to
+ * NaN.  @expb is set to zero on input errors.
+ */
 int
 qfactf (gnm_float x, GnmQuad *mant, int *expb)
 {
@@ -1077,6 +1139,17 @@ combin (gnm_float n, gnm_float k)
 	return pochhammer (n - k + 1, k) / gnm_fact (k);
 }
 
+/**
+ * permut:
+ * @n: total number of items
+ * @k: number of items to pick
+ *
+ * Computes the number of ordered arrangements of @k items chosen from @n
+ * distinct items, i.e., @n!/(@n-@k)!.
+ *
+ * Returns: the number of permutations, or NaN unless @n and @k are integers
+ * with 0 <= @k <= @n.
+ */
 gnm_float
 permut (gnm_float n, gnm_float k)
 {
@@ -1086,6 +1159,16 @@ permut (gnm_float n, gnm_float k)
 	return pochhammer (n - k + 1, k);
 }
 
+/**
+ * gnm_fact2:
+ * @x: an integer
+ *
+ * Computes the double factorial of @x, i.e., the product of every other
+ * integer down from @x to 1 or 2.
+ *
+ * Returns: the double factorial of @x, NaN for negative @x, or +inf if the
+ * result overflows.
+ */
 gnm_float
 gnm_fact2 (int x)
 {
