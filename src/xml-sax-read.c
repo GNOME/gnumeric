@@ -230,7 +230,7 @@ gnm_xml_attr_int (xmlChar const * const *attrs, char const *name, int *res)
 	s = CXML2C (attrs[1]);
 	errno = 0;
 	tmp = strtol (s, &end, 10);
-	if (end == s || *end || errno) {
+	if (end == s || *end || errno || tmp < G_MININT || tmp > G_MAXINT) {
 		g_warning ("Invalid attribute '%s', expected integer, received '%s'",
 			   name, s);
 		return FALSE;
@@ -246,6 +246,11 @@ xml_sax_attr_uint (xmlChar const * const *attrs, char const *name, unsigned *res
 
 	if (!gnm_xml_attr_int (attrs, name, &i))
 		return FALSE;
+	if (i < 0) {
+		g_warning ("Invalid attribute '%s', expected unsigned integer, received %d",
+			   name, i);
+		return FALSE;
+	}
 	*res = i;
 	return TRUE;
 }
@@ -594,7 +599,6 @@ xml_sax_version (GsfXMLIn *xin, xmlChar const **attrs)
 	int minor = -1;
 	int version;
 
-	state->version = GNM_XML_V11;
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "Epoch", &epoch))
 			/* Nothing */ ;
@@ -605,15 +609,15 @@ xml_sax_version (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	version = (epoch * 100 + major) * 100 + minor;
-	if (state->version == GNM_XML_UNKNOWN && version >= 10700) {
+	if (state->version == GNM_XML_UNKNOWN) {
+		/* No usable xmlns; fall back on the Version element. */
+		state->version = GNM_XML_V11;
 		if (version >= 11221)
 			state->version = GNM_XML_V14;
 		else if (version >= 10707)
 			state->version = GNM_XML_V13;
 		else if (version >= 10705)
 			state->version = GNM_XML_V12;
-		else if (version >= 10700)
-			state->version = GNM_XML_V11;
 	}
 
 	state->hack_colrow_size = (version <= 11259) ||
@@ -1300,9 +1304,14 @@ xml_sax_selection_range (GsfXMLIn *xin, xmlChar const **attrs)
 	GnmRange r;
 
 	xml_sax_must_have_sheet (state);
-	if (xml_sax_attr_range (attrs, &r))
+	if (xml_sax_attr_range (attrs, &r)) {
+		XML_CHECK (r.start.col >= 0 && r.start.col <= r.end.col &&
+			   r.end.col < gnm_sheet_get_max_cols (state->sheet));
+		XML_CHECK (r.start.row >= 0 && r.start.row <= r.end.row &&
+			   r.end.row < gnm_sheet_get_max_rows (state->sheet));
 		sv_selection_add_range (
 			sheet_get_view (state->sheet, state->wb_view), &r);
+	}
 }
 
 static void
@@ -1682,8 +1691,12 @@ xml_sax_style_font (GsfXMLIn *xin, xmlChar const **attrs)
 			gnm_style_set_font_bold (state->style, val);
 		else if (gnm_xml_attr_int (attrs, "Italic", &val))
 			gnm_style_set_font_italic (state->style, val);
-		else if (gnm_xml_attr_int (attrs, "Underline", &val))
-			gnm_style_set_font_uline (state->style, (GnmUnderline)val);
+		else if (gnm_xml_attr_int (attrs, "Underline", &val)) {
+			if (val >= UNDERLINE_NONE && val <= UNDERLINE_DOUBLE_LOW)
+				gnm_style_set_font_uline (state->style, (GnmUnderline)val);
+			else
+				xml_sax_barf (G_STRFUNC, "valid underline type");
+		}
 		else if (gnm_xml_attr_int (attrs, "StrikeThrough", &val))
 			gnm_style_set_font_strike (state->style, val);
 		else if (gnm_xml_attr_int (attrs, "Script", &val)) {
@@ -1870,9 +1883,15 @@ xml_sax_condition (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		int dummy;
 
-		if (gnm_xml_attr_int (attrs, "Operator", &dummy))
-			op = dummy;
-		else
+		if (gnm_xml_attr_int (attrs, "Operator", &dummy)) {
+			if ((dummy >= GNM_STYLE_COND_BETWEEN &&
+			     dummy <= GNM_STYLE_COND_CUSTOM) ||
+			    (dummy >= GNM_STYLE_COND_CONTAINS_STR &&
+			     dummy <= GNM_STYLE_COND_NOT_CONTAINS_BLANKS))
+				op = dummy;
+			else
+				xml_sax_barf (G_STRFUNC, "valid conditional operator");
+		} else
 			unknown_attr (xin, attrs);
 	}
 
@@ -2072,7 +2091,9 @@ xml_sax_style_border (GsfXMLIn *xin, xmlChar const **attrs)
 			unknown_attr (xin, attrs);
 	}
 
-	if (pattern >= GNM_STYLE_BORDER_NONE && pattern < GNM_PATTERNS_MAX) {
+	if (pattern >= GNM_STYLE_BORDER_NONE &&
+	    pattern < GNM_STYLE_BORDER_MAX &&
+	    pattern != GNM_STYLE_BORDER_INCONSISTENT) {
 		GnmStyleElement const type = xin->node->user_data.v_int;
 		GnmStyleBorderLocation const loc =
 			GNM_STYLE_BORDER_TOP + (int)(type - MSTYLE_BORDER_TOP);
@@ -2256,10 +2277,15 @@ xml_not_used_old_array_spec (XMLSaxParseState *state,
 	if (end == ptr || end[0] != ']' || end[1] != '\0')
 		return TRUE;
 
+	if (rows <= 0 || cols <= 0 ||
+	    rows > gnm_sheet_get_max_rows (state->sheet) ||
+	    cols > gnm_sheet_get_max_cols (state->sheet))
+		return FALSE;
+
 	if (row == 0 && col == 0) {
 		char *copy = g_strndup (content + 2, expr_end - (content + 2));
 		xml_cell_set_array_expr (state, cell, cr, cc, pp,
-					 copy, rows, cols);
+					 copy, cols, rows);
 		g_free (copy);
 	}
 
@@ -2302,8 +2328,11 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	state->value_result = NULL;
 	state->seen_cell_contents = strcmp (xin->node->id, "CELL_CONTENT") == 0;
 
-	if (seen_contents)
+	if (seen_contents) {
+		go_format_unref (value_fmt);
+		g_free (value_result);
 		return;
+	}
 
 	is_post_52_array = (array_cols > 0) && (array_rows > 0);
 	size_cols = is_post_52_array ? array_cols : 1;
@@ -2315,24 +2344,31 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 		int x = col - cr->base.col;
 		int y = row - cr->base.row;
 
-		XML_CHECK (x >= 0 &&
-			   x <= gnm_sheet_get_max_cols (sheet) - size_cols);
-		XML_CHECK (y >= 0 &&
-			   y <= gnm_sheet_get_max_rows (sheet) - size_rows);
+		XML_CHECK2 (x >= 0 &&
+			    x <= gnm_sheet_get_max_cols (sheet) - size_cols,
+			    { go_format_unref (value_fmt); g_free (value_result); });
+		XML_CHECK2 (y >= 0 &&
+			    y <= gnm_sheet_get_max_rows (sheet) - size_rows,
+			    { go_format_unref (value_fmt); g_free (value_result); });
 		cc = gnm_cell_copy_new (cr, x, y);
 		parse_pos_init (&pos, NULL, sheet, col, row);
 	} else {
-		XML_CHECK (col >= 0 &&
-			   col <= gnm_sheet_get_max_cols (sheet) - size_cols);
-		XML_CHECK (row >= 0 &&
-			   row <= gnm_sheet_get_max_rows (sheet) - size_rows);
+		XML_CHECK2 (col >= 0 &&
+			    col <= gnm_sheet_get_max_cols (sheet) - size_cols,
+			    { go_format_unref (value_fmt); g_free (value_result); });
+		XML_CHECK2 (row >= 0 &&
+			    row <= gnm_sheet_get_max_rows (sheet) - size_rows,
+			    { go_format_unref (value_fmt); g_free (value_result); });
 
 		cell = sheet_cell_get (sheet, col, row);
 		is_new_cell = (cell == NULL);
 		if (is_new_cell) {
 			cell = sheet_cell_create (sheet, col, row);
-			if (cell == NULL)
+			if (cell == NULL) {
+				go_format_unref (value_fmt);
+				g_free (value_result);
 				return;
+			}
 		}
 		parse_pos_init_cell (&pos, cell);
 	}
@@ -2341,7 +2377,7 @@ xml_sax_cell_content (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (is_post_52_array && has_contents) {
 		// Array formula
-		g_return_if_fail (content[0] == '=');
+		XML_CHECK2 (content[0] == '=', { go_format_unref (value_fmt); g_free (value_result); });
 		xml_cell_set_array_expr (state, cell, cr, cc,
 					 &pos, content + 1,
 					 array_cols, array_rows);
@@ -2485,7 +2521,7 @@ xml_sax_merge (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	GnmCellRegion *cr = state->clipboard;
-	Sheet *sheet = state->sheet;
+	Sheet *sheet = xml_sax_must_have_sheet (state);
 	GnmRange r;
 
 	g_return_if_fail (xin->content->len > 0);
@@ -2751,7 +2787,13 @@ xml_sax_object_start (GsfXMLIn *xin, xmlChar const **attrs)
 static void
 xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
-	gnm_xml_finish_obj (xin, xin->user_state);
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
+
+	/* Object creation can fail (unsupported type); nothing to finish. */
+	if (state->so == NULL)
+		return;
+
+	gnm_xml_finish_obj (xin, state);
 	/*
 	 * WARNING: the object is not completely finished at this
 	 * time.  Any handler installed by gog_object_sax_push_parser
@@ -2848,9 +2890,15 @@ xml_sax_solver_start (GsfXMLIn *xin, xmlChar const **attrs)
 
 	for (; attrs && attrs[0] && attrs[1] ; attrs += 2) {
 		if (gnm_xml_attr_int (attrs, "ModelType", &mtype)) {
-			sp->options.model_type = (GnmSolverModelType)mtype;
+			if (mtype >= GNM_SOLVER_LP && mtype <= GNM_SOLVER_NLP)
+				sp->options.model_type = (GnmSolverModelType)mtype;
+			else
+				xml_sax_barf (G_STRFUNC, "valid solver model type");
 		} else if (gnm_xml_attr_int (attrs, "ProblemType", &ptype)) {
+			if (ptype >= GNM_SOLVER_MINIMIZE && ptype <= GNM_SOLVER_MAXIMIZE)
 				sp->problem_type = (GnmSolverProblemType)ptype;
+			else
+				xml_sax_barf (G_STRFUNC, "valid solver problem type");
 		} else if (attr_eq (attrs[0], "Inputs")) {
 			GnmValue *v = value_new_cellrange_parsepos_str
 				(&pp,
@@ -3008,8 +3056,17 @@ xml_sax_named_expr_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	GnmParsePos pp;
 	GnmNamedExpr *nexpr;
 
-	g_return_if_fail (state->name.name != NULL);
-	g_return_if_fail (state->name.value != NULL);
+	if (state->name.name == NULL || state->name.value == NULL) {
+		// Incomplete name; drop it.
+		xml_sax_barf (G_STRFUNC, "name and value present");
+		g_free (state->name.name);
+		g_free (state->name.value);
+		g_free (state->name.position);
+		state->name.name = NULL;
+		state->name.value = NULL;
+		state->name.position = NULL;
+		return;
+	}
 
 	/*For the next while we have to ignore Print_areas that look like a whole sheet */
 	if (0 == strcmp (state->name.name, "Print_Area")
@@ -3677,10 +3734,6 @@ read_file_free_state (XMLSaxParseState *state, gboolean self)
 	/* Only valid while parsing a Scenario/ScenarioItem element. */
 	value_release (state->scenario_range);
 	state->scenario_range = NULL;
-	/* state->scenario is (transfer full); unlike the filter and sheet
-	 * object cases it is not attached to the sheet until its end tag
-	 * is seen, so a document that ends mid-Scenario would otherwise
-	 * leak it. */
 	g_clear_object (&state->scenario);
 
 	if (self)
@@ -3881,6 +3934,7 @@ gnm_xml_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_context
 	input = maybe_gunzip (input);
 	input = maybe_convert (input, FALSE);
 
+	memset (&state, 0, sizeof (state));
 	ok = read_file_common (READ_FULL_FILE, &state,
 			       io_context, GNM_WORKBOOK_VIEW (view), NULL,
 			       input);
