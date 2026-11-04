@@ -109,8 +109,14 @@ sylk_write (SylkWriter *state, char const *str)
 static void
 sylk_output_string (GnmConventionsOut *out, GOString const *string)
 {
+	char const *p;
+
 	g_string_append_c (out->accum, '\"');
-	g_string_append (out->accum, string->str);
+	for (p = string->str; *p; p++) {
+		if (*p == '\"')
+			g_string_append_c (out->accum, '\"');
+		g_string_append_c (out->accum, *p);
+	}
 	g_string_append_c (out->accum, '\"');
 }
 
@@ -295,13 +301,15 @@ sylk_write_sheet (SylkWriter *state)
 
 	for (ui = 0; ui < state->formats->len; ui++) {
 		GOFormat const *fmt = g_ptr_array_index (state->formats, ui);
-		gsf_output_printf (state->output, "P;P%s\r\n",
-				   go_format_as_XL (fmt));
+		gsf_output_puts (state->output, "P;P");
+		sylk_write (state, go_format_as_XL (fmt));
+		gsf_output_puts (state->output, "\r\n");
 	}
 	for (ui = 0; ui < state->fonts->len; ui++) {
 		GnmStyle const *s = g_ptr_array_index (state->fonts, ui);
-		gsf_output_printf (state->output, "P;E%s;M%d\r\n",
-				   gnm_style_get_font_name (s),
+		gsf_output_puts (state->output, "P;E");
+		sylk_write (state, gnm_style_get_font_name (s));
+		gsf_output_printf (state->output, ";M%d\r\n",
 				   (int)(gnm_style_get_font_size (s) * 20 + 0.5));
 	}
 

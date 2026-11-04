@@ -34,6 +34,7 @@
 
 #include <string.h>
 #include <errno.h>
+#include <limits.h>
 #include <stdlib.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
@@ -173,7 +174,7 @@ sylk_next_token (char *src)
 					if (length_at_least (src, 4))
 						*dst++ = src[3];
 				}
-				src += 4;
+				src += length_at_least (src, 4) ? 4 : 3;
 				continue;
 			}
 			/* we have space for at least 3 bytes */
@@ -194,8 +195,8 @@ sylk_parse_int (char const *str, int *res)
 
 	errno = 0; /* strtol sets errno, but does not clear it.  */
 	l = strtol (str, &end, 10);
-	if (str != end && errno != ERANGE) {
-		*res = l;
+	if (str != end && errno != ERANGE && l >= INT_MIN && l <= INT_MAX) {
+		*res = (int)l;
 		return TRUE;
 	}
 	return FALSE;
@@ -251,14 +252,21 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 	GnmValue *val = NULL;
 	GnmExprTop const *texpr = NULL;
 	gboolean is_array = FALSE;
+	gboolean bad_pos = FALSE;
 	int r = -1, c = -1;
 	char *next;
 
 	for (; *str != '\0' ; str = next) {
 		next = sylk_next_token (str);
 		switch (*str) {
-		case 'X': sylk_parse_coord (str+1, &state->pp.eval.col, gnm_sheet_get_max_cols (state->pp.sheet)); break;
-		case 'Y': sylk_parse_coord (str+1, &state->pp.eval.row, gnm_sheet_get_max_rows (state->pp.sheet)); break;
+		case 'X':
+			if (!sylk_parse_coord (str+1, &state->pp.eval.col, gnm_sheet_get_max_cols (state->pp.sheet)))
+				bad_pos = TRUE;
+			break;
+		case 'Y':
+			if (!sylk_parse_coord (str+1, &state->pp.eval.row, gnm_sheet_get_max_rows (state->pp.sheet)))
+				bad_pos = TRUE;
+			break;
 
 		case 'K': /* ;K value: Value of the cell. */
 			if (val != NULL) {
@@ -325,6 +333,14 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 		}
 	}
 
+	if (bad_pos) {
+		/* Do not put the data at the previous position.  */
+		sylk_read_warning (state, _("Cell position is outside the supported sheet size"));
+		value_release (val);
+		gnm_expr_top_unref (texpr);
+		return TRUE;
+	}
+
 	if (val != NULL || texpr != NULL) {
 		GnmCell *cell = sheet_cell_fetch (state->pp.sheet,
 			state->pp.eval.col, state->pp.eval.row);
@@ -335,6 +351,11 @@ sylk_rtd_c_parse (SylkReader *state, char *str)
 				rg.start = state->pp.eval;
 				rg.end.col = (c >= 1 && c <= gnm_sheet_get_max_cols (state->pp.sheet)) ? c - 1 : state->pp.eval.col;
 				rg.end.row = (r >= 1 && r <= gnm_sheet_get_max_rows (state->pp.sheet)) ? r - 1 : state->pp.eval.row;
+
+				if (rg.end.col < rg.start.col)
+					rg.end.col = rg.start.col;
+				if (rg.end.row < rg.start.row)
+					rg.end.row = rg.start.row;
 
 				gnm_cell_set_array (state->pp.sheet,
 						    &rg,
@@ -647,7 +668,7 @@ sylk_rtd_f_parse (SylkReader *state, char *str)
 			int first, last, width;
 			if (3 == sscanf (str+1, "%d %d %d", &first, &last, &width)) {
 				/* width seems to be in characters */
-				if (1 <= first && first <= last &&
+				if (1 <= first && first <= last && width >= 0 &&
 				    last <= gnm_sheet_get_max_cols (state->pp.sheet))
 					while (first <= last)
 						sheet_col_set_size_pts (state->pp.sheet,
