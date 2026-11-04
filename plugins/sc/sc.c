@@ -221,7 +221,11 @@ sc_cellname_to_coords (char const *cellname, GnmCellPos *pos)
 		if (!g_ascii_isdigit (*cellname))
 			goto err_out;
 
-		pos->row = atoi (cellname);
+		char *end;
+		gint64 r = g_ascii_strtoll (cellname, &end, 10);
+		if (r < 0 || r > G_MAXINT / 2)
+			goto err_out;
+		pos->row = (int)r;
 	}
 
 	g_return_val_if_fail (pos->col > -1, FALSE);
@@ -456,6 +460,8 @@ sc_parse_format_apply_precision (ScParseState *state, char *format, int col)
 					p = 0;
 					sc_warning (state, _("Encountered precision-dependent format without set precision."));
 				}
+				if (p > 30)
+					p = 30;
 				off--;
 				g_string_erase (str, off, 1);
 				for (i = 0; i < p; i++)
@@ -560,6 +566,8 @@ sc_parse_fmt (ScParseState *state, char const *cmd, char const *str,
 
 	res = sc_parse_coord_real (state, s, &pos, space - s);
 	if (!res)
+		return FALSE;
+	if (enlarge (state, pos.col, pos.row))
 		return FALSE;
 	s = space + 2;
 	space = strstr (s, "\"");
@@ -756,13 +764,22 @@ sc_parse_expr (ScParseState *state, const char *str, GnmParsePos *pp)
 	GnmExprTop const *texpr;
 	const char *p1;
 	gboolean infunc = FALSE;
+	gboolean instr = FALSE;
 	GString *exprstr;
 
 	exprstr = g_string_sized_new (500);
 	for (p1 = str; *p1; p1++) {
 		char c = *p1;
+		if (instr) {
+			/* Leave string constants alone.  */
+			g_string_append_c (exprstr, c);
+			if (c == '"')
+				instr = FALSE;
+			continue;
+		}
 		if (infunc) {
-			infunc = g_ascii_isalpha (c);
+			/* Function names may contain digits, e.g., atan2.  */
+			infunc = g_ascii_isalnum (c) || c == '_';
 			if (!infunc && *p1 != '(')
 				g_string_append_len (exprstr, "()", 2);
 			g_string_append_c (exprstr, c);
@@ -770,6 +787,8 @@ sc_parse_expr (ScParseState *state, const char *str, GnmParsePos *pp)
 			infunc = TRUE;
 		else
 			g_string_append_c (exprstr, c);
+		if (!infunc && c == '"')
+			instr = TRUE;
 	}
 	if (infunc)
 		g_string_append_len (exprstr, "()", 2);
@@ -965,7 +984,7 @@ sc_func_map_in (GnmConventions const *conv, Workbook *scope,
 		{ "RND",    "ROUND" },
 		{ "RTD",    "DEGREES" },
 		{ "STDDEV", "STDEV" },
-		{ "STON",   "INT" },
+		{ "STON",   "VALUE" },
 		{ "SUBSTR", "MID" },
 		{ NULL, NULL }
 	};
