@@ -59,6 +59,8 @@ typedef struct {
 
 	GHashTable *col_hash;
 
+	gboolean maximize;
+
 	Workbook *wb;
 	Sheet *sheet;
 	GnmSolverParameters *param;
@@ -208,6 +210,12 @@ mps_parse_rows (MpsState *state)
 {
 	gboolean seen_objfunc = FALSE;
 
+	if (state->rows->len > 0) {
+		mps_mark_error (state, _("Duplicate ROWS section"));
+		ignore_section (state);
+		return;
+	}
+
 	g_ptr_array_add (state->rows, NULL);
 
 	while (splitline (state)) {
@@ -311,6 +319,13 @@ mps_parse_columns (MpsState *state)
 		if (!cell) {
 			int x = VAR_BASE_COL;
 			int y = VAR_BASE_ROW + 1 + g_hash_table_size (state->col_hash);
+
+			if (y >= gnm_sheet_get_max_rows (state->sheet)) {
+				mps_mark_error (state,
+						_("Too many variables for a sheet"));
+				ignore_section (state);
+				return;
+			}
 			cell = sheet_cell_fetch (state->sheet, x + 1, y);
 			if (colname) {
 				g_hash_table_insert (state->col_hash,
@@ -392,7 +407,7 @@ mps_parse_bounds (MpsState *state)
 			: "?";
 		GnmSolverConstraintType type;
 		gboolean integer = FALSE;
-		unsigned ui;
+		unsigned ui, start;
 
 		if (strcmp (bt, "UP") == 0 || strcmp (bt, "UI") == 0) {
 			type = GNM_SOLVER_LE;
@@ -417,12 +432,23 @@ mps_parse_bounds (MpsState *state)
 			continue;
 		}
 
-		for (ui = 2 - split->len % 2; ui < split->len; ui += 2) {
+		start = 2 - split->len % 2;
+		if (type == GNM_SOLVER_BOOLEAN) {
+			/* "BV [bound-name] column [value]"; the value is optional. */
+			start = (split->len >= 3 &&
+				 g_hash_table_lookup (state->col_hash,
+						      g_ptr_array_index (split, 2)))
+				? 2 : 1;
+		}
+
+		for (ui = start; ui < split->len; ui += 2) {
 			const char *colname = g_ptr_array_index (split, ui);
 			MpsRow *row;
 			GnmCell *cell = g_hash_table_lookup (state->col_hash,
 							     colname);
-			const char *valtxt = g_ptr_array_index (split, ui + 1);
+			const char *valtxt = (ui + 1 < split->len)
+				? g_ptr_array_index (split, ui + 1)
+				: "0";
 			gnm_float val = gnm_strto (valtxt, NULL);
 			GnmCellRef cr;
 
@@ -486,6 +512,31 @@ mps_parse_rhs (MpsState *state, gboolean is_rhs)
 }
 
 static void
+mps_parse_objsense (MpsState *state)
+{
+	const char *s = state->line + 8; /* Past "OBJSENSE" */
+
+	while (g_ascii_isspace (*s))
+		s++;
+	if (*s) {
+		if (g_ascii_strncasecmp (s, "MAX", 3) == 0)
+			state->maximize = TRUE;
+		else if (g_ascii_strncasecmp (s, "MIN", 3) == 0)
+			state->maximize = FALSE;
+	}
+
+	while (splitline (state)) {
+		const char *w = state->split->len
+			? g_ptr_array_index (state->split, 0)
+			: "";
+		if (g_ascii_strncasecmp (w, "MAX", 3) == 0)
+			state->maximize = TRUE;
+		else if (g_ascii_strncasecmp (w, "MIN", 3) == 0)
+			state->maximize = FALSE;
+	}
+}
+
+static void
 mps_parse_file (MpsState *state)
 {
 	gboolean done = FALSE;
@@ -520,6 +571,8 @@ mps_parse_file (MpsState *state)
 			mps_parse_rhs (state, TRUE);
 		else if (strcmp (section, "RANGES") == 0)
 			mps_parse_rhs (state, FALSE);
+		else if (strcmp (section, "OBJSENSE") == 0)
+			mps_parse_objsense (state);
 		else {
 			g_warning ("Invalid section %s\n", section);
 			ignore_section (state);
@@ -587,6 +640,24 @@ mps_fill_sheet (MpsState *state)
 	int x = CONSTR_BASE_COL;
 	int y = CONSTR_BASE_ROW;
 
+	/* Make sure everything fits in the sheet.  */
+	{
+		int needed = CONSTR_BASE_ROW + 1;
+		for (ui = 1; ui < state->rows->len; ui++) {
+			MpsRow *row = g_ptr_array_index (state->rows, ui);
+			gboolean two = (row->range != 0 &&
+					(row->type == GNM_SOLVER_LE ||
+					 row->type == GNM_SOLVER_GE ||
+					 row->type == GNM_SOLVER_EQ));
+			needed += two ? 2 : 1;
+		}
+		if (needed > gnm_sheet_get_max_rows (state->sheet)) {
+			mps_mark_error (state,
+					_("Too many constraints for a sheet"));
+			return;
+		}
+	}
+
 	/* ---------------------------------------- */
 
 	mps_set_cell (state, x, y,  _("Constraint"));
@@ -623,14 +694,14 @@ mps_fill_sheet (MpsState *state)
 			else if (row->range > 0) {
 				make_constraint (state, x, y, row,
 						 GNM_SOLVER_GE, row->rhs);
-				make_constraint (state, x, y, row,
+				make_constraint (state, x, ++y, row,
 						 GNM_SOLVER_LE,
 						 row->rhs + gnm_abs (row->range));
 			} else {
 				make_constraint (state, x, y, row,
 						 GNM_SOLVER_GE,
 						 row->rhs - gnm_abs (row->range));
-				make_constraint (state, x, y, row,
+				make_constraint (state, x, ++y, row,
 						 GNM_SOLVER_LE, row->rhs);
 			}
 			break;
@@ -681,7 +752,9 @@ mps_fill_sheet (MpsState *state)
 		} else
 			mps_set_cell_float (state, x + 1, y, 0);
 
-		param->problem_type = GNM_SOLVER_MINIMIZE;
+		param->problem_type = state->maximize
+			? GNM_SOLVER_MAXIMIZE
+			: GNM_SOLVER_MINIMIZE;
 
 		gnm_cellref_init (&cr, NULL, x + 1, y, FALSE);
 		gnm_solver_param_set_target (param, &cr);
