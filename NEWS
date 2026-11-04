@@ -46,8 +46,7 @@ Morten:
 	* Fix overflow problem with R.DST
 	* Fix ods export problem with 1904 date-format sheets.
 	* Make ods parser not accept empty strings as zero.
-	* Ods import hardening.
-	* Xlsx import hardening.
+	* File import hardening.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

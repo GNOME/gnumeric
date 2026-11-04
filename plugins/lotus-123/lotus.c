@@ -1411,7 +1411,7 @@ lotus_set_colwidth_cb (LotusState *state,
 		: lotus_qmps_to_points (GSF_LE_GET_GUINT32 (data + 4));
 
 	value_set = (flags & 1) != 0;
-	if (end - start >= gnm_sheet_get_max_cols (sheet))
+	if (end - start + 1 >= gnm_sheet_get_max_cols (sheet))
 		sheet_col_set_default_size_pts (sheet, size);
 	else {
 		int i;
@@ -1456,7 +1456,7 @@ lotus_set_rowheight_cb (LotusState *state,
 		: lotus_qmps_to_points (GSF_LE_GET_GUINT32 (data + 4));
 
 	value_set = (flags & 1) != 0;
-	if (end - start >= gnm_sheet_get_max_rows (sheet))
+	if (end - start + 1 >= gnm_sheet_get_max_rows (sheet))
 		sheet_row_set_default_size_pts (sheet, size);
 	else {
 		int i;
@@ -1533,7 +1533,11 @@ insert_value (LotusState *state, Sheet *sheet, guint32 col, guint32 row, GnmValu
 	GnmCell *cell;
 
 	g_return_val_if_fail (val != NULL, NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
+	if (sheet == NULL) {
+		g_warning ("Cell data outside any sheet; ignored.");
+		value_release (val);
+		return NULL;
+	}
 
 	cell = lotus_cell_fetch (state, sheet, col, row);
 
@@ -1637,7 +1641,7 @@ lotus_read_old (LotusState *state, record_t *r)
 				g_printerr ("Assertion state->sheet != NULL failed\n");
 				break;
 			}
-			if (r->len < (15 + len))
+			if (len < 0 || r->len < (15 + len))
 				break;
 
 			pp.eval.col = col;
@@ -1912,6 +1916,9 @@ lotus_get_lmbcs (guint8 const *data, int maxlen, int def_group)
 				gunichar uc = (p[1] << 8) | p[2];
 				if (uc >= 0xe000 && uc <= 0xf8ff) {
 					g_warning ("Unhandled character 0x14%04x", uc);
+				} else if ((uc >= 0xd800 && uc <= 0xdfff) ||
+					   uc == 0xfffe || uc == 0xffff) {
+					/* Not valid Unicode scalar values; drop.  */
 				} else
 					g_string_append_unichar (res, uc);
 				p += 3;
@@ -2076,6 +2083,9 @@ lotus_read_new (LotusState *state, record_t *r)
 				GnmStyleList *styles;
 				GnmCellPos cp;
 
+				if (!src_sheet)
+					break;
+
 				range_init_rows (&r, src_sheet, src_row, src_row);
 				styles = sheet_style_get_range (src_sheet, &r);
 
@@ -2181,7 +2191,7 @@ lotus_read_new (LotusState *state, record_t *r)
 				break;
 			}
 
-			case 0xfd2: CHECK_RECORD_SIZE (>= 24) {
+			case 0xfd2: CHECK_RECORD_SIZE (>= 29) {
 				GnmStyle *style;
 				GnmColor *color;
 				int pat;
@@ -2648,7 +2658,9 @@ lmbcs_init (void)
 void
 lmbcs_shutdown (void)
 {
-	gsf_iconv_close (lmbcs_12_iconv);
+	if (lmbcs_12_iconv != (GIConv)0)
+		gsf_iconv_close (lmbcs_12_iconv);
+	lmbcs_12_iconv = (GIConv)0;
 }
 
 typedef struct {
@@ -2975,7 +2987,11 @@ lotus_read_works (LotusState *state, record_t *r)
 			GnmParsePos pp;
 			GnmValue *v = NULL;
 
-			if (r->len < (15 + len))
+			if (state->sheet == NULL) {
+				g_printerr ("Assertion state->sheet != NULL failed\n");
+				break;
+			}
+			if (len < 0 || r->len < (16 + len))
 				break;
 
 			pp.eval.col = col;
@@ -3105,6 +3121,9 @@ lotus_read_works (LotusState *state, record_t *r)
 				case 2:
 					tmp = GNM_VALIGN_TOP;
 					break;
+				default:
+					tmp = GNM_VALIGN_BOTTOM;
+					break;
 			}
 			gnm_style_set_align_v (style, tmp);
 
@@ -3125,6 +3144,7 @@ lotus_read_works (LotusState *state, record_t *r)
 			g_hash_table_insert (state->style_pool,
 					     GUINT_TO_POINTER ((guint)styleid),
 					     style);
+			break;
 		}
 
 		default:

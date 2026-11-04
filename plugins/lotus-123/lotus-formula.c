@@ -500,7 +500,7 @@ wk1_rate_func (GnmExprList **stack, LFuncInfo const *func,
 }
 
 static gint32
-make_function (LotusState *state, GnmExprList **stack, guint8 const *data, const GnmParsePos *orig)
+make_function (LotusState *state, GnmExprList **stack, guint8 const *data, guint32 avail, const GnmParsePos *orig)
 {
 	/* This is ok as we have more than 256 entries.  */
 	LFuncInfo const *f = NULL;
@@ -523,6 +523,10 @@ make_function (LotusState *state, GnmExprList **stack, guint8 const *data, const
 			   *data);
 		return 1;
 	}
+
+	/* Variable-arity functions read an argument-count byte.  */
+	if (f->args < 0 && avail < 2)
+		return avail;
 
 	return (f->handler) (stack, f, data, orig);
 }
@@ -577,7 +581,7 @@ static void
 handle_named_func (GnmExprList **stack, GnmParsePos const *orig,
 		   char const *gname, char const *lname, int args)
 {
-	GnmFunc *func = gnm_func_lookup (gname, NULL);
+	GnmFunc *func = gname ? gnm_func_lookup (gname, NULL) : NULL;
 	if (!func) {
 		g_assert (lname != NULL);
 		func = lotus_placeholder (lname);
@@ -648,7 +652,9 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 			CHECK_BYTES (2);
 			l = strnlen (CU2C (data + i + 1), len - i - 1);
 			parse_list_push_value (&stack,
-				lotus_new_string (data + i + 1, state->lmbcs_group));
+				value_new_string_nocopy
+				(lotus_get_lmbcs (data + i + 1, (int)l,
+						  state->lmbcs_group)));
 			i += 2 + l;
 			break;
 		}
@@ -689,7 +695,7 @@ lotus_parse_formula_old (LotusState *state, GnmParsePos *orig,
 		case 0x18: HANDLE_BINARY (GNM_EXPR_OP_CAT);
 
 		default:
-			i += make_function (state, &stack, data + i, orig);
+			i += make_function (state, &stack, data + i, len - i, orig);
 		}
 	}
 
@@ -783,7 +789,7 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 			GnmValue *val;
 			if (uses_snum) {
 				CHECK_BYTES (3);
-				val = lotus_smallnum (GSF_LE_GET_GUINT16 (data + i + 1));
+				val = lotus_smallnum (GSF_LE_GET_GINT16 (data + i + 1));
 				i += 3;
 			} else {
 				CHECK_BYTES (5);
@@ -800,7 +806,9 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 			CHECK_BYTES (2);
 			l = strnlen (CU2C (data + i + 1), len - i - 1);
 			parse_list_push_value (&stack,
-				lotus_new_string (data + i + 1, state->lmbcs_group));
+				value_new_string_nocopy
+				(lotus_get_lmbcs (data + i + 1, (int)l,
+						  state->lmbcs_group)));
 			i += 2 + l;
 			break;
 		}
@@ -892,7 +900,7 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 						 works_funcname_to_info
 						 : lotus_funcname_to_info, p);
 			handle_named_func (&stack, orig,
-					   f ? f->gnumeric_name : "",
+					   f ? f->gnumeric_name : NULL,
 					   p,
 					   args);
 
@@ -902,7 +910,7 @@ lotus_parse_formula_new (LotusState *state, GnmParsePos *orig,
 		}
 
 		default:
-			i += make_function (state, &stack, data + i, orig);
+			i += make_function (state, &stack, data + i, len - i, orig);
 		}
 	}
 
