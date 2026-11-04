@@ -1003,6 +1003,10 @@ do {								\
  * Parse that RP Excel formula, see S59E2B.HTM
  * Return a dynamicly allocated GnmExpr containing the formula, or NULL
  **/
+/* Nesting depth of PtgExp -> shared formula -> PtgExp ... */
+static int excel_shared_formula_depth = 0;
+#define XL_MAX_SHARED_FORMULA_DEPTH 64
+
 static GnmExpr const *
 excel_parse_formula1 (MSContainer const *container,
 		      ExcelReadSheet const *esheet,
@@ -1097,11 +1101,20 @@ excel_parse_formula1 (MSContainer const *container,
 				return NULL;
 			}
 
+			if (excel_shared_formula_depth >= XL_MAX_SHARED_FORMULA_DEPTH) {
+				g_warning ("Shared formulas nested too deeply, key = %s\n",
+					   cellpos_as_string (&top_left));
+				parse_list_free (&stack);
+				return NULL;
+			}
+
 			d (0, g_printerr ("Parse shared formula\n"););
 			sf->being_parsed = TRUE;
+			excel_shared_formula_depth++;
 			expr = excel_parse_formula1 (container, esheet, fn_col, fn_row,
 						     sf->data, sf->data_len, sf->array_data_len,
 						     TRUE, array_element);
+			excel_shared_formula_depth--;
 			sf->being_parsed = FALSE;
 			parse_list_push (&stack, expr);
 			ptg_length = length; /* Force it to be the only token */
@@ -1259,7 +1272,7 @@ excel_parse_formula1 (MSContainer const *container,
 
 			/* AttrSpace */
 			} else if (grbit & 0x40) {
-				guint8 num_space = GSF_LE_GET_GUINT8 (cur+2);
+				guint8 num_space = (ptg_length >= 3) ? GSF_LE_GET_GUINT8 (cur+2) : 0;
 				guint8 attrs     = GSF_LE_GET_GUINT8 (cur+1);
 				if (attrs == 0) /* bitFSpace: ignore it for now */
 					;
@@ -1451,6 +1464,18 @@ excel_parse_formula1 (MSContainer const *container,
 					cols = 256;
 				if (rows == 0)
 					rows = 1; /* ??? */
+			}
+
+			{
+				/* Every element needs at least a type byte; do not
+				 * allocate more than the data could describe.  */
+				int left_ = array_length - (array_data - array_data0);
+				if (left_ < 0 || (guint64)cols * rows > (guint64)left_) {
+					g_warning ("File is most likely corrupted.\n"
+						   "(Array of %u x %u elements does not fit in %d bytes.)",
+						   cols, rows, left_);
+					goto length_error;
+				}
 			}
 
 			v = value_new_array (cols, rows);
@@ -1698,11 +1723,14 @@ excel_parse_formula1 (MSContainer const *container,
 
 		case FORMULA_PTG_MEM_AREA:
 		case FORMULA_PTG_MEM_ERR:
+		case FORMULA_PTG_MEM_NO_MEM:
 			/* ignore this, we handle at run time */
 			CHECK_FORMULA_LEN(6);
 			break;
 
 		case FORMULA_PTG_MEM_FUNC:
+		case FORMULA_PTG_MEM_AREAN:
+		case FORMULA_PTG_NO_MEMN:
 			/* ignore this, we handle at run time */
 			CHECK_FORMULA_LEN(2);
 			break;

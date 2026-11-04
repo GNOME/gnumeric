@@ -1046,11 +1046,20 @@ excel_get_chars (GnmXLImporter const *importer,
 		char *ptr2 = (char *)ptr;
 
 		ans = outbuf;
-		if (NULL != codepage)
-			str_iconv = gsf_msole_iconv_open_for_import (*codepage);
+		gboolean close_iconv = FALSE;
+
+		if (NULL != codepage) {
+			GIConv conv = gsf_msole_iconv_open_for_import (*codepage);
+			// Fall back on the importer's converter if the
+			// codepage is unsupported.
+			if (conv != (GIConv)(-1)) {
+				str_iconv = conv;
+				close_iconv = TRUE;
+			}
+		}
 		g_iconv (str_iconv,
 			 &ptr2, &length, &outbuf, &outbytes);
-		if (codepage)
+		if (close_iconv)
 			g_iconv_close (str_iconv);
 
 		i = outbuf - ans;
@@ -1068,6 +1077,7 @@ excel_get_text (GnmXLImporter const *importer,
 	char *ans;
 	guint8 const *ptr;
 	unsigned byte_len, trailing_data_len, n_markup, str_len_bytes;
+	guint32 hlen;
 	gboolean use_utf16, has_extended;
 
 	if (byte_length == NULL)
@@ -1077,11 +1087,13 @@ excel_get_text (GnmXLImporter const *importer,
 		*byte_length = 1; /* the header */
 		if (length == 0)
 			return NULL;
-		ptr = pos + excel_read_string_header
+		hlen = excel_read_string_header
 			(pos, maxlen,
 			 &use_utf16, &n_markup, &has_extended,
 			 &trailing_data_len);
-		*byte_length += trailing_data_len;
+		ptr = pos + hlen;
+		// The header can be 3, 5 or 7 bytes, not just 1.
+		*byte_length = MAX (hlen, 1) + trailing_data_len;
 	} else {
 		*byte_length = 0; /* no header */
 		if (length == 0)
@@ -1098,8 +1110,8 @@ excel_get_text (GnmXLImporter const *importer,
 		*byte_length = maxlen;
 		length = 0;
 	} else if (maxlen - *byte_length < str_len_bytes) {
-		*byte_length = maxlen;
 		length = (maxlen - *byte_length) / (use_utf16 ? 2 : 1);
+		*byte_length = maxlen;
 	} else
 		*byte_length += str_len_bytes;
 
@@ -1228,9 +1240,13 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 
 		txo_run.accum = pango_attr_list_new ();
 		while (n > 0) {
+			unsigned o;
+
 			n -= 2;
-			txo_run.first = g_utf8_offset_to_pointer (str,
-								  GSF_LE_GET_GUINT8 (ptr + n)) - str;
+			o = GSF_LE_GET_GUINT8 (ptr + n);
+			XL_CHECK_CONDITION_VAL (o <= clen,
+						go_format_new_markup (txo_run.accum, FALSE));
+			txo_run.first = g_utf8_offset_to_pointer (str, o) - str;
 			pango_attr_list_filter (ms_container_get_markup (
 									 c, GSF_LE_GET_GUINT8 (ptr + n + 1)),
 						(PangoAttrFilterFunc) append_markup, &txo_run);
@@ -1316,7 +1332,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 			}
 			if ((q->length >= offset + 4)) {
 				guint16 o = GSF_LE_GET_GUINT16 (q->data + offset);
-				size_t l = strlen (res_str);
+				size_t l = g_utf8_strlen (res_str, -1);
 				txo_run.last = g_utf8_offset_to_pointer (res_str, MIN (o, l)) - res_str;
 				if (prev_markup != NULL)
 					pango_attr_list_filter (prev_markup,
@@ -3899,7 +3915,11 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 		GnmXLImporter *importer = container->importer;
 		ExcelSupBook const *sup;
 
-		g_return_if_fail (importer->v8.supbook->len > 0);
+		if (importer->v8.supbook->len == 0) {
+			g_warning ("EXCEL: EXTERNNAME without a SUPBOOK");
+			g_free (name);
+			return;
+		}
 
 		/* The name is associated with the last SUPBOOK records seen */
 		sup = &(g_array_index (importer->v8.supbook, ExcelSupBook,
@@ -4006,8 +4026,13 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 
 	XL_NEED_BYTES (name_len);
 	name = excel_read_name_str (importer, data, q->length - (data - q->data), &name_len, builtin_name);
-	XL_NEED_BYTES (name_len);
-	data += name_len;
+	if (name_len > (unsigned)(q->data + q->length - data)) {
+		// Bad name length: drop the name but keep the slot so that
+		// later name indices stay aligned.
+		g_free (name);
+		name = NULL;
+	} else
+		data += name_len;
 
 	if (name != NULL) {
 		unsigned array_data_len;
@@ -4040,7 +4065,12 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		if (importer->num_name_records < importer->names->len)
 			nexpr = g_ptr_array_index (importer->names, importer->num_name_records);
 
-		XL_NEED_BYTES (expr_len);
+		if (expr_len > (unsigned)(q->data + q->length - data)) {
+			g_warning ("EXCEL: NAME expression extends past the record");
+			g_free (name);
+			nexpr = NULL;
+			goto register_name;
+		}
 		array_data_len = expr_len ? q->length - (data - q->data) - expr_len : 0;
 		nexpr = excel_parse_name (importer, sheet,
 					  name, data, expr_len,
@@ -4069,6 +4099,7 @@ excel_read_NAME (BiffQuery *q, GnmXLImporter *importer, ExcelReadSheet *esheet)
 		}
 	}
 
+register_name:
 	// nexpr is potentially NULL if there was an error
 	if (importer->num_name_records >= importer->names->len)
 		g_ptr_array_set_size (importer->names, importer->num_name_records + 1);
@@ -4268,6 +4299,7 @@ excel_read_ROW (BiffQuery *q, ExcelReadSheet *esheet)
 	XL_CHECK_CONDITION (q->length >= (q->opcode == BIFF_ROW_v2 ? 16 : 8));
 
 	row = GSF_LE_GET_GUINT16 (q->data);
+	XL_CHECK_CONDITION (row < gnm_sheet_get_max_rows (esheet->sheet));
 #if 0
 	/* Unnecessary info for now.
 	 * do we want to preallocate based on this info?
@@ -4768,6 +4800,7 @@ excel_read_MULRK (BiffQuery *q, ExcelReadSheet *esheet)
 
 	row = GSF_LE_GET_GUINT16 (q->data);
 	col = GSF_LE_GET_GUINT16 (q->data + 2);
+	XL_CHECK_CONDITION (row < (guint32)gnm_sheet_get_max_rows (esheet->sheet));
 	ptr += 4;
 	lastcol = GSF_LE_GET_GUINT16 (q->data + q->length - 2);
 
@@ -4810,6 +4843,7 @@ excel_read_MULBLANK (BiffQuery *q, ExcelReadSheet *esheet)
 	XL_CHECK_CONDITION (q->length >= 6);
 	firstcol = XL_GETCOL (q);
 	row = XL_GETROW (q);
+	XL_CHECK_CONDITION (row < gnm_sheet_get_max_rows (esheet->sheet));
 	lastcol = GSF_LE_GET_GUINT16 (ptr);
 	d (0, {
 			g_printerr ("Cells in row %d are blank starting at col %s until col ",
@@ -5875,6 +5909,7 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 	char *mark = NULL;
 	char *tip = NULL;
 	GnmHLink *link = NULL;
+	gboolean have_guid;
 
 	XL_CHECK_CONDITION (q->length > 32);
 
@@ -5921,7 +5956,11 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		d (1, g_printerr ("mark = %s\n", mark););
 	}
 
-	if ((options & 0x163) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
+	/* The guid comparisons below read 16 bytes.  */
+	have_guid = (size_t)(q->data + q->length - data) >= sizeof (url_guid);
+
+	if ((options & 0x163) == 0x003 && have_guid &&
+	    !memcmp (data, url_guid, sizeof (url_guid))) {
 		char *url;
 
 		data += sizeof (url_guid);
@@ -5939,7 +5978,8 @@ excel_read_HLINK (BiffQuery *q, ExcelReadSheet *esheet)
 		g_free (url);
 
 		/* File link */
-	} else if ((options & 0x1e1) == 0x001 && !memcmp (data, file_guid, sizeof (file_guid))) {
+	} else if ((options & 0x1e1) == 0x001 && have_guid &&
+		   !memcmp (data, file_guid, sizeof (file_guid))) {
 		char  *path;
 		GString *accum;
 		int up;
@@ -7007,9 +7047,9 @@ excel_read_SUPBOOK (BiffQuery *q, GnmXLImporter *importer)
 	 * (3) an OLE-link VirtualPath
 	 * (4) any other VirtualPath -- external workbook
 	 */
-	if (len == 1 && *bookname == 0) {
+	if (bookname != NULL && len == 1 && *bookname == 0) {
 		new_supbook->type = EXCEL_SUP_BOOK_SELFREF;
-	} else if (len == 1 && *bookname == ' ') {
+	} else if (bookname != NULL && len == 1 && *bookname == ' ') {
 		/* what? */
 	}
 	g_free (bookname);
@@ -7125,8 +7165,9 @@ excel_read_BOF (BiffQuery	 *q,
 			version_desc = "Excel 2.x - shouldn't happen";
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet ||
 		   ver->type == MS_BIFF_TYPE_Chart) {
-		BiffBoundsheetData *bs = g_hash_table_lookup (
-							      importer->boundsheet_data_by_stream, GINT_TO_POINTER (q->streamPos));
+		BiffBoundsheetData *bs =
+			g_hash_table_lookup (importer->boundsheet_data_by_stream,
+					     GINT_TO_POINTER (q->streamPos));
 		ExcelReadSheet *esheet;
 		if (bs == NULL) {
 			if (ver->version > MS_BIFF_V4) /* be anal */

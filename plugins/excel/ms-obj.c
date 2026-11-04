@@ -338,7 +338,13 @@ ms_obj_attr_bag_destroy (MSObjAttrBag *attrs)
 void
 ms_obj_attr_bag_insert (MSObjAttrBag *attrs, MSObjAttr *attr)
 {
-	g_return_if_fail (!g_hash_table_lookup (attrs, attr));
+	g_return_if_fail (attr != NULL);
+	if (g_hash_table_lookup (attrs, attr)) {
+		/* Duplicate attribute: do not leak the new one.  */
+		g_warning ("Duplicate object attribute 0x%x ignored", (unsigned)attr->id);
+		ms_obj_attr_destroy (attr);
+		return;
+	}
 	g_hash_table_insert (attrs, attr, attr);
 }
 
@@ -441,7 +447,8 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 		maxlen = (q->length - 1) / (use_utf16 ? 2 : 1);
 		text = excel_get_chars (c->importer,
 			q->data + 1, MIN (text_len, maxlen), use_utf16, NULL);
-		g_string_append (accum, text);
+		if (text != NULL)
+			g_string_append (accum, text);
 		g_free (text);
 		if (text_len <= maxlen)
 			break;
@@ -573,7 +580,7 @@ read_pre_biff8_read_text (BiffQuery *q, MSContainer *c, MSObj *obj,
 		first = q->data + len;
 	} else
 		first += len;
-	if (((first - q->data) & 1))
+	if (((first - q->data) & 1) && first < q->data + q->length)
 		first++; /* pad to word bound */
 
 	ms_obj_attr_bag_insert (obj->attrs,
@@ -684,7 +691,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		ms_obj_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));
 
 	obj->excel_type = GSF_LE_GET_GUINT16(q->data + 4);
-	obj->id         = GSF_LE_GET_GUINT32(q->data + 6);
+	obj->id         = GSF_LE_GET_GUINT16 (q->data + 6);
 
 	switch (obj->excel_type) {
 	case 0: /* group */
@@ -771,6 +778,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 
 	case MSOT_POLYGON:
 /* 66 name len, name, fmla (respect cbMacro) */
+		XL_CHECK_CONDITION_VAL (q->data + 39 <= last, TRUE);
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
@@ -814,6 +822,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 		break;
 	case MSOT_LABEL:
 /* 70 name len, name, fmla (respect cbMacro), cbtext, text */
+		XL_CHECK_CONDITION_VAL (q->data + 46 <= last, TRUE);
 		len = GSF_LE_GET_GUINT16 (q->data + 44);
 		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		if (read_pre_biff8_read_text (q, c, obj, data, len, 16))
@@ -826,6 +835,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 	case MSOT_SPINNER:
 	case MSOT_SCROLLBAR:
 /* 68 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2 */
+		XL_CHECK_CONDITION_VAL (q->data + 65 <= last, TRUE);
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
 				GSF_LE_GET_GUINT16 (q->data+48)));
@@ -851,7 +861,7 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
 
 			ptr += 1 + *ptr;		/* object name */
 			if ((ptr - q->data) & 1) ptr++;	/* align on word */
-			if (ptr >= last) break;
+			if (ptr + 2 > last) break;
 
 			ptr += 2 + GSF_LE_GET_GUINT16 (ptr); /* the macro */
 			if ((ptr - q->data) & 1) ptr++;	/* align on word */

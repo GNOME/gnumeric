@@ -230,8 +230,13 @@ ms_escher_get_data (MSEscherState *state,
 
 	res = q->data + offset - state->start_offset;
 	if ((*needs_free = ((offset + num_bytes) > state->end_offset))) {
-		guint8 *buffer = g_malloc (num_bytes);
+		guint8 *buffer = g_try_malloc (num_bytes);
 		guint8 *tmp = buffer;
+
+		if (buffer == NULL) {
+			g_warning ("Escher record too large (%u bytes)", num_bytes);
+			return NULL;
+		}
 
 		/* Setup front stub */
 		guint32 len = q->length - (res - q->data);
@@ -472,6 +477,7 @@ ms_escher_read_Blip (MSEscherState *state, MSEscherHeader *h)
 				type = "pict";
 
 			if (filter != 0xfe /* must be none */	||
+			    h->len < offset ||
 			    (unsigned)(h->len - offset) < compressed_len) {
 				failure = TRUE;
 				g_warning ("invalid metafile header %x, %u != %u;", filter,
@@ -479,17 +485,23 @@ ms_escher_read_Blip (MSEscherState *state, MSEscherHeader *h)
 			} else if ((tmp = ms_escher_get_data (state, h->offset + offset,
 			                                      compressed_len, &needs_free))) {
 				if (compress == 0) {		/* Yes 0 == deflate */
-					uLongf len = uncompressed_len*4;
-					guint8 *buffer = g_malloc (len);
+					uLongf len = (uLongf)uncompressed_len * 4;
+					guint8 *buffer = (uncompressed_len <= 0x10000000u)
+						? g_try_malloc (len) : NULL;
 
-					int res = uncompress (buffer, &len, tmp, compressed_len);
-					if (res != Z_OK) {
-						g_free (buffer);
+					if (buffer == NULL) {
 						failure = TRUE;
-						g_warning ("compression failure %d;", res);
-					} else
-						blip = ms_escher_blip_new (buffer,
-							len, type, FALSE);
+						g_warning ("metafile too large (%u bytes);", uncompressed_len);
+					} else {
+						int res = uncompress (buffer, &len, tmp, compressed_len);
+						if (res != Z_OK) {
+							g_free (buffer);
+							failure = TRUE;
+							g_warning ("compression failure %d;", res);
+						} else
+							blip = ms_escher_blip_new (buffer,
+								len, type, FALSE);
+					}
 				} else if (compress == 0xfe) {	/* 0xfe  == none */
 					blip = ms_escher_blip_new ((guint8 *)tmp, compressed_len,
 						type, !needs_free);
@@ -1368,11 +1380,17 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 	guint i;
 
 	/* let's be really careful */
-	g_return_val_if_fail (6*num_properties + COMMON_HEADER_LEN <= h->len, TRUE);
-	g_return_val_if_fail (data != NULL, TRUE);
+	if (data == NULL)
+		return TRUE;
+	if (6*num_properties + COMMON_HEADER_LEN > h->len) {
+		g_warning ("Escher OPT record is too short for its property count");
+		if (needs_free)
+			g_free ((guint8 *)data);
+		return TRUE;
+	}
 
 	for (i = 0; i < num_properties; ++i, fopte += 6) {
-		guint16 const tmp = GSF_LE_GET_GUINT32(fopte);
+		guint16 const tmp = GSF_LE_GET_GUINT16 (fopte);
 		guint const pid = tmp & 0x3fff;
 		gboolean const is_blip = (tmp & 0x4000) != 0;
 		gboolean const is_complex = (tmp & 0x8000) != 0;
@@ -1955,14 +1973,19 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		d (0, {
 			if (NULL != name)
 				   g_printerr ("%s %d = 0x%08x (=%d) %s%s;\n", name, pid, val, val,
-			      is_blip ? " is blip" : "",
-					   is_complex ? " is complex" : "");
+					       is_blip ? " is blip" : "",
+					       is_complex ? " is complex" : "");
 		});
 
 		/* TODO : use this for something */
 		if (is_complex) {
 			/* check for over run */
-			g_return_val_if_fail (extra + val - data + COMMON_HEADER_LEN <= h->len, TRUE);
+			if ((guint64)(extra - data) + val + COMMON_HEADER_LEN > h->len) {
+				g_warning ("Escher OPT complex property overruns its record");
+				if (needs_free)
+					g_free ((guint8 *)data);
+				return TRUE;
+			}
 
 			d (5, gsf_mem_dump (extra, val););
 			d (11, {
@@ -1976,10 +1999,18 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 				g_free (name);
 			});
 			if (id & MS_OBJ_ATTR_IS_PTR_MASK) {
-				char *s = g_utf16_to_utf8 ((gunichar2*)extra, val / 2,
-							   NULL, NULL, NULL);
-				ms_escher_header_add_attr (h,
-					ms_obj_attr_new_ptr (id, s));
+				/* The data is UTF-16LE; do not alias it as host endian. */
+				glong n16 = val / 2, j16;
+				gunichar2 *u16 = g_new (gunichar2, n16 + 1);
+				char *s;
+
+				for (j16 = 0; j16 < n16; j16++)
+					u16[j16] = GSF_LE_GET_GUINT16 (extra + 2 * j16);
+				s = g_utf16_to_utf8 (u16, n16, NULL, NULL, NULL);
+				g_free (u16);
+				if (s != NULL)
+					ms_escher_header_add_attr (h,
+						ms_obj_attr_new_ptr (id, s));
 				id = MS_OBJ_ATTR_NONE;
 			}
 			extra += val;

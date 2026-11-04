@@ -293,7 +293,8 @@ static gboolean
 BC_R(ai)(XLChartHandler const *handle,
 	 XLChartReadState *s, BiffQuery *q)
 {
-	guint8 purpose, ref_type, flags, length;
+	guint8 purpose, ref_type;
+	guint16 flags, length;
 	int top_state;
 
 	XL_CHECK_CONDITION_VAL (q->length >= 8, TRUE);
@@ -369,10 +370,14 @@ BC_R(ai)(XLChartHandler const *handle,
 		if (texpr != NULL) {
 			Sheet *sheet = ms_container_sheet (s->container.parent);
 
-			if (sheet && s->currentSeries)
-				s->currentSeries->data [purpose].data = (purpose == GOG_MS_DIM_LABELS)
+			if (sheet && s->currentSeries) {
+				GOData *nd = (purpose == GOG_MS_DIM_LABELS)
 					? gnm_go_data_scalar_new_expr (sheet, texpr)
 					: gnm_go_data_vector_new_expr (sheet, texpr);
+				if (s->currentSeries->data [purpose].data)
+					g_object_unref (s->currentSeries->data [purpose].data);
+				s->currentSeries->data [purpose].data = nd;
+			}
 			else {
 				gnm_expr_top_unref (texpr);
 				g_return_val_if_fail (sheet != NULL, FALSE);
@@ -696,6 +701,9 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 		}
 		case 3: {
 			/* in that case, we have an areaformat too */
+			if (!ms_biff_query_peek_next (q, &opcode) ||
+			    opcode != BIFF_CHART_areaformat)
+				break;
 			ms_biff_query_next (q);
 			if (BC_R(areaformat)(handle, s, q))
 				return TRUE;
@@ -830,6 +838,7 @@ BC_R(catserrange)(XLChartHandler const *handle,
 {
 	guint flags;
 	XL_CHECK_CONDITION_VAL (q->length >= 8, TRUE);
+	XL_CHECK_CONDITION_VAL (s->axis != NULL, TRUE);
 	flags = GSF_LE_GET_GUINT16 (q->data + 6);
 	if (((flags & 2) != 0) ^ ((flags & 4) != 0)) {
 		if (gog_axis_get_atype (GOG_AXIS (s->axis)) == GOG_AXIS_X)
@@ -1469,8 +1478,11 @@ BC_R(lineformat)(XLChartHandler const *handle,
 
 	if (s->prev_opcode == BIFF_CHART_chartline) {
 		/* we only support hi-lo lines at the moment */
-		if (s->cur_role == 1)
+		if (s->cur_role == 1) {
+			if (s->chartline_style[s->cur_role])
+				g_object_unref (s->chartline_style[s->cur_role]);
 			s->chartline_style[s->cur_role] = s->style;
+		}
 		else
 			g_object_unref (s->style);
 		s->style = NULL;
@@ -1602,7 +1614,8 @@ BC_R(objectlink)(XLChartHandler const *handle,
 			GnmExprTop const *texpr = gnm_expr_top_new_constant (value);
 			gog_dataset_set_dim (GOG_DATASET (label), 0,
 					     gnm_go_data_scalar_new_expr (sheet, texpr), NULL);
-		}
+		} else
+			g_free (s->text);
 		s->text = NULL;
 		s->label = NULL;
 	} else if (s->label) {
@@ -1901,7 +1914,8 @@ static gboolean
 BC_R(serauxerrbar)(XLChartHandler const *handle,
 		   XLChartReadState *s, BiffQuery *q)
 {
-	guint8 type, src, teetop, num;
+	guint8 type, src, teetop;
+	guint16 num;
 	double val;
 
 	XL_CHECK_CONDITION_VAL (q->length >= 14, TRUE);
@@ -2124,6 +2138,8 @@ BC_R(seriestext)(XLChartHandler const *handle,
 		return FALSE;
 
 	str = excel_biff_text_1 (s->container.importer, q, 2);
+	if (str == NULL)
+		return FALSE;
 	d (2, g_printerr ("'%s';\n", str););
 
 	if (s->currentSeries != NULL &&
@@ -2378,7 +2394,7 @@ BC_R(tick)(XLChartHandler const *handle,
 		break;
 	}
 
-	if ((!(flags & 0x20)) && BC_R(ver)(s) >= MS_BIFF_V8) {
+	if ((!(flags & 0x20)) && BC_R(ver)(s) >= MS_BIFF_V8 && q->length >= 30) {
 		guint16 trot = GSF_LE_GET_GUINT16 (q->data+28);
 		if (trot <= 0x5a)
 			s->style->text_layout.angle = trot;
@@ -2461,9 +2477,7 @@ static void
 xl_axis_get_elem (Sheet *sheet, GogObject *axis, unsigned dim, gchar const *name,
 		  gboolean flag, guint8 const *data, gboolean log_scale)
 {
-	GOData *dat;
 	if (flag) {
-		dat = NULL;
 		d (1, g_printerr ("%s = Auto\n", name););
 		if (dim == GOG_AXIS_ELEM_CROSS_POINT) {
 			GnmValue *value = value_new_float (0.);
@@ -2493,6 +2507,7 @@ BC_R(valuerange)(XLChartHandler const *handle,
 	Sheet *sheet = ms_container_sheet (s->container.parent);
 
 	XL_CHECK_CONDITION_VAL (q->length >= 42, TRUE);
+	XL_CHECK_CONDITION_VAL (s->axis != NULL, TRUE);
 
 	flags = GSF_LE_GET_GUINT16 (q->data+40);
 	log_scale =  flags & 0x20;
@@ -2705,6 +2720,7 @@ BC_R(end)(XLChartHandler const *handle,
 					gog_object_clear_parent (GOG_OBJECT (l->data));
 				else {
 					g_slist_free (contributors);
+					l = l->next;
 					continue;
 				}
 				g_object_set (G_OBJECT (l->data), "type",
@@ -2726,6 +2742,7 @@ BC_R(end)(XLChartHandler const *handle,
 					gog_object_clear_parent (GOG_OBJECT (l->data));
 				else {
 					g_slist_free (contributors);
+					l = l->next;
 					continue;
 				}
 				g_object_set (G_OBJECT (l->data), "type", GOG_AXIS_Y, NULL);
@@ -3065,11 +3082,13 @@ not_a_matrix:
 					} else
 						eseries->extra_dim = GOG_MS_DIM_START;
 				}
-				g_object_set (G_OBJECT (series),
-					"style", s->dropbar_style,
-					NULL);
-				g_object_unref (s->dropbar_style);
-				s->dropbar_style = NULL;
+				if (s->dropbar_style != NULL) {
+					g_object_set (G_OBJECT (series),
+						"style", s->dropbar_style,
+						NULL);
+					g_object_unref (s->dropbar_style);
+					s->dropbar_style = NULL;
+				}
 			}
 			if (l > 0 && s->hilo) {
 				GogObject *plot = GOG_OBJECT (gog_plot_new_by_name ("GogMinMaxPlot"));
@@ -4034,11 +4053,18 @@ ms_excel_chart_read_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 	gboolean res = TRUE;
 
 	/* 1st record must be a valid BOF record */
-	g_return_val_if_fail (ms_biff_query_next (q), TRUE);
+	if (!ms_biff_query_next (q)) {
+		g_warning ("Missing BOF record in chart stream");
+		return TRUE;
+	}
 	bof = ms_biff_bof_data_new (q);
 
 	g_return_val_if_fail (bof != NULL, TRUE);
-	g_return_val_if_fail (bof->type == MS_BIFF_TYPE_Chart, TRUE);
+	if (bof->type != MS_BIFF_TYPE_Chart) {
+		g_warning ("Chart stream does not start with a chart BOF");
+		ms_biff_bof_data_destroy (bof);
+		return TRUE;
+	}
 
 	/* NOTE : _Ignore_ the verison in the BOF, it lies!
 	 * XP saving as 95 will mark the book as biff7
