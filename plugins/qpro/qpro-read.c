@@ -238,7 +238,7 @@ static struct {
 	{ "false", 0 },
 	{ "true", 0 },
 	{ "rand", 0 },
-	{ "date", 1 },
+	{ "date", 3 },
 	{ "now", 0 },
 	{ "pmt", ARGS_UNKNOWN }, /* (pv,Rate,Nper) */
 	{ "pv", ARGS_UNKNOWN },  /* (pmt, Rate, Nper) */
@@ -248,7 +248,7 @@ static struct {
 	{ "month", 1 },
 	{ "year", 1 },
 	{ "round", 2 },
-	{ "time", 1 },
+	{ "time", 3 },
 	{ "hour", 1 },
 	{ "minute", 1 },
 	{ "second", 1 },
@@ -285,7 +285,7 @@ static struct {
 	{ "index2d", ARGS_UNKNOWN }, /* Possibly @index(Block, Column, Row, <Page>) */
 	{ "columns", 1 },
 	{ "rows", 1 },
-	{ "rept", 1 },
+	{ "rept", 2 },
 	{ "upper", 1 },
 	{ "lower", 1 },
 	{ "left", 2 },
@@ -452,8 +452,10 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			Q_CHECK_CONDITION (end - refs >= 6);
 			tmp = GSF_LE_GET_GUINT16 (refs + 4);
 			ref.sheet = NULL;
-			ref.col = *((gint8 *)(refs + 2));
 			ref.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
+			ref.col = ref.col_relative
+				? *((gint8 *)(refs + 2))
+				: refs[2];
 			ref.row_relative = (tmp & 0x2000) ? TRUE : FALSE;
 			if (ref.row_relative)
 				ref.row = (int)(((gint16)((tmp & 0x1fff) << 3)) >> 3);
@@ -472,8 +474,10 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 			tmp = GSF_LE_GET_GUINT16 (refs + 4);
 			a.sheet = NULL;
-			a.col = *((gint8 *)(refs + 2));
 			a.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
+			a.col = a.col_relative
+				? *((gint8 *)(refs + 2))
+				: refs[2];
 			a.row_relative = (tmp & 0x2000) ? TRUE : FALSE;
 			if (a.row_relative)
 				a.row = (int)(((gint16)((tmp & 0x1fff) << 3)) >> 3);
@@ -482,8 +486,10 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 			tmp = GSF_LE_GET_GUINT16 (refs + 8);
 			b.sheet = NULL;
-			b.col = *((gint8 *)(refs + 6));
 			b.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
+			b.col = b.col_relative
+				? *((gint8 *)(refs + 6))
+				: refs[6];
 			b.row_relative = (tmp & 0x2000) ? TRUE : FALSE;
 			if (b.row_relative)
 				b.row = (int)(((gint16)((tmp & 0x1fff) << 3)) >> 3);
@@ -510,6 +516,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 		case QPRO_OP_CONST_STR: {
 			gsize l = strnlen (CU2C (fmla), refs - fmla);
+			Q_CHECK_CONDITION (l < (gsize)(refs - fmla));
 			expr = gnm_expr_new_constant (qpro_new_string (state, fmla, l));
 			fmla += l + 1;
 			break;
@@ -751,7 +758,7 @@ qpro_read_sheet (QProReadState *state)
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
 				gnm_cell_assign_value (sheet_cell_fetch (sheet, col, row),
-					value_new_int (GSF_LE_GET_GUINT16 (data + 6)));
+					value_new_int (GSF_LE_GET_GINT16 (data + 6)));
 			}
 			break;
 
@@ -962,4 +969,8 @@ qpro_file_open (GOFileOpener const *fo, GOIOContext *context,
 		qpro_read_workbook (&state, input);
 
 	gsf_iconv_close (state.converter);
+
+	if (workbook_sheet_count (state.wb) == 0)
+		go_io_error_string (context,
+				    _("Error while reading Quattro Pro workbook."));
 }
