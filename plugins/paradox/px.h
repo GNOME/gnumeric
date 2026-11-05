@@ -9,7 +9,10 @@
 #define HAVE_GSF 1
 #include <paradox-gsf.h>
 
-#define PX_MEMORY_DEBUGGING
+/* PX_MEMORY_DEBUGGING makes pxlib track every allocation in a fixed table of
+ * 10000 slots, which overflows on big imports (the plugin frees values with
+ * g_free, so slots are never released).  Define it only for debugging. */
+/* #define PX_MEMORY_DEBUGGING */
 #ifdef PX_MEMORY_DEBUGGING
 #include <paradox-mp.h>
 #endif
