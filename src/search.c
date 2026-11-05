@@ -27,7 +27,32 @@ static GObjectClass *parent_class;
 
 typedef struct {
 	GOSearchReplaceClass base_class;
+
+	void (*failure) (GnmSearchReplace *sr,
+			 GnmCell *cell,
+			 char const *old_text,
+			 char const *new_text);
+
+	int (*query_cell) (GnmSearchReplace *sr,
+			   GnmCell *cell,
+			   char const *old_text,
+			   char const *new_text);
+
+	int (*query_comment) (GnmSearchReplace *sr,
+			      Sheet *sheet,
+			      GnmCellPos *pos,
+			      char const *old_text,
+			      char const *new_text);
 } GnmSearchReplaceClass;
+
+enum {
+	SIGNAL_FAILURE,
+	SIGNAL_QUERY_CELL,
+	SIGNAL_QUERY_COMMENT,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 enum {
 	PROP_0,
@@ -525,11 +550,8 @@ void
 gnm_search_replace_query_fail (GnmSearchReplace *sr,
 			       const GnmSearchReplaceCellResult *res)
 {
-	if (!sr->query_func)
-		return;
-
-	sr->query_func (GNM_SRQ_FAIL, sr,
-			res->cell, res->old_text, res->new_text);
+	g_signal_emit (sr, signals[SIGNAL_FAILURE], 0,
+		       res->cell, res->old_text, res->new_text);
 }
 
 /**
@@ -543,11 +565,14 @@ int
 gnm_search_replace_query_cell (GnmSearchReplace *sr,
 			       const GnmSearchReplaceCellResult *res)
 {
-	if (!sr->query || !sr->query_func)
-		return GTK_RESPONSE_YES;
+	int response = GTK_RESPONSE_YES;
 
-	return sr->query_func (GNM_SRQ_QUERY, sr,
-			       res->cell, res->old_text, res->new_text);
+	if (sr->query)
+		g_signal_emit (sr, signals[SIGNAL_QUERY_CELL], 0,
+			       res->cell, res->old_text, res->new_text,
+			       &response);
+
+	return response;
 }
 
 
@@ -564,12 +589,15 @@ gnm_search_replace_query_comment (GnmSearchReplace *sr,
 				  const GnmEvalPos *ep,
 				  const GnmSearchReplaceCommentResult *res)
 {
-	if (!sr->query || !sr->query_func)
-		return GTK_RESPONSE_YES;
+	int response = GTK_RESPONSE_YES;
 
-	return sr->query_func (GNM_SRQ_QUERY_COMMENT, sr,
+	if (sr->query)
+		g_signal_emit (sr, signals[SIGNAL_QUERY_COMMENT], 0,
 			       ep->sheet, &ep->eval,
-			       res->old_text, res->new_text);
+			       res->old_text, res->new_text,
+			       &response);
+
+	return response;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -761,6 +789,72 @@ gnm_search_replace_class_init (GObjectClass *gobject_class)
 	gobject_class->finalize = gnm_search_replace_finalize;
 	gobject_class->get_property = gnm_search_replace_get_property;
 	gobject_class->set_property = gnm_search_replace_set_property;
+
+	/**
+	 * GnmSearchReplace::failure:
+	 * @sr: the #GnmSearchReplace
+	 * @cell: the #GnmCell whose replacement failed
+	 * @old_text: the old cell text
+	 * @new_text: the replacement text that was rejected
+	 *
+	 * Emitted when a replacement is rejected in %GNM_SRE_FAIL mode.
+	 **/
+	signals[SIGNAL_FAILURE] = g_signal_new
+		("failure",
+		 GNM_SEARCH_REPLACE_TYPE,
+		 G_SIGNAL_RUN_LAST,
+		 G_STRUCT_OFFSET (GnmSearchReplaceClass, failure),
+		 NULL, NULL,
+		 g_cclosure_marshal_generic,
+		 G_TYPE_NONE, 3,
+		 gnm_cell_get_type (), G_TYPE_STRING, G_TYPE_STRING);
+
+	/**
+	 * GnmSearchReplace::query-cell:
+	 * @sr: the #GnmSearchReplace
+	 * @cell: the #GnmCell being replaced
+	 * @old_text: the old cell text
+	 * @new_text: the replacement text
+	 *
+	 * Emitted before replacing the contents of a cell when querying is
+	 * enabled.
+	 *
+	 * Returns: a #GtkResponseType such as %GTK_RESPONSE_YES,
+	 * %GTK_RESPONSE_NO, or %GTK_RESPONSE_CANCEL.
+	 **/
+	signals[SIGNAL_QUERY_CELL] = g_signal_new
+		("query-cell",
+		 GNM_SEARCH_REPLACE_TYPE,
+		 G_SIGNAL_RUN_LAST,
+		 G_STRUCT_OFFSET (GnmSearchReplaceClass, query_cell),
+		 NULL, NULL,
+		 g_cclosure_marshal_generic,
+		 G_TYPE_INT, 3,
+		 gnm_cell_get_type (), G_TYPE_STRING, G_TYPE_STRING);
+
+	/**
+	 * GnmSearchReplace::query-comment:
+	 * @sr: the #GnmSearchReplace
+	 * @sheet: the #Sheet containing the comment
+	 * @pos: the #GnmCellPos of the commented cell
+	 * @old_text: the old comment text
+	 * @new_text: the replacement comment text
+	 *
+	 * Emitted before replacing a cell comment when querying is enabled.
+	 *
+	 * Returns: a #GtkResponseType such as %GTK_RESPONSE_YES,
+	 * %GTK_RESPONSE_NO, or %GTK_RESPONSE_CANCEL.
+	 **/
+	signals[SIGNAL_QUERY_COMMENT] = g_signal_new
+		("query-comment",
+		 GNM_SEARCH_REPLACE_TYPE,
+		 G_SIGNAL_RUN_LAST,
+		 G_STRUCT_OFFSET (GnmSearchReplaceClass, query_comment),
+		 NULL, NULL,
+		 g_cclosure_marshal_generic,
+		 G_TYPE_INT, 4,
+		 GNM_SHEET_TYPE, gnm_cell_pos_get_type (),
+		 G_TYPE_STRING, G_TYPE_STRING);
 
 	g_object_class_install_property
 		(gobject_class,

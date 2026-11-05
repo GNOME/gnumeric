@@ -31,18 +31,10 @@ GType gnm_search_replace_scope_get_type (void);
 #define GNM_SEARCH_REPLACE_SCOPE_TYPE (gnm_search_replace_scope_get_type ())
 
 typedef enum {
-	GNM_SRQ_FAIL,
-	GNM_SRQ_QUERY,
-	GNM_SRQ_QUERY_COMMENT
-} GnmSearchReplaceQuery;
-
-typedef enum {
 	GNM_SRL_CONTENTS,
 	GNM_SRL_VALUE,
 	GNM_SRL_COMMENT
 } GnmSearchReplaceLocus;
-
-typedef  int (*GnmSearchReplaceQueryFunc) (GnmSearchReplaceQuery q, GnmSearchReplace *sr, ...);
 
 struct GnmSearchReplace_ {
 	GOSearchReplace base;
@@ -78,22 +70,6 @@ struct GnmSearchReplace_ {
 	 * If false: A1,A2,...,B1,B2,...
 	 */
 	gboolean by_row;
-
-	/*
-	 * Query and info function.
-	 *
-	 * GNM_SRQ_FAIL (..., GnmCell *cell, char const *old, char const *new)
-	 *   Inform the user that an error occurred in GNM_SRE_FAIL mode.
-	 *
-	 * GNM_SRQ_QUERY (..., GnmCell *cell, char const *old, char const *new)
-	 *   Ask user whether to change.  GTK_RESPONSE_(YES|NO|CANCEL)
-	 *
-	 * GNM_SRQ_QUERY_COMMENT (..., Sheet *sheet, CellPos *cp,
-	 *                    char const *old, char const *new)
-	 *   Ask user whether to change.  GTK_RESPONSE_(YES|NO|CANCEL)
-	 */
-	GnmSearchReplaceQueryFunc query_func;
-	void *user_data;
 };
 
 GType gnm_search_replace_get_type (void);

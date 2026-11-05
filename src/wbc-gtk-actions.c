@@ -481,77 +481,64 @@ common_cell_goto (WBCGtk *wbcg, Sheet *sheet, GnmCellPos const *pos)
 }
 
 static int
-cb_edit_search_replace_query (GnmSearchReplaceQuery q, GnmSearchReplace *sr, ...)
+cb_edit_search_replace_query_comment (GnmSearchReplace *sr,
+				      Sheet *sheet,
+				      GnmCellPos *cp,
+				      char const *old_text,
+				      char const *new_text,
+				      WBCGtk *wbcg)
 {
+	char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
+					  sheet->name_unquoted,
+					  cellpos_as_string (cp));
 	int res;
-	va_list pvar;
-	WBCGtk *wbcg = sr->user_data;
 
-	va_start (pvar, sr);
+	common_cell_goto (wbcg, sheet, cp);
 
-	switch (q) {
-	case GNM_SRQ_FAIL: {
-		GnmCell *cell = va_arg (pvar, GnmCell *);
-		char const *old_text = va_arg (pvar, char const *);
-		char const *new_text = va_arg (pvar, char const *);
-		char *err = g_strdup_printf
-			(_("In cell %s, the current contents\n"
-			   "        %s\n"
-			   "would have been replaced by\n"
-			   "        %s\n"
-			   "which is invalid.\n\n"
-			   "The replace has been aborted "
-			   "and nothing has been changed."),
-			 cell_name (cell),
-			 old_text,
-			 new_text);
-
-		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
-				      "%s", err);
-		g_free (err);
-		res = GTK_RESPONSE_NO;
-		break;
-	}
-
-	case GNM_SRQ_QUERY: {
-		GnmCell *cell = va_arg (pvar, GnmCell *);
-		char const *old_text = va_arg (pvar, char const *);
-		char const *new_text = va_arg (pvar, char const *);
-		Sheet *sheet = cell->base.sheet;
-		char *pos_name = g_strconcat (sheet->name_unquoted, "!",
-					      cell_name (cell), NULL);
-
-		common_cell_goto (wbcg, sheet, &cell->pos);
-
-		res = dialog_search_replace_query (wbcg, sr, pos_name,
-						   old_text, new_text);
-		g_free (pos_name);
-		break;
-	}
-
-	case GNM_SRQ_QUERY_COMMENT: {
-		Sheet *sheet = va_arg (pvar, Sheet *);
-		GnmCellPos *cp = va_arg (pvar, GnmCellPos *);
-		char const *old_text = va_arg (pvar, char const *);
-		char const *new_text = va_arg (pvar, char const *);
-		char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
-						  sheet->name_unquoted,
-						  cellpos_as_string (cp));
-		common_cell_goto (wbcg, sheet, cp);
-
-		res = dialog_search_replace_query (wbcg, sr, pos_name,
-						   old_text, new_text);
-		g_free (pos_name);
-		break;
-	}
-
-	default:
-		/* Shouldn't really happen.  */
-		res = GTK_RESPONSE_CANCEL;
-	}
-
-	va_end (pvar);
+	res = dialog_search_replace_query (wbcg, sr, pos_name,
+					   old_text, new_text);
+	g_free (pos_name);
 	return res;
+}
+
+static int
+cb_edit_search_replace_query_cell (GnmSearchReplace *sr,
+				   GnmCell *cell,
+				   char const *old_text,
+				   char const *new_text,
+				   WBCGtk *wbcg)
+{
+	Sheet *sheet = cell->base.sheet;
+	char *pos_name = g_strconcat (sheet->name_unquoted, "!",
+				      cell_name (cell), NULL);
+	int res;
+
+	common_cell_goto (wbcg, sheet, &cell->pos);
+
+	res = dialog_search_replace_query (wbcg, sr, pos_name,
+					   old_text, new_text);
+	g_free (pos_name);
+	return res;
+}
+
+static void
+cb_edit_search_replace_failure (GnmSearchReplace *sr,
+				GnmCell *cell,
+				char const *old_text,
+				char const *new_text,
+				WBCGtk *wbcg)
+{
+	go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+			      _("In cell %s, the current contents\n"
+				"        %s\n"
+				"would have been replaced by\n"
+				"        %s\n"
+				"which is invalid.\n\n"
+				"The replace has been aborted "
+				"and nothing has been changed."),
+			      cell_name (cell),
+			      old_text,
+			      new_text);
 }
 
 static gboolean
@@ -560,8 +547,12 @@ cb_edit_search_replace_action (WBCGtk *wbcg,
 {
 	WorkbookControl *wbc = GNM_WBC (wbcg);
 
-	sr->query_func = cb_edit_search_replace_query;
-	sr->user_data = wbcg;
+	g_signal_connect (sr, "failure",
+			  G_CALLBACK (cb_edit_search_replace_failure), wbcg);
+	g_signal_connect (sr, "query-cell",
+			  G_CALLBACK (cb_edit_search_replace_query_cell), wbcg);
+	g_signal_connect (sr, "query-comment",
+			  G_CALLBACK (cb_edit_search_replace_query_comment), wbcg);
 
 	return cmd_search_replace (wbc, sr);
 }
