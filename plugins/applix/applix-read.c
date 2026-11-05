@@ -151,20 +151,28 @@ applix_parse_value (char *buf, char **follow)
 	if (*buf == '"') {
 		char *src = ++buf, *dest = src;
 		while (*src && *src != '"') {
-			if (*src == '\\')
+			/* A trailing backslash must not skip the terminator */
+			if (*src == '\\' && src[1])
 				src++;
-			*dest = *src++;
+			*dest++ = *src++;
 		}
 		g_return_val_if_fail (*src == '"', NULL);
-		*follow = src;
-		**follow = '\0';
-		*follow += 3;
+		/* dest <= src, so src[1..2] are still intact */
+		/* Skip the closing quote's first separator character */
+		*follow = src + 1;
+		if (**follow)
+			(*follow)++;
+		*dest = '\0';
 	} else {
-		*follow = strchr (buf, ' ');
-		g_return_val_if_fail (*follow != NULL, NULL);
-		**follow = '\0';
-		*follow += 2;
+		char *sp = strchr (buf, ' ');
+		g_return_val_if_fail (sp != NULL, NULL);
+		*sp = '\0';
+		*follow = sp + 1;
 	}
+
+	/* Skip the second separator character, but never past the end */
+	if (**follow)
+		(*follow)++;
 
 	return buf;
 }
@@ -280,15 +288,21 @@ applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *p
 
 	start = tmp2;
 	ptr = applix_sheetref_parse (start+2, &res->b.sheet, wb);
-	if (ptr == NULL)
+	if (ptr == NULL) {
+		res->b = res->a;
 		return start; /* TODO error unknown sheet */
+	}
 	if (*ptr == ':') ptr++;
 	tmp1 = applix_col_parse (ptr, &res->b.col, &res->b.col_relative);
-	if (!tmp1)
+	if (!tmp1) {
+		res->b = res->a;
 		return start;
+	}
 	tmp2 = applix_row_parse (tmp1, &res->b.row, &res->b.row_relative);
-	if (!tmp2)
+	if (!tmp2) {
+		res->b = res->a;
 		return start;
+	}
 	if (res->b.col_relative)
 		res->b.col -= pp->eval.col;
 	if (res->b.row_relative)
@@ -450,7 +464,8 @@ applix_read_typefaces (ApplixReadState *state)
 		g_ptr_array_add	(state->font_names, g_strdup (ptr));
 	}
 
-	return FALSE;
+	/* Truncated file: no "END TYPEFACE TABLE" */
+	return TRUE;
 }
 
 static GnmColor *
@@ -489,6 +504,8 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 	gboolean is_protected = FALSE, is_invisible = FALSE;
 	char const *format_prefix = NULL, *format_suffix = NULL;
 	int font_id = 0; /* default */
+	/* Cache key: the whole descriptor, including any P/I prefix */
+	char *key = start;
 
 	*buffer = NULL;
 	if (*tmp == 'P') {
@@ -522,7 +539,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 
 	/* Look the descriptor string up in the hash of parsed styles */
 	tmp[1] = '\0';
-	style = g_hash_table_lookup (state->styles, start);
+	style = g_hash_table_lookup (state->styles, key);
 	if (style == NULL) {
 		/* Parse the descriptor */
 		char *sep = start;
@@ -555,7 +572,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				case '4' : a = GNM_HALIGN_FILL; break;
 				default:
 					applix_parse_error (state, "Unknown horizontal alignment '%c'", *sep);
-					return NULL;
+					goto error;
 				}
 				gnm_style_set_align_h (style, a);
 				++sep;
@@ -567,7 +584,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 				case 'B' : a = GNM_VALIGN_BOTTOM; break;
 				default:
 					applix_parse_error (state, "Unknown vertical alignment '%c'", *sep);
-					return NULL;
+					goto error;
 				}
 				gnm_style_set_align_v (style, a);
 				sep += 2;
@@ -610,7 +627,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					    sep+1 == end ||
 					    id < 1 || id > 16) {
 						applix_parse_error (state, "Unknown format %d", id);
-						return NULL;
+						goto error;
 					}
 					format = date_formats[id - 1];
 					sep = end;
@@ -625,7 +642,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					case '3' : format = "hh:mm";		break;
 					default:
 						applix_parse_error (state, "Unknown time format '%c'", sep[1]);
-						return NULL;
+						goto error;
 					}
 					sep += 2;
 					break;
@@ -681,14 +698,21 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					   /* Fall through */
 				default:
 					applix_parse_error (state, "Unknown format '%c'", *sep);
-					return NULL;
+					goto error;
 				}
 
 				if (get_precision) {
 					static char const *zeros = "000000000";
 					char *tmp_format;
 					char const *prec = "", *decimal = "";
-					int n_prec = applix_get_precision (++sep);
+					int n_prec;
+
+					++sep;
+					if (*sep == '\0' || *sep == ')' || *sep == '|') {
+						applix_parse_error (state, "Missing precision");
+						goto error;
+					}
+					n_prec = applix_get_precision (sep);
 
 					sep++;
 					if (n_prec > 0) {
@@ -736,18 +760,18 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					break;
 				}
 				applix_parse_error (state, "Unknown font modifier 'f%c'", sep[1]);
-				return NULL;
+				goto error;
 
 			case 'F' :
 				if (sep[1] == 'G' ) {
 					GnmColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
-						return NULL;
+						goto error;
 					gnm_style_set_font_color (style, color);
 					break;
 				}
 				applix_parse_error (state, "Unknown font modifier F%c", sep[1]);
-				return NULL;
+				goto error;
 
 			case 'P' : {
 				char *start = ++sep;
@@ -758,7 +782,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					break;
 				}
 				applix_parse_error (state, "Invalid font size '%s", start);
-				return NULL;
+				goto error;
 			}
 
 			case 'W' :
@@ -773,7 +797,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 					break;
 				}
 				applix_parse_error (state, "Unknown font modifier W%c", sep[1]);
-				return NULL;
+				goto error;
 
 			case 'T' :
 				if (sep[1] == 'F') {
@@ -791,7 +815,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 
 			default:
 				applix_parse_error (state, "Unknown font modifier");
-				return NULL;
+				goto error;
 			}
 
 			if (*sep == ',')
@@ -800,7 +824,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 
 		if (*sep != '|' && *sep != ')') {
 			applix_parse_error (state, "Invalid font specification");
-			return NULL;
+			goto error;
 		}
 
 		if (font_id < (int)state->font_names->len)
@@ -894,7 +918,7 @@ applix_parse_style (ApplixReadState *state, char **buffer)
 		}
 
 		/* Store the newly parsed style along with its descriptor */
-		g_hash_table_insert (state->styles, g_strdup (start), style);
+		g_hash_table_insert (state->styles, g_strdup (key), style);
 	}
 
 	*buffer = tmp + 2;
@@ -925,14 +949,17 @@ applix_read_attributes (ApplixReadState *state)
 		if (count++) {
 			tmp = ptr + 1;
 			style = applix_parse_style (state, &tmp);
-			if (style == NULL || *tmp != '>')
+			if (style == NULL || *tmp != '>') {
+				if (style)
+					gnm_style_unref (style);
 				return applix_parse_error (state, "Invalid attribute");
+			}
 			g_ptr_array_add	(state->attrs, style);
 		}
 	}
 
-	/* NOTREACHED */
-	return FALSE;
+	/* Truncated file: no "Attr Table End" */
+	return TRUE;
 }
 
 static Sheet *
@@ -993,6 +1020,9 @@ applix_parse_cellref (ApplixReadState *state, char *buffer,
 	return NULL;
 }
 
+/* Sanity limit on sizes read from the file; keeps the arithmetic in int */
+#define MAX_APPLIX_DIM 32767
+
 // Nominal pixels.  Originally probably true pixels.
 static int
 applix_height_to_pixels (int height)
@@ -1032,25 +1062,37 @@ static int
 applix_read_view (ApplixReadState *state, char *buffer)
 {
 	Sheet *sheet = NULL;
+	Sheet *view_sheet = NULL;
 	char *name = buffer + 19;
 	char *tmp;
 	gboolean ignore;
 
 	tmp = strchr (name, ':');
-	if (tmp == NULL)
-		return 0;
-	*tmp =  '\0';
-
-	ignore = tmp[1] != '~';
-	if (!ignore)
+	if (tmp == NULL) {
+		/* Malformed name: still skip to the end of the view */
+		ignore = TRUE;
+	} else {
+		*tmp =  '\0';
+		ignore = tmp[1] != '~';
+	}
+	if (!ignore) {
+		view_sheet = applix_fetch_sheet (state, name);
 		state->sheet_order = g_slist_prepend (state->sheet_order,
-			applix_fetch_sheet (state, name));
+						      view_sheet);
+	}
 
 	while (NULL != (buffer = applix_get_line (state))) {
 		if (g_str_has_prefix (buffer, "View End, Name: ~"))
 			break;
 		if (ignore)
 			continue;
+
+		/* The size settings below need the sheet of this view */
+		if (view_sheet == NULL &&
+		    (g_str_has_prefix (buffer, "View Default ") ||
+		     g_str_has_prefix (buffer, "View Row Heights: ") ||
+		     g_str_has_prefix (buffer, "View Column Widths: ")))
+			return applix_parse_error (state, "View settings without a sheet");
 
 		if (g_str_has_prefix (buffer, "View Top Left: ")) {
 			GnmCellPos pos;
@@ -1066,35 +1108,35 @@ applix_read_view (ApplixReadState *state, char *buffer)
 						  &pos, pos.col, pos.row, pos.col, pos.row);
 		} else if (g_str_has_prefix (buffer, "View Default Column Width ")) {
 			char *ptr, *tmp = buffer + 26;
-			int width = a_strtol (tmp, &ptr);
-			if (tmp == ptr || width <= 0)
+			long width = a_strtol (tmp, &ptr);
+			if (tmp == ptr || width <= 0 || width > MAX_APPLIX_DIM)
 				return applix_parse_error (state, "Invalid default column width");
 
-			double pts = applix_pixels_to_pts (sheet, TRUE, applix_width_to_pixels (width));
-			sheet_col_set_default_size_pts (sheet, pts);
+			double pts = applix_pixels_to_pts (view_sheet, TRUE, applix_width_to_pixels (width));
+			sheet_col_set_default_size_pts (view_sheet, pts);
 		} else if (g_str_has_prefix (buffer, "View Default Row Height: ")) {
 			char *ptr, *tmp = buffer + 25;
-			int height = a_strtol (tmp, &ptr);
-			if (tmp == ptr || height <= 0)
+			long height = a_strtol (tmp, &ptr);
+			if (tmp == ptr || height <= 0 || height > MAX_APPLIX_DIM)
 				return applix_parse_error (state, "Invalid default row height");
 
 			/* height + one for the grid line */
-			double pts = applix_pixels_to_pts (sheet, FALSE, applix_height_to_pixels (height));
-			sheet_row_set_default_size_pts (sheet, pts);
+			double pts = applix_pixels_to_pts (view_sheet, FALSE, applix_height_to_pixels (height));
+			sheet_row_set_default_size_pts (view_sheet, pts);
 		} else if (g_str_has_prefix (buffer, "View Row Heights: ")) {
 			char *ptr = buffer + 17;
 			do {
-				int row, height;
+				long row, height;
 				char *tmp;
 
 				row = a_strtol (tmp = ptr + 1, &ptr) - 1;
-				if (tmp == ptr || row < 0 || *ptr != ':')
+				if (tmp == ptr || !valid_row (view_sheet, row) || *ptr != ':')
 					return applix_parse_error (state, "Invalid row size row number");
 				height = a_strtol (tmp = ptr + 1, &ptr);
 				if (height >= 32768)
 					height -= 32768;
 
-				if (tmp == ptr || height <= 0)
+				if (tmp == ptr || height <= 0 || height > MAX_APPLIX_DIM)
 					return applix_parse_error (state, "Invalid row size");
 
 				/* These seem to assume
@@ -1102,33 +1144,89 @@ applix_read_view (ApplixReadState *state, char *buffer)
 				 * bottom margin 1
 				 * size in pixels = val -32768 (sometimes ??)
 				 */
-				double pts = applix_pixels_to_pts (sheet, FALSE, applix_height_to_pixels (height));
-				sheet_row_set_size_pts (sheet, row, pts, TRUE);
+				double pts = applix_pixels_to_pts (view_sheet, FALSE, applix_height_to_pixels (height));
+				sheet_row_set_size_pts (view_sheet, row, pts, TRUE);
 			} while (ptr[0] == ' ' && g_ascii_isdigit (ptr[1]));
 		} else if (g_str_has_prefix (buffer, "View Column Widths: ")) {
 			char const *ptr = buffer + 19;
 			char const *tmp;
-			int col, width;
+			int col;
+			long width;
 			unsigned char dummy;
 
 			do {
 				ptr = applix_col_parse (tmp = ptr + 1, &col, &dummy);
-				if (!ptr || *ptr != ':')
+				if (!ptr || *ptr != ':' || !valid_col (view_sheet, col))
 					return applix_parse_error (state, "Invalid column");
 				width = a_strtol (tmp = ptr + 1, (char **)&ptr);
-				if (tmp == ptr || width <= 0)
+				if (tmp == ptr || width <= 0 || width > MAX_APPLIX_DIM)
 					return applix_parse_error (state, "Invalid column size");
 
 				/* These seem to assume
 				 * pixels = 8*width + 3 for the grid lines and margins
 				 */
-				double pts = applix_pixels_to_pts (sheet, TRUE, applix_width_to_pixels (width));
-				sheet_col_set_size_pts (sheet, col, pts, TRUE);
+				double pts = applix_pixels_to_pts (view_sheet, TRUE, applix_width_to_pixels (width));
+				sheet_col_set_size_pts (view_sheet, col, pts, TRUE);
 			} while (ptr[0] == ' ' && g_ascii_isalpha (ptr[1]));
 		}
 	}
 
 	return 0;
+}
+
+/*
+ * Parse "~A:B2..A:C4~  =expr".  On success fills @r, sets *@rest to the
+ * start of the expression and returns TRUE.  Reports its own errors.
+ */
+static gboolean
+applix_parse_array_range (ApplixReadState *state, char *expr_string,
+			  GnmRange *r, char **rest)
+{
+	Sheet *start_sheet, *end_sheet;
+	char *tmp;
+
+	tmp = applix_parse_cellref (state, expr_string + 1, &start_sheet,
+				    &r->start, ':');
+	if (start_sheet == NULL || tmp == NULL || tmp[0] != '.' || tmp[1] != '.') {
+		applix_parse_error (state, "Invalid array expression");
+		return FALSE;
+	}
+
+	tmp = applix_parse_cellref (state, tmp + 2, &end_sheet, &r->end, ':');
+	/* Need the closing '~' plus the two separator characters */
+	if (end_sheet == NULL || tmp == NULL || tmp[0] != '~' ||
+	    tmp[1] == '\0' || tmp[2] == '\0') {
+		applix_parse_error (state, "Invalid array expression");
+		return FALSE;
+	}
+
+	if (start_sheet != end_sheet) {
+		applix_parse_error (state, "3D array functions are not supported.");
+		return FALSE;
+	}
+
+	if (!valid_cellpos (start_sheet, &r->start) ||
+	    !valid_cellpos (end_sheet, &r->end) ||
+	    r->start.col > r->end.col || r->start.row > r->end.row) {
+		g_warning ("Ignoring sheet contents beyond allowed range.");
+		return FALSE;
+	}
+
+	*rest = tmp + 3; /* ~addr~<space><space>=expr */
+	return TRUE;
+}
+
+/* The descriptor "(' ..." marks string cells; it may follow a P/I prefix */
+static gboolean
+applix_style_is_string (char const *s)
+{
+	gboolean prefixed = FALSE;
+
+	if (*s == 'P') { s++; prefixed = TRUE; }
+	if (*s == 'I') { s++; prefixed = TRUE; }
+	if (prefixed && *s == ' ')
+		s++;
+	return s[0] == '(' && s[1] == '\'';
 }
 
 static int
@@ -1139,10 +1237,10 @@ applix_read_cells (ApplixReadState *state)
 	GnmCell *cell;
 	GnmCellPos pos;
 	GnmParseError  perr;
-	char content_type, *tmp, *ptr;
+	char content_type, *ptr;
 
 	while (NULL != (ptr = applix_get_line (state))) {
-		gboolean const val_is_string = (ptr[0] != '\0' && ptr[1] == '\'');
+		gboolean const val_is_string = applix_style_is_string (ptr);
 
 	       if (g_str_has_prefix (ptr, "*END SPREADSHEETS"))
 		       break;
@@ -1174,6 +1272,10 @@ applix_read_cells (ApplixReadState *state)
 		/* Apply the formatting */
 		sheet_style_set_pos (sheet, pos.col, pos.row, style);
 		content_type = *ptr;
+		if (content_type != '\0' && ptr[1] == '\0') {
+			applix_parse_error (state, "Truncated cell contents");
+			continue;
+		}
 		switch (content_type) {
 		case ';' : /* First of a shared formula */
 		case '.' : { /* instance of a shared formula */
@@ -1203,84 +1305,75 @@ applix_read_cells (ApplixReadState *state)
 			if (content_type == ';') {
 				GnmExprTop const *texpr;
 				gboolean	is_array = FALSE;
+				gboolean	array_failed = FALSE;
+				gboolean	have_perr = FALSE;
+				char const     *orig_expr = expr_string;
 
 				if (*expr_string == '~') {
-					Sheet *start_sheet, *end_sheet;
-					tmp = applix_parse_cellref (state, expr_string+1, &start_sheet,
-								    &r.start, ':');
-					if (start_sheet == NULL || tmp == NULL || tmp[0] != '.' || tmp[1] != '.') {
-						applix_parse_error (state, "Invalid array expression");
-						continue;
-					}
-
-					tmp = applix_parse_cellref (state, tmp+2, &end_sheet,
-								    &r.end, ':');
-					if (end_sheet == NULL || tmp == NULL || tmp[0] != '~') {
-						applix_parse_error (state, "Invalid array expression");
-						continue;
-					}
-
-					if (start_sheet != end_sheet) {
-						applix_parse_error (state, "3D array functions are not supported.");
-						continue;
-					}
-
-					if (!valid_cellpos (start_sheet, &r.start) ||
-					    !valid_cellpos (end_sheet, &r.end)) {
-						g_warning ("Ignoring sheet contents beyond allowed range.");
-						continue;
-					}
-
-					is_array = TRUE;
-					expr_string = tmp+3; /* ~addr~<space><space>=expr */
+					if (applix_parse_array_range (state, expr_string, &r,
+								      &expr_string))
+						is_array = TRUE;
+					else
+						array_failed = TRUE;
 				}
 
 				/* We need to continue at all costs so that the
 				 * rest of the sheet can be parsed. If we quit, then trailing
-				 * 'Formula ' lines confuse the parser
+				 * 'Formula ' lines confuse the parser; so the 'Formula: ' line
+				 * below is consumed even when the expression is unusable.
 				 */
-				(void) parse_error_init (&perr);
-				if (*expr_string != '=' && *expr_string != '+') {
-					applix_parse_error (state, _("Expression did not start with '=' ? '%s'"),
-								   expr_string);
-					texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
-				} else
-					texpr = gnm_expr_parse_str (expr_string+1,
-						parse_pos_init_cell (&pos, cell),
-								   GNM_EXPR_PARSE_DEFAULT,
-								   state->convs,
-								   &perr);
-
-				if (texpr == NULL) {
-					applix_parse_error (state, _("%s!%s : unable to parse '%s'\n     %s"),
-								   sheet->name_quoted, cell_name (cell),
-								   expr_string, perr.err->message);
-					texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
-				} else if (is_array) {
-					gnm_cell_set_array (sheet,
-							    &r,
-							    texpr);
-					gnm_cell_assign_value (cell, val);
-					/* Leak? */
+				if (array_failed) {
+					value_release (val);
+					texpr = gnm_expr_top_new_constant (value_new_string (orig_expr));
 				} else {
-					gnm_cell_set_expr_and_value (cell, texpr, val, TRUE);
-					/* Leak? */
+					(void) parse_error_init (&perr);
+					have_perr = TRUE;
+					if (*expr_string != '=' && *expr_string != '+') {
+						applix_parse_error (state, _("Expression did not start with '=' ? '%s'"),
+								    expr_string);
+						texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
+					} else {
+						texpr = gnm_expr_parse_str (expr_string+1,
+							parse_pos_init_cell (&pos, cell),
+									    GNM_EXPR_PARSE_DEFAULT,
+									    state->convs,
+									    &perr);
+						if (texpr == NULL) {
+							applix_parse_error (state, _("%s!%s : unable to parse '%s'\n     %s"),
+									    sheet->name_quoted, cell_name (cell),
+									    expr_string, perr.err->message);
+							texpr = gnm_expr_top_new_constant (value_new_string (expr_string));
+						}
+					}
+
+					if (is_array) {
+						if (gnm_cell_set_array (sheet, &r, texpr))
+							gnm_cell_assign_value (cell, val);
+						else
+							value_release (val);
+					} else
+						gnm_cell_set_expr_and_value (cell, texpr, val, TRUE);
 				}
 
 				if (!applix_get_line (state) ||
 				    !g_str_has_prefix (state->buffer, "Formula: ")) {
 					applix_parse_error (state, "Missing formula ID");
+					if (have_perr)
+						parse_error_free (&perr);
+					gnm_expr_top_unref (texpr);
 					continue;
 				}
 
 				ptr = state->buffer + 9;
 
-				/* Store the newly parsed expression along with its descriptor */
+				/* Store the newly parsed expression along with its descriptor;
+				 * the hash table owns our reference. */
 				g_hash_table_insert (state->exprs,
 						     g_strdup (ptr),
 						     (gpointer)texpr);
 
-				parse_error_free (&perr);
+				if (have_perr)
+					parse_error_free (&perr);
 			} else {
 				GnmExprTop const *texpr;
 				char const *key = expr_string + strlen (expr_string);
@@ -1330,7 +1423,7 @@ applix_read_row_list (ApplixReadState *state, char *ptr)
 	GnmRange	r;
 	Sheet *sheet = applix_parse_sheet (state, &ptr, ' ');
 
-	if (ptr == NULL)
+	if (sheet == NULL)
 		return -1;
 	if (*ptr != '!')
 		return applix_parse_error (state, "Invalid row format");
@@ -1344,11 +1437,14 @@ applix_read_row_list (ApplixReadState *state, char *ptr)
 		unsigned attr_index;
 
 		r.start.col = au_strtol (ptr = tmp+1, &tmp);
-		if (tmp == ptr || r.start.col < 0 || tmp[0] != '-')
+		if (tmp == ptr || tmp[0] != '-')
 			return applix_parse_error (state, "Invalid row format start col");
 		r.end.col = au_strtol (ptr = tmp+1, &tmp);
-		if (tmp == ptr || r.end.col < 0 || tmp[0] != ':')
+		if (tmp == ptr || tmp[0] != ':')
 			return applix_parse_error (state, "Invalid row format end col");
+		if (!valid_col (sheet, r.start.col) || !valid_col (sheet, r.end.col) ||
+		    r.start.col > r.end.col || !valid_row (sheet, r.start.row))
+			return applix_parse_error (state, "Row format outside of sheet");
 		attr_index = au_strtol (ptr = tmp+1, &tmp);
 		if (tmp != ptr && attr_index >= 2 && attr_index < state->attrs->len+2) {
 			GnmStyle *style = g_ptr_array_index (state->attrs, attr_index-2);
@@ -1425,9 +1521,10 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 	end = strchr (end + 1, ':');
 	if (end == NULL || !length_at_least (end, 2))
 		return TRUE;
-	applix_rangeref_parse (&ref, end+2,
-		parse_pos_init (&pp, state->wb, NULL, 0, 0),
-		state->convs);
+	if (applix_rangeref_parse (&ref, end + 2,
+				   parse_pos_init (&pp, state->wb, NULL, 0, 0),
+				   state->convs) == end + 2)
+		return TRUE; /* Nothing parsed; ref is not initialised */
 	ref.a.col_relative = ref.b.col_relative =
 		ref.a.row_relative = ref.b.row_relative = FALSE;
 
@@ -1591,7 +1688,8 @@ applix_read_impl (ApplixReadState *state)
 			    applix_read_relative_name (state, buffer + sizeof (REL_NAMED_RANGE)))
 				return applix_parse_error (state, "Relative named range");
 		} else if (g_str_has_prefix (buffer, "Row List")) {
-			if (applix_read_row_list (state, buffer + sizeof ("Row List")))
+			if (!length_at_least (buffer, sizeof ("Row List")) ||
+			    applix_read_row_list (state, buffer + sizeof ("Row List")))
 				return applix_parse_error (state, "row list");
 		} else if (g_str_has_prefix (buffer, "Headers And Footers")) {
 			if (applix_read_header_footer (state))

@@ -37,8 +37,6 @@ gboolean applix_file_probe (GOFileOpener const *fo, GsfInput *input,
                             GOFileProbeLevel pl);
 void     applix_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                            WorkbookView *wb_view, GsfInput *input);
-void     applix_file_save (GOFileSaver const *fs, GOIOContext *io_context,
-			   WorkbookView const *wb_view, GsfOutput *output);
 
 gboolean
 applix_file_probe (GOFileOpener const *fo, GsfInput *input, GOFileProbeLevel pl)
@@ -56,11 +54,4 @@ applix_file_open (GOFileOpener const *fo, GOIOContext *io_context,
                   WorkbookView *wb_view, GsfInput *input)
 {
 	applix_read (io_context, wb_view, input);
-}
-
-void
-applix_file_save (GOFileSaver const *fs, GOIOContext *io_context,
-		  WorkbookView const *wb_view, GsfOutput *output)
-{
-	applix_write (io_context, wb_view, output);
 }
