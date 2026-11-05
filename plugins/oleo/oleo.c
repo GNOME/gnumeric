@@ -52,8 +52,11 @@ append_zeros (GString *s, int n)
 	}
 }
 
-/* adapted from Oleo */
-static long
+#define OLEO_MAX_PRECISION 30
+
+// adapted from Oleo.  The result is clamped to [-1, G_MAXINT / 2] so that
+// it can safely be narrowed to int and have 1 subtracted from it.
+static int
 astol (char **ptr)
 {
 	char *end;
@@ -62,14 +65,40 @@ astol (char **ptr)
 	res = strtol (*ptr, &end, 10);
 	*ptr = end;
 
-	return res;
+	return CLAMP (res, -1, G_MAXINT / 2);
+}
+
+// Advance PTR to the end of the current ';'-separated field.  A ';' inside
+// a double-quoted string does not end the field.
+static char *
+oleo_skip_field (char *ptr)
+{
+	gboolean quoted = FALSE;
+
+	while (*ptr && (*ptr != ';' || quoted))
+		if (*ptr++ == '"')
+			quoted = !quoted;
+	return ptr;
+}
+
+static gboolean
+oleo_pos_valid (OleoReader const *state)
+{
+	Sheet const *sheet = state->pp.sheet;
+	return state->pp.eval.col >= 0 &&
+		state->pp.eval.col < gnm_sheet_get_max_cols (sheet) &&
+		state->pp.eval.row >= 0 &&
+		state->pp.eval.row < gnm_sheet_get_max_rows (sheet);
 }
 
 
 static void
 oleo_set_style (OleoReader *state, GnmStyle *style)
 {
-	/* sheet_style_set_range absorbs our reference */
+	if (!oleo_pos_valid (state))
+		return;
+
+	/* sheet_style_set_pos absorbs our reference */
 	gnm_style_ref (style);
 	sheet_style_set_pos (state->pp.sheet,
 		state->pp.eval.col, state->pp.eval.row, style);
@@ -101,7 +130,7 @@ oleo_parse_cell (OleoReader *state, char *str, GnmStyle *style)
 	char *ptr = str + 1, *cval = NULL, *formula = NULL;
 
 	while (*ptr) {
-		int quotes = 0;
+		char field;
 		if (*ptr != ';') {
 #if OLEO_DEBUG > 0
 			g_warning ("ptr: %s.", ptr);
@@ -109,29 +138,30 @@ oleo_parse_cell (OleoReader *state, char *str, GnmStyle *style)
 			break;
 		}
 		*ptr++ = '\0';
-		switch (*ptr++) {
+		field = *ptr;
+		if (field == '\0')
+			break;
+		ptr++;
+		switch (field) {
 		case 'c' : state->pp.eval.col = astol (&ptr) - 1; break;
 		case 'r' : state->pp.eval.row = astol (&ptr) - 1; break;
 		case 'K' :
 			cval = ptr;
-			quotes = 0;
-			while (*ptr && (*ptr != ';' || quotes > 0))
-				if (*ptr++ == '"')
-					quotes = !quotes;
+			ptr = oleo_skip_field (ptr);
 			break;
 
 		case 'E' :
 			formula = ptr;
-			while (*ptr && *ptr != ';')
-				ptr++;
+			ptr = oleo_skip_field (ptr);
 			break;
 
 		default:
 #if OLEO_DEBUG > 0
 			g_warning ("oleo: Don't know how to deal with C; '%c'.",
-				   *ptr);
+				   field);
 #endif
-			ptr = (char *)""; /* I wish C had multilevel break */
+			/* Skip just this field; later ones may still be useful. */
+			ptr = oleo_skip_field (ptr);
 			break;
 		}
 
@@ -139,8 +169,18 @@ oleo_parse_cell (OleoReader *state, char *str, GnmStyle *style)
 			break;
 	}
 
+	/* Row/column come from the file; do not trust them. */
+	if (!oleo_pos_valid (state)) {
+#if OLEO_DEBUG > 0
+		g_warning ("oleo: cell position out of range.");
+#endif
+		return;
+	}
+
 	cell = sheet_cell_fetch (state->pp.sheet,
 		state->pp.eval.col, state->pp.eval.row);
+	if (cell == NULL)
+		return;
 
 	if (formula != NULL)
 		texpr = oleo_parse_formula (state, formula);
@@ -192,12 +232,22 @@ oleo_parse_style (OleoReader *state, char *str, GnmStyle **res)
 		case 'c' : state->pp.eval.col = astol (&ptr) - 1; break;
 		case 'r' : state->pp.eval.row = astol (&ptr) - 1; break;
 		case 'F': case 'G':
-			c = *ptr++;
+			c = *ptr;
+			if (c == '\0')
+				break;	/* truncated line; do not run past the NUL */
+			ptr++;
 
 			g_string_truncate (fmt_string, 0);
 			g_string_append_c (fmt_string, '0');
-			if (g_ascii_isdigit (*ptr))
-				append_zeros (fmt_string, astol (&ptr));
+			if (g_ascii_isdigit (*ptr)) {
+				int prec = astol (&ptr);
+				if (prec > OLEO_MAX_PRECISION)
+					prec = OLEO_MAX_PRECISION;
+				if (prec > 0) {
+					g_string_append_c (fmt_string, '.');
+					append_zeros (fmt_string, prec);
+				}
+			}
 			switch (c) {
 			case 'F':
 				break;
@@ -213,6 +263,7 @@ oleo_parse_style (OleoReader *state, char *str, GnmStyle **res)
 			break;
 		case 'R':
 			gnm_style_set_align_h (style, GNM_HALIGN_RIGHT);
+			break;
 		}
 	}
 	if (fmt_string->len)
@@ -263,11 +314,20 @@ oleo_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 
 	/* Does this need to come from the import dialog ? */
 	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");
+	if (state.converter == (GIConv)-1) {
+		go_io_error_info_set (io_context,
+			go_error_info_new_str (_("Unable to convert from ISO-8859-1.")));
+		g_object_unref (state.convs);
+		return;
+	}
 	state.textline  = (GsfInputTextline *) gsf_input_textline_new (input);
 
 	while (NULL != (line = gsf_input_textline_ascii_gets (state.textline))) {
 		char *utf8line =
 			g_convert_with_iconv (CU2C (line), -1, state.converter, NULL, NULL, NULL);
+
+		if (utf8line == NULL)
+			continue;
 
 		switch (utf8line[0]) {
 		case '#': /* Comment */
@@ -282,7 +342,7 @@ oleo_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 		default: /* unknown */
 #if OLEO_DEBUG > 0
 			g_warning ("oleo: Don't know how to deal with %c.",
-				   line[0]);
+				   utf8line[0]);
 #endif
 			break;
 		}
