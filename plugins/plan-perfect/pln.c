@@ -160,13 +160,15 @@ char *pln_get_str (guint8 const *ch, unsigned len);
 static char const *
 pln_get_func_table1 (unsigned i)
 {
-	g_return_val_if_fail (0 < i && i < G_N_ELEMENTS (formula1), "ERROR");
+	if (i == 0 || i >= G_N_ELEMENTS (formula1))
+		return "ERROR";
 	return formula1 [i];
 }
 static char const *
 pln_get_func_table2 (unsigned i)
 {
-	g_return_val_if_fail (0 < i && i < G_N_ELEMENTS (formula2), "ERROR");
+	if (i == 0 || i >= G_N_ELEMENTS (formula2))
+		return "ERROR";
 	return formula2 [i];
 }
 
@@ -227,7 +229,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 	}
 
 	/* bit bash a key containing all relevant info */
-	key = fmt << 16;
+	key = (guint32) fmt << 16;
 	key |= font & 0xf800;
 	key |= (attr >> 4) & 0x07ff; /* drop type, hide 0, and top lock bit */
 
@@ -287,14 +289,14 @@ pln_get_addr (GnmParsePos const *pp, guint8 const *ch)
 	ref.row = (r & 0x3fff);
 
 	switch (c & 0xc000) {
-	case 0xc000:	ref.col = *((gint16 *)&c);
+	case 0xc000:	ref.col = (gint16) c;
 	case 0x0000:	ref.col_relative = TRUE;
 		break;
 	default:
 		break;
 	}
 	switch (r & 0xc000) {
-	case 0xc000:	ref.row = *((gint16 *)&r);
+	case 0xc000:	ref.row = (gint16) r;
 	case 0x0000:	ref.row_relative = TRUE;
 		break;
 	default:
@@ -309,26 +311,46 @@ pln_get_addr (GnmParsePos const *pp, guint8 const *ch)
 	return g_string_free (out.accum, FALSE);
 }
 
+// Bail out of pln_convert_expr if fewer than N bytes remain in the formula
+#define PLN_NEED(n) \
+	do { if ((size_t) (end - ch) < (size_t) (n)) goto truncated; } while (0)
+
+// Append LEN raw bytes from CH to EXPR, making sure that the result stays
+// valid UTF-8 whatever the file contains.
+static void
+pln_append_raw (GString *expr, guint8 const *ch, int len)
+{
+	char *str = g_utf8_make_valid (CU2C (ch), len);
+	g_string_append (expr, str);
+	g_free (str);
+}
+
+// Returns NULL if the formula is malformed or truncated.
 static char *
 pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 {
-	GString *expr = g_string_new (NULL);
+	GString *expr;
 	char *str;
 	guint8 const *end;
 	int len, code;
 	unsigned ui;
 
-	g_return_val_if_fail (datalen >= 2, g_string_free (expr, FALSE));
+	if (datalen < 2)
+		return NULL;
 
 	/* Expressions are stored INFIX so it is easier to just generate text */
 	ui = GSF_LE_GET_GUINT16 (ch);
-	g_return_val_if_fail (ui <= datalen - 2, g_string_free (expr, FALSE));
+	if (ui > datalen - 2)
+		return NULL;
 
+	expr = g_string_new (NULL);
 	ch += 2;
 #if DEBUG_EXPR
 	puts (cellpos_as_string (&pp->eval));
 	gsf_mem_dump (ch, ui);
 #endif
+	// Every operand below is checked against END before it is read, the
+	// file is not trusted to be consistent.
 	for (end = ch + ui ; ch < end ; ) {
 		code = *ch++;
 		switch (code) {
@@ -342,7 +364,9 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 		case 11: g_string_append_c (expr, '^'); break;
 
 		case 9:	/* Text constant */
+			PLN_NEED (1);
 			len = *ch;
+			PLN_NEED (len + 1);
 			str = pln_get_str (ch + 1, len);
 			g_string_append_c (expr, '\"');
 			go_strescape (expr, str);
@@ -352,14 +376,18 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 			break;
 
 		case 10: /* Named block */
+			PLN_NEED (1);
 			len = *ch;
-			g_string_append_len (expr, CU2C (ch + 1), len);
+			PLN_NEED (len + 1);
+			pln_append_raw (expr, ch + 1, len);
 			ch += len + 1;
 			break;
 
-		case 12: g_string_append (expr, pln_get_func_table1 (*ch++));
+		case 12: PLN_NEED (1);
+			g_string_append (expr, pln_get_func_table1 (*ch++));
 			break;
-		case 13: g_string_append (expr, pln_get_func_table2 (*ch++));
+		case 13: PLN_NEED (1);
+			g_string_append (expr, pln_get_func_table2 (*ch++));
 			break;
 		case 14: /* Special '+' which sums contiguous cells */
 			g_string_append   (expr, "?+?");
@@ -372,6 +400,7 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 		case 20: g_string_append   (expr, "IF("); break;
 
 		case 21:	/* Compare function */
+			PLN_NEED (1);
 			switch (*ch) {
 			case 1: g_string_append   (expr, "="); break;
 			case 2: g_string_append   (expr, "<>"); break;
@@ -390,7 +419,9 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 		case 24: g_string_append_c (expr, ')');	break;
 
 		case 25: {
-			unsigned sp = *ch++;
+			unsigned sp;
+			PLN_NEED (1);
+			sp = *ch++;
 			go_string_append_c_n (expr, ' ', sp);
 			break;
 		}
@@ -400,6 +431,7 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 			break;
 
 		case 27:	/* Cell reference */
+			PLN_NEED (4);
 			str = pln_get_addr  (pp, ch);
 			g_string_append (expr, str);
 			g_free (str);
@@ -407,6 +439,7 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 			break;
 
 		case 28:	/* Block reference */
+			PLN_NEED (8);
 			str = pln_get_addr  (pp, ch);
 			g_string_append   (expr, str);
 			g_free (str);
@@ -421,33 +454,42 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 			break;
 
 		case 30:	/* Floating point constant */
+			PLN_NEED (9);
 			len = ch[8];  /* they store the ascii ?? will we be screwed by locale ? */
-			g_string_append_len (expr, CU2C (ch+9), len);
+			PLN_NEED (9 + len);
+			pln_append_raw (expr, ch + 9, len);
 			ch += 9 + len;
 			break;
 
 		case 31:	/* Reference to passed argument in user defined function */
+			PLN_NEED (1);
 			g_string_append (expr, "_unknown31_");
 			ch++; /* ignore arg number */
 			break;
 
 		case 32:	/* User function */
+			PLN_NEED (1);
 			g_string_append (expr, "_unknown32_");
 			len = *ch;
+			PLN_NEED (len + 1);
 			ch += len + 1;
 			break;
 
 		case 33:	/* Temporary variable (#:=) */
+			PLN_NEED (2);
 			len = ch[1];
+			PLN_NEED (2 + len);
 			g_string_append (expr, "_unknown33_");
-			g_string_append_len (expr, CU2C (ch+2), len);
+			pln_append_raw (expr, ch + 2, len);
 			ch += 2 + len;
 			break;
 
 		case 34:	/* Temporary variable (#) */
+			PLN_NEED (2);
 			len = ch[1];
+			PLN_NEED (2 + len);
 			g_string_append (expr, "_unknown34_");
-			g_string_append_len (expr, CU2C (ch+2), len);
+			pln_append_raw (expr, ch + 2, len);
 			ch += 2 + len;
 			break;
 
@@ -462,10 +504,12 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 
 		case 41:		/* Attribute on */
 		case 42:		/* Attribute off */
-			 ch++; /* ignore */
+			PLN_NEED (1);
+			ch++; /* ignore */
 			break;
 
 		case 43:	/* Total attributes for formula */
+			PLN_NEED (2);
 			ch += 2;
 			break;
 
@@ -473,6 +517,7 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 		case 45:	/* Assumed multiply - nop display */ break;
 
 		case 46:	/* Date format */
+			PLN_NEED (1);
 			ch++;
 			break;
 
@@ -482,7 +527,13 @@ pln_convert_expr (GnmParsePos const *pp, guint8 const *ch, size_t datalen)
 	}
 
 	return g_string_free (expr, FALSE);
+
+truncated:
+	g_warning ("PLN: truncated formula");
+	g_string_free (expr, TRUE);
+	return NULL;
 }
+#undef PLN_NEED
 
 /* Font width should really be calculated, but it's too hard right now */
 #define FONT_WIDTH 8
@@ -495,8 +546,10 @@ pln_calc_font_width (guint16 cwidth, gboolean permit_default)
 static GOErrorInfo *
 pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 {
-	int max_col = gnm_sheet_get_max_cols (state->sheet);
-	int max_row = gnm_sheet_get_max_rows (state->sheet);
+	// Last valid column and row
+	int max_col = gnm_sheet_get_max_cols (state->sheet) - 1;
+	int max_row = gnm_sheet_get_max_rows (state->sheet) - 1;
+	gboolean warned = FALSE;
 	int i, rcode, rlength;
 	guint8 const *data;
 	GnmValue   *v;
@@ -504,11 +557,13 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	GnmParsePos pp;
 	GnmRange r;
 
-	range_init (&r, 0,0,0, gnm_sheet_get_max_rows (state->sheet));
+	range_init (&r, 0,0,0, max_row);
 	parse_pos_init_sheet (&pp, state->sheet);
 
 	data = gsf_input_read (input, 16, NULL);
-	if (data == NULL || GSF_LE_GET_GUINT16 (data + 12) != 0)
+	if (data == NULL)
+		return go_error_info_new_str (_("PLN : File is truncated"));
+	if (GSF_LE_GET_GUINT16 (data + 12) != 0)
 		return go_error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
 
 	/* Process the record based sections
@@ -531,7 +586,12 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 		case 0x01:
 			/* guint16 last row with data;
 			 */
-			 max_col = GSF_LE_GET_GUINT16 (data + 2);
+			if (rlength >= 4) {
+				// Never let the file enlarge the sheet
+				int file_max_col = GSF_LE_GET_GUINT16 (data + 2);
+				if (file_max_col < max_col)
+					max_col = file_max_col;
+			}
 			break;
 
 		case 0x02:
@@ -576,14 +636,21 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 		if (pp.eval.row == 0xFFFF)
 			return NULL;
 
-		if (pp.eval.row > max_row)
-			return go_error_info_new_printf (
-				_("Ignoring data that claims to be in row %u which is > max row %u"),
-				pp.eval.row, max_row);
-		if (pp.eval.col > max_col)
-			return go_error_info_new_printf (
-				_("Ignoring data that claims to be in column %u which is > max column %u"),
-				pp.eval.col, max_col);
+		if (pp.eval.row > max_row || pp.eval.col > max_col) {
+			unsigned lsize = ((type & 0x7) == 3)
+				? GSF_LE_GET_GUINT16 (data + 4) : 0;
+			if (!warned) {
+				warned = TRUE;
+				g_warning ("Ignoring data that claims to be in row %d, column %d (max %d, %d)",
+					   pp.eval.row, pp.eval.col, max_row, max_col);
+			}
+			// Skip the variable length data belonging to this cell
+			if (lsize != 0 && gsf_input_read (input, lsize, NULL) == NULL)
+				return NULL;
+			if (length != 0 && gsf_input_read (input, length, NULL) == NULL)
+				return NULL;
+			continue;
+		}
 
 		v = NULL;
 		if ((type & 0x7) != 0) {
@@ -599,25 +666,38 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 		switch (type & 0x7) {
 		/* Empty Cell */
 		case 0:
+			// Skip any expression; there is no cell to attach it to
 			if (length != 0) {
 				g_warning ("an empty unformated cell has an expression ?");
-			} else
-				continue;
+				if (gsf_input_read (input, length, NULL) == NULL)
+					return NULL;
+			}
+			continue;
 
 		/* Floating Point */
 		case 1: v = value_new_float (pln_get_number (data + 4));
 			break;
 		/* Short Text */
-		case 2:
-			v = value_new_string_nocopy (
-				pln_get_str (data + 5, data[4]));
+		case 2: {
+			// The text lives in the 15 bytes after the length byte
+			unsigned slen = data[4];
+			if (slen > 15)
+				slen = 15;
+			v = value_new_string_nocopy (pln_get_str (data + 5, slen));
 			break;
+		}
 		/* Long Text */
-		case 3: data = gsf_input_read (input, GSF_LE_GET_GUINT16 (data+4), NULL);
-			if (data != NULL)
-				v = value_new_string_nocopy (
-					pln_get_str (data + 2, GSF_LE_GET_GUINT16 (data)));
+		case 3: {
+			unsigned lsize = GSF_LE_GET_GUINT16 (data + 4);
+			data = lsize != 0 ? gsf_input_read (input, lsize, NULL) : NULL;
+			if (data != NULL && lsize >= 2) {
+				unsigned slen = GSF_LE_GET_GUINT16 (data);
+				if (slen > lsize - 2)
+					slen = lsize - 2;
+				v = value_new_string_nocopy (pln_get_str (data + 2, slen));
+			}
 			break;
+		}
 		/* Error Cell */
 		case 4: v = value_new_error_VALUE (NULL);
 			break;

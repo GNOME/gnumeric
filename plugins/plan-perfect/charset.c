@@ -394,15 +394,18 @@ pln_get_str (guint8 const *ch, unsigned len)
 {
 	GString *buf = g_string_sized_new (len);
 	guint8 const *end = ch + len;
-	gchar const *test;
+	char *res;
 
 	while (ch < end) {
 		if (32 <= *ch && *ch <= 126)
 			g_string_append_c (buf, *ch++);
 		else if (*ch == 0xC0) {
 			if (ch + 3 < end) {
-				g_string_append_unichar (buf,
-					map_wp_char (ch[2], ch[1]));
+				// Unmapped characters come back as 0, and a NUL would
+				// silently truncate the string
+				gunichar uc = map_wp_char (ch[2], ch[1]);
+				if (uc != 0)
+					g_string_append_unichar (buf, uc);
 				ch += 4;
 			} else
 				ch = end;
@@ -415,7 +418,12 @@ pln_get_str (guint8 const *ch, unsigned len)
 			ch++;
 	}
 
-	g_return_val_if_fail (g_utf8_validate (buf->str, -1, &test), g_strdup (""));
-
-	return g_string_free (buf, FALSE);
+	// The mapping tables are not guaranteed to produce valid UTF-8
+	res = g_string_free (buf, FALSE);
+	if (!g_utf8_validate (res, -1, NULL)) {
+		char *valid = g_utf8_make_valid (res, -1);
+		g_free (res);
+		res = valid;
+	}
+	return res;
 }
