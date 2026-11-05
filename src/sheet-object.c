@@ -253,6 +253,14 @@ cb_so_copy (SheetObject *so, SheetControl *sc)
 		go_slist_create (so, NULL));
 }
 
+/**
+ * sheet_object_can_print:
+ * @so: #SheetObject
+ *
+ * Checks whether @so is visible, has printing enabled, and can be drawn.
+ *
+ * Returns: %TRUE if @so can be printed.
+ **/
 gboolean
 sheet_object_can_print (SheetObject const *so)
 {
@@ -262,6 +270,14 @@ sheet_object_can_print (SheetObject const *so)
 		SO_CLASS (so)->draw_cairo != NULL;
 }
 
+/**
+ * sheet_object_can_resize:
+ * @so: #SheetObject
+ *
+ * Checks whether the user is allowed to resize @so.
+ *
+ * Returns: %TRUE if @so can be resized.
+ **/
 gboolean
 sheet_object_can_resize (SheetObject const *so)
 {
@@ -269,6 +285,14 @@ sheet_object_can_resize (SheetObject const *so)
 	return  so->flags & SHEET_OBJECT_CAN_RESIZE;
 }
 
+/**
+ * sheet_object_can_edit:
+ * @so: #SheetObject
+ *
+ * Checks whether the user is allowed to edit @so.
+ *
+ * Returns: %TRUE if @so can be edited.
+ **/
 gboolean
 sheet_object_can_edit (SheetObject const *so)
 {
@@ -749,6 +773,14 @@ cb_sheet_object_invalidate_sheet (GnmDependent *dep, G_GNUC_UNUSED SheetObject *
 	}
 }
 
+/**
+ * sheet_object_invalidate_sheet:
+ * @so: #SheetObject
+ * @sheet: (transfer none): the #Sheet being invalidated
+ *
+ * Updates the expressions in @so's dependents to account for @sheet being
+ * invalidated.  Dependents attached to @sheet are detached from it.
+ **/
 void
 sheet_object_invalidate_sheet (SheetObject *so, Sheet const *sheet)
 {
@@ -1045,6 +1077,16 @@ sheet_object_anchor_to_pts (SheetObjectAnchor const *anchor,
 	}
 }
 
+/**
+ * sheet_object_pts_to_anchor:
+ * @anchor: (inout): #SheetObjectAnchor to update
+ * @sheet: #Sheet
+ * @res_pts: (array fixed-size=4): four point coordinates
+ *
+ * Converts the four point coordinates in @res_pts to @anchor using @sheet's
+ * column and row dimensions.  @anchor's current mode determines how the
+ * offsets are interpreted.
+ **/
 void
 sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 			    Sheet const *sheet, double const *res_pts)
@@ -1129,6 +1171,16 @@ sheet_object_pts_to_anchor (SheetObjectAnchor *anchor,
 		(res_pts[3] - y) / tmp: res_pts[3] - res_pts[1];
 }
 
+/**
+ * sheet_object_anchor_to_offset_pts:
+ * @anchor: #SheetObjectAnchor
+ * @sheet: #Sheet
+ * @res_pts: (out) (array fixed-size=4): result coordinates in points
+ *
+ * Converts @anchor's relative offsets to four coordinates in points using
+ * @sheet's column and row dimensions.  For absolute anchors, @res_pts is
+ * left unchanged.
+ **/
 void
 sheet_object_anchor_to_offset_pts (SheetObjectAnchor const *anchor,
 				   Sheet const *sheet, double *res_pts)
@@ -1486,6 +1538,16 @@ sheet_object_get_stacking (SheetObject *so)
 	return g_slist_index (so->sheet->sheet_objects, so);
 }
 
+/**
+ * sheet_object_adjust_stacking:
+ * @so: #SheetObject
+ * @positions: number of positions to move @so; positive moves it forward
+ *
+ * Moves @so by up to @offset positions in its sheet's stacking order,
+ * raising or lowering its realized views accordingly.
+ *
+ * Returns: the number of positions actually moved.
+ **/
 gint
 sheet_object_adjust_stacking (SheetObject *so, gint offset)
 {
@@ -1529,6 +1591,14 @@ sheet_object_adjust_stacking (SheetObject *so, gint offset)
 	return cur - i;
 }
 
+/**
+ * sheet_object_set_anchor_mode:
+ * @so: #SheetObject
+ * @mode: (transfer none): the new #GnmSOAnchorMode
+ *
+ * Changes @so's anchor mode, preserving its current on-sheet position by
+ * recomputing the anchor offsets for @mode.
+ **/
 void
 sheet_object_set_anchor_mode (SheetObject *so, GnmSOAnchorMode const *mode)
 {
@@ -1546,6 +1616,15 @@ sheet_object_set_anchor_mode (SheetObject *so, GnmSOAnchorMode const *mode)
 
 static GObjectClass *view_parent_class;
 
+/**
+ * sheet_object_view_set_bounds:
+ * @sov: #SheetObjectView
+ * @coords: (array fixed-size=4): the new bounds in points
+ * @visible: whether the view should be visible
+ *
+ * Updates the on-screen bounds of @sov using its class' set_bounds
+ * implementation, if any.
+ **/
 void
 sheet_object_view_set_bounds (SheetObjectView *sov,
 			      double const *coords, gboolean visible)
@@ -1798,6 +1877,15 @@ sheet_object_imageable_get_type (void)
 
 #define GNM_SO_IMAGEABLE_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GNM_SO_IMAGEABLE_TYPE, SheetObjectImageableIface))
 
+/**
+ * sheet_object_get_target_list:
+ * @so: #SheetObject
+ *
+ * Gets the drag-and-drop target list for images of @so.
+ *
+ * Returns: (nullable) (transfer full): a new #GtkTargetList, or %NULL if
+ * @so is not imageable.
+ **/
 GtkTargetList *
 sheet_object_get_target_list (SheetObject const *so)
 {
@@ -1885,6 +1973,15 @@ sheet_object_exportable_get_type (void)
 
 #define GNM_SO_EXPORTABLE_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), GNM_SO_EXPORTABLE_TYPE, SheetObjectExportableIface))
 
+/**
+ * sheet_object_exportable_get_target_list:
+ * @so: #SheetObject
+ *
+ * Gets the drag-and-drop target list for exporting @so.
+ *
+ * Returns: (nullable) (transfer full): a new #GtkTargetList, or %NULL if
+ * @so is not exportable.
+ **/
 GtkTargetList *
 sheet_object_exportable_get_target_list (SheetObject const *so)
 {
@@ -1894,6 +1991,17 @@ sheet_object_exportable_get_target_list (SheetObject const *so)
 	return GNM_SO_EXPORTABLE_CLASS (so)->get_target_list (so);
 }
 
+/**
+ * sheet_object_write_object:
+ * @so: #SheetObject
+ * @format: the export format
+ * @output: (transfer none): #GsfOutput to write to
+ * @err: (out) (optional) (nullable): error indication
+ * @convs: (nullable): #GnmConventions to use
+ *
+ * Exports @so in @format to @output.  @so must implement the exportable
+ * interface.  The operation is performed in the C locale.
+ **/
 void
 sheet_object_write_object (SheetObject const *so, char const *format,
 			   GsfOutput *output, GError **err,

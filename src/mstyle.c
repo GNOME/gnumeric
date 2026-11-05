@@ -352,6 +352,17 @@ gnm_style_update (GnmStyle *style)
 
 #undef MIX
 
+/**
+ * gnm_style_hash_XL:
+ * @style: a #GnmStyle
+ *
+ * Computes a hash value for @style using only the style elements that can
+ * be represented in Microsoft Excel files.  The hash is compatible with
+ * gnm_style_equal_XL().  If @style has pending changes, it is updated
+ * before hashing.
+ *
+ * Returns: the hash value.
+ **/
 guint
 gnm_style_hash_XL (gconstpointer style)
 {
@@ -360,6 +371,17 @@ gnm_style_hash_XL (gconstpointer style)
 	return ((GnmStyle const *)style)->hash_key_xl;
 }
 
+/**
+ * gnm_style_hash:
+ * @style: a #GnmStyle
+ *
+ * Computes a hash value for @style using all style elements, including
+ * those that cannot be represented in Microsoft Excel files.  The hash is
+ * compatible with gnm_style_equal().  If @style has pending changes, it is
+ * updated before hashing.
+ *
+ * Returns: the hash value.
+ **/
 guint
 gnm_style_hash (gconstpointer style)
 {
@@ -1019,6 +1041,13 @@ gnm_style_link_sheet (GnmStyle *style, Sheet *sheet)
 	return style;
 }
 
+/**
+ * gnm_style_link:
+ * @style: #GnmStyle
+ *
+ * Adds a link to @style by incrementing its link count.  @style must
+ * already be linked to a sheet.
+ **/
 void
 gnm_style_link (GnmStyle *style)
 {
@@ -1028,6 +1057,15 @@ gnm_style_link (GnmStyle *style)
 	d(("link %p = %d\n", style, style->link_count));
 }
 
+/**
+ * gnm_style_unlink:
+ * @style: #GnmStyle
+ *
+ * Removes a link from @style by decrementing its link count.  When the
+ * last link is removed, any conditional formatting is unregistered and the
+ * style is unref'd.  The caller must not use @style afterwards unless it
+ * holds another reference.
+ **/
 void
 gnm_style_unlink (GnmStyle *style)
 {
@@ -1043,7 +1081,14 @@ gnm_style_unlink (GnmStyle *style)
 	}
 }
 
-// Internal function for sheet-style.c use only
+/**
+ * gnm_style_abandon_link:
+ * @style: #GnmStyle
+ *
+ * Clears @style's link count and sheet association without releasing a
+ * reference or unregistering dependent state.  This is for internal use by
+ * sheet-style.c only.
+ **/
 void
 gnm_style_abandon_link (GnmStyle *style)
 {
@@ -1088,6 +1133,16 @@ gnm_style_equal (GnmStyle const *a, GnmStyle const *b)
 	return TRUE;
 }
 
+/**
+ * gnm_style_equal_XL:
+ * @a: #GnmStyle
+ * @b: #GnmStyle
+ *
+ * Compares @a and @b for equality using only the style elements that can
+ * be represented in Microsoft Excel files.
+ *
+ * Returns: %TRUE if @a and @b are equal for the Excel subset.
+ **/
 gboolean
 gnm_style_equal_XL (GnmStyle const *a, GnmStyle const *b)
 {
@@ -1150,10 +1205,19 @@ gnm_style_equal_elem (GnmStyle const *a, GnmStyle const *b, GnmStyleElement e)
     }								\
   } while (0)
 
-/*
- * Ordering of GnmStyles.  Apart from FIXMEs, this shouldn't change
- * from one run to the next.
- */
+/**
+ * gnm_style_cmp:
+ * @a: #GnmStyle
+ * @b: #GnmStyle
+ *
+ * Compares @a and @b for sorting.  The ordering is arbitrary but
+ * deterministic for a given set of style objects; apart from the elements
+ * marked FIXME in the implementation it should not change from one run to
+ * the next.  Distinct objects are ordered by pointer as a last resort.
+ *
+ * Returns: a negative value, zero, or a positive value depending on the
+ * relative order of @a and @b.
+ **/
 int
 gnm_style_cmp (GnmStyle const *a, GnmStyle const *b)
 {
@@ -1837,11 +1901,14 @@ gnm_style_set_format (GnmStyle *style, GOFormat const *fmt)
 	style->format = fmt;
 }
 
-/*
+/**
  * gnm_style_set_format_text:
- * @style: mstyle to change.
- * @format: An *untranslated* format string.
- */
+ * @style: #GnmStyle to change
+ * @fmt: an *untranslated* format string
+ *
+ * Sets the format of @style from @format, an untranslated Microsoft Excel
+ * format string.
+ **/
 void
 gnm_style_set_format_text (GnmStyle *style, char const *format)
 {
@@ -2314,6 +2381,14 @@ gnm_style_get_cond_style (GnmStyle const *style, int ix)
 	return g_ptr_array_index (style->cond_styles, ix);
 }
 
+/**
+ * gnm_style_link_dependents:
+ * @style: #GnmStyle, linked to a sheet
+ * @r: (transfer none): the #GnmRange to which @style is being applied
+ *
+ * Registers the dependents of @style for the cells in @r.  Currently this
+ * covers conditional formatting; validations are intentionally ignored.
+ **/
 void
 gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 {
@@ -2346,6 +2421,14 @@ gnm_style_link_dependents (GnmStyle *style, GnmRange const *r)
 	// grandfathered in as valid.
 }
 
+/**
+ * gnm_style_unlink_dependents:
+ * @style: #GnmStyle, linked to a sheet
+ * @r: (transfer none): the #GnmRange from which @style is being removed
+ *
+ * Unregisters the dependents of @style for the cells in @r.  Currently this
+ * covers conditional formatting; validations are intentionally ignored.
+ **/
 void
 gnm_style_unlink_dependents (GnmStyle *style, GnmRange const *r)
 {
@@ -2500,6 +2583,15 @@ gnm_style_generate_attrs_full (GnmStyle const *style)
 	return l;
 }
 
+/**
+ * gnm_style_get_pango_height:
+ * @style: #GnmStyle to query
+ * @context: the #PangoContext to use
+ * @zoom: zoom level
+ *
+ * Returns: the height in pixels of a typical formatted value rendered with
+ * @style at @zoom.  The result is cached in @style.
+ **/
 int
 gnm_style_get_pango_height (GnmStyle const *style,
 			    PangoContext *context,
@@ -2543,6 +2635,14 @@ gnm_style_get_pango_height (GnmStyle const *style,
 }
 
 
+/**
+ * gnm_style_set_from_pango_attribute:
+ * @style: #GnmStyle to change
+ * @attr: (transfer none): #PangoAttribute describing the new properties
+ *
+ * Applies the font-related properties of @attr to @style.  Unsupported
+ * attribute types are ignored.
+ **/
 void
 gnm_style_set_from_pango_attribute (GnmStyle *style, PangoAttribute const *attr)
 {

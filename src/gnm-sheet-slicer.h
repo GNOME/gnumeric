@@ -42,10 +42,10 @@ typedef enum {
 
 void		 gnm_sheet_slicer_set_sheet      (GnmSheetSlicer *gss, Sheet *sheet);
 void		 gnm_sheet_slicer_clear_sheet    (GnmSheetSlicer *gss);
-GnmRange const	*gnm_sheet_slicer_get_range      (GnmSheetSlicer const *src);
+GnmRange const	*gnm_sheet_slicer_get_range      (GnmSheetSlicer const *gss);
 void		 gnm_sheet_slicer_set_range      (GnmSheetSlicer *gss, GnmRange const *r);
 GnmSheetSlicerLayout
-		 gnm_sheet_slicer_get_layout     (GnmSheetSlicer const *src);
+		 gnm_sheet_slicer_get_layout     (GnmSheetSlicer const *gss);
 void		 gnm_sheet_slicer_set_layout     (GnmSheetSlicer *gss, GnmSheetSlicerLayout l);
 
 #ifndef GOFFICE_NAMESPACE_DISABLE

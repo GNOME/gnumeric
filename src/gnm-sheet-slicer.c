@@ -198,6 +198,14 @@ GSF_CLASS (GnmSheetSlicer, gnm_sheet_slicer,
 	   gnm_sheet_slicer_class_init, gnm_sheet_slicer_init,
 	   GO_DATA_SLICER_TYPE)
 
+/**
+ * gnm_sheet_slicer_set_sheet:
+ * @gss: #GnmSheetSlicer
+ * @sheet: (transfer none): #Sheet to attach @gss to
+ *
+ * Attaches @gss to @sheet.  @gss must not already be attached to a sheet.
+ * The sheet takes a reference to @gss.
+ **/
 void
 gnm_sheet_slicer_set_sheet (GnmSheetSlicer *gss, Sheet *sheet)
 {
@@ -210,6 +218,14 @@ gnm_sheet_slicer_set_sheet (GnmSheetSlicer *gss, Sheet *sheet)
 	sheet->slicers = g_slist_prepend (sheet->slicers, gss);
 }
 
+/**
+ * gnm_sheet_slicer_clear_sheet:
+ * @gss: #GnmSheetSlicer
+ *
+ * Detaches @gss from its sheet and releases the reference held by the
+ * sheet.  @gss must be attached to a sheet.  If the sheet held the last
+ * reference, @gss is destroyed.
+ **/
 void
 gnm_sheet_slicer_clear_sheet (GnmSheetSlicer *gss)
 {
@@ -221,6 +237,12 @@ gnm_sheet_slicer_clear_sheet (GnmSheetSlicer *gss)
 	g_object_unref (gss);
 }
 
+/**
+ * gnm_sheet_slicer_get_range:
+ * @gss: #GnmSheetSlicer
+ *
+ * Returns: (transfer none): the #GnmRange occupied by @gss.
+ **/
 GnmRange const	*
 gnm_sheet_slicer_get_range (GnmSheetSlicer const *gss)
 {
@@ -228,6 +250,13 @@ gnm_sheet_slicer_get_range (GnmSheetSlicer const *gss)
 	return &gss->range;
 }
 
+/**
+ * gnm_sheet_slicer_set_range:
+ * @gss: #GnmSheetSlicer
+ * @r: (transfer none): the new #GnmRange for @gss
+ *
+ * Sets the range occupied by @gss.  The range is copied.
+ **/
 void
 gnm_sheet_slicer_set_range (GnmSheetSlicer *gss, GnmRange const *r)
 {
@@ -382,6 +411,12 @@ gnm_sheet_slicer_regenerate (GnmSheetSlicer *gss)
 #endif
 }
 
+/**
+ * gnm_sheet_slicer_get_layout:
+ * @gss: #GnmSheetSlicer
+ *
+ * Returns: the #GnmSheetSlicerLayout of @gss.
+ **/
 GnmSheetSlicerLayout
 gnm_sheet_slicer_get_layout (GnmSheetSlicer const *gss)
 {
@@ -389,6 +424,13 @@ gnm_sheet_slicer_get_layout (GnmSheetSlicer const *gss)
 	return gss->layout;
 }
 
+/**
+ * gnm_sheet_slicer_set_layout:
+ * @gss: #GnmSheetSlicer
+ * @l: the new #GnmSheetSlicerLayout for @gss
+ *
+ * Sets the layout used by @gss.
+ **/
 void
 gnm_sheet_slicer_set_layout (GnmSheetSlicer *gss, GnmSheetSlicerLayout l)
 {
