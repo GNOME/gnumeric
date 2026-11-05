@@ -63,7 +63,7 @@ dif_input_context_new (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 
 	ctxt->input	     = (GsfInputTextline *) gsf_input_textline_new (input);
 
-	ctxt->line_no        = 1;
+	ctxt->line_no        = 0;
 	ctxt->line           = NULL;
 	ctxt->sheet          = workbook_sheet_add (wb, -1, GNM_DEFAULT_COLS, GNM_DEFAULT_ROWS);
 	ctxt->converter      = g_iconv_open ("UTF-8", "ISO-8859-1");
@@ -167,10 +167,10 @@ static gboolean
 dif_parse_data (DifInputContext *ctxt)
 {
 	gboolean too_many_rows = FALSE, too_many_columns = FALSE;
+	gboolean warned_no_row = FALSE;
 	gint row = -1, col = 0;
 	gint val_type;
 	GnmCell *cell;
-	gchar *msg;
 
 	while (1) {
 		if (!dif_get_line (ctxt))
@@ -183,10 +183,7 @@ dif_parse_data (DifInputContext *ctxt)
 				go_io_warning (ctxt->io_context,
 						_("Syntax error at line %d. Ignoring."),
 						ctxt->line_no);
-			else if (col > gnm_sheet_get_max_cols (ctxt->sheet)) {
-				too_many_columns = TRUE;
-				break;
-			} else {
+			else {
 				gnm_float num = gnm_strto (comma+1, NULL);
 				GnmValue *v = NULL;
 
@@ -208,25 +205,56 @@ dif_parse_data (DifInputContext *ctxt)
 				}
 
 				if (NULL != v) {
-					cell = sheet_cell_fetch (ctxt->sheet, col, row);
-					gnm_cell_set_value (cell, v);
+					if (row < 0) {
+						/* Data before the first "BOT" marker */
+						if (!warned_no_row) {
+							warned_no_row = TRUE;
+							go_io_warning (ctxt->io_context,
+								       _("Data before first row marker at line %d. Ignoring."),
+								       ctxt->line_no);
+						}
+						value_release (v);
+					} else if (col >= gnm_sheet_get_max_cols (ctxt->sheet)) {
+						too_many_columns = TRUE;
+						value_release (v);
+					} else {
+						cell = sheet_cell_fetch (ctxt->sheet, col, row);
+						gnm_cell_set_value (cell, v);
+					}
 				}
 				col++;
 			}
 		} else if (val_type == 1) {
+			char const *str;
+
 			if (!dif_get_line (ctxt))
 				return FALSE;
-			if (col > gnm_sheet_get_max_cols (ctxt->sheet)) {
+			if (row < 0) {
+				if (!warned_no_row) {
+					warned_no_row = TRUE;
+					go_io_warning (ctxt->io_context,
+						       _("Data before first row marker at line %d. Ignoring."),
+						       ctxt->line_no);
+				}
+				continue;
+			}
+			if (col >= gnm_sheet_get_max_cols (ctxt->sheet)) {
 				too_many_columns = TRUE;
 				continue;
 			}
-			cell = sheet_cell_fetch (ctxt->sheet, col, row);
 			if (ctxt->line_len >= 2 &&
 			    ctxt->line[0] == '"' && ctxt->line[ctxt->line_len - 1] == '"') {
 				ctxt->line[ctxt->line_len - 1] = '\0';
-				gnm_cell_set_text (cell, ctxt->line + 1);
+				str = ctxt->line + 1;
 			} else
-				gnm_cell_set_text (cell, ctxt->line);
+				str = ctxt->line;
+
+			/* A DIF string is a string: do not let it be parsed as a
+			 * number or, worse, as a formula. */
+			if (*str != '\0') {
+				cell = sheet_cell_fetch (ctxt->sheet, col, row);
+				gnm_cell_set_value (cell, value_new_string (str));
+			}
 			col++;
 		} else if (val_type == -1) {
 			if (!dif_get_line (ctxt))
@@ -234,36 +262,36 @@ dif_parse_data (DifInputContext *ctxt)
 			if (strcmp (ctxt->line, "BOT") == 0) {
 				col = 0;
 				row++;
-				if (row > gnm_sheet_get_max_rows (ctxt->sheet)) {
+				if (row >= gnm_sheet_get_max_rows (ctxt->sheet)) {
 					too_many_rows = TRUE;
 					break;
 				}
 			} else if (strcmp (ctxt->line, "EOD") == 0) {
 				break;
 			} else {
-				msg = g_strdup_printf (
-				      _("Unknown data value \"%s\" at line %d. Ignoring."),
-				      ctxt->line, ctxt->line_no);
-				g_warning ("%s", msg);
-				g_free (msg);
+				go_io_warning (ctxt->io_context,
+					       _("Unknown data value \"%s\" at line %d. Ignoring."),
+					       ctxt->line, ctxt->line_no);
 			}
 		} else {
-			msg = g_strdup_printf (
-			      _("Unknown value type %d at line %d. Ignoring."),
-			      val_type, ctxt->line_no);
-			g_warning ("%s", msg);
-			g_free (msg);
+			go_io_warning (ctxt->io_context,
+				       _("Unknown value type %d at line %d. Ignoring."),
+				       val_type, ctxt->line_no);
 			(void) dif_get_line (ctxt);
 		}
 	}
 
 	if (too_many_rows) {
-		g_warning (_("DIF file has more than the maximum number of rows %d. "
-		             "Ignoring remaining rows."), gnm_sheet_get_max_rows (ctxt->sheet));
+		go_io_warning (ctxt->io_context,
+			       _("DIF file has more than the maximum number of rows %d. "
+				 "Ignoring remaining rows."),
+			       gnm_sheet_get_max_rows (ctxt->sheet));
 	}
 	if (too_many_columns) {
-		g_warning (_("DIF file has more than the maximum number of columns %d. "
-		             "Ignoring remaining columns."), gnm_sheet_get_max_cols (ctxt->sheet));
+		go_io_warning (ctxt->io_context,
+			       _("DIF file has more than the maximum number of columns %d. "
+				 "Ignoring remaining columns."),
+			       gnm_sheet_get_max_cols (ctxt->sheet));
 	}
 
 	return TRUE;
@@ -318,6 +346,7 @@ dif_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 	GnmRange r;
 	gint row, col;
 	gboolean ok = TRUE;
+	GString *buf;
 
 	sheet = wb_view_cur_sheet (wbv);
 	if (sheet == NULL) {
@@ -329,43 +358,66 @@ dif_file_save (GOFileSaver const *fs, GOIOContext *io_context,
 
 	/* Write out the standard headers */
 	gsf_output_puts   (out, "TABLE\n"   "0,1\n" "\"GNUMERIC\"\n");
-	gsf_output_printf (out, "VECTORS\n" "0,%d\n" "\"\"\n", r.end.col+1);
-	gsf_output_printf (out, "TUPLES\n"  "0,%d\n" "\"\"\n", r.end.row+1);
+	gsf_output_printf (out, "VECTORS\n" "0,%d\n" "\"\"\n",
+			   r.end.col - r.start.col + 1);
+	gsf_output_printf (out, "TUPLES\n"  "0,%d\n" "\"\"\n",
+			   r.end.row - r.start.row + 1);
 	gsf_output_puts   (out, "DATA\n"    "0,0\n"  "\"\"\n");
 
 	locale = gnm_push_C_locale ();
+	buf = g_string_new (NULL);
 
 	/* Process all cells */
 	for (row = r.start.row; ok && row <= r.end.row; row++) {
-		gsf_output_puts (out, "-1,0\n" "BOT\n");
+		ok = gsf_output_puts (out, "-1,0\n" "BOT\n") && ok;
 		for (col = r.start.col; col <= r.end.col; col++) {
 			GnmCell *cell = sheet_cell_get (sheet, col, row);
 			if (gnm_cell_is_empty (cell)) {
-				gsf_output_puts (out, "1,0\n" "\"\"\n");
+				ok = gsf_output_puts (out, "1,0\n" "\"\"\n") && ok;
 			} else if (VALUE_IS_BOOLEAN (cell->value)) {
 				if (value_get_as_checked_bool (cell->value))
-					gsf_output_puts (out, "0,1\n" "TRUE\n");
+					ok = gsf_output_puts (out, "0,1\n" "TRUE\n") && ok;
 				else
-					gsf_output_puts (out, "0,0\n" "FALSE\n");
+					ok = gsf_output_puts (out, "0,0\n" "FALSE\n") && ok;
 			} else if (VALUE_IS_ERROR (cell->value)) {
 				if (value_error_classify (cell->value) == GNM_ERROR_NA)
-					gsf_output_puts (out, "0,0\n" "NA\n");
+					ok = gsf_output_puts (out, "0,0\n" "NA\n") && ok;
 				else
-					gsf_output_puts (out, "0,0\n" "ERROR\n");
-			} else if (VALUE_IS_FLOAT (cell->value))
-				gsf_output_printf (out, "0,%" GNM_FORMAT_g "\n" "V\n",
-					value_get_as_float (cell->value));
-			else {
+					ok = gsf_output_puts (out, "0,0\n" "ERROR\n") && ok;
+			} else if (VALUE_IS_FLOAT (cell->value)) {
+				/* Plain %g would keep only 6 significant digits */
+				g_string_assign (buf, "0,");
+				go_dtoa (buf, "!" GNM_FORMAT_g,
+					 value_get_as_float (cell->value));
+				g_string_append (buf, "\nV\n");
+				ok = gsf_output_puts (out, buf->str) && ok;
+			} else {
 				gchar *str = gnm_cell_get_rendered_text (cell);
-				ok = gsf_output_printf (out,
-							 "1,0\n" "\"%s\"\n",
-							 str);
+				gchar *latin1;
+				gchar *p;
+
+				/* The reader decodes ISO-8859-1, so write that */
+				latin1 = g_convert_with_fallback
+					(str, -1, "ISO-8859-1", "UTF-8", (gchar *)"?",
+					 NULL, NULL, NULL);
+				if (latin1 == NULL)
+					latin1 = g_strdup (str);
+
+				/* Records are line based; a newline would corrupt the file */
+				for (p = latin1; *p; p++)
+					if (*p == '\n' || *p == '\r')
+						*p = ' ';
+
+				ok = gsf_output_printf (out, "1,0\n" "\"%s\"\n", latin1) && ok;
+				g_free (latin1);
 				g_free (str);
 			}
 		}
 	}
 
-	gsf_output_puts (out, "-1,0\n" "EOD\n");
+	g_string_free (buf, TRUE);
+
+	ok = gsf_output_puts (out, "-1,0\n" "EOD\n") && ok;
 
 	gnm_pop_C_locale (locale);
 
