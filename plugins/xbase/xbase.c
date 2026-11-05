@@ -36,16 +36,21 @@ static char const * const field_type_descriptions[] = {
 
 /**
  * Newly allocated pointer to record, initialised as first in database.
-*/
+ * Returns NULL if the database has no first record, or it cannot be read.
+ */
 XBrecord *
 record_new (XBfile *file)
 {
 	XBrecord *ans = g_new (XBrecord, 1);
 	ans->file = file;
 	ans->row = 1;
-	/* ans->data = g_new (guint8, file->fieldlen); */
-	ans->data = (guint8 *) g_strnfill (file->fieldlen, '?'); /* FIXME : just for testing */
-	record_seek (ans, SEEK_SET, 1);
+	// One extra byte so the deletion flag can be read whatever the length
+	ans->data = g_new0 (guint8, file->fieldlen + 1);
+	if (!record_seek (ans, SEEK_SET, 1)) {
+		// Used to carry on with a block of '?' as if it were a record
+		record_free (ans);
+		return NULL;
+	}
 	return ans;
 }
 
@@ -289,6 +294,11 @@ xbase_field_new (XBfile *file)
 	XBfield *field;
 	guint8   buf[33];
 	const char *p;
+
+	// The descriptors end at the end of the header; never read records as fields
+	if (gsf_input_tell (file->input) >= (gsf_off_t) file->headerlen)
+		return NULL;
+
 	if (gsf_input_read (file->input, 2, buf) == NULL) { /* 1 byte out ? */
 		g_warning ("xbase_field_new: fread error");
 		return NULL;
@@ -344,7 +354,7 @@ xbase_open (GsfInput *input, GOErrorInfo **ret_error)
 
 	*ret_error = NULL;
 
-	ans = g_new (XBfile, 1);
+	ans = g_new0 (XBfile, 1);
 	ans->input = input;
 
 	xbase_read_header (ans, ret_error);

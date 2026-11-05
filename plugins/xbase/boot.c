@@ -64,10 +64,14 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		g_free (s);
 		return val;
 	}
-	case 'N':
-		val = value_new_float (gnm_strto (s, NULL));
+	case 'N': {
+		char *end;
+		gnm_float d = gnm_strto (s, &end);
+		// A blank (or overflowed, "****") field holds no number at all
+		val = (end == s) ? NULL : value_new_float (d);
 		g_free (s);
 		return val;
+	}
 	case 'L':
 		switch (s[0]) {
 		case 'Y': case 'y': case 'T': case 't':
@@ -87,9 +91,12 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 	case 'D': {
 		/* double check that the date is stored according to spec */
 		int year, month, day;
-		if (strcmp (s, "00000000") == 0)
+		g_strstrip (s);
+		// An all-blank date is as empty as an all-zero one
+		if (*s == '\0' || strcmp (s, "00000000") == 0)
 			val = NULL;
 		else if (sscanf (s, "%4d%2d%2d", &year, &month, &day) == 3 &&
+			 year >= 1 &&
 			 g_date_valid_dmy (day, month, year)) {
 			GDate *date = g_date_new_dmy (day, month, year);
 			/* Use default date convention */
@@ -101,6 +108,7 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		return val;
 	}
 	case 'I':
+		CHECK_LENGTH (4);
 		val = value_new_int (GSF_LE_GET_GINT32 (s));
 		g_free (s);
 		return val;
@@ -110,36 +118,56 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		g_free (s);
 		return val;
 	case 'B': {
-		gint64 tmp = GSF_LE_GET_GINT64 (s);
-		g_warning ("FIXME: \"BINARY\" field type doesn't work");
+		gint64 tmp;
+		// Check the length before reading 8 bytes from the field
 		CHECK_LENGTH (sizeof (tmp));
+		tmp = GSF_LE_GET_GINT64 (s);
+		g_warning ("FIXME: \"BINARY\" field type doesn't work");
 		g_free (s);
 		return value_new_float (tmp);
 	}
 	default: {
-		char *s = g_strdup_printf ("Field type '0x%02x' unsupported",
-					   field->type);
-		return value_new_string_nocopy (s);
+		char *msg = g_strdup_printf ("Field type '0x%02x' unsupported",
+					     field->type);
+		g_free (s);
+		return value_new_string_nocopy (msg);
 	}
 	}
 }
 
 #undef CHECK_LENGTH
 
+// Field names are stored in the file's code page, not in UTF-8
+static char *
+xbase_name_to_utf8 (XBfile *file, char const *name)
+{
+	char *res = g_convert_with_iconv (name, -1, file->char_map, NULL, NULL, NULL);
+	if (res == NULL) {
+		char *t;
+		res = g_strdup (name);
+		for (t = res; *t; t++)
+			if ((guchar)*t >= 0x7f)
+				*t = '?';
+	}
+	return res;
+}
+
 static void
-create_header (Sheet *sheet, XBfile *file)
+create_header (Sheet *sheet, XBfile *file, unsigned ncols)
 {
 	unsigned ui;
 	GnmRange r;
 	GnmStyle *bold = gnm_style_new ();
 
-	for (ui = 0 ; ui < file->fields ; ui++) {
+	for (ui = 0 ; ui < ncols ; ui++) {
 		GnmCell *cell = sheet_cell_fetch (sheet, ui, 0);
-		gnm_cell_set_text (cell, file->format[ui]->name);
+		char *name = xbase_name_to_utf8 (file, file->format[ui]->name);
+		gnm_cell_set_text (cell, name);
+		g_free (name);
 	}
 
 	gnm_style_set_font_bold (bold, TRUE);
-	range_init (&r, 0, 0, file->fields - 1, 0);
+	range_init (&r, 0, 0, (int) ncols - 1, 0);
 	sheet_style_apply_range	(sheet, &r, bold);
 }
 
@@ -152,8 +180,11 @@ xbase_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 	XBrecord  *record;
 	Sheet	  *sheet = NULL;
 	GOErrorInfo *open_error;
-	int rows = GNM_MAX_ROWS;
+	// Number of data rows; row 0 of the sheet holds the header
+	int rows = GNM_MAX_ROWS - 1;
 	int pass;
+	unsigned ncols = 0;
+	gboolean truncated = FALSE;
 
 	if ((file = xbase_open (input, &open_error)) == NULL) {
 		go_io_error_info_set (io_context, go_error_info_new_str_with_details (
@@ -169,26 +200,38 @@ xbase_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 
 		if (pass == 2) {
 			int cols = file->fields;
-			gnm_sheet_suggest_size (&cols, &rows);
-			sheet = workbook_sheet_add (wb, -1, cols, rows);
-			create_header (sheet, file);
+			// The data rows need one more row for the header
+			int sheet_rows = rows + 1;
+			gnm_sheet_suggest_size (&cols, &sheet_rows);
+			sheet = workbook_sheet_add (wb, -1, cols, sheet_rows);
+			rows = sheet_rows - 1;
+			// The suggested size can be too small for wide tables
+			ncols = MIN (file->fields,
+				     (unsigned) gnm_sheet_get_max_cols (sheet));
+			if (ncols < file->fields)
+				go_io_warning (io_context, "%s",
+					       _("The xbase file has more fields than fit in a sheet; the remaining fields were not imported."));
+			create_header (sheet, file, ncols);
 		}
 
+		// NULL when there is no readable first record
 		record = record_new (file);
-		do {
+		while (record) {
 			unsigned ui;
 			gboolean deleted = record_deleted (record);
 			if (deleted)
-				continue;
+				goto next_record;
 
-			if (row >= rows)
+			if (row >= rows) {
+				truncated = TRUE;
 				break;
+			}
 
 			row++;
 			if (pass == 1)
-				continue;
+				goto next_record;
 
-			for (ui = 0; ui < file->fields; ui++) {
+			for (ui = 0; ui < ncols; ui++) {
 				GnmCell *cell;
 				XBfield *field = record->file->format[ui];
 				GnmValue *val = xbase_field_as_value
@@ -201,10 +244,19 @@ xbase_file_open (GOFileOpener const *fo, GOIOContext *io_context,
 				value_set_fmt (val, field->fmt);
 				gnm_cell_set_value (cell, val);
 			}
-		} while (record_seek (record, SEEK_CUR, 1));
-		record_free (record);
+
+		next_record:
+			if (!record_seek (record, SEEK_CUR, 1))
+				break;
+		}
+		if (record)
+			record_free (record);
 		rows = row;
 	}
+
+	if (truncated)
+		go_io_warning (io_context, "%s",
+			       _("The xbase file has more records than fit in a sheet; the remaining records were not imported."));
 
 	xbase_close (file);
 
