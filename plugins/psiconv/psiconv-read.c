@@ -49,11 +49,37 @@
 
 #include <psiconv/parse.h>
 
+// Convert a NUL-terminated UTF-16 string.  Unpaired surrogates, which make
+// g_utf16_to_utf8 fail, are replaced by U+FFFD instead of losing the string.
 static GnmValue *
 psi_new_string (psiconv_ucs2 const *data)
 {
-	return value_new_string_nocopy (
-		g_utf16_to_utf8 (data, -1, NULL, NULL, NULL));
+	GString *str;
+
+	if (data == NULL)
+		return NULL;
+
+	str = g_string_new (NULL);
+	while (*data) {
+		gunichar uc = *data++;
+		if (uc >= 0xd800 && uc < 0xdc00 && *data >= 0xdc00 && *data < 0xe000) {
+			uc = 0x10000 + ((uc - 0xd800) << 10) + (*data++ - 0xdc00);
+		} else if (uc >= 0xd800 && uc < 0xe000) {
+			uc = 0xfffd;
+		}
+		g_string_append_unichar (str, uc);
+	}
+	return value_new_string_nocopy (g_string_free (str, FALSE));
+}
+
+// Sanity limit for sizes taken from the file, in points
+#define PSI_MAX_SIZE_PTS 10000.
+
+static gboolean
+psi_size_ok (double cm)
+{
+	// Also rejects NaN
+	return cm > 0. && cm / 2.54 * 72. <= PSI_MAX_SIZE_PTS;
 }
 
 
@@ -178,19 +204,30 @@ set_layout (GnmStyle * style,const psiconv_sheet_cell_layout psi_layout)
 {
 	GnmColor *color;
 
-	set_format (style, psi_layout->numberformat);
-	gnm_style_set_font_size (style, psi_layout->character->font_size);
+	if (psi_layout == NULL)
+		return;
+	if (psi_layout->numberformat)
+		set_format (style, psi_layout->numberformat);
+	if (psi_layout->character == NULL)
+		return;
+	// Sanity limit; a zero, negative or absurd size would break rendering
+	if (psi_layout->character->font_size > 0 &&
+	    psi_layout->character->font_size <= 400)
+		gnm_style_set_font_size (style, psi_layout->character->font_size);
 	gnm_style_set_font_italic (style, psi_layout->character->italic?TRUE:FALSE);
 	gnm_style_set_font_bold (style, psi_layout->character->bold?TRUE:FALSE);
 	gnm_style_set_font_uline (style,
 				  psi_layout->character->underline?TRUE:FALSE);
 	gnm_style_set_font_strike (style,
 				   psi_layout->character->strikethrough?TRUE:FALSE);
-	gnm_style_set_font_name (style,
-				 (const char *) psi_layout->character->font->name);
-	color = get_color (psi_layout->character->color);
-	if (color)
-		gnm_style_set_font_color (style, color);
+	if (psi_layout->character->font && psi_layout->character->font->name)
+		gnm_style_set_font_name (style,
+					 (const char *) psi_layout->character->font->name);
+	if (psi_layout->character->color) {
+		color = get_color (psi_layout->character->color);
+		if (color)
+			gnm_style_set_font_color (style, color);
+	}
 	/* TODO: Character level layouts: super_sub */
 	/* TODO: Paragraph level layouts: all */
 	/* TODO: Background color: add transparant if white */
@@ -242,14 +279,42 @@ value_new_from_psi_cell (const psiconv_sheet_cell psi_cell)
 	return NULL;
 }
 
+// Build a cell reference with separate absolute/relative flags for the row
+// and the column.  (This helper was used but never defined, so any formula
+// containing a reference failed to compile and link.)
+static GnmCellRef *
+p_cellref_init (GnmCellRef *ref, int row, gboolean row_abs,
+		int col, gboolean col_abs)
+{
+	gnm_cellref_init (ref, NULL, col, row, TRUE);
+	ref->row_relative = !row_abs;
+	ref->col_relative = !col_abs;
+	return ref;
+}
+
+// Formulas nest arbitrarily deep in a hostile file; do not recurse forever
+#define PSI_MAX_FORMULA_DEPTH 100
+
+// The operand list may be missing, and psiconv_list_get does not allow NULL
+static psiconv_formula
+psi_operand (const psiconv_formula psi_formula, psiconv_u32 n)
+{
+	if (psi_formula->data.fun_operands == NULL)
+		return NULL;
+	return psiconv_list_get (psi_formula->data.fun_operands, n);
+}
+
 static GnmExpr const *
-parse_subexpr (const psiconv_formula psi_formula)
+parse_subexpr (const psiconv_formula psi_formula, int depth)
 {
 	int nrargs=0; /* -1 for variable */
 	int kind=-1; /* 0 for dat, 1 for operator, 2 for formula, 3 for special,
 	               -1 for unknown */
 	psiconv_formula psi_form1,psi_form2;
 	GnmExpr const *expr1=NULL,*expr2=NULL;
+
+	if (depth > PSI_MAX_FORMULA_DEPTH)
+		return NULL;
 
 	switch (psi_formula->type) {
 		/* Translates values */
@@ -343,19 +408,17 @@ parse_subexpr (const psiconv_formula psi_formula)
 	} else if (kind == 1) {
 		/* Handling the operators */
 		if (nrargs >= 1) {
-			if (!(psi_form1 = psiconv_list_get
-			                  (psi_formula->data.fun_operands,0)))
+			if (!(psi_form1 = psi_operand (psi_formula, 0)))
 				return NULL;
-			if (!(expr1 = parse_subexpr (psi_form1)))
+			if (!(expr1 = parse_subexpr (psi_form1, depth + 1)))
 				return NULL;
 		}
 		if (nrargs >= 2) {
-			if (!(psi_form2 = psiconv_list_get
-			                  (psi_formula->data.fun_operands,1))) {
+			if (!(psi_form2 = psi_operand (psi_formula, 1))) {
 				gnm_expr_free (expr1);
 				return NULL;
 			}
-			if (!(expr2 = parse_subexpr (psi_form2))) {
+			if (!(expr2 = parse_subexpr (psi_form2, depth + 1))) {
 				gnm_expr_free (expr1);
 				return NULL;
 			}
@@ -386,8 +449,11 @@ parse_subexpr (const psiconv_formula psi_formula)
 		case psiconv_formula_op_neg:
 			return gnm_expr_new_unary (GNM_EXPR_OP_UNARY_NEG, expr1);
 		default:
-			gnm_expr_free (expr1);
-			gnm_expr_free (expr2);
+			// Unary operators with no translation (NOT) have no expr2
+			if (expr1)
+				gnm_expr_free (expr1);
+			if (expr2)
+				gnm_expr_free (expr2);
 			return NULL;
 		}
 	} else if (kind == 3) {
@@ -402,10 +468,9 @@ parse_subexpr (const psiconv_formula psi_formula)
 		}
 
 		case psiconv_formula_op_bra:
-			if (!(psi_form1 = psiconv_list_get
-			                  (psi_formula->data.fun_operands,0)))
+			if (!(psi_form1 = psi_operand (psi_formula, 0)))
 				return NULL;
-			return parse_subexpr (psi_form1);
+			return parse_subexpr (psi_form1, depth + 1);
 		default:
 			break;
 		}
@@ -421,7 +486,7 @@ expr_new_from_formula (const psiconv_sheet_cell psi_cell,
 	psiconv_formula formula = psiconv_get_formula (psi_formulas, psi_cell->ref_formula);
 
 	if (NULL != formula) {
-		GnmExpr const *expr = parse_subexpr (formula);
+		GnmExpr const *expr = parse_subexpr (formula, 0);
 		if (NULL != expr)
 			return gnm_expr_top_new	(expr);
 	}
@@ -436,6 +501,11 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 	GnmCell *cell;
 	GnmValue *val;
 	GnmExprTop const *expr = NULL;
+
+	// Position comes from the file, and is unsigned
+	if (psi_cell->column >= (psiconv_u32) gnm_sheet_get_max_cols (sheet) ||
+	    psi_cell->row >= (psiconv_u32) gnm_sheet_get_max_rows (sheet))
+		return;
 
 	cell = sheet_cell_fetch (sheet, psi_cell->column, psi_cell->row);
 	if (!cell)
@@ -480,6 +550,9 @@ add_cells (Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
 	psiconv_u32 i;
 	psiconv_sheet_cell psi_cell;
 
+	if (psi_cells == NULL)
+		return;
+
 	/* psiconv_lists are actually arrays, so this isn't inefficient. */
 	for (i = 0; i < psiconv_list_length (psi_cells); i++) {
 		/* If psiconv_list_get fails, something is very wrong... */
@@ -501,7 +574,9 @@ set_row_heights (Sheet *sheet, psiconv_sheet_grid_size_list heights)
 	psiconv_sheet_grid_size psi_height;
 
 	for (i = 0; i < psiconv_list_length (heights); i++) {
-		if ((psi_height = psiconv_list_get (heights, i)))
+		if ((psi_height = psiconv_list_get (heights, i)) &&
+		    psi_height->line_number < (psiconv_u32) gnm_sheet_get_max_rows (sheet) &&
+		    psi_size_ok (psi_height->size))
 			sheet_row_set_size_pts
 				(sheet, psi_height->line_number,
 				 cm2pts (psi_height->size), TRUE);
@@ -515,7 +590,9 @@ set_col_widths (Sheet *sheet, psiconv_sheet_grid_size_list widths)
 	psiconv_sheet_grid_size psi_width;
 
 	for (i = 0; i < psiconv_list_length (widths); i++) {
-		if ((psi_width = psiconv_list_get (widths, i)))
+		if ((psi_width = psiconv_list_get (widths, i)) &&
+		    psi_width->line_number < (psiconv_u32) gnm_sheet_get_max_cols (sheet) &&
+		    psi_size_ok (psi_width->size))
 			sheet_col_set_size_pts
 				(sheet, psi_width->line_number,
 				 cm2pts (psi_width->size), TRUE);
@@ -548,10 +625,12 @@ add_worksheet (Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 	/* TODO: Add show_zeros */
 	grid = psi_worksheet->grid;
 	if (grid) {
-		sheet_row_set_default_size_pts
-			(sheet, cm2pts (grid->default_row_height));
-		sheet_col_set_default_size_pts
-			(sheet, cm2pts (grid->default_column_width));
+		if (psi_size_ok (grid->default_row_height))
+			sheet_row_set_default_size_pts
+				(sheet, cm2pts (grid->default_row_height));
+		if (psi_size_ok (grid->default_column_width))
+			sheet_col_set_default_size_pts
+				(sheet, cm2pts (grid->default_column_width));
 		if (grid->row_heights)
 			set_row_heights (sheet, grid->row_heights);
 		if (grid->column_heights)
@@ -570,6 +649,9 @@ add_workbook (Workbook *wb, psiconv_sheet_workbook_section psi_workbook)
 {
 	psiconv_u32 i;
 	psiconv_sheet_worksheet psi_worksheet;
+
+	if (psi_workbook == NULL || psi_workbook->worksheets == NULL)
+		return;
 
 	/* TODO: Perhaps add formulas and share them? */
 	for (i = 0; i < psiconv_list_length (psi_workbook->worksheets); i++) {
@@ -617,8 +699,11 @@ psiconv_stream_to_buffer (GsfInput *input, int maxlen)
 
 		len = MIN (4096, size);
 		chunk = gsf_input_read (input, len, NULL);
-		if (chunk == NULL)
-			break;
+		if (chunk == NULL) {
+			// Short read; do not pretend to have the whole file
+			psiconv_buffer_free (buf);
+			return NULL;
+		}
 		for (i = 0; i<len; i++) {
 			if (psiconv_buffer_add (buf, chunk[i]) != 0) {
 				psiconv_buffer_free (buf);
@@ -643,8 +728,11 @@ psiconv_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 		goto out;
 	}
 
-	if ((config = psiconv_config_default ()) == NULL)
+	if ((config = psiconv_config_default ()) == NULL) {
+		go_io_error_info_set (io_context,
+		                            go_error_info_new_str (_("Error while reading psiconv file.")));
 		goto out;
+	}
 	config->verbosity = PSICONV_VERB_ERROR;
 	psiconv_config_read (NULL,&config);
 	if (psiconv_parse (config, buf, &psi_file) != 0) {
@@ -654,9 +742,14 @@ psiconv_read (GOIOContext *io_context, Workbook *wb, GsfInput *input)
 		goto out;
 	}
 
-	if (psi_file->type == psiconv_sheet_file)
-		add_sheetfile (wb, psi_file->file);
-	else
+	if (psi_file->type == psiconv_sheet_file) {
+		if (psi_file->file)
+			add_sheetfile (wb, psi_file->file);
+		// The loader treats a workbook without sheets as a user cancel
+		if (workbook_sheet_count (wb) == 0)
+			go_io_error_info_set (io_context,
+					      go_error_info_new_str (_("This Psion file contains no worksheets.")));
+	} else
 		go_io_error_info_set (io_context,
 				      go_error_info_new_str (_("This Psion file is not a Sheet file.")));
 
