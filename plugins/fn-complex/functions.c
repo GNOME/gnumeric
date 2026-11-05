@@ -68,6 +68,17 @@ value_get_as_complex (GnmValue const *val, gnm_complex *res, char *imunit)
 	return GNM_ERROR_VALUE;
 }
 
+/*
+ * Pick the imaginary unit for a result computed from two arguments.  A
+ * plain number carries no unit information (it reports 'i'), so a "j"
+ * seen in either argument wins.
+ */
+static char
+imunit_merge (char u1, char u2)
+{
+	return (u1 == 'j' || u2 == 'j') ? 'j' : 'i';
+}
+
 static GnmValue *
 value_new_complex (gnm_complex const *c, char imunit)
 {
@@ -132,7 +143,7 @@ gnumeric_imaginary (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	char imunit;
 	GnmStdError err;
 
-	if (VALUE_IS_NUMBER (argv[0]))
+	if (VALUE_IS_FLOAT (argv[0]))
 	        return value_new_float (0.0);
 
 	err = value_get_as_complex (argv[0], &c, &imunit);
@@ -187,7 +198,7 @@ gnumeric_imreal (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	char imunit;
 	GnmStdError err;
 
-	if (VALUE_IS_NUMBER (argv[0]))
+	if (VALUE_IS_FLOAT (argv[0]))
 		return value_dup (argv[0]);
 
 	err = value_get_as_complex (argv[0], &c, &imunit);
@@ -562,21 +573,21 @@ static GnmValue *
 gnumeric_impower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_complex a, b;
-	char imunit;
+	char imunit, imunit2;
 	GnmStdError err;
 
 	err = value_get_as_complex (argv[0], &a, &imunit);
 	if (err != NO_ERROR)
 		return value_new_error_std (ei->pos, err);
 
-	err = value_get_as_complex (argv[1], &b, &imunit);
+	err = value_get_as_complex (argv[1], &b, &imunit2);
 	if (err != NO_ERROR)
 		return value_new_error_std (ei->pos, err);
 
 	if (GNM_CZEROP (a) && GNM_CZEROP (b))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_complexv (GNM_CPOW (a, b), imunit);
+	return value_new_complexv (GNM_CPOW (a, b), imunit_merge (imunit, imunit2));
 }
 
 /***************************************************************************/
@@ -597,21 +608,21 @@ static GnmValue *
 gnumeric_imdiv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_complex a, b;
-	char imunit;
+	char imunit, imunit2;
 	GnmStdError err;
 
 	err = value_get_as_complex (argv[0], &a, &imunit);
 	if (err != NO_ERROR)
 		return value_new_error_std (ei->pos, err);
 
-	err = value_get_as_complex (argv[1], &b, &imunit);
+	err = value_get_as_complex (argv[1], &b, &imunit2);
 	if (err != NO_ERROR)
 		return value_new_error_std (ei->pos, err);
 
 	if (GNM_CZEROP (b))
 		return value_new_error_DIV0 (ei->pos);
 
-	return value_new_complexv (GNM_CDIV (a, b), imunit);
+	return value_new_complexv (GNM_CDIV (a, b), imunit_merge (imunit, imunit2));
 }
 
 /***************************************************************************/
@@ -830,7 +841,7 @@ gnumeric_imarcsin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_imarccos[] = {
-	{ GNM_FUNC_HELP_NAME, F_("IMARCCOS:the complex arccosine of the complex number") },
+	{ GNM_FUNC_HELP_NAME, F_("IMARCCOS:the complex arccosine of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCCOS returns the complex arccosine of the complex number "
 	   "@{z}. The branch cuts are on the real axis, less than -1 and greater than 1.") },
@@ -858,7 +869,7 @@ gnumeric_imarccos (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 /***************************************************************************/
 
 static GnmFuncHelp const help_imarctan[] = {
-	{ GNM_FUNC_HELP_NAME, F_("IMARCTAN:the complex arctangent of the complex number") },
+	{ GNM_FUNC_HELP_NAME, F_("IMARCTAN:the complex arctangent of the complex number @{z}") },
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("IMARCTAN returns the complex arctangent of the complex number "
 	   "@{z}. The branch cuts are on the imaginary axis, below -i and above i.") },
@@ -1182,7 +1193,7 @@ static GnmFuncHelp const help_imgamma[] = {
 	{ GNM_FUNC_HELP_ARG, F_("z:a complex number") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{z} is not a valid complex number, #NUM! is returned.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMGAMMA(\"1+j\")" },
-	{ GNM_FUNC_HELP_SEEALSO, "IMGAMMA" },
+	{ GNM_FUNC_HELP_SEEALSO, "IMFACT,IMIGAMMA" },
 	{ GNM_FUNC_HELP_END}
 };
 
@@ -1211,8 +1222,7 @@ static GnmFuncHelp const help_imigamma[] = {
 	{ GNM_FUNC_HELP_ARG, F_("regularize:if true (the default), the regularized version of the incomplete gamma function")},
 	{ GNM_FUNC_HELP_NOTE, F_("The regularized incomplete gamma function is the unregularized incomplete gamma function divided by GAMMA(@{a}).") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=IMIGAMMA(2.5,-1.8,TRUE,TRUE)" },
-	{ GNM_FUNC_HELP_EXAMPLES, "=IMIGAMMA(2.5,-1.8,TRUE,TRUE)" },
-	{ GNM_FUNC_HELP_SEEALSO, "GAMMA,IMIGAMMA"},
+	{ GNM_FUNC_HELP_SEEALSO, "GAMMA,IMGAMMA"},
 	{ GNM_FUNC_HELP_END}
 };
 
@@ -1221,7 +1231,7 @@ static GnmValue *
 gnumeric_imigamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_complex a, z;
-	char imunit;
+	char imunit, imunit2;
 	GnmStdError err;
 	gboolean lower = argv[2] ? value_get_as_checked_bool (argv[2]) : TRUE;
 	gboolean reg = argv[3] ? value_get_as_checked_bool (argv[3]) : TRUE;
@@ -1229,11 +1239,12 @@ gnumeric_imigamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	err = value_get_as_complex (argv[0], &a, &imunit);
 	if (err != NO_ERROR)
 		return value_new_error_std (ei->pos, err);
-	err = value_get_as_complex (argv[1], &z, &imunit);
+	err = value_get_as_complex (argv[1], &z, &imunit2);
 	if (err != NO_ERROR)
 		return value_new_error_std (ei->pos, err);
 
-	return value_new_complexv (gnm_complex_igamma (a, z, lower, reg), imunit);
+	return value_new_complexv (gnm_complex_igamma (a, z, lower, reg),
+				    imunit_merge (imunit, imunit2));
 }
 
 /***************************************************************************/
@@ -1254,18 +1265,18 @@ static GnmValue *
 gnumeric_imsub (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_complex a, b;
-	char imunit;
+	char imunit, imunit2;
 	GnmStdError err;
 
 	err = value_get_as_complex (argv[0], &a, &imunit);
 	if (err != NO_ERROR)
 		return value_new_error_std (ei->pos, err);
 
-	err = value_get_as_complex (argv[1], &b, &imunit);
+	err = value_get_as_complex (argv[1], &b, &imunit2);
 	if (err != NO_ERROR)
 		return value_new_error_std (ei->pos, err);
 
-	return value_new_complexv (GNM_CSUB (a, b), imunit);
+	return value_new_complexv (GNM_CSUB (a, b), imunit_merge (imunit, imunit2));
 }
 
 /***************************************************************************/
@@ -1298,13 +1309,15 @@ callback_function_imoper (GnmEvalPos const *ep, GnmValue const *value,
 {
 	eng_imoper_t *result = closure;
 	gnm_complex c;
-	char *imptr, dummy;
+	char unit;
 	GnmStdError err;
 
-	imptr = VALUE_IS_NUMBER (value) ? &dummy : &result->imunit;
-	err = value_get_as_complex (value, &c, imptr);
+	err = value_get_as_complex (value, &c, &unit);
 	if (err != NO_ERROR)
 		return value_new_error_std (ep, err);
+	/* Numbers and unit-less strings must not reset a "j" seen earlier */
+	if (unit == 'j')
+		result->imunit = 'j';
 
 	switch (result->type) {
 	case Improduct:
@@ -1327,7 +1340,7 @@ gnumeric_improduct (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	eng_imoper_t p;
 
 	p.type = Improduct;
-	p.imunit = 'j';
+	p.imunit = 'i';
 	p.res = GNM_C1;
 
 	v = function_iterate_argument_values
@@ -1361,7 +1374,7 @@ gnumeric_imsum (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	eng_imoper_t p;
 
 	p.type = Imsum;
-	p.imunit = 'j';
+	p.imunit = 'i';
 	p.res = GNM_C0;
 
 	v = function_iterate_argument_values

@@ -47,6 +47,7 @@ Morten:
 	* Fix ods export problem with 1904 date-format sheets.
 	* Make ods parser not accept empty strings as zero.
 	* File import hardening.
+	* Improve handling of 'j'-format complex numbers
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
