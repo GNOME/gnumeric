@@ -162,8 +162,10 @@ sheet_print_info_free (gpointer data)
 {
 	SheetPrintInfo *spi = data;
 
-	g_array_unref (spi->column_pagination);
-	g_array_unref (spi->row_pagination);
+	if (spi->column_pagination)
+		g_array_unref (spi->column_pagination);
+	if (spi->row_pagination)
+		g_array_unref (spi->row_pagination);
 	g_free (data);
 }
 
@@ -770,7 +772,8 @@ paginate (GArray *paginationInfo,
 		gint n_end;
 
 		n_end = gnm_page_breaks_get_next_manual_break (pb, rc) - 1;
-		if (n_end < rc)
+		/* A manual break past the end must not extend the range */
+		if (n_end < rc || n_end > end)
 			n_end = end;
 
 		while (rc <= n_end) {
@@ -985,10 +988,7 @@ compute_sheet_pages (GtkPrintContext   *context,
 	gdouble top_margin, bottom_margin, edge_to_below_header, edge_to_above_footer;
 	gdouble px, py;
 	gdouble usable_x, usable_y;
-	GArray *column_pagination = g_array_sized_new
-		(FALSE, TRUE, sizeof (PaginationInfo), 100);
-	GArray *row_pagination = g_array_sized_new
-		(FALSE, TRUE, sizeof (PaginationInfo), 100);
+	GArray *column_pagination, *row_pagination;
 	gboolean repeat_top_use, repeat_left_use;
 	int repeat_top_start, repeat_top_end, repeat_left_start, repeat_left_end;
 	double const hscale = sheet->display_formulas ? 2 : 1;
@@ -1081,6 +1081,12 @@ compute_sheet_pages (GtkPrintContext   *context,
 
 	usable_x   = page_width / px;
 	usable_y   = page_height / py;
+
+	/* Allocated only now so the early returns above do not leak them */
+	column_pagination = g_array_sized_new
+		(FALSE, TRUE, sizeof (PaginationInfo), 100);
+	row_pagination = g_array_sized_new
+		(FALSE, TRUE, sizeof (PaginationInfo), 100);
 
 	paginate (column_pagination, sheet, print_area.start.col, print_area.end.col,
 		  (usable_x - row_header_width)/hscale,
@@ -1232,7 +1238,8 @@ gnm_paginate_cb (GtkPrintOperation *operation,
 	if (spi == NULL) { /*We are done paginating */
 		/* GTK sends additional pagination requests! */
 		/* We only need to do this once though! */
-		if (g_list_nth_data (pi->gnmSheets, paginate - 1) != NULL) {
+		if (paginate == 0 ||
+		    g_list_nth_data (pi->gnmSheets, paginate - 1) != NULL) {
 			GList *l;
 			gint n_pages = 0;
 
@@ -1436,7 +1443,7 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 			if (pi->hfi->pages == -1)
 				text = g_strdup_printf
 					(pi->preview ? _("Creating preview of page %3d")
-					 : _("Printing page %3d"), page_nr);
+					 : _("Printing page %3d"), page_nr + 1);
 			else
 				text = g_strdup_printf
 					(pi->preview ?
@@ -1446,7 +1453,7 @@ gnm_draw_page_cb (GtkPrintOperation *operation,
 					 : ngettext("Printing page %3d of %3d page",
 					            "Printing page %3d of %3d pages",
 					            pi->hfi->pages),
-					 page_nr, pi->hfi->pages);
+					 page_nr + 1, pi->hfi->pages);
 			g_object_set (G_OBJECT (pi->progress), "text", text, NULL);
 			g_free (text);
 		}
@@ -1834,7 +1841,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 		/* We should be setting the output file name to something */
 		/* reasonable */
 		saved_uri = print_info_get_printtofile_uri (sheet->print_info);
-		if (saved_uri != NULL &&
+		if (saved_uri != NULL && doc->uri != NULL &&
 		    g_ascii_strncasecmp (doc->uri, "file:///", 8) == 0)
 			output_uri = gnm_print_uri_change_extension (saved_uri,
 								     settings);
@@ -1910,14 +1917,17 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 
 	switch (res) {
 	case GTK_PRINT_OPERATION_RESULT_APPLY:
+		/* The dialog may have replaced the settings object, so do
+		 * not rely on the pointer we passed in earlier. */
+		settings = gtk_print_operation_get_print_settings (print);
 		if (action == GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG) {
 			char const *printer;
-			settings = gtk_print_operation_get_print_settings (print);
 			gnm_conf_set_print_settings (settings);
 			gnm_insert_meta_date (doc, GSF_META_NAME_PRINT_DATE);
 			printer = gtk_print_settings_get_printer (settings);
-			if (strcmp (printer, "Print to File") == 0 ||
-			    strcmp (printer, _("Print to File")) == 0) {
+			if (printer != NULL && doc->uri != NULL &&
+			    (strcmp (printer, "Print to File") == 0 ||
+			     strcmp (printer, _("Print to File")) == 0)) {
 				gchar *wb_output_uri =
 					gnm_print_uri_change_extension (doc->uri,
 									settings);
@@ -1939,6 +1949,7 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	default: ;
 	}
 	printing_instance_delete (pi);
+	pi = NULL;
 
 	if (preview_via_pdf) {
 #ifdef G_OS_WIN32
@@ -1997,6 +2008,8 @@ gnm_print_sheet (WorkbookControl *wbc, Sheet *sheet,
 	cb_delete_and_free (tmp_file_name);
 
 	g_object_unref (print);
+	if (pi)
+		printing_instance_delete (pi);
 }
 
 static void

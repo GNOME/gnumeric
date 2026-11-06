@@ -48,6 +48,7 @@ Morten:
 	* Make ods parser not accept empty strings as zero.
 	* File import hardening.
 	* Improve handling of 'j'-format complex numbers
+	* Fix printing problems.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

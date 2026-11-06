@@ -499,6 +499,9 @@ make_triple (const GnmPrintHF *hf)
 	GO_SLIST_PREPEND (l, hf->middle_format ? hf->middle_format : NULL);
 	GO_SLIST_PREPEND (l, hf->right_format ? hf->right_format : NULL);
 
+	/* The list is read back as left, middle, right */
+	GO_SLIST_REVERSE (l);
+
 	return l;
 }
 
@@ -597,6 +600,10 @@ static void
 render_cell (GString *target, GnmPrintHFRenderInfo *info, char const *args)
 {
 	gboolean use_repeating = FALSE;
+
+	/* "&[CELL]" without an argument has nothing to look up */
+	if (args == NULL)
+		return;
 
 	if (args && ((use_repeating = g_str_has_prefix (args, "rep|"))))
 		args += 4;
@@ -701,9 +708,10 @@ static void
 render_file (GString *target, GnmPrintHFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
-		char *name = go_basename_from_uri (
-			go_doc_get_uri (GO_DOC (info->sheet->workbook)));
-		g_string_append (target, name);
+		char const *uri = go_doc_get_uri (GO_DOC (info->sheet->workbook));
+		char *name = uri ? go_basename_from_uri (uri) : NULL;
+		if (name)
+			g_string_append (target, name);
 		g_free (name);
 	} else
 		g_string_append (target, _("File Name"));
@@ -713,9 +721,10 @@ static void
 render_path (GString *target, GnmPrintHFRenderInfo *info, G_GNUC_UNUSED char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
-		char *path = go_dirname_from_uri (
-			go_doc_get_uri (GO_DOC (info->sheet->workbook)), TRUE);
-		g_string_append (target, path);
+		char const *uri = go_doc_get_uri (GO_DOC (info->sheet->workbook));
+		char *path = uri ? go_dirname_from_uri (uri, TRUE) : NULL;
+		if (path)
+			g_string_append (target, path);
 		g_free (path);
 	} else
 		g_string_append (target, _("Path "));
@@ -730,8 +739,11 @@ render_title (GString *target, GnmPrintHFRenderInfo *info, G_GNUC_UNUSED char co
 			(go_doc_get_meta_data (GO_DOC (info->sheet->workbook)), GSF_META_NAME_TITLE);
 		if (prop != NULL) {
 			GValue *prop_value = (GValue *) gsf_doc_prop_get_val (prop);
-			if (prop_value != NULL)
-				g_string_append (target, g_value_get_string (prop_value));
+			if (prop_value != NULL && G_VALUE_HOLDS_STRING (prop_value)) {
+				char const *title = g_value_get_string (prop_value);
+				if (title)
+					g_string_append (target, title);
+			}
 		}
 	} else
 		g_string_append (target, _("Title"));
@@ -933,12 +945,16 @@ pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 {
 	Workbook const *wb = wb_view_get_workbook (wbv);
 	GPtrArray *sheets = gnm_file_saver_get_sheets (fs, wbv, FALSE);
+	int n = workbook_sheet_count (wb);
+	gboolean *saved = NULL;
+	int i;
 
 	if (sheets) {
-		int i;
-
-		for (i = 0; i < workbook_sheet_count (wb); i++) {
+		/* Remember the user's settings so the export leaves no trace */
+		saved = g_new (gboolean, n);
+		for (i = 0; i < n; i++) {
 			Sheet *sheet = workbook_sheet_by_index (wb, i);
+			saved[i] = sheet->print_info->do_not_print;
 			sheet->print_info->do_not_print = TRUE;
 		}
 		for (i = 0; i < (int)sheets->len; i++) {
@@ -947,11 +963,18 @@ pdf_write_workbook (G_GNUC_UNUSED GOFileSaver const *fs,
 		}
 	}
 
-	if (sheets)
-		g_ptr_array_unref (sheets);
-
 	gnm_print_sheet (NULL, wb_view_cur_sheet (wbv), FALSE,
 			 GNM_PRINT_ALL_SHEETS, output);
+
+	if (saved) {
+		for (i = 0; i < n; i++) {
+			Sheet *sheet = workbook_sheet_by_index (wb, i);
+			sheet->print_info->do_not_print = saved[i];
+		}
+		g_free (saved);
+	}
+	if (sheets)
+		g_ptr_array_unref (sheets);
 }
 
 static void
@@ -1010,10 +1033,11 @@ cb_set_pdf_option (const char *key, const char *value,
 				SheetObject *so = sobjects->data;
 				gchar *name = NULL;
 				g_object_get (so, "name", &name, NULL);
-				if (strcmp (name, value) == 0) {
+				if (name != NULL && strcmp (name, value) == 0) {
 					g_ptr_array_add (objects, so);
 					object_seen = TRUE;
 				}
+				g_free (name);
 			}
 		}
 
@@ -1133,6 +1157,7 @@ gnm_print_info_dup (GnmPrintInformation const *src)
 	COPY(do_not_print);
 	COPY(comment_placement);
 	COPY(error_display);
+	COPY(print_range);
 
 	gnm_page_breaks_free (dst->page_breaks.h);
 	dst->page_breaks.h = gnm_page_breaks_dup (src->page_breaks.h);
@@ -2040,7 +2065,8 @@ print_info_set_printtofile_from_settings (GnmPrintInformation *pi,
 	char const *uri = gtk_print_settings_get
 		(settings,
 		 GTK_PRINT_SETTINGS_OUTPUT_URI);
-	if (strcmp (uri, default_uri) == 0)
+	if (uri == NULL ||
+	    (default_uri != NULL && strcmp (uri, default_uri) == 0))
 		print_info_set_printtofile_uri (pi, NULL);
 	else
 		print_info_set_printtofile_uri (pi, uri);

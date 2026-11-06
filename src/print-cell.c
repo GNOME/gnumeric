@@ -234,8 +234,8 @@ print_merged_range_gtk (PangoContext *pcontext,
 	if (l == r || t == b)
 		return;
 
-	conds = gnm_style_get_conditions (style);
-	if (style) {
+	conds = style ? gnm_style_get_conditions (style) : NULL;
+	if (conds) {
 		GnmEvalPos ep;
 		int res;
 		eval_pos_init (&ep, (Sheet *)sheet, range->start.col, range->start.row);
