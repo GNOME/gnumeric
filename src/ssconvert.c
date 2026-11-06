@@ -385,7 +385,7 @@ static int
 by_his_id (gconstpointer a, gconstpointer b, gpointer user)
 {
 	get_desc_f get_his_id = user;
-	return strcmp (get_his_id (a), get_his_id (b));
+	return g_strcmp0 (get_his_id (a), get_his_id (b));
 }
 
 static void
@@ -427,9 +427,10 @@ list_them (GList *them,
 
 		id = get_his_id (obj);
 		if (!id) id = "";
+		const char *desc = (*get_his_description) (ptr->data);
 		g_printerr ("%-*s | %s\n", len,
 			    id,
-			    (*get_his_description) (ptr->data));
+			    desc ? desc : "");
 	}
 
 	g_list_free (them_copy);
@@ -485,8 +486,14 @@ read_files_to_merge (const char *inputs[], GOFileOpener *fo,
 			return NULL;
 		}
 
-		if (!wbv)
-			continue;
+		if (!wbv) {
+			/* Loaded without error but with no sheets */
+			char *msg = g_strdup_printf (_("Loading %s failed"), fname);
+			go_io_error_string (io_context, msg);
+			g_free (msg);
+			g_slist_free_full (wbs, g_object_unref);
+			return NULL;
+		}
 
 		wbs = g_slist_prepend (wbs, wb_view_get_workbook (wbv));
 	}
@@ -724,6 +731,11 @@ resolve_template (const char *template,
 			case '%':
 				g_string_append_c (s, '%');
 				break;
+			default:
+				/* Not one of ours: keep it as written */
+				g_string_append_c (s, '%');
+				g_string_append_c (s, *template);
+				break;
 			}
 			template++;
 			break;
@@ -799,6 +811,7 @@ run_solver (Sheet *sheet, WorkbookView *wbv)
  done:
 	if (sol)
 		g_object_unref (sol);
+	g_object_unref (wbc);
 	if (err) {
 		g_printerr (_("Solver: %s\n"), err->message);
 		g_error_free (err);
@@ -922,6 +935,11 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 
 	sheet = GET_ARG (SHEET_ARG, "sheet", wb_view_cur_sheet (wbv));
 	g_hash_table_remove (args, "sheet");
+	if (!sheet) {
+		g_printerr ("Unknown sheet in tool test arguments\n");
+		err = TRUE;
+		goto out;
+	}
 
 	if (g_str_equal (tool, "regression")) {
 		atool = gnm_regression_tool_new ();
@@ -1020,6 +1038,16 @@ run_tool_test (const char *tool, char **argv, WorkbookView *wbv)
 	gboolean qformulas = GET_ARG (parse_bool, "formulas", TRUE);
 	g_hash_table_remove (args, "formulas");
 
+	/* Whatever is left matched nothing; most likely a typo */
+	if (g_hash_table_size (args) > 0) {
+		GHashTableIter iter;
+		gpointer key;
+		g_hash_table_iter_init (&iter, args);
+		while (g_hash_table_iter_next (&iter, &key, NULL))
+			g_printerr ("Ignoring unused tool test argument \"%s\"\n",
+				    (const char *)key);
+	}
+
 	if (!err) {
 		data_analysis_output_t *dao = dao_init_new_sheet (sheet);
 		dao->put_formulas = qformulas;
@@ -1039,7 +1067,7 @@ out:
 
 #undef GET_ARG
 #undef RANGE_ARG
-#undef RANGE_LISTARG
+#undef RANGE_LIST_ARG
 #undef SHEET_ARG
 
 static int
@@ -1127,6 +1155,7 @@ export_objects_for_sheet (Sheet *sheet, const char *template,
 				    ? err->message
 				    : _("Cannot parse export options."));
 			g_clear_error (&err);
+			g_slist_free (objs);
 			return 1;
 		}
 	}
@@ -1262,7 +1291,8 @@ apply_updates (WorkbookView *wbv)
 		Sheet *start_sheet, *end_sheet;
 
 		eq = rangeref_parse (&rr, s, &pp, gnm_conventions_default);
-		if (!eq || *eq != '=')
+		/* eq == s means nothing was parsed, so rr is not valid */
+		if (!eq || eq == s || *eq != '=')
 			goto error;
 
 		parse_pos_init_sheet (&pp2, wb_view_cur_sheet (wbv));
@@ -1270,6 +1300,8 @@ apply_updates (WorkbookView *wbv)
 					   &start_sheet, &end_sheet,
 					   &r);
 
+		/* Honour a sheet given in the range, e.g. Sheet2!A1=5 */
+		pp2.sheet = start_sheet;
 		pp2.eval.col = r.start.col;
 		pp2.eval.row = r.start.row;
 		sheet_range_set_text (&pp2, &r, eq + 1);
@@ -1322,9 +1354,13 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 			   !ssconvert_one_file_per_sheet &&
 			   go_file_saver_get_extension (fs) != NULL) {
 			char const *ext = gsf_extension_pointer (infile);
-			if (*infile) {
+			if (ext && *infile) {
 				GString *res = g_string_new (NULL);
 				g_string_append_len (res, infile, ext - infile);
+				/* With no extension gsf returns the end of the
+				 * string, so the dot has to be added here. */
+				if (ext == infile || ext[-1] != '.')
+					g_string_append_c (res, '.');
 				g_string_append (res, go_file_saver_get_extension (fs));
 				outfile = g_string_free (res, FALSE);
 			}
@@ -1396,6 +1432,15 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 
 	wb = wb_view_get_workbook (wbv);
 
+	/* Merge first: export options such as "sheet=" refer to sheets
+	 * that only exist once the merge has happened. */
+	if (mergeargs != NULL) {
+		if (merge (wb, mergeargs, fo, io_context, cc)) {
+			res = TRUE;
+			goto out;
+		}
+	}
+
 	if (fs) {
 		res = handle_export_options (fs, wb);
 		if (res)
@@ -1406,22 +1451,21 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 			goto out;
 	}
 
-	if (mergeargs != NULL) {
-		if (merge (wb, mergeargs, fo, io_context, cc)) {
-			res = TRUE;
-			goto out;
-		}
-	}
-
 	if (ssconvert_goal_seek) {
 		int i;
 		Sheet *sheet = wb_view_cur_sheet (wbv);
 
 		for (i = 0; ssconvert_goal_seek[i]; i++) {
-			setup_range (G_OBJECT (sheet),
-				     "ssconvert-goal-seek",
-				     wb,
-				     ssconvert_goal_seek[i]);
+			GnmRangeRef const *rr =
+				setup_range (G_OBJECT (sheet),
+					     "ssconvert-goal-seek",
+					     wb,
+					     ssconvert_goal_seek[i]);
+			if (rr->a.sheet && rr->a.sheet != sheet) {
+				g_printerr (_("--goal-seek only works on the current sheet\n"));
+				res = 1;
+				goto out;
+			}
 			dialog_goal_seek (NULL, sheet);
 		}
 	}
@@ -1441,8 +1485,10 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 	}
 
 	if (ssconvert_resize) {
-		int rows, cols;
-		if (sscanf (ssconvert_resize, "%dx%d", &rows, &cols) == 2) {
+		int rows, cols, used = 0;
+		if (sscanf (ssconvert_resize, "%dx%d%n", &rows, &cols, &used) == 2 &&
+		    ssconvert_resize[used] == 0 &&
+		    gnm_sheet_valid_size (cols, rows)) {
 			int n;
 
 			if (ssconvert_verbose)
@@ -1452,7 +1498,8 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 			for (n = workbook_sheet_count (wb) - 1;
 			     n >= 0;
 			     n--) {
-				gboolean err;
+				/* gnm_sheet_resize does not always set err */
+				gboolean err = FALSE;
 				Sheet *sheet = workbook_sheet_by_index (wb, n);
 				GOUndo *undo =
 					gnm_sheet_resize (sheet, cols, rows,
@@ -1460,8 +1507,14 @@ convert (char const *inarg, char const *outarg, char const *mergeargs[],
 				if (err)
 					g_printerr (_("Resizing of sheet %s failed\n"),
 						    sheet->name_unquoted);
-				g_object_unref (undo);
+				if (undo)
+					g_object_unref (undo);
 			}
+		} else {
+			g_printerr (_("Invalid resize specification \"%s\"\n"),
+				    ssconvert_resize);
+			res = 1;
+			goto out;
 		}
 	}
 
@@ -1579,9 +1632,13 @@ clipboard_export (const char *inarg, char const *outarg, GOCmdContext *cc)
 		goto out;
 	}
 
-	gsf_output_write (dst, g_bytes_get_size (data),
-			  g_bytes_get_data (data, NULL));
-	gsf_output_close (dst);
+	if (!gsf_output_write (dst, g_bytes_get_size (data),
+			       g_bytes_get_data (data, NULL)))
+		res = 1;
+	if (!gsf_output_close (dst))
+		res = 1;
+	if (res)
+		g_printerr ("Failed to write to %s\n", outfile);
 	g_object_unref (dst);
 
  out:
@@ -1600,7 +1657,7 @@ clipboard_export (const char *inarg, char const *outarg, GOCmdContext *cc)
 int
 main (int argc, char const **argv)
 {
-	GOErrorInfo	*plugin_errs;
+	GOErrorInfo	*plugin_errs = NULL;
 	int		 res = 0;
 	GOCmdContext	*cc;
 	GOptionContext *ocontext;
