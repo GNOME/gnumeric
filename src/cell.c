@@ -189,10 +189,11 @@ void
 gnm_cell_set_expr_and_value (GnmCell *cell, GnmExprTop const *texpr,
 			     GnmValue *v, gboolean link_expr)
 {
-	if (cell == NULL || texpr == NULL) {
+	if (cell == NULL || texpr == NULL || v == NULL) {
 		value_release (v);
 		g_return_if_fail (cell != NULL);
 		g_return_if_fail (texpr != NULL);
+		g_return_if_fail (v != NULL);
 	}
 	if (gnm_cell_is_nonsingleton_array (cell)) {
 		value_release (v);
@@ -1080,11 +1081,17 @@ gnm_cell_get_format (GnmCell const *cell)
 	return gnm_cell_get_format_given_style (cell, mstyle);
 }
 
+typedef struct {
+	GnmValue const *value;	/* The array's last computed value, or NULL */
+	GnmEvalPos const *ep;	/* Position of the array's corner cell */
+} ArrayValueClosure;
+
 static GnmValue *
 cb_set_array_value (GnmCellIter const *iter, gpointer user)
 {
-	GnmValue const *value = user;
+	ArrayValueClosure const *closure = user;
 	GnmCell *cell = iter->cell;
+	GnmValue const *elem = NULL;
 	int x, y;
 
 	/* Clipboard cells, e.g., are not attached to a sheet.  */
@@ -1096,8 +1103,24 @@ cb_set_array_value (GnmCellIter const *iter, gpointer user)
 
 	gnm_expr_top_unref (cell->base.texpr);
 	cell->base.texpr = NULL;
-	value_release (cell->value);
-	cell->value = value_dup (value_area_get_x_y (value, x, y, NULL));
+
+	/*
+	 * The array value might be missing (never evaluated), smaller than
+	 * the array range, or a range reference that needs a position to
+	 * resolve.  In those cases keep the value the element already has
+	 * rather than ending up with a NULL value.
+	 */
+	if (closure->value)
+		elem = value_area_get_x_y (closure->value, x, y, closure->ep);
+	if (elem) {
+		GnmValue *v = value_dup (elem);
+		if (v) {
+			value_release (cell->value);
+			cell->value = v;
+		}
+	}
+	if (cell->value == NULL)
+		cell->value = value_new_empty ();
 
 	return NULL;
 }
@@ -1105,12 +1128,11 @@ cb_set_array_value (GnmCellIter const *iter, gpointer user)
 /**
  * gnm_cell_convert_expr_to_value:
  * @cell: #GnmCell
- * drops the expression keeps its value.  Then uses the formatted
- *      result as if that had been entered.
+ * drops the expression and keeps its value.
  *
  * NOTE : the cell's expression cannot be linked into the expression * list.
  *
- * The cell is rendered but spans are not calculated,  the cell is NOT marked for
+ * Spans are not calculated, the cell is NOT re-rendered and is NOT marked for
  * recalc.
  *
  * WARNING : This is an internal routine that does not queue redraws,
@@ -1136,14 +1158,21 @@ gnm_cell_convert_expr_to_value (GnmCell *cell)
 	if (gnm_expr_top_is_array_corner (texpr)) {
 		int rows, cols;
 
+		ArrayValueClosure closure;
+		GnmEvalPos ep;
+
 		gnm_expr_top_get_array_size (texpr, &cols, &rows);
+
+		eval_pos_init_cell (&ep, cell);
+		closure.value = gnm_expr_top_get_array_value (texpr);
+		closure.ep = &ep;
 
 		sheet_foreach_cell_in_region (cell->base.sheet, CELL_ITER_ALL,
 					     cell->pos.col, cell->pos.row,
 					     cell->pos.col + cols - 1,
 					     cell->pos.row + rows - 1,
 					     cb_set_array_value,
-					     gnm_expr_top_get_array_value (texpr));
+					     &closure);
 	}
 
 	gnm_expr_top_unref (texpr);
