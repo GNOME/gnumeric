@@ -360,6 +360,11 @@ random_32 (void)
 
 /* ------------------------------------------------------------------------ */
 
+/**
+ * gnm_random_01:
+ *
+ * Returns: a uniformly distributed random number in the range [0,1).
+ **/
 gnm_float
 gnm_random_01 (void)
 {
@@ -438,6 +443,13 @@ random_normal (void)
 	}
 }
 
+/**
+ * gnm_random_lognormal:
+ * @zeta: the mean of the underlying normal distribution
+ * @sigma: the standard deviation of the underlying normal distribution
+ *
+ * Returns: a log-normally distributed random number.
+ **/
 gnm_float
 gnm_random_lognormal (gnm_float zeta, gnm_float sigma)
 {
@@ -452,9 +464,12 @@ random_gaussian (gnm_float sigma)
 	return sigma * random_normal ();
 }
 
-/*
- * Generate a poisson distributed number.
- */
+/**
+ * gnm_random_poisson:
+ * @lambda: the mean of the distribution
+ *
+ * Returns: a Poisson-distributed random number.
+ **/
 gnm_float
 gnm_random_poisson (gnm_float lambda)
 {
@@ -470,9 +485,13 @@ gnm_random_poisson (gnm_float lambda)
 	return qpois (gnm_random_01 (), lambda, TRUE, FALSE);
 }
 
-/*
- * Generate a binomial distributed number.
- */
+/**
+ * gnm_random_binomial:
+ * @p: probability of success in a single trial
+ * @trials: number of trials
+ *
+ * Returns: a binomially distributed random number.
+ **/
 gnm_float
 gnm_random_binomial (gnm_float p, gnm_float trials)
 {
@@ -483,9 +502,13 @@ gnm_random_binomial (gnm_float p, gnm_float trials)
 	return qbinom (gnm_random_01 (), trials, p, TRUE, FALSE);
 }
 
-/*
- * Generate a negative binomial distributed number.
- */
+/**
+ * gnm_random_negbinom:
+ * @p: probability of success in a single trial
+ * @f: number of failures
+ *
+ * Returns: a negative-binomially distributed random number.
+ **/
 gnm_float
 gnm_random_negbinom (gnm_float p, gnm_float f)
 {
@@ -496,9 +519,12 @@ gnm_random_negbinom (gnm_float p, gnm_float f)
 	return qnbinom (gnm_random_01 (), f, p, TRUE, FALSE);
 }
 
-/*
- * Generate an exponential distributed number.
- */
+/**
+ * gnm_random_exponential:
+ * @b: scale parameter of the distribution
+ *
+ * Returns: an exponentially distributed random number.
+ **/
 gnm_float
 gnm_random_exponential (gnm_float b)
 {
@@ -514,9 +540,12 @@ gnm_random_exponential (gnm_float b)
 	return -b * gnm_log (u);
 }
 
-/*
- * Generate a bernoulli distributed number.
- */
+/**
+ * gnm_random_bernoulli:
+ * @p: probability of success
+ *
+ * Returns: 1 with probability @p and 0 otherwise.
+ **/
 gnm_float
 gnm_random_bernoulli (gnm_float p)
 {
@@ -533,6 +562,13 @@ gnm_random_bernoulli (gnm_float p)
  * Generate a cauchy distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_cauchy:
+ * @a: scale parameter of the distribution
+ *
+ * Returns: a Cauchy-distributed random number.
+ **/
 gnm_float
 gnm_random_cauchy (gnm_float a)
 {
@@ -553,6 +589,14 @@ gnm_random_cauchy (gnm_float a)
  * library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_weibull:
+ * @a: scale parameter of the distribution
+ * @b: shape parameter of the distribution
+ *
+ * Returns: a Weibull-distributed random number.
+ **/
 gnm_float
 gnm_random_weibull (gnm_float a, gnm_float b)
 {
@@ -578,6 +622,13 @@ gnm_random_weibull (gnm_float a, gnm_float b)
  * From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_laplace:
+ * @a: scale parameter of the distribution
+ *
+ * Returns: a Laplace-distributed random number.
+ **/
 gnm_float
 gnm_random_laplace (gnm_float a)
 {
@@ -596,6 +647,13 @@ gnm_random_laplace (gnm_float a)
 		return -a * gnm_log (u);
 }
 
+/**
+ * gnm_random_laplace_pdf:
+ * @x: observation
+ * @a: scale parameter of the distribution
+ *
+ * Returns: the probability density of the Laplace distribution at @x.
+ **/
 gnm_float
 gnm_random_laplace_pdf (gnm_float x, gnm_float a)
 {
@@ -607,6 +665,13 @@ gnm_random_laplace_pdf (gnm_float x, gnm_float a)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_rayleigh:
+ * @sigma: scale parameter of the distribution
+ *
+ * Returns: a Rayleigh-distributed random number.
+ **/
 gnm_float
 gnm_random_rayleigh (gnm_float sigma)
 {
@@ -631,6 +696,15 @@ gnm_random_rayleigh (gnm_float sigma)
  *
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_rayleigh_tail:
+ * @a: lower limit of the tail
+ * @sigma: scale parameter of the distribution
+ *
+ * Returns: a random number from the tail of the Rayleigh distribution,
+ * greater than or equal to @a.
+ **/
 gnm_float
 gnm_random_rayleigh_tail (gnm_float a, gnm_float sigma)
 {
@@ -739,6 +813,14 @@ ran_gamma_int (gnm_float a)
  * Generate a Gamma distributed number.	 From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_gamma:
+ * @a: shape parameter of the distribution
+ * @b: scale parameter of the distribution
+ *
+ * Returns: a gamma-distributed random number.
+ **/
 gnm_float
 gnm_random_gamma (gnm_float a, gnm_float b)
 {
@@ -764,6 +846,14 @@ gnm_random_gamma (gnm_float a, gnm_float b)
  * Generate a Pareto distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_pareto:
+ * @a: shape parameter of the distribution
+ * @b: scale parameter of the distribution
+ *
+ * Returns: a Pareto-distributed random number.
+ **/
 gnm_float
 gnm_random_pareto (gnm_float a, gnm_float b)
 {
@@ -786,6 +876,14 @@ gnm_random_pareto (gnm_float a, gnm_float b)
  * Generate a F-distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_fdist:
+ * @nu1: numerator degrees of freedom
+ * @nu2: denominator degrees of freedom
+ *
+ * Returns: an F-distributed random number.
+ **/
 gnm_float
 gnm_random_fdist (gnm_float nu1, gnm_float nu2)
 {
@@ -804,6 +902,14 @@ gnm_random_fdist (gnm_float nu1, gnm_float nu2)
  * Generate a Beta-distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_beta:
+ * @a: first shape parameter of the distribution
+ * @b: second shape parameter of the distribution
+ *
+ * Returns: a beta-distributed random number.
+ **/
 gnm_float
 gnm_random_beta (gnm_float a, gnm_float b)
 {
@@ -823,6 +929,13 @@ gnm_random_beta (gnm_float a, gnm_float b)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_chisq:
+ * @nu: degrees of freedom
+ *
+ * Returns: a chi-square-distributed random number.
+ **/
 gnm_float
 gnm_random_chisq (gnm_float nu)
 {
@@ -837,6 +950,13 @@ gnm_random_chisq (gnm_float nu)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_logistic:
+ * @a: scale parameter of the distribution
+ *
+ * Returns: a logistically distributed random number.
+ **/
 gnm_float
 gnm_random_logistic (gnm_float a)
 {
@@ -857,6 +977,13 @@ gnm_random_logistic (gnm_float a)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_geometric:
+ * @p: probability of success in a single trial
+ *
+ * Returns: a geometrically distributed random number.
+ **/
 gnm_float
 gnm_random_geometric (gnm_float p)
 {
@@ -876,6 +1003,14 @@ gnm_random_geometric (gnm_float p)
 	return gnm_floor (gnm_log (u) / gnm_log1p (-p));
 }
 
+/**
+ * gnm_random_hypergeometric:
+ * @n1: number of objects of type 1
+ * @n2: number of objects of type 2
+ * @t: total number of objects selected
+ *
+ * Returns: a hypergeometrically distributed random number.
+ **/
 gnm_float
 gnm_random_hypergeometric (gnm_float n1, gnm_float n2, gnm_float t)
 {
@@ -890,6 +1025,13 @@ gnm_random_hypergeometric (gnm_float n1, gnm_float n2, gnm_float t)
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_logarithmic:
+ * @p: probability parameter of the distribution
+ *
+ * Returns: a logarithmically distributed random number.
+ **/
 gnm_float
 gnm_random_logarithmic (gnm_float p)
 {
@@ -926,6 +1068,13 @@ gnm_random_logarithmic (gnm_float p)
  * Generate a T-distributed number. From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_tdist:
+ * @nu: degrees of freedom
+ *
+ * Returns: a Student t-distributed random number.
+ **/
 gnm_float
 gnm_random_tdist (gnm_float nu)
 {
@@ -962,6 +1111,14 @@ gnm_random_tdist (gnm_float nu)
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_gumbel1:
+ * @a: first parameter of the distribution
+ * @b: second parameter of the distribution
+ *
+ * Returns: a Type I Gumbel-distributed random number.
+ **/
 gnm_float
 gnm_random_gumbel1 (gnm_float a, gnm_float b)
 {
@@ -982,6 +1139,14 @@ gnm_random_gumbel1 (gnm_float a, gnm_float b)
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
+
+/**
+ * gnm_random_gumbel2:
+ * @a: first parameter of the distribution
+ * @b: second parameter of the distribution
+ *
+ * Returns: a Type II Gumbel-distributed random number.
+ **/
 gnm_float
 gnm_random_gumbel2 (gnm_float a, gnm_float b)
 {
@@ -1018,6 +1183,14 @@ gnm_random_gumbel2 (gnm_float a, gnm_float b)
  * simulating stable random variates". Journal of the American
  * Statistical Association, JASA 71 340-344 (1976).
  */
+
+/**
+ * gnm_random_levy:
+ * @c: scale parameter of the distribution
+ * @alpha: stability parameter, in the range (0,2]
+ *
+ * Returns: a Levy-distributed random number.
+ **/
 gnm_float
 gnm_random_levy (gnm_float c, gnm_float alpha)
 {
@@ -1078,6 +1251,15 @@ gnm_random_levy (gnm_float c, gnm_float alpha)
  *  variables and processes, preprint Technical University of Wroclaw.
  *  http://www.im.pwr.wroc.pl/~hugo/Publications.html
  */
+
+/**
+ * gnm_random_levy_skew:
+ * @c: scale parameter of the distribution
+ * @alpha: stability parameter, in the range (0,2]
+ * @beta: skewness parameter, in the range [-1,1]
+ *
+ * Returns: a skew Levy-distributed random number.
+ **/
 gnm_float
 gnm_random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 {
@@ -1117,6 +1299,15 @@ gnm_random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 	}
 }
 
+/**
+ * gnm_random_exppow_pdf:
+ * @x: observation
+ * @a: scale parameter of the distribution
+ * @b: exponent of the distribution
+ *
+ * Returns: the probability density of the exponential power distribution
+ * at @x.
+ **/
 gnm_float
 gnm_random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
 {
@@ -1148,6 +1339,13 @@ gnm_random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough
  */
 
+/**
+ * gnm_random_exppow:
+ * @a: scale parameter of the distribution
+ * @b: exponent of the distribution
+ *
+ * Returns: an exponentially power-distributed random number.
+ **/
 gnm_float
 gnm_random_exppow (gnm_float a, gnm_float b)
 {
@@ -1214,6 +1412,14 @@ gnm_random_exppow (gnm_float a, gnm_float b)
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough
  */
+
+/**
+ * gnm_random_gaussian_tail:
+ * @a: lower limit of the tail
+ * @sigma: standard deviation of the normal distribution
+ *
+ * Returns: a normally distributed random number greater than or equal to @a.
+ **/
 gnm_float
 gnm_random_gaussian_tail (gnm_float a, gnm_float sigma)
 {
@@ -1278,6 +1484,11 @@ gnm_random_gaussian_tail (gnm_float a, gnm_float sigma)
  *  p(x) = (1/pi) \int_0^\inf dt \exp(-t log(t) - x t) sin(pi t)
  */
 
+/**
+ * gnm_random_landau:
+ *
+ * Returns: a Landau-distributed random number.
+ **/
 gnm_float
 gnm_random_landau (void)
 {
@@ -1533,6 +1744,12 @@ gnm_random_landau (void)
  *
  */
 
+/**
+ * gnm_random_skew_normal:
+ * @a: skewness parameter
+ *
+ * Returns: a skew-normal-distributed random number.
+ **/
 gnm_float
 gnm_random_skew_normal (gnm_float a)
 {
@@ -1563,6 +1780,13 @@ gnm_random_skew_normal (gnm_float a)
  *
  */
 
+/**
+ * gnm_random_skew_tdist:
+ * @nu: degrees of freedom
+ * @a: skewness parameter
+ *
+ * Returns: a skew-t-distributed random number.
+ **/
 gnm_float
 gnm_random_skew_tdist (gnm_float nu, gnm_float a)
 {
