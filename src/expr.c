@@ -3472,15 +3472,20 @@ gnm_expr_top_eval_array_elem (GnmExprTop const *texpr,
 		return handle_empty (NULL, flags);
 
 	if ((VALUE_IS_CELLRANGE (a) || VALUE_IS_ARRAY (a))) {
-		int const num_x = value_area_get_width (a, pos);
-		int const num_y = value_area_get_height (a, pos);
 		int x = expr->array_elem.x;
 		int y = expr->array_elem.y;
 
 		/* Evaluate relative to the upper left corner */
 		GnmEvalPos tmp_ep = *pos;
+		int num_x, num_y;
 		tmp_ep.eval.col -= x;
 		tmp_ep.eval.row -= y;
+
+		/* The size must be measured from the corner too: a range
+		 * mixing relative and absolute ends, like A$1:B2, would
+		 * otherwise have a different size for every element. */
+		num_x = value_area_get_width (a, &tmp_ep);
+		num_y = value_area_get_height (a, &tmp_ep);
 
 		/* If the src array is 1 element wide or tall we wrap */
 		if (x >= 1 && num_x == 1)
