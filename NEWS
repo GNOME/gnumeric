@@ -52,6 +52,9 @@ Morten:
 	* Return #DIV/0 for poles of certain trig functions.
 	* Make ISODD return error for strings.
 	* Fix XMATCH and XLOOKUP problem with descending data.
+	* Fix ACCRINT's handling of calc_method argument.
+	* Fix IPMT and PPMT interest handling problem.
+	* Return an error for SYD with out-of-bound period.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

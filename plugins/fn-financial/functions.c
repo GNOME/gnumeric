@@ -163,8 +163,17 @@ static gnm_float
 calculate_ipmt (gnm_float rate, gnm_float per, gnm_float nper,
 		gnm_float pv, gnm_float fv, int type)
 {
-	gnm_float pmt = calculate_pmt (rate, nper, pv, fv, /*type*/ 0);
-	gnm_float ipmt = -(pv * pow1p (rate, per - 1) * rate +
+	gnm_float pmt, ipmt;
+
+	/*
+	 * With payments at the start of the period, nothing has accrued
+	 * yet at the first payment.  This agrees with CUMIPMT.
+	 */
+	if (type != 0 && per == 1)
+		return 0;
+
+	pmt = calculate_pmt (rate, nper, pv, fv, /*type*/ 0);
+	ipmt = -(pv * pow1p (rate, per - 1) * rate +
 			   pmt * pow1pm1 (rate, per - 1));
 
 	return (type == 0) ? ipmt : ipmt / (1 + rate);
@@ -412,7 +421,7 @@ gnumeric_accrint (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	par            = argv[4] ? value_get_as_float (argv[4]) : 1000;
 	freq           = value_get_freq (argv[5]);
 	int basis = value_get_basis (argv[6], GO_BASIS_MSRB_30_360);
-	calc_method    = argv[6] ? value_get_as_int (argv[6]) : 1;
+	calc_method    = argv[7] ? value_get_as_checked_bool (argv[7]) : TRUE;
 
         if (rate <= 0	||
 	    par <= 0	||
@@ -872,8 +881,8 @@ gnumeric_syd (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float life = value_get_as_float (argv[2]);
 	gnm_float period = value_get_as_float (argv[3]);
 
-	/* Life of an asset cannot be negative */
-	if (life <= 0)
+	/* Life of an asset cannot be negative, and the period must be in it */
+	if (life <= 0 || period <= 0 || period > life)
 		return value_new_error_NUM (ei->pos);
 
         return value_new_float (((cost - salvage_value) *
