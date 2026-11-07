@@ -117,8 +117,8 @@ gnm_float dcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean gi
 gnm_float pcauchy (gnm_float x, gnm_float location, gnm_float scale, gboolean lower_tail, gboolean log_p);
 
 /* The probability density functions. */
-gnm_float random_exppow_pdf     (gnm_float x, gnm_float a, gnm_float b);
-gnm_float random_laplace_pdf    (gnm_float x, gnm_float a);
+gnm_float gnm_random_exppow_pdf     (gnm_float x, gnm_float a, gnm_float b);
+gnm_float gnm_random_laplace_pdf    (gnm_float x, gnm_float a);
 
 /* Studentized range distribution */
 /* Note: argument order differs from R.  */

@@ -361,7 +361,7 @@ random_32 (void)
 /* ------------------------------------------------------------------------ */
 
 gnm_float
-random_01 (void)
+gnm_random_01 (void)
 {
 	gnm_float res = 0;
 
@@ -424,8 +424,8 @@ random_normal (void)
 	} else {
 		gnm_float u, v, r2, rsq;
 		do {
-			u = 2 * random_01 () - 1;
-			v = 2 * random_01 () - 1;
+			u = 2 * gnm_random_01 () - 1;
+			v = 2 * gnm_random_01 () - 1;
 			r2 = u * u + v * v;
 		} while (r2 > 1 || r2 == 0);
 
@@ -439,7 +439,7 @@ random_normal (void)
 }
 
 gnm_float
-random_lognormal (gnm_float zeta, gnm_float sigma)
+gnm_random_lognormal (gnm_float zeta, gnm_float sigma)
 {
 	if (sigma < 0)
 		return gnm_nan;
@@ -456,7 +456,7 @@ random_gaussian (gnm_float sigma)
  * Generate a poisson distributed number.
  */
 gnm_float
-random_poisson (gnm_float lambda)
+gnm_random_poisson (gnm_float lambda)
 {
 	if (lambda < 0)
 		return gnm_nan;
@@ -467,40 +467,40 @@ random_poisson (gnm_float lambda)
 	 * This may not be optimal code, but it sure is easy to
 	 * understand compared to R's code.
 	 */
-	return qpois (random_01 (), lambda, TRUE, FALSE);
+	return qpois (gnm_random_01 (), lambda, TRUE, FALSE);
 }
 
 /*
  * Generate a binomial distributed number.
  */
 gnm_float
-random_binomial (gnm_float p, gnm_float trials)
+gnm_random_binomial (gnm_float p, gnm_float trials)
 {
 	if (p < 0 || p > 1 || trials < 0)
 		return gnm_nan;
 	if (trials == 0)
 		return 0;
-	return qbinom (random_01 (), trials, p, TRUE, FALSE);
+	return qbinom (gnm_random_01 (), trials, p, TRUE, FALSE);
 }
 
 /*
  * Generate a negative binomial distributed number.
  */
 gnm_float
-random_negbinom (gnm_float p, gnm_float f)
+gnm_random_negbinom (gnm_float p, gnm_float f)
 {
 	if (p <= 0 || p > 1 || f < 0)
 		return gnm_nan;
 	if (f == 0)
 		return 0;
-	return qnbinom (random_01 (), f, p, TRUE, FALSE);
+	return qnbinom (gnm_random_01 (), f, p, TRUE, FALSE);
 }
 
 /*
  * Generate an exponential distributed number.
  */
 gnm_float
-random_exponential (gnm_float b)
+gnm_random_exponential (gnm_float b)
 {
 	gnm_float u;
 
@@ -508,7 +508,7 @@ random_exponential (gnm_float b)
 		return gnm_nan;
 
 	do {
-		u = random_01 ();
+		u = gnm_random_01 ();
 	} while (u == 0);
 
 	return -b * gnm_log (u);
@@ -518,14 +518,14 @@ random_exponential (gnm_float b)
  * Generate a bernoulli distributed number.
  */
 gnm_float
-random_bernoulli (gnm_float p)
+gnm_random_bernoulli (gnm_float p)
 {
 	gnm_float r;
 
 	if (p < 0 || p > 1)
 		return gnm_nan;
 
-	r = random_01 ();
+	r = gnm_random_01 ();
 	return (r <= p) ? 1.0 : 0.0;
 }
 
@@ -534,7 +534,7 @@ random_bernoulli (gnm_float p)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_cauchy (gnm_float a)
+gnm_random_cauchy (gnm_float a)
 {
 	gnm_float u;
 
@@ -542,7 +542,7 @@ random_cauchy (gnm_float a)
 		return gnm_nan;
 
 	do {
-		u = random_01 ();
+		u = gnm_random_01 ();
 	} while (u == GNM_const(0.5) || u == 0);
 
 	return a * gnm_tanpi (u);
@@ -554,7 +554,7 @@ random_cauchy (gnm_float a)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_weibull (gnm_float a, gnm_float b)
+gnm_random_weibull (gnm_float a, gnm_float b)
 {
 	gnm_float x, z;
 
@@ -565,7 +565,7 @@ random_weibull (gnm_float a, gnm_float b)
 		return 0;
 
 	do {
-		x = random_01 ();
+		x = gnm_random_01 ();
 	} while (x == 0);
 
 	z = gnm_pow (-gnm_log (x), 1 / b);
@@ -579,7 +579,7 @@ random_weibull (gnm_float a, gnm_float b)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_laplace (gnm_float a)
+gnm_random_laplace (gnm_float a)
 {
 	gnm_float u;
 
@@ -587,7 +587,7 @@ random_laplace (gnm_float a)
 		return gnm_nan;
 
 	do {
-		u = 2 * random_01 () - 1;
+		u = 2 * gnm_random_01 () - 1;
 	} while (u == 0);
 
 	if (u < 0)
@@ -597,7 +597,7 @@ random_laplace (gnm_float a)
 }
 
 gnm_float
-random_laplace_pdf (gnm_float x, gnm_float a)
+gnm_random_laplace_pdf (gnm_float x, gnm_float a)
 {
 	return (1 / (2 * a)) * gnm_exp (-gnm_abs (x) / a);
 }
@@ -608,7 +608,7 @@ random_laplace_pdf (gnm_float x, gnm_float a)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_rayleigh (gnm_float sigma)
+gnm_random_rayleigh (gnm_float sigma)
 {
 	gnm_float u;
 
@@ -616,7 +616,7 @@ random_rayleigh (gnm_float sigma)
 		return gnm_nan;
 
 	do {
-		u = random_01 ();
+		u = gnm_random_01 ();
 	} while (u == 0);
 
 	return sigma * gnm_sqrt (-2 * gnm_log (u));
@@ -632,7 +632,7 @@ random_rayleigh (gnm_float sigma)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_rayleigh_tail (gnm_float a, gnm_float sigma)
+gnm_random_rayleigh_tail (gnm_float a, gnm_float sigma)
 {
 	gnm_float u;
 
@@ -640,7 +640,7 @@ random_rayleigh_tail (gnm_float a, gnm_float sigma)
 		return gnm_nan;
 
 	do {
-		u = random_01 ();
+		u = gnm_random_01 ();
 	} while (u == 0);
 
 	return gnm_sqrt (a * a - 2 * sigma * sigma * gnm_log (u));
@@ -667,9 +667,9 @@ gamma_frac (gnm_float a)
 	gnm_float p = M_Egnum / (a + M_Egnum);
 	do {
 		gnm_float v;
-		gnm_float u = random_01 ();
+		gnm_float u = gnm_random_01 ();
 		do {
-			v = random_01 ();
+			v = gnm_random_01 ();
 		} while (v == 0);
 
 		if (u < p) {
@@ -679,7 +679,7 @@ gamma_frac (gnm_float a)
 			x = 1 - gnm_log (v);
 			q = gnm_pow (x, a - 1);
 		}
-	} while (random_01 () >= q);
+	} while (gnm_random_01 () >= q);
 
 	return x;
 }
@@ -699,10 +699,10 @@ gamma_large (gnm_float a)
 	sqa = gnm_sqrt (2 * a - 1);
 	do {
 		do {
-			y = gnm_tan (M_PIgnum * random_01 ());
+			y = gnm_tan (M_PIgnum * gnm_random_01 ());
 			x = sqa * y + a - 1;
 		} while (x <= 0);
-		v = random_01 ();
+		v = gnm_random_01 ();
 	} while (v > (1 + y * y) * gnm_exp ((a - 1) * gnm_log (x / (a - 1)) -
 					    sqa * y));
 
@@ -721,7 +721,7 @@ ran_gamma_int (gnm_float a)
 			ua = (unsigned int)a;
 
 			for (i = 0; i < ua; i++)
-				prod *= random_01 ();
+				prod *= gnm_random_01 ();
 
 			/*
 			 * This handles the 0-probability event of getting
@@ -740,7 +740,7 @@ ran_gamma_int (gnm_float a)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_gamma (gnm_float a, gnm_float b)
+gnm_random_gamma (gnm_float a, gnm_float b)
 {
 	gnm_float na;
 
@@ -765,7 +765,7 @@ random_gamma (gnm_float a, gnm_float b)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_pareto (gnm_float a, gnm_float b)
+gnm_random_pareto (gnm_float a, gnm_float b)
 {
 	gnm_float x;
 
@@ -776,7 +776,7 @@ random_pareto (gnm_float a, gnm_float b)
 		return 0;
 
 	do {
-		x = random_01 ();
+		x = gnm_random_01 ();
 	} while (x == 0);
 
 	return b * gnm_pow (x, -1 / a);
@@ -787,15 +787,15 @@ random_pareto (gnm_float a, gnm_float b)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_fdist (gnm_float nu1, gnm_float nu2)
+gnm_random_fdist (gnm_float nu1, gnm_float nu2)
 {
 	gnm_float Y1, Y2;
 
 	if (nu1 <= 0 || nu2 <= 0)
 		return gnm_nan;
 
-	Y1 = random_gamma (nu1 / 2, 2);
-	Y2 = random_gamma (nu2 / 2, 2);
+	Y1 = gnm_random_gamma (nu1 / 2, 2);
+	Y2 = gnm_random_gamma (nu2 / 2, 2);
 
 	return (Y1 * nu2) / (Y2 * nu1);
 }
@@ -805,15 +805,15 @@ random_fdist (gnm_float nu1, gnm_float nu2)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_beta (gnm_float a, gnm_float b)
+gnm_random_beta (gnm_float a, gnm_float b)
 {
 	gnm_float x1, x2;
 
 	if (a <= 0 || b <= 0)
 		return gnm_nan;
 
-	x1 = random_gamma (a, 1.0);
-	x2 = random_gamma (b, 1.0);
+	x1 = gnm_random_gamma (a, 1.0);
+	x2 = gnm_random_gamma (b, 1.0);
 
 	return x1 / (x1 + x2);
 }
@@ -824,12 +824,12 @@ random_beta (gnm_float a, gnm_float b)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_chisq (gnm_float nu)
+gnm_random_chisq (gnm_float nu)
 {
 	if (nu < 0)
 		return gnm_nan;
 
-	return 2 * random_gamma (nu / 2, 1.0);
+	return 2 * gnm_random_gamma (nu / 2, 1.0);
 }
 
 /*
@@ -838,7 +838,7 @@ random_chisq (gnm_float nu)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_logistic (gnm_float a)
+gnm_random_logistic (gnm_float a)
 {
 	gnm_float x;
 
@@ -846,7 +846,7 @@ random_logistic (gnm_float a)
 		return gnm_nan;
 
 	do {
-		x = random_01 ();
+		x = gnm_random_01 ();
 	} while (x == 0 || x == 1);
 
 	return a * gnm_log (x / (1 - x));
@@ -858,7 +858,7 @@ random_logistic (gnm_float a)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_geometric (gnm_float p)
+gnm_random_geometric (gnm_float p)
 {
 	gnm_float u;
 
@@ -867,7 +867,7 @@ random_geometric (gnm_float p)
 	if (p == 1)
 		return 0;
 	do {
-		u = random_01 ();
+		u = gnm_random_01 ();
 	} while (u == 0);
 
 	/*
@@ -877,11 +877,11 @@ random_geometric (gnm_float p)
 }
 
 gnm_float
-random_hypergeometric (gnm_float n1, gnm_float n2, gnm_float t)
+gnm_random_hypergeometric (gnm_float n1, gnm_float n2, gnm_float t)
 {
 	if (n1 < 0 || n2 < 0 || t < 0 || t > n1 + n2)
 		return gnm_nan;
-	return qhyper (random_01 (), n1, n2, t, TRUE, FALSE);
+	return qhyper (gnm_random_01 (), n1, n2, t, TRUE, FALSE);
 }
 
 
@@ -891,7 +891,7 @@ random_hypergeometric (gnm_float n1, gnm_float n2, gnm_float t)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_logarithmic (gnm_float p)
+gnm_random_logarithmic (gnm_float p)
 {
 	gnm_float c, v;
 
@@ -900,7 +900,7 @@ random_logarithmic (gnm_float p)
 
 	c = gnm_log1p (-p);
 	do {
-		v = random_01 ();
+		v = gnm_random_01 ();
 	} while (v == 0);
 
 	if (v >= p)
@@ -909,7 +909,7 @@ random_logarithmic (gnm_float p)
 		gnm_float u, q;
 
 		do {
-			u = random_01 ();
+			u = gnm_random_01 ();
 		} while (u == 0);
 		q = -gnm_expm1 (c * u);
 
@@ -927,14 +927,14 @@ random_logarithmic (gnm_float p)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_tdist (gnm_float nu)
+gnm_random_tdist (gnm_float nu)
 {
 	if (nu <= 0)
 		return gnm_nan;
 
 	if (nu <= 2) {
 		gnm_float Y1 = random_normal ();
-		gnm_float Y2 = random_chisq (nu);
+		gnm_float Y2 = gnm_random_chisq (nu);
 
 		gnm_float t = Y1 / gnm_sqrt (Y2 / nu);
 
@@ -943,7 +943,7 @@ random_tdist (gnm_float nu)
 		gnm_float Y1, Y2, Z, t;
 		do {
 			Y1 = random_normal ();
-			Y2 = random_exponential (1 / (nu / 2 - 1));
+			Y2 = gnm_random_exponential (1 / (nu / 2 - 1));
 
 			Z = Y1 * Y1 / (nu - 2);
 		} while (1 - Z < 0 || gnm_exp (-Y2 - Z) > (1 - Z));
@@ -963,7 +963,7 @@ random_tdist (gnm_float nu)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_gumbel1 (gnm_float a, gnm_float b)
+gnm_random_gumbel1 (gnm_float a, gnm_float b)
 {
 	gnm_float x;
 
@@ -971,7 +971,7 @@ random_gumbel1 (gnm_float a, gnm_float b)
 		return gnm_nan;
 
 	do {
-		x = random_01 ();
+		x = gnm_random_01 ();
 	} while (x == 0);
 
 	return (gnm_log (b) - gnm_log (-gnm_log (x))) / a;
@@ -983,7 +983,7 @@ random_gumbel1 (gnm_float a, gnm_float b)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnm_float
-random_gumbel2 (gnm_float a, gnm_float b)
+gnm_random_gumbel2 (gnm_float a, gnm_float b)
 {
 	gnm_float x;
 
@@ -991,7 +991,7 @@ random_gumbel2 (gnm_float a, gnm_float b)
 		return gnm_nan;
 
 	do {
-		x = random_01 ();
+		x = gnm_random_01 ();
 	} while (x == 0);
 
 	return gnm_pow (-b / gnm_log (x), 1 / a);
@@ -1019,7 +1019,7 @@ random_gumbel2 (gnm_float a, gnm_float b)
  * Statistical Association, JASA 71 340-344 (1976).
  */
 gnm_float
-random_levy (gnm_float c, gnm_float alpha)
+gnm_random_levy (gnm_float c, gnm_float alpha)
 {
 	gnm_float u, v, t, s;
 
@@ -1027,7 +1027,7 @@ random_levy (gnm_float c, gnm_float alpha)
 		return gnm_nan;
 
 	do {
-		u = random_01 ();
+		u = gnm_random_01 ();
 	} while (u == 0);
 
 	u = M_PIgnum * (u - GNM_const(0.5));
@@ -1038,7 +1038,7 @@ random_levy (gnm_float c, gnm_float alpha)
 	}
 
 	do {
-		v = random_exponential (1.0);
+		v = gnm_random_exponential (1.0);
 	} while (v == 0);
 
 	if (alpha == 2) {	     /* gaussian case */
@@ -1079,7 +1079,7 @@ random_levy (gnm_float c, gnm_float alpha)
  *  http://www.im.pwr.wroc.pl/~hugo/Publications.html
  */
 gnm_float
-random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
+gnm_random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 {
 	gnm_float V, W, X;
 
@@ -1087,16 +1087,16 @@ random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 		return gnm_nan;
 
 	if (beta == 0) /* symmetric case */
-		return random_levy (c, alpha);
+		return gnm_random_levy (c, alpha);
 
 	do {
-		V = random_01 ();
+		V = gnm_random_01 ();
 	} while (V == 0);
 
 	V = M_PIgnum * (V - GNM_const(0.5));
 
 	do {
-		W = random_exponential (1.0);
+		W = gnm_random_exponential (1.0);
 	} while (W == 0);
 
 	if (alpha == 1) {
@@ -1118,7 +1118,7 @@ random_levy_skew (gnm_float c, gnm_float alpha, gnm_float beta)
 }
 
 gnm_float
-random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
+gnm_random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
 {
 	gnm_float lngamma = lgamma1p (1 / b);
 
@@ -1149,7 +1149,7 @@ random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
  */
 
 gnm_float
-random_exppow (gnm_float a, gnm_float b)
+gnm_random_exppow (gnm_float a, gnm_float b)
 {
 	/* See http://www.mcgill.ca/files/economics/propertiesandestimation.pdf */
 	if (a < 0 || b <= 0 || gnm_isnan (b))
@@ -1159,8 +1159,8 @@ random_exppow (gnm_float a, gnm_float b)
 		return 0;
 
 	if (b < 1) {
-		gnm_float u = random_01 ();
-		gnm_float v = random_gamma (1 / b, 1.0);
+		gnm_float u = gnm_random_01 ();
+		gnm_float v = gnm_random_gamma (1 / b, 1.0);
 		gnm_float z = a * gnm_pow (v, 1 / b) ;
 
 		if (u > GNM_const(0.5))
@@ -1168,7 +1168,7 @@ random_exppow (gnm_float a, gnm_float b)
 		else
 			return -z;
 	} else if (b == 1)
-		return random_laplace (a);   /* Laplace distribution */
+		return gnm_random_laplace (a);   /* Laplace distribution */
 	else if (b < 2) {
 		/* Use laplace distribution for rejection method */
 		gnm_float x, y, h, ratio, u;
@@ -1176,11 +1176,11 @@ random_exppow (gnm_float a, gnm_float b)
 		/* Scale factor chosen by upper bound on ratio at b = 2 */
 		gnm_float s = 1.4489;
 		do {
-			x     = random_laplace (a);
-			y     = random_laplace_pdf (x, a);
-			h     = random_exppow_pdf (x, a, b);
+			x     = gnm_random_laplace (a);
+			y     = gnm_random_laplace_pdf (x, a);
+			h     = gnm_random_exppow_pdf (x, a, b);
 			ratio = h / (s * y);
-			u     = random_01 ();
+			u     = gnm_random_01 ();
 		} while (u > ratio);
 
 		return x ;
@@ -1200,9 +1200,9 @@ random_exppow (gnm_float a, gnm_float b)
 		do {
 			x     = random_gaussian (sigma) ;
 			y     = dnorm (x, 0.0, gnm_abs (sigma), FALSE) ;
-			h     = random_exppow_pdf (x, a, b) ;
+			h     = gnm_random_exppow_pdf (x, a, b) ;
 			ratio = h / (s * y) ;
-			u     = random_01 ();
+			u     = gnm_random_01 ();
 		} while (u > ratio);
 
 		return x;
@@ -1215,7 +1215,7 @@ random_exppow (gnm_float a, gnm_float b)
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough
  */
 gnm_float
-random_gaussian_tail (gnm_float a, gnm_float sigma)
+gnm_random_gaussian_tail (gnm_float a, gnm_float sigma)
 {
 	/*
 	 * Returns a gaussian random variable larger than a
@@ -1249,9 +1249,9 @@ random_gaussian_tail (gnm_float a, gnm_float sigma)
 		gnm_float u, v, x;
 
 		do {
-			u = random_01 ();
+			u = gnm_random_01 ();
 			do {
-				v = random_01 ();
+				v = gnm_random_01 ();
 			} while (v == 0);
 			x = gnm_sqrt (s * s - 2 * gnm_log (v));
 		} while (x * u > s);
@@ -1279,7 +1279,7 @@ random_gaussian_tail (gnm_float a, gnm_float sigma)
  */
 
 gnm_float
-random_landau (void)
+gnm_random_landau (void)
 {
 	static gnm_float F[983] = {
 		0.0000000, /*
@@ -1488,7 +1488,7 @@ random_landau (void)
 	int I;
 
 	do {
-		X = random_01 ();
+		X = gnm_random_01 ();
 	} while (X == 0);
 	U = 1000 * X;
 	I = U;
@@ -1534,7 +1534,7 @@ random_landau (void)
  */
 
 gnm_float
-random_skew_normal (gnm_float a)
+gnm_random_skew_normal (gnm_float a)
 {
 	gnm_float result;
 	gnm_float delta;
@@ -1564,15 +1564,15 @@ random_skew_normal (gnm_float a)
  */
 
 gnm_float
-random_skew_tdist (gnm_float nu, gnm_float a)
+gnm_random_skew_tdist (gnm_float nu, gnm_float a)
 {
 	gnm_float chi, z;
 
 	if (nu <= 0)
 		return gnm_nan;
 
-	chi = random_chisq (nu);
-	z = random_skew_normal (a);
+	chi = gnm_random_chisq (nu);
+	z = gnm_random_skew_normal (a);
 
 	return (z * gnm_sqrt(nu/chi));
 }
@@ -1638,7 +1638,7 @@ gnm_random_uniform_integer (gnm_float l, gnm_float h)
 		// q = h / (h - l) = 1 / (1 - l / h)
 
 		gnm_float q = 1 / (1 - l / h);
-		if (random_01 () < q)
+		if (gnm_random_01 () < q)
 			return gnm_random_uniform_integer (0, h);
 		else
 			return gnm_random_uniform_integer (l, -1);
@@ -1655,7 +1655,7 @@ gnm_random_uniform_integer (gnm_float l, gnm_float h)
 		// systems) to trigger, but clearly can be for Decimal64.
 		do {
 			// This could be better
-			res = l + gnm_floor (range * random_01 ());
+			res = l + gnm_floor (range * gnm_random_01 ());
 		} while (res > h);
 	}
 

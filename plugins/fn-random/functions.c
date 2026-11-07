@@ -53,7 +53,7 @@ static GnmFuncHelp const help_rand[] = {
 static GnmValue *
 gnumeric_rand (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (random_01 ());
+	return value_new_float (gnm_random_01 ());
 }
 
 /***************************************************************************/
@@ -78,7 +78,7 @@ gnumeric_randuniform (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (a > b)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (a  +  ( random_01 ()  *  (b - a) ) );
+	return value_new_float (a  +  ( gnm_random_01 ()  *  (b - a) ) );
 }
 
 /***************************************************************************/
@@ -147,7 +147,7 @@ gnumeric_randdiscrete (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	if (probs) {
-		p = random_01 ();
+		p = gnm_random_01 ();
 		for (i = 0; i < nv; i++) {
 			p -= probs[i];
 			if (p < 0)
@@ -188,7 +188,7 @@ gnumeric_randexp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
 
-        return value_new_float (random_exponential (x));
+        return value_new_float (gnm_random_exponential (x));
 }
 
 /***************************************************************************/
@@ -212,7 +212,7 @@ gnumeric_randpoisson (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (x < 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_poisson (x));
+        return value_new_float (gnm_random_poisson (x));
 }
 
 /***************************************************************************/
@@ -238,7 +238,7 @@ gnumeric_randbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (p < 0 || p > 1 || trials < 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_binomial (p, gnm_floor (trials)));
+        return value_new_float (gnm_random_binomial (p, gnm_floor (trials)));
 }
 
 /***************************************************************************/
@@ -299,7 +299,7 @@ gnumeric_randnegbinom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (p <= 0 || p > 1 || failures < 1)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_negbinom (p, gnm_floor (failures)));
+        return value_new_float (gnm_random_negbinom (p, gnm_floor (failures)));
 }
 
 /***************************************************************************/
@@ -323,7 +323,7 @@ gnumeric_randbernoulli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (p < 0 || p > 1)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_bernoulli (p));
+        return value_new_float (gnm_random_bernoulli (p));
 }
 
 /***************************************************************************/
@@ -371,7 +371,7 @@ gnumeric_randcauchy (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (a < 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_cauchy (a));
+        return value_new_float (gnm_random_cauchy (a));
 }
 
 /***************************************************************************/
@@ -393,7 +393,7 @@ gnumeric_randlognorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float zeta  = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
 
-        return value_new_float (random_lognormal (zeta, sigma));
+        return value_new_float (gnm_random_lognormal (zeta, sigma));
 }
 
 /***************************************************************************/
@@ -415,7 +415,7 @@ gnumeric_randweibull (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
-        return value_new_float (random_weibull (a, b));
+        return value_new_float (gnm_random_weibull (a, b));
 }
 
 /***************************************************************************/
@@ -435,7 +435,7 @@ gnumeric_randlaplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 
-        return value_new_float (random_laplace (a));
+        return value_new_float (gnm_random_laplace (a));
 }
 
 /***************************************************************************/
@@ -455,7 +455,7 @@ gnumeric_randrayleigh (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float sigma = value_get_as_float (argv[0]);
 
-        return value_new_float (random_rayleigh (sigma));
+        return value_new_float (gnm_random_rayleigh (sigma));
 }
 
 /***************************************************************************/
@@ -477,7 +477,7 @@ gnumeric_randrayleightail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a     = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
 
-        return value_new_float (random_rayleigh_tail (a, sigma));
+        return value_new_float (gnm_random_rayleigh_tail (a, sigma));
 }
 
 /***************************************************************************/
@@ -502,7 +502,7 @@ gnumeric_randgamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (a <= 0 || b < 0)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_gamma (a, b));
+        return value_new_float (gnm_random_gamma (a, b));
 }
 
 /***************************************************************************/
@@ -524,7 +524,7 @@ gnumeric_randpareto (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
-        return value_new_float (random_pareto (a, b));
+        return value_new_float (gnm_random_pareto (a, b));
 }
 
 /***************************************************************************/
@@ -546,7 +546,7 @@ gnumeric_randfdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float nu1 = value_get_as_float (argv[0]);
 	gnm_float nu2 = value_get_as_float (argv[1]);
 
-        return value_new_float (random_fdist (nu1, nu2));
+        return value_new_float (gnm_random_fdist (nu1, nu2));
 }
 
 /***************************************************************************/
@@ -568,7 +568,7 @@ gnumeric_randbeta (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
-        return value_new_float (random_beta (a, b));
+        return value_new_float (gnm_random_beta (a, b));
 }
 
 /***************************************************************************/
@@ -588,7 +588,7 @@ gnumeric_randlogistic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float a = value_get_as_float (argv[0]);
 
-        return value_new_float (random_logistic (a));
+        return value_new_float (gnm_random_logistic (a));
 }
 
 /***************************************************************************/
@@ -611,7 +611,7 @@ gnumeric_randgeom (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (p <= 0 || p > 1)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_geometric (p));
+        return value_new_float (gnm_random_geometric (p));
 }
 
 /***************************************************************************/
@@ -635,7 +635,7 @@ gnumeric_randhyperg (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float n2 = value_get_as_float (argv[1]);
 	gnm_float t = value_get_as_float (argv[2]);
 
-        return value_new_float (random_hypergeometric (gnm_floor (n1),
+        return value_new_float (gnm_random_hypergeometric (gnm_floor (n1),
 						       gnm_floor (n2),
 						       gnm_floor (t)));
 }
@@ -660,7 +660,7 @@ gnumeric_randlog (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (p <= 0 || p >= 1)
 		return value_new_error_NUM (ei->pos);
 
-        return value_new_float (random_logarithmic (p));
+        return value_new_float (gnm_random_logarithmic (p));
 }
 
 /***************************************************************************/
@@ -680,7 +680,7 @@ gnumeric_randchisq (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float nu = value_get_as_float (argv[0]);
 
-        return value_new_float (random_chisq (nu));
+        return value_new_float (gnm_random_chisq (nu));
 }
 
 /***************************************************************************/
@@ -700,7 +700,7 @@ gnumeric_randtdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float nu = value_get_as_float (argv[0]);
 
-        return value_new_float (random_tdist (nu));
+        return value_new_float (gnm_random_tdist (nu));
 }
 
 /***************************************************************************/
@@ -726,9 +726,9 @@ gnumeric_randgumbel (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float type = argv[2] ? value_get_as_float (argv[2]) : 1;
 
 	if (type == 1)
-		return value_new_float (random_gumbel1 (a, b));
+		return value_new_float (gnm_random_gumbel1 (a, b));
 	else if (type == 2)
-		return value_new_float (random_gumbel2 (a, b));
+		return value_new_float (gnm_random_gumbel2 (a, b));
 	else
 		return value_new_error_NUM (ei->pos);
 }
@@ -763,7 +763,7 @@ gnumeric_randlevy (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (alpha <= 0 || alpha > 2 || beta < -1 || beta > 1)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (random_levy_skew (c, alpha, beta));
+	return value_new_float (gnm_random_levy_skew (c, alpha, beta));
 }
 
 /***************************************************************************/
@@ -789,7 +789,7 @@ gnumeric_randexppow (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a = value_get_as_float (argv[0]);
 	gnm_float b = value_get_as_float (argv[1]);
 
-	return value_new_float (random_exppow (a, b));
+	return value_new_float (gnm_random_exppow (a, b));
 }
 
 /***************************************************************************/
@@ -805,7 +805,7 @@ static GnmFuncHelp const help_randlandau[] = {
 static GnmValue *
 gnumeric_randlandau (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (random_landau ());
+	return value_new_float (gnm_random_landau ());
 }
 
 /***************************************************************************/
@@ -830,7 +830,7 @@ gnumeric_randnormtail (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a     = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
 
-	return value_new_float (random_gaussian_tail (a, sigma));
+	return value_new_float (gnm_random_gaussian_tail (a, sigma));
 }
 
 /***************************************************************************/
@@ -954,7 +954,7 @@ gnumeric_randsnorm (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
        	if (stdev < 0)
 		return value_new_error_NUM (ei->pos);
 
-	result = ((alpha == 0) ? random_normal () : random_skew_normal (alpha));
+	result = ((alpha == 0) ? random_normal () : gnm_random_skew_normal (alpha));
 
         return value_new_float (stdev * result + mean);
 }
@@ -981,8 +981,8 @@ gnumeric_randstdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float nu = value_get_as_float (argv[0]);
 	gnm_float alpha = argv[1] ? value_get_as_float (argv[1]) : 0;
 
-	return ((alpha == 0) ? value_new_float (random_tdist (nu))
-		: value_new_float (random_skew_tdist (nu, alpha)));
+	return ((alpha == 0) ? value_new_float (gnm_random_tdist (nu))
+		: value_new_float (gnm_random_skew_tdist (nu, alpha)));
 }
 
 /***************************************************************************/

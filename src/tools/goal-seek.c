@@ -651,7 +651,7 @@ goal_seek_trawl_uniformly (GnmGoalSeekFunction f,
 		if (data->havexpos && data->havexneg)
 			break;
 
-		x = xmin + (xmax - xmin) * random_01 ();
+		x = xmin + (xmax - xmin) * gnm_random_01 ();
 		status = f (x, &y, user_data);
 		if (status != GOAL_SEEK_OK)
 			/* We are not depending on the result, so go on.  */

@@ -165,7 +165,7 @@ tool_random_engine_run_discrete (GnmRandomTool *rtool, GOCmdContext *gcc, data_a
 		int k;
 		for (k = 0; k < rtool->count; k++) {
 			int j;
-			gnm_float x = random_01 ();
+			gnm_float x = gnm_random_01 ();
 
 			for (j = 0; rtool->discrete_cumul_p[j] < x; j++)
 				;
@@ -190,7 +190,7 @@ tool_random_engine_run_uniform (GnmRandomTool *rtool, GOCmdContext *gcc, data_an
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = range * random_01 () + param->lower_limit;
+			v = range * gnm_random_01 () + param->lower_limit;
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -246,7 +246,7 @@ tool_random_engine_run_bernoulli (GnmRandomTool *rtool, GOCmdContext *gcc, data_
 	PROGRESS_START;
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
-			gnm_float tmp = random_bernoulli (param->p);
+			gnm_float tmp = gnm_random_bernoulli (param->p);
 			dao_set_cell_int (dao, i, n, (int)tmp);
 			PROGESS_RUN;
 		}
@@ -263,7 +263,7 @@ tool_random_engine_run_beta (GnmRandomTool *rtool, GOCmdContext *gcc, data_analy
 	PROGRESS_START;
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
-			gnm_float tmp = random_beta (param->a, param->b);
+			gnm_float tmp = gnm_random_beta (param->a, param->b);
 			dao_set_cell_float (dao, i, n, tmp);
 			PROGESS_RUN;
 		}
@@ -281,7 +281,7 @@ tool_random_engine_run_binomial (GnmRandomTool *rtool, GOCmdContext *gcc, data_a
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_binomial (param->p,
+			v = gnm_random_binomial (param->p,
 					     param->trials);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
@@ -300,7 +300,7 @@ tool_random_engine_run_negbinom (GnmRandomTool *rtool, GOCmdContext *gcc, data_a
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_negbinom (param->p,
+			v = gnm_random_negbinom (param->p,
 					     param->f);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
@@ -319,7 +319,7 @@ tool_random_engine_run_poisson (GnmRandomTool *rtool, GOCmdContext *gcc, data_an
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_poisson (param->lambda);
+			v = gnm_random_poisson (param->lambda);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -337,7 +337,7 @@ tool_random_engine_run_exponential (GnmRandomTool *rtool, GOCmdContext *gcc, dat
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_exponential (param->b);
+			v = gnm_random_exponential (param->b);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -355,7 +355,7 @@ tool_random_engine_run_exppow (GnmRandomTool *rtool, GOCmdContext *gcc, data_ana
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_exppow (param->a, param->b);
+			v = gnm_random_exppow (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -373,7 +373,7 @@ tool_random_engine_run_cauchy (GnmRandomTool *rtool, GOCmdContext *gcc, data_ana
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_cauchy (param->a);
+			v = gnm_random_cauchy (param->a);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -391,7 +391,7 @@ tool_random_engine_run_chisq (GnmRandomTool *rtool, GOCmdContext *gcc, data_anal
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_chisq (param->nu);
+			v = gnm_random_chisq (param->nu);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -409,7 +409,7 @@ tool_random_engine_run_pareto (GnmRandomTool *rtool, GOCmdContext *gcc, data_ana
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_pareto (param->a, param->b);
+			v = gnm_random_pareto (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -427,7 +427,7 @@ tool_random_engine_run_rayleigh (GnmRandomTool *rtool, GOCmdContext *gcc, data_a
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_rayleigh (param->sigma);
+			v = gnm_random_rayleigh (param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -445,7 +445,7 @@ tool_random_engine_run_rayleigh_tail (GnmRandomTool *rtool, GOCmdContext *gcc, d
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_rayleigh_tail (param->a, param->sigma);
+			v = gnm_random_rayleigh_tail (param->a, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -463,7 +463,7 @@ tool_random_engine_run_levy (GnmRandomTool *rtool, GOCmdContext *gcc, data_analy
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_levy (param->c, param->alpha);
+			v = gnm_random_levy (param->c, param->alpha);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -481,7 +481,7 @@ tool_random_engine_run_fdist (GnmRandomTool *rtool, GOCmdContext *gcc, data_anal
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_fdist (param->nu1, param->nu2);
+			v = gnm_random_fdist (param->nu1, param->nu2);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -499,7 +499,7 @@ tool_random_engine_run_lognormal (GnmRandomTool *rtool, GOCmdContext *gcc, data_
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_lognormal (param->zeta, param->sigma);
+			v = gnm_random_lognormal (param->zeta, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -517,7 +517,7 @@ tool_random_engine_run_logarithmic (GnmRandomTool *rtool, GOCmdContext *gcc, dat
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_logarithmic (param->p);
+			v = gnm_random_logarithmic (param->p);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -535,7 +535,7 @@ tool_random_engine_run_logistic (GnmRandomTool *rtool, GOCmdContext *gcc, data_a
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_logistic (param->a);
+			v = gnm_random_logistic (param->a);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -553,7 +553,7 @@ tool_random_engine_run_tdist (GnmRandomTool *rtool, GOCmdContext *gcc, data_anal
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_tdist (param->nu);
+			v = gnm_random_tdist (param->nu);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -571,7 +571,7 @@ tool_random_engine_run_gamma (GnmRandomTool *rtool, GOCmdContext *gcc, data_anal
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_gamma (param->a, param->b);
+			v = gnm_random_gamma (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -589,7 +589,7 @@ tool_random_engine_run_geometric (GnmRandomTool *rtool, GOCmdContext *gcc, data_
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_geometric (param->p);
+			v = gnm_random_geometric (param->p);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -607,7 +607,7 @@ tool_random_engine_run_weibull (GnmRandomTool *rtool, GOCmdContext *gcc, data_an
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_weibull (param->a, param->b);
+			v = gnm_random_weibull (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -625,7 +625,7 @@ tool_random_engine_run_laplace (GnmRandomTool *rtool, GOCmdContext *gcc, data_an
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_laplace (param->a);
+			v = gnm_random_laplace (param->a);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -643,7 +643,7 @@ tool_random_engine_run_gaussian_tail (GnmRandomTool *rtool, GOCmdContext *gcc, d
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_gaussian_tail (param->a, param->sigma);
+			v = gnm_random_gaussian_tail (param->a, param->sigma);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -660,7 +660,7 @@ tool_random_engine_run_landau (GnmRandomTool *rtool, GOCmdContext *gcc, data_ana
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_landau ();
+			v = gnm_random_landau ();
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -678,7 +678,7 @@ tool_random_engine_run_gumbel1 (GnmRandomTool *rtool, GOCmdContext *gcc, data_an
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_gumbel1 (param->a, param->b);
+			v = gnm_random_gumbel1 (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}
@@ -696,7 +696,7 @@ tool_random_engine_run_gumbel2 (GnmRandomTool *rtool, GOCmdContext *gcc, data_an
 	for (i = 0; i < rtool->n_vars; i++) {
 		for (n = 0; n < rtool->count; n++) {
 			gnm_float v;
-			v = random_gumbel2 (param->a, param->b);
+			v = gnm_random_gumbel2 (param->a, param->b);
 			dao_set_cell_float (dao, i, n, v);
 			PROGESS_RUN;
 		}

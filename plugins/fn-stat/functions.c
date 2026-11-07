@@ -5026,7 +5026,7 @@ gnumeric_exppowdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (b <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (random_exppow_pdf (x, a, b));
+	return value_new_float (gnm_random_exppow_pdf (x, a, b));
 }
 
 /***************************************************************************/
@@ -5049,7 +5049,7 @@ gnumeric_laplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (a <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (random_laplace_pdf (x, a));
+	return value_new_float (gnm_random_laplace_pdf (x, a));
 }
 
 /***************************************************************************/
