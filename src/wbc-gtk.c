@@ -2366,10 +2366,13 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 	if (!pane || !gtk_widget_get_realized (w))
 		return FALSE;
 
+	// We get duplicate events, first smooth and then not.
+	if (pane->last_scroll == event->time)
+		return TRUE;
+	pane->last_scroll = event->time;
+
 	if ((event->state & GDK_CONTROL_MASK)) {
 		/* zoom */
-		if (qsmooth)
-			return FALSE;
 		do_scroll_zoom (wbcg, go_back);
 		return TRUE;
 	}

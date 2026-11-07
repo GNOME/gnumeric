@@ -30,6 +30,8 @@ struct GnmPane_ {
 	int        sliding_x, sliding_y;
 	int        sliding_dx, sliding_dy;
 	gboolean   sliding_adjacent_h, sliding_adjacent_v;
+	// Scroll event deduplication
+	guint32    last_scroll;
 
 	/*  IM */
 	guint im_preedit_started :1;
