@@ -933,6 +933,9 @@ gnumeric_n (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *v;
 
+	if (VALUE_IS_EMPTY (argv[0]))
+		return value_new_float (0);
+
 	if (VALUE_IS_NUMBER (argv[0]))
 		return value_new_float (value_get_as_float (argv[0]));
 
@@ -1086,7 +1089,7 @@ GnmFuncDescriptor const info_functions[] = {
 	{ "isnumber",	"E",  help_isnumber,
 	  gnumeric_isnumber, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "isodd",	"S",  help_isodd,
+	{ "isodd",	"f",  help_isodd,
 	  gnumeric_isodd, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "isref",	NULL,  help_isref,

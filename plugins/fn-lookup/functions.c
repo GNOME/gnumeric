@@ -765,7 +765,7 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 			 * this into the cache if we wanted to.
 			 */
 			int dir = (type > 0 ? +1 : -1);
-			while (mid + dir > 0 &&
+			while (mid + dir >= 0 &&
 			       mid + dir < bc->n &&
 			       comparer (&key, bc->data + (mid + dir)) == 0)
 				mid += dir;
@@ -883,18 +883,19 @@ find_index_x (GnmFuncEvalInfo *ei,
 			}
 		}
 
-		if (match_mode == 0)
+		/* Wildcard not supported in binary search for now */
+		if (match_mode != -1 && match_mode != 1)
 			return LOOKUP_NOT_THERE;
-		if (match_mode == -1)
-			res = lastlow;
-		else if (match_mode == 1)
-			res = (lastlow + 1 < bc->n) ? lastlow + 1 : LOOKUP_NOT_THERE;
-		else
-			return LOOKUP_NOT_THERE; /* Wildcard not supported in binary search for now */
 
-		if (res >= 0)
-			return bc->data[res].index;
-		return LOOKUP_NOT_THERE;
+		/*
+		 * lastlow is the last element that sorts before the key in
+		 * the data's own order.  For ascending data that is the next
+		 * smaller element; for descending data it is the next larger.
+		 */
+		res = ((match_mode == -1) == (type > 0)) ? lastlow : lastlow + 1;
+		if (res < 0 || res >= bc->n)
+			return LOOKUP_NOT_THERE;
+		return bc->data[res].index;
 	} else {
 		/* Linear search.  */
 		int start = (search_mode == -1) ? bc->n - 1 : 0;
@@ -1143,6 +1144,8 @@ gnumeric_choose (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 	if (!v)
 		return NULL;
 
+	if (VALUE_IS_ERROR (v))
+		return v;
 	if (!VALUE_IS_FLOAT (v)) {
 		value_release (v);
 		return value_new_error_VALUE (ei->pos);

@@ -50,6 +50,8 @@ Morten:
 	* Improve handling of 'j'-format complex numbers
 	* Fix printing problems.
 	* Return #DIV/0 for poles of certain trig functions.
+	* Make ISODD return error for strings.
+	* Fix XMATCH and XLOOKUP problem with descending data.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
