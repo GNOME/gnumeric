@@ -546,6 +546,14 @@ gnm_search_replace_value (GnmSearchReplace *sr,
 
 /* ------------------------------------------------------------------------- */
 
+/**
+ * gnm_search_replace_query_fail:
+ * @sr: #GnmSearchReplace
+ * @res: #GnmSearchReplaceCellResult
+ *
+ * Report that the replacement described by @res failed by emitting the
+ * failure signal.
+ **/
 void
 gnm_search_replace_query_fail (GnmSearchReplace *sr,
 			       const GnmSearchReplaceCellResult *res)

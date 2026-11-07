@@ -1519,6 +1519,13 @@ gnm_pane_compute_visible_region (GnmPane *pane,
 	gnm_pane_reposition_cursors (pane);
 }
 
+/**
+ * gnm_pane_redraw_range:
+ * @pane: #GnmPane
+ * @r: the #GnmRange to redraw
+ *
+ * Redraw the part of @r that is visible in @pane.
+ **/
 void
 gnm_pane_redraw_range (GnmPane *pane, GnmRange const *r)
 {
@@ -1904,6 +1911,13 @@ gnm_pane_handle_motion (GnmPane *pane,
  * already I'm leaving them here for now.  Move them when we return to
  * investigate how to do reverse scrolling for pseudo-adjacent panes.
  */
+/**
+ * gnm_pane_slide_init:
+ * @pane: #GnmPane
+ *
+ * Initialize the sliding state of @pane, recording whether adjacent panes
+ * are contiguous so that scrolling can be propagated to them.
+ **/
 void
 gnm_pane_slide_init (GnmPane *pane)
 {
@@ -1950,6 +1964,17 @@ cb_obj_autoscroll (GnmPane *pane, GnmPaneSlideInfo const *info)
 	return FALSE;
 }
 
+/**
+ * gnm_pane_object_autoscroll:
+ * @pane: #GnmPane
+ * @context: #GdkDragContext for the drag
+ * @x: x coordinate of the pointer
+ * @y: y coordinate of the pointer
+ * @time: timestamp of the motion event
+ *
+ * Set up autoscrolling while an object is being dragged.  If the pointer is
+ * outside the visible area of @pane, the sheet is scrolled towards it.
+ **/
 void
 gnm_pane_object_autoscroll (GnmPane *pane, GdkDragContext *context,
 			    gint x, gint y, guint time)
@@ -2080,6 +2105,16 @@ gnm_pane_display_obj_size_tip (GnmPane *pane, GocItem *ctrl_pt)
 	g_free (msg);
 }
 
+/**
+ * gnm_pane_bound_set:
+ * @pane: #GnmPane
+ * @start_col: first column of the bound
+ * @start_row: first row of the bound
+ * @end_col: last column of the bound
+ * @end_row: last row of the bound
+ *
+ * Set the cell range covered by the grid in @pane.
+ **/
 void
 gnm_pane_bound_set (GnmPane *pane,
 		    int start_col, int start_row,
@@ -2097,6 +2132,18 @@ gnm_pane_bound_set (GnmPane *pane,
 
 /****************************************************************************/
 
+/**
+ * gnm_pane_size_guide_start:
+ * @pane: #GnmPane
+ * @vert: %TRUE for a vertical guide, %FALSE for a horizontal guide
+ * @colrow: the column or row at which to place the guide
+ * @is_colrow_resize: %TRUE when resizing a column or row, %FALSE when
+ *   resizing a pane
+ *
+ * Start displaying the size guide for @pane.  The guide is initially placed
+ * at @colrow and should subsequently be moved with
+ * gnm_pane_size_guide_motion() and removed with gnm_pane_size_guide_stop().
+ **/
 void
 gnm_pane_size_guide_start (GnmPane *pane,
 			   gboolean vert, int colrow, gboolean is_colrow_resize)
@@ -2179,6 +2226,12 @@ gnm_pane_size_guide_start (GnmPane *pane,
 	}
 }
 
+/**
+ * gnm_pane_size_guide_stop:
+ * @pane: #GnmPane
+ *
+ * Stop displaying the size guide for @pane.
+ **/
 void
 gnm_pane_size_guide_stop (GnmPane *pane)
 {
@@ -2190,7 +2243,7 @@ gnm_pane_size_guide_stop (GnmPane *pane)
 
 /**
  * gnm_pane_size_guide_motion:
- * @p: #GnmPane
+ * @pane: #GnmPane
  * @vert: %TRUE for a vertical guide, %FALSE for horizontal
  * @guide_pos: in unscaled sheet pixel coords
  *
@@ -2223,7 +2276,13 @@ cb_update_ctrl_pts (SheetObject *so, GocItem **ctrl_pts, GnmPane *pane)
 	gnm_pane_object_update_bbox (pane, so);
 }
 
-/* Called when the zoom changes */
+/**
+ * gnm_pane_reposition_cursors:
+ * @pane: #GnmPane
+ *
+ * Reposition all cursors in @pane, for example after the zoom factor or the
+ * visible region has changed.
+ **/
 void
 gnm_pane_reposition_cursors (GnmPane *pane)
 {
@@ -2245,6 +2304,15 @@ gnm_pane_reposition_cursors (GnmPane *pane)
 			(GHFunc) cb_update_ctrl_pts, pane);
 }
 
+/**
+ * gnm_pane_cursor_bound_set:
+ * @pane: #GnmPane
+ * @r: the new cursor range
+ *
+ * Set the range covered by the primary cursor.
+ *
+ * Returns: %TRUE if the cursor changed, %FALSE if @r is invalid or unchanged.
+ **/
 gboolean
 gnm_pane_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 {
@@ -2258,6 +2326,15 @@ gnm_pane_rangesel_bound_set (GnmPane *pane, GnmRange const *r)
 {
 	return gnm_item_cursor_bound_set (pane->cursor.rangesel, r);
 }
+
+/**
+ * gnm_pane_rangesel_start:
+ * @pane: #GnmPane
+ * @r: the range to select
+ *
+ * Start a range-selection cursor over @r.  The primary cursor is hidden while
+ * the selection is on a different sheet from the one being edited.
+ **/
 void
 gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 {
@@ -2279,6 +2356,13 @@ gnm_pane_rangesel_start (GnmPane *pane, GnmRange const *r)
 	gnm_item_cursor_bound_set (pane->cursor.rangesel, r);
 }
 
+/**
+ * gnm_pane_rangesel_stop:
+ * @pane: #GnmPane
+ *
+ * Stop the range-selection cursor started by gnm_pane_rangesel_start(),
+ * restore the visibility of the primary cursor, and stop any sliding.
+ **/
 void
 gnm_pane_rangesel_stop (GnmPane *pane)
 {
@@ -2300,6 +2384,14 @@ gnm_pane_special_cursor_bound_set (GnmPane *pane, GnmRange const *r)
 	return gnm_item_cursor_bound_set (pane->cursor.special, r);
 }
 
+/**
+ * gnm_pane_special_cursor_start:
+ * @pane: #GnmPane
+ * @style: a #GnmItemCursorStyle
+ * @button: the mouse button associated with the cursor
+ *
+ * Start a special cursor of type @style in @pane.
+ **/
 void
 gnm_pane_special_cursor_start (GnmPane *pane, int style, int button)
 {
@@ -2317,6 +2409,12 @@ gnm_pane_special_cursor_start (GnmPane *pane, int style, int button)
 	pane->cursor.special = GNM_ITEM_CURSOR (item);
 }
 
+/**
+ * gnm_pane_special_cursor_stop:
+ * @pane: #GnmPane
+ *
+ * Stop the special cursor started by gnm_pane_special_cursor_start().
+ **/
 void
 gnm_pane_special_cursor_stop (GnmPane *pane)
 {
@@ -2325,6 +2423,13 @@ gnm_pane_special_cursor_stop (GnmPane *pane)
 	g_clear_object (&pane->cursor.special);
 }
 
+/**
+ * gnm_pane_mouse_cursor_set:
+ * @pane: #GnmPane
+ * @c: (transfer none): the new #GdkCursor
+ *
+ * Set the mouse cursor for @pane, taking a reference to @c.
+ **/
 void
 gnm_pane_mouse_cursor_set (GnmPane *pane, GdkCursor *c)
 {
@@ -2356,6 +2461,12 @@ gnm_pane_expr_cursor_bound_set (GnmPane *pane, GnmRange const *r,
 		(pane->cursor.expr_range, cursor);
 }
 
+/**
+ * gnm_pane_expr_cursor_stop:
+ * @pane: #GnmPane
+ *
+ * Remove all expression range cursors from @pane.
+ **/
 void
 gnm_pane_expr_cursor_stop (GnmPane *pane)
 {
@@ -2380,12 +2491,32 @@ gnm_pane_edit_start (GnmPane *pane)
 		NULL);
 }
 
+/**
+ * gnm_pane_edit_stop:
+ * @pane: #GnmPane
+ *
+ * Destroy the in-cell editor of @pane.
+ **/
 void
 gnm_pane_edit_stop (GnmPane *pane)
 {
 	g_clear_object (&pane->editor);
 }
 
+/**
+ * gnm_pane_objects_drag:
+ * @pane: #GnmPane
+ * @so: (nullable): the primary #SheetObject being dragged
+ * @new_x: the new x position
+ * @new_y: the new y position
+ * @drag_type: which part of the object is being dragged
+ * @symmetric: if %TRUE, move symmetrically
+ * @snap_to_grid: if %TRUE, snap to the grid
+ *
+ * Move the views of the selected objects by the distance from the stored drag
+ * position to (@new_x, @new_y), then update the stored position.  The objects
+ * themselves are not modified until the drag is committed.
+ **/
 void
 gnm_pane_objects_drag (GnmPane *pane, SheetObject *so,
 		       gdouble new_x, gdouble new_y, int drag_type,
@@ -2436,7 +2567,14 @@ cb_slide_handler (GnmPane *pane, GnmPaneSlideInfo const *info)
 	return TRUE;
 }
 
-/* event and so can be NULL */
+/**
+ * gnm_pane_display_object_menu:
+ * @pane: #GnmPane
+ * @so: (nullable): the #SheetObject to show the menu for
+ * @event: (nullable): the #GdkEvent that triggered the menu
+ *
+ * Show the context menu for @so.
+ **/
 void
 gnm_pane_display_object_menu (GnmPane *pane, SheetObject *so, GdkEvent *event)
 {
@@ -2636,6 +2774,19 @@ gnm_pane_drag_begin (GnmPane *pane, SheetObject *so, GdkEvent *event)
 	g_slist_free (objects);
 }
 
+/**
+ * gnm_pane_object_start_resize:
+ * @pane: #GnmPane
+ * @button: the mouse button that started the operation
+ * @x: x coordinate of the pointer in canvas coordinates
+ * @y: y coordinate of the pointer in canvas coordinates
+ * @so: #SheetObject
+ * @drag_type: the control point being dragged
+ * @is_creation: %TRUE if @so was just created
+ *
+ * Start moving or resizing @so.  @drag_type identifies which control point is
+ * being dragged, with 8 denoting the object's interior.
+ **/
 void
 gnm_pane_object_start_resize (GnmPane *pane, int button, guint64 x, gint64 y,
 			      SheetObject *so, int drag_type, gboolean is_creation)
@@ -3076,6 +3227,13 @@ set_acetate_coords (GnmPane *pane, SheetObject *so, GocItem **ctrl_pts,
 	       NULL);
 }
 
+/**
+ * gnm_pane_object_unselect:
+ * @pane: #GnmPane
+ * @so: #SheetObject
+ *
+ * Remove the control points and size tooltip that @pane showed for @so.
+ **/
 void
 gnm_pane_object_unselect (GnmPane *pane, SheetObject *so)
 {
@@ -3192,6 +3350,13 @@ gnm_pane_widget_register (SheetObject *so, GtkWidget *w, GocItem *view)
 #endif
 }
 
+/**
+ * gnm_pane_set_direction:
+ * @pane: #GnmPane
+ * @direction: the new #GocDirection
+ *
+ * Set the layout direction of @pane and its column header canvas.
+ **/
 void
 gnm_pane_set_direction (GnmPane *pane, GocDirection direction)
 {

@@ -630,6 +630,12 @@ gnm_cell_fetch_rendered_value (GnmCell const *cell,
 	return gnm_cell_render_value (cell, allow_variable_width);
 }
 
+/**
+ * gnm_cell_unrender:
+ * @cell: #GnmCell
+ *
+ * Discards any rendered value associated with @cell.
+ **/
 void
 gnm_cell_unrender (GnmCell const *cell)
 {
@@ -662,7 +668,7 @@ gnm_cell_render_value (GnmCell const *cell, gboolean allow_variable_width)
 	return rv;
 }
 
-/*
+/**
  * gnm_cell_get_rendered_text:
  * @cell: cell to query
  *
@@ -671,7 +677,7 @@ gnm_cell_render_value (GnmCell const *cell, gboolean allow_variable_width)
  * then that is what you get.
  *
  * Returns: (transfer full): text in cell.
- */
+ **/
 char *
 gnm_cell_get_rendered_text (GnmCell *cell)
 {
@@ -952,9 +958,13 @@ gnm_cell_get_text_for_editing (GnmCell const * cell,
 
 
 
-/*
- * Return the height of the rendered layout after rotation.
- */
+/**
+ * gnm_cell_rendered_height:
+ * @cell: #GnmCell
+ *
+ * Returns: the height in pixels of the rendered layout of @cell after
+ * rotation, or 0 if @cell has not been rendered.
+ **/
 int
 gnm_cell_rendered_height (GnmCell const *cell)
 {
@@ -966,9 +976,14 @@ gnm_cell_rendered_height (GnmCell const *cell)
 	return rv ?  gnm_rendered_value_get_height (rv) : 0;
 }
 
-/*
- * Return the width of the rendered layout after rotation.
- */
+/**
+ * gnm_cell_rendered_width:
+ * @cell: #GnmCell
+ *
+ * Returns: the width in pixels of the rendered layout of @cell after
+ * rotation, or 0 if @cell has not been rendered.  This excludes the
+ * offset returned by gnm_cell_rendered_offset().
+ **/
 int
 gnm_cell_rendered_width (GnmCell const *cell)
 {
@@ -980,6 +995,13 @@ gnm_cell_rendered_width (GnmCell const *cell)
 	return rv ?  gnm_rendered_value_get_width (rv) : 0;
 }
 
+/**
+ * gnm_cell_rendered_offset:
+ * @cell: #GnmCell
+ *
+ * Returns: the horizontal offset in pixels caused by the indentation of
+ * @cell, or 0 if @cell has not been rendered.
+ **/
 int
 gnm_cell_rendered_offset (GnmCell const * cell)
 {
