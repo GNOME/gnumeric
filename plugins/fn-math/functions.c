@@ -906,7 +906,12 @@ static GnmFuncHelp const help_cot[] = {
 static GnmValue *
 gnumeric_cot (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_cot (value_get_as_float (argv[0])));
+	gnm_float x = value_get_as_float (argv[0]);
+
+	if (x == 0)
+		return value_new_error_DIV0 (ei->pos);
+
+	return value_new_float (gnm_cot (x));
 }
 
 /***************************************************************************/
@@ -941,7 +946,12 @@ static GnmFuncHelp const help_coth[] = {
 static GnmValue *
 gnumeric_coth (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (gnm_coth (value_get_as_float (argv[0])));
+	gnm_float x = value_get_as_float (argv[0]);
+
+	if (x == 0)
+		return value_new_error_DIV0 (ei->pos);
+
+	return value_new_float (gnm_coth (x));
 }
 
 /***************************************************************************/
@@ -982,7 +992,7 @@ gnumeric_exp (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 static GnmExpr const *
 gnumeric_exp_deriv (GnmFunc *func, GnmExpr const *expr, GnmEvalPos const *ep,
-		    GnmExprDeriv *info)
+		    GnmExprDeriv *info, G_GNUC_UNUSED gpointer data)
 {
 	return gnm_expr_deriv_chain (expr, gnm_expr_copy (expr), ep, info);
 }
@@ -1399,7 +1409,7 @@ gnumeric_ln (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmExpr const *
 gnumeric_ln_deriv (GnmFunc *func,
 		   GnmExpr const *expr, GnmEvalPos const *ep,
-		   GnmExprDeriv *info, gpointer data)
+		   GnmExprDeriv *info, G_GNUC_UNUSED gpointer data)
 {
 	GnmExpr const *deriv =
 		gnm_expr_new_binary (gnm_expr_new_constant (value_new_int (1)),
@@ -1675,7 +1685,7 @@ gnumeric_sinpi (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_csc[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CSC:the cosecant of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CSC(0.5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,SEC,SINH,COSH,TANH,RADIANS,DEGREES" },
@@ -1687,7 +1697,12 @@ static GnmFuncHelp const help_csc[] = {
 static GnmValue *
 gnumeric_csc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (1 / gnm_sin (value_get_as_float (argv[0])));
+	gnm_float x = value_get_as_float (argv[0]);
+
+	if (x == 0)
+		return value_new_error_DIV0 (ei->pos);
+
+	return value_new_float (1 / gnm_sin (x));
 }
 
 /***************************************************************************/
@@ -1695,7 +1710,7 @@ gnumeric_csc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_csch[] = {
 	{ GNM_FUNC_HELP_NAME, F_("CSCH:the hyperbolic cosecant of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("This function is OpenFormula compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=CSCH(0.5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH" },
@@ -1707,7 +1722,12 @@ static GnmFuncHelp const help_csch[] = {
 static GnmValue *
 gnumeric_csch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_float (1 / gnm_sinh (value_get_as_float (argv[0])));
+	gnm_float x = value_get_as_float (argv[0]);
+
+	if (x == 0)
+		return value_new_error_DIV0 (ei->pos);
+
+	return value_new_float (1 / gnm_sinh (x));
 }
 
 /***************************************************************************/
@@ -1715,7 +1735,7 @@ gnumeric_csch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_sec[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SEC:Secant")},
 	{ GNM_FUNC_HELP_ARG, F_("x:angle in radians")},
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("SEC(@{x}) is exported to OpenFormula as 1/COS(@{x}).") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=SEC(0.5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SINH,COSH,TANH,RADIANS,DEGREES" },
@@ -1735,7 +1755,7 @@ gnumeric_sec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_sech[] = {
 	{ GNM_FUNC_HELP_NAME, F_("SECH:the hyperbolic secant of @{x}")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is not Excel compatible.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_ODF, F_("SECH(@{x}) is exported to OpenFormula as 1/COSH(@{x}).") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=SECH(0.5)" },
 	{ GNM_FUNC_HELP_SEEALSO, "SIN,COS,TAN,CSC,SEC,SINH,COSH,TANH" },
@@ -1863,7 +1883,7 @@ gnumeric_sumsq_equiv (GnmExpr const *expr, GnmEvalPos const *ep,
 static GnmExpr const *
 gnumeric_sumsq_deriv (GnmFunc *func,
 		      GnmExpr const *expr, GnmEvalPos const *ep,
-		      GnmExprDeriv *info)
+		      GnmExprDeriv *info, G_GNUC_UNUSED gpointer data)
 {
 	GnmExpr const *sqsum = gnumeric_sumsq_equiv (expr, ep, info);
 	if (sqsum) {

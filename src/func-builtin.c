@@ -68,7 +68,8 @@ static GnmExpr const *
 gnumeric_sum_deriv (GnmFunc *func,
 		    GnmExpr const *expr,
 		    GnmEvalPos const *ep,
-		    GnmExprDeriv *info)
+		    GnmExprDeriv *info,
+		    G_GNUC_UNUSED gpointer data)
 {
 	GnmExprList *l, *args = gnm_expr_deriv_collect (expr, ep, info);
 	gboolean bad = FALSE;

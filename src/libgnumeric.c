@@ -278,7 +278,7 @@ gnm_pre_parse_init (int argc, gchar const **argv)
 		// We want the full path in help messages
 		g_set_prgname (argv[0]);
 	} else {
-		// We want "gnumeric" or "ssconvert" because it, someone, is
+		// We want "gnumeric" or "ssconvert" because it, somewhere, is
 		// used for icon discovery in some cases.
 		char *basename = g_path_get_basename (argv[0]);
 		g_set_prgname (basename);

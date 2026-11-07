@@ -49,6 +49,7 @@ Morten:
 	* File import hardening.
 	* Improve handling of 'j'-format complex numbers
 	* Fix printing problems.
+	* Return #DIV/0 for poles of certain trig functions.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
