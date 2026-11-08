@@ -22,6 +22,8 @@
 #ifndef GNM_PLUGIN_HDATE
 #define GNM_PLUGIN_HDATE
 
+#include <glib.h>
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -37,23 +39,38 @@ int
 hdate_days_from_start (int y);
 
 /**
+ @brief Check a (proleptic) Gregorian date
+
+ @param d Day of month 1..31
+ @param m Month 1..12
+ @param y Year in 4 digits e.g. 2001
+
+ @return TRUE if the date exists.
+ */
+gboolean
+hdate_gdate_is_valid (int d, int m, int y);
+
+/**
  @brief compute hebrew date from gregorian date
 
  @param d Day of month 1..31
- @param m Month 1..12 ,  if m or d is 0 return current date.
+ @param m Month 1..12
  @param y Year in 4 digits e.g. 2001
+
+ @return 0 on success, 1 if the gregorian date does not exist.
  */
 int
 hdate_gdate_to_hdate (int d, int m, int y, int *hd, int *hm, int *hy);
 
 /**
- @brief compute general date structure from hebrew date
+ @brief compute gregorian date from hebrew date
 
- @param d Day of month 1..31
- @param m Month 0..13 ,  if m or d is 0 return current date.
- @param y Year in 4 digits e.g. 5731
+ @param d Day of month 1..30
+ @param m Month 0..13 (0 - tishre, 5 - adar, 12 - adar 1, 13 - adar 2).
+          Adar is used in normal years, adar 1 and adar 2 in leap years.
+ @param y Year in 4 digits e.g. 5731, at least 3744
 
- @attention no sanity cheak !!
+ @return 0 on success, 1 if the hebrew date does not exist.
  */
 int
 hdate_hdate_to_gdate (int d, int m, int y, int *gd, int *gm, int *gy);
@@ -88,9 +105,9 @@ hdate_jd_to_gdate (int jd, int *d, int *m, int *y);
  @author Amos Shapir 1984 (rev. 1985, 1992) Yaacov Zamir 2003-2005
 
  @param jd Julian day
- @param d Return Day of month 1..31
- @param m Return Month 1..14
- @param y Return Year in 4 digits e.g. 2001
+ @param d Return Day of month 0..29 (zero-based)
+ @param m Return Month 0..13 (0 - tishre, 5 - adar, 12 - adar 1, 13 - adar 2)
+ @param y Return Year in 4 digits e.g. 5785
  */
 void
 hdate_jd_to_hdate (int jd, int *d, int *m, int *y);
@@ -99,9 +116,11 @@ hdate_jd_to_hdate (int jd, int *d, int *m, int *y);
  @brief Compute Julian day (jd from Hebrew day, month and year (d, m, y)
  @author Amos Shapir 1984 (rev. 1985, 1992) Yaacov Zamir 2003-2005
 
- @param d Day of month 1..31
- @param m Month 1..14
- @param y Year in 4 digits e.g. 5753
+ @param d Day of month 1..30 (note: hdate_jd_to_hdate returns 0..29)
+ @param m Month 0..13 (0 - tishre, 5 - adar, 12 - adar 1, 13 - adar 2)
+ @param y Year in 4 digits e.g. 5753, at least 3744
+
+ @attention no sanity check; see hdate_hdate_to_gdate.
  */
 int
 hdate_hdate_to_jd (int d, int m, int y);

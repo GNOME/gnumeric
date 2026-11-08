@@ -39,13 +39,14 @@
 int
 hdate_days_from_start (int y)
 {
-	int m, nm, dw, s, l;
+	int m, dw, s, l;
+	gint64 nm;		/* Needs more than 32 bits for years past ~8120 */
 
 	l = y * 7 + 1;		/* no. of leap months */
 	m = y * 12 + l / 19;	/* total no. of months */
 	l %= 19;
-	nm = m * MONTH + M (1 + 6, 779);	/* molad new year 3744 (16BC) + 6 hours */
-	s = m * 28 + nm / DAY - 2;
+	nm = (gint64)m * MONTH + M (1 + 6, 779);	/* molad new year 3744 (16BC) + 6 hours */
+	s = m * 28 + (int)(nm / DAY) - 2;
 
 	nm %= WEEK;
 	dw = nm / DAY;
@@ -62,62 +63,109 @@ hdate_days_from_start (int y)
 }
 
 /**
+ @brief Check a (proleptic) Gregorian date
+
+ @param d Day of month 1..31
+ @param m Month 1..12
+ @param y Year in 4 digits e.g. 2001
+
+ @return TRUE if the date exists.
+ */
+gboolean
+hdate_gdate_is_valid (int d, int m, int y)
+{
+	static const int days_in_month[12] = {
+		31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+	};
+	int n;
+
+	if (y <= 0 || m < 1 || m > 12 || d < 1)
+		return FALSE;
+
+	n = days_in_month[m - 1];
+	if (m == 2 && ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0))
+		n++;
+
+	return d <= n;
+}
+
+/**
  @brief compute hebrew date from gregorian date
 
  @param d Day of month 1..31
- @param m Month 1..12 ,  if m or d is 0 return current date.
+ @param m Month 1..12
  @param y Year in 4 digits e.g. 2001
+
+ @return 0 on success, 1 if the gregorian date does not exist.
  */
 int
 hdate_gdate_to_hdate (int d, int m, int y, int *hd, int *hm, int *hy)
 {
 	int jd;
 
-	/* sanity checks */
-	if (!(m >= 1 && m <= 12) ||
-	    !((d >= 1)
-	      && ((y >= 3000 && m == 6 && d <= 59)
-		  || (d <= 31))) || !(y > 0))
+	if (!hdate_gdate_is_valid (d, m, y))
 		return 1;
-
-	/* end of cheking */
 
 	jd = hdate_gdate_to_jd (d, m, y);
 
 	hdate_jd_to_hdate (jd, hd, hm, hy);
 
 	return 0;
+}
 
+/* Number of days in hebrew month m (0..13) of a year with s days, or 0 */
+/* if there is no such month in that kind of year.  */
+static int
+hdate_month_length (int m, int s)
+{
+	int leap = s > 365;
+
+	switch (m) {
+	case 0: return 30;			/* Tishri */
+	case 1: return s % 10 > 4 ? 30 : 29;	/* Heshwan: long if year is 355/385 */
+	case 2: return s % 10 < 4 ? 29 : 30;	/* Kislev: short if year is 353/383 */
+	case 3: return 29;			/* Tebet */
+	case 4: return 30;			/* Shebat */
+	case 5: return leap ? 0 : 29;		/* Adar */
+	case 6: return 30;			/* Nisan */
+	case 7: return 29;			/* Iyar */
+	case 8: return 30;			/* Sivan */
+	case 9: return 29;			/* Tammuz */
+	case 10: return 30;			/* Ab */
+	case 11: return 29;			/* Elul */
+	case 12: return leap ? 30 : 0;		/* Adar I */
+	case 13: return leap ? 29 : 0;		/* Adar II */
+	default: return 0;
+	}
 }
 
 /**
- @brief compute general date structure from hebrew date
+ @brief compute gregorian date from hebrew date
 
- @param d Day of month 1..31
- @param m Month 0..13 ,  if m or d is 0 return current date.
- @param y Year in 4 digits e.g. 5731
+ @param d Day of month 1..30
+ @param m Month 0..13 (0 - tishre, 5 - adar, 12 - adar 1, 13 - adar 2).
+          Adar is used in normal years, adar 1 and adar 2 in leap years.
+ @param y Year in 4 digits e.g. 5731, at least 3744
 
- @attention no sanity cheak !!
+ @return 0 on success, 1 if the hebrew date does not exist.
  */
 int
 hdate_hdate_to_gdate (int d, int m, int y, int *gd, int *gm, int *gy)
 {
-	int jd;
+	int s, jd;
 
-	/* sanity checks */
-	if (!(m >= 1 && m <= 12) ||
-	    !((d >= 1)
-	      && ((y >= 3000 && m == 6 && d <= 59)
-		  || (d <= 31))) || !(y > 0))
+	if (y < 3744)
 		return 1;
 
-	/* end of cheking */
+	s = hdate_days_from_start (y - 3744 + 1) - hdate_days_from_start (y - 3744);
+	if (d < 1 || d > hdate_month_length (m, s))
+		return 1;
 
 	jd = hdate_hdate_to_jd (d, m, y);
 
 	hdate_jd_to_gdate (jd, gd, gm, gy);
 
-	return 0;
+	return *gy <= 0;
 }
 
 /**
@@ -231,45 +279,27 @@ hdate_jd_to_hdate (int jd, int *d, int *m, int *y)
  @brief Compute Julian day (jd from Hebrew day, month and year (d, m, y)
  @author Amos Shapir 1984 (rev. 1985, 1992) Yaacov Zamir 2003-2005
 
- @param d Day of month 1..31
- @param m Month 1..14
- @param y Year in 4 digits e.g. 5753
+ @param d Day of month 1..30 (note: hdate_jd_to_hdate returns 0..29)
+ @param m Month 0..13 (0 - tishre, 5 - adar, 12 - adar 1, 13 - adar 2)
+ @param y Year in 4 digits e.g. 5753, at least 3744
+
+ @attention no sanity check; see hdate_hdate_to_gdate.
  */
 int
 hdate_hdate_to_jd (int d, int m, int y)
 {
-	int s;
+	static const int normal_order[12] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+	static const int leap_order[13] = { 0, 1, 2, 3, 4, 12, 13, 6, 7, 8, 9, 10, 11 };
+	int start = hdate_days_from_start (y - 3744);
+	int s = hdate_days_from_start (y - 3744 + 1) - start;
+	int leap = s > 365;
+	const int *order = leap ? leap_order : normal_order;
+	int n = leap ? 13 : 12;
+	int i, offset = 0;
 
-	y -= 3744;
-	s = hdate_days_from_start (y);
-	d += s;
-	s = hdate_days_from_start (y + 1) - s;	/* length of year */
+	for (i = 0; i < n && order[i] != m; i++)
+		offset += hdate_month_length (order[i], s);
 
-	if (m == 13)
-	{
-		m = 6;
-	}
-	if (m == 14)
-	{
-		m = 6;
-		d += 30;
-	}
-
-	d += (59 * (m - 1) + 1) / 2;	/* regular months */
-	/* special cases */
-	if (s % 10 > 4 && m > 2)	/* long Heshvan */
-		d++;
-	if (s % 10 < 4 && m > 3)	/* short Kislev */
-		d--;
-
-	if (s > 365 && m > 6)	/* leap year */
-		d += 30;
-	d -= 6002;
-
-	y = (d + 36525) * 4 / 146097 - 1;
-	d -= y / 4 * 146097 + (y % 4) * 36524;
-
-	d += 1715119;		/* days since 1 Tishrei 3744 to julean */
-
-	return d;
+	/* 1715119 is the julian day of 1 Tishrei 3744 */
+	return 1715119 + start + offset + (d - 1);
 }

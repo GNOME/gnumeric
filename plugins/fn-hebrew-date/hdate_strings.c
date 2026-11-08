@@ -49,7 +49,7 @@ hdate_int_to_hebrew (GString *res, int n)
 	};
 
 	/* sanity checks */
-	if (n < 1 || n > 10000)
+	if (n < 1 || n >= 10000)
 	{
 		return;
 	}

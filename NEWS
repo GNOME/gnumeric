@@ -55,6 +55,8 @@ Morten:
 	* Fix ACCRINT's handling of calc_method argument.
 	* Fix IPMT and PPMT interest handling problem.
 	* Return an error for SYD with out-of-bound period.
+	* Fix Hebrew date functions for years after 4359 CE.
+	* Reject nonexistent dates in the Hebrew date functions.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
