@@ -128,10 +128,14 @@ static GNM_ACTION_DEF (cb_file_sendto) {
 
 		template = g_build_filename (g_get_tmp_dir (),
 					     ".gnm-sendto-XXXXXX", NULL);
-		problem = (g_mkdtemp_full (template, 0600) == NULL);
+		problem = (g_mkdtemp_full (template, 0700) == NULL);
 
 		if (problem) {
 			g_free (template);
+			g_free (basename);
+			go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
+				_("Unable to create a temporary directory."));
+			go_io_error_display (io_context);
 			goto out;
 		}
 
@@ -591,6 +595,7 @@ static GNM_ACTION_DEF (cb_edit_fill_autofill)
 					do_loop = TRUE;
 				}
 			}
+			g_slist_free (merges);
 		} while (do_loop);
 
 		/* Make it autofill in only one direction */
@@ -1079,7 +1084,7 @@ static GNM_ACTION_DEF (cb_help_docs)
 			 argv[0], err->message);
 		go_cmd_context_error_info (GO_CMD_CONTEXT (wbcg), ei);
 		g_error_free (err);
-		g_free (ei);
+		go_error_info_free (ei);
 	}
 }
 
@@ -1152,14 +1157,23 @@ static GNM_ACTION_DEF (cb_insert_image)
 		GsfInput *input = go_file_open (uri, &err);
 
 		if (input != NULL) {
-			unsigned len = gsf_input_size (input);
-			guint8 const *data = gsf_input_read (input, len, NULL);
-			SheetObjectImage *soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
-			sheet_object_image_set_image (soi, "", data, len);
-			wbcg_insert_object (wbcg, GNM_SO (soi));
+			gsf_off_t size = gsf_input_size (input);
+			guint8 const *data = (size > 0 && size <= G_MAXUINT)
+				? gsf_input_read (input, (size_t)size, NULL)
+				: NULL;
+
+			if (data != NULL) {
+				SheetObjectImage *soi = g_object_new (GNM_SO_IMAGE_TYPE, NULL);
+				sheet_object_image_set_image (soi, "", data, (unsigned)size);
+				wbcg_insert_object (wbcg, GNM_SO (soi));
+			} else
+				go_cmd_context_error_import (GO_CMD_CONTEXT (wbcg),
+					_("Unable to read the image file."));
 			g_object_unref (input);
-		} else
+		} else if (err != NULL) {
 			go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
+			g_error_free (err);
+		}
 
 		g_free (uri);
 	}
@@ -1291,6 +1305,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	data = gnm_sort_data_new ();
 	data->sheet = sv_sheet (sv);
 	data->range = *sel;
+	g_free (sel);
 	data->num_clause = numclause;
 	data->clauses = clause;
 	data->locale = NULL;
@@ -1692,7 +1707,7 @@ static GNM_ACTION_DEF (cb_format_as_percentage)
 static GNM_ACTION_DEF (cb_format_as_scientific)
 {
 	GOFormat *fmt = go_format_new_from_XL ("0.00E+00");
-	apply_number_format (wbcg, fmt, _("Format as Percentage"));
+	apply_number_format (wbcg, fmt, _("Format as Scientific"));
 	go_format_unref (fmt);
 }
 
@@ -4106,7 +4121,9 @@ static GNM_ACTION_DEF (cb_zoom_activated)
 
 	errno = 0; /* strtol sets errno, but does not clear it.  */
 	factor = strtol (new_zoom, &end, 10);
-	if (new_zoom != end && errno != ERANGE && factor == (gnm_float)factor)
+	/* The zoom-factor property accepts 0.1 to 5.0 */
+	if (new_zoom != end && errno != ERANGE &&
+	    factor >= 10 && factor <= 500)
 		/* The GSList of sheet passed to cmd_zoom will be freed by cmd_zoom,
 		 * and the sheet will force an update of the zoom combo to keep the
 		 * display consistent
