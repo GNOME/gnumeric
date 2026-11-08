@@ -40,7 +40,7 @@ Morten:
 	* Fix COMBINA(0,0).
 	* Fix hang in DIMCIRC.
 	* Improve OFFTRAF accuracy.
-	* Fix \-escaping for REGEXREPLACE
+	* Fix backslash-escaping for REGEXREPLACE
 	* Properly allow string for TEXTBEFORE and TEXTAFTER's 6th arg.
 	* Fix log-case for R.DSNORM
 	* Fix overflow problem with R.DST
@@ -57,6 +57,7 @@ Morten:
 	* Return an error for SYD with out-of-bound period.
 	* Fix Hebrew date functions for years after 4359 CE.
 	* Reject nonexistent dates in the Hebrew date functions.
+	* Fix double-free related to undo of analysis tools.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

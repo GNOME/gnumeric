@@ -998,7 +998,7 @@ cmd_set_text_full (WorkbookControl *wbc, GSList *selection, GnmEvalPos *ep,
 		}
 
 		if (same_text) {
-			for (l = selection; l != NULL && same_text; l = l->next) {
+			for (l = selection; l != NULL && same_markup; l = l->next) {
 				GnmRange *r = l->data;
 				GnmValue *val =
 					sheet_foreach_cell_in_range
@@ -3388,6 +3388,13 @@ cmd_paste_copy (WorkbookControl *wbc,
 		return TRUE;
 	}
 
+	/* Check for locks on the real target, after tiling/enlarging. */
+	if (cmd_cell_range_is_locked_effective (pt->sheet, &me->dst.range, wbc,
+						me->cmd.cmd_descriptor)) {
+		g_object_unref (me);
+		return TRUE;
+	}
+
 	warn_if_date_trouble (wbc, cr);
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
@@ -4102,8 +4109,6 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	 * left we would end up duplicating it. */
 	flags = PASTE_CONTENTS | PASTE_FORMATS | PASTE_COMMENTS |
 		PASTE_IGNORE_COMMENTS_AT_ORIGIN;
-	if (me->center)
-		flags |= PASTE_FORMATS;
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
 		GnmPasteTarget pt;
@@ -5392,10 +5397,12 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (me->col_info) {
 			dao_set_colrow_state_list (me->dao, TRUE, me->col_info);
 			colrow_state_list_destroy (me->col_info);
+			me->col_info = NULL;
 		}
 		if (me->row_info) {
 			dao_set_colrow_state_list (me->dao, FALSE, me->row_info);
 			colrow_state_list_destroy (me->row_info);
+			me->row_info = NULL;
 		}
 		if (me->newSheetObjects == NULL)
 			me->newSheetObjects = dao_surrender_so (me->dao);
@@ -6074,8 +6081,11 @@ cmd_define_name_undo (GnmCommand *cmd,
 {
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
 	GnmNamedExpr  *nexpr = expr_name_lookup (&(me->pp), me->name);
-	GnmExprTop const *texpr = nexpr->texpr;
+	GnmExprTop const *texpr;
 
+	g_return_val_if_fail (nexpr != NULL, TRUE);
+
+	texpr = nexpr->texpr;
 	gnm_expr_top_ref (texpr);
 	if (me->new_name)
 		expr_name_remove (nexpr);
