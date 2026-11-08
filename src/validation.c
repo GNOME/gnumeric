@@ -596,8 +596,10 @@ gnm_validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 	if (gnm_cell_is_empty (cell)) {
 		if (v->allow_blank)
 			return GNM_VALIDATION_STATUS_VALID;
+		/* The cell might not exist at all.  */
 		BARF (g_strdup_printf (_("Cell %s is not permitted to be blank"),
-				       cell_name (cell)));
+				       cell ? cell_name (cell)
+				       : cellpos_as_string (pos)));
 	}
 
 	val = cell->value;
@@ -786,7 +788,7 @@ validation_eval_range_cb (GnmCellIter const *iter, validation_eval_t *closure)
  * @sheet: #Sheet
  * @pos: current cell position
  * @r: #GnmRange
- * @showed_dialog: (out): whether a dialog was shown
+ * @showed_dialog: (out) (optional): indicates whether a dialog was displayed.
  *
  * Returns: #ValidationStatus for the range.
  **/
@@ -800,6 +802,9 @@ gnm_validation_eval_range (WorkbookControl *wbc,
 	validation_eval_t closure;
 	GnmEvalPos ep;
 	GnmValue *cell_range = value_new_cellrange_r (sheet, r);
+
+	if (showed_dialog)
+		*showed_dialog = FALSE;
 
 	closure.wbc = wbc;
 	closure.sheet = sheet;

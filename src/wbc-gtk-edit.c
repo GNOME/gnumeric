@@ -345,10 +345,13 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 			}
 			for (l = selection; l != NULL; l = l->next) {
 				GnmRange *r = l->data;
+				gboolean sd;
 				/* We do this separately since there may be overlap between ranges */
 				sheet_range_set_text (&pp, r, txt);
 				valid =	gnm_validation_eval_range (wbc, sheet, &sv->edit_pos, r,
-							       showed_dialog);
+								   &sd);
+				if (sd && showed_dialog)
+					*showed_dialog = TRUE;
 				if (valid != GNM_VALIDATION_STATUS_VALID)
 					break;
 			}
@@ -356,6 +359,7 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 		}
 		case (WBC_EDIT_ACCEPT_ARRAY): {
 			GnmRange *r = selection->data;
+			gboolean sd;
 
 			u = go_undo_combine (u,  clipboard_copy_range_undo (sheet, r));
 			if (texpr) {
@@ -367,7 +371,9 @@ wbcg_edit_finish (WBCGtk *wbcg, WBCEditResult result,
 				sheet_region_queue_recalc (sheet, r);
 			}
 			valid =	gnm_validation_eval_range (wbc, sheet, &sv->edit_pos, r,
-						       showed_dialog);
+							   &sd);
+			if (sd && showed_dialog)
+				*showed_dialog = TRUE;
 			break;
 		}
 		case (WBC_EDIT_ACCEPT_WO_AC):
