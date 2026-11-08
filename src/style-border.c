@@ -201,7 +201,7 @@ gnm_style_border_fetch (GnmStyleBorderType		 line_type,
 	GnmBorder *border;
 	GnmBorder key;
 
-	if (line_type < GNM_STYLE_BORDER_NONE || line_type > GNM_STYLE_BORDER_MAX) {
+	if (line_type < GNM_STYLE_BORDER_NONE || line_type >= GNM_STYLE_BORDER_MAX) {
 		g_warning ("Invalid border type: %d", line_type);
 		line_type = GNM_STYLE_BORDER_NONE;
 	}

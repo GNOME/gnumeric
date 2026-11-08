@@ -173,7 +173,7 @@ style_font_new_simple (PangoContext *context,
 			/* if we fail, try to be smart and map to something similar */
 			char const *sub = get_substitute_font (font_name);
 			if (sub != NULL) {
-				pango_font_description_set_family (desc, font_name);
+				pango_font_description_set_family (desc, sub);
 				pango_font = pango_context_load_font (context,
 								      desc);
 			}
@@ -290,7 +290,9 @@ gnm_font_ref (GnmFont *sf)
 void
 gnm_font_unref (GnmFont *sf)
 {
-	g_return_if_fail (sf != NULL);
+	if (sf == NULL)
+		return;
+
 	g_return_if_fail (sf->ref_count > 0);
 
 	sf->ref_count--;
