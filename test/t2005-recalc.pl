@@ -10,14 +10,21 @@ use GnumericTest;
 $GnumericTest::default_corpus = 'random:20';
 my @sources = &GnumericTest::corpus();
 push @sources, &GnumericTest::corpus('/recalc/');
+
+my @avoid;
 # Must avoid volatile functions
-@sources = grep { !m{(^|/)(chart-tests\.gnumeric|datefuns\.xls|vba-725220\.xls|docs-samples\.gnumeric|numbermatch\.gnumeric)$} } @sources;
-# Avoid slow stuff
-@sources = grep { !m{(^|/)(address\.xls|bitwise\.xls|operator\.xls|linest\.xls)$} } @sources;
-@sources = grep { !m{(^|/)(amath\.gnumeric|gamma\.gnumeric|crlibm\.gnumeric|ilog\.gnumeric)$} } @sources;
-@sources = grep { !m{(^|/)(numtheory\.gnumeric)$} } @sources;
+push @avoid, 'chart-tests.gnumeric', 'datefuns.xls', 'vba-725220.xls',
+    'docs-samples.gnumeric', 'numbermatch.gnumeric',
+    'regress.gnumeric';
+# Slow stuff
+push @avoid, 'address.xls', 'bitwise.xls', 'operator.xls', 'linest.xls';
+push @avoid, 'amath.gnumeric', 'gamma.gnumeric', 'crlibm.gnumeric', 'ilog.gnumeric';
+push @avoid, 'numtheory.gnumeric';
 # Currently fails due to TABLE, pending investigation
-@sources = grep { !m{(^|/)(arrays\.xls)$} } @sources;
+push @avoid, 'arrays.xls';
+my %avoid;
+foreach (@avoid) { $avoid{$_} = 1; }
+@sources = grep { !$avoid{&File::Basename::basename ($_)} } @sources;
 
 my $nskipped = 0;
 my $ngood = 0;
