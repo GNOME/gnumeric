@@ -111,32 +111,35 @@ sv_select_cur_array (SheetView *sv)
 static gint
 cb_compare_deps (gconstpointer a, gconstpointer b)
 {
-	GnmCell const *cell_a = a;
-	GnmCell const *cell_b = b;
-	int tmp;
+	GnmCell const *cell_a = *(GnmCell * const *)a;
+	GnmCell const *cell_b = *(GnmCell * const *)b;
 
-	if (cell_a->base.sheet != cell_b->base.sheet)
-		return cell_a->base.sheet->index_in_wb - cell_b->base.sheet->index_in_wb;
+	// This code assumes all cells are from the same workbook.
 
-	tmp = cell_a->pos.row - cell_b->pos.row;
+	Sheet const *sheet_a = cell_a->base.sheet;
+	Sheet const *sheet_b = cell_b->base.sheet;
+	if (sheet_a != sheet_b)
+		return sheet_a->index_in_wb - sheet_b->index_in_wb;
+
+	int tmp = cell_a->pos.row - cell_b->pos.row;
 	if (tmp != 0)
 		return tmp;
 	return cell_a->pos.col - cell_b->pos.col;
 }
 
-static GList *
+/* Remove, in place, everything that is not a cell on @sheet.  */
+static void
 drop_non_cell_deps (GPtrArray *deps, Sheet const *sheet)
 {
-	GList *res = NULL;
+	guint i, j = 0;
 
-	for (size_t i = 0; i < deps->len; i++) {
+	for (i = 0; i < deps->len; i++) {
 		GnmDependent *dep = g_ptr_array_index (deps, i);
-		/* Only cells on the sheet being selected in are of interest. */
+		// We only handle cells on the current sheet.
 		if (dependent_is_cell (dep) && dep->sheet == sheet)
-			res = g_list_prepend (res, dep);
+			g_ptr_array_index (deps, j++) = dep;
 	}
-
-	return res;
+	g_ptr_array_set_size (deps, j);
 }
 
 
@@ -149,56 +152,55 @@ drop_non_cell_deps (GPtrArray *deps, Sheet const *sheet)
 void
 sv_select_cur_depends (SheetView *sv)
 {
-	GList *deps, *ptr = NULL;
+	GPtrArray *deps;
+	GList *rows = NULL, *ptr = NULL;
 
 	g_return_if_fail (GNM_IS_SHEET_VIEW (sv));
 
-	GPtrArray *alldeps = g_ptr_array_new ();
-	gnm_dep_deps_of_cellpos (sv->sheet, sv->edit_pos.col, sv->edit_pos.row, alldeps);
-	deps = drop_non_cell_deps (alldeps, sv->sheet);
-	g_ptr_array_unref (alldeps);
-	if (deps == NULL)
+	deps = g_ptr_array_new ();
+	gnm_dep_deps_of_cellpos (sv->sheet, sv->edit_pos.col, sv->edit_pos.row, deps);
+	drop_non_cell_deps (deps, sv->sheet);
+	if (deps->len == 0) {
+		g_ptr_array_unref (deps);
 		return;
+	}
 
 	sv_selection_reset (sv);
 
 	/* Short circuit */
-	if (g_list_length (deps) == 1) {
-		GnmCell *cell = deps->data;
+	if (deps->len == 1) {
+		GnmCell *cell = g_ptr_array_index (deps, 0);
 		sv_selection_add_pos (sv, cell->pos.col, cell->pos.row,
 				      GNM_SELECTION_MODE_ADD);
-		g_list_free (deps);
 	} else {
 		GnmRange *cur = NULL;
-		ptr = NULL;
+		guint i;
 
-		/* Merge the sorted list of cells into rows */
-		for (deps = g_list_sort (deps, &cb_compare_deps) ; deps ; ) {
-			GnmCell *cell = deps->data;
+		/* Merge the sorted cells into rows */
+		g_ptr_array_sort (deps, cb_compare_deps);
+		for (i = 0; i < deps->len; i++) {
+			GnmCell *cell = g_ptr_array_index (deps, i);
 
 			if (cur == NULL ||
 			    cur->end.row != cell->pos.row ||
 			    cur->end.col+1 != cell->pos.col) {
 				if (cur)
-					ptr = g_list_prepend (ptr, cur);
+					rows = g_list_prepend (rows, cur);
 				cur = g_new (GnmRange, 1);
 				cur->start.row = cur->end.row = cell->pos.row;
 				cur->start.col = cur->end.col = cell->pos.col;
 			} else
 				cur->end.col = cell->pos.col;
-
-			deps = g_list_remove (deps, cell);
 		}
 		if (cur)
-			ptr = g_list_prepend (ptr, cur);
+			rows = g_list_prepend (rows, cur);
 
 		/* Merge the coalesced rows into ranges */
-		deps = ptr;
-		for (ptr = NULL ; deps ; ) {
-			GnmRange *r1 = deps->data;
+		while (rows) {
+			GnmRange *r1 = rows->data;
 			GList *fwd;
 
-			for (fwd = deps->next ; fwd ; ) {
+			for (fwd = rows->next ; fwd ; ) {
 				GnmRange *r2 = fwd->data;
 
 				if (r1->start.col == r2->start.col &&
@@ -212,7 +214,7 @@ sv_select_cur_depends (SheetView *sv)
 			}
 
 			ptr = g_list_prepend (ptr, r1);
-			deps = g_list_remove (deps, r1);
+			rows = g_list_remove (rows, r1);
 		}
 
 		/* now select the ranges */
@@ -223,6 +225,7 @@ sv_select_cur_depends (SheetView *sv)
 		}
 		g_list_free (ptr);
 	}
+	g_ptr_array_unref (deps);
 	sheet_update (sv->sheet);
 }
 
