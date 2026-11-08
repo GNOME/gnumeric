@@ -125,13 +125,14 @@ cb_compare_deps (gconstpointer a, gconstpointer b)
 }
 
 static GList *
-drop_non_cell_deps (GPtrArray *deps)
+drop_non_cell_deps (GPtrArray *deps, Sheet const *sheet)
 {
 	GList *res = NULL;
 
 	for (size_t i = 0; i < deps->len; i++) {
 		GnmDependent *dep = g_ptr_array_index (deps, i);
-		if (dependent_is_cell (dep))
+		/* Only cells on the sheet being selected in are of interest. */
+		if (dependent_is_cell (dep) && dep->sheet == sheet)
 			res = g_list_prepend (res, dep);
 	}
 
@@ -154,7 +155,7 @@ sv_select_cur_depends (SheetView *sv)
 
 	GPtrArray *alldeps = g_ptr_array_new ();
 	gnm_dep_deps_of_cellpos (sv->sheet, sv->edit_pos.col, sv->edit_pos.row, alldeps);
-	deps = drop_non_cell_deps (alldeps);
+	deps = drop_non_cell_deps (alldeps, sv->sheet);
 	g_ptr_array_unref (alldeps);
 	if (deps == NULL)
 		return;
@@ -166,6 +167,7 @@ sv_select_cur_depends (SheetView *sv)
 		GnmCell *cell = deps->data;
 		sv_selection_add_pos (sv, cell->pos.col, cell->pos.row,
 				      GNM_SELECTION_MODE_ADD);
+		g_list_free (deps);
 	} else {
 		GnmRange *cur = NULL;
 		ptr = NULL;
@@ -216,7 +218,6 @@ sv_select_cur_depends (SheetView *sv)
 		/* now select the ranges */
 		for (GList *p = ptr; p; p = p->next) {
 			GnmRange *r = p->data;
-			g_printerr ("select %s\n", range_as_string (r));
 			sv_selection_add_range (sv, r);
 			g_free (r);
 		}
@@ -336,6 +337,11 @@ cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 			return;
 		}
 
+		/* dst may have been enlarged above; check the real target. */
+		if (cmd_cell_range_is_locked_effective (pt->sheet, &dst, wbc,
+							_("Paste")))
+			return;
+
 		rinfo.reloc_type = GNM_EXPR_RELOCATE_MOVE_RANGE;
 		rinfo.origin = *src_range;
 		rinfo.col_offset = dst.start.col - rinfo.origin.start.col;
@@ -423,6 +429,9 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 			return;
 		}
 		rinfo.origin.end.col -= count;
+		/* The region is empty and reaches the edge: nothing to move. */
+		if (rinfo.origin.end.col < rinfo.origin.start.col)
+			return;
 	}
 
 	desc = g_strdup_printf ((start_row != end_row)
@@ -472,6 +481,9 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 			return;
 		}
 		rinfo.origin.end.row -= count;
+		/* The region is empty and reaches the edge: nothing to move. */
+		if (rinfo.origin.end.row < rinfo.origin.start.row)
+			return;
 	}
 
 	desc = g_strdup_printf ((start_col != end_col)
