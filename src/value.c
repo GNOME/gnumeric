@@ -29,6 +29,7 @@
 
 #include <stdlib.h>
 #include <errno.h>
+#include <limits.h>
 #include <math.h>
 #include <string.h>
 
@@ -882,6 +883,8 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 {
 	GnmValue const *a = *(GnmValue const **)ptr_a;
 	GnmValue const *b = *(GnmValue const **)ptr_b;
+	GnmValueType ta, tb;
+
 	switch (value_compare_real (a, b, TRUE, TRUE)) {
 	case IS_EQUAL:   return  0;
 	case IS_LESS:    return -1;
@@ -889,7 +892,11 @@ value_cmp (void const *ptr_a, void const *ptr_b)
 	default:
 		break;
 	}
-	return a->v_any.type - b->v_any.type;
+
+	/* NULL counts as empty, just like in value_compare_real.  */
+	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->v_any.type;
+	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->v_any.type;
+	return ta - tb;
 }
 
 /**
@@ -1290,7 +1297,7 @@ value_stringify (GnmValue const *v)
 	case VALUE_CELLRANGE:
 		g_string_append (res, "CELLRANGE,");
 		g_string_append (res, value_peek_string (v));
-		return 0;
+		break;
 
 	case VALUE_ARRAY:
 		g_string_append (res, "ARRAY,");
@@ -1354,8 +1361,10 @@ value_get_as_int (GnmValue const *v)
 	case VALUE_ARRAY:
 		return 0;
 
-	case VALUE_FLOAT:
-		return (int) gnm_fake_trunc (v->v_float.val);
+	case VALUE_FLOAT: {
+		gnm_float f = gnm_fake_trunc (v->v_float.val);
+		return (int)CLAMP (f, G_MININT, G_MAXINT);
+	}
 
 	case VALUE_BOOLEAN:
 		return v->v_bool.val ? 1 : 0;
@@ -1486,11 +1495,16 @@ void
 value_array_set (GnmValue *array, int col, int row, GnmValue *v)
 {
 	g_return_if_fail (v);
-	g_return_if_fail (VALUE_IS_ARRAY (array));
-	g_return_if_fail (col>=0);
-	g_return_if_fail (row>=0);
-	g_return_if_fail (array->v_array.y > row);
-	g_return_if_fail (array->v_array.x > col);
+	if (G_UNLIKELY (array == NULL ||
+			!VALUE_IS_ARRAY (array) ||
+			col < 0 || row < 0 ||
+			array->v_array.y <= row ||
+			array->v_array.x <= col)) {
+		/* @v is ours to dispose of; do not leak it.  */
+		g_critical ("%s: bad array or index", G_STRFUNC);
+		value_release (v);
+		return;
+	}
 
 	value_release (array->v_array.vals[col][row]);
 	array->v_array.vals[col][row] = v;
