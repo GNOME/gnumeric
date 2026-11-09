@@ -13486,7 +13486,7 @@ msgstr "_Eliminar"
 
 #: ../src/sheet-object.c:293 ../src/wbc-gtk-actions.c:2037
 msgid "Print"
-msgstr "Omprimir"
+msgstr "Imprimir"
 
 #: ../src/sheet-object-component.c:181 ../src/sheet-object-graph.c:296
 #: ../src/sheet-object-image.c:287
