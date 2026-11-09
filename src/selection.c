@@ -973,8 +973,8 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					break;
 
 				case 1: /* overlap bottom */
-					/* Shrink existing range */
-					a->start.row = b->end.row + 1;
+					/* a spans b's columns: shrink b, not a */
+					b->end.row = a->start.row - 1;
 					break;
 
 				default:
@@ -1089,6 +1089,7 @@ selection_get_ranges (SheetView const *sv, gboolean allow_intersection)
 					tmp = gnm_range_dup (a);
 					tmp->end.col = b->end.col;
 					tmp->start.row = b->end.row + 1;
+					clear = g_slist_prepend (clear, tmp);
 
 					/* shrink the right segment */
 					a->start.col = b->end.col + 1;
@@ -1541,6 +1542,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 	GogSeries *series;
 	GogGraph *graph = gog_object_get_graph (GOG_OBJECT (go_plot));
 	GnmGraphDataClosure *data = g_object_get_data (G_OBJECT (graph), "data-closure");
+	gboolean share_x = (data != NULL && data->share_x);
 	gboolean is_string_vec, first_series = TRUE, first_value_dim = TRUE;
 	unsigned i, count, cur_dim = 0, num_series = 1;
 	gboolean has_header = FALSE, as_cols;
@@ -1667,7 +1669,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 				++cur_dim;
 
 			/* skip over index series if shared */
-			while (data->share_x && cur_dim < desc->series.num_dim &&
+			while (share_x && cur_dim < desc->series.num_dim &&
 			       !first_series && desc->series.dim[cur_dim].val_type == GOG_DIM_INDEX) {
 				if (shared_x) {
 					g_object_ref (shared_x);
@@ -1684,7 +1686,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 			is_string_vec = characterize_vec (sheet, &vector, as_cols,
 				desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL);
 			while ((desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL && !is_string_vec
-				&& (!first_series || !data->share_x)) ||
+				&& (!first_series || !share_x)) ||
 			       (desc->series.dim[cur_dim].val_type == GOG_DIM_VALUE && is_string_vec)) {
 				if (desc->series.dim[cur_dim].priority == GOG_SERIES_REQUIRED)
 				/* we used to go to the skip label, but see #674341 */
@@ -1692,7 +1694,7 @@ sv_selection_to_plot (SheetView *sv, GogPlot *go_plot)
 				cur_dim++;
 			}
 
-			if (data->share_x && first_series && desc->series.dim[cur_dim].val_type == GOG_DIM_INDEX) {
+			if (share_x && first_series && desc->series.dim[cur_dim].val_type == GOG_DIM_INDEX) {
 				shared_x = gnm_go_data_vector_new_expr (sheet,
 						gnm_expr_top_new_constant (
 						value_new_cellrange_r (sheet, &vector)));
