@@ -237,10 +237,13 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	g_return_if_fail (cell != NULL);
 
 	sheet = cell->base.sheet;
+
+	// Evaluate first: the default alignment depends on the value type.
+	// It's not really clear that evaluation belongs here.
+	gnm_cell_eval ((GnmCell*)cell);
+
 	style = gnm_cell_get_effective_style (cell);
 	h_align = gnm_style_default_halign (style, cell);
-
-	gnm_cell_eval ((GnmCell*)cell);
 
 	/*
 	 * Report only one column is used if

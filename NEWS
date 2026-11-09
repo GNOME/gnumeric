@@ -59,6 +59,7 @@ Morten:
 	* Reject nonexistent dates in the Hebrew date functions.
 	* Fix double-free related to undo of analysis tools.
 	* Fix problems with locked sheets.
+	* Fix cellspan sync problem.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
