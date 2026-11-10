@@ -125,7 +125,7 @@
 #define GNM_COMMAND(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_COMMAND_TYPE, GnmCommand))
 #define GNM_COMMAND_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), GNM_COMMAND_TYPE, GnmCommandClass))
 #define GNM_IS_COMMAND(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_COMMAND_TYPE))
-#define CMD_CLASS(o)		GNM_COMMAND_CLASS (G_OBJECT_GET_CLASS(cmd))
+#define CMD_CLASS(o)		GNM_COMMAND_CLASS (G_OBJECT_GET_CLASS(o))
 
 static GObjectClass *gnm_command_parent_class;
 
@@ -754,9 +754,9 @@ gnm_command_push_undo (WorkbookControl *wbc, GObject *obj)
 	g_return_val_if_fail (wbc != NULL, TRUE);
 
 	cmd = GNM_COMMAND (obj);
-	cmd->state_before_do = go_doc_get_state (wb_control_get_doc (wbc));
-
 	g_return_val_if_fail (cmd != NULL, TRUE);
+
+	cmd->state_before_do = go_doc_get_state (wb_control_get_doc (wbc));
 
 	klass = CMD_CLASS (cmd);
 	g_return_val_if_fail (klass != NULL, TRUE);
@@ -782,9 +782,10 @@ gnm_command_push_undo (WorkbookControl *wbc, GObject *obj)
 static gboolean
 command_undo_sheet_delete (Sheet* sheet)
 {
-	Workbook *wb = sheet->workbook;
+	Workbook *wb;
 
         g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	wb = sheet->workbook;
 
 	if (wb->redo_commands != NULL) {
 		command_list_release (wb->redo_commands);
@@ -3072,9 +3073,9 @@ MAKE_GNM_COMMAND (CmdPasteCopy, cmd_paste_copy, cmd_paste_copy_repeat)
 static int
 by_addr (gconstpointer a, gconstpointer b)
 {
-	if (GPOINTER_TO_UINT (a) < GPOINTER_TO_UINT (b))
+	if (GPOINTER_TO_SIZE (a) < GPOINTER_TO_SIZE (b))
 		return -1;
-	if (GPOINTER_TO_UINT (a) > GPOINTER_TO_UINT (b))
+	if (GPOINTER_TO_SIZE (a) > GPOINTER_TO_SIZE (b))
 		return +1;
 	return 0;
 }
@@ -3608,7 +3609,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->src = src;
 
 	me->base_col = base_col;
-	me->base_row = base_row,
+	me->base_row = base_row;
 	me->w = w;
 	me->h = h;
 	me->end_col = end_col;
@@ -3986,6 +3987,15 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->unmerged_regions == NULL, TRUE);
 
+	/* Check for locked cells */
+	for (i = 0 ; i < me->ranges->len ; ++i) {
+		if (cmd_cell_range_is_locked_effective
+		    (me->cmd.sheet,
+		     &(g_array_index (me->ranges, GnmRange, i)),
+		     wbc, _("Unmerge Cells")))
+			return TRUE;
+	}
+
 	me->unmerged_regions = g_array_new (FALSE, FALSE, sizeof (GnmRange));
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GSList *ptr, *merged = gnm_sheet_merge_get_overlap (me->cmd.sheet,
@@ -4137,6 +4147,15 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	unsigned i;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* Check for locked cells; merging clears all but the corner cell */
+	for (i = 0 ; i < me->ranges->len ; ++i) {
+		if (cmd_cell_range_is_locked_effective
+		    (me->cmd.sheet,
+		     &(g_array_index (me->ranges, GnmRange, i)),
+		     wbc, _("Merge Cells")))
+			return TRUE;
+	}
 
 	if (me->center) {
 		align_center = gnm_style_new ();
@@ -4594,6 +4613,12 @@ cmd_search_replace (WorkbookControl *wbc, GnmSearchReplace *sr)
 		return TRUE;
 	}
 
+	/*
+	 * We bypass gnm_command_push_undo (the replacements are interactive
+	 * and must be done up front), so record the state ourselves.
+	 * Otherwise undo would reset the document state to 0.
+	 */
+	me->cmd.state_before_do = go_doc_get_state (wb_control_get_doc (wbc));
 	cmd_search_replace_do (me, FALSE, wbc);
 	me->cmd.size += g_list_length (me->cells);
 
@@ -6501,9 +6526,11 @@ cmd_scenario_mngr_undo (GnmCommand *cmd,
 			G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdScenarioMngr *me = CMD_SCENARIO_MNGR (cmd);
-	go_undo_undo_with_data (me->undo, GO_CMD_CONTEXT (wbc));
-	g_object_unref (me->undo);
-	me->undo = NULL;
+	/* gnm_scenario_apply can return NULL when there is nothing to undo */
+	if (me->undo) {
+		go_undo_undo_with_data (me->undo, GO_CMD_CONTEXT (wbc));
+		g_clear_object (&me->undo);
+	}
 	return FALSE;
 }
 
@@ -6523,7 +6550,7 @@ cmd_scenario_mngr_finalize (GObject *cmd)
  * cmd_scenario_mngr:
  * @wbc: #WorkbookControl
  * @sc: (transfer none): #GnmScenario
- * @undo: (transfer full) (nullable): undo object
+ * @undo: (transfer none) (nullable): undo object
  *
  * Returns: %TRUE if there was a problem.
  **/
@@ -6538,7 +6565,7 @@ cmd_scenario_mngr (WorkbookControl *wbc, GnmScenario *sc, GOUndo *undo)
 	me = g_object_new (CMD_SCENARIO_MNGR_TYPE, NULL);
 
 	me->sc = g_object_ref (sc);
-	me->undo = g_object_ref (undo);
+	me->undo = undo ? g_object_ref (undo) : NULL;
 	me->cmd.sheet = sc->sheet;
 	me->cmd.size  = 1;
 	me->cmd.cmd_descriptor = g_strdup (_("Scenario Show"));
