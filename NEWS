@@ -60,6 +60,7 @@ Morten:
 	* Fix double-free related to undo of analysis tools.
 	* Fix problems with locked sheets.
 	* Fix cellspan sync problem.
+	* Fix problem with goal-seek undo.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

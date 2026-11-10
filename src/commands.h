@@ -15,7 +15,7 @@ void command_list_release	(GSList *cmds);
 /* utility functions */
 
 GString *gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated);
-gboolean cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
+gboolean cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange const *range,
 					     WorkbookControl *wbc,
 					     char const *cmd_name);
 gboolean cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,

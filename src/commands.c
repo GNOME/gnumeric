@@ -198,7 +198,7 @@ gnm_cmd_trunc_descriptor (GString *src, gboolean *truncated)
  * Returns: %TRUE if there was a problem, %FALSE otherwise.
  */
 gboolean
-cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
+cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange const *range,
 				    WorkbookControl *wbc, char const *cmd_name)
 {
 	int i, j;
@@ -2953,8 +2953,10 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 
 	/* This is vacuous */
 	if (info->origin_sheet == info->target_sheet &&
-	    info->col_offset == 0 && info->row_offset == 0)
+	    info->col_offset == 0 && info->row_offset == 0) {
+		g_free (descriptor);
 		return TRUE;
+	}
 
 	/* FIXME: Do we want to show the destination range as well ? */
 	where = undo_range_name (info->origin_sheet, &info->origin);
@@ -2978,6 +2980,20 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	if (sheet_range_splits_region (info->target_sheet, &r,
 		(info->origin_sheet == info->target_sheet)
 		? &info->origin : NULL, GO_CMD_CONTEXT (wbc), descriptor)) {
+		g_free (descriptor);
+		return TRUE;
+	}
+
+	/*
+	 * Check for locks.  Moving cells both clears the origin and
+	 * overwrites the target.  Callers such as cmd_shift_rows and
+	 * cmd_shift_cols (Insert/Delete Cells) do not check this themselves.
+	 */
+	if (cmd_cell_range_is_locked_effective (info->origin_sheet,
+						&info->origin, wbc,
+						descriptor) ||
+	    cmd_cell_range_is_locked_effective (info->target_sheet,
+						&r, wbc, descriptor)) {
 		g_free (descriptor);
 		return TRUE;
 	}
@@ -3600,6 +3616,11 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	    sheet_range_splits_region (sheet, &src, NULL, GO_CMD_CONTEXT (wbc), _("Autofill")))
 		return TRUE;
 
+	/* Check for locks on the cells that will be overwritten. */
+	if (cmd_cell_range_is_locked_effective (sheet, &target, wbc,
+						_("Autofill")))
+		return TRUE;
+
 	me = g_object_new (CMD_AUTOFILL_TYPE, NULL);
 
 	me->contents = NULL;
@@ -3759,6 +3780,10 @@ cmd_copyrel (WorkbookControl *wbc,
 	/* Check arrays or merged regions in src or target regions */
 	if (sheet_range_splits_region (sheet, &target, NULL, GO_CMD_CONTEXT (wbc), name) ||
 	    sheet_range_splits_region (sheet, &src, NULL, GO_CMD_CONTEXT (wbc), name))
+		return TRUE;
+
+	/* Check for locks on the cells that will be overwritten. */
+	if (cmd_cell_range_is_locked_effective (sheet, &target, wbc, name))
 		return TRUE;
 
 	me = g_object_new (CMD_COPYREL_TYPE, NULL);
@@ -5115,9 +5140,11 @@ cmd_resize_sheets_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdResizeSheets *me = CMD_RESIZE_SHEETS (cmd);
 	GOCmdContext *cc = GO_CMD_CONTEXT (wbc);
 
-	go_undo_undo_with_data (me->undo, cc);
-	g_object_unref (me->undo);
-	me->undo = NULL;
+	/* me->undo is NULL if no sheet actually changed size.  */
+	if (me->undo) {
+		go_undo_undo_with_data (me->undo, cc);
+		g_clear_object (&me->undo);
+	}
 
 	return FALSE;
 }
@@ -5137,8 +5164,14 @@ cmd_resize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->undo = go_undo_combine (me->undo, u);
 
 		if (err) {
-			if (me->undo)
+			if (me->undo) {
 				go_undo_undo_with_data (me->undo, cc);
+				/*
+				 * Everything has been rolled back; do not keep
+				 * stale undo state around for a later redo.
+				 */
+				g_clear_object (&me->undo);
+			}
 			return TRUE;
 		}
 	}
@@ -6767,6 +6800,13 @@ cmd_text_to_columns (WorkbookControl *wbc,
 		return TRUE;
 	}
 
+	/* Check for locks on the destination. */
+	if (cmd_cell_range_is_locked_effective (target_sheet, &me->dst.range,
+						wbc, me->cmd.cmd_descriptor)) {
+		g_object_unref (me);
+		return TRUE;
+	}
+
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }
 
@@ -6845,7 +6885,7 @@ cmd_generic (WorkbookControl *wbc, const char *txt, GOUndo *undo, GOUndo *redo)
 typedef struct {
 	GnmCommand cmd;
 
-	GnmCell	  *cell;
+	GnmCellPos pos;  /* Not a GnmCell*: cells can be freed and recreated */
 	GnmValue  *ov;
 	GnmValue  *nv;
 } CmdGoalSeek;
@@ -6853,8 +6893,19 @@ typedef struct {
 MAKE_GNM_COMMAND (CmdGoalSeek, cmd_goal_seek, NULL)
 
 static gboolean
-cmd_goal_seek_impl (GnmCell *cell, GnmValue *value)
+cmd_goal_seek_impl (GnmCommand *cmd, GnmValue *value)
 {
+	GnmCell *cell;
+
+	g_return_val_if_fail (IS_SHEET (cmd->sheet), TRUE);
+
+	/*
+	 * The cell may have been destroyed (e.g., by clearing it) and
+	 * recreated (by undoing that) since the command was created, so
+	 * look it up by position every time.
+	 */
+	cell = sheet_cell_fetch (cmd->sheet, CMD_GOAL_SEEK (cmd)->pos.col,
+				 CMD_GOAL_SEEK (cmd)->pos.row);
 	sheet_cell_set_value (cell, value_dup (value));
 	return FALSE;
 }
@@ -6865,7 +6916,7 @@ cmd_goal_seek_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdGoalSeek *me = CMD_GOAL_SEEK (cmd);
 
-	return cmd_goal_seek_impl (me->cell, me->ov);
+	return cmd_goal_seek_impl (cmd, me->ov);
 }
 
 static gboolean
@@ -6873,7 +6924,7 @@ cmd_goal_seek_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
 {
 	CmdGoalSeek *me = CMD_GOAL_SEEK (cmd);
 
-	return cmd_goal_seek_impl (me->cell, me->nv);
+	return cmd_goal_seek_impl (cmd, me->nv);
 }
 
 static void
@@ -6918,7 +6969,7 @@ cmd_goal_seek (WorkbookControl *wbc, GnmCell *cell, GnmValue *ov, GnmValue *nv)
 	me->cmd.cmd_descriptor = g_strdup_printf (_("Goal Seek (%s)"), name);
 	g_free (name);
 
-	me->cell = cell;
+	me->pos = cell->pos;
 	me->ov = ov;
 	me->nv = nv;
 
