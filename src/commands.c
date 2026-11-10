@@ -1280,6 +1280,7 @@ cmd_create_data_table (WorkbookControl *wbc, Sheet *sheet, GnmRange const *r,
 
 	if (texpr == NULL) {
 		g_object_unref (undo);
+		gnm_sheet_range_free (sr);
 		g_free (text);
 		return TRUE;
 	}
@@ -1460,6 +1461,8 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 
 	/* Check for locks */
 	if (cmd_cell_range_is_locked_effective (sheet, &r, wbc, descriptor)) {
+		/* The command has not adopted descriptor yet.  */
+		g_free (descriptor);
 		g_object_unref (me);
 		return TRUE;
 	}
@@ -1658,6 +1661,10 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 			}
 		}
 		selection = g_slist_remove_all (data.selection, NULL);
+
+		/* Every selected row is filtered out: nothing to clear.  */
+		if (selection == NULL)
+			return FALSE;
 	}
 
 	/* We should first determine whether we break anything by clearing */
@@ -2025,6 +2032,13 @@ cmd_selection_format_toggle_font_style (WorkbookControl *wbc,
 	GOUndo *redo = NULL;
 	PangoAttrType pt;
 
+	/* Check for locked cells, like cmd_format_redo does.  */
+	if (cmd_selection_is_locked_effective (sheet, selection, wbc,
+					       _("Setting Font Style"))) {
+		gnm_style_unref (style);
+		range_fragment_free (selection);
+		return TRUE;
+	}
 
 	switch (t) {
 	case MSTYLE_FONT_BOLD:
@@ -2435,6 +2449,13 @@ cmd_selection_colrow_hide (WorkbookControl *wbc,
 		hide = colrow_get_visibility_toggle (sv, is_cols, FALSE);
 	n = colrow_vis_list_length (hide) + colrow_vis_list_length (show);
 	sheet = sv_sheet (sv);
+
+	/* Nothing to hide or unhide: do not record an empty command.  */
+	if (n == 0) {
+		colrow_vis_list_destroy (show);
+		colrow_vis_list_destroy (hide);
+		return FALSE;
+	}
 
 	if (!visible) {
 		/* If these are the last colrows to hide, check with the user */
@@ -3931,9 +3952,16 @@ cmd_selection_autoformat (WorkbookControl *wbc, GnmFT *ft)
 		return TRUE;
 	}
 
+	/* Check for locked cells, like cmd_format_redo does.  */
+	if (cmd_selection_is_locked_effective (me->cmd.sheet, me->selection,
+					       wbc, _("Autoformat"))) {
+		g_object_unref (me);
+		return TRUE;
+	}
+
 	me->old_styles = NULL;
 	for (l = me->selection; l; l = l->next) {
-		CmdFormatOldStyle *os;
+		CmdAutoFormatOldStyle *os;
 		GnmRange range = *((GnmRange const *) l->data);
 
 		/* Store the containing range to handle borders */
@@ -3942,7 +3970,7 @@ cmd_selection_autoformat (WorkbookControl *wbc, GnmFT *ft)
 		if (range.end.col < gnm_sheet_get_last_col (sv->sheet)) range.end.col++;
 		if (range.end.row < gnm_sheet_get_last_row (sv->sheet)) range.end.row++;
 
-		os = g_new (CmdFormatOldStyle, 1);
+		os = g_new (CmdAutoFormatOldStyle, 1);
 
 		os->styles = sheet_style_get_range (me->cmd.sheet, &range);
 		os->pos = range.start;
@@ -4179,6 +4207,19 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		    (me->cmd.sheet,
 		     &(g_array_index (me->ranges, GnmRange, i)),
 		     wbc, _("Merge Cells")))
+			return TRUE;
+	}
+
+	/*
+	 * Check for array splitting up front.  gnm_sheet_merge_add would
+	 * catch it, but only after we have already removed overlapping merges
+	 * and possibly modified earlier ranges.
+	 */
+	for (i = 0 ; i < me->ranges->len ; ++i) {
+		if (sheet_range_splits_array
+		    (me->cmd.sheet,
+		     &(g_array_index (me->ranges, GnmRange, i)),
+		     NULL, GO_CMD_CONTEXT (wbc), _("Merge Cells")))
 			return TRUE;
 	}
 
@@ -4645,6 +4686,13 @@ cmd_search_replace (WorkbookControl *wbc, GnmSearchReplace *sr)
 	 */
 	me->cmd.state_before_do = go_doc_get_state (wb_control_get_doc (wbc));
 	cmd_search_replace_do (me, FALSE, wbc);
+
+	/* Nothing was replaced (no match, or every query was declined).  */
+	if (me->cells == NULL) {
+		g_object_unref (me);
+		return FALSE;
+	}
+
 	me->cmd.size += g_list_length (me->cells);
 
 	command_register_undo (wbc, G_OBJECT (me));
@@ -5500,6 +5548,12 @@ cmd_analysis_tool_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	    || cmd_dao_is_locked_effective (me->dao, wbc, me->cmd.cmd_descriptor)
 	    || gnm_analysis_tool_last_validity_check (me->tool, wbc, me->dao))
 		return TRUE;
+
+	/* Redo can run many times; do not leak the previous copy.  */
+	if (me->old_contents) {
+		cellregion_unref (me->old_contents);
+		me->old_contents = NULL;
+	}
 
 	switch (me->type) {
 	case GNM_DAO_OUTPUT_NEWSHEET:
@@ -6623,8 +6677,7 @@ cmd_data_shuffle_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
 
-	gnm_data_shuffle_redo (me->ds, wbc);
-	return FALSE;
+	return gnm_data_shuffle_redo (me->ds, wbc);
 }
 
 static gboolean
@@ -6632,8 +6685,7 @@ cmd_data_shuffle_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdDataShuffle *me = CMD_DATA_SHUFFLE (cmd);
 
-	gnm_data_shuffle_redo (me->ds, wbc);
-	return FALSE;
+	return gnm_data_shuffle_redo (me->ds, wbc);
 }
 
 static void
@@ -6656,6 +6708,7 @@ gboolean
 cmd_data_shuffle (WorkbookControl *wbc, GnmDataShuffle *sc, Sheet *sheet)
 {
 	CmdDataShuffle *me;
+	GnmRange r;
 
 	g_return_val_if_fail (GNM_IS_WBC (wbc), TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
@@ -6666,6 +6719,16 @@ cmd_data_shuffle (WorkbookControl *wbc, GnmDataShuffle *sc, Sheet *sheet)
 	me->cmd.sheet = sheet;
 	me->cmd.size  = 1;
 	me->cmd.cmd_descriptor = g_strdup (_("Shuffle Data"));
+
+	/* Check for locked cells in the area being shuffled.  */
+	range_init (&r, sc->dao->start_col, sc->dao->start_row,
+		    sc->dao->start_col + sc->dao->cols - 1,
+		    sc->dao->start_row + sc->dao->rows - 1);
+	if (cmd_cell_range_is_locked_effective (sheet, &r, wbc,
+						me->cmd.cmd_descriptor)) {
+		g_object_unref (me);  /* Also releases sc.  */
+		return TRUE;
+	}
 
 	return gnm_command_push_undo (wbc, G_OBJECT (me));
 }
@@ -7106,6 +7169,8 @@ cmd_tabulate_finalize (GObject *cmd)
 	CmdTabulate *me = CMD_TABULATE (cmd);
 
 	g_clear_object (&me->tab);
+	g_slist_free (me->sheet_idx);
+	me->sheet_idx = NULL;
 	gnm_command_finalize (cmd);
 }
 

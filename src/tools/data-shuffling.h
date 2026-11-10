@@ -32,7 +32,7 @@ struct _GnmDataShuffle {
 };
 
 
-void              gnm_data_shuffle_redo (GnmDataShuffle *st, WorkbookControl *wbc);
+gboolean          gnm_data_shuffle_redo (GnmDataShuffle *st, WorkbookControl *wbc);
 GnmDataShuffle   *gnm_data_shuffle_new  (data_analysis_output_t *dao,
 					 Sheet                  *sheet,
 					 GnmValue const         *input_range,

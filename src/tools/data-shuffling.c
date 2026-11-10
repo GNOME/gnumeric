@@ -242,7 +242,7 @@ do_swap_rows (GnmDataShuffle *st, swap_t *sw, WorkbookControl *wbc)
 	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 }
 
-static void
+static gboolean
 run_shuffling_tool (GnmDataShuffle *st, WorkbookControl *wbc)
 {
 	GSList  *cur;
@@ -261,7 +261,7 @@ run_shuffling_tool (GnmDataShuffle *st, WorkbookControl *wbc)
 			}
 	cols_out:
 		if (i < 0)
-			return;
+			return TRUE;
 		range_init (&st->tmp_area, i, j, i, j + st->rows - 1);
 		for (cur = st->changes; cur; cur = cur->next)
 			do_swap_cols (st, (swap_t *) cur->data, wbc);
@@ -277,7 +277,7 @@ run_shuffling_tool (GnmDataShuffle *st, WorkbookControl *wbc)
 			}
 	rows_out:
 		if (i < 0)
-			return;
+			return TRUE;
 		range_init (&st->tmp_area, j, i, j + st->cols - 1, i);
 		for (cur = st->changes; cur; cur = cur->next)
 			do_swap_rows (st, (swap_t *) cur->data, wbc);
@@ -292,11 +292,13 @@ run_shuffling_tool (GnmDataShuffle *st, WorkbookControl *wbc)
 			}
 	area_out:
 		if (i < 0)
-			return;
+			return TRUE;
 		range_init (&st->tmp_area, i, j, i, j);
 		for (cur = st->changes; cur; cur = cur->next)
 			do_swap_cells (st, (swap_t *) cur->data, wbc);
 	}
+
+	return FALSE;
 }
 
 /**
@@ -335,14 +337,25 @@ gnm_data_shuffle_new (data_analysis_output_t *dao,
  * @wbc: #WorkbookControl
  *
  * Performs or re-performs the shuffling operation.
+ *
+ * Returns: %TRUE if there was a problem, %FALSE otherwise.  On failure
+ * nothing has been changed.
  **/
-void
+gboolean
 gnm_data_shuffle_redo (GnmDataShuffle *st, WorkbookControl *wbc)
 {
-	run_shuffling_tool (st, wbc);
+	if (run_shuffling_tool (st, wbc)) {
+		go_cmd_context_error_invalid
+			(GO_CMD_CONTEXT (wbc), _("Shuffle Data"),
+			 _("There is not enough empty space on the sheet "
+			   "to use while shuffling."));
+		return TRUE;
+	}
+
 	dao_autofit_columns (st->dao);
 	sheet_redraw_all (st->sheet, TRUE);
 
 	/* Reverse the list for undo. */
 	st->changes = g_slist_reverse (st->changes);
+	return FALSE;
 }
