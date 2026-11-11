@@ -61,6 +61,7 @@ Morten:
 	* Fix problems with locked sheets.
 	* Fix cellspan sync problem.
 	* Fix problem with goal-seek undo.
+	* Fix GEOMEAN problem with failing to catch negatives.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

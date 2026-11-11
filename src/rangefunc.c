@@ -333,22 +333,33 @@ gnm_range_harmonic_mean (gnm_float const *xs, int n, gnm_float *res)
 		return 1;
 }
 
+/*
+ * Computes the product as *res * GNM_RADIX^*expb, with 1/GNM_RADIX < |*res| <= 1
+ * unless the product is zero.
+ *
+ * @zerop: (out): whether any element is zero
+ * @anynegp: (out) (optional): whether any element is negative.
+ *
+ * if @anynegp is %NULL, this function will bail at the first zero.
+ */
 static void
 product_helper (gnm_float const *xs, int n,
 		gnm_float *res, int *expb,
 		gboolean *zerop, gboolean *anynegp)
 {
 	gnm_float x0 = xs[0];
+	int i;
+
 	*zerop = (x0 == 0);
-	*anynegp = (x0 < 0);
+	if (anynegp) *anynegp = (x0 < 0);
 
 	if (n == 1 || *zerop) {
 		*res = x0;
 		*expb = 0;
+		i = 1;
 	} else {
 		int e;
 		gnm_float mant = gnm_unscalbn (x0, &e);
-		int i;
 
 		for (i = 1; i < n; i++) {
 			int thise;
@@ -358,9 +369,9 @@ product_helper (gnm_float const *xs, int n,
 				*zerop = TRUE;
 				*res = 0;
 				*expb = 0;
-				return;
+				goto done;
 			}
-			if (x < 0) *anynegp = TRUE;
+			if (x < 0 && anynegp) *anynegp = TRUE;
 
 			mant *= gnm_unscalbn (x, &thise);
 			e += thise;
@@ -374,6 +385,17 @@ product_helper (gnm_float const *xs, int n,
 
 		*expb = e;
 		*res = mant;
+	}
+
+done:
+	if (anynegp && !*anynegp) {
+		while (i < n) {
+			if (xs[i] < 0) {
+				*anynegp = TRUE;
+				break;
+			}
+			i++;
+		}
 	}
 }
 
@@ -440,9 +462,10 @@ gnm_range_product (gnm_float const *xs, int n, gnm_float *res)
 		*res = 1;
 	} else {
 		int expb;
-		gboolean zerop, anynegp;
+		gboolean zerop;
 
-		product_helper (xs, n, res, &expb, &zerop, &anynegp);
+		/* We don't care about negative numbers here.  */
+		product_helper (xs, n, res, &expb, &zerop, NULL);
 		if (expb)
 			*res = gnm_scalbn (*res, expb);
 	}
@@ -462,14 +485,15 @@ int
 gnm_range_multinomial (gnm_float const *xs, int n, gnm_float *res)
 {
 	gnm_float result = 1;
-	int sum = 0;
+	gnm_float sum = 0;
 	int i;
 
 	for (i = 0; i < n; i++) {
 		gnm_float x = xs[i];
 		int xi;
 
-		if (x < 0 || x > INT_MAX)
+		/* Written to also reject NaN.  */
+		if (!(x >= 0 && x <= G_MAXINT))
 			return 1;
 
 		xi = (int)x;
@@ -477,7 +501,7 @@ gnm_range_multinomial (gnm_float const *xs, int n, gnm_float *res)
 			; /* Nothing.  */
 		else if (xi < 20) {
 			int j;
-			int f = sum + xi;
+			gnm_float f = sum + xi;
 
 			result *= f--;
 			for (j = 2; j <= xi; j++)
