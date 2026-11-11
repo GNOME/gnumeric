@@ -269,7 +269,7 @@ oo_item_name (GnmOOExport *state, OONamedItemType typ, gconstpointer ptr)
 	};
 	char *name;
 
-	g_return_val_if_fail ((size_t)typ <= G_N_ELEMENTS (prefixes), NULL);
+	g_return_val_if_fail ((size_t)typ < G_N_ELEMENTS (prefixes), NULL);
 
 	name = g_hash_table_lookup (state->style_names[typ], ptr);
 	if (name) {
@@ -388,6 +388,10 @@ odf_add_chars (GnmOOExport *state, char const *text, int len, gboolean *white_wr
 	{
 		int white = strspn (text, " ");
 
+		/* The chunk may end inside a run of spaces.  */
+		if (white > len)
+			white = len;
+
 		if (!*white_written) {
 			gsf_xml_out_add_cstr (state->xml, NULL, " ");
 			len--;
@@ -438,8 +442,13 @@ odf_attrs_as_string (GnmOOExport *state, PangoAttribute *a)
 	case PANGO_ATTR_SIZE:
 		{
 			char * str;
-			gint size = ((PangoAttrInt *)a)->value/PANGO_SCALE;
-			str = g_strdup_printf ("NS-font-size%i", size);
+			/* Hundredths of a point; do not truncate to integers.  */
+			gint size = (gint)gnm_floor
+				(((PangoAttrInt *)a)->value * 100.0 / PANGO_SCALE + 0.5);
+			str = (size % 100 == 0)
+				? g_strdup_printf ("NS-font-size%i", size / 100)
+				: g_strdup_printf ("NS-font-size%i-%02i",
+						   size / 100, size % 100);
 			spans += 1;
 			gsf_xml_out_start_element (state->xml, TEXT "span");
 			gsf_xml_out_add_cstr (state->xml, TEXT "style-name", str);
@@ -1880,14 +1889,14 @@ static void
 odf_write_font_sizes (gpointer key, gpointer value, gpointer user_data)
 {
 	GnmOOExport *state = user_data;
-	gint i = GPOINTER_TO_INT (value);
+	double pts = GPOINTER_TO_INT (value) / 100.0;  /* Hundredths.  */
 	char * str = key;
-	char *display = g_strdup_printf ("Font Size %ipt", i);
+	char *display = g_strdup_printf ("Font Size %gpt", pts);
 	odf_start_style (state->xml, str, "text");
 	gsf_xml_out_add_cstr (state->xml, STYLE "display-name", display);
 	gsf_xml_out_start_element (state->xml, STYLE "text-properties");
-	odf_add_pt (state->xml, FOSTYLE "font-size", (double) i);
-	odf_add_pt (state->xml, STYLE "font-size-asian", (double) i);
+	odf_add_pt (state->xml, FOSTYLE "font-size", pts);
+	odf_add_pt (state->xml, STYLE "font-size-asian", pts);
 	gsf_xml_out_end_element (state->xml); /* </style:text-properties> */
 	gsf_xml_out_end_element (state->xml); /* </style:style> */
 	g_free (display);
@@ -2207,10 +2216,8 @@ odf_func_floor_ceiling_handler (GnmConventionsOut *out, GnmExprFunction const *f
 			g_string_append_c (target, ')');
 		}
 		g_string_append (target, ";1)");
-	} else {
-		g_string_append (target, func->func->name);
-		g_string_append (target, "()");
-	}
+	} else
+		g_string_append_c (target, ')');
 	return TRUE;
 }
 
@@ -3733,8 +3740,8 @@ odf_write_formatted_columns (GnmOOExport *state, Sheet const *sheet,
 	gsf_xml_out_start_element (state->xml, TABLE "table-column");
 	number_cols_rep = 1;
 	last_col_style = filter_style (state->default_style_region->style,
-				       g_ptr_array_index (col_styles, 0));
-	last_ci = sheet_col_get (sheet, 0);
+				       g_ptr_array_index (col_styles, from));
+	last_ci = sheet_col_get (sheet, from);
 	write_col_style (state, last_col_style, last_ci, sheet);
 
 	for (i = from+1; i < to; i++) {
@@ -4047,7 +4054,8 @@ odf_write_sheet (GnmOOExport *state)
 					     repeat_left_start,
 					     repeat_left_end + 1);
 		gsf_xml_out_end_element (state->xml);
-		if (repeat_left_end < max_cols)
+		/* Nothing to write if the last column is a repeat column.  */
+		if (repeat_left_end + 1 < max_cols)
 			odf_write_formatted_columns (state, sheet, col_styles,
 						     repeat_left_end + 1, max_cols);
 	} else
@@ -4067,7 +4075,7 @@ odf_write_sheet (GnmOOExport *state)
 					repeat_top_start, repeat_top_end + 1,
 					max_cols, &sheet_merges, pb, col_styles);
 		gsf_xml_out_end_element (state->xml);
-		if (repeat_top_end < max_rows)
+		if (repeat_top_end + 1 < max_rows)
 			odf_write_content_rows (state, sheet,
 						repeat_top_end + 1, max_rows,
 						max_cols, &sheet_merges, pb, col_styles);
@@ -4518,9 +4526,10 @@ odf_validation_base_cell_address (GnmOOExport *state,
 	char *formula;
 	GnmCellRef ref;
 
+	/* Absolute: a relative ref would be offset by the parse position.  */
 	gnm_cellref_init (&ref, sheet,
 			  sr->range.start.col,
-			  sr->range.start.row, TRUE);
+			  sr->range.start.row, FALSE);
 	texpr =  gnm_expr_top_new (gnm_expr_new_cellref (&ref));
 	parse_pos_init (pp, (Workbook *)state->wb, sheet,
 			sr->range.start.col,
@@ -4648,7 +4657,7 @@ odf_validation_length (GnmOOExport *state, GnmValidation const *val,
 		odf_validation_append_expression (state, str, texpr0, pp);
 		break;
 	case GNM_VALIDATION_OP_GTE:
-		g_string_append (str, "of:cell-content-text-length() >= ");
+		g_string_append (str, "cell-content-text-length() >= ");
 		odf_validation_append_expression (state, str, texpr0, pp);
 		break;
 	case GNM_VALIDATION_OP_LTE:

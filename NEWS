@@ -62,6 +62,7 @@ Morten:
 	* Fix cellspan sync problem.
 	* Fix problem with goal-seek undo.
 	* Fix GEOMEAN problem with failing to catch negatives.
+	* ODS: fix problems with validation export.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:
