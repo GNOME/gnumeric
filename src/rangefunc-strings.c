@@ -26,14 +26,17 @@ range_concatenate (GPtrArray *data, char **res, gpointer user)
 	size_t len = 0;
 	GString *str;
 
+	*res = NULL;
+
+	// Figure the total length
 	for (ui = 0; ui < data->len; ui++) {
 		len += strlen (g_ptr_array_index (data, ui));
 		if (len >= INT_MAX)
 			return 1;
 	}
 
+	// Concatenate
 	str = g_string_sized_new (len);
-
 	for (ui = 0; ui < data->len; ui++)
 		g_string_append (str, g_ptr_array_index (data, ui));
 
