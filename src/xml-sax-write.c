@@ -743,7 +743,13 @@ xml_write_colrow_info (GnmColRowIter const *iter, closure_write_colrow *closure)
 					  closure->is_column);
 
 	closure->rle_count++;
+	/*
+	 * If prev_pos is -1 then prev is just zeroed scratch space and not
+	 * a real entry.  It must not be extended, even if the first real
+	 * entry happens to compare equal to it.
+	 */
 	if (NULL != iter &&
+	    closure->prev_pos != -1 &&
 	    iter->pos == closure->prev_pos + closure->rle_count &&
 	    col_row_info_equal (prev, iter->cri))
 		return FALSE;
@@ -1311,7 +1317,16 @@ xml_write_objects (GnmOutputXML *state, GSList *objects)
 					      "AnchorMode",
 					      GNM_SHEET_OBJECT_ANCHOR_MODE_TYPE,
 					      so->anchor.mode);
-		snprintf (buffer, sizeof (buffer), "%.3g %.3g %.3g %.3g",
+		/*
+		 * For cell-relative anchors the offsets are fractions of a
+		 * cell and three digits are plenty.  For absolute anchors the
+		 * offsets are positions in points, where three significant
+		 * digits would move an object by several points.
+		 */
+		snprintf (buffer, sizeof (buffer),
+			  so->anchor.mode == GNM_SO_ANCHOR_ABSOLUTE
+			  ? "%.8g %.8g %.8g %.8g"
+			  : "%.3g %.3g %.3g %.3g",
 			  so->anchor.offset[0], so->anchor.offset[1],
 			  so->anchor.offset[2], so->anchor.offset[3]);
 		gsf_xml_out_add_cstr (state->output, "ObjectOffset", buffer);
