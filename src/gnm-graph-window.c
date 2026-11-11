@@ -16,6 +16,7 @@ struct GnmGraphWindow_ {
 
 	GtkWidget *toolbar;
 	GtkWidget *size_combo;
+	GtkWidget *fullscreen_button;
 
 	GtkWidget *scrolled_window;
 
@@ -48,18 +49,37 @@ G_DEFINE_TYPE (GnmGraphWindow, gnm_graph_window, GTK_TYPE_WINDOW)
 #define parent_class gnm_graph_window_parent_class
 
 static void
-fullscreen_button_clicked (GtkToolButton  *button,
+fullscreen_button_clicked (G_GNUC_UNUSED GtkToolButton *button,
 			   GnmGraphWindow *window)
 {
-	if (!window->is_fullscreen) {
+	/*
+	 * Just ask.  is_fullscreen and the icon are updated from the
+	 * window-state-event, so they stay right when fullscreen is left
+	 * by other means (Escape, window manager, ...).
+	 */
+	if (!window->is_fullscreen)
 		gtk_window_fullscreen (GTK_WINDOW (window));
-		gtk_tool_button_set_icon_name (button, "view-restore");
-	} else {
+	else
 		gtk_window_unfullscreen (GTK_WINDOW (window));
-		gtk_tool_button_set_icon_name (button, "view-fullscreen");
+}
+
+static gboolean
+gnm_graph_window_state_event (GtkWidget *widget, GdkEventWindowState *event)
+{
+	GnmGraphWindow *window = GNM_GRAPH_WINDOW (widget);
+
+	if (event->changed_mask & GDK_WINDOW_STATE_FULLSCREEN) {
+		window->is_fullscreen =
+			(event->new_window_state & GDK_WINDOW_STATE_FULLSCREEN) != 0;
+		gtk_tool_button_set_icon_name
+			(GTK_TOOL_BUTTON (window->fullscreen_button),
+			 window->is_fullscreen
+			 ? "view-restore" : "view-fullscreen");
 	}
 
-	window->is_fullscreen = !window->is_fullscreen;
+	return GTK_WIDGET_CLASS (parent_class)->window_state_event
+		? GTK_WIDGET_CLASS (parent_class)->window_state_event (widget, event)
+		: FALSE;
 }
 
 static void
@@ -135,6 +155,10 @@ update_graph_sizing_mode (GnmGraphWindow *window)
 			return;
 	}
 
+	/* A zero-sized chart has no meaningful aspect ratio.  */
+	if (window->graph_width <= 0 || window->graph_height <= 0)
+		obey_ratio = FALSE;
+
 	g_object_set (window->graph,
 		      "aspect-ratio", obey_ratio ? window->graph_height / window->graph_width : 0.0,
 		      NULL);
@@ -196,8 +220,13 @@ gnm_graph_window_init (GnmGraphWindow *window)
 	gtk_toolbar_insert (GTK_TOOLBAR (window->toolbar), item, -1);
 
 	window->size_combo = gtk_combo_box_text_new ();
-	for (i = 0; i < G_N_ELEMENTS (chart_sizes); i++)
-		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (window->size_combo), _(chart_sizes[i]));
+	for (i = 0; i < G_N_ELEMENTS (chart_sizes); i++) {
+		/* The separator marker is compared against untranslated.  */
+		char const *text = strcmp (chart_sizes[i], "SEPARATOR") == 0
+			? chart_sizes[i]
+			: _(chart_sizes[i]);
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (window->size_combo), text);
+	}
 	gtk_widget_set_sensitive (window->size_combo, FALSE);
 	gtk_widget_show (window->size_combo);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (window->size_combo), CHART_SIZE_FIT);
@@ -213,15 +242,19 @@ gnm_graph_window_init (GnmGraphWindow *window)
 	gtk_widget_show (GTK_WIDGET (item));
 
 	gtk_toolbar_insert (GTK_TOOLBAR (window->toolbar), item, -1);
+	window->fullscreen_button = GTK_WIDGET (item);
 	g_signal_connect (item, "clicked",
 			  G_CALLBACK (fullscreen_button_clicked), window);
 
-	gtk_window_set_title (GTK_WINDOW (window), "Chart Viewer");
+	gtk_window_set_title (GTK_WINDOW (window), _("Chart Viewer"));
 }
 
 static void
 gnm_graph_window_class_init (GnmGraphWindowClass *class)
 {
+	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class);
+
+	widget_class->window_state_event = gnm_graph_window_state_event;
 }
 
 static void
@@ -240,8 +273,8 @@ gnm_graph_window_set_graph (GnmGraphWindow *window,
 		return;
 
 	if (old_graph != NULL) {
+		// The scrolled window holds the only reference to the widget.
 		gtk_container_remove (GTK_CONTAINER (window->scrolled_window), window->graph);
-		g_object_unref (window->graph);
 		window->graph = NULL;
 	}
 
