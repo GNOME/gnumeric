@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-11-08 18:32+0000\n"
-"PO-Revision-Date: 2026-11-08 22:00+0200\n"
+"POT-Creation-Date: 2026-11-12 08:53+0000\n"
+"PO-Revision-Date: 2026-11-12 21:07+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -129,7 +129,6 @@ msgstr "Невідомий тип значення «%s» у рядку %d. Пр
 
 #: ../plugins/dif/dif.c:213 ../plugins/dif/dif.c:236
 #, c-format
-#| msgid "Syntax error at line %d. Ignoring."
 msgid "Data before first row marker at line %d. Ignoring."
 msgstr "Дані до позначки першого рядка у рядку %d. Проігноровано."
 
@@ -1248,8 +1247,6 @@ msgid "Program Name"
 msgstr "Назва програми"
 
 #: ../plugins/mps/mps.c:214
-#| msgid "Duplicate %d Object"
-#| msgid_plural "Duplicate %d Objects"
 msgid "Duplicate ROWS section"
 msgstr "Дублювання розділу ROWS"
 
@@ -1280,7 +1277,6 @@ msgid "Invalid marker"
 msgstr "Некоректний маркер"
 
 #: ../plugins/mps/mps.c:325
-#| msgid "Too many arguments for %s"
 msgid "Too many variables for a sheet"
 msgstr "Забагато змінних для аркуша"
 
@@ -1305,7 +1301,6 @@ msgid "Invalid row name, %s, in rhs/ranges section"
 msgstr "Некоректна назва рядка, %s, у розділі правих частин або діапазонів"
 
 #: ../plugins/mps/mps.c:656
-#| msgid "Too many arguments for %s"
 msgid "Too many constraints for a sheet"
 msgstr "Забагато обмежень для аркуша"
 
@@ -1504,8 +1499,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "Вираз «%s» не починається із розпізнаного символу"
 
 #: ../plugins/openoffice/openoffice-read.c:2545
-#: ../plugins/openoffice/openoffice-write.c:5290
-#: ../plugins/openoffice/openoffice-write.c:5302 ../src/ssgrep.c:356
+#: ../plugins/openoffice/openoffice-write.c:5299
+#: ../plugins/openoffice/openoffice-write.c:5311 ../src/ssgrep.c:356
 msgid "cell"
 msgstr "комірка"
 
@@ -1877,47 +1872,47 @@ msgstr "Некоректні метадані «%s»"
 msgid "settings.xml stream is malformed!"
 msgstr "Помилкове форматування потоку settings.xml!"
 
-#: ../plugins/openoffice/openoffice-write.c:5283
-#: ../plugins/openoffice/openoffice-write.c:5295
+#: ../plugins/openoffice/openoffice-write.c:5292
+#: ../plugins/openoffice/openoffice-write.c:5304
 msgid "tab"
 msgstr "табуляція"
 
-#: ../plugins/openoffice/openoffice-write.c:5284
-#: ../plugins/openoffice/openoffice-write.c:5296
+#: ../plugins/openoffice/openoffice-write.c:5293
+#: ../plugins/openoffice/openoffice-write.c:5305
 msgid "page"
 msgstr "сторінка"
 
-#: ../plugins/openoffice/openoffice-write.c:5285
-#: ../plugins/openoffice/openoffice-write.c:5297
+#: ../plugins/openoffice/openoffice-write.c:5294
+#: ../plugins/openoffice/openoffice-write.c:5306
 msgid "pages"
 msgstr "сторінки"
 
-#: ../plugins/openoffice/openoffice-write.c:5286
-#: ../plugins/openoffice/openoffice-write.c:5298
+#: ../plugins/openoffice/openoffice-write.c:5295
+#: ../plugins/openoffice/openoffice-write.c:5307
 msgid "date"
 msgstr "дата"
 
-#: ../plugins/openoffice/openoffice-write.c:5287
-#: ../plugins/openoffice/openoffice-write.c:5299
+#: ../plugins/openoffice/openoffice-write.c:5296
+#: ../plugins/openoffice/openoffice-write.c:5308
 msgid "time"
 msgstr "час"
 
-#: ../plugins/openoffice/openoffice-write.c:5288
-#: ../plugins/openoffice/openoffice-write.c:5300 ../src/ssconvert.c:140
+#: ../plugins/openoffice/openoffice-write.c:5297
+#: ../plugins/openoffice/openoffice-write.c:5309 ../src/ssconvert.c:140
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "файл"
 
-#: ../plugins/openoffice/openoffice-write.c:5289
-#: ../plugins/openoffice/openoffice-write.c:5301
+#: ../plugins/openoffice/openoffice-write.c:5298
+#: ../plugins/openoffice/openoffice-write.c:5310
 msgid "path"
 msgstr "шлях"
 
-#: ../plugins/openoffice/openoffice-write.c:9102
+#: ../plugins/openoffice/openoffice-write.c:9111
 msgid "Writing Sheets..."
 msgstr "Записуємо аркуші…"
 
-#: ../plugins/openoffice/openoffice-write.c:9143
+#: ../plugins/openoffice/openoffice-write.c:9152
 msgid "Writing Sheet Objects..."
 msgstr "Записуємо об'єкти аркушів…"
 
@@ -1970,8 +1965,8 @@ msgid ""
 "The Paradox file has more records than fit in a sheet; the remaining records "
 "were not imported."
 msgstr ""
-"Файл Paradox містить більше записів, ніж уміститься в аркуші; решту записів н"
-"е було імпортовано."
+"Файл Paradox містить більше записів, ніж уміститься в аркуші; решту записів "
+"не було імпортовано."
 
 #: ../plugins/paradox/paradox.c:304
 #, c-format
@@ -2006,7 +2001,6 @@ msgstr "У специфікації поля пропущено розмір с�
 
 #: ../plugins/paradox/paradox.c:481
 #, c-format
-#| msgid "The number is out of range"
 msgid "The size of the %d. field is out of range."
 msgstr "Розмір поля %d. поза припустимим діапазоном."
 
@@ -2075,13 +2069,11 @@ msgid "Could not write record number %d."
 msgstr "Не вдалося записати номер запису %d."
 
 #: ../plugins/paradox/paradox.c:700
-#| msgid "Could not create output file."
 msgid "Could not write output file."
 msgstr "Не вдалося записати файл результатів."
 
 #: ../plugins/paradox/paradox.c:707
 #, c-format
-#| msgid "Unable to open '%s'"
 msgid "Cannot open %s"
 msgstr "Не вдалося відкрити %s"
 
@@ -2180,7 +2172,6 @@ msgid "Error while parsing Psion file."
 msgstr "Помилка під час обробки файла Psion."
 
 #: ../plugins/psiconv/psiconv-read.c:751
-#| msgid "This Psion file is not a Sheet file."
 msgid "This Psion file contains no worksheets."
 msgstr "У файлі Psion не міститься робочих аркушів."
 
@@ -2361,7 +2352,6 @@ msgstr ""
 "Pro?"
 
 #: ../plugins/qpro/qpro-read.c:975
-#| msgid "Error while reading lotus workbook."
 msgid "Error while reading Quattro Pro workbook."
 msgstr "Помилка під час спроби читання робочої книги Quattro Pro."
 
@@ -2488,8 +2478,8 @@ msgid ""
 "The xbase file has more fields than fit in a sheet; the remaining fields "
 "were not imported."
 msgstr ""
-"Файл xbase містить більше полів, ніж уміститься в аркуші; решту полів не було"
-" імпортовано."
+"Файл xbase містить більше полів, ніж уміститься в аркуші; решту полів не "
+"було імпортовано."
 
 #: ../plugins/xbase/boot.c:259
 msgid ""
@@ -3906,42 +3896,42 @@ msgstr ""
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr "%s заблоковано. Зніміть захист із аркуша, щоб уможливити редагування."
 
-#: ../src/commands.c:931
+#: ../src/commands.c:932
 #, c-format
 msgid "Inserting expression in %s"
 msgstr "Вставляємо вираз до %s"
 
-#: ../src/commands.c:1023
+#: ../src/commands.c:1024
 #, c-format
 msgid "Editing style of %s"
 msgstr "Стиль редагування %s"
 
-#: ../src/commands.c:1026
+#: ../src/commands.c:1027
 #, c-format
 msgid "Typing \"%s\" in %s"
 msgstr "Введення «%s» у %s"
 
-#: ../src/commands.c:1172 ../src/wbc-gtk-edit.c:164 ../src/wbc-gtk-edit.c:174
+#: ../src/commands.c:1173 ../src/wbc-gtk-edit.c:164 ../src/wbc-gtk-edit.c:174
 #: ../src/wbc-gtk-edit.c:190 ../src/wbc-gtk-edit.c:211
 #: ../src/wbc-gtk-edit.c:225
 msgid "Set Text"
 msgstr "Встановити текст"
 
-#: ../src/commands.c:1215
+#: ../src/commands.c:1216
 #, c-format
 msgid "Inserting array expression in %s"
 msgstr "Вставляємо вираз масиву у %s"
 
-#: ../src/commands.c:1267
+#: ../src/commands.c:1268
 #, c-format
 msgid "Creating a Data Table in %s"
 msgstr "Створюємо таблицю даних у %s"
 
-#: ../src/commands.c:1327
+#: ../src/commands.c:1329
 msgid "Ins/Del Column/Row"
 msgstr "Вставити/Вилучити стовпчик/рядок"
 
-#: ../src/commands.c:1505
+#: ../src/commands.c:1509
 #, c-format
 msgid ""
 "Inserting %i column before column %s would push data off the sheet. Please "
@@ -3962,7 +3952,7 @@ msgstr[3] ""
 "Вставлення %i стовпчика перед стовпчиком %s призведе до виходу даних за межі "
 "аркуша. Будь ласка, спочатку збільште аркуш."
 
-#: ../src/commands.c:1515
+#: ../src/commands.c:1519
 #, c-format
 msgid "Inserting %d column before %s"
 msgid_plural "Inserting %d columns before %s"
@@ -3971,7 +3961,7 @@ msgstr[1] "Вставляння %d стовпчиків перед %s"
 msgstr[2] "Вставляння %d стовпчиків перед %s"
 msgstr[3] "Вставляння %d стовпчика перед %s"
 
-#: ../src/commands.c:1543
+#: ../src/commands.c:1547
 #, c-format
 msgid ""
 "Inserting %i row before row %s would push data off the sheet. Please enlarge "
@@ -3992,7 +3982,7 @@ msgstr[3] ""
 "Вставлення %i рядка перед рядком %s призведе до виходу даних за межі аркуша. "
 "Будь ласка, спочатку збільште аркуш."
 
-#: ../src/commands.c:1553
+#: ../src/commands.c:1557
 #, c-format
 msgid "Inserting %d row before %s"
 msgid_plural "Inserting %d rows before %s"
@@ -4001,76 +3991,81 @@ msgstr[1] "Вставляння %d рядків перед %s"
 msgstr[2] "Вставляння %d рядків перед %s"
 msgstr[3] "Вставляння %d рядка перед %s"
 
-#: ../src/commands.c:1574
+#: ../src/commands.c:1578
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Стирання стовпчиків %s"
 
-#: ../src/commands.c:1575
+#: ../src/commands.c:1579
 #, c-format
 msgid "Deleting column %s"
 msgstr "Стирання стовпчика %s"
 
-#: ../src/commands.c:1594
+#: ../src/commands.c:1598
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Стирання рядків %s"
 
-#: ../src/commands.c:1595
+#: ../src/commands.c:1599
 #, c-format
 msgid "Deleting row %s"
 msgstr "Стирання рядка %s"
 
-#: ../src/commands.c:1665 ../src/commands.c:1666 ../src/sheet.c:5301
+#: ../src/commands.c:1673 ../src/commands.c:1674 ../src/sheet.c:5301
 msgid "Clear"
 msgstr "Очистити"
 
-#: ../src/commands.c:1678
+#: ../src/commands.c:1686
 msgid "contents"
 msgstr "вміст"
 
-#: ../src/commands.c:1680
+#: ../src/commands.c:1688
 msgid "formats"
 msgstr "формати"
 
-#: ../src/commands.c:1682
+#: ../src/commands.c:1690
 msgid "comments"
 msgstr "коментарі"
 
-#: ../src/commands.c:1697
+#: ../src/commands.c:1705
 msgid "all"
 msgstr "всі"
 
-#: ../src/commands.c:1703
+#: ../src/commands.c:1711
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Очищення %s в %s"
 
-#: ../src/commands.c:1823
+#: ../src/commands.c:1831
 msgid "Changing Format"
 msgstr "Зміна формату"
 
-#: ../src/commands.c:1956
+#: ../src/commands.c:1964
 #, c-format
 msgid "Changing format of %s"
 msgstr "Зміна формату %s"
 
-#: ../src/commands.c:2051
+#: ../src/commands.c:2037
+#| msgid "Setting Font Style of %s"
+msgid "Setting Font Style"
+msgstr "Встановлення стилю шрифту"
+
+#: ../src/commands.c:2066
 #, c-format
 msgid "Setting Font Style of %s"
 msgstr "Встановлення стилю шрифту %s"
 
-#: ../src/commands.c:2113
+#: ../src/commands.c:2128
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Автопідгін стовпчика %s"
 
-#: ../src/commands.c:2114
+#: ../src/commands.c:2129
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Автопідгін рядка %s"
 
-#: ../src/commands.c:2117
+#: ../src/commands.c:2132
 #, c-format
 msgid "Setting width of column %s to %d pixel"
 msgid_plural "Setting width of column %s to %d pixels"
@@ -4079,7 +4074,7 @@ msgstr[1] "Зміна ширини стовпчика %s до %d точок"
 msgstr[2] "Зміна ширини стовпчика %s до %d точок"
 msgstr[3] "Зміна ширини стовпчика %s до %d точки"
 
-#: ../src/commands.c:2121
+#: ../src/commands.c:2136
 #, c-format
 msgid "Setting height of row %s to %d pixel"
 msgid_plural "Setting height of row %s to %d pixels"
@@ -4088,27 +4083,27 @@ msgstr[1] "Зміна висоти рядка %s до %d точок"
 msgstr[2] "Зміна висоти рядка %s до %d точок"
 msgstr[3] "Зміна висоти рядка %s до %d точки"
 
-#: ../src/commands.c:2126
+#: ../src/commands.c:2141
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Встановлення типової ширини стовпчика %s"
 
-#: ../src/commands.c:2129
+#: ../src/commands.c:2144
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Встановлення типової висоти рядка %s"
 
-#: ../src/commands.c:2133
+#: ../src/commands.c:2148
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Автопідгін стовпчиків %s"
 
-#: ../src/commands.c:2134
+#: ../src/commands.c:2149
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Автопідгін рядків %s"
 
-#: ../src/commands.c:2137
+#: ../src/commands.c:2152
 #, c-format
 msgid "Setting width of columns %s to %d pixel"
 msgid_plural "Setting width of columns %s to %d pixels"
@@ -4117,7 +4112,7 @@ msgstr[1] "Встановлення ширини стовпчиків %s у %d �
 msgstr[2] "Встановлення ширини стовпчиків %s у %d точок"
 msgstr[3] "Встановлення ширини стовпчиків %s у %d точку"
 
-#: ../src/commands.c:2141
+#: ../src/commands.c:2156
 #, c-format
 msgid "Setting height of rows %s to %d pixel"
 msgid_plural "Setting height of rows %s to %d pixels"
@@ -4126,36 +4121,36 @@ msgstr[1] "Встановлення висоти рядків %s у %d точо�
 msgstr[2] "Встановлення висоти рядків %s у %d точок"
 msgstr[3] "Встановлення висоти рядків %s у %d точку"
 
-#: ../src/commands.c:2147
+#: ../src/commands.c:2162
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Встановлення типової ширини стовпчиків %s"
 
-#: ../src/commands.c:2149
+#: ../src/commands.c:2164
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Встановлення типової висоти рядків %s"
 
-#: ../src/commands.c:2186
+#: ../src/commands.c:2201
 #, c-format
 msgid "Autofitting width of %s"
 msgstr "Автопідгін ширини %s"
 
-#: ../src/commands.c:2186
+#: ../src/commands.c:2201
 #, c-format
 msgid "Autofitting height of %s"
 msgstr "Автопідгін висоти %s"
 
-#: ../src/commands.c:2260 ../src/dialogs/dialog-preferences.c:1224
+#: ../src/commands.c:2275 ../src/dialogs/dialog-preferences.c:1224
 msgid "Sorting"
 msgstr "Впорядкування"
 
-#: ../src/commands.c:2290
+#: ../src/commands.c:2305
 #, c-format
 msgid "Sorting %s"
 msgstr "Упорядкування %s"
 
-#: ../src/commands.c:2460
+#: ../src/commands.c:2482
 msgid ""
 "Are you sure that you want to hide all columns? If you do so you can unhide "
 "them with the 'Format→Column→Unhide' menu item."
@@ -4163,7 +4158,7 @@ msgstr ""
 "Ви справді хочете приховати усі стовпчики? Якщо ви це зробите, скасувати "
 "приховування можна за допомогою пункту меню «Формат → Стовпчик → Показати»"
 
-#: ../src/commands.c:2464
+#: ../src/commands.c:2486
 msgid ""
 "Are you sure that you want to hide all rows? If you do so you can unhide "
 "them with the 'Format→Row→Unhide' menu item."
@@ -4171,94 +4166,94 @@ msgstr ""
 "Ви справді хочете приховати усі рядки? Якщо ви це зробите, скасувати "
 "приховування можна за допомогою пункту меню «Формат → Рядок → Показати»"
 
-#: ../src/commands.c:2484
+#: ../src/commands.c:2506
 msgid "Unhide columns"
 msgstr "Показати стовпчики"
 
-#: ../src/commands.c:2484
+#: ../src/commands.c:2506
 msgid "Hide columns"
 msgstr "Прибрати стовпчики"
 
-#: ../src/commands.c:2485
+#: ../src/commands.c:2507
 msgid "Unhide rows"
 msgstr "Показати рядки"
 
-#: ../src/commands.c:2485
+#: ../src/commands.c:2507
 msgid "Hide rows"
 msgstr "Прибрати рядки"
 
-#: ../src/commands.c:2574
+#: ../src/commands.c:2596
 msgid "Expand columns"
 msgstr "Розгорнути стовпчики"
 
-#: ../src/commands.c:2574
+#: ../src/commands.c:2596
 msgid "Collapse columns"
 msgstr "Згорнути стовпчики"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2597
 msgid "Expand rows"
 msgstr "Розгорнути рядки"
 
-#: ../src/commands.c:2575
+#: ../src/commands.c:2597
 msgid "Collapse rows"
 msgstr "Згорнути рядки"
 
-#: ../src/commands.c:2607
+#: ../src/commands.c:2629
 #, c-format
 msgid "Show column outline %d"
 msgstr "Показати схему стовпчика %d"
 
-#: ../src/commands.c:2607
+#: ../src/commands.c:2629
 #, c-format
 msgid "Show row outline %d"
 msgstr "Показати схему рядка %d"
 
-#: ../src/commands.c:2684
+#: ../src/commands.c:2706
 msgid "Those columns are already grouped"
 msgstr "Ці стовпчики вже згруповано"
 
-#: ../src/commands.c:2685
+#: ../src/commands.c:2707
 msgid "Those rows are already grouped"
 msgstr "Ці рядки вже згруповано"
 
-#: ../src/commands.c:2708
+#: ../src/commands.c:2730
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Ці стовпчики не згруповано, ви не можете розгрупувати їх"
 
-#: ../src/commands.c:2709
+#: ../src/commands.c:2731
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Ці рядки не згруповано, ви не можете розгрупувати їх"
 
-#: ../src/commands.c:2722
+#: ../src/commands.c:2744
 #, c-format
 msgid "Group columns %s"
 msgstr "Згрупувати стовпчики %s"
 
-#: ../src/commands.c:2722
+#: ../src/commands.c:2744
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Розгрупувати стовпчики %s"
 
-#: ../src/commands.c:2724
+#: ../src/commands.c:2746
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Згрупувати рядки %d:%d"
 
-#: ../src/commands.c:2724
+#: ../src/commands.c:2746
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Розгрупувати рядки %d:%d"
 
-#: ../src/commands.c:2961
+#: ../src/commands.c:2985
 #, c-format
 msgid "Moving %s"
 msgstr "Переміщення %s"
 
-#: ../src/commands.c:2971 ../src/commands.c:3377
+#: ../src/commands.c:2995 ../src/commands.c:3415
 msgid "is beyond sheet boundaries"
 msgstr "виходить за межі аркуша"
 
-#: ../src/commands.c:3029
+#: ../src/commands.c:3067
 #, c-format
 msgid ""
 "Copying between files with different date conventions.\n"
@@ -4269,77 +4264,92 @@ msgstr ""
 "Можливе неправильне копіювання деяких\n"
 "дат."
 
-#: ../src/commands.c:3059
+#: ../src/commands.c:3097
 msgid "Paste Copy"
 msgstr "Вставити копію"
 
-#: ../src/commands.c:3273
+#: ../src/commands.c:3311
 #, c-format
 msgid "Pasting into %s"
 msgstr "Вставляння в %s"
 
-#: ../src/commands.c:3363
+#: ../src/commands.c:3401
 #, c-format
 msgid "Do you really want to paste %s copies?"
 msgstr "Ви справді хочете вставити копії %s?"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3427 ../src/commands.c:3598 ../src/commands.c:3599
-#: ../src/item-cursor.c:1037 ../src/wbc-gtk-actions.c:574
+#: ../src/commands.c:3465 ../src/commands.c:3636 ../src/commands.c:3637
+#: ../src/commands.c:3642 ../src/item-cursor.c:1037
+#: ../src/wbc-gtk-actions.c:574
 msgid "Autofill"
 msgstr "Автозаповнення"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3621
+#: ../src/commands.c:3664
 #, c-format
 msgid "Autofilling %s"
 msgstr "Автозаповнення %s"
 
-#: ../src/commands.c:3928
+#: ../src/commands.c:3957 ../src/dialogs/autoformat.ui.h:1
+msgid "Autoformat"
+msgstr "Автоформатування"
+
+#: ../src/commands.c:3982
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Автоформатування %s"
 
-#: ../src/commands.c:4046
+#: ../src/commands.c:4048
+#| msgid "Unmerge"
+msgid "Unmerge Cells"
+msgstr "Роз'єднати комірки"
+
+#: ../src/commands.c:4109
 #, c-format
 msgid "Unmerging %s"
 msgstr "Роз'єднання %s"
 
-#: ../src/commands.c:4213
+#: ../src/commands.c:4209 ../src/commands.c:4222
+#| msgid "Merge Field"
+msgid "Merge Cells"
+msgstr "Об'єднати комірки"
+
+#: ../src/commands.c:4298
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Об'єднати і центрувати %s"
 
-#: ../src/commands.c:4213
+#: ../src/commands.c:4298
 #, c-format
 msgid "Merging %s"
 msgstr "Злиття %s"
 
 #. Corrected below.
-#: ../src/commands.c:4589 ../src/dialogs/search-replace.ui.h:5
+#: ../src/commands.c:4674 ../src/dialogs/search-replace.ui.h:5
 msgid "Search and Replace"
 msgstr "Пошук і заміна"
 
-#: ../src/commands.c:4691
+#: ../src/commands.c:4789
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Зміна типової ширини стовпчиків до %.2f пунктів"
 
-#: ../src/commands.c:4692
+#: ../src/commands.c:4790
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Зміна типової ширини рядків до %.2f пунктів"
 
-#: ../src/commands.c:4804
+#: ../src/commands.c:4902
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Масштабування %s до %.0f%%"
 
-#: ../src/commands.c:4907
+#: ../src/commands.c:5005
 msgid "Delete Object"
 msgstr "Вилучити об'єкт"
 
-#: ../src/commands.c:5055 ../src/commands.c:6119
+#: ../src/commands.c:5153 ../src/commands.c:6231
 #: ../src/dialogs/dialog-doc-metadata.c:1865
 #: ../src/dialogs/dialog-formula-guru.c:892
 #: ../src/dialogs/dialog-function-select.c:1280
@@ -4348,232 +4358,232 @@ msgstr "Вилучити об'єкт"
 msgid "Name"
 msgstr "Назва"
 
-#: ../src/commands.c:5055
+#: ../src/commands.c:5153
 msgid "Sheet names must be non-empty."
 msgstr "Назви аркушів мають бути непорожніми."
 
-#: ../src/commands.c:5062
+#: ../src/commands.c:5160
 #, c-format
 msgid "A workbook cannot have two sheets with the same name."
 msgstr "У робочій книзі не може бути двох аркушів із однаковою назвою."
 
-#: ../src/commands.c:5160
+#: ../src/commands.c:5266
 msgid "Resizing sheet"
 msgstr "Зміна розмірів аркуша"
 
-#: ../src/commands.c:5324
+#: ../src/commands.c:5430
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Вилучення коментаря %s"
 
-#: ../src/commands.c:5325
+#: ../src/commands.c:5431
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Встановлення коментаря %s"
 
-#: ../src/commands.c:5733
+#: ../src/commands.c:5845
 #, c-format
 msgid "Merging data into %s"
 msgstr "Об'єднання дати до %s"
 
-#: ../src/commands.c:5831
+#: ../src/commands.c:5943
 #, c-format
 msgid "Changing workbook properties"
 msgstr "Зміна властивостей робочої книги"
 
-#: ../src/commands.c:5913
+#: ../src/commands.c:6025
 msgid "Pull Object to the Front"
 msgstr "Перетягнути об'єкт на передній план"
 
-#: ../src/commands.c:5916
+#: ../src/commands.c:6028
 msgid "Pull Object Forward"
 msgstr "Перетягнути об'єкт вперед"
 
-#: ../src/commands.c:5919
+#: ../src/commands.c:6031
 msgid "Push Object Backward"
 msgstr "Пересунути об'єкт назад"
 
-#: ../src/commands.c:5922
+#: ../src/commands.c:6034
 msgid "Push Object to the Back"
 msgstr "Пересунути об'єкт на нижній рівень"
 
-#: ../src/commands.c:6052
+#: ../src/commands.c:6164
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Налаштування сторінки для %s"
 
-#: ../src/commands.c:6054
+#: ../src/commands.c:6166
 msgid "Page Setup For All Sheets"
 msgstr "Налаштовування сторінки для усіх аркушів"
 
-#: ../src/commands.c:6180 ../src/commands.c:6191
+#: ../src/commands.c:6292 ../src/commands.c:6303
 msgid "Defined Name"
 msgstr "Визначена назва"
 
-#: ../src/commands.c:6181
+#: ../src/commands.c:6293
 msgid "An empty string is not allowed as defined name."
 msgstr "Не можна використовувати порожній рядок як визначену назву."
 
-#: ../src/commands.c:6189
+#: ../src/commands.c:6301
 #, c-format
 msgid "'%s' is not allowed as defined name."
 msgstr "«%s» не можна використовувати як визначену назву."
 
-#: ../src/commands.c:6199
+#: ../src/commands.c:6311
 msgid "has a circular reference"
 msgstr "містить циклічне посилання"
 
-#: ../src/commands.c:6233
+#: ../src/commands.c:6345
 #, c-format
 msgid "Define Name %s"
 msgstr "Визначити назву %s"
 
-#: ../src/commands.c:6236
+#: ../src/commands.c:6348
 #, c-format
 msgid "Update Name %s"
 msgstr "Оновити назву %s"
 
-#: ../src/commands.c:6328
+#: ../src/commands.c:6440
 #, c-format
 msgid "Remove Name %s"
 msgstr "Визначити назву %s"
 
-#: ../src/commands.c:6357
+#: ../src/commands.c:6469
 msgid "Change Scope of Name"
 msgstr "Змінити область назви"
 
-#: ../src/commands.c:6406
+#: ../src/commands.c:6518
 #, c-format
 msgid "Change Scope of Name %s"
 msgstr "Змінити область назви %s"
 
-#: ../src/commands.c:6472
+#: ../src/commands.c:6584
 msgid "Add scenario"
 msgstr "Додати сценарій"
 
-#: ../src/commands.c:6544
+#: ../src/commands.c:6658
 msgid "Scenario Show"
 msgstr "Показ сценарію"
 
-#: ../src/commands.c:6608
+#: ../src/commands.c:6721 ../src/tools/data-shuffling.c:349
 msgid "Shuffle Data"
 msgstr "Перемішати дані"
 
 #. FIXME?
-#: ../src/commands.c:6722
+#: ../src/commands.c:6845
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Текст (%s) у стовпчики (%s)"
 
-#: ../src/commands.c:6891
+#: ../src/commands.c:7032
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Пошук цілі (%s)"
 
-#: ../src/commands.c:7053
+#: ../src/commands.c:7196
 #, c-format
 msgid "Tabulating Dependencies"
 msgstr "Табулювання залежностей"
 
-#: ../src/commands.c:7136
+#: ../src/commands.c:7279
 msgid "Reconfigure Graph"
 msgstr "Переналаштувати графік"
 
-#: ../src/commands.c:7215
+#: ../src/commands.c:7358
 msgid "Reconfigure Object"
 msgstr "Переналаштувати об'єкт"
 
-#: ../src/commands.c:7447
+#: ../src/commands.c:7590
 msgid "Changing Hyperlink"
 msgstr "Зміна гіперпосилання"
 
-#: ../src/commands.c:7531
+#: ../src/commands.c:7674
 #, c-format
 msgid "Changing hyperlink of %s"
 msgstr "Зміна гіперпосилання %s"
 
-#: ../src/commands.c:7622
+#: ../src/commands.c:7765
 msgid "Configure List"
 msgstr "Налаштувати список"
 
-#: ../src/commands.c:7702
+#: ../src/commands.c:7845
 msgid "Set Frame Label"
 msgstr "Встановити мітку рамки"
 
-#: ../src/commands.c:7781
+#: ../src/commands.c:7924
 msgid "Configure Button"
 msgstr "Налаштувати кнопку"
 
-#: ../src/commands.c:7872
+#: ../src/commands.c:8015
 msgid "Configure Radio Button"
 msgstr "Налаштувати кнопку-варіант"
 
-#: ../src/commands.c:7956
+#: ../src/commands.c:8099
 msgid "Configure Checkbox"
 msgstr "Налаштувати поле для позначки"
 
-#: ../src/commands.c:8075 ../src/sheet-object-widget.c:1920
+#: ../src/commands.c:8218 ../src/sheet-object-widget.c:1920
 msgid "Configure Adjustment"
 msgstr "Налаштувати коригування"
 
-#: ../src/commands.c:8112
+#: ../src/commands.c:8255
 msgid "Add Filter"
 msgstr "Додати фільтр"
 
-#: ../src/commands.c:8128 ../src/wbc-gtk.c:1685
+#: ../src/commands.c:8271 ../src/wbc-gtk.c:1685
 #, c-format
 msgid "Auto Filter blocked by %s"
 msgstr "Автофільтрування заблоковано %s"
 
-#: ../src/commands.c:8133 ../src/commands.c:8160 ../src/commands.c:8169
+#: ../src/commands.c:8276 ../src/commands.c:8303 ../src/commands.c:8312
 msgid "AutoFilter"
 msgstr "Автофільтр"
 
-#: ../src/commands.c:8161
+#: ../src/commands.c:8304
 msgid "Requires more than 1 row"
 msgstr "Потребує понад 1 рядка"
 
-#: ../src/commands.c:8170
+#: ../src/commands.c:8313
 msgid "Unable to create Autofilter"
 msgstr "Не вдалося створити автофільтр"
 
-#: ../src/commands.c:8192
+#: ../src/commands.c:8335
 #, c-format
 msgid "Add Autofilter to %s"
 msgstr "Додати автофільтр до %s"
 
-#: ../src/commands.c:8193
+#: ../src/commands.c:8336
 #, c-format
 msgid "Extend Autofilter to %s"
 msgstr "Розширити автофільтр до %s"
 
-#: ../src/commands.c:8206
+#: ../src/commands.c:8349
 #, c-format
 msgid "Remove Autofilter from %s"
 msgstr "Вилучити автофільтр з %s"
 
-#: ../src/commands.c:8246
+#: ../src/commands.c:8389
 #, c-format
 msgid "Change filter condition for %s"
 msgstr "Змінити умову фільтрування для %s"
 
-#: ../src/commands.c:8322 ../src/wbc-gtk-actions.c:2402
+#: ../src/commands.c:8465 ../src/wbc-gtk-actions.c:2402
 msgid "Clear All Page Breaks"
 msgstr "Вилучити усі розриви сторінок"
 
-#: ../src/commands.c:8357 ../src/wbc-gtk.c:1623
+#: ../src/commands.c:8500 ../src/wbc-gtk.c:1623
 msgid "Add Column Page Break"
 msgstr "Додати розрив сторінки за стовпчиками"
 
-#: ../src/commands.c:8357 ../src/wbc-gtk.c:1633
+#: ../src/commands.c:8500 ../src/wbc-gtk.c:1633
 msgid "Add Row Page Break"
 msgstr "Додати розрив сторінки за рядками"
 
-#: ../src/commands.c:8360 ../src/wbc-gtk.c:1620
+#: ../src/commands.c:8503 ../src/wbc-gtk.c:1620
 msgid "Remove Column Page Break"
 msgstr "Вилучити розрив сторінки за стовпчиками"
 
-#: ../src/commands.c:8360 ../src/wbc-gtk.c:1630
+#: ../src/commands.c:8503 ../src/wbc-gtk.c:1630
 msgid "Remove Row Page Break"
 msgstr "Вилучити розрив сторінки за рядками"
 
@@ -8250,10 +8260,6 @@ msgstr "Записи"
 #: ../src/dialogs/autofilter-top10.ui.h:6 ../src/wbc-gtk-actions.c:3449
 msgid "Percentage"
 msgstr "Частка"
-
-#: ../src/dialogs/autoformat.ui.h:1
-msgid "Autoformat"
-msgstr "Автоформатування"
 
 #: ../src/dialogs/autoformat.ui.h:2
 msgid "C_ategory:"
@@ -12459,41 +12465,45 @@ msgstr "Будь-який"
 msgid "Refreshing DataSlicer in %s"
 msgstr "Оновлення DataSlicer у %s"
 
-#: ../src/gnm-graph-window.c:168
+#: ../src/gnm-graph-window.c:192
 msgid "Fit"
 msgstr "Вмістити"
 
-#: ../src/gnm-graph-window.c:169
+#: ../src/gnm-graph-window.c:193
 msgid "Fit Width"
 msgstr "Вмістити за шириною"
 
-#: ../src/gnm-graph-window.c:170
+#: ../src/gnm-graph-window.c:194
 msgid "Fit Height"
 msgstr "Вмістити за висотою"
 
-#: ../src/gnm-graph-window.c:172
+#: ../src/gnm-graph-window.c:196
 msgid "100%"
 msgstr "100%"
 
-#: ../src/gnm-graph-window.c:173
+#: ../src/gnm-graph-window.c:197
 msgid "125%"
 msgstr "125%"
 
-#: ../src/gnm-graph-window.c:174
+#: ../src/gnm-graph-window.c:198
 msgid "150%"
 msgstr "150%"
 
-#: ../src/gnm-graph-window.c:175
+#: ../src/gnm-graph-window.c:199
 msgid "200%"
 msgstr "200%"
 
-#: ../src/gnm-graph-window.c:176
+#: ../src/gnm-graph-window.c:200
 msgid "300%"
 msgstr "300%"
 
-#: ../src/gnm-graph-window.c:177
+#: ../src/gnm-graph-window.c:201
 msgid "500%"
 msgstr "500%"
+
+#: ../src/gnm-graph-window.c:249
+msgid "Chart Viewer"
+msgstr "Переглядач діаграм"
 
 #: ../src/gnm-pane.c:2099
 #, c-format
@@ -13888,7 +13898,6 @@ msgstr ""
 #. Loaded without error but with no sheets
 #: ../src/ssconvert.c:491
 #, c-format
-#| msgid "Loading %s failed\n"
 msgid "Loading %s failed"
 msgstr "Не вдалося завантажити %s"
 
@@ -13985,7 +13994,6 @@ msgstr "Не вдалося завантажити %s\n"
 
 #: ../src/ssconvert.c:1465
 #, c-format
-#| msgid "Make a copy of the current sheet"
 msgid "--goal-seek only works on the current sheet\n"
 msgstr "--goal-seek працює лише для поточного аркуша\n"
 
@@ -14001,7 +14009,6 @@ msgstr "Не вдалося змінити розміри аркуша %s\n"
 
 #: ../src/ssconvert.c:1514
 #, c-format
-#| msgid "Invalid absolute file specification '%s' encountered."
 msgid "Invalid resize specification \"%s\"\n"
 msgstr "Некоректна специфікація зміни розміру «%s»\n"
 
@@ -15237,6 +15244,10 @@ msgstr "Робочий аркуш:"
 msgid "Report Created: "
 msgstr "Створено звіт: "
 
+#: ../src/tools/data-shuffling.c:350
+msgid "There is not enough empty space on the sheet to use while shuffling."
+msgstr "На аркуші недостатньо місця для використання під час перемішування."
+
 #: ../src/tools/fill-series.c:435
 #, c-format
 msgid "Fill Series (%s)"
@@ -15738,7 +15749,6 @@ msgid "#SPILL!"
 msgstr "#SPILL!"
 
 #: ../src/wbc-gtk-actions.c:137
-#| msgid "Unable to create Autofilter"
 msgid "Unable to create a temporary directory."
 msgstr "Не вдалося створити тимчасовий каталог."
 
@@ -15825,7 +15835,6 @@ msgstr ""
 "%s"
 
 #: ../src/wbc-gtk-actions.c:1171
-#| msgid "Unable to load the file '%s'."
 msgid "Unable to read the image file."
 msgstr "Не вдалося прочитати файл зображення."
 
@@ -15866,7 +15875,6 @@ msgid "Format as Percentage"
 msgstr "Формат – відсотки"
 
 #: ../src/wbc-gtk-actions.c:1710
-#| msgid "Format as Time"
 msgid "Format as Scientific"
 msgstr "Форматувати як «Інженерний»"
 
@@ -18650,11 +18658,11 @@ msgstr "Некоректний фільтр — не вказано област
 msgid "Unsupported object type '%s'"
 msgstr "Непідтримуваний тип об'єктів «%s»"
 
-#: ../src/xml-sax-read.c:4089 ../src/xml-sax-write.c:1749
+#: ../src/xml-sax-read.c:4089 ../src/xml-sax-write.c:1764
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "XML Gnumeric (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1761
+#: ../src/xml-sax-write.c:1776
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "нестиснений XML Gnumeric (*.xml)"
 
