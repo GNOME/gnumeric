@@ -63,6 +63,7 @@ Morten:
 	* Fix problem with goal-seek undo.
 	* Fix GEOMEAN problem with failing to catch negatives.
 	* ODS: fix problems with validation export.
+	* TEXT speedup.
 
 --------------------------------------------------------------------------
 Gnumeric 1.12.62:

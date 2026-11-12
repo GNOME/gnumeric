@@ -1472,14 +1472,80 @@ static GnmFuncHelp const help_text[] = {
         { GNM_FUNC_HELP_END}
 };
 
+// Cache for go_format_str_delocalize.  TEXT is typically called many times
+// with the same few format strings, and delocalizing is comparatively
+// expensive.  The result depends on the locale's decimal and thousands
+// separators, so those are part of the key.  (Mildly silly as we are
+// not supposed to evaluate in non-default locale.)
+#define TEXT_DELOC_CACHE_SIZE 10
+
+typedef struct {
+	char *fmt;	// localized format string
+	char *decimal;	// locale decimal separator in effect
+	char *thousand;	// locale thousands separator in effect
+	GOFormat *res;	// delocalized format
+} TextDelocEntry;
+
+static TextDelocEntry text_deloc_cache[TEXT_DELOC_CACHE_SIZE];
+static unsigned text_deloc_next;
+
+static void
+text_cache_clear_item (TextDelocEntry *e)
+{
+	g_free (e->fmt);
+	g_free (e->decimal);
+	g_free (e->thousand);
+	go_format_unref (e->res);
+	memset (e, 0, sizeof (TextDelocEntry));
+}
+
+static void
+text_cache_clear (void)
+{
+	for (unsigned ui = 0; ui < TEXT_DELOC_CACHE_SIZE; ui++)
+		text_cache_clear_item (text_deloc_cache + ui);
+	text_deloc_next = 0;
+}
+
+// Like go_format_str_delocalize, but
+// * cached
+// * returns a format (transfer none), not a string
+static GOFormat const *
+cached_delocalize (char const *fmt)
+{
+	GString const *decimal = go_locale_get_decimal ();
+	GString const *thousand = go_locale_get_thousand ();
+
+	for (unsigned ui = 0; ui < TEXT_DELOC_CACHE_SIZE; ui++) {
+		TextDelocEntry *e = &text_deloc_cache[ui];
+		if (e->fmt == NULL ||
+		    strcmp (e->fmt, fmt) != 0 ||
+		    strcmp (e->decimal, decimal->str) != 0 ||
+		    strcmp (e->thousand, thousand->str) != 0)
+			continue;
+		return e->res;
+	}
+
+	TextDelocEntry *e = &text_deloc_cache[text_deloc_next];
+	text_cache_clear_item (e);
+	e->fmt = g_strdup (fmt);
+	e->decimal = g_strdup (decimal->str);
+	e->thousand = g_strdup (thousand->str);
+	char *fmtstr = go_format_str_delocalize (fmt);
+	e->res = fmtstr ? go_format_new_from_XL (fmtstr) : NULL;
+	g_free (fmtstr);
+
+	text_deloc_next = (text_deloc_next + 1) % TEXT_DELOC_CACHE_SIZE;
+
+	return e->res;
+}
+
 static GnmValue *
 gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue *res, *match = NULL;
 	GnmValue const *v  = argv[0];
-	GODateConventions const *conv =
-		sheet_date_conv (ei->pos->sheet);
-	char *lfmt;
+	GODateConventions const *conv = sheet_date_conv (ei->pos->sheet);
 
 	/* Why do we have to do these here?  */
 	if (VALUE_IS_STRING (v)) {
@@ -1489,13 +1555,11 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	} else if (VALUE_IS_EMPTY (v))
 		v = value_zero;
 
-	lfmt = go_format_str_delocalize (value_peek_string (argv[1]));
-	if (lfmt) {
-		GOFormat *fmt = go_format_new_from_XL (lfmt);
+	GOFormat const *fmt = cached_delocalize (value_peek_string (argv[1]));
+	if (fmt) {
 		GString *str = g_string_sized_new (80);
 		GOFormatNumberError err;
 
-		g_free (lfmt);
 		err = format_value_gstring (str, fmt, v, -1, conv);
 		if (err) {
 			g_string_free (str, TRUE);
@@ -1503,7 +1567,6 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		} else {
 			res = value_new_string_nocopy (g_string_free (str, FALSE));
 		}
-		go_format_unref (fmt);
 	} else {
 		res = value_new_error_VALUE (ei->pos);
 	}
@@ -2863,6 +2926,7 @@ go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
+	text_cache_clear ();
 	gsf_iconv_close (CHAR_iconv);
 	gsf_iconv_close (CODE_iconv);
 }

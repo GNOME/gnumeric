@@ -1,3 +1,16 @@
+2026-11-10  Morten Welinder <terra@gnome.org>
+
+	* functions.c: change text caching to cache formats, not strings.
+
+2026-11-10  b.s. <newbie-02 (at) gmx (dot) de>
+
+	* functions.c (text_delocalize, text_deloc_cache_clear): New
+	functions.  Cache the delocalized format strings (10 entries,
+	keyed on the format and the locale's separators).
+	(gnumeric_text): Use text_delocalize instead of calling
+	go_format_str_delocalize every time.
+	(go_plugin_shutdown): Clear the cache.
+
 2026-09-20  Morten Welinder <terra@gnome.org>
 
 	* Release 1.12.62
