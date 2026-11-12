@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-11-11 03:15+0000\n"
-"PO-Revision-Date: 2026-11-11 17:17+0100\n"
+"POT-Creation-Date: 2026-11-12 01:48+0000\n"
+"PO-Revision-Date: 2026-11-12 09:52+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -1515,8 +1515,8 @@ msgid "Expression '%s' does not start with a recognized character"
 msgstr "Izraz »%s« se ne začne s prepoznavnim znakom"
 
 #: ../plugins/openoffice/openoffice-read.c:2545
-#: ../plugins/openoffice/openoffice-write.c:5290
-#: ../plugins/openoffice/openoffice-write.c:5302 ../src/ssgrep.c:356
+#: ../plugins/openoffice/openoffice-write.c:5299
+#: ../plugins/openoffice/openoffice-write.c:5311 ../src/ssgrep.c:356
 msgid "cell"
 msgstr "celica"
 
@@ -1883,47 +1883,47 @@ msgstr "Neveljavni metapodatki »%s«"
 msgid "settings.xml stream is malformed!"
 msgstr "datoteka pretoka settings.xml je napačno oblikovana!"
 
-#: ../plugins/openoffice/openoffice-write.c:5283
-#: ../plugins/openoffice/openoffice-write.c:5295
+#: ../plugins/openoffice/openoffice-write.c:5292
+#: ../plugins/openoffice/openoffice-write.c:5304
 msgid "tab"
 msgstr "tab"
 
-#: ../plugins/openoffice/openoffice-write.c:5284
-#: ../plugins/openoffice/openoffice-write.c:5296
+#: ../plugins/openoffice/openoffice-write.c:5293
+#: ../plugins/openoffice/openoffice-write.c:5305
 msgid "page"
 msgstr "stran"
 
-#: ../plugins/openoffice/openoffice-write.c:5285
-#: ../plugins/openoffice/openoffice-write.c:5297
+#: ../plugins/openoffice/openoffice-write.c:5294
+#: ../plugins/openoffice/openoffice-write.c:5306
 msgid "pages"
 msgstr "strani"
 
-#: ../plugins/openoffice/openoffice-write.c:5286
-#: ../plugins/openoffice/openoffice-write.c:5298
+#: ../plugins/openoffice/openoffice-write.c:5295
+#: ../plugins/openoffice/openoffice-write.c:5307
 msgid "date"
 msgstr "datum"
 
-#: ../plugins/openoffice/openoffice-write.c:5287
-#: ../plugins/openoffice/openoffice-write.c:5299
+#: ../plugins/openoffice/openoffice-write.c:5296
+#: ../plugins/openoffice/openoffice-write.c:5308
 msgid "time"
 msgstr "čas"
 
-#: ../plugins/openoffice/openoffice-write.c:5288
-#: ../plugins/openoffice/openoffice-write.c:5300 ../src/ssconvert.c:140
+#: ../plugins/openoffice/openoffice-write.c:5297
+#: ../plugins/openoffice/openoffice-write.c:5309 ../src/ssconvert.c:140
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "datoteka"
 
-#: ../plugins/openoffice/openoffice-write.c:5289
-#: ../plugins/openoffice/openoffice-write.c:5301
+#: ../plugins/openoffice/openoffice-write.c:5298
+#: ../plugins/openoffice/openoffice-write.c:5310
 msgid "path"
 msgstr "pot"
 
-#: ../plugins/openoffice/openoffice-write.c:9102
+#: ../plugins/openoffice/openoffice-write.c:9111
 msgid "Writing Sheets..."
 msgstr "Čakanje na delovne liste ..."
 
-#: ../plugins/openoffice/openoffice-write.c:9143
+#: ../plugins/openoffice/openoffice-write.c:9152
 msgid "Writing Sheet Objects..."
 msgstr "Zapisovanje predmetov delovnega lista ..."
 
@@ -12399,41 +12399,45 @@ msgstr "Katerikoli"
 msgid "Refreshing DataSlicer in %s"
 msgstr "Osveževanje vrtilne razpredelnice v %s"
 
-#: ../src/gnm-graph-window.c:168
+#: ../src/gnm-graph-window.c:192
 msgid "Fit"
 msgstr "Prilagodi"
 
-#: ../src/gnm-graph-window.c:169
+#: ../src/gnm-graph-window.c:193
 msgid "Fit Width"
 msgstr "Prilagodi širini"
 
-#: ../src/gnm-graph-window.c:170
+#: ../src/gnm-graph-window.c:194
 msgid "Fit Height"
 msgstr "Prilagodi višini"
 
-#: ../src/gnm-graph-window.c:172
+#: ../src/gnm-graph-window.c:196
 msgid "100%"
 msgstr "100%"
 
-#: ../src/gnm-graph-window.c:173
+#: ../src/gnm-graph-window.c:197
 msgid "125%"
 msgstr "125%"
 
-#: ../src/gnm-graph-window.c:174
+#: ../src/gnm-graph-window.c:198
 msgid "150%"
 msgstr "150%"
 
-#: ../src/gnm-graph-window.c:175
+#: ../src/gnm-graph-window.c:199
 msgid "200%"
 msgstr "200%"
 
-#: ../src/gnm-graph-window.c:176
+#: ../src/gnm-graph-window.c:200
 msgid "300%"
 msgstr "300%"
 
-#: ../src/gnm-graph-window.c:177
+#: ../src/gnm-graph-window.c:201
 msgid "500%"
 msgstr "500%"
+
+#: ../src/gnm-graph-window.c:249
+msgid "Chart Viewer"
+msgstr "Ogledovalnik grafikonov"
 
 #: ../src/gnm-pane.c:2099
 #, c-format
@@ -18564,11 +18568,11 @@ msgstr "Neveljaven filter, ker manjka obseg vrednosti"
 msgid "Unsupported object type '%s'"
 msgstr "Nepodprta vrsta predmeta »%s«"
 
-#: ../src/xml-sax-read.c:4089 ../src/xml-sax-write.c:1749
+#: ../src/xml-sax-read.c:4089 ../src/xml-sax-write.c:1764
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML (*.gnumeric)"
 
-#: ../src/xml-sax-write.c:1761
+#: ../src/xml-sax-write.c:1776
 msgid "Gnumeric XML uncompressed (*.xml)"
 msgstr "Gnumeric XML (nestisnjen) (*.xml)"
 
