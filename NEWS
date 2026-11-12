@@ -63,6 +63,8 @@ Morten:
 	* Fix problem with goal-seek undo.
 	* Fix GEOMEAN problem with failing to catch negatives.
 	* ODS: fix problems with validation export.
+
+B.S.:
 	* TEXT speedup.
 
 --------------------------------------------------------------------------
