@@ -210,6 +210,24 @@ help_requested (gchar const **argv)
 	return FALSE;
 }
 
+#if GNM_WITH_DECIMAL64
+static void
+verify_decimal64_printf (void)
+{
+	char buffer[100] = "";
+	const char *expected = "-->123.45<--";
+	sprintf (buffer, "-->%.2" GNM_FORMAT_f "<--", GNM_const(123.45));
+	if (strcmp (buffer, expected) != 0) {
+		g_printerr ("Decimal64 library support failure.\n"
+			    "Got \"%s\", expected \"%s\"\n",
+			    buffer, expected);
+		exit (1);
+	}
+}
+#endif
+
+
+
 static char *argv0;
 char const *
 gnm_get_argv0 (void)
@@ -328,6 +346,10 @@ gnm_init (void)
 		gtk_icon_theme_add_resource_path (gtk_icon_theme_get_default (),
 						  "/org/gnumeric/gnumeric/icons");
 	}
+
+#if GNM_WITH_DECIMAL64
+	verify_decimal64_printf ();
+#endif
 
 	gnm_plugins_service_init ();
 
