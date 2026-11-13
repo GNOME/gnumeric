@@ -1741,7 +1741,7 @@ oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp,
 					(ext_wb, 0);
 			if (external_sheet_2 != NULL)
 				ref->b.sheet = workbook_sheet_by_name
-					(ext_wb, external_sheet_1);
+					(ext_wb, external_sheet_2);
 			else
 				ref->b.sheet = NULL;
 		}
@@ -3107,8 +3107,9 @@ odf_validation_error_message (GsfXMLIn *xin, xmlChar const **attrs)
 
 	OOParseState *state = (OOParseState *)xin->user_state;
 	int tmp;
+	gboolean display = TRUE;
 
-	if (state->cur_validation)
+	if (state->cur_validation) {
 		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2){
 			if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]),
 						OO_NS_TABLE, "title" )) {
@@ -3116,8 +3117,13 @@ odf_validation_error_message (GsfXMLIn *xin, xmlChar const **attrs)
 				state->cur_validation->title = g_strdup (CXML2C (attrs[1]));
 			} else if (oo_attr_enum (xin, attrs, OO_NS_TABLE, "message-type", message_styles, &tmp))
 				state->cur_validation->style = tmp;
-			/* ignoring TABLE "display" */
+			else if (oo_attr_bool (xin, attrs, OO_NS_TABLE, "display", &display))
+				;
 		}
+		/* No error message shown: invalid input is silently accepted */
+		if (!display)
+			state->cur_validation->style = GNM_VALIDATION_STYLE_NONE;
+	}
 
 	odf_push_text_p (state, FALSE);
 }
@@ -4760,7 +4766,6 @@ oo_hatch (GsfXMLIn *xin, xmlChar const **attrs)
 			hatch->pattern = GO_PATTERN_GREY625;
 			break;
 		}
-		hatch->pattern = GO_PATTERN_THATCH;
 	} else  if (0 == strcmp (style, "triple")) {
 		while (angle < 0)
 			angle += 180;
@@ -6641,6 +6646,18 @@ odf_style_set_align_h (GnmStyle *style, gint h_align_is_valid, gboolean repeat_c
 static void
 oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	/* 2 marks writing modes we cannot represent */
+	static OOEnum const text_dirs[] = {
+		{ "lr-tb", GNM_TEXT_DIR_LTR },
+		{ "lr",    GNM_TEXT_DIR_LTR },
+		{ "rl-tb", GNM_TEXT_DIR_RTL },
+		{ "rl",    GNM_TEXT_DIR_RTL },
+		{ "page",  GNM_TEXT_DIR_CONTEXT },
+		{ "tb-rl", 2 },
+		{ "tb-lr", 2 },
+		{ "tb",    2 },
+		{ NULL,	0 },
+	};
 	static OOEnum const underline_styles[] = {
 		{ "none",	   1 },
 		{ "dash",	   2 },
@@ -6802,6 +6819,11 @@ oo_style_prop_cell (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 		else if (oo_attr_bool (xin, attrs, OO_NS_STYLE, "shrink-to-fit", &btmp))
 			gnm_style_set_shrink_to_fit (style, btmp);
+		else if (oo_attr_enum (xin, attrs, OO_NS_STYLE, "writing-mode", text_dirs, &tmp)) {
+			/* fo:direction, if present and later, overrides this */
+			if (tmp != 2)
+				gnm_style_set_text_dir (style, tmp);
+		}
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_FO, "direction"))
 			gnm_style_set_text_dir (style, attr_eq (attrs[1], "rtl") ? GNM_TEXT_DIR_RTL : GNM_TEXT_DIR_LTR);
 		else if (oo_attr_int (xin, attrs, OO_NS_STYLE, "rotation-angle", &tmp)) {
@@ -10116,8 +10138,8 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 					else if (0 == strcmp
 						 (reg_type, "gnm:exponential-smoothed"))
 						type_name = "GogExpSmooth";
-					else if (0 == strcmp
-						 (reg_type, "gnm:logfit"))
+					else if (0 == strcmp (reg_type, "gnm:log-fit") ||
+						 0 == strcmp (reg_type, "gnm:logfit"))
 						type_name = "GogLogFitCurve";
 					else if (0 == strcmp
 						 (reg_type, "gnm:polynomial")) {
@@ -11857,7 +11879,7 @@ odf_apply_ooo_table_config (char const *key, GValue *val, OOParseState *state)
 				item = g_hash_table_lookup (hash, "TabColor");
 				if (item != NULL && G_VALUE_HOLDS(item, G_TYPE_INT)) {
 					GOColor color = g_value_get_int (item);
-					color = color << 8;
+					color = (color << 8) | 0xff;
 					sheet->tab_color = gnm_color_new_go (color);
 				}
 				item = g_hash_table_lookup (hash, "CursorPositionX");
