@@ -302,6 +302,8 @@ gboolean sheet_colrow_group_ungroup  (Sheet *sheet, GnmRange const *r,
 				      gboolean is_cols, gboolean inc);
 void     sheet_colrow_gutter	     (Sheet *sheet,
 				      gboolean is_cols, int max_outline);
+void     sheet_colrow_restore_states (Sheet *sheet, gboolean is_cols,
+				      int first, ColRowStateList *states);
 
 gboolean sheet_range_splits_array    (Sheet const *sheet,
 				      GnmRange const *r, GnmRange const *ignore,

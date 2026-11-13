@@ -1326,8 +1326,7 @@ sort_by_rows (WBCGtk *wbcg, gboolean descending)
 	if (sheet_range_has_heading (data->sheet, &data->range, data->top, FALSE))
 		data->range.start.row += 1;
 
-	if (cmd_sort (GNM_WBC (wbcg), data))
-		g_object_unref (data);
+	cmd_sort (GNM_WBC (wbcg), data);
 }
 static GNM_ACTION_DEF (cb_sort_ascending)  { sort_by_rows (wbcg, FALSE); }
 static GNM_ACTION_DEF (cb_sort_descending) { sort_by_rows (wbcg, TRUE); }

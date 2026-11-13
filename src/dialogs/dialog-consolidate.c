@@ -311,7 +311,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 	if (gnm_consolidate_check_destination (cs, dao)) {
 		GnmAnalysisTool *tool = gnm_consolidate_tool_new (cs);
 		if (cmd_analysis_tool (GNM_WBC (state->base.wbcg), state->base.sheet, dao, tool)) {
-			dao_free (dao);
+			/* The command took ownership of dao. */
 		} else if (button == state->base.ok_button)
 			gtk_widget_destroy (state->base.dialog);
 		g_object_unref (tool);

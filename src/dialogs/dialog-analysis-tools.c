@@ -679,7 +679,6 @@ corr_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			g_free (text);
 			break;
 		}
-		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->dialog);
 	g_object_unref (tool);
@@ -797,7 +796,6 @@ cov_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			g_free (text);
 			break;
 		}
-		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->dialog);
 	g_object_unref (tool);
@@ -2204,7 +2202,6 @@ regression_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				GTK_WIDGET (state->base.input_entry), text);
 		g_free (text);
 
-		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->base.dialog);
 
@@ -3682,7 +3679,6 @@ anova_two_factor_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			g_free (text);
 			break;
 		}
-		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->base.dialog);
 

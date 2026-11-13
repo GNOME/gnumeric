@@ -79,12 +79,37 @@ typedef struct {
 	gnm_float xmax;
 	GnmCell *set_cell;
 	GnmCell *change_cell;
-	GnmCell *old_cell;
+	/* Not a GnmCell: it could be deleted behind our back.  */
+	Sheet *old_sheet;
+	GnmCellPos old_pos;
 	GnmValue *old_value;
 	GtkWidget *warning_dialog;
 	gboolean cancelled;
 } GoalSeekState;
 
+
+/*
+ * Find the cell that holds the value we want to restore.  The dialog is
+ * non-modal, so the cell, or even its sheet, may be gone by now.
+ */
+static GnmCell *
+goal_seek_get_old_cell (GoalSeekState *state)
+{
+	int i, n;
+
+	if (state->old_sheet == NULL)
+		return NULL;
+
+	n = workbook_sheet_count (state->wb);
+	for (i = 0; i < n; i++)
+		if (workbook_sheet_by_index (state->wb, i) == state->old_sheet)
+			return sheet_cell_fetch (state->old_sheet,
+						 state->old_pos.col,
+						 state->old_pos.row);
+
+	state->old_sheet = NULL;
+	return NULL;
+}
 
 static GnmGoalSeekStatus
 gnumeric_goal_seek (GoalSeekState *state)
@@ -106,12 +131,13 @@ gnumeric_goal_seek (GoalSeekState *state)
 static void
 cb_dialog_destroy (GoalSeekState *state)
 {
-	if (!state->cancelled
-	    && state->old_value != NULL
-	    && state->old_cell != NULL) {
-		cmd_goal_seek (GNM_WBC(state->wbcg),
-			       state->old_cell, state->old_value, NULL);
-		state->old_value = NULL;
+	if (!state->cancelled && state->old_value != NULL) {
+		GnmCell *old_cell = goal_seek_get_old_cell (state);
+		if (old_cell) {
+			cmd_goal_seek (GNM_WBC(state->wbcg),
+				       old_cell, state->old_value, NULL);
+			state->old_value = NULL;
+		}
 	}
 
 	value_release (state->old_value);
@@ -128,9 +154,12 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 {
 	state->cancelled = TRUE;
 
-	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
-		sheet_cell_set_value (state->old_cell, state->old_value);
-		state->old_value = NULL;
+	if (state->old_value != NULL) {
+		GnmCell *old_cell = goal_seek_get_old_cell (state);
+		if (old_cell) {
+			sheet_cell_set_value (old_cell, state->old_value);
+			state->old_value = NULL;
+		}
 	}
 
 	gnm_app_recalc ();
@@ -241,12 +270,17 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gtk_entry_set_text (GTK_ENTRY (state->at_most_entry), "");
 	}
 
-	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
-		sheet_cell_set_value (state->old_cell, state->old_value);
-		state->old_value = NULL;
+	if (state->old_value != NULL) {
+		GnmCell *old_cell = goal_seek_get_old_cell (state);
+		if (old_cell) {
+			sheet_cell_set_value (old_cell, state->old_value);
+			state->old_value = NULL;
+		}
 	}
 	gnm_app_recalc ();
-	state->old_cell = state->change_cell;
+	value_release (state->old_value);
+	state->old_sheet = state->change_cell->base.sheet;
+	state->old_pos = state->change_cell->pos;
 	state->old_value = value_dup (state->change_cell->value);
 
 	status = gnumeric_goal_seek (state);
@@ -417,7 +451,7 @@ dialog_init (GoalSeekState *state)
 		G_CALLBACK (dialog_realized), state);
 
 	state->old_value = NULL;
-	state->old_cell = NULL;
+	state->old_sheet = NULL;
 
 	wbcg_attach_guru (state->wbcg, state->dialog);
 	g_object_set_data_full (G_OBJECT (state->dialog),

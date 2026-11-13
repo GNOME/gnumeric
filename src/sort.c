@@ -265,6 +265,13 @@ gnm_sort_position (GnmSortData *data, int *perm, GOCmdContext *cc)
 
 	length = gnm_sort_data_length (data);
 	sort_permute (data, perm, length, cc);
+
+	/* Make up for the PASTE_NO_RECALC.  */
+	sheet_region_queue_recalc (data->sheet, &data->range);
+	sheet_flag_status_update_range (data->sheet, &data->range);
+	sheet_range_calc_spans (data->sheet, &data->range,
+				data->retain_formats ? GNM_SPANCALC_RENDER : GNM_SPANCALC_RE_RENDER);
+	sheet_redraw_all (data->sheet, FALSE);
 }
 
 int *

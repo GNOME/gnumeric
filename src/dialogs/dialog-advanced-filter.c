@@ -113,6 +113,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget               *w;
 	int                     err = 0;
 	gboolean                unique;
+	gboolean                release = TRUE;
 
 	input = gnm_expr_entry_parse_as_value (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -135,6 +136,10 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		ftool->parent.base.range_2 = criteria;
 		ftool->unique_only_flag = unique;
 
+		/*
+		 * and the tool takes ownership of input and criteria.
+		 */
+		release = FALSE;
 		if (cmd_analysis_tool (GNM_WBC (state->wbcg), state->sheet, dao, atool)) {
 			err = ftool->parent.base.err;
 		} else
@@ -142,7 +147,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		g_object_unref (atool);
 	}
 
-	if (dao->type == GNM_DAO_OUTPUT_INPLACE || err != analysis_tools_noerr) {
+	if (release) {
 		value_release (input);
 		value_release (criteria);
 		dao_free (dao);

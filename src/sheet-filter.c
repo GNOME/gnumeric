@@ -726,15 +726,15 @@ gnm_filter_dup (GnmFilter const *src, Sheet *sheet)
 
 	dst = g_new0 (GnmFilter, 1);
 
-	dst->is_active = src->is_active;
+	/* Recomputed by gnm_filter_set_condition below.  */
+	dst->is_active = FALSE;
 	dst->r = src->r;
 	dst->fields = g_ptr_array_new ();
 
-	/* This creates the initial ref.  */
+	/* This creates the initial ref and the fields.  */
 	gnm_filter_attach (dst, sheet);
 
 	for (i = 0 ; i < range_width (&dst->r); i++) {
-		gnm_filter_add_field (dst, i);
 		gnm_filter_set_condition (dst, i,
 			gnm_filter_condition_dup (
 				gnm_filter_get_condition (src, i)),
@@ -833,6 +833,8 @@ gnm_filter_remove (GnmFilter *filter)
 		g_object_unref (so);
 	}
 	g_ptr_array_set_size (filter->fields, 0);
+	/* The conditions went away with the fields.  */
+	filter->is_active = FALSE;
 
 	SHEET_FOREACH_CONTROL
 		(sheet, view, sc, sc_freeze_object_view (sc, FALSE););

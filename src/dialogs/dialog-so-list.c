@@ -86,6 +86,26 @@ cb_so_list_response (GtkWidget *dialog, gint response_id, GnmDialogSOList *state
 					       &pp, NULL, FALSE, GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES);
 		content = gnm_expr_entry_parse (state->content_entry,
 						&pp, NULL, FALSE, GNM_EXPR_PARSE_FORCE_ABSOLUTE_REFERENCES);
+
+		/*
+		 * NULL means either blank (no link) or a parse failure.  Do not
+		 * silently drop the link on a typo; keep the dialog open.
+		 */
+		if ((output == NULL && !gnm_expr_entry_is_blank (state->link_entry)) ||
+		    (content == NULL && !gnm_expr_entry_is_blank (state->content_entry))) {
+			GnmExprEntry *bad = (output == NULL &&
+					     !gnm_expr_entry_is_blank (state->link_entry))
+				? state->link_entry
+				: state->content_entry;
+
+			gnm_expr_top_unref (output);
+			gnm_expr_top_unref (content);
+			go_gtk_notice_dialog (GTK_WINDOW (dialog), GTK_MESSAGE_ERROR,
+					      _("Invalid reference or expression."));
+			gnm_expr_entry_grab_focus (bad, TRUE);
+			return;
+		}
+
 		cmd_so_set_links (GNM_WBC (state->wbcg), state->so, output, content,
 				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON
 								(state->as_index_radio)));

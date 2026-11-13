@@ -318,10 +318,18 @@ gnm_scenario_apply (GnmScenario *sc)
 
 		if (val) {
 			/* FIXME: think about arrays.  */
-			GnmCell *cell = sheet_cell_fetch
-				(sheet,
-				 sr.range.start.col,
-				 sr.range.start.row);
+			GnmRange cr;
+			GnmCell *cell;
+			GOUndo *u;
+
+			/* Capture the cell as it is before we overwrite it.  */
+			range_init (&cr,
+				    sr.range.start.col, sr.range.start.row,
+				    sr.range.start.col, sr.range.start.row);
+			u = clipboard_copy_range_undo (sheet, &cr);
+			undo = go_undo_combine (undo, u);
+
+			cell = sheet_cell_fetch (sheet, cr.start.col, cr.start.row);
 			sheet_cell_set_value (cell, value_dup (val));
 		} else {
 			GOUndo *u = clipboard_copy_range_undo (sheet,

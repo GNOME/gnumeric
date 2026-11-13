@@ -328,12 +328,18 @@ stf_text_to_columns (WorkbookControl *wbc, GOCmdContext *cc)
 			target.end.col = target.start.col + cr->cols - 1;
 			target.end.row = target.start.row + cr->rows - 1;
 		}
-		if (cr == NULL ||
-		    cmd_text_to_columns (wbc, src, src_sheet,
-					 &target, target_sheet, cr))
+		/*
+		 * cmd_text_to_columns reports its own errors (locked cells,
+		 * merged regions, ...), so only complain here when we could not
+		 * even parse the data.
+		 */
+		if (cr == NULL)
 			go_cmd_context_error_import (GO_CMD_CONTEXT (cc),
 					     _("Error while trying to "
 					       "parse data into sheet"));
+		else
+			cmd_text_to_columns (wbc, src, src_sheet,
+					     &target, target_sheet, cr);
 		stf_dialog_result_free (dialogresult);
 	}
 

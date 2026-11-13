@@ -72,6 +72,9 @@ GnmExprTop const *sheet_widget_adjustment_get_link (SheetObject *so);
 void sheet_widget_adjustment_set_link	 (SheetObject *so,
 					  GnmExprTop const *result_link);
 GtkAdjustment *sheet_widget_adjustment_get_adjustment (SheetObject *so);
+void sheet_widget_adjustment_set_bounds (SheetObject *so,
+					 double lower, double upper,
+					 double step, double page);
 gboolean sheet_widget_adjustment_get_horizontal (SheetObject *so);
 void sheet_widget_adjustment_set_horizontal (SheetObject *so, gboolean horizontal);
 

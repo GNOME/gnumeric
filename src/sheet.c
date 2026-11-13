@@ -2321,6 +2321,31 @@ sheet_colrow_group_ungroup (Sheet *sheet, GnmRange const *r,
 }
 
 /**
+ * sheet_colrow_restore_states:
+ * @sheet: #Sheet
+ * @is_cols: %TRUE for columns, %FALSE for rows.
+ * @first: first column or row
+ * @states: (transfer none): states as returned by colrow_get_states.
+ *
+ * Restores saved states, including outline levels and collapsed markers,
+ * and brings the outline gutter and headers up to date.  This is for undo
+ * of group/ungroup, which cannot be done by regrouping because grouping
+ * clears the collapsed markers.
+ */
+void
+sheet_colrow_restore_states (Sheet *sheet, gboolean is_cols,
+			     int first, ColRowStateList *states)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	colrow_set_states (sheet, is_cols, first, states);
+	sheet_colrow_gutter (sheet, is_cols,
+			     sheet_colrow_fit_gutter (sheet, is_cols));
+	SHEET_FOREACH_VIEW (sheet, sv,
+		gnm_sheet_view_redraw_headers (sv, is_cols, !is_cols, NULL););
+}
+
+/**
  * sheet_colrow_gutter:
  * @sheet:
  * @is_cols: %TRUE for columns, %FALSE for rows.
@@ -7218,6 +7243,10 @@ gnm_sheet_scenario_remove (Sheet *sheet, GnmScenario *sc)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (GNM_IS_SCENARIO (sc));
+
+	/* Someone else may have removed it already; then the ref is gone. */
+	if (!g_list_find (sheet->scenarios, sc))
+		return;
 
 	sheet->scenarios = g_list_remove (sheet->scenarios, sc);
 	g_object_unref (sc);

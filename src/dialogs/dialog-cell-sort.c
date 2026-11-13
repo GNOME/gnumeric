@@ -507,8 +507,7 @@ cb_dialog_ok_clicked (SortFlowState *state)
 		 g_strdup ((text != NULL && text[0] != '\0') ? text : "Other"),
 		 data_copy);
 
-	if (cmd_sort (GNM_WBC (state->wbcg), data))
-		g_object_unref (data);
+	cmd_sort (GNM_WBC (state->wbcg), data);
 
 	gtk_widget_destroy (state->dialog);
 	return;

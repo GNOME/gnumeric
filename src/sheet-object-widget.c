@@ -1486,6 +1486,40 @@ sheet_widget_adjustment_get_adjustment (SheetObject *so)
 }
 
 /**
+ * sheet_widget_adjustment_set_bounds:
+ * @so: #SheetObject
+ * @lower: new lower bound
+ * @upper: new upper bound
+ * @step: new step increment
+ * @page: new page increment
+ *
+ * Changes the adjustment's range without notifying the linked cell, even
+ * if the value gets clamped.  This is for use by undo/redo, which must not
+ * generate new commands.
+ **/
+void
+sheet_widget_adjustment_set_bounds (SheetObject *so,
+				    double lower, double upper,
+				    double step, double page)
+{
+	SheetWidgetAdjustment *swa;
+	GtkAdjustment *adj;
+	gboolean was_updating;
+
+	g_return_if_fail (GNM_IS_SOW_ADJUSTMENT (so));
+
+	swa = GNM_SOW_ADJUSTMENT (so);
+	adj = swa->adjustment;
+	was_updating = swa->being_updated;
+	swa->being_updated = TRUE;
+	gtk_adjustment_configure (adj,
+				  gtk_adjustment_get_value (adj),
+				  lower, upper, step, page,
+				  gtk_adjustment_get_page_size (adj));
+	swa->being_updated = was_updating;
+}
+
+/**
  * sheet_widget_adjustment_get_horizontal:
  * @so: #SheetObject
  *
@@ -3088,7 +3122,8 @@ sheet_widget_radio_button_set_value (SheetObject *so, GnmValue const *val)
 	SheetWidgetRadioButton *swrb = GNM_SOW_RADIO_BUTTON (so);
 
 	value_release (swrb->value);
-	swrb->value = value_dup (val);
+	/* Keep the invariant that value is never NULL; see init_full.  */
+	swrb->value = val ? value_dup (val) : value_new_empty ();
 }
 
 static void

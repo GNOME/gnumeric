@@ -127,7 +127,6 @@ principal_components_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		error_in_entry ((GnmGenericToolState *) state,
 				GTK_WIDGET (state->input_entry), text);
 		g_free (text);
-		dao_free (dao);
 	} else
 		gtk_widget_destroy (state->dialog);
 
