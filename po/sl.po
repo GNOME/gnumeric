@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric-ui master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-11-13 08:39+0000\n"
-"PO-Revision-Date: 2026-11-13 12:18+0100\n"
+"POT-Creation-Date: 2026-11-14 03:09+0000\n"
+"PO-Revision-Date: 2026-11-14 12:29+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -120,7 +120,7 @@ msgid "Applix (*.as)"
 msgstr "Applix (*.as)"
 
 #: ../plugins/dif/dif.c:71 ../plugins/excel/ms-excel-read.c:7274
-#: ../plugins/openoffice/openoffice-read.c:14302 ../src/xml-sax-read.c:3802
+#: ../plugins/openoffice/openoffice-read.c:14324 ../src/xml-sax-read.c:3802
 msgid "Reading file..."
 msgstr "Branje datoteke ..."
 
@@ -233,7 +233,7 @@ msgstr ""
 "Neveljavna vsebina predmeta ss:predmet podatka; vrnjena je vrednost »%s«."
 
 #: ../plugins/excel/excel-xml-read.c:1214
-#: ../plugins/openoffice/openoffice-read.c:14495 ../src/xml-sax-read.c:3819
+#: ../plugins/openoffice/openoffice-read.c:14517 ../src/xml-sax-read.c:3819
 msgid "XML document not well formed!"
 msgstr "Dokument XML ni ustrezno oblikovan!"
 
@@ -299,40 +299,40 @@ msgid "No password supplied"
 msgstr "Geslo ni podano"
 
 #: ../plugins/excel/ms-excel-util.c:698
-#: ../plugins/openoffice/openoffice-read.c:6389 ../src/print-info.c:757
+#: ../plugins/openoffice/openoffice-read.c:6394 ../src/print-info.c:757
 msgid "TAB"
 msgstr "ZAVIHEK"
 
 #: ../plugins/excel/ms-excel-util.c:699
-#: ../plugins/openoffice/openoffice-read.c:6435 ../src/print-info.c:758
+#: ../plugins/openoffice/openoffice-read.c:6440 ../src/print-info.c:758
 msgid "PAGE"
 msgstr "STRAN"
 
 #: ../plugins/excel/ms-excel-util.c:700
-#: ../plugins/openoffice/openoffice-read.c:6442 ../src/print-info.c:759
+#: ../plugins/openoffice/openoffice-read.c:6447 ../src/print-info.c:759
 msgid "PAGES"
 msgstr "STRANI"
 
 #: ../plugins/excel/ms-excel-util.c:701
-#: ../plugins/openoffice/openoffice-read.c:6421 ../src/print-info.c:760
+#: ../plugins/openoffice/openoffice-read.c:6426 ../src/print-info.c:760
 msgid "DATE"
 msgstr "DATUM"
 
 #: ../plugins/excel/ms-excel-util.c:702
-#: ../plugins/openoffice/openoffice-read.c:6428 ../src/print-info.c:761
+#: ../plugins/openoffice/openoffice-read.c:6433 ../src/print-info.c:761
 msgid "TIME"
 msgstr "ČAS"
 
 #: ../plugins/excel/ms-excel-util.c:703
-#: ../plugins/openoffice/openoffice-read.c:6469
-#: ../plugins/openoffice/openoffice-read.c:6476 ../src/print-info.c:762
+#: ../plugins/openoffice/openoffice-read.c:6474
+#: ../plugins/openoffice/openoffice-read.c:6481 ../src/print-info.c:762
 #: ../src/ssgrep.c:77
 msgid "FILE"
 msgstr "DATOTEKA"
 
 #: ../plugins/excel/ms-excel-util.c:704
-#: ../plugins/openoffice/openoffice-read.c:6467
-#: ../plugins/openoffice/openoffice-read.c:6472 ../src/print-info.c:763
+#: ../plugins/openoffice/openoffice-read.c:6472
+#: ../plugins/openoffice/openoffice-read.c:6477 ../src/print-info.c:763
 msgid "PATH"
 msgstr "POT"
 
@@ -342,7 +342,7 @@ msgstr "CELICA"
 
 #. ???
 #: ../plugins/excel/ms-excel-util.c:707
-#: ../plugins/openoffice/openoffice-read.c:6520 ../src/print-info.c:765
+#: ../plugins/openoffice/openoffice-read.c:6525 ../src/print-info.c:765
 msgid "TITLE"
 msgstr "NAZIV"
 
@@ -1466,8 +1466,8 @@ msgid "Unable to open '%s'."
 msgstr "Ni mogoče odpreti »%s«."
 
 #: ../plugins/openoffice/openoffice-read.c:1201
-#: ../plugins/openoffice/openoffice-read.c:8806
-#: ../plugins/openoffice/openoffice-read.c:8826
+#: ../plugins/openoffice/openoffice-read.c:8828
+#: ../plugins/openoffice/openoffice-read.c:8848
 #, c-format
 msgid "Unable to load the file '%s'."
 msgstr "Ni mogoče naložiti datoteke »%s«."
@@ -1503,20 +1503,20 @@ msgid "Unable to parse '%s' ('%s')"
 msgstr "Ni mogoče razčleniti »%s« (»%s«)"
 
 #: ../plugins/openoffice/openoffice-read.c:2500
-#: ../plugins/openoffice/openoffice-read.c:4037
+#: ../plugins/openoffice/openoffice-read.c:4043
 #, c-format
 msgid "Unsupported formula type encountered: %s"
 msgstr "Zaznana je nepodprta vrsta formule: %s"
 
 #: ../plugins/openoffice/openoffice-read.c:2506
-#: ../plugins/openoffice/openoffice-read.c:4044
+#: ../plugins/openoffice/openoffice-read.c:4050
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
 msgstr "Izraz »%s« se ne začne s prepoznavnim znakom"
 
 #: ../plugins/openoffice/openoffice-read.c:2545
-#: ../plugins/openoffice/openoffice-write.c:5299
-#: ../plugins/openoffice/openoffice-write.c:5311 ../src/ssgrep.c:356
+#: ../plugins/openoffice/openoffice-write.c:5395
+#: ../plugins/openoffice/openoffice-write.c:5407 ../src/ssgrep.c:356
 msgid "cell"
 msgstr "celica"
 
@@ -1545,152 +1545,152 @@ msgstr ""
 "Zaznan je nepodprt pogoj določanja veljavnosti: \"%s\" z osnovo naslova: "
 "\"%s\""
 
-#: ../plugins/openoffice/openoffice-read.c:3687
+#: ../plugins/openoffice/openoffice-read.c:3693
 #, c-format
 msgid "Unknown condition '%s' encountered, ignoring."
 msgstr "Zaznan je neznan pogoj »%s«, zato bo opravilo preklicano."
 
-#: ../plugins/openoffice/openoffice-read.c:3769
+#: ../plugins/openoffice/openoffice-read.c:3775
 #, c-format
 msgid "Ignoring column information beyond column %i"
 msgstr "Prezri podatke stolpcev za stolpcem %i."
 
-#: ../plugins/openoffice/openoffice-read.c:3876
-#: ../plugins/openoffice/openoffice-read.c:4282
+#: ../plugins/openoffice/openoffice-read.c:3882
+#: ../plugins/openoffice/openoffice-read.c:4288
 #, c-format
 msgid "Content past the maximum number of rows (%i) supported."
 msgstr "Podprta je vsebina za največjim določenim številom vrstic (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:4029
-#: ../plugins/openoffice/openoffice-read.c:6503
+#: ../plugins/openoffice/openoffice-read.c:4035
+#: ../plugins/openoffice/openoffice-read.c:6508
 msgid "Missing expression"
 msgstr "Manjka izraz"
 
-#: ../plugins/openoffice/openoffice-read.c:4262
+#: ../plugins/openoffice/openoffice-read.c:4268
 msgid "Invalid array expression does not specify number of columns."
 msgstr "Neveljaven izraz polja ne določa števila stolpcev."
 
-#: ../plugins/openoffice/openoffice-read.c:4265
+#: ../plugins/openoffice/openoffice-read.c:4271
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Neveljaven izraz polja ne določa števila vrstic."
 
-#: ../plugins/openoffice/openoffice-read.c:4275
+#: ../plugins/openoffice/openoffice-read.c:4281
 #, c-format
 msgid "Content past the maximum number of columns (%i) supported."
 msgstr "Vsebina presega največje podprto število stolpcev (%i)."
 
-#: ../plugins/openoffice/openoffice-read.c:4601
+#: ../plugins/openoffice/openoffice-read.c:4607
 msgid "Unnamed dash style encountered."
 msgstr "Zaznan je neimenovan slog pomišljaja."
 
-#: ../plugins/openoffice/openoffice-read.c:4619
+#: ../plugins/openoffice/openoffice-read.c:4625
 msgid "Unnamed image fill style encountered."
 msgstr "Zaznan je neimenovan slog polnila slike."
 
-#: ../plugins/openoffice/openoffice-read.c:4621
+#: ../plugins/openoffice/openoffice-read.c:4627
 #, c-format
 msgid "Image fill style '%s' has no attached image."
 msgstr "Slog polnila slike »%s« nima priložene slike."
 
-#: ../plugins/openoffice/openoffice-read.c:4658
 #: ../plugins/openoffice/openoffice-read.c:4664
+#: ../plugins/openoffice/openoffice-read.c:4670
 #, c-format
 msgid "Unable to parse gradient color: %s"
 msgstr "Ni mogoče razčleniti barve preliva: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4684
+#: ../plugins/openoffice/openoffice-read.c:4690
 msgid "Unnamed gradient style encountered."
 msgstr "Zaznan je neimenovan slog preliva."
 
-#: ../plugins/openoffice/openoffice-read.c:4707
+#: ../plugins/openoffice/openoffice-read.c:4713
 #, c-format
 msgid "Unable to parse hatch color: %s"
 msgstr "Ni mogoče razčleniti barve polnila šrafure: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:4784
+#: ../plugins/openoffice/openoffice-read.c:4789
 msgid "Unnamed hatch encountered!"
 msgstr "Zaznano je polnilo šrafure brez imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:4925
+#: ../plugins/openoffice/openoffice-read.c:4930
 msgid "Duplicate default column style encountered."
 msgstr "Zaznan je podvojen privzet slog stolpcev."
 
-#: ../plugins/openoffice/openoffice-read.c:4941
+#: ../plugins/openoffice/openoffice-read.c:4946
 msgid "Duplicate default row style encountered."
 msgstr "Zaznan je podvojen privzet slog vrstic."
 
-#: ../plugins/openoffice/openoffice-read.c:4976
+#: ../plugins/openoffice/openoffice-read.c:4981
 msgid "Duplicate default chart/graphics style encountered."
 msgstr ""
 "Zaznan je podvojen privzet slog diagramov ali drugih grafičnih predmetov."
 
-#: ../plugins/openoffice/openoffice-read.c:5278
+#: ../plugins/openoffice/openoffice-read.c:5283
 #, c-format
 msgid "Invalid embedded text position %d"
 msgstr "Neveljaven položaj vstavljenega besedila %d"
 
-#: ../plugins/openoffice/openoffice-read.c:5479
+#: ../plugins/openoffice/openoffice-read.c:5484
 msgid "Unnamed date style ignored."
 msgstr "Neimenovan slog datuma je prezrt."
 
-#: ../plugins/openoffice/openoffice-read.c:5870
+#: ../plugins/openoffice/openoffice-read.c:5875
 #, c-format
 msgid "Corrupted file: invalid number format condition [%s]."
 msgstr "Pokvarjena datoteka: neveljaven pogoj zapisa števila [%s]."
 
-#: ../plugins/openoffice/openoffice-read.c:5888
+#: ../plugins/openoffice/openoffice-read.c:5893
 msgid "Corrupted file: unnamed number style ignored."
 msgstr "Pokvarjena datoteka: neimenovan slog števila je prezrt."
 
-#: ../plugins/openoffice/openoffice-read.c:5910
+#: ../plugins/openoffice/openoffice-read.c:5915
 msgid "This file appears corrupted, required formats are missing."
 msgstr "Datoteka je videti pokvarjena, saj manjkajo zahtevani oblike zapisa."
 
-#: ../plugins/openoffice/openoffice-read.c:5979
+#: ../plugins/openoffice/openoffice-read.c:5984
 #, c-format
 msgid "Paper from ODF file: %ipt⨉%ipt"
 msgstr "Stran datoteke ODF: %i⨉%i točk"
 
-#: ../plugins/openoffice/openoffice-read.c:6191
+#: ../plugins/openoffice/openoffice-read.c:6196
 msgid "Missing page layout identifier"
 msgstr "Manjka določilo postavitve strani"
 
-#: ../plugins/openoffice/openoffice-read.c:6218
+#: ../plugins/openoffice/openoffice-read.c:6223
 msgid ""
 "Gnumeric does not support having a different style for left pages. This "
 "style is ignored."
 msgstr "Program ne podpira različnih slogov za leve strani. Slog bo prezrt."
 
 #. For OOO_VER_1 this may be acceptable
-#: ../plugins/openoffice/openoffice-read.c:6243
+#: ../plugins/openoffice/openoffice-read.c:6248
 msgid "Master page style without page layout encountered!"
 msgstr "Zaznan je glavni slog strani brez postavitve strani!"
 
-#: ../plugins/openoffice/openoffice-read.c:6249
+#: ../plugins/openoffice/openoffice-read.c:6254
 msgid "Master page style without name encountered!"
 msgstr "Zaznan je glavni slog strani brez ustreznega imena!"
 
-#: ../plugins/openoffice/openoffice-read.c:6552
+#: ../plugins/openoffice/openoffice-read.c:6557
 #, c-format
 msgid "Unknown Gnumeric border style '%s' encountered."
 msgstr "Zaznan je neznan slog obrobe »%s«."
 
-#: ../plugins/openoffice/openoffice-read.c:6898
+#: ../plugins/openoffice/openoffice-read.c:6920
 #, c-format
 msgid "Unknown break type '%s' defaulting to NONE"
 msgstr "Neznana vrsta prekinitve »%s« je spremenjena v BREZ"
 
-#: ../plugins/openoffice/openoffice-read.c:6983
+#: ../plugins/openoffice/openoffice-read.c:7005
 #, c-format
 msgid "Unable to parse tab color '%s'"
 msgstr "Ni mogoče razčleniti barve ozadja zavihka »%s«"
 
-#: ../plugins/openoffice/openoffice-read.c:6994
+#: ../plugins/openoffice/openoffice-read.c:7016
 #, c-format
 msgid "Unable to parse tab text color '%s'"
 msgstr "Ni mogoče razčleniti barve posave zavihka »%s«"
 
-#: ../plugins/openoffice/openoffice-read.c:7525
+#: ../plugins/openoffice/openoffice-read.c:7547
 #, c-format
 msgid ""
 "Unknown interpolation type encountered: '%s', using Bezier cubic spline "
@@ -1699,36 +1699,36 @@ msgstr ""
 "Zaznana neznana vrsta interpolacije: »%s«, namesto tega bo uporabljena "
 "Bezierova kubična polinomska krivulja."
 
-#: ../plugins/openoffice/openoffice-read.c:7533
+#: ../plugins/openoffice/openoffice-read.c:7555
 #, c-format
 msgid "Unknown interpolation type encountered: %s"
 msgstr "Zaznana neznana vrsta interpolacije: %s"
 
-#: ../plugins/openoffice/openoffice-read.c:8092
+#: ../plugins/openoffice/openoffice-read.c:8114
 #, c-format
 msgid "expression '%s' @ '%s' is not a cellref"
 msgstr "izraz »%s« @ »%s« ni sklic celice"
 
-#: ../plugins/openoffice/openoffice-read.c:8106
+#: ../plugins/openoffice/openoffice-read.c:8128
 #, c-format
 msgid "Expression '%s' has unknown namespace"
 msgstr "Izraz »%s« nima znanega imenskega prostora"
 
-#: ../plugins/openoffice/openoffice-read.c:8180
+#: ../plugins/openoffice/openoffice-read.c:8202
 #, c-format
 msgid "Invalid DB range '%s'"
 msgstr "Neveljaven obseg podatkovne zbirke »%s«."
 
-#: ../plugins/openoffice/openoffice-read.c:8215
+#: ../plugins/openoffice/openoffice-read.c:8237
 msgid "Gnumeric does not support 'or'-ed autofilter conditions."
 msgstr "Program Gnumeric ne podpira pogojev samodejnega filtra »or«."
 
-#: ../plugins/openoffice/openoffice-read.c:8422
+#: ../plugins/openoffice/openoffice-read.c:8444
 #, c-format
 msgid "Moving sheet object from column %i and row %i"
 msgstr "Premikanje predmeta delovnega lista iz stolpca %i in vrstice %i"
 
-#: ../plugins/openoffice/openoffice-read.c:8497
+#: ../plugins/openoffice/openoffice-read.c:8519
 #, c-format
 msgid ""
 "Gnumeric's sheet object lines do not support attached text. The text \"%s\" "
@@ -1737,14 +1737,14 @@ msgstr ""
 "Črte predmeta delovnega lista v programu Gnumeric ne podpirajo pripetega "
 "besedila. Besedilo \"%s\" bo zavrženo."
 
-#: ../plugins/openoffice/openoffice-read.c:8534
-#: ../plugins/openoffice/openoffice-read.c:8573
+#: ../plugins/openoffice/openoffice-read.c:8556
+#: ../plugins/openoffice/openoffice-read.c:8595
 #, c-format
 msgid "Invalid attribute 'form:value', expected number, received '%s'"
 msgstr ""
 "Neveljaven atribut 'oblika:vrednost'; pričakovano je število, prejeto pa »%s«"
 
-#: ../plugins/openoffice/openoffice-read.c:8539
+#: ../plugins/openoffice/openoffice-read.c:8561
 #, c-format
 msgid ""
 "Invalid value-type '%s' advertised for 'form:value' attribute in 'form:value-"
@@ -1753,16 +1753,16 @@ msgstr ""
 "Neveljavna vrsta vrednosti »%s« zapisana kot atribut 'oblika:vrednost' v "
 "predmetu 'oblika:vrsta-podatkov'."
 
-#: ../plugins/openoffice/openoffice-read.c:9010
+#: ../plugins/openoffice/openoffice-read.c:9032
 msgid "Unable to determine manual position for a chart component!"
 msgstr "Ročnega položaja za komponento grafikona ni mogoče določiti!"
 
-#: ../plugins/openoffice/openoffice-read.c:9290
+#: ../plugins/openoffice/openoffice-read.c:9312
 #, c-format
 msgid "Not enough data in the supplied range (%s) for all the requests"
 msgstr "V podani podatkovni vrsti (%s) ni dovolj podatkov za vse zahteve"
 
-#: ../plugins/openoffice/openoffice-read.c:10027
+#: ../plugins/openoffice/openoffice-read.c:10049
 msgid ""
 "Gnumeric does not support non-automatic regression equations. Using "
 "automatic equation instead."
@@ -1770,69 +1770,69 @@ msgstr ""
 "Program Gnumeric ne podpira izvajanja ne-samodejnih izračunov regresije. "
 "Uporabljena bo samodejno izvedljiva enačba."
 
-#: ../plugins/openoffice/openoffice-read.c:10046
+#: ../plugins/openoffice/openoffice-read.c:10068
 #, c-format
 msgid "The chart style \"%s\" is not defined!"
 msgstr "Slog diagrama »%s« ni določen!"
 
-#: ../plugins/openoffice/openoffice-read.c:10214
+#: ../plugins/openoffice/openoffice-read.c:10236
 msgid "Encountered drop lines in a plot not supporting them."
 msgstr "Zaznane so spustne črte v vrsti diagrama, ki te možnosti ne podpira."
 
-#: ../plugins/openoffice/openoffice-read.c:10356
+#: ../plugins/openoffice/openoffice-read.c:10378
 msgid "Encountered an unknown chart type, trying to create a line plot."
 msgstr "Zaznana je neznana vrsta diagrama, zato bo izrisan črtni diagram."
 
-#: ../plugins/openoffice/openoffice-read.c:10418
-#: ../plugins/openoffice/openoffice-read.c:10459
-#: ../plugins/openoffice/openoffice-read.c:10489
-#: ../plugins/openoffice/openoffice-read.c:10523
+#: ../plugins/openoffice/openoffice-read.c:10440
+#: ../plugins/openoffice/openoffice-read.c:10481
+#: ../plugins/openoffice/openoffice-read.c:10511
+#: ../plugins/openoffice/openoffice-read.c:10545
 #, c-format
 msgid "Chart style with name '%s' is missing."
 msgstr "Manjka slog diagrama za imenom »%s«."
 
-#: ../plugins/openoffice/openoffice-read.c:10661
+#: ../plugins/openoffice/openoffice-read.c:10683
 msgid ""
 "An unsupported caption was encountered and converted to a text rectangle."
 msgstr "Zaznana nepodprta oblika naslova  je pretvorjena v pravokotnik."
 
-#: ../plugins/openoffice/openoffice-read.c:10736
+#: ../plugins/openoffice/openoffice-read.c:10758
 #, c-format
 msgid "Infinite loop encountered while parsing formula '%s' of name '%s'"
 msgstr ""
 "Zaznano je izvajanje v neskončni zanki med razčlenjevanjem formule »%s« "
 "imena »%s«"
 
-#: ../plugins/openoffice/openoffice-read.c:10939
+#: ../plugins/openoffice/openoffice-read.c:10961
 #, c-format
 msgid "Unable to evaluate formula '%s' ('%s') of name '%s'"
 msgstr "Formule »%s« (»%s«) imena »%s« ni mogoče opredeliti"
 
-#: ../plugins/openoffice/openoffice-read.c:10944
+#: ../plugins/openoffice/openoffice-read.c:10966
 #, c-format
 msgid "Unable to parse formula '%s' ('%s') of name '%s'"
 msgstr "Formule »%s« (»%s«) imena »%s« ni mogoče razčleniti"
 
 #. We have already created the rectangle
-#: ../plugins/openoffice/openoffice-read.c:11028
-#: ../plugins/openoffice/openoffice-read.c:11031
+#: ../plugins/openoffice/openoffice-read.c:11050
+#: ../plugins/openoffice/openoffice-read.c:11053
 #, c-format
 msgid ""
 "An unsupported custom shape of type '%s' was encountered and converted to a "
 "rectangle."
 msgstr "Zaznana nepodprta oblika po meri »%s«  je pretvorjena v pravokotnik."
 
-#: ../plugins/openoffice/openoffice-read.c:11034
+#: ../plugins/openoffice/openoffice-read.c:11056
 msgid ""
 "An unsupported custom shape was encountered and converted to a rectangle."
 msgstr "Zaznana nepodprta oblika po meri je pretvorjena v pravokotnik."
 
-#: ../plugins/openoffice/openoffice-read.c:11435
+#: ../plugins/openoffice/openoffice-read.c:11457
 #, c-format
 msgid "Attribute '%s' has the unsupported value '%s'."
 msgstr "Atribut »%s« ima nepodprto vrednost »%s«."
 
-#: ../plugins/openoffice/openoffice-read.c:12106
+#: ../plugins/openoffice/openoffice-read.c:12128
 #, c-format
 msgid ""
 "The sheet size of %i columns and %i rows used in this file exceeds "
@@ -1841,12 +1841,12 @@ msgstr ""
 "Velikost delovnega lista, ki ima %i stolpcev in %i vrstic, presega največjo "
 "dovoljeno velikost delovnega lista v programu Gnumeric."
 
-#: ../plugins/openoffice/openoffice-read.c:12137
+#: ../plugins/openoffice/openoffice-read.c:12159
 #, c-format
 msgid "%s_IN_CORRUPTED_FILE"
 msgstr "%s_V_OKVARJENI_DATOTEKI"
 
-#: ../plugins/openoffice/openoffice-read.c:12142
+#: ../plugins/openoffice/openoffice-read.c:12164
 #, c-format
 msgid ""
 "This file is corrupted with a duplicate sheet name \"%s\", now renamed to "
@@ -1855,75 +1855,79 @@ msgstr ""
 "Datoteka je pokvarjena, saj je imela podvojeno ime delovnega lista \"%s\", "
 "ki je preimenovano v \"%s\"."
 
-#: ../plugins/openoffice/openoffice-read.c:12152
+#: ../plugins/openoffice/openoffice-read.c:12174
 msgid "SHEET_IN_CORRUPTED_FILE"
 msgstr "DELOVNI_LIST_V_OKVARJENI_DATOTEKI"
 
 #. We are missing the table name. This is bad!
-#: ../plugins/openoffice/openoffice-read.c:12158
+#: ../plugins/openoffice/openoffice-read.c:12180
 #, c-format
 msgid "This file is corrupted with an unnamed sheet now named \"%s\"."
 msgstr ""
 "Datoteka je pokvarjena, saj ima neimenovano ime delovnega lista \"%s\"."
 
-#: ../plugins/openoffice/openoffice-read.c:14152
+#: ../plugins/openoffice/openoffice-read.c:14174
 msgid "Unknown mimetype for openoffice file."
 msgstr "Neznana vrsta mime za datoteko openoffice."
 
-#: ../plugins/openoffice/openoffice-read.c:14162
+#: ../plugins/openoffice/openoffice-read.c:14184
 msgid "No stream named content.xml found."
 msgstr "Pretoka z imenom content.xml ni mogoče najti."
 
-#: ../plugins/openoffice/openoffice-read.c:14312
+#: ../plugins/openoffice/openoffice-read.c:14334
 #, c-format
 msgid "Invalid metadata '%s'"
 msgstr "Neveljavni metapodatki »%s«"
 
-#: ../plugins/openoffice/openoffice-read.c:14405
+#: ../plugins/openoffice/openoffice-read.c:14427
 msgid "settings.xml stream is malformed!"
 msgstr "datoteka pretoka settings.xml je napačno oblikovana!"
 
-#: ../plugins/openoffice/openoffice-write.c:5292
-#: ../plugins/openoffice/openoffice-write.c:5304
+#: ../plugins/openoffice/openoffice-write.c:5388
+#: ../plugins/openoffice/openoffice-write.c:5400
 msgid "tab"
 msgstr "tab"
 
-#: ../plugins/openoffice/openoffice-write.c:5293
-#: ../plugins/openoffice/openoffice-write.c:5305
+#: ../plugins/openoffice/openoffice-write.c:5389
+#: ../plugins/openoffice/openoffice-write.c:5401
 msgid "page"
 msgstr "stran"
 
-#: ../plugins/openoffice/openoffice-write.c:5294
-#: ../plugins/openoffice/openoffice-write.c:5306
+#: ../plugins/openoffice/openoffice-write.c:5390
+#: ../plugins/openoffice/openoffice-write.c:5402
 msgid "pages"
 msgstr "strani"
 
-#: ../plugins/openoffice/openoffice-write.c:5295
-#: ../plugins/openoffice/openoffice-write.c:5307
+#: ../plugins/openoffice/openoffice-write.c:5391
+#: ../plugins/openoffice/openoffice-write.c:5403
 msgid "date"
 msgstr "datum"
 
-#: ../plugins/openoffice/openoffice-write.c:5296
-#: ../plugins/openoffice/openoffice-write.c:5308
+#: ../plugins/openoffice/openoffice-write.c:5392
+#: ../plugins/openoffice/openoffice-write.c:5404
 msgid "time"
 msgstr "čas"
 
-#: ../plugins/openoffice/openoffice-write.c:5297
-#: ../plugins/openoffice/openoffice-write.c:5309 ../src/ssconvert.c:140
+#: ../plugins/openoffice/openoffice-write.c:5393
+#: ../plugins/openoffice/openoffice-write.c:5405 ../src/ssconvert.c:140
 #: ../src/ssdiff.c:61
 msgid "file"
 msgstr "datoteka"
 
-#: ../plugins/openoffice/openoffice-write.c:5298
-#: ../plugins/openoffice/openoffice-write.c:5310
+#: ../plugins/openoffice/openoffice-write.c:5394
+#: ../plugins/openoffice/openoffice-write.c:5406
 msgid "path"
 msgstr "pot"
 
-#: ../plugins/openoffice/openoffice-write.c:9111
+#: ../plugins/openoffice/openoffice-write.c:9258
+msgid "Unable to create the ODF zip container."
+msgstr "Ni mogoče ustvariti vsebnika zip ODF."
+
+#: ../plugins/openoffice/openoffice-write.c:9331
 msgid "Writing Sheets..."
 msgstr "Čakanje na delovne liste ..."
 
-#: ../plugins/openoffice/openoffice-write.c:9152
+#: ../plugins/openoffice/openoffice-write.c:9372
 msgid "Writing Sheet Objects..."
 msgstr "Zapisovanje predmetov delovnega lista ..."
 
@@ -12834,23 +12838,23 @@ msgstr "Potegni za samodejno polnjenje"
 msgid "Drag to move"
 msgstr "Potegni za premikanje"
 
-#: ../src/libgnumeric.c:139
+#: ../src/libgnumeric.c:80
 msgid "Display Gnumeric's version"
 msgstr "Izpiši različico programa Gnumeric"
 
-#: ../src/libgnumeric.c:148
+#: ../src/libgnumeric.c:89
 msgid "Set the root library directory"
 msgstr "Določitev korenske mape knjižnice"
 
-#: ../src/libgnumeric.c:149 ../src/libgnumeric.c:155
+#: ../src/libgnumeric.c:90 ../src/libgnumeric.c:96
 msgid "DIR"
 msgstr "MAPA"
 
-#: ../src/libgnumeric.c:154
+#: ../src/libgnumeric.c:95
 msgid "Adjust the root data directory"
 msgstr "Prilagodi korensko podatkovno mapo"
 
-#: ../src/libgnumeric.c:171
+#: ../src/libgnumeric.c:112
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -12861,11 +12865,11 @@ msgstr ""
 "podatkovna mapa := »%s«\n"
 "mapa knjižnic := »%s«\n"
 
-#: ../src/libgnumeric.c:192
+#: ../src/libgnumeric.c:133
 msgid "Gnumeric Options"
 msgstr "Možnosti programa"
 
-#: ../src/libgnumeric.c:192
+#: ../src/libgnumeric.c:133
 msgid "Show Gnumeric Options"
 msgstr "Pokaži možnosti programa Gnumeric"
 
