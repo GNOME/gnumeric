@@ -1217,6 +1217,7 @@
 	<xs:attribute name="Value1"	 type="gnm:ValueType"	  use="optional"/>
 	<xs:attribute name="ValueType1" type="xs:string"	  use="optional"/>
 	<xs:attribute name="Op1"	 type="gnm:FilterFieldOp" use="optional"/>
+	<xs:attribute name="IsAnd" type="xs:boolean" use="optional"/>
 
 	<!-- Only valid for Type=bucket -->
 	<xs:attribute name="top"   type="xs:boolean" use="optional"/> <!-- top vs bottom -->
