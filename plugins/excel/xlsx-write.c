@@ -2290,7 +2290,8 @@ xlsx_write_autofilters (XLSXWriteState *state, GsfXMLOut *xml)
 			}
 
 			gsf_xml_out_start_element (xml, "customFilters");
-			if (N > 1)
+			/* "and" defaults to false, meaning or. */
+			if (N > 1 && cond->is_and)
 				gsf_xml_out_add_cstr_unchecked (xml, "and", "true");
 			for (oi = 0; oi < G_N_ELEMENTS (cond->op); oi++) {
 				GnmFilterOp op = cond->op[oi];

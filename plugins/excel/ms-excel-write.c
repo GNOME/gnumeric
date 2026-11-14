@@ -4043,7 +4043,7 @@ excel_write_DOPER (GnmFilterCondition const *cond, int i, guint8 *buf)
 		break;
 	}
 
-	switch (cond->op[0]) {
+	switch (cond->op[i]) {
 	case GNM_FILTER_OP_EQUAL:	buf[1] = 2; break;
 	case GNM_FILTER_OP_GT:		buf[1] = 4; break;
 	case GNM_FILTER_OP_LT:		buf[1] = 1; break;

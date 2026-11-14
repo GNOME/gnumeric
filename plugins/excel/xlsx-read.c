@@ -187,6 +187,12 @@ typedef struct {
 	GnmFilter	   *filter;
 	int		    filter_cur_field;
 	GSList		   *filter_items; /* an accumulator */
+	/* <customFilters>: the first <customFilter> is kept here so that a
+	   second one can be combined with it into a dual condition.  */
+	gboolean	    filter_custom_and;
+	int		    filter_custom_n;
+	GnmFilterOp	    filter_custom_op0;
+	GnmValue	   *filter_custom_v0;
 
 	GSList		   *validation_regions;
 	GnmValidation	   *validation;
@@ -2511,21 +2517,27 @@ xlsx_CT_Filter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs
 }
 
 static void
-xlsx_CT_CustomFilters_begin (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+xlsx_CT_CustomFilters_begin (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 
-#if 0
+	/* "and" defaults to false, i.e., the conditions are or-ed. */
+	state->filter_custom_and = FALSE;
+	state->filter_custom_n = 0;
+	value_release (state->filter_custom_v0);
+	state->filter_custom_v0 = NULL;
+
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (attr_eq (attrs[0], "val")) {
-		}
-#endif
+		(void)attr_bool (xin, attrs, "and", &state->filter_custom_and);
+
 	state->filter_items = NULL;
 }
 static void
 xlsx_CT_CustomFilters_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
+	value_release (state->filter_custom_v0);
+	state->filter_custom_v0 = NULL;
 	state->filter_items = NULL;
 }
 
@@ -2560,7 +2572,21 @@ xlsx_CT_CustomFilter (G_GNUC_UNUSED GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const *
 		}
 	}
 
-	cond = gnm_filter_condition_new_single (op, v);
+	state->filter_custom_n++;
+	if (state->filter_custom_n == 2 && state->filter_custom_v0 && v) {
+		/* Replaces the single condition set for the first one. */
+		cond = gnm_filter_condition_new_double
+			(state->filter_custom_op0, state->filter_custom_v0,
+			 state->filter_custom_and,
+			 op, v);
+		state->filter_custom_v0 = NULL; /* consumed */
+	} else {
+		if (state->filter_custom_n == 1 && v) {
+			state->filter_custom_op0 = op;
+			state->filter_custom_v0 = value_dup (v);
+		}
+		cond = gnm_filter_condition_new_single (op, v);
+	}
 	if (cond)
 		gnm_filter_set_condition_checked (state->filter, state->filter_cur_field,
 						  cond, FALSE);
@@ -5446,6 +5472,7 @@ xlsx_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *context,
 		}
 		g_array_free (state.sst, TRUE);
 	}
+	value_release (state.filter_custom_v0);
 	if (state.r_text) g_string_free (state.r_text, TRUE);
 	if (state.rich_attrs) pango_attr_list_unref (state.rich_attrs);
 	if (state.run_attrs) pango_attr_list_unref (state.run_attrs);
