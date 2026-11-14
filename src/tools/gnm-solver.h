@@ -99,6 +99,10 @@ void gnm_solver_constraint_set_rhs (GnmSolverConstraint *c, GnmValue *v);
 void gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
 					Sheet const *sheet,
 					GString *buf, gboolean lhs);
+void gnm_solver_constraint_side_as_str_convs (GnmSolverConstraint const *c,
+					      Sheet const *sheet,
+					      GnmConventions const *convs,
+					      GString *buf, gboolean lhs);
 char *gnm_solver_constraint_as_str (GnmSolverConstraint const *c, Sheet *sheet);
 char *gnm_solver_constraint_part_as_str (GnmSolverConstraint const *c, int i,
 					 GnmSolverParameters *sp);

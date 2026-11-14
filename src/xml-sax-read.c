@@ -44,6 +44,7 @@
 #include <position.h>
 #include <expr.h>
 #include <expr-name.h>
+#include <parse-util.h>
 #include <print-info.h>
 #include <value.h>
 #include <selection.h>
@@ -56,6 +57,7 @@
 #include <gnm-so-line.h>
 #include <gnm-so-filled.h>
 #include <gnm-so-path.h>
+#include <gnm-so-polygon.h>
 #include <gnm-format.h>
 #include <sheet-object-graph.h>
 #include <sheet-object-component.h>
@@ -450,6 +452,11 @@ typedef struct {
 	GnmPageBreaks *page_breaks;
 
 	GnmCellRegion *clipboard;
+	/* [0]: cols, [1]: rows.  Only used while reading clipboard Cols/Rows */
+	struct {
+		double def_size;
+		int len;
+	} clip_colrow[2];
 
 	GnmXmlStyleHandler style_handler;
 	gpointer style_handler_user;
@@ -1407,12 +1414,64 @@ maybe_hack_colrow_size (XMLSaxParseState *state, double pts, gboolean is_col)
 }
 
 
+/*
+ * Append a run of @length entries to the (temporarily reversed) state list
+ * of the clipboard region.
+ */
+static void
+xml_sax_clip_colrow_append (XMLSaxParseState *state, gboolean is_col,
+			    int length, const ColRowState *cs)
+{
+	GnmCellRegion *cr = state->clipboard;
+	int idx = is_col ? 0 : 1;
+	ColRowStateList **pl = is_col ? &cr->col_state : &cr->row_state;
+	ColRowRLEState *rle;
+
+	if (length <= 0)
+		return;
+	rle = g_new (ColRowRLEState, 1);
+	rle->length = length;
+	rle->state = *cs;
+	*pl = g_slist_prepend (*pl, rle);
+	state->clip_colrow[idx].len += length;
+}
+
+static void
+xml_sax_clip_colrow_pad (XMLSaxParseState *state, gboolean is_col, int upto)
+{
+	int idx = is_col ? 0 : 1;
+	ColRowState cs;
+
+	memset (&cs, 0, sizeof (cs));
+	cs.is_default = TRUE;
+	cs.visible = TRUE;
+	cs.size_pts = state->clip_colrow[idx].def_size;
+	xml_sax_clip_colrow_append (state, is_col,
+				    upto - state->clip_colrow[idx].len, &cs);
+}
+
 static void
 xml_sax_cols_rows (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	double def_size;
 	gboolean const is_col = xin->node->user_data.v_bool;
+
+	if (state->clipboard) {
+		/*
+		 * state->sheet is the paste destination here; do not touch
+		 * it.  Geometry goes into the cellregion instead.
+		 */
+		int idx = is_col ? 0 : 1;
+		state->clip_colrow[idx].len = 0;
+		state->clip_colrow[idx].def_size = 0;
+		for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+			if (gnm_xml_attr_double (attrs, "DefaultSizePts", &def_size) &&
+			    go_finite (def_size) && def_size > 0)
+				state->clip_colrow[idx].def_size = def_size;
+		}
+		return;
+	}
 
 	xml_sax_must_have_sheet (state);
 
@@ -1459,6 +1518,15 @@ xml_sax_cols_rows_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	gboolean const is_col = xin->node->user_data.v_bool;
 	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	Sheet *sheet = state->sheet;
+
+	if (state->clipboard) {
+		GnmCellRegion *cr = state->clipboard;
+		ColRowStateList **pl = is_col ? &cr->col_state : &cr->row_state;
+		xml_sax_clip_colrow_pad (state, is_col,
+					 is_col ? cr->cols : cr->rows);
+		*pl = g_slist_reverse (*pl);
+		return;
+	}
 
 	if (is_col || !state->hack_colrow_size)
 		return;
@@ -1528,6 +1596,35 @@ xml_sax_colrow (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 
 	XML_CHECK (size > -1);
+	if (state->clipboard) {
+		GnmCellRegion *cr = state->clipboard;
+		int idx = is_col ? 0 : 1;
+		int total = is_col ? cr->cols : cr->rows;
+		int rel = pos - (is_col ? cr->base.col : cr->base.row);
+		ColRowState cs;
+
+		/*
+		 * Positions refer to the source sheet, whose size may differ
+		 * from the paste destination's, so the checks below on the
+		 * destination do not apply.
+		 */
+		XML_CHECK (go_finite (size));
+		XML_CHECK (pos >= 0 && count >= 1);
+		if (rel < state->clip_colrow[idx].len || rel >= total)
+			return; /* out of order or outside the region */
+		count = MIN (count, total - rel);
+
+		xml_sax_clip_colrow_pad (state, is_col, rel);
+		memset (&cs, 0, sizeof (cs));
+		cs.size_pts = size;
+		cs.hard_size = hard_size != 0;
+		cs.visible = !hidden;
+		cs.is_collapsed = is_collapsed != 0;
+		cs.outline_level = CLAMP (outline_level, 0, 15);
+		xml_sax_clip_colrow_append (state, is_col, count, &cs);
+		return;
+	}
+
 	XML_CHECK (pos >= 0 && pos < colrow_max (is_col, sheet));
 	XML_CHECK (count >= 1);
 	XML_CHECK (count <= colrow_max (is_col, sheet) - pos);
@@ -2700,6 +2797,8 @@ xml_sax_read_obj (GsfXMLIn *xin, gboolean needs_cleanup,
 		so = sheet_object_component_new (NULL);
 	else if (!strcmp (type_name, "SheetObjectPath"))
 		so = g_object_new (GNM_SO_PATH_TYPE, NULL);
+	else if (!strcmp (type_name, "SheetObjectPolygon"))
+		so = g_object_new (GNM_SO_POLYGON_TYPE, NULL);
 
 	else {
 		GType type = g_type_from_name (type_name);
@@ -2802,16 +2901,40 @@ xml_sax_object_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 	 */
 }
 
+/*
+ * Parse a reference stored in the file.  The file format uses the XML
+ * conventions (A1); the sheet's own conventions are for the GUI only.
+ * Versions of this code used to write solver references with the sheet's
+ * conventions (e.g., R1C1), so fall back to those if the XML parse fails.
+ */
 static GnmValue *
-parse_constraint_side (const char *s, const GnmParsePos *pp)
+parse_xml_range (XMLSaxParseState *state, const GnmParsePos *pp, const char *s)
+{
+	GnmExprTop const *texpr;
+	GnmValue *v = NULL;
+
+	texpr = gnm_expr_parse_str (s, pp, GNM_EXPR_PARSE_DEFAULT,
+				    state->convs, NULL);
+	if (!texpr && pp->sheet && pp->sheet->convs != state->convs)
+		texpr = gnm_expr_parse_str (s, pp, GNM_EXPR_PARSE_DEFAULT,
+					    pp->sheet->convs, NULL);
+	if (texpr) {
+		v = gnm_expr_top_get_range (texpr);
+		gnm_expr_top_unref (texpr);
+	}
+
+	return v;
+}
+
+static GnmValue *
+parse_constraint_side (XMLSaxParseState *state, const char *s,
+		       const GnmParsePos *pp)
 {
 	GODateConventions const *date_conv = sheet_date_conv (pp->sheet);
 	GnmValue *v = format_match_number (s, NULL, date_conv);
 
-	if (!v) {
-		GnmExprParseFlags flags = GNM_EXPR_PARSE_DEFAULT;
-		v = value_new_cellrange_parsepos_str (pp, s, flags);
-	}
+	if (!v)
+		v = parse_xml_range (state, pp, s);
 
 	return v;
 }
@@ -2819,6 +2942,7 @@ parse_constraint_side (const char *s, const GnmParsePos *pp)
 static void
 xml_sax_solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
+	XMLSaxParseState *state = (XMLSaxParseState *)xin->user_state;
 	int type = 0;
 	GnmSolverConstraint *c;
 	Sheet *sheet = gnm_xml_in_cur_sheet (xin);
@@ -2843,11 +2967,11 @@ xml_sax_solver_constr_start (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gnm_xml_attr_int (attrs, "Type", &type))
 			; /* Nothing */
 		else if (attr_eq (attrs[0], "lhs")) {
-			GnmValue *v = parse_constraint_side (CXML2C (attrs[1]),
+			GnmValue *v = parse_constraint_side (state, CXML2C (attrs[1]),
 							     &pp);
 			gnm_solver_constraint_set_lhs (c, v);
 		} else if (attr_eq (attrs[0], "rhs")) {
-			GnmValue *v = parse_constraint_side (CXML2C (attrs[1]),
+			GnmValue *v = parse_constraint_side (state, CXML2C (attrs[1]),
 							     &pp);
 			gnm_solver_constraint_set_rhs (c, v);
 		}
@@ -2900,19 +3024,15 @@ xml_sax_solver_start (GsfXMLIn *xin, xmlChar const **attrs)
 			else
 				xml_sax_barf (G_STRFUNC, "valid solver problem type");
 		} else if (attr_eq (attrs[0], "Inputs")) {
-			GnmValue *v = value_new_cellrange_parsepos_str
-				(&pp,
-				 CXML2C (attrs[1]),
-				 GNM_EXPR_PARSE_DEFAULT);
+			GnmValue *v = parse_xml_range (state, &pp,
+						       CXML2C (attrs[1]));
 			gnm_solver_param_set_input (sp, v);
 		} else if (gnm_xml_attr_int (attrs, "TargetCol", &col) ||
 			   gnm_xml_attr_int (attrs, "TargetRow", &row)) {
 			old = TRUE;
 		} else if (attr_eq (attrs[0], "Target")) {
-			GnmValue *v = value_new_cellrange_parsepos_str
-				(&pp,
-				 CXML2C (attrs[1]),
-				 GNM_EXPR_PARSE_DEFAULT);
+			GnmValue *v = parse_xml_range (state, &pp,
+						       CXML2C (attrs[1]));
 			GnmSheetRange sr;
 			GnmCellRef cr;
 			gboolean  bad;
@@ -3455,7 +3575,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 	      GSF_XML_IN_NODE (STYLE_CONDITION, STYLE_STYLE, GNM, "Style", GSF_XML_NO_CONTENT, NULL, NULL),
 
       GSF_XML_IN_NODE_FULL (SHEET, SHEET_COLS, GNM, "Cols",
-			    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_cols_rows, NULL, TRUE),
+			    GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_cols_rows, &xml_sax_cols_rows_end, TRUE),
 	GSF_XML_IN_NODE_FULL (SHEET_COLS, COL, GNM, "ColInfo",
 			      GSF_XML_NO_CONTENT, FALSE, FALSE, &xml_sax_colrow, NULL, TRUE),
 
@@ -3505,6 +3625,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", GSF_XML_NO_CONTENT, TRUE, TRUE
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_IMAGE, GNM, "SheetObjectImage", GSF_XML_NO_CONTENT,	&xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_COMPONENT, GNM, "SheetObjectComponent", GSF_XML_NO_CONTENT, &xml_sax_object_start, &xml_sax_object_end),
 	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_PATH, GNM, "SheetObjectPath", GSF_XML_NO_CONTENT, &xml_sax_object_start, &xml_sax_object_end),
+	GSF_XML_IN_NODE (SHEET_OBJECTS, OBJECT_POLYGON, GNM, "SheetObjectPolygon", GSF_XML_NO_CONTENT, &xml_sax_object_start, &xml_sax_object_end),
 
   GSF_XML_IN_NODE (WB, WB_GEOMETRY, GNM, "Geometry", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
   GSF_XML_IN_NODE (WB, WB_VIEW, GNM, "UIData", GSF_XML_NO_CONTENT, &xml_sax_wb_view, NULL),
@@ -3531,7 +3652,8 @@ xml_sax_clipboardrange_start (GsfXMLIn *xin, xmlChar const **attrs)
 		    gnm_xml_attr_int (attrs, "BaseRow", &base_row) ||
 		    gnm_xml_attr_bool (attrs, "NotAsContent", &cr->not_as_contents))
 			; /* Nothing */
-		else if (attr_eq (attrs[0], "DateConvention")) {
+		else if (attr_eq (attrs[0], "DateConvention") ||
+			 attr_eq (attrs[0], "gnm:DateConvention")) {
 			GODateConventions const *date_conv =
 				go_date_conv_from_str (CXML2C (attrs[1]));
 			if (date_conv)
@@ -3686,6 +3808,16 @@ read_file_free_state (XMLSaxParseState *state, gboolean self)
 		gnm_style_cond_free (state->cond);
 		state->cond = NULL;
 	}
+
+	/*
+	 * An object still being parsed when the parser gave up.  Normally
+	 * gnm_xml_finish_obj hands it over and clears state->so, but
+	 * libgsf does not run extension destructors on abort.
+	 */
+	g_clear_object (&state->so);
+
+	gnm_page_breaks_free (state->page_breaks);
+	state->page_breaks = NULL;
 
 	if (state->style_handler_doc) {
 		gsf_xml_in_doc_free (state->style_handler_doc);

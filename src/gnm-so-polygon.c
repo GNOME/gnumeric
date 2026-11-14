@@ -25,6 +25,8 @@
 #include <sheet-object-impl.h>
 #include <sheet.h>
 #include <parse-util.h>
+#include <gutils.h>
+#include <xml-sax.h>
 
 #include <goffice/goffice.h>
 #include <gsf/gsf-impl-utils.h>
@@ -191,6 +193,60 @@ gnm_so_polygon_write_xml_sax (SheetObject const *so, GsfXMLOut *output,
 }
 
 static void
+sop_sax_point (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetObject *so = gnm_xml_in_cur_obj (xin);
+	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
+	double x = 0, y = 0;
+	gboolean has_x = FALSE, has_y = FALSE;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		if (gnm_xml_attr_double (attrs, "x", &x))
+			has_x = TRUE;
+		else if (gnm_xml_attr_double (attrs, "y", &y))
+			has_y = TRUE;
+	}
+
+	if (has_x && has_y && go_finite (x) && go_finite (y)) {
+		g_array_append_val (sop->points, x);
+		g_array_append_val (sop->points, y);
+	}
+}
+
+static void
+sop_sax_style (GsfXMLIn *xin, xmlChar const **attrs)
+{
+	SheetObject *so = gnm_xml_in_cur_obj (xin);
+	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
+	go_persist_prep_sax (GO_PERSIST (sop->style), xin, attrs);
+}
+
+static void
+gnm_so_polygon_prep_sax_parser (SheetObject *so, GsfXMLIn *xin,
+				xmlChar const **attrs,
+				G_GNUC_UNUSED GnmConventions const *convs)
+{
+	static GsfXMLInNode const dtd[] = {
+	  GSF_XML_IN_NODE (SOPOLYGON, SOPOLYGON, -1, "SheetObjectPolygon", GSF_XML_NO_CONTENT, NULL, NULL),
+	  GSF_XML_IN_NODE (SOPOLYGON, POINT, -1, "Point", GSF_XML_NO_CONTENT, &sop_sax_point, NULL),
+	  GSF_XML_IN_NODE (SOPOLYGON, STYLE, -1, "Style", GSF_XML_NO_CONTENT, &sop_sax_style, NULL),
+	  GSF_XML_IN_NODE_END
+	};
+	static GsfXMLInDoc *doc = NULL;
+	GnmSOPolygon *sop = GNM_SO_POLYGON (so);
+
+	if (NULL == doc) {
+		doc = gsf_xml_in_doc_new (dtd, NULL);
+		gnm_xml_in_doc_dispose_on_exit (&doc);
+	}
+
+	/* Drop the default square; the file supplies the points. */
+	g_array_set_size (sop->points, 0);
+
+	gsf_xml_in_push_state (xin, doc, NULL, NULL, attrs);
+}
+
+static void
 gnm_so_polygon_copy (SheetObject *dst, SheetObject const *src)
 {
 	GnmSOPolygon const *sop = GNM_SO_POLYGON (src);
@@ -282,6 +338,7 @@ gnm_so_polygon_class_init (GObjectClass *gobject_class)
 	gobject_class->set_property	= gnm_so_polygon_set_property;
 	gobject_class->get_property	= gnm_so_polygon_get_property;
 	so_class->write_xml_sax		= gnm_so_polygon_write_xml_sax;
+	so_class->prep_sax_parser	= gnm_so_polygon_prep_sax_parser;
 	so_class->copy			= gnm_so_polygon_copy;
 	so_class->rubber_band_directly	= FALSE;
 	so_class->xml_export_name	= "SheetObjectPolygon";

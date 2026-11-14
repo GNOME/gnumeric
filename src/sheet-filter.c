@@ -967,9 +967,10 @@ gnm_filter_set_condition_checked (GnmFilter *filter, unsigned i,
 				  GnmFilterCondition *cond,
 				  gboolean apply)
 {
-	if (filter == NULL || i >= filter->fields->len)
+	if (filter == NULL || i >= filter->fields->len) {
+		gnm_filter_condition_free (cond);
 		return FALSE;
-	else {
+	} else {
 		gnm_filter_set_condition (filter, i, cond, apply);
 		return TRUE;
 	}

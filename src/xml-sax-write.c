@@ -290,7 +290,7 @@ xml_write_print_repeat_range (GnmOutputXML *state,
 {
 	if (range && *range) {
 		gsf_xml_out_start_element (state->output, name);
-		gsf_xml_out_add_cstr_unchecked (state->output, "value", range);
+		gsf_xml_out_add_cstr (state->output, "value", range);
 		gsf_xml_out_end_element (state->output);
 	}
 }
@@ -1022,11 +1022,16 @@ xml_write_filter_field (GnmOutputXML *state,
 			gsf_xml_out_add_bool (state->output, "IsAnd", cond->is_and);
 		}
 		break;
-	case GNM_FILTER_OP_BLANKS:
-		gsf_xml_out_add_cstr_unchecked (state->output, "Type", "blanks");
-		break;
-	case GNM_FILTER_OP_NON_BLANKS:
-		gsf_xml_out_add_cstr_unchecked (state->output, "Type", "nonblanks");
+	case GNM_FILTER_OP_TYPE_BLANKS:
+		/*
+		 * BLANKS (0x20) and NON_BLANKS (0x21) both have the same
+		 * type bits, so they cannot be told apart by the masked
+		 * value.  The reader expects "noblanks".
+		 */
+		gsf_xml_out_add_cstr_unchecked
+			(state->output, "Type",
+			 cond->op[0] == GNM_FILTER_OP_NON_BLANKS
+			 ? "noblanks" : "blanks");
 		break;
 	case GNM_FILTER_OP_TOP_N:
 		gsf_xml_out_add_cstr_unchecked (state->output, "Type", "bucket");
@@ -1103,9 +1108,12 @@ xml_write_solver (GnmOutputXML *state)
 	gsf_xml_out_add_int (state->output, "ModelType", param->options.model_type);
 	gsf_xml_out_add_int (state->output, "ProblemType", param->problem_type);
 	input = gnm_solver_param_get_input (param);
-	if (input)
-		gsf_xml_out_add_cstr (state->output, "Inputs",
-				      value_peek_string (input));
+	if (input) {
+		GString *str = g_string_new (NULL);
+		value_get_as_gstring (input, str, state->convs);
+		gsf_xml_out_add_cstr (state->output, "Inputs", str->str);
+		g_string_free (str, TRUE);
+	}
 	gsf_xml_out_add_int (state->output, "MaxTime",
 		param->options.max_time_sec);
 	gsf_xml_out_add_int (state->output, "MaxIter",
@@ -1139,13 +1147,15 @@ xml_write_solver (GnmOutputXML *state)
 		gsf_xml_out_start_element (state->output, GNM "Constr");
 		gsf_xml_out_add_int (state->output, "Type", type);
 
-		gnm_solver_constraint_side_as_str (c, state->sheet, str, TRUE);
+		/* File format: XML conventions, never the sheet's GUI ones. */
+		gnm_solver_constraint_side_as_str_convs
+			(c, state->sheet, state->convs, str, TRUE);
 		gsf_xml_out_add_cstr (state->output, "lhs", str->str);
 
 		if (gnm_solver_constraint_has_rhs (c)) {
 			g_string_truncate (str, 0);
-			gnm_solver_constraint_side_as_str (c, state->sheet,
-							   str, FALSE);
+			gnm_solver_constraint_side_as_str_convs
+				(c, state->sheet, state->convs, str, FALSE);
 			gsf_xml_out_add_cstr (state->output, "rhs", str->str);
 		}
 
@@ -1447,8 +1457,12 @@ xml_write_date_conventions_as_attr (GnmOutputXML *state,
 				    GODateConventions const *conv)
 {
 	if (conv->use_1904)
+		/*
+		 * Note: attribute names arrive from the SAX parser exactly
+		 * as written, so this must not carry the "gnm:" prefix.
+		 */
 		gsf_xml_out_add_cstr_unchecked (state->output,
-			GNM "DateConvention", "Apple:1904");
+			"DateConvention", "Apple:1904");
 }
 
 static void
@@ -1656,12 +1670,14 @@ gnm_cellregion_to_xml (GnmCellRegion const *cr)
 	XMLCellCopyState state;
 	GnmStyleList *s_ptr;
 	GSList       *ptr;
-	GsfOutput    *buf = gsf_output_memory_new ();
+	GsfOutput    *buf;
 	GnmLocale    *locale;
 	GODoc	     *doc = NULL;
 
 	g_return_val_if_fail (cr != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cr->origin_sheet), NULL);
+
+	buf = gsf_output_memory_new ();
 
 	state.state.wb_view = NULL;
 	state.state.wb = NULL;

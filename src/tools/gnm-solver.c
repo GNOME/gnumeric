@@ -482,6 +482,27 @@ gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
 				   Sheet const *sheet,
 				   GString *buf, gboolean lhs)
 {
+	gnm_solver_constraint_side_as_str_convs (c, sheet, sheet->convs,
+						 buf, lhs);
+}
+
+/**
+ * gnm_solver_constraint_side_as_str_convs:
+ * @c: a constraint
+ * @sheet: the sheet to use for the parse position
+ * @convs: the conventions to format with
+ * @buf: the string to append to
+ * @lhs: %TRUE for the left-hand side, %FALSE for the right-hand side
+ *
+ * Like gnm_solver_constraint_side_as_str, but with explicit conventions,
+ * e.g., those used for file storage.
+ */
+void
+gnm_solver_constraint_side_as_str_convs (GnmSolverConstraint const *c,
+					 Sheet const *sheet,
+					 GnmConventions const *convs,
+					 GString *buf, gboolean lhs)
+{
 	GnmExprTop const *texpr;
 
 	texpr = lhs ? c->lhs.base.texpr : c->rhs.base.texpr;
@@ -491,12 +512,12 @@ gnm_solver_constraint_side_as_str (GnmSolverConstraint const *c,
 
 		out.accum = buf;
 		out.pp = parse_pos_init_sheet (&pp, sheet);
-		out.convs = sheet->convs;
+		out.convs = convs;
 		gnm_expr_top_as_gstring (texpr, &out);
 	} else
 		g_string_append (buf,
 				 value_error_name (GNM_ERROR_REF,
-						   sheet->convs->output.translated));
+						   convs->output.translated));
 }
 
 /**
