@@ -32,7 +32,9 @@ my @free_funcs = qw(g_free
 		    gnm_expr_deriv_info_unref gnm_matrix_unref
 		    workbook_sheet_state_unref gnm_named_expr_collection_unref
 		    go_string_unref style_color_unref gnm_style_border_unref
-		    gnm_expr_top_unref);
+		    gnm_font_unref gnm_validation_unref
+		    gnm_expr_top_unref colrow_free gnm_filter_condition_free
+		    gnm_page_breaks_free gnm_print_hf_free gnm_print_info_free);
 my @value_refs_funcs = qw(g_strdup go_string_ref
 			  style_color_ref gnm_style_border_ref gnm_action_ref 
 			  gnm_expr_deriv_info_ref gnm_matrix_ref

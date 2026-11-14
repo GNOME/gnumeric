@@ -89,10 +89,8 @@ gnm_validation_combo_finalize (GObject *object)
 {
 	GnmValidationCombo *vcombo = GNM_VALIDATION_COMBO (object);
 
-	if (NULL != vcombo->validation) {
-		gnm_validation_unref (vcombo->validation);
-		vcombo->validation = NULL;
-	}
+	gnm_validation_unref (vcombo->validation);
+	vcombo->validation = NULL;
 
 	gvc_parent_klass->finalize (object);
 }

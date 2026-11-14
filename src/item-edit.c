@@ -670,10 +670,9 @@ item_edit_unrealize (GocItem *item)
 
 	g_clear_object (&ie->layout);
 
-	if (ie->gfont != NULL) {
-		gnm_font_unref (ie->gfont);
-		ie->gfont = NULL;
-	}
+	gnm_font_unref (ie->gfont);
+	ie->gfont = NULL;
+
 	if (ie->style != NULL) {
 		gnm_style_unref (ie->style);
 		ie->style= NULL;

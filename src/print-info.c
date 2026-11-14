@@ -244,10 +244,8 @@ gnm_print_info_free (GnmPrintInformation *pi)
 {
 	g_return_if_fail (pi != NULL);
 
-	if (NULL != pi->page_breaks.v)
-		gnm_page_breaks_free (pi->page_breaks.v);
-	if (NULL != pi->page_breaks.h)
-		gnm_page_breaks_free (pi->page_breaks.h);
+	gnm_page_breaks_free (pi->page_breaks.v);
+	gnm_page_breaks_free (pi->page_breaks.h);
 
 	g_free (pi->repeat_top);
 	g_free (pi->repeat_left);

@@ -5179,10 +5179,8 @@ sheet_destroy (Sheet *sheet)
 	if (sheet->sheet_views->len > 0)
 		g_warning ("Unexpected left over views");
 
-	if (sheet->print_info) {
-		gnm_print_info_free (sheet->print_info);
-		sheet->print_info = NULL;
-	}
+	gnm_print_info_free (sheet->print_info);
+	sheet->print_info = NULL;
 
 	style_color_unref (sheet->tab_color);
 	sheet->tab_color = NULL;

@@ -533,10 +533,8 @@ elem_clear_contents (GnmStyle *style, GnmStyleElement elem)
 	case MSTYLE_FONT_NAME:		go_string_unref (style->font_detail.name); return;
 	case MSTYLE_FORMAT:		go_format_unref (style->format); return;
 	case MSTYLE_VALIDATION:
-		if (style->validation) {
-			gnm_validation_unref (style->validation);
-			style->validation = NULL;
-		}
+		gnm_validation_unref (style->validation);
+		style->validation = NULL;
 		return;
 	case MSTYLE_HLINK:
 		g_clear_object (&style->hlink);
@@ -651,10 +649,8 @@ gnm_style_clear_pango (GnmStyle *style)
 static inline void
 gnm_style_clear_font (GnmStyle *style)
 {
-	if (style->font) {
-		gnm_font_unref (style->font);
-		style->font = NULL;
-	}
+	gnm_font_unref (style->font);
+	style->font = NULL;
 	g_clear_object (&style->font_context);
 }
 

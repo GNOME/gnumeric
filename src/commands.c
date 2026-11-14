@@ -6327,10 +6327,11 @@ cmd_print_setup_finalize (GObject *cmd)
 	CmdPrintSetup *me = CMD_PRINT_SETUP (cmd);
 	GSList *list = me->old_pi;
 
-	if (me->new_pi)
-		gnm_print_info_free (me->new_pi);
-	for (; list; list = list->next)
-		gnm_print_info_free ((GnmPrintInformation *) list->data);
+	gnm_print_info_free (me->new_pi);
+	for (; list; list = list->next) {
+		GnmPrintInformation *pi = list->data;
+		gnm_print_info_free (pi);
+	}
 	g_slist_free (me->old_pi);
 	gnm_command_finalize (cmd);
 }
