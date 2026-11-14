@@ -4548,7 +4548,7 @@ odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)
 		gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "data-type", type);
 		gsf_xml_out_add_cstr (state->xml, TABLE "value", val_str->str);
 	}
-	gsf_xml_out_add_cstr_unchecked (state->xml, TABLE "operator", op);
+	gsf_xml_out_add_cstr (state->xml, TABLE "operator", op);
 	gsf_xml_out_end_element (state->xml); /* </table:filter-condition> */
 
 	if (val_str)
