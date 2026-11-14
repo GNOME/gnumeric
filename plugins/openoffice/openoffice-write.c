@@ -4498,48 +4498,55 @@ odf_write_sheet_controls (GnmOOExport *state)
 	gsf_xml_out_end_element (state->xml); /* office:forms */
 }
 
-static void
-odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)
+/* Returns the ODF operator name, or NULL if ODF has no equivalent.  */
+static char const *
+odf_filter_op_name (GnmFilterOp fop)
 {
-	GnmFilterCondition const *cond = gnm_filter_get_condition (filter, i);
-	char const *op, *type = NULL;
-	GString *val_str = NULL;
+	switch (fop) {
+	case GNM_FILTER_OP_EQUAL:	return "=";
+	case GNM_FILTER_OP_GT:		return ">";
+	case GNM_FILTER_OP_LT:		return "<";
+	case GNM_FILTER_OP_GTE:		return ">=";
+	case GNM_FILTER_OP_LTE:		return "<=";
+	case GNM_FILTER_OP_NOT_EQUAL:	return "!=";
+	case GNM_FILTER_OP_MATCH:	return "match";
+	case GNM_FILTER_OP_NO_MATCH:	return "!match";
 
-	if (cond == NULL)
-		return;
-
-	switch (cond->op[0]) {
-	case GNM_FILTER_OP_EQUAL:	op = "="; break;
-	case GNM_FILTER_OP_GT:		op = ">"; break;
-	case GNM_FILTER_OP_LT:		op = "<"; break;
-	case GNM_FILTER_OP_GTE:		op = ">="; break;
-	case GNM_FILTER_OP_LTE:		op = "<="; break;
-	case GNM_FILTER_OP_NOT_EQUAL:	op = "!="; break;
-	case GNM_FILTER_OP_MATCH:	op = "match"; break;
-	case GNM_FILTER_OP_NO_MATCH:	op = "!match"; break;
-
-	case GNM_FILTER_OP_BLANKS:		op = "empty"; break;
-	case GNM_FILTER_OP_NON_BLANKS:		op = "!empty"; break;
-	case GNM_FILTER_OP_TOP_N:		op = "top values"; break;
-	case GNM_FILTER_OP_BOTTOM_N:		op = "bottom values"; break;
+	case GNM_FILTER_OP_BLANKS:	return "empty";
+	case GNM_FILTER_OP_NON_BLANKS:	return "!empty";
+	case GNM_FILTER_OP_TOP_N:	return "top values";
+	case GNM_FILTER_OP_BOTTOM_N:	return "bottom values";
 	/* ODF's percent is relative to the number of items, which is
 	 * the _N variants.  The plain ones are relative to the range of
 	 * values and have no ODF equivalent.  */
-	case GNM_FILTER_OP_TOP_N_PERCENT_N:	op = "top percent"; break;
-	case GNM_FILTER_OP_BOTTOM_N_PERCENT_N:	op = "bottom percent"; break;
+	case GNM_FILTER_OP_TOP_N_PERCENT_N:	return "top percent";
+	case GNM_FILTER_OP_BOTTOM_N_PERCENT_N:	return "bottom percent";
 	/* remainder are not supported in ODF */
 	default:
-		return;
+		return NULL;
 	}
+}
 
-	if (GNM_FILTER_OP_TYPE_BUCKETS == (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+/* Write one <table:filter-condition> for slot @k (0 or 1) of the condition. */
+static void
+odf_write_filter_one (GnmOOExport *state, GnmFilterCondition const *cond,
+		      int i, int k)
+{
+	char const *op = odf_filter_op_name (cond->op[k]);
+	char const *type = NULL;
+	GString *val_str = NULL;
+
+	if (op == NULL)
+		return;
+
+	if (GNM_FILTER_OP_TYPE_BUCKETS == (cond->op[k] & GNM_FILTER_OP_TYPE_MASK)) {
 		val_str = g_string_new (NULL);
 		type = "number";
 		g_string_printf (val_str, "%g", cond->count);
-	} else if (GNM_FILTER_OP_TYPE_BLANKS  != (cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
+	} else if (GNM_FILTER_OP_TYPE_BLANKS != (cond->op[k] & GNM_FILTER_OP_TYPE_MASK)) {
 		val_str = g_string_new (NULL);
-		type = VALUE_IS_FLOAT (cond->value[0]) ? "number" : "text";
-		value_get_as_gstring (cond->value[0], val_str, state->conv);
+		type = VALUE_IS_FLOAT (cond->value[k]) ? "number" : "text";
+		value_get_as_gstring (cond->value[k], val_str, state->conv);
 	}
 
 	gsf_xml_out_start_element (state->xml, TABLE "filter-condition");
@@ -4553,6 +4560,40 @@ odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)
 
 	if (val_str)
 		g_string_free (val_str, TRUE);
+}
+
+static gboolean
+odf_filter_cond_is_dual (GnmFilterCondition const *cond)
+{
+	return cond != NULL &&
+		cond->op[1] != GNM_FILTER_UNUSED &&
+		odf_filter_op_name (cond->op[0]) != NULL &&
+		odf_filter_op_name (cond->op[1]) != NULL;
+}
+
+/*
+ * Write the condition for field @i.  A dual condition becomes two
+ * conditions on the same field.  For "and" they are written directly (the
+ * caller must be inside a <table:filter-and>), for "or" they are wrapped
+ * in a <table:filter-or>.
+ */
+static void
+odf_write_filter_cond (GnmOOExport *state, GnmFilter const *filter, int i)
+{
+	GnmFilterCondition const *cond = gnm_filter_get_condition (filter, i);
+
+	if (cond == NULL)
+		return;
+
+	if (odf_filter_cond_is_dual (cond)) {
+		if (!cond->is_and)
+			gsf_xml_out_start_element (state->xml, TABLE "filter-or");
+		odf_write_filter_one (state, cond, i, 0);
+		odf_write_filter_one (state, cond, i, 1);
+		if (!cond->is_and)
+			gsf_xml_out_end_element (state->xml); /* </table:filter-or> */
+	} else
+		odf_write_filter_one (state, cond, i, 0);
 }
 
 static void
@@ -4577,14 +4618,25 @@ odf_write_autofilter (GnmOOExport *state, GnmFilter const *filter)
 	odf_add_bool (state->xml, TABLE "display-filter-buttons", TRUE);
 
 	if (filter->is_active) {
+		/*
+		 * <table:filter> takes exactly one child, so two conditions
+		 * (several fields, or an "and" pair on one field) need a
+		 * <table:filter-and> around them.
+		 */
+		gboolean need_and = filter->fields->len > 1;
+		if (filter->fields->len == 1) {
+			GnmFilterCondition const *c0 =
+				gnm_filter_get_condition (filter, 0);
+			need_and = odf_filter_cond_is_dual (c0) && c0->is_and;
+		}
+
 		gsf_xml_out_start_element (state->xml, TABLE "filter");
-		if (filter->fields->len > 1) {
+		if (need_and)
 			gsf_xml_out_start_element (state->xml, TABLE "filter-and");
-			for (i = 0 ; i < filter->fields->len ; i++)
-				odf_write_filter_cond (state, filter, i);
+		for (i = 0 ; i < filter->fields->len ; i++)
+			odf_write_filter_cond (state, filter, i);
+		if (need_and)
 			gsf_xml_out_end_element (state->xml); /* </table:filter-and> */
-		} else if (filter->fields->len == 1)
-			odf_write_filter_cond (state, filter, 0);
 		gsf_xml_out_end_element (state->xml); /* </table:filter> */
 	}
 

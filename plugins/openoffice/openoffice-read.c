@@ -479,6 +479,11 @@ struct OOParseState_ {
 	GSList          *conditions;
 	GSList          *cond_formats;
 	GnmFilter	*filter;
+	/* Filter conditions are collected while parsing and applied when
+	   the database range ends; see odf_filter_apply.  */
+	GPtrArray	*filter_conds;	/* of OOFilterCond * */
+	GArray		*filter_groups;	/* of OOFilterGroup; id = index + 1 */
+	GSList		*filter_stack;	/* of group ids, innermost first */
 
 	GnmConventions  *convs[NUM_FORMULAE_SUPPORTED];
 	GHashTable *openformula_namemap;
@@ -8219,22 +8224,250 @@ oo_db_range_start (GsfXMLIn *xin, xmlChar const **attrs)
 	}
 }
 
+static void odf_filter_apply (OOParseState *state);
+static void odf_filter_clear (OOParseState *state);
+
 static void
 oo_db_range_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
 
 	if (state->filter != NULL) {
+		odf_filter_apply (state);
 		gnm_filter_reapply (state->filter);
 		state->filter = NULL;
 	}
+	odf_filter_clear (state);
+}
+
+typedef struct {
+	int field;
+	GnmFilterOp op;
+	GnmValue *v;		/* owned, may be NULL */
+	guint or_group;		/* 0, or id of the enclosing <filter-or> */
+} OOFilterCond;
+
+typedef struct {
+	gboolean is_or;
+	gboolean bad;		/* cannot be represented in Gnumeric */
+	int field;		/* field of the conditions in the group, or -1 */
+	int count;
+} OOFilterGroup;
+
+static OOFilterGroup *
+odf_filter_group (OOParseState *state, guint id)
+{
+	return &g_array_index (state->filter_groups, OOFilterGroup, id - 1);
 }
 
 static void
-odf_filter_or (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+odf_filter_clear (OOParseState *state)
+{
+	if (state->filter_conds) {
+		unsigned ui;
+		for (ui = 0; ui < state->filter_conds->len; ui++) {
+			OOFilterCond *fc = g_ptr_array_index (state->filter_conds, ui);
+			value_release (fc->v);
+			g_free (fc);
+		}
+		g_ptr_array_free (state->filter_conds, TRUE);
+		state->filter_conds = NULL;
+	}
+	if (state->filter_groups) {
+		g_array_free (state->filter_groups, TRUE);
+		state->filter_groups = NULL;
+	}
+	g_slist_free (state->filter_stack);
+	state->filter_stack = NULL;
+}
+
+static void
+odf_filter_group_start (OOParseState *state, gboolean is_or)
+{
+	OOFilterGroup g;
+
+	if (!state->filter_groups)
+		state->filter_groups = g_array_new (FALSE, FALSE, sizeof (OOFilterGroup));
+	g.is_or = is_or;
+	g.bad = FALSE;
+	g.field = -1;
+	g.count = 0;
+	g_array_append_val (state->filter_groups, g);
+	state->filter_stack = g_slist_prepend
+		(state->filter_stack, GUINT_TO_POINTER (state->filter_groups->len));
+}
+
+static void
+odf_filter_and_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	odf_filter_group_start ((OOParseState *)xin->user_state, FALSE);
+}
+
+static void
+odf_filter_or_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
+{
+	odf_filter_group_start ((OOParseState *)xin->user_state, TRUE);
+}
+
+static void
+odf_filter_group_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	oo_warning (state, _("Gnumeric does not support 'or'-ed autofilter conditions."));
+
+	if (state->filter_stack)
+		state->filter_stack = g_slist_delete_link (state->filter_stack,
+							   state->filter_stack);
+}
+
+/* Takes ownership of @v.  Returns NULL if there is no usable condition.  */
+static GnmFilterCondition *
+odf_filter_single_cond (GnmFilterOp op, GnmValue *v)
+{
+	GnmFilterCondition *cond = NULL;
+
+	/* Not exhaustive on purpose: ODF has no equivalent for the rest. */
+	switch ((int)op) {
+	case GNM_FILTER_OP_EQUAL:
+	case GNM_FILTER_OP_NOT_EQUAL:
+	case GNM_FILTER_OP_LT:
+	case GNM_FILTER_OP_LTE:
+	case GNM_FILTER_OP_GT:
+	case GNM_FILTER_OP_GTE:
+	case GNM_FILTER_OP_MATCH:
+	case GNM_FILTER_OP_NO_MATCH:
+		if (NULL != v) {
+			cond = gnm_filter_condition_new_single (op, v);
+			v = NULL;
+		}
+		break;
+
+	case GNM_FILTER_OP_BLANKS:
+		cond = gnm_filter_condition_new_single (
+			GNM_FILTER_OP_BLANKS, NULL);
+		break;
+	case GNM_FILTER_OP_NON_BLANKS:
+		cond = gnm_filter_condition_new_single (
+			GNM_FILTER_OP_NON_BLANKS, NULL);
+		break;
+
+	case GNM_FILTER_OP_BOTTOM_N_PERCENT:
+	case GNM_FILTER_OP_BOTTOM_N_PERCENT_N:
+	case GNM_FILTER_OP_BOTTOM_N:
+	case GNM_FILTER_OP_TOP_N_PERCENT:
+	case GNM_FILTER_OP_TOP_N_PERCENT_N:
+	case GNM_FILTER_OP_TOP_N:
+		if (v && VALUE_IS_NUMBER (v))
+			cond = gnm_filter_condition_new_bucket (
+				0 == (op & GNM_FILTER_OP_BOTTOM_MASK),
+				0 == (op & GNM_FILTER_OP_PERCENT_MASK),
+				0 == (op & GNM_FILTER_OP_REL_N_MASK),
+				value_get_as_float (v));
+		break;
+	}
+	value_release (v);
+	return cond;
+}
+
+/* Only plain comparisons and matches can be combined in a dual condition.  */
+static gboolean
+odf_filter_op_pairable (GnmFilterOp op)
+{
+	int t = op & GNM_FILTER_OP_TYPE_MASK;
+	return t == GNM_FILTER_OP_TYPE_OP || t == GNM_FILTER_OP_TYPE_MATCH;
+}
+
+/*
+ * Turn the collected conditions into filter conditions.  Gnumeric can
+ * represent, per field, one condition, or two conditions joined by "and" or
+ * by "or".  Anything else (an "or" across fields, nested and/or trees, more
+ * than two conditions on a field) is dropped with a warning.
+ */
+static void
+odf_filter_apply (OOParseState *state)
+{
+	GPtrArray *conds = state->filter_conds;
+	gboolean warned = FALSE;
+	unsigned ui, uj;
+
+	if (!conds)
+		return;
+
+	/* Validate "or" groups */
+	for (ui = 0; ui < conds->len; ui++) {
+		OOFilterCond *fc = g_ptr_array_index (conds, ui);
+		OOFilterGroup *g;
+
+		if (fc->or_group == 0)
+			continue;
+		g = odf_filter_group (state, fc->or_group);
+		if (g->field == -1)
+			g->field = fc->field;
+		else if (g->field != fc->field)
+			g->bad = TRUE;
+		if (++g->count > 2)
+			g->bad = TRUE;
+	}
+
+	for (ui = 0; ui < conds->len; ui++) {
+		OOFilterCond *fc = g_ptr_array_index (conds, ui);
+		OOFilterCond *other = NULL;
+		GnmFilterCondition *cond = NULL;
+		gboolean ok = TRUE;
+		int field;
+
+		if (fc->field < 0)
+			continue;  /* already handled */
+
+		/* Find the (at most one) other condition on the same field. */
+		for (uj = ui + 1; uj < conds->len; uj++) {
+			OOFilterCond *fc2 = g_ptr_array_index (conds, uj);
+			if (fc2->field != fc->field)
+				continue;
+			if (other) {
+				ok = FALSE;  /* three or more */
+				break;
+			}
+			other = fc2;
+		}
+
+		if (fc->or_group &&
+		    odf_filter_group (state, fc->or_group)->bad)
+			ok = FALSE;
+		if (other && other->or_group != fc->or_group)
+			ok = FALSE;  /* mixed "and" and "or" */
+
+		if (ok && !other) {
+			cond = odf_filter_single_cond (fc->op, fc->v);
+			fc->v = NULL;
+		} else if (ok &&
+			   odf_filter_op_pairable (fc->op) && fc->v &&
+			   odf_filter_op_pairable (other->op) && other->v) {
+			cond = gnm_filter_condition_new_double
+				(fc->op, fc->v,
+				 fc->or_group == 0,
+				 other->op, other->v);
+			fc->v = other->v = NULL;
+		} else
+			ok = FALSE;
+
+		if (!ok && !warned) {
+			oo_warning (state, _("Gnumeric supports only one condition, "
+					     "or two plain conditions joined by "
+					     "'and' or by 'or', per autofilter "
+					     "field.  Ignoring others."));
+			warned = TRUE;
+		}
+
+		/* Mark everything on this field as handled */
+		field = fc->field;
+		for (uj = ui; uj < conds->len; uj++) {
+			OOFilterCond *fc2 = g_ptr_array_index (conds, uj);
+			if (fc2->field == field)
+				fc2->field = -1;
+		}
+		if (cond)
+			gnm_filter_set_condition_checked (state->filter, field, cond, FALSE);
+	}
 }
 
 static void
@@ -8279,8 +8512,12 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 			val_str = CXML2C (attrs[1]);
 
 	if (field_num >= 0 && op >= 0) {
-		GnmFilterCondition *cond = NULL;
+		OOFilterCond *fc;
 		GnmValue *v = NULL;
+		guint or_group = 0;
+		gboolean unsupported = FALSE;
+		GSList *l;
+		int n_or = 0;
 
 		if ((op & GNM_FILTER_OP_TYPE_MASK) == GNM_FILTER_OP_TOP_N) {
 			// These have a value, but no data-type
@@ -8290,47 +8527,45 @@ oo_filter_cond (GsfXMLIn *xin, xmlChar const **attrs)
 		if (type >= 0 && val_str != NULL)
 			v = value_new_from_string (type, val_str, NULL, FALSE);
 
-		switch (op) {
-		case GNM_FILTER_OP_EQUAL:
-		case GNM_FILTER_OP_NOT_EQUAL:
-		case GNM_FILTER_OP_LT:
-		case GNM_FILTER_OP_LTE:
-		case GNM_FILTER_OP_GT:
-		case GNM_FILTER_OP_GTE:
-		case GNM_FILTER_OP_MATCH:
-		case GNM_FILTER_OP_NO_MATCH:
-			if (NULL != v) {
-				cond = gnm_filter_condition_new_single (op, v);
-				v = NULL;
+		/*
+		 * Context.  Directly under <filter> or <filter-and> is fine,
+		 * as is directly under a <filter-or> that is not itself inside
+		 * another <filter-or>.  Anything else is a nested tree that
+		 * we cannot represent.
+		 */
+		for (l = state->filter_stack; l; l = l->next)
+			if (odf_filter_group (state, GPOINTER_TO_UINT (l->data))->is_or)
+				n_or++;
+		if (n_or > 0) {
+			guint top = GPOINTER_TO_UINT (state->filter_stack->data);
+			if (n_or == 1 && odf_filter_group (state, top)->is_or)
+				or_group = top;
+			else {
+				unsupported = TRUE;
+				for (l = state->filter_stack; l; l = l->next) {
+					OOFilterGroup *g = odf_filter_group
+						(state, GPOINTER_TO_UINT (l->data));
+					if (g->is_or)
+						g->bad = TRUE;
+				}
 			}
-			break;
-
-		case GNM_FILTER_OP_BLANKS:
-			cond = gnm_filter_condition_new_single (
-				GNM_FILTER_OP_BLANKS, NULL);
-			break;
-		case GNM_FILTER_OP_NON_BLANKS:
-			cond = gnm_filter_condition_new_single (
-				GNM_FILTER_OP_NON_BLANKS, NULL);
-			break;
-
-		case GNM_FILTER_OP_BOTTOM_N_PERCENT:
-		case GNM_FILTER_OP_BOTTOM_N_PERCENT_N:
-		case GNM_FILTER_OP_BOTTOM_N:
-		case GNM_FILTER_OP_TOP_N_PERCENT:
-		case GNM_FILTER_OP_TOP_N_PERCENT_N:
-		case GNM_FILTER_OP_TOP_N:
-			if (v && VALUE_IS_NUMBER (v))
-				cond = gnm_filter_condition_new_bucket (
-					0 == (op & GNM_FILTER_OP_BOTTOM_MASK),
-					0 == (op & GNM_FILTER_OP_PERCENT_MASK),
-					0 == (op & GNM_FILTER_OP_REL_N_MASK),
-					value_get_as_float (v));
-			break;
 		}
-		value_release (v);
-		if (NULL != cond)
-			gnm_filter_set_condition_checked (state->filter, field_num, cond, FALSE);
+
+		if (unsupported) {
+			value_release (v);
+			oo_warning (state, _("Gnumeric does not support nested "
+					     "autofilter conditions."));
+			return;
+		}
+
+		if (!state->filter_conds)
+			state->filter_conds = g_ptr_array_new ();
+		fc = g_new0 (OOFilterCond, 1);
+		fc->field = field_num;
+		fc->op = (GnmFilterOp)op;
+		fc->v = v;
+		fc->or_group = or_group;
+		g_ptr_array_add (state->filter_conds, fc);
 	}
 }
 
@@ -12909,12 +13144,12 @@ static GsfXMLInNode const opendoc_content_dtd[] =
 	    GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", GSF_XML_NO_CONTENT, &oo_db_range_start, &oo_db_range_end),
 	      GSF_XML_IN_NODE (DB_RANGE, FILTER, OO_NS_TABLE, "filter", GSF_XML_NO_CONTENT, NULL, NULL),
 		GSF_XML_IN_NODE (FILTER, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, &oo_filter_cond, NULL),
-		GSF_XML_IN_NODE (FILTER, FILTER_AND, OO_NS_TABLE, "filter-and", GSF_XML_NO_CONTENT, NULL, NULL),
-		   GSF_XML_IN_NODE (FILTER_AND, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, &odf_filter_or, NULL),
-                       GSF_XML_IN_NODE (FILTER_OR, FILTER_COND_IGNORE, OO_NS_TABLE, "filter-condition", GSF_XML_NO_CONTENT, NULL, NULL),
-	               GSF_XML_IN_NODE (FILTER_OR, FILTER_AND_IGNORE, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, NULL, NULL),
-	           GSF_XML_IN_NODE (FILTER_AND, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_2ND, NULL, NULL),
-                GSF_XML_IN_NODE (FILTER, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_2ND, NULL, NULL),
+		GSF_XML_IN_NODE (FILTER, FILTER_AND, OO_NS_TABLE, "filter-and", GSF_XML_NO_CONTENT, &odf_filter_and_start, &odf_filter_group_end),
+		  GSF_XML_IN_NODE (FILTER_AND, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_2ND, NULL, NULL),
+		  GSF_XML_IN_NODE (FILTER_AND, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_NO_CONTENT, &odf_filter_or_start, &odf_filter_group_end),
+		    GSF_XML_IN_NODE (FILTER_OR, FILTER_COND, OO_NS_TABLE, "filter-condition", GSF_XML_2ND, NULL, NULL),
+		    GSF_XML_IN_NODE (FILTER_OR, FILTER_AND, OO_NS_TABLE, "filter-and", GSF_XML_2ND, NULL, NULL),
+		GSF_XML_IN_NODE (FILTER, FILTER_OR, OO_NS_TABLE, "filter-or", GSF_XML_2ND, NULL, NULL),
 	    GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", GSF_XML_NO_CONTENT, NULL, NULL),
 	      GSF_XML_IN_NODE (TABLE_SORT, SORT_BY, OO_NS_TABLE, "sort-by", GSF_XML_NO_CONTENT, NULL, NULL),
 
@@ -14306,6 +14541,9 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	state.cur_format.accum = NULL;
 	state.cur_format.percentage = FALSE;
 	state.filter = NULL;
+	state.filter_conds = NULL;
+	state.filter_groups = NULL;
+	state.filter_stack = NULL;
 	state.print.page_breaks.h = state.print.page_breaks.v = NULL;
 	state.last_progress_update = 0;
 	state.last_error = NULL;
@@ -14466,6 +14704,7 @@ openoffice_file_open (G_GNUC_UNUSED GOFileOpener const *fo, GOIOContext *io_cont
 	g_free (state.default_style.columns);
 	oo_chart_style_free (state.default_style.graphics);
 	odf_free_cur_style (&state);
+	odf_filter_clear (&state);
 	g_hash_table_destroy (state.styles.sheet);
 	g_hash_table_destroy (state.styles.text);
 	g_hash_table_destroy (state.styles.col);
