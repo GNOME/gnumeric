@@ -420,7 +420,8 @@ gnm_validation_unref (GnmValidation const *v_)
 {
 	GnmValidation *v = (GnmValidation *)v_;
 
-	g_return_if_fail (v != NULL);
+	if (!v)
+		return;
 
 	v->ref_count--;
 
