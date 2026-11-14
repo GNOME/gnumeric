@@ -2953,7 +2953,7 @@ odf_write_frame_size (GnmOOExport *state, SheetObject *so)
 			      "name", &name,
 			      NULL);
 	if (name) {
-	        gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
+	        gsf_xml_out_add_cstr (state->xml, DRAW "name", name);
 		g_free (name);
 	}
 
@@ -3305,7 +3305,7 @@ odf_write_line (GnmOOExport *state, SheetObject *so)
 	gsf_xml_out_start_element (state->xml, DRAW "line");
 	g_object_get (G_OBJECT (so), "name", &name, NULL);
 	if (name) {
-	        gsf_xml_out_add_cstr_unchecked (state->xml, DRAW "name", name);
+	        gsf_xml_out_add_cstr (state->xml, DRAW "name", name);
 		g_free (name);
 	}
 	if (style_name != NULL)

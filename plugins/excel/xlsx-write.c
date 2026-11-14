@@ -345,7 +345,7 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs,
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_FAMILY);
 		if (attr) {
 			gsf_xml_out_start_element (xml, "rFont");
-			gsf_xml_out_add_cstr_unchecked (xml, "val", ((PangoAttrString *) attr)->value);
+			gsf_xml_out_add_cstr (xml, "val", ((PangoAttrString *) attr)->value);
 			gsf_xml_out_end_element (xml); /* </rFont> */
 		}
 
@@ -2752,7 +2752,7 @@ static void
 write_comment_author (gpointer key, G_GNUC_UNUSED gpointer value, GsfXMLOut *xml)
 {
 	gsf_xml_out_start_element (xml, "author");
-	gsf_xml_out_add_cstr_unchecked (xml, NULL, (char const *) key);
+	gsf_xml_out_add_cstr (xml, NULL, (char const *) key);
 	gsf_xml_out_end_element (xml);
 }
 

@@ -1442,7 +1442,7 @@ xlsx_write_nvpr (GsfXMLOut *xml, SheetObject *so, int id)
 	gsf_xml_out_add_int (xml, "id",  id);
 	g_object_get (so, "name", &tmp, NULL);
 	// attribute "name" is required
-	gsf_xml_out_add_cstr_unchecked (xml, "name", tmp ? tmp : "");
+	gsf_xml_out_add_cstr (xml, "name", tmp ? tmp : "");
 	g_free (tmp);
 	gsf_xml_out_end_element (xml);
 }
