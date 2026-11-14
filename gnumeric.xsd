@@ -1188,7 +1188,7 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="expr"/>
             <xs:enumeration value="blanks"/>
-            <xs:enumeration value="nonblanks"/>
+            <xs:enumeration value="noblanks"/>
             <xs:enumeration value="bucket"/>
         </xs:restriction>
     </xs:simpleType>
