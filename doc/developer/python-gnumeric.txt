@@ -6,7 +6,7 @@ plugin loader in plugins/python-loader. This will be documented
 later. For now, plugins/py-func and plugins/gnome-glossary serve as
 examples. 
 
-Jon Kåre Hellan <hellan@acm.org>                       Oct 11, 2002
+Jon KÃ¥re Hellan <hellan@acm.org>                       Oct 11, 2002
 -------------------------------------------------------------------
 
 
@@ -19,7 +19,7 @@ Jon Kåre Hellan <hellan@acm.org>                       Oct 11, 2002
 Python plugin for Gnumeric
 --------------------------
 
-Jon Kåre Hellan <hellan@acm.org>                       Feb 26, 2000
+Jon KÃ¥re Hellan <hellan@acm.org>                       Feb 26, 2000
 
 NOTE 1: A more complete documentation of the Python plugin will follow
 in due course (whatever that means).

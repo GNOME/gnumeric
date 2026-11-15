@@ -3788,14 +3788,14 @@
 	to take over main and all guile init functions are now handle
 	by the guile plugin itself.
 
-2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-14  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-graphic.c (sheet_object_filled_user_config): Set
 	the dialogs parent so that the dialog will get placed correctly. I did
 	it already in sheet_object_graphic_user_config but forgot to add
 	it here, too.
 
-2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-14  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/print-cell.[c,h] (print_cell_range): Use a Range as parameter
 	instead of four ints
@@ -3807,17 +3807,17 @@
 
 	* idl/Makefile.am : Use stamp files to make parallel compiles work.
 
-2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-14  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-graphic.c: Let the user configure arrow shapes only
 	if the object is an arrow. Update the color of the arrow in the preview.
 
-2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-14  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/print.c (print_sheet_objects): gnome_print_gsave before we
 	clip the SheetObjects' region.
 
-2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-14  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/print.c: Remove all bonobo-related stuff.
 	(print_sheet_objects): New. Prints all objects that overlap a given
@@ -3846,7 +3846,7 @@
 	* src/sheet-object.c (cell_offset_calc_pt) : Fixcut-n-paste-o to fix
 	  printing placement.
 
-2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-14  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-cell-comment.c (cell_comment_print): Add a note that
 	this function is left empty intentionally
@@ -3882,7 +3882,7 @@
 	(gnumeric_fake_ceil): Use gnumeric_sub_epsilon, not
  	gnumeric_add_epsilon.
 
-2001-08-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-13  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet.c (sheet_get_extent): Don't ignore the SheetObjects! They
 	want to get printed even if all cells are empty.
@@ -3905,12 +3905,12 @@
         whether a recent version of guile is available
         to be able to build the guile plugin.
 
-2001-08-11  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-11  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object.c: Revert below removal of "Old crufty IO". In
 	addition, fix a warning that I introduced yesterday (missing cast).
 
-2001-08-11  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-11  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-graphic.c: Use GdkColors instead of strings.
 	Implemented printing. Objects aren't in the right place though. Still
@@ -3967,7 +3967,7 @@
 	  with an even width tweak it to make things symmetric.
 	Some cosmetic formatting and naming issues too.
 
-2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-07  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/commands.c: (cmd_insert_object_redo): Do proper ref counting.
 	* src/item-grid.c: (cb_obj_create_button_release): Hook up
@@ -3979,7 +3979,7 @@
 	is called, the redo function will be called although there is nothing
 	to redo at this moment. We detect this through this function here.
 
-2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-07  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/commands.[c,h]: (cmd_insert_object), (cmd_delete_object): New.
 	cmd_insert_object is not hooked up yet.
@@ -3990,7 +3990,7 @@
 	(sheet_object_clear_sheet): If so->sheet == NULL, just return instead
 	of printing a warning.
 
-2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-08-07  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/commands.[c,h]: (cmd_move_object): New. Will also handle
 	resizing of objects
@@ -4301,7 +4301,7 @@
 
 	* configure.in : AC_DEFINE ENABLE_EVOLUTION if it is available.
 
-2001-07-20  Lutz Müller  <urc8@rz.uni-karlsruhe.de>
+2001-07-20  Lutz MÃ¼ller  <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-impl.h: Add the view as parameter to the virtual
 	method set_active.
@@ -4705,7 +4705,7 @@
 	(dependent_unlink_sheet): Ditto.
 	(dep_slist_filter_sheet): Return the right list.
 
-2001-07-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-07-13  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
         * src/sheet-control-gui.[c,h]: Clean up the handling of bonobo objects
         by introducing
@@ -4844,7 +4844,7 @@
 	(stf_read_workbook_csv_default): New, read a csv file in default formatting.
 	(stf_init): Register stf_read_workbook_csv_default.
 
-2001-07-10  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-07-10  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/workbook-control-gui.c: Add a menu item "Send" to the file menu.
 	If this one is clicked, pop up an Evolution-Composer with current
@@ -4862,7 +4862,7 @@
 	* src/xml-io.[c,h]: Implement save_to_stream.
 	* src/plugin-service.c: Pass NULL for save_to_stream.
 
-2001-07-09  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-07-09  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* acconfig.h: #undef ENABLE_EVOLUTION
 	* configure.in: Checks for Evolution-Composer.idl. Can be overwritten
@@ -4910,7 +4910,7 @@
 	(scg_colrow_resize_start) : ditto.
 	(scg_colrow_resize_move) : ditto.
 
-2001-07-08  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+2001-07-08  Lutz MÃ¼ller <urc8@rz.uni-karlsruhe.de>
 
 	* src/GNOME_Gnumeric.xml: Wrap file related menus into a placeholder
 	named FileOperations. Wrap print related menus into a placeholder

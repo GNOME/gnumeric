@@ -3572,7 +3572,7 @@
 
 2004-11-07  Jody Goldberg <jody@gnome.org>
 
-	From Jean Bréfort :
+	From Jean BrÃ©fort :
 	* src/xml-io.c (xml_read_solver) : handle both formats of constraint
 	  Per and post 1.4
 

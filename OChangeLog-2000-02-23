@@ -5143,7 +5143,7 @@ Sun Jan 30 15:40:50 EST 2000 Gregory McLean <gregm@comstar.net>
 	* src/sheet.c (sheet_cancel_pending_input): Queue a recalc here,
 	as we have modified the cell values.
 
-1999-10-20  Martin Norb‰ck  <norpan@bigfoot.com>
+1999-10-20  Martin Norb√§ck  <norpan@bigfoot.com>
 
 	* gnumeric.desktop.in: Added Swedish translation
 
