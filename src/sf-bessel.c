@@ -231,6 +231,7 @@ static gnm_float bessel_i(gnm_float x, gnm_float alpha, gnm_float expo)
 		bessel_k(x, -alpha, expo) *
 		((ize == 1)? GNM_const(2.) : GNM_const(2.)*gnm_exp(GNM_const(-2.)*x))/M_PIgnum * gnm_sinpi(-alpha)));
     }
+    if (na > 1000000) return gnm_nan;
     nb = 1 + (int)na;/* nb-1 <= alpha < nb */
     alpha -= (gnm_float)(nb-1);
 #ifdef MATHLIB_STANDALONE
@@ -524,9 +525,9 @@ L120:
 			 * RE-normalize (aa, sum) here -- no need to undo */
 			if(nend > 100 && aa > GNM_const(1e200)) {
 			    /* multiply by  2^-900 = 1.18e-271 */
-			    cc	= ldexp(cc, -900);
-			    bb	= ldexp(bb, -900);
-			    sum = ldexp(sum,-900);
+			    cc	= gnm_ldexp(cc, -900);
+			    bb	= gnm_ldexp(bb, -900);
+			    sum = gnm_ldexp(sum,-900);
 			}
 			aa = en * bb / *x + cc;
 			em -= 1;
@@ -724,6 +725,7 @@ static gnm_float bessel_k(gnm_float x, gnm_float alpha, gnm_float expo)
     ize = (int)expo;
     if(alpha < 0)
 	alpha = -alpha;
+    if (alpha > 1000000) return gnm_nan;
     nb = 1+ (int)gnm_floor(alpha);/* nb-1 <= |alpha| < nb */
     alpha -= (gnm_float)(nb-1);
 #ifdef MATHLIB_STANDALONE
@@ -1477,7 +1479,7 @@ complex_legendre_integral (size_t N,
 	return GNM_CSCALE (I, s);
 }
 
-// Trapezoid rule integraion for a complex function defined on a finite
+// Trapezoid rule integration for a complex function defined on a finite
 // interval.  This breaks the interval into N uniform pieces.
 static void
 complex_trapezoid_integral (gnm_complex *res, size_t N,
@@ -1500,9 +1502,9 @@ complex_trapezoid_integral (gnm_complex *res, size_t N,
 
 // Shrink integration range to exclude vanishing outer parts.
 static void
-complex_shink_integral_range (gnm_float *L, gnm_float *H, gnm_float refx,
-			      ComplexIntegrand f,
-			      const gnm_float *args)
+complex_shrink_integral_range (gnm_float *L, gnm_float *H, gnm_float refx,
+			       ComplexIntegrand f,
+			       const gnm_float *args)
 {
 	gnm_complex y;
 	gnm_float refy, limL = refx, limH = refx;
@@ -2037,8 +2039,8 @@ integral_83 (gnm_float x, gnm_float nu, size_t N, gnm_float vpow)
 	gnm_float args[4] = { x, nu, beta, vpow };
 	ComplexIntegrand integrand;
 
-	complex_shink_integral_range (&L, &H, refx,
-				      integral_83_integrand, args);
+	complex_shrink_integral_range (&L, &H, refx,
+				       integral_83_integrand, args);
 
 	if (vpow != 1) {
 		L = gnm_pow (L, 1 / vpow);
@@ -2081,8 +2083,8 @@ integral_105_126 (gnm_float x, gnm_float nu, gboolean qH0)
 	gnm_float L = refx - MAX (gnm_cbrt (6 * 50 / ((nu + x) / 2)), 50 / MIN (nu, x));
 	gnm_float H = qH0 ? 0 : -refx;
 
-	complex_shink_integral_range (&L, &H, refx,
-				      integral_105_126_integrand, args);
+	complex_shrink_integral_range (&L, &H, refx,
+				       integral_105_126_integrand, args);
 
 	I = complex_legendre_integral (45, L, H,
 				       integral_105_126_integrand, args);
@@ -2128,7 +2130,7 @@ integral_106 (gnm_float x, gnm_float nu)
 	gnm_float L = 0, H = M_PIgnum;
 	gnm_float args[2] = { x, nu };
 
-	complex_shink_integral_range (&L, &H, 0, integral_106_integrand, args);
+	complex_shrink_integral_range (&L, &H, 0, integral_106_integrand, args);
 
 	I = complex_legendre_integral (45, L, H,
 				       integral_106_integrand, args);
@@ -2255,8 +2257,8 @@ integral_127 (gnm_float x, gnm_float nu)
 	gnm_float L = 0, H = M_PIgnum;
 	gnm_float args[2] = { x, nu };
 
-	complex_shink_integral_range (&L, &H, 0,
-				      integral_127_integrand, args);
+	complex_shrink_integral_range (&L, &H, 0,
+				       integral_127_integrand, args);
 
 	I = complex_legendre_integral (33, L, H,
 				       integral_127_integrand, args);
@@ -2364,7 +2366,7 @@ hankel1_A3 (gnm_float x, gnm_float nu, gnm_float g)
 	// Deviation: Matviyenko says to change variable to v = t^4 for g < 5.
 	// That works wonders for BesselJ[9,12.5], but is too sudden for
 	// BesselJ[1,10].  Instead, gradually move from power of 1 to power
-	// of 4.  The was the power is lowered is ad hoc.
+	// of 4.  The way the power is lowered is ad hoc.
 	//
 	// Also, we up the number of points from 37 to 47.
 
@@ -2484,6 +2486,7 @@ gnm_bessel_M (gnm_float z, gnm_float nu)
 	gnm_float nu2 = nu * nu;
 	int n, NMAX = 400;
 	gboolean debug = FALSE;
+
 
 	if (debug) g_printerr ("M[%g,%g]\n", nu, z);
 
@@ -2667,8 +2670,8 @@ gnm_bessel_phi (gnm_float z, gnm_float nu, int *n_pi_4)
 	(*n_pi_4)--;
 
 	// Subtract nu/2
-	rnu = rint (-2 * nu);
-	*n_pi_4 += (int)fmod (rnu, 8);
+	rnu = gnm_round (-2 * nu);
+	*n_pi_4 += (int)gnm_fmod (rnu, 8);
 	gnm_quad_init (&nuh, (-2 * nu - rnu) / 4);
 	gnm_quad_mul (&nuh, &nuh, &gnm_quad_pi);
 	gnm_quad_add (&qs, &qs, &nuh);

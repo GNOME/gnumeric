@@ -159,7 +159,7 @@ sub import_file {
 
 	    s/\bISNAN\b/gnm_isnan/g;
 	    s/\bR_(finite|FINITE)\b/gnm_finite/g;
-	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|cos|sinh|tan|sinpi)(\s|$|\()/gnm_$1$2/g;
+	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|cos|sinh|tan|sinpi|ldexp|fmod)(\s|$|\()/gnm_$1$2/g;
 	    s/\b(lbeta|tanpi|atanpi|logcf)(\s|$|\()/gnm_$1$2/g;
 	    s/\bfabs\b/gnm_abs/g;
 	    s/\bR_forceint\b/gnm_round/g;

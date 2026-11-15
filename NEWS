@@ -64,6 +64,7 @@ Morten:
 	* Fix GEOMEAN problem with failing to catch negatives.
 	* ODS: fix problems with validation export.
 	* ODS: fix problems with auto-filter import/export.
+	* BESSELI: prevent large allocation.
 
 B.S.:
 	* TEXT speedup.
