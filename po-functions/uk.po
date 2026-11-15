@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
-"POT-Creation-Date: 2026-11-08 20:04+0000\n"
-"PO-Revision-Date: 2026-11-08 22:07+0200\n"
+"POT-Creation-Date: 2026-11-15 03:02+0000\n"
+"PO-Revision-Date: 2026-11-15 20:45+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -271,10 +271,10 @@ msgstr "Якщо @{i} ні \"i\", ні \"j\", COMPLEX повертає #VALUE!"
 #: ../plugins/fn-string/functions.c:853 ../plugins/fn-string/functions.c:884
 #: ../plugins/fn-string/functions.c:922 ../plugins/fn-string/functions.c:979
 #: ../plugins/fn-string/functions.c:1334 ../plugins/fn-string/functions.c:1444
-#: ../plugins/fn-string/functions.c:1468 ../plugins/fn-string/functions.c:1521
-#: ../plugins/fn-string/functions.c:1562 ../plugins/fn-string/functions.c:1600
-#: ../plugins/fn-string/functions.c:1673 ../plugins/fn-string/functions.c:2077
-#: ../plugins/fn-string/functions.c:2160
+#: ../plugins/fn-string/functions.c:1468 ../plugins/fn-string/functions.c:1584
+#: ../plugins/fn-string/functions.c:1625 ../plugins/fn-string/functions.c:1663
+#: ../plugins/fn-string/functions.c:1736 ../plugins/fn-string/functions.c:2140
+#: ../plugins/fn-string/functions.c:2223
 msgid "This function is Excel compatible."
 msgstr "Ця функція є сумісною із Excel."
 
@@ -365,47 +365,52 @@ msgstr "IMTAN:тангенс комплексного числа @{z}"
 
 #: ../plugins/fn-complex/functions.c:342
 msgid "IMSEC:the secant of the complex number @{z}"
-msgstr ""
+msgstr "IMSEC:секанс комплексного числа @{z}"
 
 #: ../plugins/fn-complex/functions.c:344
 msgid "IMSEC(@{z}) = 1/IMCOS(@{z})."
-msgstr ""
+msgstr "IMSEC(@{z}) = 1/IMCOS(@{z})."
 
 #: ../plugins/fn-complex/functions.c:370
 msgid "IMCSC:the cosecant of the complex number @{z}"
-msgstr ""
+msgstr "IMCSC:косеканс комплексного числа @{z}"
 
 #: ../plugins/fn-complex/functions.c:372
 msgid "IMCSC(@{z}) = 1/IMSIN(@{z})."
-msgstr ""
+msgstr "IMCSC(@{z}) = 1/IMSIN(@{z})."
 
 #: ../plugins/fn-complex/functions.c:397
 msgid "IMCOT:the cotangent of the complex number @{z}"
-msgstr ""
+msgstr "IMCOT:котангенс комплексного числа @{z}"
 
 #: ../plugins/fn-complex/functions.c:399
 msgid "IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z})."
-msgstr ""
+msgstr "IMCOT(@{z}) = IMCOS(@{z})/IMSIN(@{z})."
 
 #: ../plugins/fn-complex/functions.c:425
 msgid "IMEXP:the exponential of the complex number @{z}"
-msgstr ""
+msgstr "IMEXP:експонента комплексного числа @{z}"
 
 #: ../plugins/fn-complex/functions.c:453
 msgid "IMARGUMENT:the argument theta of the complex number @{z}"
-msgstr ""
+msgstr "IMARGUMENT:аргумент θ комплексного числа @{z}"
 
 #: ../plugins/fn-complex/functions.c:455
 msgid ""
 "The argument theta of a complex number is its angle in radians from the real "
 "axis."
 msgstr ""
+"Аргумент θ комплексного числа є кутому у радіанах до відрізка, що з'єднує поч"
+"аток координат із точкою комплексного числа, від додатного напрямку дійсної в"
+"ісі."
 
 #: ../plugins/fn-complex/functions.c:457
 msgid ""
 "If @{z} is 0, 0 is returned.  This is different from Excel which returns an "
 "error."
 msgstr ""
+"Якщо @{z} дорівнює 0, буде повернуто 0. Відрізняється від функції Excel, яка "
+"повертає повідомлення про помилку."
 
 #: ../plugins/fn-complex/functions.c:480
 msgid "IMLN:the natural logarithm of the complex number @{z}"
@@ -494,7 +499,6 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-complex/functions.c:844
-#| msgid "IMCOS:the cosine of the complex number @{z}"
 msgid "IMARCCOS:the complex arccosine of the complex number @{z}"
 msgstr "IMARCCOS:комплексний арккосинус комплексного числа @{z}"
 
@@ -505,7 +509,6 @@ msgid ""
 msgstr ""
 
 #: ../plugins/fn-complex/functions.c:872
-#| msgid "IMTAN:the tangent of the complex number @{z}"
 msgid "IMARCTAN:the complex arctangent of the complex number @{z}"
 msgstr "IMARCTAN:комплексний арктангенс комплексного числа @{z}"
 
@@ -1224,8 +1227,8 @@ msgstr ""
 #: ../plugins/fn-math/functions.c:3475 ../plugins/fn-stat/functions.c:1761
 #: ../plugins/fn-stat/functions.c:2707 ../plugins/fn-stat/functions.c:5064
 #: ../plugins/fn-string/functions.c:357 ../plugins/fn-string/functions.c:444
-#: ../plugins/fn-string/functions.c:571 ../plugins/fn-string/functions.c:1601
-#: ../plugins/fn-string/functions.c:2261 ../plugins/fn-string/functions.c:2510
+#: ../plugins/fn-string/functions.c:571 ../plugins/fn-string/functions.c:1664
+#: ../plugins/fn-string/functions.c:2324 ../plugins/fn-string/functions.c:2573
 msgid "This function is OpenFormula compatible."
 msgstr "Ця функція є сумісною із OpenFormula."
 
@@ -4787,10 +4790,10 @@ msgstr "N:@{text} сконвертований у число"
 #: ../plugins/fn-string/functions.c:638 ../plugins/fn-string/functions.c:782
 #: ../plugins/fn-string/functions.c:851 ../plugins/fn-string/functions.c:978
 #: ../plugins/fn-string/functions.c:1019 ../plugins/fn-string/functions.c:1155
-#: ../plugins/fn-string/functions.c:1290 ../plugins/fn-string/functions.c:1520
-#: ../plugins/fn-string/functions.c:1561 ../plugins/fn-string/functions.c:1594
-#: ../plugins/fn-string/functions.c:1743 ../plugins/fn-string/functions.c:1920
-#: ../plugins/fn-string/functions.c:1986 ../plugins/fn-string/functions.c:2256
+#: ../plugins/fn-string/functions.c:1290 ../plugins/fn-string/functions.c:1583
+#: ../plugins/fn-string/functions.c:1624 ../plugins/fn-string/functions.c:1657
+#: ../plugins/fn-string/functions.c:1806 ../plugins/fn-string/functions.c:1983
+#: ../plugins/fn-string/functions.c:2049 ../plugins/fn-string/functions.c:2319
 msgid "text:string"
 msgstr "text:рядок"
 
@@ -5301,8 +5304,8 @@ msgstr "lookup_array:діапазон пошуку"
 msgid "return_array:range of return values"
 msgstr "return_array:діапазон повернутих значень"
 
-#: ../plugins/fn-lookup/functions.c:1462 ../plugins/fn-string/functions.c:1748
-#: ../plugins/fn-string/functions.c:1925
+#: ../plugins/fn-lookup/functions.c:1462 ../plugins/fn-string/functions.c:1811
+#: ../plugins/fn-string/functions.c:1988
 msgid "if_not_found:value to return if no match is found; defaults to #N/A"
 msgstr ""
 "if_not_found:значення, яке слід повернути, якщо відповідника не знайдено; "
@@ -11092,7 +11095,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:390 ../plugins/fn-string/functions.c:483
 #: ../plugins/fn-string/functions.c:605 ../plugins/fn-string/functions.c:1387
-#: ../plugins/fn-string/functions.c:2203
+#: ../plugins/fn-string/functions.c:2266
 msgid ""
 "The semantics of this function is subject to change as various applications "
 "implement it."
@@ -11106,7 +11109,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:392 ../plugins/fn-string/functions.c:484
 #: ../plugins/fn-string/functions.c:528 ../plugins/fn-string/functions.c:607
-#: ../plugins/fn-string/functions.c:1388 ../plugins/fn-string/functions.c:2204
+#: ../plugins/fn-string/functions.c:1388 ../plugins/fn-string/functions.c:2267
 msgid ""
 "While this function is syntactically Excel compatible, the differences in "
 "the underlying text encoding will usually yield different results."
@@ -11114,7 +11117,7 @@ msgstr ""
 
 #: ../plugins/fn-string/functions.c:393 ../plugins/fn-string/functions.c:486
 #: ../plugins/fn-string/functions.c:530 ../plugins/fn-string/functions.c:608
-#: ../plugins/fn-string/functions.c:1390 ../plugins/fn-string/functions.c:2206
+#: ../plugins/fn-string/functions.c:1390 ../plugins/fn-string/functions.c:2269
 msgid ""
 "While this function is OpenFormula compatible, most of its behavior is, at "
 "this time, implementation specific."
@@ -11162,7 +11165,7 @@ msgstr ""
 msgid "string2:search field"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:526 ../plugins/fn-string/functions.c:2193
+#: ../plugins/fn-string/functions.c:526 ../plugins/fn-string/functions.c:2256
 msgid "start:starting byte position, defaults to 1"
 msgstr ""
 
@@ -11248,7 +11251,7 @@ msgid ""
 "FIND:first position of @{string1} in @{string2} following position @{start}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:882 ../plugins/fn-string/functions.c:2150
+#: ../plugins/fn-string/functions.c:882 ../plugins/fn-string/functions.c:2213
 msgid "start:starting position, defaults to 1"
 msgstr ""
 
@@ -11256,7 +11259,7 @@ msgstr ""
 msgid "FIXED:formatted string representation of @{num}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:918 ../plugins/fn-string/functions.c:2075
+#: ../plugins/fn-string/functions.c:918 ../plugins/fn-string/functions.c:2138
 msgid "num:number"
 msgstr "num:число"
 
@@ -11349,7 +11352,7 @@ msgid "num:number of characters to be replaced"
 msgstr ""
 
 #: ../plugins/fn-string/functions.c:1333 ../plugins/fn-string/functions.c:1384
-#: ../plugins/fn-string/functions.c:1670
+#: ../plugins/fn-string/functions.c:1733
 msgid "new:replacement string"
 msgstr ""
 
@@ -11393,106 +11396,106 @@ msgstr "value:значення, яке слід відформатувати"
 msgid "format:desired format"
 msgstr "format:бажаний формат"
 
-#: ../plugins/fn-string/functions.c:1519
+#: ../plugins/fn-string/functions.c:1582
 msgid "TRIM:@{text} with only single spaces between words"
 msgstr "TRIM:@{text}, але лише з 1 пробілом між словами"
 
-#: ../plugins/fn-string/functions.c:1560
+#: ../plugins/fn-string/functions.c:1623
 msgid "VALUE:numeric value of @{text}"
 msgstr "VALUE:нумеричне значення @{text}"
 
-#: ../plugins/fn-string/functions.c:1593
+#: ../plugins/fn-string/functions.c:1656
 msgid "NUMBERVALUE:numeric value of @{text}"
 msgstr "NUMBERVALUE:нумеричне значення @{text}"
 
-#: ../plugins/fn-string/functions.c:1595
+#: ../plugins/fn-string/functions.c:1658
 msgid "separator:decimal separator"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1596
+#: ../plugins/fn-string/functions.c:1659
 msgid "group_separator:group separator"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1597
+#: ../plugins/fn-string/functions.c:1660
 msgid ""
 "If @{text} does not look like a decimal number, NUMBERVALUE returns the "
 "value VALUE would return (ignoring the given @{separator})."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1667
+#: ../plugins/fn-string/functions.c:1730
 msgid "SUBSTITUTE:@{text} with all occurrences of @{old} replaced by @{new}"
 msgstr "SUBSTITUTE:@{text}, з усіма @{old} заміненими @{new}"
 
-#: ../plugins/fn-string/functions.c:1668 ../plugins/fn-string/functions.c:2502
+#: ../plugins/fn-string/functions.c:1731 ../plugins/fn-string/functions.c:2565
 msgid "text:original text"
 msgstr "text:оригінальний текст"
 
-#: ../plugins/fn-string/functions.c:1669
+#: ../plugins/fn-string/functions.c:1732
 msgid "old:string to be replaced"
 msgstr "old:рядок тексту, що слід замінити"
 
-#: ../plugins/fn-string/functions.c:1671
+#: ../plugins/fn-string/functions.c:1734
 msgid ""
 "num:if @{num} is specified and a number only the @{num}th occurrence of "
 "@{old} is replaced"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1742
+#: ../plugins/fn-string/functions.c:1805
 msgid "TEXTBEFORE:text before @{delimiter}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1744 ../plugins/fn-string/functions.c:1921
+#: ../plugins/fn-string/functions.c:1807 ../plugins/fn-string/functions.c:1984
 msgid "delimiter:delimiter string or array of strings"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1745 ../plugins/fn-string/functions.c:1922
+#: ../plugins/fn-string/functions.c:1808 ../plugins/fn-string/functions.c:1985
 msgid "instance_num:the instance of the delimiter; defaults to 1"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1746 ../plugins/fn-string/functions.c:1923
-#: ../plugins/fn-string/functions.c:1990
+#: ../plugins/fn-string/functions.c:1809 ../plugins/fn-string/functions.c:1986
+#: ../plugins/fn-string/functions.c:2053
 msgid "match_mode:0 for case-sensitive (default), 1 for case-insensitive"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1747 ../plugins/fn-string/functions.c:1924
+#: ../plugins/fn-string/functions.c:1810 ../plugins/fn-string/functions.c:1987
 msgid ""
 "match_end:0 for no match at the end (default), 1 to match the end of the text"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1749
+#: ../plugins/fn-string/functions.c:1812
 msgid "TEXTBEFORE returns the text that occurs before the given @{delimiter}."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1919
+#: ../plugins/fn-string/functions.c:1982
 msgid "TEXTAFTER:text after @{delimiter}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1926
+#: ../plugins/fn-string/functions.c:1989
 msgid "TEXTAFTER returns the text that occurs after the given @{delimiter}."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1985
+#: ../plugins/fn-string/functions.c:2048
 msgid "TEXTSPLIT:split @{text} into an array using delimiters"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1987
+#: ../plugins/fn-string/functions.c:2050
 msgid "col_delimiter:delimiter(s) for columns"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1988
+#: ../plugins/fn-string/functions.c:2051
 msgid "row_delimiter:delimiter(s) for rows; optional"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1989
+#: ../plugins/fn-string/functions.c:2052
 msgid ""
 "ignore_empty:TRUE to ignore empty cells in the result; defaults to FALSE"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1991
+#: ../plugins/fn-string/functions.c:2054
 msgid "pad_with:value to pad the result array with; defaults to #N/A"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:1992
+#: ../plugins/fn-string/functions.c:2055
 msgid ""
 "TEXTSPLIT splits @{text} into multiple cells using the provided column and "
 "row delimiters."
@@ -11500,29 +11503,29 @@ msgstr ""
 "TEXTSPLIT розділяє @{text} на кілька клітин із наданими рамками стовпчиків "
 "та рядків."
 
-#: ../plugins/fn-string/functions.c:2074
+#: ../plugins/fn-string/functions.c:2137
 msgid "DOLLAR:@{num} formatted as currency"
 msgstr "DOLLAR:@{num} відформатоване як валюта"
 
-#: ../plugins/fn-string/functions.c:2076
+#: ../plugins/fn-string/functions.c:2139
 msgid "decimals:decimals"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2146
+#: ../plugins/fn-string/functions.c:2209
 msgid ""
 "SEARCH:the location of the @{search} string within @{text} after position "
 "@{start}"
 msgstr "SEARCH:локація рядка @{search} у @{text} після позиції @{start}"
 
-#: ../plugins/fn-string/functions.c:2148 ../plugins/fn-string/functions.c:2191
+#: ../plugins/fn-string/functions.c:2211 ../plugins/fn-string/functions.c:2254
 msgid "search:search string"
 msgstr "search:рядок пошуку"
 
-#: ../plugins/fn-string/functions.c:2149 ../plugins/fn-string/functions.c:2192
+#: ../plugins/fn-string/functions.c:2212 ../plugins/fn-string/functions.c:2255
 msgid "text:search field"
 msgstr "text:поле пошуку"
 
-#: ../plugins/fn-string/functions.c:2151 ../plugins/fn-string/functions.c:2194
+#: ../plugins/fn-string/functions.c:2214 ../plugins/fn-string/functions.c:2257
 msgid ""
 "@{search} may contain wildcard characters (*) and question marks (?). A "
 "question mark matches any single character, and a wildcard matches any "
@@ -11530,79 +11533,79 @@ msgid ""
 "with ~."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2156 ../plugins/fn-string/functions.c:2199
+#: ../plugins/fn-string/functions.c:2219 ../plugins/fn-string/functions.c:2262
 msgid "This search is not case sensitive."
 msgstr "Цей пошук не є чутливим до реєстру."
 
-#: ../plugins/fn-string/functions.c:2157
+#: ../plugins/fn-string/functions.c:2220
 msgid "If @{search} is not found, SEARCH returns #VALUE!"
 msgstr "Якщо @{search} не знайдено, то SEARCH видає #VALUE!"
 
-#: ../plugins/fn-string/functions.c:2158
+#: ../plugins/fn-string/functions.c:2221
 msgid ""
 "If @{start} is less than one or it is greater than the length of @{text}, "
 "SEARCH returns #VALUE!"
 msgstr ""
 "Якщо @{start} менше 1 або більший за довжину @{text}, то SEARCH видає #VALUE!"
 
-#: ../plugins/fn-string/functions.c:2189
+#: ../plugins/fn-string/functions.c:2252
 msgid ""
 "SEARCHB:the location of the @{search} string within @{text} after byte "
 "position @{start}"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2200
+#: ../plugins/fn-string/functions.c:2263
 msgid "If @{search} is not found, SEARCHB returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2201
+#: ../plugins/fn-string/functions.c:2264
 msgid ""
 "If @{start} is less than one or it is greater than the byte length of "
 "@{text}, SEARCHB returns #VALUE!"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2255
+#: ../plugins/fn-string/functions.c:2318
 msgid ""
 "ASC:text with full-width katakana and ASCII characters converted to half-"
 "width"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2257
+#: ../plugins/fn-string/functions.c:2320
 msgid ""
 "ASC converts full-width katakana and ASCII characters to half-width "
 "equivalent characters, copying all others."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2258 ../plugins/fn-string/functions.c:2505
+#: ../plugins/fn-string/functions.c:2321 ../plugins/fn-string/functions.c:2568
 msgid ""
 "The distinction between half-width and full-width characters is described in "
 "http://www.unicode.org/reports/tr11/."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2259 ../plugins/fn-string/functions.c:2507
+#: ../plugins/fn-string/functions.c:2322 ../plugins/fn-string/functions.c:2570
 msgid "For most strings, this function has the same effect as in Excel."
 msgstr ""
 "Для більшості рядків ця функція має такий же самий ефект, що і в Excel."
 
-#: ../plugins/fn-string/functions.c:2260
+#: ../plugins/fn-string/functions.c:2323
 msgid ""
 "While in obsolete encodings ASC used to translate between 2-byte and 1-byte "
 "characters, this is not the case in UTF-8."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2501
+#: ../plugins/fn-string/functions.c:2564
 msgid ""
 "JIS:text with half-width katakana and ASCII characters converted to full-"
 "width"
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2503
+#: ../plugins/fn-string/functions.c:2566
 msgid ""
 "JIS converts half-width katakana and ASCII characters to full-width "
 "equivalent characters, copying all others."
 msgstr ""
 
-#: ../plugins/fn-string/functions.c:2508
+#: ../plugins/fn-string/functions.c:2571
 msgid ""
 "While in obsolete encodings JIS used to translate between 1-byte and 2-byte "
 "characters, this is not the case in UTF-8."
