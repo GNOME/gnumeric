@@ -4007,7 +4007,12 @@ xlsx_vml_client_data_start (GsfXMLIn *xin, xmlChar const **attrs)
 	if (state->so) {
 		g_warning ("New object when one is in progress.");
 	} else if (typ == G_TYPE_NONE) {
-		g_printerr ("Unhandled object of type %s\n", tname);
+		/*
+		 * Comments are read from comments.xml; the VML shape for a
+		 * note carries nothing we use, so ignoring it is expected.
+		 */
+		if (g_strcmp0 (tname, "Note") != 0)
+			g_printerr ("Unhandled object of type %s\n", tname);
 	} else {
 		state->so = GNM_SO (g_object_new (typ, NULL));
 		state->so_direction = GOD_ANCHOR_DIR_DOWN_RIGHT;
