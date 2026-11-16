@@ -49,6 +49,15 @@ enum {
 	XL_NS_PROP_CUSTOM
 };
 
+/* Points per character unit, as used for <col width> and defaultColWidth. */
+#define XLSX_PTS_PER_CHAR_WIDTH ((130. / 18.5703125) * (72./96.))
+
+/* The default indexed palette, for color indices 8..63 (idx = index - 8) */
+#define XLSX_N_PALETTE_COLORS 56
+GOColor xlsx_palette_color (int idx);
+/* Index (8..63) of the palette color nearest to @c. */
+int xlsx_nearest_palette_index (GOColor c);
+
 #define XLSX_MaxCol	16384
 #define XLSX_MaxRow	1048576
 

@@ -266,7 +266,7 @@ EXTRA_DIST = GnumericTest.pm \
 	$(SUPPS) $(TESTS) \
 	$(INTROSPECTION_SUPPS) $(INTROSPECTION_TSTS) \
 	normalize-gnumeric \
-	ods-ext-schema.patch 
+	ods-ext-schema.patch ooxml-schema.patch
 
 # Groups of tests for convenience
 

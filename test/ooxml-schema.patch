@@ -1,0 +1,91 @@
+--- ooxml-schema/dml-main.xsd.orig	2026-05-25 12:46:10.000000000 -0400
++++ ooxml-schema/dml-main.xsd	2026-11-15 20:22:12.859055241 -0500
+@@ -15,6 +15,18 @@
+     schemaLocation="dml-picture.xsd"/>
+   <xsd:import namespace="http://schemas.openxmlformats.org/drawingml/lockedCanvas"
+     schemaLocation="dml-lockedCanvas.xsd"/>
++
++  <!-- MW: This import and this complexType added 20261115 -->
++  <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
++           schemaLocation="xml.xsd"/>
++  <xsd:complexType name="CT_Text">
++    <xsd:simpleContent>
++      <xsd:extension base="xsd:string">
++        <xsd:attribute ref="xml:space" use="optional"/>
++      </xsd:extension>
++    </xsd:simpleContent>
++  </xsd:complexType>
++
+   <xsd:complexType name="CT_AudioFile">
+     <xsd:sequence>
+       <xsd:element name="extLst" type="CT_OfficeArtExtensionList" minOccurs="0" maxOccurs="1"/>
+@@ -3020,7 +3032,8 @@
+     <xsd:sequence>
+       <xsd:element name="rPr" type="CT_TextCharacterProperties" minOccurs="0" maxOccurs="1"/>
+       <xsd:element name="pPr" type="CT_TextParagraphProperties" minOccurs="0" maxOccurs="1"/>
+-      <xsd:element name="t" type="xsd:string" minOccurs="0" maxOccurs="1"/>
++      <!-- MW: changed type from xsd:string to CT_Text on 20261115 -->
++      <xsd:element name="t" type="CT_Text" minOccurs="0" maxOccurs="1"/>
+     </xsd:sequence>
+     <xsd:attribute name="id" type="s:ST_Guid" use="required"/>
+     <xsd:attribute name="type" type="xsd:string" use="optional"/>
+@@ -3035,7 +3048,8 @@
+   <xsd:complexType name="CT_RegularTextRun">
+     <xsd:sequence>
+       <xsd:element name="rPr" type="CT_TextCharacterProperties" minOccurs="0" maxOccurs="1"/>
+-      <xsd:element name="t" type="xsd:string" minOccurs="1" maxOccurs="1"/>
++      <!-- MW: changed type from xsd:string to CT_Text on 20261115 -->
++      <xsd:element name="t" type="CT_Text" minOccurs="1" maxOccurs="1"/>
+     </xsd:sequence>
+   </xsd:complexType>
+ </xsd:schema>
+--- ooxml-schema/sml.xsd.orig	2026-05-25 12:46:10.030863571 -0400
++++ ooxml-schema/sml.xsd	2026-11-15 20:29:01.633389011 -0500
+@@ -11,6 +11,17 @@
+     schemaLocation="shared-commonSimpleTypes.xsd"/>
+   <xsd:import namespace="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing"
+     schemaLocation="dml-spreadsheetDrawing.xsd"/>
++
++  <!-- MW: This import and this complexType added 20171126 -->
++  <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
++           schemaLocation="xml.xsd"/>
++  <xsd:complexType name="CT_Text">
++    <xsd:simpleContent>
++      <xsd:extension base="s:ST_String">
++        <xsd:attribute ref="xml:space" use="optional"/>
++      </xsd:extension>
++    </xsd:simpleContent>
++  </xsd:complexType>
+   <xsd:complexType name="CT_AutoFilter">
+     <xsd:sequence>
+       <xsd:element name="filterColumn" minOccurs="0" maxOccurs="unbounded" type="CT_FilterColumn"/>
+@@ -1800,7 +1811,8 @@
+   </xsd:simpleType>
+   <xsd:complexType name="CT_PhoneticRun">
+     <xsd:sequence>
+-      <xsd:element name="t" type="s:ST_Xstring" minOccurs="1" maxOccurs="1"/>
++      <!-- changed type from s:ST_Xstring to CT_Text so xml:space is allowed -->
++      <xsd:element name="t" type="CT_Text" minOccurs="1" maxOccurs="1"/>
+     </xsd:sequence>
+     <xsd:attribute name="sb" type="xsd:unsignedInt" use="required"/>
+     <xsd:attribute name="eb" type="xsd:unsignedInt" use="required"/>
+@@ -1808,7 +1820,8 @@
+   <xsd:complexType name="CT_RElt">
+     <xsd:sequence>
+       <xsd:element name="rPr" type="CT_RPrElt" minOccurs="0" maxOccurs="1"/>
+-      <xsd:element name="t" type="s:ST_Xstring" minOccurs="1" maxOccurs="1"/>
++      <!-- MW: changed type from s:ST_String to CT_Text on 20171126 -->
++      <xsd:element name="t" type="CT_Text" minOccurs="1" maxOccurs="1"/>
+     </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="CT_RPrElt">
+@@ -1832,7 +1845,8 @@
+   </xsd:complexType>
+   <xsd:complexType name="CT_Rst">
+     <xsd:sequence>
+-      <xsd:element name="t" type="s:ST_Xstring" minOccurs="0" maxOccurs="1"/>
++      <!-- changed type from s:ST_Xstring to CT_Text so xml:space is allowed -->
++      <xsd:element name="t" type="CT_Text" minOccurs="0" maxOccurs="1"/>
+       <xsd:element name="r" type="CT_RElt" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element name="rPh" type="CT_PhoneticRun" minOccurs="0" maxOccurs="unbounded"/>
+       <xsd:element name="phoneticPr" minOccurs="0" maxOccurs="1" type="CT_PhoneticPr"/>

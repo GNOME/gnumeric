@@ -128,11 +128,10 @@ sub system_failure {
 sub read_file {
     my ($fn) = @_;
 
-    local (*FIL);
-    open (FIL, $fn) or die "Cannot open $fn: $!\n";
+    open (my $f, '<', $fn) or die "Cannot open $fn: $!\n";
     local $/ = undef;
-    my $lines = <FIL>;
-    close FIL;
+    my $lines = <$f>;
+    close $f;
 
     return $lines;
 }
@@ -140,11 +139,10 @@ sub read_file {
 sub write_file {
     my ($fn,$contents) = @_;
 
-    local (*FIL);
-    open (FIL, ">$fn.tmp") or die "Cannot create $fn.tmp: $!\n";
-    print FIL $contents;
-    close FIL;
-    rename "$fn.tmp", $fn;
+    open (my $f, '>', "$fn.tmp") or die "Cannot create $fn.tmp: $!\n";
+    print $f $contents or die "Cannot write $fn.tmp: $!\n";
+    close $f or die "Cannot close $fn.tmp: $!\n";
+    rename "$fn.tmp", $fn or die "Cannot close $fn.tmp: $!\n"
 }
 
 sub update_file {

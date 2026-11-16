@@ -822,3 +822,69 @@ xlsx_relaxed_strtol (const char *s, char **endp, int base)
 	}
 	return res;
 }
+
+/***********************************************************************
+ * These indexes look like the values in xls.  Dup some code from there.
+ * TODO : Can we merge the code ?
+ *	  Will the 'indexedColors' look like a palette ?
+ */
+static const struct {
+	guint8 r, g, b;
+} xlsx_default_palette_v8[] = {
+	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0},
+	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255},
+
+	{128,  0,  0}, {  0,128,  0}, {  0,  0,128}, {128,128,  0},
+	{128,  0,128}, {  0,128,128}, {192,192,192}, {128,128,128},
+
+	{153,153,255}, {153, 51,102}, {255,255,204}, {204,255,255},
+	{102,  0,102}, {255,128,128}, {  0,102,204}, {204,204,255},
+
+	{  0,  0,128}, {255,  0,255}, {255,255,  0}, {  0,255,255},
+	{128,  0,128}, {128,  0,  0}, {  0,128,128}, {  0,  0,255},
+
+	{  0,204,255}, {204,255,255}, {204,255,204}, {255,255,153},
+	{153,204,255}, {255,153,204}, {204,153,255}, {255,204,153},
+
+	{ 51,102,255}, { 51,204,204}, {153,204,  0}, {255,204,  0},
+	{255,153,  0}, {255,102,  0}, {102,102,153}, {150,150,150},
+
+	{  0, 51,102}, { 51,153,102}, {  0, 51,  0}, { 51, 51,  0},
+	{153, 51,  0}, {153, 51,102}, { 51, 51,153}, { 51, 51, 51}
+};
+
+G_STATIC_ASSERT (G_N_ELEMENTS (xlsx_default_palette_v8) == XLSX_N_PALETTE_COLORS);
+
+GOColor
+xlsx_palette_color (int idx)
+{
+	g_return_val_if_fail (idx >= 0 && idx < XLSX_N_PALETTE_COLORS,
+			      GO_COLOR_BLACK);
+	return GO_COLOR_FROM_RGB (xlsx_default_palette_v8[idx].r,
+				  xlsx_default_palette_v8[idx].g,
+				  xlsx_default_palette_v8[idx].b);
+}
+
+int
+xlsx_nearest_palette_index (GOColor c)
+{
+	int best = 0;
+	int best_d = G_MAXINT;
+	int i;
+	int r = GO_COLOR_UINT_R (c);
+	int g = GO_COLOR_UINT_G (c);
+	int b = GO_COLOR_UINT_B (c);
+
+	for (i = 0; i < XLSX_N_PALETTE_COLORS; i++) {
+		int dr = r - xlsx_default_palette_v8[i].r;
+		int dg = g - xlsx_default_palette_v8[i].g;
+		int db = b - xlsx_default_palette_v8[i].b;
+		int d = dr * dr + dg * dg + db * db;
+		if (d < best_d) {
+			best_d = d;
+			best = i;
+		}
+	}
+
+	return best + 8;
+}

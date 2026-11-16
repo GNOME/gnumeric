@@ -65,6 +65,9 @@ Morten:
 	* ODS: fix problems with validation export.
 	* ODS: fix problems with auto-filter import/export.
 	* BESSELI: prevent large allocation.
+	* XLSX: fix problems that might cause xl to drop spaces.
+	* XLSX: fix page break import/export problems.
+	* XLSX: improve export of conditional formats.
 
 B.S.:
 	* TEXT speedup.

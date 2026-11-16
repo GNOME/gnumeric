@@ -319,17 +319,39 @@ xlsx_find_predefined_fill (GnmStyle const *style)
 
 /****************************************************************************/
 
+/*
+ * Write <t>.  Excel drops leading and trailing whitespace unless the
+ * element has xml:space="preserve", so add that when it is needed, as
+ * other xlsx writers do.
+ */
 static void
-xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs,
-		      gboolean allow_xml_space)
+xlsx_write_text_element (GsfXMLOut *xml, char const *text, size_t len)
+{
+	char *buf = g_strndup (text, len);
+	gboolean preserve = FALSE;
+
+	if (*buf) {
+		preserve = g_unichar_isspace (g_utf8_get_char (buf)) ||
+			g_unichar_isspace (g_utf8_get_char
+					   (g_utf8_prev_char (buf + strlen (buf))));
+	}
+
+	gsf_xml_out_start_element (xml, "t");
+	if (preserve)
+		gsf_xml_out_add_cstr_unchecked (xml, "xml:space", "preserve");
+	gsf_xml_out_add_cstr (xml, NULL, buf);
+	gsf_xml_out_end_element (xml); /* </t> */
+	g_free (buf);
+}
+
+static void
+xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs)
 {
 	PangoAttrIterator *iter;
 	int start, end, max;
 
 	if (attrs == NULL) {
-		gsf_xml_out_start_element (xml, "t");
-		gsf_xml_out_add_cstr (xml, NULL, text);
-		gsf_xml_out_end_element (xml); /* </t> */
+		xlsx_write_text_element (xml, text, strlen (text));
 		return;
 	}
 
@@ -382,8 +404,10 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs,
 
 		attr = pango_attr_iterator_get (iter, PANGO_ATTR_SIZE);
 		if (attr) {
+			double pts = ((PangoAttrInt *) attr)->value / (double)PANGO_SCALE;
+			pts = round (pts * 100) / 100;  // At most two decimals.
 			gsf_xml_out_start_element (xml, "sz");
-			gsf_xml_out_add_uint (xml, "val", ((PangoAttrInt *) attr)->value / PANGO_SCALE);
+			go_xml_out_add_double (xml, "val", pts);
 			gsf_xml_out_end_element (xml); /* </sz> */
 		}
 
@@ -428,29 +452,11 @@ xlsx_write_rich_text (GsfXMLOut *xml, char const *text, PangoAttrList *attrs,
 		}
 
 		gsf_xml_out_end_element (xml); /* </rPr> */
-		gsf_xml_out_start_element (xml, "t");
 		pango_attr_iterator_range (iter, &start, &end);
 		if (end > max)
 		    end = max;
-		if (start < end) {
-			char *buf = g_strndup (text + start, end - start);
-			if (allow_xml_space) {
-				const char *p;
-				gboolean has_space = FALSE;
-				for (p = buf; *p; p = g_utf8_next_char (p)) {
-					if (g_unichar_isspace (g_utf8_get_char (p))) {
-						has_space = TRUE;
-						break;
-					}
-				}
-				if (has_space)
-					gsf_xml_out_add_cstr_unchecked
-						(xml, "xml:space", "preserve");
-			}
-			gsf_xml_out_add_cstr (xml, NULL, buf);
-			g_free (buf);
-		}
-		gsf_xml_out_end_element (xml); /* </t> */
+		xlsx_write_text_element (xml, text + start,
+					 start < end ? end - start : 0);
 		gsf_xml_out_end_element (xml); /* </r> */
 	} while (pango_attr_iterator_next (iter));
 	pango_attr_iterator_destroy (iter);
@@ -517,8 +523,7 @@ xlsx_write_shared_strings (XLSXWriteState *state, GsfOutfile *wb_part)
 		gsf_xml_out_start_element (xml, "si");
 		xlsx_write_rich_text (xml,
 				      value_peek_string (val),
-				      attrs,
-				      FALSE);
+				      attrs);
 		gsf_xml_out_end_element (xml); /* </si> */
 	}
 
@@ -758,11 +763,11 @@ xlsx_write_font (XLSXWriteState *state, GsfXMLOut *xml, GnmStyle const *style)
 		gsf_xml_out_end_element (xml);
 	}
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_SIZE)) {
+		double pts = gnm_style_get_font_size (style);
+		pts = round (pts * 100) / 100;  // At most two decimals.
 		gsf_xml_out_start_element (xml, "sz");
-		go_xml_out_add_double
-			(xml, "val", gnm_style_get_font_size (style));
+		go_xml_out_add_double (xml, "val", pts);
 		gsf_xml_out_end_element (xml);
-
 	}
 	if (gnm_style_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH)) {
 		gsf_xml_out_start_element (xml, "strike");
@@ -1466,10 +1471,14 @@ xlsx_write_sheet_view (GsfXMLOut *xml, SheetView const *sv)
 		gsf_xml_out_add_cstr_unchecked (xml, "tabSelected", "1");
 
 	if (!style_color_equal (sheet_auto, default_auto)) {
-		gsf_xml_out_add_cstr_unchecked (xml, "defaultGridColor", "1");
-#if 0
-		gsf_xml_out_add_int (xml, "colorId", grid_color_index);
-#endif
+		/*
+		 * Per the schema this means "not the default color"; the color
+		 * itself can only be given as an index into the indexed palette,
+		 * so use the nearest entry.
+		 */
+		gsf_xml_out_add_cstr_unchecked (xml, "defaultGridColor", "0");
+		gsf_xml_out_add_int (xml, "colorId",
+				     xlsx_nearest_palette_index (sheet_auto->go_color));
 	}
 	style_color_unref (sheet_auto);
 	style_color_unref (default_auto);
@@ -1598,7 +1607,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				gsf_xml_out_add_cstr_unchecked (xml, "customHeight", "1");
 			}
-			if (ri->hard_size || fabs (ri->size_pts - sheet->cols.default_style.size_pts) > 1e-6) {
+			if (ri->hard_size || fabs (ri->size_pts - sheet->rows.default_style.size_pts) > 1e-6) {
 				xlsx_write_init_row (&needs_row, xml, r, cheesy_span);
 				go_xml_out_add_double (xml, "ht", ri->size_pts);
 			}
@@ -1748,8 +1757,7 @@ xlsx_write_cells (XLSXWriteState *state, GsfXMLOut *xml,
 					gsf_xml_out_start_element (xml, "is");
 					xlsx_write_rich_text (xml,
 							      value_peek_string (val),
-							      attrs,
-							      FALSE);
+							      attrs);
 					gsf_xml_out_end_element (xml); /* </is> */
 				} else if (type) {
 					gsf_xml_out_start_element (xml, "v");
@@ -1804,11 +1812,12 @@ xlsx_write_merges (XLSXWriteState *state, GsfXMLOut *xml)
 
 static void
 xlsx_write_cond_rule (XLSXWriteState *state, GsfXMLOut *xml,
-		      GnmStyleCond *cond, GnmParsePos const *pp)
+		      GnmStyleCond *cond, GnmParsePos const *pp, int priority)
 {
 	int i, n;
 	const char *type = NULL;
 	const char *operator = NULL;
+	char const *text = NULL;
 	GnmExprTop const *alt_texpr;
 	gboolean needs_alt_texpr = FALSE;
 
@@ -1859,19 +1868,19 @@ xlsx_write_cond_rule (XLSXWriteState *state, GsfXMLOut *xml,
 		break;
 	case GNM_STYLE_COND_CONTAINS_STR:
 		needs_alt_texpr = TRUE;
-		n = 1; type = "containsText";
+		n = 1; type = "containsText"; operator = "containsText";
 		break;
 	case GNM_STYLE_COND_NOT_CONTAINS_STR:
 		needs_alt_texpr = TRUE;
-		n = 1; type = "notContainsText";
+		n = 1; type = "notContainsText"; operator = "notContains";
 		break;
 	case GNM_STYLE_COND_BEGINS_WITH_STR:
 		needs_alt_texpr = TRUE;
-		n = 1; type = "beginsWith";
+		n = 1; type = "beginsWith"; operator = "beginsWith";
 		break;
 	case GNM_STYLE_COND_ENDS_WITH_STR:
 		needs_alt_texpr = TRUE;
-		n = 1; type = "endsWith";
+		n = 1; type = "endsWith"; operator = "endsWith";
 		break;
 
 	case GNM_STYLE_COND_NOT_BEGINS_WITH_STR:
@@ -1891,10 +1900,23 @@ xlsx_write_cond_rule (XLSXWriteState *state, GsfXMLOut *xml,
 	gsf_xml_out_add_cstr_unchecked (xml, "type", type ? type : "cellIs");
 	gsf_xml_out_add_int (xml, "dxfId",
 			     xlsx_get_cond_style_id (state, cond->overlay));
-	gsf_xml_out_add_int (xml, "priority", 1) ;
+	/* Priorities are unique per sheet; lower numbers are evaluated first. */
+	gsf_xml_out_add_int (xml, "priority", priority);
 	gsf_xml_out_add_int (xml, "stopIfTrue", 1) ;
 	if (operator)
 		gsf_xml_out_add_cstr_unchecked (xml, "operator", operator);
+
+	/* The text rules also carry the text being looked for. */
+	if (type && alt_texpr &&
+	    (!strcmp (type, "containsText") || !strcmp (type, "notContainsText") ||
+	     !strcmp (type, "beginsWith") || !strcmp (type, "endsWith"))) {
+		GnmExprTop const *texpr0 = gnm_style_cond_get_expr (cond, 0);
+		GnmValue const *v = texpr0 ? gnm_expr_top_get_constant (texpr0) : NULL;
+		if (v && VALUE_IS_STRING (v))
+			text = value_peek_string (v);
+	}
+	if (text)
+		gsf_xml_out_add_cstr (xml, "text", text);
 	for (i = 0; i < n; i++) {
 		GnmExprTop const *texpr = alt_texpr
 			? alt_texpr
@@ -1914,6 +1936,7 @@ xlsx_write_conditional_formatting (XLSXWriteState *state, GsfXMLOut *xml)
 	GnmStyleList *cond_styles =
 		sheet_style_collect_conditions (state->sheet, NULL);
 	GnmStyleList *l;
+	int priority = 1;
 	if (!cond_styles)
 		return;
 
@@ -1933,7 +1956,7 @@ xlsx_write_conditional_formatting (XLSXWriteState *state, GsfXMLOut *xml)
 		xlsx_add_range (xml, "sqref", &sr->range);
 		for (ui = 0; ui < conds->len; ui++) {
 			GnmStyleCond *cond = g_ptr_array_index (conds, ui);
-			xlsx_write_cond_rule (state, xml, cond, &pp);
+			xlsx_write_cond_rule (state, xml, cond, &pp, priority++);
 		}
 		gsf_xml_out_end_element (xml); /* </conditionalFormatting> */
 	}
@@ -2194,7 +2217,7 @@ xlsx_write_col (XLSXWriteState *state, GsfXMLOut *xml,
 
 	go_xml_out_add_double (xml, "width",
 			       (ci ? ci->size_pts : def_width) /
-			       ((130. / 18.5703125) * (72./96.)));
+			       XLSX_PTS_PER_CHAR_WIDTH);
 
 	if (ci) {
 		if (!ci->visible)
@@ -2341,7 +2364,12 @@ xlsx_write_autofilters (XLSXWriteState *state, GsfXMLOut *xml)
 			break;
 
 		default:
-			continue;
+			/*
+			 * No xlsx equivalent written yet (match, average,
+			 * stddev, relative percent).  Close the element we
+			 * opened rather than nesting the rest inside it.
+			 */
+			break;
 		}
 
 		gsf_xml_out_end_element (xml); /* </filterColumn> */
@@ -2389,22 +2417,28 @@ xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
 		NULL);
 
 	gsf_xml_out_start_element (xml, "sheetProtection");
+	/*
+	 * The attributes say what is locked, the properties what is allowed.
+	 * Only write values that differ from the schema defaults, which are
+	 * false for objects, scenarios, selectLockedCells and
+	 * selectUnlockedCells, and true for the rest.
+	 */
 	if ( sheet)		  xlsx_add_bool (xml, "sheet",			TRUE);
-	if ( objects)		  xlsx_add_bool (xml, "objects",		TRUE);
-	if ( scenarios)		  xlsx_add_bool (xml, "scenarios",		TRUE);
-	if (!formatCells)	  xlsx_add_bool (xml, "formatCells",		FALSE);
-	if (!formatColumns)	  xlsx_add_bool (xml, "formatColumns",		FALSE);
-	if (!formatRows)	  xlsx_add_bool (xml, "formatRows",		FALSE);
-	if (!insertColumns)	  xlsx_add_bool (xml, "insertColumns",		FALSE);
-	if (!insertRows)	  xlsx_add_bool (xml, "insertRows",		FALSE);
-	if (!insertHyperlinks)	  xlsx_add_bool (xml, "insertHyperlinks",	FALSE);
-	if (!deleteColumns)	  xlsx_add_bool (xml, "deleteColumns",		FALSE);
-	if (!deleteRows)	  xlsx_add_bool (xml, "deleteRows",		FALSE);
-	if ( selectLockedCells)	  xlsx_add_bool (xml, "selectLockedCells",	TRUE);
-	if (!sort)		  xlsx_add_bool (xml, "sort",			FALSE);
-	if (!autoFilter)	  xlsx_add_bool (xml, "autoFilter",		FALSE);
-	if (!pivotTables)	  xlsx_add_bool (xml, "pivotTables",		FALSE);
-	if ( selectUnlockedCells) xlsx_add_bool (xml, "selectUnlockedCells",	TRUE);
+	if (!objects)		  xlsx_add_bool (xml, "objects",		TRUE);
+	if (!scenarios)		  xlsx_add_bool (xml, "scenarios",		TRUE);
+	if ( formatCells)	  xlsx_add_bool (xml, "formatCells",		FALSE);
+	if ( formatColumns)	  xlsx_add_bool (xml, "formatColumns",		FALSE);
+	if ( formatRows)	  xlsx_add_bool (xml, "formatRows",		FALSE);
+	if ( insertColumns)	  xlsx_add_bool (xml, "insertColumns",		FALSE);
+	if ( insertRows)	  xlsx_add_bool (xml, "insertRows",		FALSE);
+	if ( insertHyperlinks)	  xlsx_add_bool (xml, "insertHyperlinks",	FALSE);
+	if ( deleteColumns)	  xlsx_add_bool (xml, "deleteColumns",		FALSE);
+	if ( deleteRows)	  xlsx_add_bool (xml, "deleteRows",		FALSE);
+	if (!selectLockedCells)	  xlsx_add_bool (xml, "selectLockedCells",	TRUE);
+	if ( sort)		  xlsx_add_bool (xml, "sort",			FALSE);
+	if ( autoFilter)	  xlsx_add_bool (xml, "autoFilter",		FALSE);
+	if ( pivotTables)	  xlsx_add_bool (xml, "pivotTables",		FALSE);
+	if (!selectUnlockedCells) xlsx_add_bool (xml, "selectUnlockedCells",	TRUE);
 
 	gsf_xml_out_end_element (xml); /* sheetProtection */
 }
@@ -2412,13 +2446,15 @@ xlsx_write_protection (XLSXWriteState *state, GsfXMLOut *xml)
 static void
 xlsx_write_breaks (G_GNUC_UNUSED XLSXWriteState *state, GsfXMLOut *xml, GnmPageBreaks *breaks)
 {
-	unsigned const maxima = (breaks->is_vert ? XLSX_MaxCol : XLSX_MaxRow) - 1;
+	/* A vertical break lies between columns and so is a colBreak; its
+	 * extent (max) is a row.  Horizontal breaks are rowBreaks. */
+	unsigned const maxima = (breaks->is_vert ? XLSX_MaxRow : XLSX_MaxCol) - 1;
 	GArray const *details = breaks->details;
 	GnmPageBreak const *binfo;
 	unsigned i;
 
 	gsf_xml_out_start_element (xml,
-		(breaks->is_vert) ? "rowBreaks" : "colBreaks");
+		(breaks->is_vert) ? "colBreaks" : "rowBreaks");
 	gsf_xml_out_add_int (xml, "count", details->len);
 
 	for (i = 0 ; i < details->len ; i++) {
@@ -2733,10 +2769,11 @@ xlsx_write_print_info (XLSXWriteState *state, GsfXMLOut *xml)
 	xlsx_write_print_info_hf (state, xml, pi->footer, "oddFooter");
 	gsf_xml_out_end_element (xml); /* </headerFooter> */
 
-	if (NULL != pi->page_breaks.v)
-		xlsx_write_breaks (state, xml, pi->page_breaks.v);
+	/* The schema wants rowBreaks before colBreaks. */
 	if (NULL != pi->page_breaks.h)
 		xlsx_write_breaks (state, xml, pi->page_breaks.h);
+	if (NULL != pi->page_breaks.v)
+		xlsx_write_breaks (state, xml, pi->page_breaks.v);
 }
 
 /**********************************************************************/
@@ -2781,7 +2818,10 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 	authors = g_hash_table_new (g_str_hash, g_str_equal);
 	for (ptr = objects; ptr; ptr = ptr->next) {
 		authorname = cell_comment_author_get (GNM_CELL_COMMENT (ptr->data));
-		if (authorname != NULL && !g_hash_table_lookup_extended (authors, authorname, NULL, NULL))
+		/* authorId is required, so a missing author becomes "" */
+		if (authorname == NULL)
+			authorname = "";
+		if (!g_hash_table_lookup_extended (authors, authorname, NULL, NULL))
 			g_hash_table_insert (authors, (gpointer) authorname, GUINT_TO_POINTER (author++));
 	}
 	/* save authors */
@@ -2796,14 +2836,15 @@ xlsx_write_comments (XLSXWriteState *state, GsfOutput *sheet_part, GSList *objec
 		anchor = sheet_object_get_anchor (ptr->data);
 		gsf_xml_out_add_cstr_unchecked (xml, "ref", range_as_string (&anchor->cell_bound));
 		authorname = cell_comment_author_get (GNM_CELL_COMMENT (ptr->data));
-		if (authorname != NULL)
-			gsf_xml_out_add_uint (xml, "authorId",
-					      GPOINTER_TO_UINT (g_hash_table_lookup (authors, authorname)));
+		if (authorname == NULL)
+			authorname = "";
+		gsf_xml_out_add_uint (xml, "authorId",
+				      GPOINTER_TO_UINT (g_hash_table_lookup (authors, authorname)));
 		gsf_xml_out_start_element (xml, "text");
 		/* Save text as rich text */
 		g_object_get (ptr->data, "text", &name, "markup", &attrs, NULL);
 		if (name && *name)
-			xlsx_write_rich_text (xml, name, attrs, TRUE);
+			xlsx_write_rich_text (xml, name, attrs);
 		g_free (name);
 		pango_attr_list_unref (attrs);
 		gsf_xml_out_end_element (xml); /* </text> */
@@ -2949,8 +2990,10 @@ xlsx_write_sheet (XLSXWriteState *state, GsfOutfile *wb_part, Sheet *sheet)
 	gsf_xml_out_end_element (xml); /* </sheetViews> */
 /*   element sheetFormatPr { CT_SheetFormatPr }?,     */
 	gsf_xml_out_start_element (xml, "sheetFormatPr");
+	/* defaultColWidth is in characters, like <col width> */
 	go_xml_out_add_double (xml, "defaultColWidth",
-		sheet_col_get_default_size_pts (state->sheet));
+		sheet_col_get_default_size_pts (state->sheet) /
+		XLSX_PTS_PER_CHAR_WIDTH);
 	go_xml_out_add_double (xml, "defaultRowHeight",
 		sheet_row_get_default_size_pts (state->sheet));
 	if (state->sheet->rows.max_outline_level > 0)

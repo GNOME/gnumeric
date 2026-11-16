@@ -931,30 +931,6 @@ simple_string (G_GNUC_UNUSED GsfXMLIn *xin, xmlChar const **attrs)
  * TODO : Can we merge the code ?
  *	  Will the 'indexedColors' look like a palette ?
  */
-static const struct {
-	guint8 r, g, b;
-} xlsx_default_palette_v8[] = {
-	{  0,  0,  0}, {255,255,255}, {255,  0,  0}, {  0,255,  0},
-	{  0,  0,255}, {255,255,  0}, {255,  0,255}, {  0,255,255},
-
-	{128,  0,  0}, {  0,128,  0}, {  0,  0,128}, {128,128,  0},
-	{128,  0,128}, {  0,128,128}, {192,192,192}, {128,128,128},
-
-	{153,153,255}, {153, 51,102}, {255,255,204}, {204,255,255},
-	{102,  0,102}, {255,128,128}, {  0,102,204}, {204,204,255},
-
-	{  0,  0,128}, {255,  0,255}, {255,255,  0}, {  0,255,255},
-	{128,  0,128}, {128,  0,  0}, {  0,128,128}, {  0,  0,255},
-
-	{  0,204,255}, {204,255,255}, {204,255,204}, {255,255,153},
-	{153,204,255}, {255,153,204}, {204,153,255}, {255,204,153},
-
-	{ 51,102,255}, { 51,204,204}, {153,204,  0}, {255,204,  0},
-	{255,153,  0}, {255,102,  0}, {102,102,153}, {150,150,150},
-
-	{  0, 51,102}, { 51,153,102}, {  0, 51,  0}, { 51, 51,  0},
-	{153, 51,  0}, {153, 51,102}, { 51, 51,153}, { 51, 51, 51}
-};
 
 static GOColor
 indexed_color (G_GNUC_UNUSED XLSXReadState *state, gint idx)
@@ -1001,16 +977,14 @@ indexed_color (G_GNUC_UNUSED XLSXReadState *state, gint idx)
 	}
 
 	idx -= 8;
-	if (idx < 0 || (int) G_N_ELEMENTS (xlsx_default_palette_v8) <= idx) {
+	if (idx < 0 || XLSX_N_PALETTE_COLORS <= idx) {
 		g_warning ("EXCEL: color index (%d) is out of range (8..%d). Defaulting to black",
-			   idx + 8, (int)G_N_ELEMENTS (xlsx_default_palette_v8) + 8);
+			   idx + 8, XLSX_N_PALETTE_COLORS + 8);
 		return GO_COLOR_BLACK;
 	}
 
 	/* TODO cache and ref */
-	return GO_COLOR_FROM_RGB (xlsx_default_palette_v8[idx].r,
-				  xlsx_default_palette_v8[idx].g,
-				  xlsx_default_palette_v8[idx].b);
+	return xlsx_palette_color (idx);
 }
 
 static gboolean
@@ -1732,7 +1706,7 @@ xlsx_CT_Col (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (attr_double (xin, attrs, "width", &width))
 			/* FIXME FIXME FIXME arbitrary map from 130 pixels to
 			 * the value stored for a column with 130 pixel width*/
-			width *= (130. / 18.5703125) * (72./96.);
+			width *= XLSX_PTS_PER_CHAR_WIDTH;
 		else if (attr_bool (xin, attrs, "customWidth", &cust_width))
 			;
 		else if (attr_bool (xin, attrs, "bestFit", &best_fit))
@@ -1865,8 +1839,10 @@ xlsx_CT_SheetFormatPr (GsfXMLIn *xin, xmlChar const **attrs)
 	int i;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
+		/* defaultColWidth is in characters, like <col width> */
 		if (attr_double (xin, attrs, "defaultColWidth", &w))
-			sheet_col_set_default_size_pts (state->sheet, w);
+			sheet_col_set_default_size_pts (state->sheet,
+							w * XLSX_PTS_PER_CHAR_WIDTH);
 		else if (attr_double (xin, attrs, "defaultRowHeight", &h))
 			sheet_row_set_default_size_pts (state->sheet, h);
 		else if (attr_int (xin, attrs, "outlineLevelRow", &i)) {
@@ -2737,23 +2713,28 @@ xlsx_CT_SheetProtection (GsfXMLIn *xin, xmlChar const **attrs)
 			;
 	}
 
+	/*
+	 * The attributes say what is locked, the properties what is allowed,
+	 * so the values are inverted.  The initial values above are the
+	 * defaults from the schema.
+	 */
 	g_object_set (state->sheet,
 		"protected",				 sheet,
-		"protected-allow-edit-objects",		 objects,
-		"protected-allow-edit-scenarios",	 scenarios,
-		"protected-allow-cell-formatting",	 formatCells,
-		"protected-allow-column-formatting",	 formatColumns,
-		"protected-allow-row-formatting",	 formatRows,
-		"protected-allow-insert-columns",	 insertColumns,
-		"protected-allow-insert-rows",		 insertRows,
-		"protected-allow-insert-hyperlinks",	 insertHyperlinks,
-		"protected-allow-delete-columns",	 deleteColumns,
-		"protected-allow-delete-rows",		 deleteRows,
-		"protected-allow-select-locked-cells",	 selectLockedCells,
-		"protected-allow-sort-ranges",		 sort,
-		"protected-allow-edit-auto-filters",	 autoFilter,
-		"protected-allow-edit-pivottable",	 pivotTables,
-		"protected-allow-select-unlocked-cells", selectUnlockedCells,
+		"protected-allow-edit-objects",		 !objects,
+		"protected-allow-edit-scenarios",	 !scenarios,
+		"protected-allow-cell-formatting",	 !formatCells,
+		"protected-allow-column-formatting",	 !formatColumns,
+		"protected-allow-row-formatting",	 !formatRows,
+		"protected-allow-insert-columns",	 !insertColumns,
+		"protected-allow-insert-rows",		 !insertRows,
+		"protected-allow-insert-hyperlinks",	 !insertHyperlinks,
+		"protected-allow-delete-columns",	 !deleteColumns,
+		"protected-allow-delete-rows",		 !deleteRows,
+		"protected-allow-select-locked-cells",	 !selectLockedCells,
+		"protected-allow-sort-ranges",		 !sort,
+		"protected-allow-edit-auto-filters",	 !autoFilter,
+		"protected-allow-edit-pivottable",	 !pivotTables,
+		"protected-allow-select-unlocked-cells", !selectUnlockedCells,
 		NULL);
 }
 
@@ -3720,10 +3701,10 @@ GSF_XML_IN_NODE_FULL (START, SHEET, XL_NS_SS, "worksheet", GSF_XML_NO_CONTENT, F
     GSF_XML_IN_NODE (PRINT_HEADER_FOOTER, ODD_FOOTER, XL_NS_SS, "oddFooter", GSF_XML_CONTENT, NULL, &xlsx_CT_oddfooter_end),
 
   GSF_XML_IN_NODE_FULL (SHEET, ROW_BREAKS, XL_NS_SS, "rowBreaks", GSF_XML_NO_CONTENT,
-			FALSE, FALSE, &xlsx_CT_PageBreaks_begin, &xlsx_CT_PageBreaks_end, 1),
+			FALSE, FALSE, &xlsx_CT_PageBreaks_begin, &xlsx_CT_PageBreaks_end, 0),
     GSF_XML_IN_NODE (ROW_BREAKS, CT_PageBreak, XL_NS_SS, "brk", GSF_XML_NO_CONTENT, &xlsx_CT_PageBreak, NULL),
   GSF_XML_IN_NODE_FULL (SHEET, COL_BREAKS, XL_NS_SS, "colBreaks", GSF_XML_NO_CONTENT,
-			FALSE, FALSE, &xlsx_CT_PageBreaks_begin, &xlsx_CT_PageBreaks_end, 0),
+			FALSE, FALSE, &xlsx_CT_PageBreaks_begin, &xlsx_CT_PageBreaks_end, 1),
     GSF_XML_IN_NODE (COL_BREAKS, CT_PageBreak, XL_NS_SS, "brk", GSF_XML_2ND, NULL, NULL),
 
   GSF_XML_IN_NODE (SHEET, LEGACY_DRAW, XL_NS_SS, "legacyDrawing", GSF_XML_NO_CONTENT, &xlsx_sheet_legacy_drawing, NULL),

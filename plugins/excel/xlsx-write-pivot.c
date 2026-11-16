@@ -58,6 +58,7 @@ xlsx_write_pivot_val (XLSXWriteState *state, GsfXMLOut *xml,
 			char *d = format_value (state->date_fmt, v, -1, workbook_date_conv (state->base.wb));
 			gsf_xml_out_start_element (xml, "d");
 			gsf_xml_out_add_cstr_unchecked (xml, "v", d);
+			g_free (d);
 			gsf_xml_out_end_element (xml);
 		} else {
 			gsf_xml_out_start_element (xml, "n");
