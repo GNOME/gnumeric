@@ -3744,7 +3744,7 @@ excel_write_cell (ExcelWriteState *ewb, ExcelWriteSheet *esheet,
 				gnm_conventions_default)
 			 : "none"),
 			(cell->value ?
-			 value_get_as_string (cell->value) : "empty"), xf);
+			 value_peek_string (cell->value) : "empty"), xf);
 	});
 
 	if (gnm_cell_has_expr (cell))
