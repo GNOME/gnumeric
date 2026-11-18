@@ -542,8 +542,10 @@ gnumeric_sigma (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
 	guint64 sigma = 1;
 	gnm_float n = gnm_floor (value_get_as_float (args[0]));
+	// The first integer where the result will exceed 2^64.
+	guint64 overflow64 = G_GUINT64_CONSTANT(2911175626334976000);
 
-	if (n < 1 || n > bit_max)
+	if (n < 1 || n > bit_max || n >= overflow64)
 		return value_new_error_NUM (ei->pos);
 
 	if (walk_factorization ((guint64)n, &sigma, walk_for_sigma))
