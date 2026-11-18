@@ -1804,7 +1804,7 @@ gnumeric_cauchy (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 
 	if (cuml)
-		return value_new_float (pcauchy (x, 0, a, FALSE, FALSE));
+		return value_new_float (pcauchy (x, 0, a, TRUE, FALSE));
 	else
 		return value_new_float (dcauchy (x, 0, a, FALSE));
 }
