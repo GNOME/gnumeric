@@ -277,6 +277,13 @@ item_bar_normal_font (GnmItemBar const *ib)
 	return pango_font_describe (ib->selection_fonts[COL_ROW_NO_SELECTION]);
 }
 
+/**
+ * gnm_item_bar_indent:
+ * @ib: #GnmItemBar
+ *
+ * Returns: the size, in pixels, of the area reserved for outline
+ * symbols in @ib.
+ **/
 int
 gnm_item_bar_indent (GnmItemBar const *ib)
 {
@@ -383,6 +390,14 @@ ib_draw_cell (GnmItemBar const * const ib, cairo_t *cr,
 	cairo_restore (cr);
 }
 
+/**
+ * gnm_item_bar_group_size:
+ * @ib: #GnmItemBar
+ * @max_outline: highest outline level displayed by @ib
+ *
+ * Returns: the size, in pixels, available for each outline level in @ib,
+ * or 0 if @max_outline is not positive.
+ **/
 int
 gnm_item_bar_group_size (GnmItemBar const *ib, int max_outline)
 {

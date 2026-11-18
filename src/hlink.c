@@ -237,6 +237,15 @@ gnm_hlink_get_sheet (GnmHLink *lnk)
 	return lnk->sheet;
 }
 
+/**
+ * gnm_hlink_new:
+ * @typ: #GType of the hyperlink, a non-abstract subtype of #GNM_HLINK_TYPE
+ * @sheet: #Sheet the hyperlink belongs to
+ *
+ * Creates a new hyperlink of type @typ associated with @sheet.
+ *
+ * Returns: (transfer full): the newly created #GnmHLink.
+ **/
 GnmHLink *
 gnm_hlink_new (GType typ, Sheet *sheet)
 {

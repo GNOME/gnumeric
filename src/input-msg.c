@@ -88,6 +88,13 @@ gnm_input_msg_new (char const *msg, char const *title)
 	return res;
 }
 
+/**
+ * gnm_input_msg_equal:
+ * @a: first #GnmInputMsg
+ * @b: second #GnmInputMsg
+ *
+ * Returns: %TRUE if @a and @b have the same message and title.
+ **/
 gboolean
 gnm_input_msg_equal (GnmInputMsg const *a,
 		     GnmInputMsg const *b)

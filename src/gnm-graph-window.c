@@ -304,6 +304,17 @@ gnm_graph_window_set_graph (GnmGraphWindow *window,
 	}
 }
 
+/**
+ * gnm_graph_window_new:
+ * @graph: #GogGraph to display
+ * @graph_width: width of the graph, in pixels
+ * @graph_height: height of the graph, in pixels
+ *
+ * Creates a window displaying a copy of @graph at the requested size.
+ * The caller retains ownership of @graph.
+ *
+ * Returns: (transfer full): the newly created #GtkWidget.
+ **/
 GtkWidget *
 gnm_graph_window_new (GogGraph *graph,
 		      gdouble   graph_width,

@@ -517,19 +517,28 @@ item_cursor_draw (GocItem const *item, cairo_t *cr)
 	cairo_restore (cr);
 }
 
+/**
+ * gnm_item_cursor_bound_set:
+ * @ic: #GnmItemCursor
+ * @bound: the new cell range covered by the cursor
+ *
+ * Sets the range covered by @ic, invalidating and redrawing it as needed.
+ *
+ * Returns: %TRUE if the range actually changed.
+ **/
 gboolean
-gnm_item_cursor_bound_set (GnmItemCursor *ic, GnmRange const *new_bound)
+gnm_item_cursor_bound_set (GnmItemCursor *ic, GnmRange const *bound)
 {
 	GocItem *item;
 	g_return_val_if_fail (GNM_IS_ITEM_CURSOR (ic), FALSE);
-	g_return_val_if_fail (range_is_sane (new_bound), FALSE);
+	g_return_val_if_fail (range_is_sane (bound), FALSE);
 
-	if (ic->pos_initialized && range_equal (&ic->pos, new_bound))
+	if (ic->pos_initialized && range_equal (&ic->pos, bound))
 		return FALSE;
 
 	item = GOC_ITEM (ic);
 	goc_item_invalidate (item);
-	ic->pos = *new_bound;
+	ic->pos = *bound;
 	ic->pos_initialized = TRUE;
 
 	goc_item_bounds_changed (item);
@@ -885,6 +894,13 @@ item_cursor_do_drop (GnmItemCursor *ic, GdkEvent *event)
 				       : ACTION_MOVE_CELLS);
 }
 
+/**
+ * gnm_item_cursor_set_visibility:
+ * @ic: #GnmItemCursor
+ * @visible: whether @ic should be shown
+ *
+ * Shows or hides @ic on its canvas.
+ **/
 void
 gnm_item_cursor_set_visibility (GnmItemCursor *ic, gboolean visible)
 {

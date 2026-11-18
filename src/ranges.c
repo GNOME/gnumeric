@@ -873,6 +873,13 @@ range_transpose (GnmRange *range, Sheet const *sheet, GnmCellPos const *origin)
 	return clipped;
 }
 
+/**
+ * gnm_range_equal:
+ * @a: first #GnmRange
+ * @b: second #GnmRange
+ *
+ * Returns: %TRUE if @a and @b describe the same cells.
+ **/
 gboolean
 gnm_range_equal (const GnmRange *a, const GnmRange *b)
 {
@@ -914,6 +921,13 @@ gnm_range_compare_alt (GnmRange const *a, GnmRange const *b)
 }
 
 
+/**
+ * gnm_sheet_range_new:
+ * @sheet: #Sheet containing @r
+ * @r: #GnmRange
+ *
+ * Returns: (transfer full): a new #GnmSheetRange for @r in @sheet.
+ **/
 GnmSheetRange *
 gnm_sheet_range_new (Sheet *sheet, GnmRange const *r)
 {
@@ -929,6 +943,12 @@ gnm_sheet_range_new (Sheet *sheet, GnmRange const *r)
 	return gr;
 }
 
+/**
+ * gnm_sheet_range_dup:
+ * @sr: #GnmSheetRange to copy
+ *
+ * Returns: (transfer full): a copy of @sr.
+ **/
 GnmSheetRange *
 gnm_sheet_range_dup (GnmSheetRange const *sr)
 {
@@ -939,7 +959,7 @@ gnm_sheet_range_dup (GnmSheetRange const *sr)
 /**
  * gnm_sheet_range_from_value:
  * @r: #GnmSheetRange to change
- * @v: #GnmValue containing a cell range.
+ * @v: (out): #GnmValue containing a cell range.
  *
  * Convert @v into a GnmSheetRange.
  *
@@ -956,10 +976,16 @@ gnm_sheet_range_from_value (GnmSheetRange *r, GnmValue const *v)
 	return TRUE;
 }
 
+/**
+ * gnm_sheet_range_free:
+ * @r: (transfer full) (nullable): #GnmSheetRange to free
+ *
+ * Frees @r.
+ **/
 void
-gnm_sheet_range_free (GnmSheetRange *gr)
+gnm_sheet_range_free (GnmSheetRange *r)
 {
-	g_free (gr);
+	g_free (r);
 }
 
 GType
@@ -974,6 +1000,13 @@ gnm_sheet_range_get_type (void)
 	return t;
 }
 
+/**
+ * gnm_sheet_range_equal:
+ * @a: first #GnmSheetRange
+ * @b: second #GnmSheetRange
+ *
+ * Returns: %TRUE if @a and @b refer to the same sheet and range.
+ **/
 gboolean
 gnm_sheet_range_equal (const GnmSheetRange *a,
 		       const GnmSheetRange *b)
@@ -981,6 +1014,13 @@ gnm_sheet_range_equal (const GnmSheetRange *a,
 	return a->sheet == b->sheet && range_equal (&a->range, &b->range);
 }
 
+/**
+ * gnm_sheet_range_overlap:
+ * @a: first #GnmSheetRange
+ * @b: second #GnmSheetRange
+ *
+ * Returns: %TRUE if @a and @b are on the same sheet and their ranges overlap.
+ **/
 gboolean
 gnm_sheet_range_overlap (GnmSheetRange const *a, GnmSheetRange const *b)
 {
