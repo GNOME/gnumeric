@@ -1798,7 +1798,7 @@ gnm_random_skew_tdist (gnm_float nu, gnm_float a)
 	chi = gnm_random_chisq (nu);
 	z = gnm_random_skew_normal (a);
 
-	return (z * gnm_sqrt(nu/chi));
+	return (z * gnm_sqrt (nu / chi));
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1827,7 +1827,7 @@ gnm_random_uniform_int (guint32 n)
 	// ensure uniform distribution.  In the worst case we will end up
 	// rejecting about half the numbers but for sane-sized ranges it
 	// is practically zero.
-	left = G_MAXUINT32 % n;
+	left = (-n) % n;
 
 	while (TRUE) {
 		guint32 r = random_32 ();
