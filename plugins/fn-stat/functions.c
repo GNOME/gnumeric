@@ -1864,7 +1864,7 @@ static GnmFuncHelp const help_permut[] = {
 	{ GNM_FUNC_HELP_NAME, F_("PERMUT:number of @{k}-permutations of a @{n}-set")},
 	{ GNM_FUNC_HELP_ARG, F_("n:size of the base set")},
 	{ GNM_FUNC_HELP_ARG, F_("k:number of elements in each permutation")},
-	{ GNM_FUNC_HELP_NOTE, F_("If @{n} = 0 this function returns a #NUM! error.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{n} < @{k} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=PERMUT(7,3)" },
