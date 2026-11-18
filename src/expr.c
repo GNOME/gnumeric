@@ -2569,6 +2569,19 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 	}
 }
 
+/**
+ * gnm_expr_is_data_table:
+ * @expr: #GnmExpr to inspect
+ * @c_in: (out) (optional): column input cell
+ * @r_in: (out) (optional): row input cell
+ *
+ * Checks whether @expr represents a call to the TABLE function.  If it does,
+ * the positions of the column and row input cells are stored in @c_in and
+ * @r_in, respectively, when those are not %NULL.  Positions that cannot be
+ * determined are set to (0, 0).
+ *
+ * Returns: %TRUE if @expr is a TABLE() call.
+ **/
 gboolean
 gnm_expr_is_data_table (GnmExpr const *expr, GnmCellPos *c_in, GnmCellPos *r_in)
 {
@@ -2916,6 +2929,13 @@ gnm_expr_sharer_new (void)
 	return es;
 }
 
+/**
+ * gnm_expr_sharer_unref:
+ * @es: (nullable): #GnmExprSharer
+ *
+ * Decrements the reference count of @es and destroys it when the count
+ * reaches zero.
+ **/
 void
 gnm_expr_sharer_unref (GnmExprSharer *es)
 {
@@ -2983,6 +3003,12 @@ gnm_expr_sharer_share (GnmExprSharer *es, GnmExprTop const *texpr)
 	return texpr;
 }
 
+/**
+ * gnm_expr_sharer_report:
+ * @es: #GnmExprSharer
+ *
+ * Prints the sharing statistics of @es to stderr for debugging.
+ **/
 void
 gnm_expr_sharer_report (GnmExprSharer *es)
 {
@@ -3198,9 +3224,19 @@ gnm_expr_top_as_string (GnmExprTop const *texpr,
 	return gnm_expr_as_string (texpr->expr, pp, convs);
 }
 
-// This differs from gnm_expr_as_string in that a top-level set
-// representing multiple expressions is rendered as a comma-separated
-// list of expressions with no outside parenthesis.
+/**
+ * gnm_expr_top_multiple_as_string:
+ * @texpr: #GnmExprTop
+ * @pp: (nullable): Parse position.  %NULL should be used for debugging only.
+ * @convs: (nullable): #GnmConventions.  %NULL should be used for debugging
+ * or when @pp identifies a #Sheet.
+ *
+ * Renders @texpr as a string like gnm_expr_top_as_string(), except that a
+ * top-level set is rendered as a comma-separated list of expressions with
+ * no enclosing parentheses.
+ *
+ * Returns: (transfer full): @texpr as a string.
+ **/
 char *
 gnm_expr_top_multiple_as_string  (GnmExprTop const *texpr,
 				  GnmParsePos const *pp,

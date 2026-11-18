@@ -216,7 +216,7 @@ gnm_named_expr_collection_new (void)
 
 /**
  * gnm_named_expr_collection_unref:
- * @names: The collection of names
+ * @names: (transfer full) (nullable): The collection of names
  *
  * Frees names defined in the local scope.
  * NOTE : THIS DOES NOT INVALIDATE NAMES THAT REFER
@@ -241,6 +241,13 @@ gnm_named_expr_collection_ref (GnmNamedExprCollection *names)
 	return names;
 }
 
+/**
+ * gnm_named_expr_collection_dump:
+ * @names: (nullable): #GnmNamedExprCollection
+ * @id: label used in the output
+ *
+ * Prints the contents of @names to stderr for debugging.
+ **/
 void
 gnm_named_expr_collection_dump (GnmNamedExprCollection *names, const char *id)
 {
@@ -267,6 +274,16 @@ gnm_named_expr_collection_dump (GnmNamedExprCollection *names, const char *id)
 	}
 }
 
+/**
+ * gnm_named_expr_collection_sanity_check:
+ * @names: #GnmNamedExprCollection
+ * @id: label used in the output
+ *
+ * Checks that every key in @names points to a named expression with the
+ * same name and reports any inconsistency to stderr.
+ *
+ * Returns: %TRUE if an inconsistency was found.
+ **/
 gboolean
 gnm_named_expr_collection_sanity_check (GnmNamedExprCollection *names,
 					const char *id)
@@ -318,6 +335,12 @@ cb_unlink_all_names (G_GNUC_UNUSED gpointer key,
 	g_slist_free (deps);
 }
 
+/**
+ * gnm_named_expr_collection_unlink:
+ * @names: (nullable): #GnmNamedExprCollection
+ *
+ * Unlinks the dependents of all names in @names.
+ **/
 void
 gnm_named_expr_collection_unlink (GnmNamedExprCollection *names)
 {
@@ -338,6 +361,12 @@ cb_relink_all_names (G_GNUC_UNUSED gpointer key,
 	expr_name_relink_deps (nexpr);
 }
 
+/**
+ * gnm_named_expr_collection_relink:
+ * @names: (nullable): #GnmNamedExprCollection
+ *
+ * Relinks the dependents of all names in @names.
+ **/
 void
 gnm_named_expr_collection_relink (GnmNamedExprCollection *names)
 {
@@ -349,6 +378,14 @@ gnm_named_expr_collection_relink (GnmNamedExprCollection *names)
 			      NULL);
 }
 
+/**
+ * gnm_named_expr_collection_lookup:
+ * @scope: (nullable): #GnmNamedExprCollection to search
+ * @name: the name to look for
+ *
+ * Returns: (transfer none) (nullable): the named expression called @name
+ * in @scope, or %NULL if @scope is %NULL or the name is not defined.
+ **/
 GnmNamedExpr *
 gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
 				  char const *name)
@@ -770,6 +807,14 @@ expr_name_add (GnmParsePos const *pp, char const *name,
 }
 
 
+/**
+ * expr_name_ref:
+ * @nexpr: #GnmNamedExpr
+ *
+ * Increments the reference count of @nexpr.
+ *
+ * Returns: (transfer full): @nexpr itself.
+ **/
 GnmNamedExpr *
 expr_name_ref (GnmNamedExpr *nexpr)
 {
@@ -779,6 +824,13 @@ expr_name_ref (GnmNamedExpr *nexpr)
 	return nexpr;
 }
 
+/**
+ * expr_name_unref:
+ * @nexpr: #GnmNamedExpr
+ *
+ * Decrements the reference count of @nexpr and frees it when the count
+ * reaches zero.  @nexpr must not be linked into a container at that point.
+ **/
 void
 expr_name_unref (GnmNamedExpr *nexpr)
 {
@@ -847,6 +899,13 @@ expr_name_remove (GnmNamedExpr *nexpr)
 	g_hash_table_remove (nexpr->scope->names, nexpr->name);
 }
 
+/**
+ * expr_name_name:
+ * @nexpr: #GnmNamedExpr
+ *
+ * Returns: (transfer none): the name of @nexpr.  The string is owned by
+ * @nexpr and is valid as long as @nexpr is alive.
+ **/
 const char *
 expr_name_name (GnmNamedExpr const *nexpr)
 {
@@ -1060,6 +1119,13 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExprTop const *texpr)
 	expr_name_queue_deps (nexpr);
 }
 
+/**
+ * expr_name_add_dep:
+ * @nexpr: #GnmNamedExpr
+ * @dep: #GnmDependent that depends on @nexpr
+ *
+ * Records @dep as a dependent of @nexpr.
+ **/
 void
 expr_name_add_dep (GnmNamedExpr *nexpr, GnmDependent *dep)
 {
@@ -1070,6 +1136,13 @@ expr_name_add_dep (GnmNamedExpr *nexpr, GnmDependent *dep)
 	g_hash_table_insert (nexpr->dependents, dep, dep);
 }
 
+/**
+ * expr_name_remove_dep:
+ * @nexpr: #GnmNamedExpr
+ * @dep: #GnmDependent to remove
+ *
+ * Removes @dep from the dependents of @nexpr.
+ **/
 void
 expr_name_remove_dep (GnmNamedExpr *nexpr, GnmDependent *dep)
 {
@@ -1093,6 +1166,12 @@ expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 		gnm_expr_top_is_err (nexpr->texpr, GNM_ERROR_NAME));
 }
 
+/**
+ * expr_name_is_active:
+ * @nexpr: #GnmNamedExpr
+ *
+ * Returns: %TRUE if @nexpr is linked into a container.
+ **/
 gboolean
 expr_name_is_active (GnmNamedExpr const *nexpr)
 {
@@ -1153,6 +1232,17 @@ expr_name_in_use (GnmNamedExpr *nexpr)
 }
 
 
+/**
+ * expr_name_cmp_by_name:
+ * @a: first #GnmNamedExpr
+ * @b: second #GnmNamedExpr
+ *
+ * Compares @a and @b by scope and then by name; suitable for use as a
+ * #GCompareFunc when sorting named expressions.
+ *
+ * Returns: a negative value, zero, or a positive value if @a sorts before,
+ * the same as, or after @b, respectively.
+ **/
 int
 expr_name_cmp_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
 {
