@@ -1193,10 +1193,12 @@ translate_replacement (char const *replacement)
 static GnmValue *
 gnumeric_regexreplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *text = value_peek_string (argv[0]);
-	char const *pattern = value_peek_string (argv[1]);
+	// Careful: we have three string arguments.  Do [2] first because
+	// we only need it for a moment.
 	char const *replacement_raw = value_peek_string (argv[2]);
 	char *replacement = translate_replacement (replacement_raw);
+	char const *text = value_peek_string (argv[0]);
+	char const *pattern = value_peek_string (argv[1]);
 	int occurrence = argv[3] ? value_get_as_int (argv[3]) : 0;
 	gboolean case_insensitive = argv[4] ? value_get_as_checked_bool (argv[4]) : FALSE;
 	GRegex *regex;
@@ -1692,15 +1694,12 @@ gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_dup (arg);
 
 	GnmValue *v;
-	char const *p = value_peek_string (argv[0]);
-	GString *curr;
-	GString *thousand;
-	GString *decimal;
+	GString *curr = g_string_new ("$");
+	GString *thousand = g_string_new (grp);
+	GString *decimal = g_string_new (sep);
 	GOFormatFamily family = GO_FORMAT_GENERAL;
-
-	decimal = g_string_new (sep);
-	thousand = g_string_new (grp);
-	curr = g_string_new ("$");
+	// Careful: third peek after we're done with grp/sep
+	char const *p = value_peek_string (argv[0]);
 
 	/* Skip leading spaces */
 	while (*p && g_unichar_isspace (g_utf8_get_char (p)))
@@ -1744,7 +1743,7 @@ static GnmValue *
 gnumeric_substitute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	/*
-	 * Careful: value_peek_string handle only two live
+	 * Careful: value_peek_string handles only two live
 	 * pointers at a time.
 	 */
 	char *textcopy = VALUE_IS_STRING (argv[0]) ? NULL : value_get_as_string (argv[0]);
