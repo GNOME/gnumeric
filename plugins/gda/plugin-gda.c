@@ -386,11 +386,11 @@ static GnmFuncHelp const help_execSQL[] = {
 static GnmValue *
 gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 {
-	GnmValue*      ret;
-	gchar*         dsn_name;
-	gchar*         user_name;
-	gchar*         password;
-	gchar*         sql;
+	GnmValue*      ret = NULL;
+	gchar*         dsn_name = NULL;
+	gchar*         user_name = NULL;
+	gchar*         password = NULL;
+	gchar*         sql = NULL;
 	GdaConnection* cnc;
 	GdaDataModel*  recset;
 	GdaStatement*  stmt;
@@ -402,12 +402,16 @@ gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 	user_name = value_get_as_string (args[1]);
 	password = value_get_as_string (args[2]);
 	sql = value_get_as_string (args[3]);
-	if (!dsn_name || !sql)
-		return value_new_error (ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
+	if (!dsn_name || !sql) {
+		ret = value_new_error (ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
+		goto out;
+	}
 
 	cnc = open_connection (dsn_name, user_name, password, GDA_CONNECTION_OPTIONS_READ_ONLY);
-	if (!GDA_IS_CONNECTION (cnc))
-		return conn_error (ei, dsn_name);
+	if (!GDA_IS_CONNECTION (cnc)) {
+		ret = conn_error (ei, dsn_name);
+		goto out;
+	}
 
 	/* execute command */
 	parser = gda_connection_create_parser (cnc);
@@ -418,12 +422,13 @@ gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 	if (!stmt) {
 		ret = value_new_error (ei->pos, error->message);
 		g_error_free (error);
-		return ret;
+		goto out;
 	}
 
 	if (remain) {
 		g_object_unref (stmt);
-		return value_new_error (ei->pos, _("More than one statement in SQL string"));
+		ret = value_new_error (ei->pos, _("More than one statement in SQL string"));
+		goto out;
 	}
 
 	recset = gda_connection_statement_execute_select (cnc, stmt, NULL, &error);
@@ -438,6 +443,12 @@ gnumeric_execSQL (GnmFuncEvalInfo *ei, GnmValue const  * const *args)
 		} else
 			ret = value_new_empty ();
 	}
+
+out:
+	g_free (dsn_name);
+	g_free (user_name);
+	g_free (password);
+	g_free (sql);
 
 	return ret;
 }
@@ -462,11 +473,11 @@ static GnmFuncHelp const help_readDBTable[] = {
 static GnmValue *
 gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	GnmValue*         ret;
-	gchar*         dsn_name;
-	gchar*         user_name;
-	gchar*         password;
-	gchar*         table;
+	GnmValue*         ret = NULL;
+	gchar*         dsn_name = NULL;
+	gchar*         user_name = NULL;
+	gchar*         password = NULL;
+	gchar*         table = NULL;
 	GdaConnection* cnc;
 	GdaDataModel*  recset;
 	GdaStatement*  stmt;
@@ -479,12 +490,16 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	user_name = value_get_as_string (args[1]);
 	password = value_get_as_string (args[2]);
 	table = value_get_as_string (args[3]);
-	if (!dsn_name || !table)
-		return value_new_error (ei->pos, _("Format: readDBTable(dsn,user,password,table)"));
+	if (!dsn_name || !table) {
+		ret = value_new_error (ei->pos, _("Format: readDBTable(dsn,user,password,table)"));
+		goto out;
+	}
 
 	cnc = open_connection (dsn_name, user_name, password, GDA_CONNECTION_OPTIONS_READ_ONLY);
-	if (!GDA_IS_CONNECTION (cnc))
-		return conn_error (ei, dsn_name);
+	if (!GDA_IS_CONNECTION (cnc)) {
+		ret = conn_error (ei, dsn_name);
+		goto out;
+	}
 
 	/* execute command */
 	parser = gda_connection_create_parser (cnc);
@@ -497,12 +512,13 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	if (!stmt) {
 		ret = value_new_error (ei->pos, error->message);
 		g_error_free (error);
-		return ret;
+		goto out;
 	}
 
 	if (remain) {
 		g_object_unref (stmt);
-		return value_new_error (ei->pos, _("More than one statement in SQL string"));
+		ret = value_new_error (ei->pos, _("More than one statement in SQL string"));
+		goto out;
 	}
 
 	recset = gda_connection_statement_execute_select (cnc, stmt, NULL, &error);
@@ -518,6 +534,12 @@ gnumeric_readDBTable (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		} else
 			ret = value_new_empty ();
 	}
+
+out:
+	g_free (dsn_name);
+	g_free (user_name);
+	g_free (password);
+	g_free (table);
 
 	return ret;
 }
