@@ -960,7 +960,8 @@ static GnmFuncHelp const help_address[] = {
 				"otherwise an R1C1-style reference; defaults to TRUE")},
         { GNM_FUNC_HELP_ARG, F_("text:name of the worksheet, defaults to no sheet")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{row_num} or @{col_num} is less than one, ADDRESS returns "
-				 "#VALUE!")},
+				 "#VALUE!, except for relative coordinates in R1C1 form which are "
+				 "offsets and may be zero or negative.")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{abs_num} is greater than 4 ADDRESS returns #VALUE!")},
         { GNM_FUNC_HELP_EXAMPLES, "=ADDRESS(5,4)" },
         { GNM_FUNC_HELP_EXAMPLES, "=ADDRESS(5,4,4)" },
@@ -977,7 +978,6 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmCellRef	 ref;
 	GnmParsePos	 pp;
 	gboolean	 err;
-	int		 col, row;
 	Sheet            *sheet = NULL;
 	const char       *sheet_name = args[4] ? value_peek_string (args[4]) : NULL;
 
@@ -1005,8 +1005,8 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		sheet = ei->pos->sheet;
 
 	ref.sheet = NULL;
-	row = ref.row = value_get_as_int (args[0]) - 1;
-	col = ref.col = value_get_as_int (args[1]) - 1;
+	ref.row = value_get_as_int (args[0]) - 1;
+	ref.col = value_get_as_int (args[1]) - 1;
 	out.pp = parse_pos_init_evalpos (&pp, ei->pos);
 	out.convs = gnm_conventions_default;
 
@@ -1014,18 +1014,33 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		/* MS Excel is ridiculous.  This is a special case */
 		if (!value_get_as_bool (args[3], &err)) {
 			out.convs = gnm_conventions_xls_r1c1;
+			/* Relative R1C1 coordinates are offsets, printed
+			   as-is and hence one larger than the 0-based
+			   row/column numbers.  */
 			if (ref.col_relative)
-				col = ei->pos->eval.col + (++ref.col);
+				ref.col++;
 			if (ref.row_relative)
-				row = ei->pos->eval.row + (++ref.row);
+				ref.row++;
 		}
 		if (err)
 		        return value_new_error_VALUE (ei->pos);
 	}
 
-	if (col < 0 || col >= gnm_sheet_get_max_cols (sheet))
+	/* The referenced cell must be on the sheet.  R1C1 relative
+	   coordinates are offsets measured in rows/columns and may be
+	   negative, but cannot exceed what fits on the sheet.  */
+	if (out.convs->r1c1_addresses && ref.col_relative) {
+		if (ref.col <= -gnm_sheet_get_max_cols (sheet) ||
+		    ref.col >= gnm_sheet_get_max_cols (sheet))
+			return value_new_error_VALUE (ei->pos);
+	} else if (ref.col < 0 || ref.col >= gnm_sheet_get_max_cols (sheet))
 		return value_new_error_VALUE (ei->pos);
-	if (row < 0 || row >= gnm_sheet_get_max_rows (sheet))
+
+	if (out.convs->r1c1_addresses && ref.row_relative) {
+		if (ref.row <= -gnm_sheet_get_max_rows (sheet) ||
+		    ref.row >= gnm_sheet_get_max_rows (sheet))
+			return value_new_error_VALUE (ei->pos);
+	} else if (ref.row < 0 || ref.row >= gnm_sheet_get_max_rows (sheet))
 		return value_new_error_VALUE (ei->pos);
 
 	if (!out.convs->r1c1_addresses)
@@ -1862,15 +1877,19 @@ gnumeric_offset (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 		tmp = value_get_as_int (args[3]);
 		if (tmp < 1)
 			return value_new_error_VALUE (ei->pos);
+		if (tmp > gnm_sheet_get_max_rows (ei->pos->sheet) - a.row)
+			return value_new_error_REF (ei->pos);
 		b.row = a.row + tmp - 1;
 	} else
 		b.row += row_offset;
-	if (b.col < 0 || b.row >= gnm_sheet_get_max_rows (ei->pos->sheet))
+	if (b.row < 0 || b.row >= gnm_sheet_get_max_rows (ei->pos->sheet))
 		return value_new_error_REF (ei->pos);
 	if (args[4] != NULL) {
 		tmp = value_get_as_int (args[4]);
 		if (tmp < 1)
 			return value_new_error_VALUE (ei->pos);
+		if (tmp > gnm_sheet_get_max_cols (ei->pos->sheet) - a.col)
+			return value_new_error_REF (ei->pos);
 		b.col = a.col + tmp - 1;
 	} else
 		b.col += col_offset;
@@ -2360,9 +2379,13 @@ compare_col_row (GnmValue const *data, GnmEvalPos const * const ep,
 			: value_area_get_x_y (data, j, i2, ep);
 		GnmValueType t2 = value_type_of (v2);
 
-		return t1 == t2
-			? value_compare (v1, v2, FALSE)
-			: (t1 < t2 ? IS_LESS : IS_GREATER);
+		if (t1 != t2)
+			return t1 < t2 ? IS_LESS : IS_GREATER;
+		else {
+			GnmValDiff cmp = value_compare (v1, v2, FALSE);
+			if (cmp != IS_EQUAL)
+				return cmp;
+		}
 	}
 
 	return IS_EQUAL;
@@ -2379,6 +2402,11 @@ gnumeric_unique (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	guint8 *keep;
 	GnmValue *res;
 	GHashTable *seen;
+
+	/* value_area_get_x_y does not handle 3D ranges.  */
+	if (VALUE_IS_CELLRANGE (data) &&
+	    data->v_range.cell.a.sheet != data->v_range.cell.b.sheet)
+		return value_new_error_VALUE (ep);
 
 	sx = value_area_get_width (data, ep);
 	sy = value_area_get_height (data, ep);

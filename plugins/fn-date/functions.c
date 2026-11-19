@@ -273,7 +273,12 @@ static GnmFuncHelp const help_datevalue[] = {
 static GnmValue *
 gnumeric_datevalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_int (datetime_value_to_serial (argv[0], DATE_CONV (ei->pos)));
+	int serial = datetime_value_to_serial (argv[0], DATE_CONV (ei->pos));
+
+	if (serial == G_MAXINT)
+		return value_new_error_VALUE (ei->pos);
+
+	return value_new_int (serial);
 }
 
 /***************************************************************************/
@@ -562,7 +567,11 @@ static GnmValue *
 gnumeric_timevalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float raw = datetime_value_to_serial_raw (argv[0], DATE_CONV (ei->pos));
-	return value_new_float (raw - (int)raw);
+
+	if (raw >= G_MAXINT || raw < G_MININT)
+		return value_new_error_VALUE (ei->pos);
+
+	return value_new_float (raw - gnm_floor (raw));
 }
 
 /***************************************************************************/
@@ -1482,15 +1491,12 @@ static GnmFuncHelp const help_days[] = {
 static GnmValue *
 gnumeric_days (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	int date1, date2;
 	GDate d1, d2;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 
-	date1 = gnm_floor (value_get_as_float (argv[0]));
-	date2 = gnm_floor (value_get_as_float (argv[1]));
-
-	go_date_serial_to_g (&d1, date1, conv);
-	go_date_serial_to_g (&d2, date2, conv);
+	if (!datetime_value_to_g (&d1, argv[0], conv) ||
+	    !datetime_value_to_g (&d2, argv[1], conv))
+		return value_new_error_VALUE (ei->pos);
 
 	return value_new_int (g_date_days_between (&d2, &d1));
 }

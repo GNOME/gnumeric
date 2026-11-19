@@ -402,6 +402,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GSList *missing2 = NULL, *missing;
 	INTERPPROC interpproc = NULL;
 	gboolean constp = FALSE;
+	gboolean avg = FALSE;
 
 	/* argv[2] */
 
@@ -440,6 +441,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	case INTERPOLATION_LINEAR_AVG:
 		interpproc = linear_averaging;
 		n2--;
+		avg = TRUE;
 		break;
 	case INTERPOLATION_STAIRCASE:
 		interpproc = staircase_interpolation;
@@ -447,6 +449,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	case INTERPOLATION_STAIRCASE_AVG:
 		interpproc = staircase_averaging;
 		n2--;
+		avg = TRUE;
 		break;
 	case INTERPOLATION_SPLINE:
 		interpproc = spline_interpolation;
@@ -454,6 +457,7 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	case INTERPOLATION_SPLINE_AVG:
 		interpproc = spline_averaging;
 		n2--;
+		avg = TRUE;
 		break;
 	}
 
@@ -505,29 +509,70 @@ gnumeric_interpolation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	{
-		int n = n2;
+		/* n2 is the number of outputs; for the averaging methods
+		   the number of target values is one larger.  */
+		int m = n2 + (avg ? 1 : 0);
+		int n = m;
 
 		if (missing2)
 			gnm_strip_missing (vals2, &n, missing2);
-		res = value_new_array_non_init (1 , n2);
-		i = 0;
 
-		fres = interpproc (vals0, vals1, n0, vals2, n);
-		missing = missing2;
-		if (fres) {
-			i = 0;
-			for (r = 0 ; r < n2; ++r)
-				if (missing && r == GPOINTER_TO_INT (missing->data)) {
-					missing = missing->next;
-					res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-				} else
-					res->v_array.vals[0][r] = value_new_float (fres[i++]);
-			g_free (fres);
-		} else {
-			for( r = 0 ; r < n2; ++r)
+		if (avg && missing2) {
+			/* Averaging works on intervals: a result is only
+			   computable when both interval endpoints are
+			   present.  Leave errors for the others.  */
+			gboolean *missing_flag = g_new0 (gboolean, m);
+			GSList *miss;
+			int a, sa;
+
+			for (miss = missing2; miss; miss = miss->next)
+				missing_flag[GPOINTER_TO_INT (miss->data)] = TRUE;
+
+			res = value_new_array_non_init (1, n2);
+			for (r = 0; r < n2; r++)
 				res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
-		}
 
+			sa = 0;
+			for (a = 0; a < m; ) {
+				int b = a;
+				while (b < m && !missing_flag[b])
+					b++;
+				if (b - a >= 2) {
+					gnm_float *fr = interpproc (vals0, vals1, n0,
+								    vals2 + sa, b - a - 1);
+					if (fr) {
+						int q;
+						for (q = 0; q < b - a - 1; q++)
+							res->v_array.vals[0][a + q] =
+								value_new_float (fr[q]);
+						g_free (fr);
+					}
+				}
+				sa += b - a;
+				a = b + 1;
+			}
+
+			g_free (missing_flag);
+		} else {
+			int nt = avg ? n - 1 : n;
+
+			res = value_new_array_non_init (1 , n2);
+			fres = nt > 0 ? interpproc (vals0, vals1, n0, vals2, nt) : NULL;
+			missing = missing2;
+			if (fres) {
+				i = 0;
+				for (r = 0 ; r < n2; ++r)
+					if (missing && r == GPOINTER_TO_INT (missing->data)) {
+						missing = missing->next;
+						res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+					} else
+						res->v_array.vals[0][r] = value_new_float (fres[i++]);
+				g_free (fres);
+			} else {
+				for( r = 0 ; r < n2; ++r)
+					res->v_array.vals[0][r] = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+			}
+		}
 	}
 
  done:
@@ -655,7 +700,7 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				g_slist_free (missing1);
 				g_free (absc);
 				g_free (ord);
-				return error;
+				return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 			}
 		} else
 			interp = INTERPOLATION_LINEAR;
@@ -679,12 +724,16 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 		}
 		if (argv[4]) {
-			n1 = (int) gnm_floor (value_get_as_float (argv[4]));
-			if (n1 < n0) {
+			gnm_float num = gnm_floor (value_get_as_float (argv[4]));
+
+			/* The upper bound keeps the FFT size from
+			   overflowing int and the allocation sane.  */
+			if (num < n0 || num > (1 << 20)) {
 				g_free (absc);
 				g_free (ord);
 				return value_new_error_std (ei->pos, GNM_ERROR_VALUE);
 			}
+			n1 = (int) num;
 			nb = 1;
 			while (nb < n1)
 				nb *= 2;
@@ -731,17 +780,16 @@ gnumeric_periodogram (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			g_free (ord);
 			return value_new_error_std (ei->pos, GNM_ERROR_NA);
 		}
-		interpolated = g_new (gnm_float, n1);
+		interpolated = g_new (gnm_float, n2);
 		for (i = 0; i < n2; i++)
 			interpolated[i] = start + i * incr;
 		new_ord = interpproc (absc, ord, n0, interpolated, n1);
+		g_free (absc);
+		g_free (interpolated);
 		g_free (ord);
 		ord = new_ord;
-		if (ord == NULL) {
-			g_free (absc);
-			g_free (interpolated);
+		if (ord == NULL)
 			return value_new_error_std (ei->pos, GNM_ERROR_NA);
-		}
 		n0 = n1;
 	} else {
 no_absc:
@@ -760,7 +808,7 @@ no_absc:
 		gnm_float factor;
 		switch (filter) {
 		case FILTER_BARTLETT:
-			factor = n0 / 2;
+			factor = n0 / 2.0;
 			for (i = 0; i < n0; i++)
 				ord[i] *= 1 - gnm_abs ((i / factor - 1));
 			break;
@@ -770,7 +818,7 @@ no_absc:
 				ord[i] *= GNM_const(0.5) * (1 - gnm_cos (factor * i));
 			break;
 		case FILTER_WELCH:
-			factor = n0 / 2;
+			factor = n0 / 2.0;
 			for (i = 0; i < n0; i++)
 				ord[i] *= 1 - (i / factor - 1) * (i / factor - 1);
 			break;
@@ -794,8 +842,10 @@ no_absc:
 							 out[i].re * out[i].re +
 							 out[i].im * out[i].im));
 		g_free (out);
-	} else
+	} else {
+		g_free (out);
 		res = value_new_error_std (ei->pos, GNM_ERROR_VALUE);
+	}
 
 	return res;
 }

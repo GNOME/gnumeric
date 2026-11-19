@@ -335,6 +335,10 @@ opt_bs_gamma (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float v = value_get_as_float (argv[4]);
 	gnm_float b = argv[5] ? value_get_as_float (argv[5]) : 0;
 	gnm_float gfresult = opt_bs_gamma1 (s,x,t,r,v,b);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 }
 
@@ -436,7 +440,12 @@ opt_bs_vega (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float v = value_get_as_float (argv[4]);
 	gnm_float b = argv[5] ? value_get_as_float (argv[5]) : 0;
 
-	return value_new_float (opt_bs_vega1 (s, x, t, r, v, b));
+	gnm_float gfresult = opt_bs_vega1 (s, x, t, r, v, b);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (gfresult);
 }
 
 static GnmFuncHelp const help_opt_bs_vega[] = {
@@ -659,12 +668,12 @@ opt_french (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	OptionSide call_put = option_side (value_peek_string (argv[0]));
 	gnm_float s = value_get_as_float (argv[1]);
 	gnm_float x = value_get_as_float (argv[2]);
-	gnm_float t = value_get_as_float (argv[3]);
-	gnm_float t1 = value_get_as_float (argv[4]);
+	gnm_float calendart = value_get_as_float (argv[3]);
+	gnm_float tradingt = value_get_as_float (argv[4]);
 	gnm_float r = value_get_as_float (argv[5]);
 	gnm_float v = value_get_as_float (argv[6]);
 	gnm_float b = value_get_as_float (argv[7]);
-	gnm_float gfresult = opt_french1 (call_put, s, x, t, t1, r, v, b);
+	gnm_float gfresult = opt_french1 (call_put, s, x, tradingt, calendart, r, v, b);
 
 	if (gnm_isnan (gfresult))
 		return value_new_error_NUM (ei->pos);
@@ -722,6 +731,10 @@ opt_jump_diff (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float gamma = value_get_as_float (argv[7]);
 	gnm_float gfresult =
 		opt_jump_diff1 (call_put, s, x, t, r, v, lambda, gamma);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 }
 
@@ -854,21 +867,21 @@ static gnm_float opt_rgw1 (gnm_float s, gnm_float x, gnm_float t1, gnm_float t2,
 	sx = s - d * gnm_exp (-r * t1);
 	if (d <= (x * (1 - gnm_exp (-r * (t2 - t1)))))
 		/* Not optimal to exercise */
-		return opt_bs1 (OS_Call, sx, x, t2, r, v, 0);
+		return opt_bs1 (OS_Call, sx, x, t2, r, v, r);
 
-	ci = opt_bs1 (OS_Call, s, x, t2 - t1, r, v, 0);
+	ci = opt_bs1 (OS_Call, s, x, t2 - t1, r, v, r);
 	HighS = s;
 	while ((ci - HighS - d + x) > 0 && HighS < infinity) {
 
 		HighS *= 2;
-		ci = opt_bs1 (OS_Call, HighS, x, t2 - t1, r, v, 0);
+		ci = opt_bs1 (OS_Call, HighS, x, t2 - t1, r, v, r);
 	}
 	if (HighS > infinity)
-		return opt_bs1 (OS_Call, sx, x, t2, r, v, 0);
+		return opt_bs1 (OS_Call, sx, x, t2, r, v, r);
 
 	LowS = 0.0;
 	i = HighS * GNM_const(0.5);
-	ci = opt_bs1 (OS_Call, i, x, t2 - t1, r, v, 0);
+	ci = opt_bs1 (OS_Call, i, x, t2 - t1, r, v, r);
 
 	/* search algorithm to find the critical stock price i */
 	while (gnm_abs (ci - i - d + x) > epsilon && HighS - LowS > epsilon) {
@@ -877,7 +890,7 @@ static gnm_float opt_rgw1 (gnm_float s, gnm_float x, gnm_float t1, gnm_float t2,
 		else
 			LowS = i;
 		i = (HighS + LowS) / 2;
-		ci = opt_bs1 (OS_Call, i, x, (t2 - t1), r, v, 0);
+		ci = opt_bs1 (OS_Call, i, x, (t2 - t1), r, v, r);
 	}
 
 	a1 = (gnm_log (sx / x) + (r + (v * v) / 2) * t2) / (v * gnm_sqrt (t2));
@@ -906,6 +919,9 @@ opt_rgw (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	gfresult = opt_rgw1 (s, x, t1, t2, r, d, v);
 
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 }
 
@@ -931,8 +947,8 @@ opt_baw_amer (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float x = value_get_as_float (argv[2]);
 	gnm_float t = value_get_as_float (argv[3]);
 	gnm_float r = value_get_as_float (argv[4]);
-	gnm_float v = value_get_as_float (argv[5]);
-	gnm_float b = value_get_as_float (argv[6]);
+	gnm_float b = value_get_as_float (argv[5]);
+	gnm_float v = value_get_as_float (argv[6]);
 	gnm_float gfresult;
 
 	switch (call_put) {
@@ -1020,7 +1036,7 @@ NRA_c (gnm_float x, gnm_float  t, gnm_float r, gnm_float v, gnm_float b)
 	LHS = si - x;
 	RHS = opt_bs1 (OS_Call, si, x, t, r, v, b) + (1 - gnm_exp ((b - r) * t) * ncdf (d1)) * si / q2;
 	bi = gnm_exp ((b - r) * t) * ncdf (d1) * (1 - 1 / q2)
-		+ (1 - gnm_exp ((b - r) * t) * ncdf (d1) / (v * gnm_sqrt (t))) / q2;
+		+ (1 - gnm_exp ((b - r) * t) * npdf (d1) / (v * gnm_sqrt (t))) / q2;
 	e = 0.000001;
 
 	/* Newton Raphson algorithm for finding critical price si */
@@ -1088,7 +1104,7 @@ NRA_p (gnm_float x, gnm_float t, gnm_float r, gnm_float v, gnm_float b)
 		LHS = x - si;
 		RHS = opt_bs1 (OS_Put, si, x, t, r, v, b) - (1 - gnm_exp ((b - r) * t) * ncdf (-d1)) * si / q1;
 		bi = -gnm_exp ((b - r) * t) * ncdf (-d1) * (1 - 1 / q1)
-			- (1 + gnm_exp ((b - r) * t) * ncdf (-d1) / (v * gnm_sqrt (t))) / q1;
+			- (1 + gnm_exp ((b - r) * t) * npdf (-d1) / (v * gnm_sqrt (t))) / q1;
 	}
 	return si;
 }
@@ -1120,6 +1136,10 @@ opt_bjer_stens (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float b = argv[6] ? value_get_as_float (argv[6]) : 0;
 	gnm_float gfresult =
 		opt_bjer_stens1 (call_put, s, x, t, r, v, b);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 }
 
@@ -1194,6 +1214,10 @@ opt_exec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float lambda = value_get_as_float (argv[7]);
 	gnm_float gfresult =
 		gnm_exp (-lambda * t) * opt_bs1 (call_put, s, x, t, r, v, b);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 }
 
@@ -1229,6 +1253,10 @@ opt_forward_start (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float b = value_get_as_float (argv[7]);
 	gnm_float gfresult =
 		s * gnm_exp ((b - r) * t1) * opt_bs1 (call_put, 1, alpha, t - t1, r, v, b);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 
 }
@@ -1275,13 +1303,16 @@ opt_time_switch (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 
 	sum = 0.0;
-	n = t / dt;
-	for (i = 1; i < n; ++i) {
+	n = (int) (t / dt + 0.5);
+	for (i = 1; i <= n; ++i) {
 		d = (gnm_log (s / x) + (b - (v * v) / 2) * i * dt) / (v * gnm_sqrt (i * dt));
 		sum = sum + ncdf (Z * d) * dt;
 	}
 
 	gfresult = a * gnm_exp (-r * t) * sum + dt * a * gnm_exp (-r * t) * m;
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 
 }
@@ -1325,16 +1356,19 @@ opt_simple_chooser (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		s * gnm_exp ((b - r) * t2) * ncdf ( d) - x * gnm_exp (-r * t2) * ncdf ( d - v * gnm_sqrt (t2)) -
 		s * gnm_exp ((b - r) * t2) * ncdf (-y) + x * gnm_exp (-r * t2) * ncdf (-y + v * gnm_sqrt (t1));
 
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 }
 
 static GnmFuncHelp const help_opt_simple_chooser[] = {
 	{ GNM_FUNC_HELP_NAME, F_("OPT_SIMPLE_CHOOSER:theoretical price of a simple chooser option")},
-	DEF_ARG_CALL_PUT_FLAG,
 	DEF_ARG_SPOT,
 	DEF_ARG_STRIKE,
         { GNM_FUNC_HELP_ARG, F_("time1:time in years until the holder chooses a put or a call option")},
         { GNM_FUNC_HELP_ARG, F_("time2:time in years until the chosen option expires")},
+	DEF_ARG_RATE_RISKFREE_ANN,
 	DEF_ARG_CC,
 	DEF_ARG_VOLATILITY_SHORT,
         { GNM_FUNC_HELP_SEEALSO, "OPT_BS,OPT_BS_DELTA,OPT_BS_RHO,OPT_BS_THETA,OPT_BS_GAMMA"},
@@ -1372,6 +1406,9 @@ opt_complex_chooser (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gfresult = s * gnm_exp ((b - r) * tc) * cum_biv_norm_dist1 (d1, y1, rho1) - xc * gnm_exp (-r * tc)
 		* cum_biv_norm_dist1 (d2, y1 - v * gnm_sqrt (tc), rho1) - s * gnm_exp ((b - r) * tp)
 		* cum_biv_norm_dist1 (-d1, -y2, rho2) + xp * gnm_exp (-r * tp) * cum_biv_norm_dist1 (-d2, -y2 + v * gnm_sqrt (tp), rho2);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gfresult);
 
@@ -1475,6 +1512,9 @@ opt_on_options (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	else
 		return value_new_error_VALUE (ei->pos);
 
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 }
 
@@ -1552,6 +1592,9 @@ opt_extendible_writer (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 	}
 
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gfresult);
 }
 
@@ -1595,16 +1638,22 @@ opt_2_asset_correlation (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	gnm_float y1 = (gnm_log (s1 / x1) + (b1 - (v1 * v1) / 2) * t) / (v1 * gnm_sqrt (t));
 	gnm_float y2 = (gnm_log (s2 / x2) + (b2 - (v2 * v2) / 2) * t) / (v2 * gnm_sqrt (t));
+	gnm_float gfresult;
 
 	if (call_put == OS_Call) {
-		return value_new_float (s2 * gnm_exp ((b2 - r) * t)
+		gfresult = s2 * gnm_exp ((b2 - r) * t)
 					* cum_biv_norm_dist1 (y2 + v2 * gnm_sqrt (t), y1 + rho * v2 * gnm_sqrt (t), rho)
-					- x2 * gnm_exp (-r * t) * cum_biv_norm_dist1 (y2, y1, rho));
+					- x2 * gnm_exp (-r * t) * cum_biv_norm_dist1 (y2, y1, rho);
 	} else if (call_put == OS_Put) {
-		return value_new_float (x2 * gnm_exp (-r * t) * cum_biv_norm_dist1 (-y2, -y1, rho)
-					- s2 * gnm_exp ((b2 - r) * t) * cum_biv_norm_dist1 (-y2 - v2 * gnm_sqrt (t), -y1 - rho * v2 * gnm_sqrt (t), rho));
+		gfresult = x2 * gnm_exp (-r * t) * cum_biv_norm_dist1 (-y2, -y1, rho)
+					- s2 * gnm_exp ((b2 - r) * t) * cum_biv_norm_dist1 (-y2 - v2 * gnm_sqrt (t), -y1 - rho * v2 * gnm_sqrt (t), rho);
 	} else
 		return value_new_error_NUM (ei->pos);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (gfresult);
 }
 
 static GnmFuncHelp const help_opt_2_asset_correlation[] = {
@@ -1648,13 +1697,19 @@ opt_euro_exchange (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float v2 = value_get_as_float (argv[9]);
 	gnm_float rho = value_get_as_float (argv[10]);
 	gnm_float v, d1, d2;
+	gnm_float gfresult;
 
 	v = gnm_sqrt (v1 * v1 + v2 * v2 - 2 * rho * v1 * v2);
 	d1 = (gnm_log (q1 * s1 / (q2 * s2)) + (b1 - b2 + (v * v) / 2) * t) / (v * gnm_sqrt (t));
 	d2 = d1 - v * gnm_sqrt (t);
 
-	return value_new_float (q1 * s1 * gnm_exp ((b1 - r) * t) * ncdf (d1) -
-				q2 * s2 * gnm_exp ((b2 - r) * t) * ncdf (d2));
+	gfresult = q1 * s1 * gnm_exp ((b1 - r) * t) * ncdf (d1) -
+				q2 * s2 * gnm_exp ((b2 - r) * t) * ncdf (d2);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (gfresult);
 }
 
 static GnmFuncHelp const help_opt_euro_exchange[] = {
@@ -1698,7 +1753,12 @@ opt_amer_exchange (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float rho = value_get_as_float (argv[10]);
 	gnm_float v = gnm_sqrt (v1 * v1 + v2 * v2 - 2 * rho * v1 * v2);
 
-	return value_new_float (opt_bjer_stens1 (OS_Call, q1 * s1, q2 * s2, t, r - b2, v,b1 - b2));
+	gnm_float gfresult = opt_bjer_stens1 (OS_Call, q1 * s1, q2 * s2, t, r - b2, v,b1 - b2);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (gfresult);
 }
 
 static GnmFuncHelp const help_opt_amer_exchange[] = {
@@ -1742,7 +1802,12 @@ opt_spread_approx (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float v = gnm_sqrt (v1 * v1 + gnm_pow ((v2 * f2 / (f2 + x)), 2) - 2 * rho * v1 * v2 * f2 / (f2 + x));
 	gnm_float F = f1 / (f2 + x);
 
-	return value_new_float (opt_bs1 (call_put_flag, F, 1, t, r, v, 0) * (f2 + x));
+	gnm_float gfresult = opt_bs1 (call_put_flag, F, 1, t, r, v, 0) * (f2 + x);
+
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (gfresult);
 }
 
 static GnmFuncHelp const help_opt_spread_approx[] = {
@@ -1775,6 +1840,7 @@ opt_float_strk_lkbk (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float v = value_get_as_float (argv[7]);
 
 	gnm_float a1, a2, m;
+	gnm_float gfresult;
 
 	if (OS_Call == call_put_flag)
 		m = s_min;
@@ -1787,17 +1853,22 @@ opt_float_strk_lkbk (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	a2 = a1 - v * gnm_sqrt (t);
 
 	if (OS_Call == call_put_flag)
-		return value_new_float (s * gnm_exp ((b - r) * t) * ncdf (a1) -
+		gfresult = s * gnm_exp ((b - r) * t) * ncdf (a1) -
 					m * gnm_exp (-r * t) * ncdf (a2) +
 					gnm_exp (-r * t) * (v * v) / (2 * b) * s * (gnm_pow (s / m, (-2 * b / (v * v))) * ncdf (-a1 + 2 * b / v * gnm_sqrt (t)) -
-										    gnm_exp (b * t) * ncdf (-a1)));
+										    gnm_exp (b * t) * ncdf (-a1));
 	else if (OS_Put == call_put_flag)
-		return value_new_float (m * gnm_exp (-r * t) * ncdf (-a2) -
+		gfresult = m * gnm_exp (-r * t) * ncdf (-a2) -
 					s * gnm_exp ((b - r) * t) * ncdf (-a1) +
 					gnm_exp (-r * t) * (v * v) / (2 * b) * s * (-gnm_pow (s / m, ((-2 * b) / (v * v))) * ncdf (a1 - 2 * b / v * gnm_sqrt (t)) +
-										    gnm_exp (b * t) * ncdf (a1)));
+										    gnm_exp (b * t) * ncdf (a1));
+	else
+		return value_new_error_VALUE (ei->pos);
 
-	return value_new_error_VALUE (ei->pos);
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (gfresult);
 }
 
 static GnmFuncHelp const help_opt_float_strk_lkbk[] = {
@@ -1836,6 +1907,7 @@ opt_fixed_strk_lkbk (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	gnm_float d1, d2;
 	gnm_float e1, e2, m;
+	gnm_float gfresult;
 
 	if (OS_Call == call_put_flag)
 		m = s_max;
@@ -1850,18 +1922,23 @@ opt_fixed_strk_lkbk (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	e2 = e1 - v * gnm_sqrt (t);
 
 	if (OS_Call == call_put_flag && x > m)
-		return value_new_float (s * gnm_exp ((b - r) * t) * ncdf (d1) - x * gnm_exp (-r * t) * ncdf (d2) + s * gnm_exp (-r * t) * (v * v) / (2 * b) * (-gnm_pow ((s / x), (-2 * b / (v * v))) * ncdf (d1 - 2 * b / v * gnm_sqrt (t)) + gnm_exp (b * t) * ncdf (d1)));
+		gfresult = s * gnm_exp ((b - r) * t) * ncdf (d1) - x * gnm_exp (-r * t) * ncdf (d2) + s * gnm_exp (-r * t) * (v * v) / (2 * b) * (-gnm_pow ((s / x), (-2 * b / (v * v))) * ncdf (d1 - 2 * b / v * gnm_sqrt (t)) + gnm_exp (b * t) * ncdf (d1));
 
 	else if (OS_Call == call_put_flag && x <= m)
-		return value_new_float (gnm_exp (-r * t) * (m - x) + s * gnm_exp ((b - r) * t) * ncdf (e1) - gnm_exp (-r * t) * m * ncdf (e2) + s * gnm_exp (-r * t) * (v * v) / (2 * b) * (-gnm_pow ((s / m), (-2 * b / (v * v))) * ncdf (e1 - 2 * b / v * gnm_sqrt (t)) + gnm_exp (b * t) * ncdf (e1)));
+		gfresult = gnm_exp (-r * t) * (m - x) + s * gnm_exp ((b - r) * t) * ncdf (e1) - gnm_exp (-r * t) * m * ncdf (e2) + s * gnm_exp (-r * t) * (v * v) / (2 * b) * (-gnm_pow ((s / m), (-2 * b / (v * v))) * ncdf (e1 - 2 * b / v * gnm_sqrt (t)) + gnm_exp (b * t) * ncdf (e1));
 
 	else if (OS_Put == call_put_flag && x < m)
-		return value_new_float (-s * gnm_exp ((b - r) * t) * ncdf (-d1) + x * gnm_exp (-r * t) * ncdf (-d1 + v * gnm_sqrt (t)) + s * gnm_exp (-r * t) * (v * v) / (2 * b) * (gnm_pow ((s / x), (-2 * b / (v * v))) * ncdf (-d1 + 2 * b / v * gnm_sqrt (t)) - gnm_exp (b * t) * ncdf (-d1)));
+		gfresult = -s * gnm_exp ((b - r) * t) * ncdf (-d1) + x * gnm_exp (-r * t) * ncdf (-d1 + v * gnm_sqrt (t)) + s * gnm_exp (-r * t) * (v * v) / (2 * b) * (gnm_pow ((s / x), (-2 * b / (v * v))) * ncdf (-d1 + 2 * b / v * gnm_sqrt (t)) - gnm_exp (b * t) * ncdf (-d1));
 
 	else if (OS_Put == call_put_flag && x >= m)
-		return value_new_float (gnm_exp (-r * t) * (x - m) - s * gnm_exp ((b - r) * t) * ncdf (-e1) + gnm_exp (-r * t) * m * ncdf (-e1 + v * gnm_sqrt (t)) + gnm_exp (-r * t) * (v * v) / (2 * b) * s * (gnm_pow ((s / m), (-2 * b / (v * v))) * ncdf (-e1 + 2 * b / v * gnm_sqrt (t)) - gnm_exp (b * t) * ncdf (-e1)));
+		gfresult = gnm_exp (-r * t) * (x - m) - s * gnm_exp ((b - r) * t) * ncdf (-e1) + gnm_exp (-r * t) * m * ncdf (-e1 + v * gnm_sqrt (t)) + gnm_exp (-r * t) * (v * v) / (2 * b) * s * (gnm_pow ((s / m), (-2 * b / (v * v))) * ncdf (-e1 + 2 * b / v * gnm_sqrt (t)) - gnm_exp (b * t) * ncdf (-e1));
+	else
+		return value_new_error_VALUE (ei->pos);
 
-	return value_new_error_VALUE (ei->pos);
+	if (gnm_isnan (gfresult))
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_float (gfresult);
 }
 
 static GnmFuncHelp const help_opt_fixed_strk_lkbk[] = {
@@ -1945,6 +2022,10 @@ opt_binomial (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	}
 	gf_result = value_array[0];
 	g_free (value_array);
+
+	if (gnm_isnan (gf_result))
+		return value_new_error_NUM (ei->pos);
+
 	return value_new_float (gf_result);
 }
 

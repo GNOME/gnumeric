@@ -47,8 +47,9 @@ GNM_PLUGIN_MODULE_HEADER;
 #define DATE_CONV(ep)               sheet_date_conv ((ep)->sheet)
 #define UNICODE_MONTH_PREFIX "\xd7\x91\xd6\xbc\xd6\xb0"
 
-static void
-gnumeric_hdate_get_date (GnmValue const * const *arg, int *year, int *month, int *day)
+static GnmValue *
+gnumeric_hdate_get_date (GnmFuncEvalInfo *ei, GnmValue const * const *arg,
+			 int *year, int *month, int *day)
 {
 	GDate date;
 
@@ -62,7 +63,11 @@ gnumeric_hdate_get_date (GnmValue const * const *arg, int *year, int *month, int
 	*day = (arg[2]) ? value_get_as_int (arg[2]) :
 		g_date_get_day (&date);
 
-	return;
+	/* The year range must match what the date system supports.  */
+	if (*year < 1 || *year > 9999)
+		return value_new_error_NUM (ei->pos);
+
+	return NULL;
 }
 
 static GnmValue *
@@ -103,7 +108,10 @@ gnumeric_hdate (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int hyear, hmonth, hday;
 	char *res;
 
-	gnumeric_hdate_get_date (argv, &year, &month, &day);
+	GnmValue *err = gnumeric_hdate_get_date (ei, argv, &year, &month, &day);
+
+	if (err != NULL)
+		return err;
 
 	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
 		return value_new_error_VALUE (ei->pos);
@@ -182,10 +190,17 @@ gnumeric_hdate_heb (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int hyear, hmonth, hday;
 	GString *res;
 
-	gnumeric_hdate_get_date (argv, &year, &month, &day);
+	GnmValue *err = gnumeric_hdate_get_date (ei, argv, &year, &month, &day);
+
+	if (err != NULL)
+		return err;
 
 	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
 		return value_new_error_VALUE (ei->pos);
+
+	/* The Hebrew letter notation only covers years 1..9999.  */
+	if (hyear < 1 || hyear >= 10000)
+		return value_new_error_NUM (ei->pos);
 
 	res = g_string_new (NULL);
 	build_hdate (res, hyear, hmonth, hday);
@@ -219,6 +234,10 @@ gnumeric_date2hdate_heb (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
 		return value_new_error_VALUE (ei->pos);
 
+	/* The Hebrew letter notation only covers years 1..9999.  */
+	if (hyear < 1 || hyear >= 10000)
+		return value_new_error_NUM (ei->pos);
+
 	res = g_string_new (NULL);
 	build_hdate (res, hyear, hmonth, hday);
 
@@ -232,6 +251,10 @@ static GnmFuncHelp const help_hdate_month[] = {
         { GNM_FUNC_HELP_ARG, F_("year:Gregorian year of date, defaults to the current year")},
         { GNM_FUNC_HELP_ARG, F_("month:Gregorian month of year, defaults to the current month")},
         { GNM_FUNC_HELP_ARG, F_("day:Gregorian day of month, defaults to the current day")},
+	{ GNM_FUNC_HELP_DESCRIPTION, F_("The months are numbered in the traditional order "
+					"starting with Nisan: Nisan is 1, Elul 6, Tishri 7, "
+					"Shebat 11, and Adar 12.  In leap years, Adar I is 12 "
+					"and Adar II is 13.") },
         { GNM_FUNC_HELP_EXAMPLES, "=HDATE_MONTH(2001,3,30)" },
         { GNM_FUNC_HELP_EXAMPLES, "=HDATE_MONTH()" },
         { GNM_FUNC_HELP_SEEALSO, "HDATE_JULIAN"},
@@ -243,13 +266,29 @@ gnumeric_hdate_month (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 {
 	int year, month, day;
 	int hyear, hmonth, hday;
+	int hmonth_number;
 
-	gnumeric_hdate_get_date (argv, &year, &month, &day);
+	GnmValue *err = gnumeric_hdate_get_date (ei, argv, &year, &month, &day);
+
+	if (err != NULL)
+		return err;
 
 	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
 		return value_new_error_VALUE (ei->pos);
 
-	return value_new_int (hmonth);
+	/* libhdate stores the months from Tishri and numbers Adar I/II
+	   as 12/13.  Report the traditional numbering, which starts at
+	   Nisan.  */
+	if (hmonth <= 4)		/* Tishri..Shebat */
+		hmonth_number = hmonth + 7;	/* 7..11 */
+	else if (hmonth == 5)		/* Adar */
+		hmonth_number = 12;
+	else if (hmonth <= 11)		/* Nisan..Elul */
+		hmonth_number = hmonth - 5;	/* 1..6 */
+	else				/* Adar I / Adar II */
+		hmonth_number = hmonth;		/* 12 / 13 */
+
+	return value_new_int (hmonth_number);
 }
 
 /***************************************************************************/
@@ -271,7 +310,10 @@ gnumeric_hdate_day (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int year, month, day;
 	int hyear, hmonth, hday;
 
-	gnumeric_hdate_get_date (argv, &year, &month, &day);
+	GnmValue *err = gnumeric_hdate_get_date (ei, argv, &year, &month, &day);
+
+	if (err != NULL)
+		return err;
 
 	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
 		return value_new_error_VALUE (ei->pos);
@@ -298,7 +340,10 @@ gnumeric_hdate_year (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int year, month, day;
 	int hyear, hmonth, hday;
 
-	gnumeric_hdate_get_date (argv, &year, &month, &day);
+	GnmValue *err = gnumeric_hdate_get_date (ei, argv, &year, &month, &day);
+
+	if (err != NULL)
+		return err;
 
 	if (0 != hdate_gdate_to_hdate (day, month, year, &hday, &hmonth, &hyear))
 		return value_new_error_VALUE (ei->pos);
@@ -325,7 +370,10 @@ gnumeric_hdate_julian (GnmFuncEvalInfo * ei, GnmValue const * const *argv)
 	int year, month, day;
 	int julian;
 
-	gnumeric_hdate_get_date (argv, &year, &month, &day);
+	GnmValue *err = gnumeric_hdate_get_date (ei, argv, &year, &month, &day);
+
+	if (err != NULL)
+		return err;
 
 	if (!hdate_gdate_is_valid (day, month, year))
 		return value_new_error_VALUE (ei->pos);

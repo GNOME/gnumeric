@@ -136,7 +136,7 @@ hdate_get_hebrew_month_name_heb (int month)
 		"ט\xd6\xb5ב\xd6\xb5ת",                          /* Tebet */
 		"ש\xd7\x81\xd6\xb0ב\xd7\x87ט",                  /* Shebat */
 		"א\xd6\xb7ד\xd7\x87ר",                          /* Adar */
-		"נ\xd6\xb4יס\xd7\x87ן",                         /* Nissan */
+		"נ\xd6\xb4יס\xd7\x87ן",                         /* Nisan */
 		"א\xd6\xb4י\xd7\x87יר",                         /* Iyar */
 		"ס\xd6\xb4יו\xd7\x87ן",                         /* Sivan */
 		"ת\xd6\xbc\xd7\x87מו\xd6\xbcז",                 /* Tammuz */

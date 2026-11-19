@@ -390,12 +390,13 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 
 	fVdb      = 0;
 
+	if (fIntEnd > G_MAXINT ||
+	    fIntEnd - fIntStart > 10000 /* arbitrary */ ||
+	    fIntStart > 10000 /* arbitrary */)
+		return value_new_error_VALUE (NULL);
+
 	if ( flag ) {
 		int i, nLoopStart, nLoopEnd;
-
-		if (fIntEnd > G_MAXINT ||
-		    fIntEnd - fIntStart > 10000 /* arbitrary */)
-			return value_new_error_VALUE (NULL);
 
 		nLoopStart = (int) fIntStart;
 		nLoopEnd   = (int) fIntEnd;

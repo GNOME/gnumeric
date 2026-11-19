@@ -495,11 +495,12 @@ gnm_criteria_parse_database (GnmEvalPos const *ep, GnmValue const *database, Gnm
 	field_ind = g_new (int, e_col - b_col + 1);
 	for (i = b_col; i <= e_col; i++) {
 		cell = sheet_cell_get (sheet, i, b_row);
-		if (cell == NULL)
-			continue;
-		gnm_cell_eval (cell);
-		if (gnm_cell_is_empty (cell))
-			continue;
+		if (cell != NULL)
+			gnm_cell_eval (cell);
+		if (gnm_cell_is_empty (cell)) {
+			g_free (field_ind);
+			return NULL;
+		}
 		field_ind[i - b_col] =
 			gnm_criteria_find_column (ep, database, cell->value);
 		if (field_ind[i - b_col] == -1) {
@@ -601,6 +602,14 @@ filter_row:
 
 /****************************************************************************/
 
+/* value_area_get_x_y does not handle 3D ranges.  */
+static gboolean
+is_3d_range (GnmValue const *v)
+{
+	return VALUE_IS_CELLRANGE (v) &&
+		v->v_range.cell.a.sheet != v->v_range.cell.b.sheet;
+}
+
 /**
  * gnm_criteria_ifs_func:
  * @data: (element-type GnmValue):
@@ -638,11 +647,15 @@ gnm_criteria_ifs_func (GPtrArray *data, GPtrArray *crits, GnmValue const *vals,
 		g_warning ("unsupported flags in gnm_criteria_ifs_func %x", flags);
 	}
 
+	if (is_3d_range (vals))
+		return value_new_error_VALUE (ep);
+
 	sx = value_area_get_width (vals, ep);
 	sy = value_area_get_height (vals, ep);
 	for (ui = 0; ui < data->len; ui++) {
 		GnmValue const *datai = g_ptr_array_index (data, ui);
-		if (value_area_get_width (datai, ep) != sx ||
+		if (is_3d_range (datai) ||
+		    value_area_get_width (datai, ep) != sx ||
 		    value_area_get_height (datai, ep) != sy)
 			return value_new_error_VALUE (ep);
 	}

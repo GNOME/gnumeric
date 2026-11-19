@@ -308,6 +308,11 @@ static GnmValue *
 gnumeric_encodeurl (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	const char *str = value_peek_string (argv[0]);
+
+	/* go_url_encode rejects empty strings, but ENCODEURL must not.  */
+	if (*str == '\0')
+		return value_new_string ("");
+
 	return value_new_string_nocopy (go_url_encode (str, 1));
 }
 
@@ -504,8 +509,11 @@ gnumeric_midb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_VALUE (ei->pos);
 	ipos = (int)MIN ((gnm_float)INT_MAX / 2, pos) - 1;
 	ilen = (int)MIN ((gnm_float)INT_MAX / 2, len);
-	if ((ipos >= slen) ||
-	    ((gunichar)-1 == g_utf8_get_char_validated (peek + ipos, -1)))
+	/* Like MID, a start beyond the end gives the empty string.  */
+	if (ipos >= slen)
+		return value_new_string ("");
+
+	if ((gunichar)-1 == g_utf8_get_char_validated (peek + ipos, -1))
 		return value_new_error_VALUE (ei->pos);
 
 	if ((ipos + ilen) > slen)
@@ -548,6 +556,10 @@ gnumeric_findb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (count < 1 || count >= haystacksize + 1)
 		return value_new_error_VALUE (ei->pos);
+
+	/* An empty needle matches at the start position.  */
+	if (*needle == '\0')
+		return value_new_int ((int)count);
 
 	icount = (size_t) count;
 	p = (icount == 1) ? haystack : g_utf8_find_next_char (haystack + (icount - 2) , NULL);
@@ -1953,7 +1965,10 @@ gnumeric_textbefore (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			return value_dup (argv[0]);
 		}
 	} else {
-		int abs_inst = -instance_num;
+		int abs_inst;
+
+		/* Beware: negating INT_MIN overflows.  */
+		abs_inst = instance_num == G_MININT ? G_MAXINT : -instance_num;
 		if (abs_inst <= n) {
 			target_idx = n - abs_inst;
 		} else if (match_end == 1) {
@@ -2018,7 +2033,10 @@ gnumeric_textafter (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			return value_new_string ("");
 		}
 	} else {
-		int abs_inst = -instance_num;
+		int abs_inst;
+
+		/* Beware: negating INT_MIN overflows.  */
+		abs_inst = instance_num == G_MININT ? G_MAXINT : -instance_num;
 		if (abs_inst <= n) {
 			target_idx = n - abs_inst;
 		} else if (match_end == 1) {

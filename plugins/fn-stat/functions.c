@@ -408,7 +408,7 @@ static GnmFuncHelp const help_negbinomdist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("t:threshold number of successes")},
 	{ GNM_FUNC_HELP_ARG, F_("p:probability of a success")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{f} or @{t} is a non-integer it is truncated.")},
-	{ GNM_FUNC_HELP_NOTE, F_("If (@{f} + @{t} -1) <= 0 this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{f} < 0 or @{t} < 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{p} < 0 or @{p} > 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=NEGBINOMDIST(2,5,0.55)" },
@@ -423,7 +423,7 @@ gnumeric_negbinomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float r = gnm_fake_floor (value_get_as_float (argv[1]));
 	gnm_float p = value_get_as_float (argv[2]);
 
-	if ((x + r - 1) <= 0 || p < 0 || p > 1)
+	if (x < 0 || r < 1 || p < 0 || p > 1)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (dnbinom (x, r, p, FALSE));
@@ -1003,6 +1003,7 @@ gnumeric_skewp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -1012,7 +1013,7 @@ gnumeric_skewp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 static GnmFuncHelp const help_expondist[] = {
 	{ GNM_FUNC_HELP_NAME, F_("EXPONDIST:probability density or cumulative distribution function of the exponential distribution")},
 	   { GNM_FUNC_HELP_ARG, F_("x:number")},
-	{ GNM_FUNC_HELP_ARG, F_("y:scale parameter")},
+	{ GNM_FUNC_HELP_ARG, F_("y:rate parameter")},
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the density function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("If @{cumulative} is false it will return:\t"
 	   "@{y} * exp (-@{y}*@{x}), otherwise it will return\t"
@@ -1144,6 +1145,7 @@ static GnmFuncHelp const help_chidist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
 	{ GNM_FUNC_HELP_ARG, F_("dof:number of degrees of freedom")},
 	{ GNM_FUNC_HELP_DESCRIPTION, F_("The survival function is 1 minus the cumulative distribution function.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} is non-integer it is truncated.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{dof} < 1 this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
@@ -1159,7 +1161,7 @@ gnumeric_chidist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float x = value_get_as_float (argv[0]);
 	gnm_float dof = gnm_fake_floor (value_get_as_float (argv[1]));
 
-	if (dof < 1)
+	if (x < 0 || dof < 1)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (pchisq (x, dof, FALSE, FALSE));
@@ -1895,7 +1897,7 @@ static GnmFuncHelp const help_hypgeomdist[] = {
 	{ GNM_FUNC_HELP_ARG, F_("cumulative:whether to evaluate the mass function or the cumulative distribution function")},
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x},@{n},@{M} or @{N} is a non-integer it is truncated.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{x},@{n},@{M} or @{N} < 0 this function returns a #NUM! error.") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} > @{M} or @{n} > @{N} this function returns a #NUM! error.")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} > @{n}, @{x} > @{M}, @{n} > @{N}, or @{M} > @{N} this function returns a #NUM! error.")},
 	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible.") },
 	{ GNM_FUNC_HELP_EXAMPLES, "=HYPGEOMDIST(1,2,3,10)" },
 	{ GNM_FUNC_HELP_SEEALSO, "BINOMDIST,POISSON"},
@@ -1911,7 +1913,8 @@ gnumeric_hypgeomdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float N = gnm_fake_floor (value_get_as_float (argv[3]));
 	gboolean cum = argv[4] ? value_get_as_checked_bool (argv[4]) : FALSE;
 
-	if (x < 0 || n < 0 || M < 0 || N < 0 || x > M || n > N)
+	if (x < 0 || n < 0 || M < 0 || N < 0 ||
+	    x > n || x > M || n > N || M > N)
 		return value_new_error_NUM (ei->pos);
 
 	if (cum)
@@ -1928,6 +1931,7 @@ static GnmFuncHelp const help_confidence[] = {
 	{ GNM_FUNC_HELP_ARG, F_("stddev:population standard deviation")},
 	{ GNM_FUNC_HELP_ARG, F_("size:sample size")},
 	{ GNM_FUNC_HELP_NOTE, F_("This function requires the usually unknown population standard deviation.") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{alpha} >= 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is non-integer it is truncated.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} < 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is 0 this function returns a #DIV/0! error.")},
@@ -1944,6 +1948,8 @@ gnumeric_confidence (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float stddev = value_get_as_float (argv[1]);
 	gnm_float size = gnm_fake_floor (value_get_as_float (argv[2]));
 
+	if (x <= 0 || x >= 1)
+		return value_new_error_NUM (ei->pos);
 	if (size == 0)
 		return value_new_error_DIV0 (ei->pos);
 	if (size <= 0 || stddev <= 0)
@@ -1960,6 +1966,7 @@ static GnmFuncHelp const help_confidence_t[] = {
 	{ GNM_FUNC_HELP_ARG, F_("alpha:significance level")},
 	{ GNM_FUNC_HELP_ARG, F_("stddev:sample standard deviation")},
 	{ GNM_FUNC_HELP_ARG, F_("size:sample size")},
+	{ GNM_FUNC_HELP_NOTE, F_("If @{alpha} <= 0 or @{alpha} >= 1 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{stddev} < 0 or = 0 this function returns a #NUM! error.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} is non-integer it is truncated.") },
 	{ GNM_FUNC_HELP_NOTE, F_("If @{size} < 1 this function returns a #NUM! error.") },
@@ -1977,6 +1984,8 @@ gnumeric_confidence_t (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float stddev = value_get_as_float (argv[1]);
 	gnm_float size = gnm_fake_floor (value_get_as_float (argv[2]));
 
+	if (x <= 0 || x >= 1)
+		return value_new_error_NUM (ei->pos);
 	if (size == 1)
 		return value_new_error_DIV0 (ei->pos);
 	if (size <= 1 || stddev <= 0)
@@ -2163,6 +2172,7 @@ gnumeric_kurtp (GnmFuncEvalInfo *ei, int argc, GnmExprConstPtr const *argv)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_STRINGS_DIRECT_COMBO2 |
 				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_BOOLS_DIRECT_COMBO1 |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_DIV0);
 }
@@ -3219,7 +3229,17 @@ gnumeric_percentile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				     COLLECT_SORT,
 				     &n, &result);
 	if (!result) {
-		if (n > 1) {
+		if (n == 0)
+			result = value_new_error_NUM (ei->pos);
+		else if (n == 1) {
+			gnm_float p = value_get_as_float (argv[1]);
+
+			/* Method 6 with a single point: only the median is defined.  */
+			if (p != GNM_const(0.5))
+				result = value_new_error_NUM (ei->pos);
+			else
+				result = value_new_float (data[0]);
+		} else {
 			gnm_float p = value_get_as_float (argv[1]);
 			gnm_float res;
 			gnm_float fr = (p * (n + 1) - 1)/(n-1);
@@ -3228,8 +3248,7 @@ gnumeric_percentile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				result = value_new_error_NUM (ei->pos);
 			else
 				result = value_new_float (res);
-		} else
-			result = value_new_error_NUM (ei->pos);
+		}
 	}
 
 	g_free (data);
@@ -3308,7 +3327,17 @@ gnumeric_quartile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				     COLLECT_SORT,
 				     &n, &result);
 	if (!result) {
-		if (n > 1) {
+		if (n == 0)
+			result = value_new_error_NUM (ei->pos);
+		else if (n == 1) {
+			gnm_float q = gnm_fake_floor (value_get_as_float (argv[1]));
+
+			/* Method 6 with a single point: only the median is defined.  */
+			if (q != 2)
+				result = value_new_error_NUM (ei->pos);
+			else
+				result = value_new_float (data[0]);
+		} else {
 			gnm_float q = gnm_fake_floor (value_get_as_float (argv[1]));
 			gnm_float res;
 			gnm_float fr = ((q / 4) * (n + 1) - 1)/(n-1);
@@ -3317,8 +3346,7 @@ gnumeric_quartile_exc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 				result = value_new_error_NUM (ei->pos);
 			else
 				result = value_new_float (res);
-		} else
-			result = value_new_error_NUM (ei->pos);
+		}
 	}
 
 	g_free (data);
@@ -3530,8 +3558,8 @@ out:
 static GnmValue *
 gnumeric_ttest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	gnm_float tails = value_get_as_float (argv[2]);
-	gnm_float type = value_get_as_float (argv[3]);
+	gnm_float tails = gnm_fake_floor (value_get_as_float (argv[2]));
+	gnm_float type = gnm_fake_floor (value_get_as_float (argv[3]));
 	int itails;
 
 	if (tails != 1 && tails != 2)
@@ -5022,8 +5050,7 @@ gnumeric_exppowdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	gnm_float a = value_get_as_float (argv[1]);
 	gnm_float b = value_get_as_float (argv[2]);
 
-	/* FIXME: Check this condition.  */
-	if (b <= 0)
+	if (a <= 0 || b <= 0)
 		return value_new_error_NUM (ei->pos);
 
 	return value_new_float (gnm_random_exppow_pdf (x, a, b));
@@ -5034,7 +5061,7 @@ gnumeric_exppowdist (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_laplace[] = {
 	{ GNM_FUNC_HELP_NAME, F_("LAPLACE:probability density function of the Laplace distribution")},
 	{ GNM_FUNC_HELP_ARG, F_("x:number")},
-	{ GNM_FUNC_HELP_ARG, F_("a:mean")},
+	{ GNM_FUNC_HELP_ARG, F_("a:scale parameter")},
 	{ GNM_FUNC_HELP_EXAMPLES, "=LAPLACE(0.4,1)" },
 	{ GNM_FUNC_HELP_SEEALSO, "RANDLAPLACE"},
 	{ GNM_FUNC_HELP_END }

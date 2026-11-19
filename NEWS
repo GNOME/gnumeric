@@ -68,6 +68,61 @@ Morten:
 	* XLSX: fix problems that might cause xl to drop spaces.
 	* XLSX: fix page break import/export problems.
 	* XLSX: improve export of conditional formats.
+	* Fix NEGBINOMDIST domain checks.
+	* Check the alpha argument in CONFIDENCE.
+	* Check the alpha argument in CONFIDENCE.T.
+	* Count directly-typed booleans in SKEWP.
+	* Count directly-typed booleans in KURTP.
+	* Fix HYPGEOMDIST domain checks.
+	* Reject negative x in CHIDIST.
+	* Fix PERCENTILE.EXC with a single data point.
+	* Fix QUARTILE.EXC with a single data point.
+	* Return an error from DATEVALUE for out-of-range input.
+	* Fix TIMEVALUE for out-of-range and negative serial values.
+	* Return an error from DAYS for invalid dates.
+	* Fix ADDRESS's R1C1 output for relative references.
+	* Check the scale argument in EXPPOWDIST.
+	* Truncate TTEST's tails and type arguments.
+	* Fix OPT_RGW's cost-of-carry argument.
+	* Fix OPT_TIME_SWITCH's missing final period.
+	* Fix OPT_BAW_AMER's cost-of-carry and volatility argument order.
+	* Fix BAW critical-price convergence.
+	* Fix OPT_SIMPLE_CHOOSER's argument list.
+	* Fix OPT_FRENCH's calendar and trading time arguments.
+	* Fix ENCODEURL of empty strings.
+	* Fix MIDB with a start position beyond the end.
+	* Fix FINDB with an empty search string.
+	* Fix RATE with a zero guess.
+	* Fix CONVERT's pond, eV, and flb factors.
+	* Check discount and redemption in PRICEDISC.
+	* Check rate and period in AMORLINC and AMORDEGRC.
+	* Fix DURATION/MDURATION domain checks and MDURATION's coupon convention.
+	* Check the arguments in INTRATE, RECEIVED, PRICEMAT, and DISC.
+	* Fix PERIODOGRAM's interpolation buffer overflow and leaks.
+	* Fix INTERPOLATION with the averaging methods and ignored target cells.
+	* Return a proper error from PERIODOGRAM for an invalid interpolation method.
+	* Keep PERIODOGRAM's interpolation count within bounds.
+	* Fix PERIODOGRAM's Bartlett and Welch window factors.
+	* Fix VDB's unbounded loop for huge period ranges.
+	* Reject settlement == maturity in ODDLYIELD.
+	* Make UNIQUE compare entire rows and columns.
+	* Fix OFFSET's bounds checking.
+	* Fix TEXTBEFORE/TEXTAFTER with extreme instance numbers.
+	* Fix HEX2BIN and HEX2OCT to accept all 10-digit hexadecimal input.
+	* Reject out-of-field values in the BIN/OCT/HEX converters.
+	* Fix EUROCONVERT's triangulation and default rounding.
+	* Check par in YIELD.
+	* Check the issue/first_interest order in ACCRINT.
+	* Check the issue/maturity dates in ACCRINTM.
+	* Check the field names in database criteria ranges.
+	* Fix silent overflow in BASE.
+	* Fix HDATE_MONTH to number months from Nisan.
+	* Reject out-of-range years in the HDATE functions.
+	* Reject Hebrew years past the letter notation in HDATE_HEB and DATE2HDATE_HEB.
+	* Fix UNIQUE crash on 3D ranges.
+	* Fix SUMIF-family crash on 3D ranges.
+	* Avoid creating cells when evaluating DCOUNT and DCOUNTA.
+	* Reject negative numbers in BASE.
 
 B.S.:
 	* TEXT speedup.

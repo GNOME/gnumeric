@@ -111,9 +111,7 @@ find_cells_that_match (Sheet *sheet, GnmValue const *database,
 	fake_col = database->v_range.cell.a.col;
 
 	for (row = first_row; row <= last_row; row++) {
-		cell = (col == -1)
-			? sheet_cell_fetch (sheet, fake_col, row)
-			: sheet_cell_get (sheet, col, row);
+		cell = sheet_cell_get (sheet, (col == -1) ? fake_col : col, row);
 
 		if (cell != NULL)
 			gnm_cell_eval (cell);
@@ -183,7 +181,7 @@ database_find_values_impl (Sheet *sheet, GnmValue const *database,
 		res = res2 = g_new (GnmValue *, cellcount + 1);
 	for (count = 0, current = cells; current; current = current->next) {
 		GnmCell *cell = current->data;
-		GnmValue *value = cell->value;
+		GnmValue *value = (cell != NULL) ? cell->value : value_new_empty ();
 
 		if ((flags & COLLECT_IGNORE_STRINGS) && VALUE_IS_STRING (value))
 			continue;

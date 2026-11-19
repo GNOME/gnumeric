@@ -38,6 +38,7 @@
 #include <gsf/gsf-utils.h>
 #include <gnm-plugin.h>
 
+#include <errno.h>
 #include <math.h>
 #include <limits.h>
 #include <string.h>
@@ -52,6 +53,7 @@ typedef enum {
 	V2B_STRINGS_MAXLEN = 4,         /* Impose 10 character input length.  */
 	V2B_STRINGS_BLANK_ZERO = 8,     /* Treat "" as "0".  */
 	V2B_NUMBER = 16,                /* Wants a number, not a string.  */
+	V2B_FIXED_DIGITS = 32,          /* Output is a 10 digit two's complement field.  */
 	V2B_KILLME
 } Val2BaseFlags;
 
@@ -125,8 +127,9 @@ val_to_base (GnmFuncEvalInfo *ei,
 					hsuffix = TRUE;
 			}
 
+			errno = 0;
 			v_float = (gnm_float) g_ascii_strtoll (str, &err, src_base);
-			if (err == str || err[hsuffix] != 0)
+			if (err == str || err[hsuffix] != 0 || errno == ERANGE)
 				return value_new_error_NUM (ei->pos);
 
 			if (v_float < min_value || v_float > max_value)
@@ -142,16 +145,21 @@ val_to_base (GnmFuncEvalInfo *ei,
 		char *err;
 		gboolean fail;
 
-		if (val < min_value || val > max_value)
+		if (val < min_value || val > max_value) {
+			value_release (vstring);
 			return value_new_error_NUM (ei->pos);
+		}
 
 		buf = g_strdup_printf ("%.0" GNM_FORMAT_f, val);
+		errno = 0;
 		v_float = (gnm_float) g_ascii_strtoll (buf, &err, src_base);
-		fail = (*err != 0);
+		fail = (*err != 0 || errno == ERANGE);
 		g_free (buf);
 
-		if (fail)
+		if (fail) {
+			value_release (vstring);
 			return value_new_error_NUM (ei->pos);
+		}
 		break;
 	}
 	}
@@ -165,6 +173,15 @@ val_to_base (GnmFuncEvalInfo *ei,
 	if (flags & V2B_NUMBER) {
 		value_release (vstring);
 		return value_new_float (v_float);
+	}
+
+	if (flags & V2B_FIXED_DIGITS) {
+		gnm_float limit = gnm_pow (dest_base, 10) / 2;
+
+		if (v_float < -limit || v_float >= limit) {
+			value_release (vstring);
+			return value_new_error_NUM (ei->pos);
+		}
 	}
 
 	if (v_float < 0) {
@@ -210,7 +227,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 
 static GnmFuncHelp const help_base[] = {
         { GNM_FUNC_HELP_NAME, F_("BASE:string of digits representing the number @{n} in base @{b}") },
-        { GNM_FUNC_HELP_ARG, F_("n:integer") },
+        { GNM_FUNC_HELP_ARG, F_("n:non-negative integer") },
         { GNM_FUNC_HELP_ARG, F_("b:base (2 \xe2\x89\xa4 @{b} \xe2\x89\xa4 36)") },
         { GNM_FUNC_HELP_ARG, F_("length:minimum length of the resulting string") },
         { GNM_FUNC_HELP_DESCRIPTION, F_("BASE converts @{n} to its string representation in base @{b}. "
@@ -232,7 +249,7 @@ gnumeric_base (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_new_error_NUM (ei->pos);
 
 	return val_to_base (ei, argv[0], argv[2], 10, (int)base,
-			    -max, +max,
+			    0, +max,
 			    V2B_STRINGS_GENERAL | V2B_STRINGS_0XH);
 }
 
@@ -279,7 +296,8 @@ gnumeric_bin2oct (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], argv[1],
 			    2, 8,
 			    0, GNM_const(1111111111.0),
-			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO |
+			    V2B_FIXED_DIGITS);
 }
 
 /***************************************************************************/
@@ -304,7 +322,8 @@ gnumeric_bin2hex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], argv[1],
 			    2, 16,
 			    0, GNM_const(1111111111.0),
-			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO |
+			    V2B_FIXED_DIGITS);
 }
 
 /***************************************************************************/
@@ -334,7 +353,7 @@ gnumeric_dec2bin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], argv[1],
 			    10, 2,
 			    -512, 511,
-			    V2B_STRINGS_GENERAL);
+			    V2B_STRINGS_GENERAL | V2B_FIXED_DIGITS);
 }
 
 /***************************************************************************/
@@ -357,7 +376,7 @@ gnumeric_dec2oct (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], argv[1],
 			    10, 8,
 			    -536870912, 536870911,
-			    V2B_STRINGS_GENERAL);
+			    V2B_STRINGS_GENERAL | V2B_FIXED_DIGITS);
 }
 
 /***************************************************************************/
@@ -380,7 +399,7 @@ gnumeric_dec2hex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], argv[1],
 			    10, 16,
 			    GNM_const(-549755813888.0), GNM_const(549755813887.0),
-			    V2B_STRINGS_GENERAL);
+			    V2B_STRINGS_GENERAL | V2B_FIXED_DIGITS);
 }
 
 /***************************************************************************/
@@ -458,7 +477,8 @@ gnumeric_oct2bin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], argv[1],
 			    8, 2,
 			    0, GNM_const(7777777777.0),
-			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO |
+			    V2B_FIXED_DIGITS);
 }
 
 /***************************************************************************/
@@ -481,7 +501,8 @@ gnumeric_oct2hex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	return val_to_base (ei, argv[0], argv[1],
 			    8, 16,
 			    0, GNM_const(7777777777.0),
-			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO |
+			    V2B_FIXED_DIGITS);
 }
 
 /***************************************************************************/
@@ -501,10 +522,12 @@ static GnmFuncHelp const help_hex2bin[] = {
 static GnmValue *
 gnumeric_hex2bin (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
+	static gnm_float pow_2_40 = GNM_const(1099511627776.0);
 	return val_to_base (ei, argv[0], argv[1],
 			    16, 2,
-			    0, GNM_const(9999999999.0),
-			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
+			    0, pow_2_40 - 1,
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO |
+			    V2B_FIXED_DIGITS);
 }
 
 /***************************************************************************/
@@ -524,10 +547,12 @@ static GnmFuncHelp const help_hex2oct[] = {
 static GnmValue *
 gnumeric_hex2oct (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
+	static gnm_float pow_2_40 = GNM_const(1099511627776.0);
 	return val_to_base (ei, argv[0], argv[1],
 			    16, 8,
-			    0, GNM_const(9999999999.0),
-			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO);
+			    0, pow_2_40 - 1,
+			    V2B_STRINGS_MAXLEN | V2B_STRINGS_BLANK_ZERO |
+			    V2B_FIXED_DIGITS);
 }
 
 /***************************************************************************/
@@ -558,9 +583,11 @@ gnumeric_hex2dec (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_besseli[] = {
         { GNM_FUNC_HELP_NAME, F_("BESSELI:Modified Bessel function of the first kind of order @{\xce\xb1} at @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:number") },
-        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative number)") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. If @{\xce\xb1} < 0, #NUM! is returned.") },
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any number)") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("Negative orders are evaluated using the standard identity "
+				 "I(-v) = I(v) + 2 sin(pi*v) K(v) / pi.") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only non-negative integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELI(0.7,3)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELJ,BESSELK,BESSELY" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
@@ -580,9 +607,10 @@ gnumeric_besseli (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_besselk[] = {
         { GNM_FUNC_HELP_NAME, F_("BESSELK:Modified Bessel function of the second kind of order @{\xce\xb1} at @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:number") },
-        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative number)") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. If @{\xce\xb1} < 0, #NUM! is returned.") },
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any number)") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("BESSELK is even in its order: K(-v) = K(v).") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only non-negative integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELK(3,9)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELI,BESSELJ,BESSELY" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
@@ -603,10 +631,11 @@ gnumeric_besselk (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_besselj[] = {
         { GNM_FUNC_HELP_NAME, F_("BESSELJ:Bessel function of the first kind of order @{\xce\xb1} at @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:number") },
-        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative integer)") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. "
-				 "If @{\xce\xb1} < 0, #NUM! is returned.") },
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any number)") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("Negative orders are evaluated using the standard identity "
+				 "J(-v) = cos(pi*v) J(v) - sin(pi*v) Y(v).") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only non-negative integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELJ(0.89,3)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELI,BESSELK,BESSELY" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
@@ -626,10 +655,11 @@ gnumeric_besselj (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 static GnmFuncHelp const help_bessely[] = {
         { GNM_FUNC_HELP_NAME, F_("BESSELY:Bessel function of the second kind of order @{\xce\xb1} at @{x}") },
         { GNM_FUNC_HELP_ARG, F_("x:number") },
-        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any non-negative integer)") },
-	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned. "
-				 "If @{\xce\xb1} < 0, #NUM! is returned.") },
-	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only integer orders @{\xce\xb1} are used.") },
+        { GNM_FUNC_HELP_ARG, F_("\xce\xb1:order (any number)") },
+	{ GNM_FUNC_HELP_NOTE, F_("If @{x} or @{\xce\xb1} are not numeric, #VALUE! is returned.") },
+	{ GNM_FUNC_HELP_NOTE, F_("Negative orders are evaluated using the standard identity "
+				 "Y(-v) = sin(pi*v) J(v) + cos(pi*v) Y(v).") },
+	{ GNM_FUNC_HELP_EXCEL, F_("This function is Excel compatible if only non-negative integer orders @{\xce\xb1} are used.") },
         { GNM_FUNC_HELP_EXAMPLES, "=BESSELY(4,2)" },
         { GNM_FUNC_HELP_SEEALSO, "BESSELI,BESSELJ,BESSELK" },
 	{ GNM_FUNC_HELP_EXTREF, F_("wiki:en:Bessel_function") },
@@ -1046,7 +1076,7 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	/* Force constants */
 #define one_N_to_dyn    GNM_const(100000.)
 #define one_N_to_lbf    GNM_const(0.224808924)
-#define one_N_to_pond   GNM_const(0.00010197)
+#define one_N_to_pond   GNM_const(101.9716213)
 
 
 	/* Power constants */
@@ -1057,10 +1087,10 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 #define one_J_to_e      GNM_const(9999995.193)
 #define one_J_to_c      GNM_const(0.239006249)
 #define one_J_to_cal    GNM_const(0.238846191)
-#define one_J_to_eV     GNM_const(6.2146e+18)
+#define one_J_to_eV     GNM_const(6.241509074460763e+18)
 #define one_J_to_HPh    (GNM_const (1.0) / (3600 * one_HP_to_W))
 #define one_J_to_Wh     (GNM_const (1.0) / 3600)
-#define one_J_to_flb    GNM_const(23.73042222)
+#define one_J_to_flb    GNM_const(0.7375621492772654)
 #define one_J_to_BTU    GNM_const(0.000947815)
 
 	/* Magnetism constants */

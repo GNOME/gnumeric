@@ -79,7 +79,7 @@ hdate_gdate_is_valid (int d, int m, int y)
 	};
 	int n;
 
-	if (y <= 0 || m < 1 || m > 12 || d < 1)
+	if (y <= 0 || y > 9999 || m < 1 || m > 12 || d < 1)
 		return FALSE;
 
 	n = days_in_month[m - 1];
@@ -221,9 +221,9 @@ hdate_jd_to_gdate (int jd, int *d, int *m, int *y)
  @author Amos Shapir 1984 (rev. 1985, 1992) Yaacov Zamir 2003-2005
 
  @param jd Julian day
- @param d Return Day of month 1..31
- @param m Return Month 1..14
- @param y Return Year in 4 digits e.g. 2001
+ @param d Return Day of month 0..29 (zero-based)
+ @param m Return Month 0..13 (0 - tishre, 5 - adar, 12 - adar 1, 13 - adar 2)
+ @param y Return Year in 4 digits e.g. 5785
  */
 void
 hdate_jd_to_hdate (int jd, int *d, int *m, int *y)
