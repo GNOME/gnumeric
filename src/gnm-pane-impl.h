@@ -32,6 +32,8 @@ struct GnmPane_ {
 	gboolean   sliding_adjacent_h, sliding_adjacent_v;
 	// Scroll event deduplication
 	guint32    last_scroll;
+	/* Accumulated smooth-scroll delta for ctrl-wheel zoom.  */
+	gdouble    zoom_scroll_delta;
 
 	/*  IM */
 	guint im_preedit_started :1;

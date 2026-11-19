@@ -2361,6 +2361,7 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 	gboolean go_back = (event->direction == GDK_SCROLL_UP ||
 			    event->direction == GDK_SCROLL_LEFT);
 	gboolean qsmooth = (event->direction == GDK_SCROLL_SMOOTH);
+	gdouble dx = 0, dy = 0;
 	int drow = 0, dcol = 0;
 
 	if (!pane || !gtk_widget_get_realized (w))
@@ -2371,16 +2372,30 @@ cb_scroll_wheel (GtkWidget *w, GdkEventScroll *event,
 		return TRUE;
 	pane->last_scroll = event->time;
 
+	if (qsmooth)
+		gdk_event_get_scroll_deltas ((GdkEvent*)event, &dx, &dy);
+
 	if ((event->state & GDK_CONTROL_MASK)) {
-		/* zoom */
-		do_scroll_zoom (wbcg, go_back);
+		/* Smooth events have no direction; get the intent from the
+		 * delta.  Accumulate so that a trackpad gesture zooms one
+		 * step per wheel notch instead of once per event.  */
+		gdouble delta = qsmooth
+			? -CLAMP ((ABS (dx) >= ABS (dy)) ? dx : dy, -1., 1.)
+			: (go_back ? 1. : -1.);
+
+		pane->zoom_scroll_delta += delta;
+		if (ABS (pane->zoom_scroll_delta) >= 1.) {
+			gboolean zoom_in = pane->zoom_scroll_delta > 0;
+			pane->zoom_scroll_delta -= zoom_in ? 1. : -1.;
+			do_scroll_zoom (wbcg, zoom_in);
+		}
 		return TRUE;
 	}
 
+	pane->zoom_scroll_delta = 0;
+
 	if (qsmooth) {
-		gdouble dx, dy;
 		gdouble scale = 10; // ???
-		gdk_event_get_scroll_deltas ((GdkEvent*)event, &dx, &dy);
 		dcol = (int)(dx * scale);
 		drow = (int)(dy * scale);
 	} else {
