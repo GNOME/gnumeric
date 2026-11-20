@@ -19,6 +19,7 @@
 #include <ranges.h>
 #include <goffice/goffice.h>
 #include <stdlib.h>
+#include <dead-kittens.h>
 
 typedef struct {
 	GObjectClass parent_class;
@@ -306,28 +307,18 @@ gnm_sort_contents (GnmSortData *data, GOCmdContext *cc)
 				= g_strdup (go_setlocale (LC_ALL, NULL));
 			go_setlocale (LC_ALL, data->locale);
 
-#if GLIB_CHECK_VERSION(2, 82, 0)
-			g_sort_array
-#else
-			g_qsort_with_data
-#endif
-				(perm, real_length, sizeof (int),
-					   g_str_has_prefix (old_locale, data->locale)
-					   ? sort_qsort_compare
-					   : sort_qsort_compare_in_locale,
-					   data);
+			g_sort_array (perm, real_length, sizeof (int),
+				      g_str_has_prefix (old_locale, data->locale)
+				      ? sort_qsort_compare
+				      : sort_qsort_compare_in_locale,
+				      data);
 
 			go_setlocale (LC_ALL, old_locale);
 			g_free (old_locale);
 		} else
-#if GLIB_CHECK_VERSION(2, 82, 0)
-			g_sort_array
-#else
-			g_qsort_with_data
-#endif
-				(perm, real_length, sizeof (int),
-				 sort_qsort_compare,
-				 data);
+			g_sort_array (perm, real_length, sizeof (int),
+				      sort_qsort_compare,
+				      data);
 	}
 
 	cur = 0;

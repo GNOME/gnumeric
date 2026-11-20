@@ -30,4 +30,8 @@
   g_object_set ((_e_), "editing-canceled", (gboolean)(_b_), NULL)
 #endif
 
+#ifndef HAVE_G_SORT_ARRAY
+#define g_sort_array g_qsort_with_data
+#endif
+
 #endif

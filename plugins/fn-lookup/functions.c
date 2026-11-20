@@ -47,6 +47,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <dead-kittens.h>
+
 GNM_PLUGIN_MODULE_HEADER;
 
 /* -------------------------------------------------------------------------- */
@@ -2296,12 +2298,7 @@ gnumeric_sort (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	ctx.key = sort_index - 1;
 	ctx.order = sort_order;
 
-#if GLIB_CHECK_VERSION(2, 82, 0)
-	g_sort_array
-#else
-	g_qsort_with_data
-#endif
-		(perm, n, sizeof (int), sort_indices_compare, &ctx);
+	g_sort_array (perm, n, sizeof (int), sort_indices_compare, &ctx);
 
 	res = value_new_array_empty (sx, sy);
 	if (by_col) {
