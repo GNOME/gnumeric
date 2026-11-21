@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: gnumeric-functions master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/gnumeric/issues\n"
 "POT-Creation-Date: 2026-11-19 02:03+0000\n"
-"PO-Revision-Date: 2026-11-20 07:53+0100\n"
+"PO-Revision-Date: 2026-11-21 09:30+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -2908,7 +2908,6 @@ msgstr ""
 "Če vrednosti @{x} in @{α} nista številski, funkcija vrne napako #VALUE!."
 
 #: ../plugins/fn-eng/functions.c:588
-#, fuzzy
 msgid ""
 "Negative orders are evaluated using the standard identity I(-v) = I(v) + 2 "
 "sin(pi*v) K(v) / pi."
@@ -2944,7 +2943,6 @@ msgid "BESSELJ:Bessel function of the first kind of order @{α} at @{x}"
 msgstr "BESSELI: prilagojena Besselova funkcija prvega reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:636
-#, fuzzy
 msgid ""
 "Negative orders are evaluated using the standard identity J(-v) = cos(pi*v) "
 "J(v) - sin(pi*v) Y(v)."
@@ -2957,7 +2955,6 @@ msgid "BESSELY:Bessel function of the second kind of order @{α} at @{x}"
 msgstr "BESSELI: Besselova funkcija drugega reda @{α} pri @{x}"
 
 #: ../plugins/fn-eng/functions.c:660
-#, fuzzy
 msgid ""
 "Negative orders are evaluated using the standard identity Y(-v) = sin(pi*v) "
 "J(v) + cos(pi*v) Y(v)."
@@ -3710,12 +3707,11 @@ msgstr ""
 "rezultat."
 
 #: ../plugins/fn-financial/functions.c:394
-#, fuzzy
 msgid ""
 "@{issue} must be earlier than @{settlement} and no later than "
 "@{first_interest}."
 msgstr ""
-"@{issue} mora biti pred @{settlement} in ne pozneje kot @{first_interest}."
+"@{izdaja} mora biti pred @{poravnava} in ne pozneje kot @{prve_obresti}."
 
 #: ../plugins/fn-financial/functions.c:456
 msgid "ACCRINTM:accrued interest"
@@ -5602,13 +5598,12 @@ msgid "text:name of the worksheet, defaults to no sheet"
 msgstr "besedilo: ime delovnega lista, privzeto določeno kot brez imena"
 
 #: ../plugins/fn-lookup/functions.c:962
-#, fuzzy
 msgid ""
 "If @{row_num} or @{col_num} is less than one, ADDRESS returns #VALUE!, "
 "except for relative coordinates in R1C1 form which are offsets and may be "
 "zero or negative."
 msgstr ""
-"Če je vrednost @{row_num} ali @{col_num} manjša od ena, funkcija ADDRESS "
+"Če je vrednost @{vrstica} ali @{stolpec} manjša od ena, funkcija ADDRESS "
 "vrne #VALUE!, razen v primeru relativnih koordinat v obliki R1C1 (V1S1), ki "
 "predstavljajo odmike in so lahko enake nič ali negativne."
 
