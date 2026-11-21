@@ -120,7 +120,7 @@ datetime_intl_weekend (GnmValue const *v, GnmEvalPos const *pos,
 			return FALSE;
 		}
 	} else if (VALUE_IS_STRING (v)) {
-		char const *s = value_peek_string (v);
+		char const *s = value_string_arg (v);
 		if (strlen (s) != 7)
 			return FALSE;
 		for (int i = 0; i < 7; i++) {
@@ -388,7 +388,7 @@ gnumeric_datedif (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	int date1 = gnm_floor (value_get_as_float (argv[0]));
 	int date2 = gnm_floor (value_get_as_float (argv[1]));
-	char const *opt = value_peek_string (argv[2]);
+	char const *opt = value_string_arg (argv[2]);
 	GDate d1, d2;
 	GODateConventions const *conv = DATE_CONV (ei->pos);
 

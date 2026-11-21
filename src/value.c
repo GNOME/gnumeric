@@ -1268,6 +1268,70 @@ value_peek_string (GnmValue const *v)
 	}
 }
 
+static GPtrArray *value_string_arg_stack;
+
+/**
+ * value_string_arg_push_marker: (skip)
+ *
+ * Add a marker for value_string_arg_pop_to_marker's later use.
+ */
+void
+value_string_arg_push_marker (void)
+{
+	g_ptr_array_add (value_string_arg_stack, NULL);
+}
+
+/**
+ * value_string_arg_pop_to_marker: (skip)
+ *
+ * Remove value_string_arg results from top to and including
+ * the last pushed marker.
+ */
+void
+value_string_arg_pop_to_marker (void)
+{
+	int i;
+	for (i = value_string_arg_stack->len - 1; i >= 0; i--) {
+		char *s = g_ptr_array_index (value_string_arg_stack, i);
+		if (s == NULL) {
+			g_ptr_array_set_size (value_string_arg_stack, i);
+			return;
+		}
+		g_free (s);
+	}
+
+	g_ptr_array_set_size (value_string_arg_stack, 0);
+	g_return_if_fail (!"empty");
+}
+
+/**
+ * value_string_arg: (skip)
+ * @v: a #GnmValue
+ *
+ * This is a variant of value_peek_string to be used by function
+ * implementations to access their arguments.  The value returned
+ * is guaranteed to stay valid until the function implementation
+ * returns.
+ *
+ * Returns: (transfer none): A string representation of the value.
+ */
+const char *
+value_string_arg (GnmValue const *v)
+{
+	g_return_val_if_fail (v, "");
+
+	if (VALUE_IS_STRING (v))
+		return v->v_str.val->str;
+	else if (VALUE_IS_ERROR (v))
+		return v->v_err.mesg->str;
+	else {
+		char *s = value_get_as_string (v);
+		g_ptr_array_add (value_string_arg_stack, s);
+		return s;
+	}
+}
+
+
 /**
  * value_stringify:
  * @v: a #GnmValue
@@ -1878,6 +1942,8 @@ value_init (void)
 			go_string_new (standard_errors[i].locale_name);
 	}
 
+	value_string_arg_stack = g_ptr_array_new ();
+
 #if USE_VALUE_POOLS
 	value_float_pool =
 		go_mem_chunk_new ("value float pool",
@@ -1912,9 +1978,12 @@ value_init (void)
 void
 value_shutdown (void)
 {
-	size_t i;
+	while (value_string_arg_stack->len)
+		value_string_arg_pop_to_marker ();
+	g_ptr_array_free (value_string_arg_stack, TRUE);
+	value_string_arg_stack = NULL;
 
-	for (i = 0; i < G_N_ELEMENTS (standard_errors); i++) {
+	for (size_t i = 0; i < G_N_ELEMENTS (standard_errors); i++) {
 		go_string_unref (standard_errors[i].locale_name_str);
 		standard_errors[i].locale_name_str = NULL;
 	}

@@ -2611,7 +2611,7 @@ static GnmFuncHelp const help_arabic[] = {
 static GnmValue *
 gnumeric_arabic (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const gchar *roman = (const gchar *)value_peek_string (argv[0]);
+	const gchar *roman = (const gchar *)value_string_arg (argv[0]);
 	int slen = strlen (roman);
 	int last = 0;
 	int result = 0;

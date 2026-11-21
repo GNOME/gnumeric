@@ -57,7 +57,7 @@ value_get_as_complex (GnmValue const *val, gnm_complex *res, char *imunit)
 	}
 
 	if (VALUE_IS_STRING (val)) {
-		const char *s = value_peek_string (val);
+		const char *s = value_string_arg (val);
 		int e = gnm_complex_from_string (res, s, imunit);
 		return e ? GNM_ERROR_NUM : NO_ERROR;
 	}
@@ -116,7 +116,7 @@ gnumeric_complex (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_complex c = GNM_CMAKE (value_get_as_float (argv[0]),
 				   value_get_as_float (argv[1]));
-	char const *suffix = argv[2] ? value_peek_string (argv[2]) : "i";
+	char const *suffix = argv[2] ? value_string_arg (argv[2]) : "i";
 
 	if (strcmp (suffix, "i") != 0 && strcmp (suffix, "j") != 0)
 		return value_new_error_VALUE (ei->pos);

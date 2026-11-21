@@ -94,7 +94,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 	case VALUE_STRING:
 		if (flags & V2B_STRINGS_GENERAL) {
 			vstring = format_match_number
-				(value_peek_string (value), NULL,
+				(value_string_arg (value), NULL,
 				 sheet_date_conv (ei->pos->sheet));
 			if (!vstring || !VALUE_IS_FLOAT (vstring)) {
 				value_release (vstring);
@@ -102,7 +102,7 @@ val_to_base (GnmFuncEvalInfo *ei,
 			}
 			v_float = vstring->v_float.val;
 		} else {
-			char const *str = value_peek_string (value);
+			char const *str = value_string_arg (value);
 			size_t len;
 			gboolean hsuffix = FALSE;
 			char *err;
@@ -1398,8 +1398,8 @@ gnumeric_convert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	};
 
 	gnm_float n = value_get_as_float (argv[0]);
-	char const *from_unit = value_peek_string (argv[1]);
-	char const *to_unit = value_peek_string (argv[2]);
+	char const *from_unit = value_string_arg (argv[1]);
+	char const *to_unit = value_string_arg (argv[2]);
 	GnmValue *v;
 
 	if (convert_temp (from_unit, to_unit, n, &v, ei->pos))

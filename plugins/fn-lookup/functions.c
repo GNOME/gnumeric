@@ -560,7 +560,7 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 			if (!find_compare_type_valid (find, v))
 				continue;
 
-			vc = g_utf8_casefold (value_peek_string (v), -1);
+			vc = g_utf8_casefold (value_string_arg (v), -1);
 			if (!g_hash_table_lookup_extended (h, vc, NULL, NULL)) {
 				char *sc = g_string_chunk_insert (lookup_string_pool, vc);
 				g_hash_table_insert (h, sc, GINT_TO_POINTER (lp));
@@ -574,7 +574,7 @@ find_index_linear_equal_string (GnmFuncEvalInfo *ei,
 		protect_string_pool--;
 	}
 
-	sc = g_utf8_casefold (value_peek_string (find), -1);
+	sc = g_utf8_casefold (value_string_arg (find), -1);
 	found = g_hash_table_lookup_extended (h, sc, NULL, &pres);
 	g_free (sc);
 
@@ -708,7 +708,7 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 				continue;
 
 			if (stringp) {
-				char *vc = g_utf8_casefold (value_peek_string (v), -1);
+				char *vc = g_utf8_casefold (value_string_arg (v), -1);
 				bc->data[bc->n].u.str = g_string_chunk_insert (lookup_string_pool, vc);
 				g_free (vc);
 			} else
@@ -728,14 +728,14 @@ find_index_bisection (GnmFuncEvalInfo *ei,
 	}
 
 #ifdef DEBUG_BISECTION
-	g_printerr ("find=%s\n", value_peek_string (find));
+	g_printerr ("find=%s\n", value_string_arg (find));
 #endif
 
 	if (type == 0)
-		return wildcard_string_match (value_peek_string (find), bc);
+		return wildcard_string_match (value_string_arg (find), bc);
 
 	if (stringp) {
-		char *vc = g_utf8_casefold (value_peek_string (find), -1);
+		char *vc = g_utf8_casefold (value_string_arg (find), -1);
 		key.u.str = g_string_chunk_insert (lookup_string_pool, vc);
 		g_free (vc);
 	} else {
@@ -835,7 +835,7 @@ find_index_x (GnmFuncEvalInfo *ei,
 				continue;
 
 			if (stringp) {
-				char *vc = g_utf8_casefold (value_peek_string (v), -1);
+				char *vc = g_utf8_casefold (value_string_arg (v), -1);
 				bc->data[bc->n].u.str = g_string_chunk_insert (lookup_string_pool, vc);
 				g_free (vc);
 			} else
@@ -855,7 +855,7 @@ find_index_x (GnmFuncEvalInfo *ei,
 	}
 
 	if (stringp) {
-		char *vc = g_utf8_casefold (value_peek_string (find), -1);
+		char *vc = g_utf8_casefold (value_string_arg (find), -1);
 		key.u.str = g_string_chunk_insert (lookup_string_pool, vc);
 		g_free (vc);
 	} else {
@@ -909,7 +909,7 @@ find_index_x (GnmFuncEvalInfo *ei,
 			GORegexp rx;
 			GORegmatch rm;
 			res = LOOKUP_NOT_THERE;
-			if (gnm_regcomp_XL (&rx, value_peek_string (find), GO_REG_ICASE, TRUE, TRUE) != GO_REG_OK)
+			if (gnm_regcomp_XL (&rx, value_string_arg (find), GO_REG_ICASE, TRUE, TRUE) != GO_REG_OK)
 				return LOOKUP_DATA_ERROR;
 			for (i = start; i != end; i += step) {
 				if (go_regexec (&rx, bc->data[i].u.str, 1, &rm, 0) == GO_REG_OK) {
@@ -981,7 +981,7 @@ gnumeric_address (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmParsePos	 pp;
 	gboolean	 err;
 	Sheet            *sheet = NULL;
-	const char       *sheet_name = args[4] ? value_peek_string (args[4]) : NULL;
+	const char       *sheet_name = args[4] ? value_string_arg (args[4]) : NULL;
 
 	switch (args[2] ? value_get_as_int (args[2]) : 1) {
 	case 1: case 5: ref.col_relative = ref.row_relative = FALSE; break;
@@ -1223,7 +1223,7 @@ gnumeric_vlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	is_string_match = (!approx &&
 			   VALUE_IS_STRING (find) &&
-			   is_pattern_match (value_peek_string (find)));
+			   is_pattern_match (value_string_arg (find)));
 
 	index = is_string_match
 		? find_index_bisection (ei, find, args[1], 0, TRUE)
@@ -1291,7 +1291,7 @@ gnumeric_hlookup (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	is_string_match = (!approx &&
 			   VALUE_IS_STRING (find) &&
-			   is_pattern_match (value_peek_string (find)));
+			   is_pattern_match (value_string_arg (find)));
 
 	index = is_string_match
 		? find_index_bisection (ei, find, args[1], 0, FALSE)
@@ -1454,7 +1454,7 @@ gnumeric_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 
 	is_string_match = (type == 0 &&
 			   VALUE_IS_STRING (find) &&
-			   is_pattern_match (value_peek_string (find)));
+			   is_pattern_match (value_string_arg (find)));
 
 	if (type == 0 && !is_string_match)
 		index = find_index_linear (ei, find, args[1], vertical);
@@ -1609,7 +1609,7 @@ gnumeric_indirect (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 	GnmParsePos  pp;
 	GnmValue *res = NULL;
 	GnmExprTop const *texpr;
-	char const *text = value_peek_string (args[0]);
+	char const *text = value_string_arg (args[0]);
 	GnmConventions const *convs = gnm_conventions_default;
 
 	if (args[1] && !value_get_as_checked_bool (args[1]))
@@ -1808,7 +1808,7 @@ static GnmFuncHelp const help_columnnumber[] = {
 static GnmValue *
 gnumeric_columnnumber (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	char const *name = value_peek_string (args[0]);
+	char const *name = value_string_arg (args[0]);
 	int colno;
 	unsigned char relative;
 	char const *after = col_parse (name,
@@ -2044,7 +2044,7 @@ gnumeric_sheet (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 			}
 		} else if (VALUE_IS_STRING (v)) {
 			Sheet *sheet = workbook_sheet_by_name
-				(wb, value_peek_string (v));
+				(wb, value_string_arg (v));
 			if (!sheet)
 				return value_new_error_REF (ei->pos);
 			n = sheet->index_in_wb;
@@ -2346,7 +2346,7 @@ hash_col_row (GnmValue const *data, GnmEvalPos const * const ep,
 			: value_area_get_x_y (data, j, i, ep);
 		gsize h1;
 		if (value_type_of (v) == VALUE_STRING) {
-			char *s = g_utf8_casefold (value_peek_string (v), -1);
+			char *s = g_utf8_casefold (value_string_arg (v), -1);
 			h1 = g_str_hash (s);
 			g_free (s);
 		} else

@@ -184,7 +184,7 @@ fallback:
 static GnmValue *
 gnumeric_cell (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *info_type = value_peek_string (argv[0]);
+	char const *info_type = value_string_arg (argv[0]);
 	GnmCellRef const *ref;
 	const Sheet *sheet;
 
@@ -483,7 +483,7 @@ cb_countblank (GnmValueIter const *iter, gpointer user)
 {
 	GnmValue const *v = iter->v;
 
-	if (VALUE_IS_STRING (v) && value_peek_string (v)[0] == 0)
+	if (VALUE_IS_STRING (v) && value_string_arg (v)[0] == 0)
 		; /* Nothing -- the empty string is blank.  */
 	else if (VALUE_IS_EMPTY (v))
 		; /* Nothing  */
@@ -549,7 +549,7 @@ static GnmFuncHelp const help_info[] = {
 static GnmValue *
 gnumeric_info (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const * const info_type = value_peek_string (argv[0]);
+	char const * const info_type = value_string_arg (argv[0]);
 	if (!g_ascii_strcasecmp (info_type, "directory")) {
 		/* Path of the current directory or folder.  */
 		return value_new_error (ei->pos, _("Unimplemented"));
@@ -753,7 +753,7 @@ static GnmFuncHelp const help_error[] = {
 static GnmValue *
 gnumeric_error (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_error (ei->pos, value_peek_string (argv[0]));
+	return value_new_error (ei->pos, value_string_arg (argv[0]));
 }
 
 /***************************************************************************/
@@ -942,7 +942,7 @@ gnumeric_n (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (!VALUE_IS_STRING (argv[0]))
 		return value_new_error_NUM (ei->pos);
 
-	v = format_match_number (value_peek_string (argv[0]),
+	v = format_match_number (value_string_arg (argv[0]),
 				 NULL,
 				 sheet_date_conv (ei->pos->sheet));
 	if (v != NULL)
@@ -1006,7 +1006,7 @@ static GnmFuncHelp const help_getenv[] = {
 static GnmValue *
 gnumeric_getenv (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *var = value_peek_string (argv[0]);
+	char const *var = value_string_arg (argv[0]);
 	char const *val = g_getenv (var);
 
 	if (val && g_utf8_validate (val, -1, NULL))

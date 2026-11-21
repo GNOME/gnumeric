@@ -2074,7 +2074,7 @@ one_euro (char const *str)
 static GnmValue *
 gnumeric_euro (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-        char const *str = value_peek_string (argv[0]);
+        char const *str = value_string_arg (argv[0]);
 	gnm_float v    = one_euro (str);
 
 	if (v >= 0)
@@ -2186,8 +2186,8 @@ static GnmValue *
 gnumeric_euroconvert (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	gnm_float n  = value_get_as_float (argv[0]);
-	const char *src_curr = value_peek_string (argv[1]);
-	const char *dst_curr = value_peek_string (argv[2]);
+	const char *src_curr = value_string_arg (argv[1]);
+	const char *dst_curr = value_string_arg (argv[2]);
 	gboolean full_precision = argv[3] && value_get_as_checked_bool (argv[3]);
 	gboolean qdecimals = argv[4] != NULL;
 	int decimals = qdecimals ? value_get_as_int (argv[4]) : 0;

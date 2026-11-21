@@ -177,7 +177,7 @@ static GnmFuncHelp const help_code[] = {
 static GnmValue *
 gnumeric_code (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *s = value_peek_string (argv[0]);
+	char const *s = value_string_arg (argv[0]);
 	const unsigned char *us = (const unsigned char *)s;
 	gsize written = 0, clen;
 	char *str;
@@ -217,7 +217,7 @@ static GnmFuncHelp const help_unicode[] = {
 static GnmValue *
 gnumeric_unicode (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *s = value_peek_string (argv[0]);
+	char const *s = value_string_arg (argv[0]);
 
 	if (*s == 0)
 		return value_new_error_VALUE (ei->pos);
@@ -290,8 +290,8 @@ static GnmFuncHelp const help_exact[] = {
 static GnmValue *
 gnumeric_exact (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_bool (gnm_compare_strings (value_peek_string (argv[0]),
-						    value_peek_string (argv[1])));
+	return value_new_bool (gnm_compare_strings (value_string_arg (argv[0]),
+						    value_string_arg (argv[1])));
 }
 
 /***************************************************************************/
@@ -307,7 +307,7 @@ static GnmFuncHelp const help_encodeurl[] = {
 static GnmValue *
 gnumeric_encodeurl (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const char *str = value_peek_string (argv[0]);
+	const char *str = value_string_arg (argv[0]);
 
 	/* go_url_encode rejects empty strings, but ENCODEURL must not.  */
 	if (*str == '\0')
@@ -331,7 +331,7 @@ static GnmFuncHelp const help_len[] = {
 static GnmValue *
 gnumeric_len (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_int (g_utf8_strlen (value_peek_string (argv[0]), -1));
+	return value_new_int (g_utf8_strlen (value_string_arg (argv[0]), -1));
 }
 
 /***************************************************************************/
@@ -348,7 +348,7 @@ static GnmFuncHelp const help_lenb[] = {
 static GnmValue *
 gnumeric_lenb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_int (strlen (value_peek_string (argv[0])));
+	return value_new_int (strlen (value_string_arg (argv[0])));
 }
 
 /***************************************************************************/
@@ -369,7 +369,7 @@ static GnmFuncHelp const help_left[] = {
 static GnmValue *
 gnumeric_left (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const char *peek = value_peek_string (argv[0]);
+	const char *peek = value_string_arg (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	char const *p = peek;
 	int icount;
@@ -405,7 +405,7 @@ static GnmFuncHelp const help_leftb[] = {
 static GnmValue *
 gnumeric_leftb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const char *peek = value_peek_string (argv[0]);
+	const char *peek = value_string_arg (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	int len = strlen (peek);
 	int icount, newlen;
@@ -435,7 +435,7 @@ static GnmFuncHelp const help_lower[] = {
 static GnmValue *
 gnumeric_lower (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_string_nocopy (g_utf8_strdown (value_peek_string (argv[0]), -1));
+	return value_new_string_nocopy (g_utf8_strdown (value_string_arg (argv[0]), -1));
 }
 
 /***************************************************************************/
@@ -456,7 +456,7 @@ static GnmFuncHelp const help_mid[] = {
 static GnmValue *
 gnumeric_mid (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *source = value_peek_string (argv[0]);
+	char const *source = value_string_arg (argv[0]);
 	gnm_float pos = value_get_as_float (argv[1]);
 	gnm_float len = value_get_as_float (argv[2]);
 	char const *upos, *end;
@@ -499,7 +499,7 @@ static GnmFuncHelp const help_midb[] = {
 static GnmValue *
 gnumeric_midb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const char *peek = value_peek_string (argv[0]);
+	const char *peek = value_string_arg (argv[0]);
 	gnm_float pos = value_get_as_float (argv[1]);
 	gnm_float len = value_get_as_float (argv[2]);
 	int slen = strlen (peek);
@@ -546,8 +546,8 @@ static GnmFuncHelp const help_findb[] = {
 static GnmValue *
 gnumeric_findb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *needle   = value_peek_string (argv[0]);
-	char const *haystack = value_peek_string (argv[1]);
+	char const *needle   = value_string_arg (argv[0]);
+	char const *haystack = value_string_arg (argv[1]);
 	gnm_float count      = argv[2] ? value_get_as_float (argv[2]) : 1;
 	size_t haystacksize = strlen (haystack);
 	size_t icount;
@@ -590,7 +590,7 @@ static GnmFuncHelp const help_right[] = {
 static GnmValue *
 gnumeric_right (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *os = value_peek_string (argv[0]);
+	char const *os = value_string_arg (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	const char *p;
 	int icount;
@@ -627,7 +627,7 @@ static GnmFuncHelp const help_rightb[] = {
 static GnmValue *
 gnumeric_rightb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	const char *peek = value_peek_string (argv[0]);
+	const char *peek = value_string_arg (argv[0]);
 	gnm_float count = argv[1] ? value_get_as_float (argv[1]) : 1;
 	int len = strlen (peek);
 	int icount;
@@ -659,7 +659,7 @@ static GnmFuncHelp const help_upper[] = {
 static GnmValue *
 gnumeric_upper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	return value_new_string_nocopy (g_utf8_strup (value_peek_string (argv[0]), -1));
+	return value_new_string_nocopy (g_utf8_strup (value_string_arg (argv[0]), -1));
 }
 
 /***************************************************************************/
@@ -828,7 +828,7 @@ memcpy_n_times (char *dst, const char *src, size_t len, size_t n)
 static GnmValue *
 gnumeric_rept (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *source = value_peek_string (argv[0]);
+	char const *source = value_string_arg (argv[0]);
 	gnm_float num = value_get_as_float (argv[1]);
 	size_t len = strlen (source);
 	char *res;
@@ -870,7 +870,7 @@ static GnmFuncHelp const help_clean[] = {
 static GnmValue *
 gnumeric_clean (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *s = value_peek_string (argv[0]);
+	char const *s = value_string_arg (argv[0]);
 	GString *res = g_string_sized_new (strlen (s));
 
 	while (*s) {
@@ -902,8 +902,8 @@ static GnmFuncHelp const help_find[] = {
 static GnmValue *
 gnumeric_find (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *needle   = value_peek_string (argv[0]);
-	char const *haystack = value_peek_string (argv[1]);
+	char const *needle   = value_string_arg (argv[0]);
+	char const *haystack = value_string_arg (argv[1]);
 	gnm_float count      = argv[2] ? value_get_as_float (argv[2]) : 1;
 	size_t haystacksize = g_utf8_strlen (haystack, -1);
 	size_t icount;
@@ -997,7 +997,7 @@ static GnmFuncHelp const help_proper[] = {
 static GnmValue *
 gnumeric_proper (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *p = value_peek_string (argv[0]);
+	char const *p = value_string_arg (argv[0]);
 	GString    *res    = g_string_new (NULL);
 	gboolean   inword = FALSE;
 
@@ -1126,8 +1126,8 @@ gnumeric_regexextract_mode_2 (GRegex *regex, char const *text)
 static GnmValue *
 gnumeric_regexextract (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *text = value_peek_string (argv[0]);
-	char const *pattern = value_peek_string (argv[1]);
+	char const *text = value_string_arg (argv[0]);
+	char const *pattern = value_string_arg (argv[1]);
 	int return_mode = argv[2] ? value_get_as_int (argv[2]) : 0;
 	gboolean case_insensitive = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
 	GRegex *regex;
@@ -1205,12 +1205,9 @@ translate_replacement (char const *replacement)
 static GnmValue *
 gnumeric_regexreplace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	// Careful: we have three string arguments.  Do [2] first because
-	// we only need it for a moment.
-	char const *replacement_raw = value_peek_string (argv[2]);
-	char *replacement = translate_replacement (replacement_raw);
-	char const *text = value_peek_string (argv[0]);
-	char const *pattern = value_peek_string (argv[1]);
+	char const *text = value_string_arg (argv[0]);
+	char const *pattern = value_string_arg (argv[1]);
+	char *replacement = translate_replacement (value_string_arg (argv[2]));
 	int occurrence = argv[3] ? value_get_as_int (argv[3]) : 0;
 	gboolean case_insensitive = argv[4] ? value_get_as_checked_bool (argv[4]) : FALSE;
 	GRegex *regex;
@@ -1313,8 +1310,8 @@ static GnmFuncHelp const help_regextest[] = {
 static GnmValue *
 gnumeric_regextest (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *text = value_peek_string (argv[0]);
-	char const *pattern = value_peek_string (argv[1]);
+	char const *text = value_string_arg (argv[0]);
+	char const *pattern = value_string_arg (argv[1]);
 	gboolean case_insensitive = argv[2] ? value_get_as_checked_bool (argv[2]) : FALSE;
 	GRegex *regex;
 	GError *err = NULL;
@@ -1354,10 +1351,10 @@ static GnmFuncHelp const help_replace[] = {
 static GnmValue *
 gnumeric_replace (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *old = value_peek_string (argv[0]);
+	char const *old = value_string_arg (argv[0]);
 	gnm_float start = value_get_as_float (argv[1]);
 	gnm_float num = value_get_as_float (argv[2]);
-	char const *new = value_peek_string (argv[3]);
+	char const *new = value_string_arg (argv[3]);
 	size_t istart, inum, oldlen, result_len;
 	char const *p, *q;
 	GString *res;
@@ -1415,10 +1412,10 @@ static GnmFuncHelp const help_replaceb[] = {
 static GnmValue *
 gnumeric_replaceb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *old = value_peek_string (argv[0]);
+	char const *old = value_string_arg (argv[0]);
 	gnm_float pos = value_get_as_float (argv[1]);
 	gnm_float len = value_get_as_float (argv[2]);
-	char const *new = value_peek_string (argv[3]);
+	char const *new = value_string_arg (argv[3]);
 	size_t slen = strlen (old);
 	size_t ipos, ilen, result_len;
 	GString *res;
@@ -1563,13 +1560,13 @@ gnumeric_text (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	/* Why do we have to do these here?  */
 	if (VALUE_IS_STRING (v)) {
-		match = format_match (value_peek_string (v), NULL, conv);
+		match = format_match (value_string_arg (v), NULL, conv);
 		if (match != NULL)
 			v = match;
 	} else if (VALUE_IS_EMPTY (v))
 		v = value_zero;
 
-	GOFormat const *fmt = cached_delocalize (value_peek_string (argv[1]));
+	GOFormat const *fmt = cached_delocalize (value_string_arg (argv[1]));
 	if (fmt) {
 		GString *str = g_string_sized_new (80);
 		GOFormatNumberError err;
@@ -1604,7 +1601,7 @@ static GnmFuncHelp const help_trim[] = {
 static GnmValue *
 gnumeric_trim (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *s = value_peek_string (argv[0]);
+	char const *s = value_string_arg (argv[0]);
 	GString  *res   = g_string_new (NULL);
 	gboolean  space = TRUE;
 	size_t    last_len = 0;
@@ -1649,7 +1646,7 @@ gnumeric_value (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 		return value_dup (argv[0]);
 	else {
 		GnmValue *v;
-		char const *p = value_peek_string (argv[0]);
+		char const *p = value_string_arg (argv[0]);
 
 		/* Skip leading spaces */
 		while (*p && g_unichar_isspace (g_utf8_get_char (p)))
@@ -1685,8 +1682,8 @@ static GnmValue *
 gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
 	GnmValue const *arg = argv[0];
-	char const *sep = argv[1] ? value_peek_string (argv[1]) : NULL;
-	char const *grp = argv[2] ? value_peek_string (argv[2]) : NULL;
+	char const *sep = argv[1] ? value_string_arg (argv[1]) : NULL;
+	char const *grp = argv[2] ? value_string_arg (argv[2]) : NULL;
 
 	if (sep == NULL)
 		sep = go_locale_get_decimal ()->str;
@@ -1701,7 +1698,6 @@ gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	if (strcmp (sep, grp) == 0)
 		return value_new_error_VALUE (ei->pos);
 
-
 	if (VALUE_IS_EMPTY (arg) || VALUE_IS_NUMBER (arg))
 		return value_dup (arg);
 
@@ -1710,8 +1706,7 @@ gnumeric_numbervalue (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GString *thousand = g_string_new (grp);
 	GString *decimal = g_string_new (sep);
 	GOFormatFamily family = GO_FORMAT_GENERAL;
-	// Careful: third peek after we're done with grp/sep
-	char const *p = value_peek_string (argv[0]);
+	char const *p = value_string_arg (arg);
 
 	/* Skip leading spaces */
 	while (*p && g_unichar_isspace (g_utf8_get_char (p)))
@@ -1754,14 +1749,9 @@ static GnmFuncHelp const help_substitute[] = {
 static GnmValue *
 gnumeric_substitute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	/*
-	 * Careful: value_peek_string handles only two live
-	 * pointers at a time.
-	 */
-	char *textcopy = VALUE_IS_STRING (argv[0]) ? NULL : value_get_as_string (argv[0]);
-	char const *text = textcopy ? textcopy : value_peek_string (argv[0]);
-	char const *old  = value_peek_string (argv[1]);
-	char const *new  = value_peek_string (argv[2]);
+	char const *text = value_string_arg (argv[0]);
+	char const *old  = value_string_arg (argv[1]);
+	char const *new  = value_string_arg (argv[2]);
 	char const *p;
 	int oldlen, newlen, len, inst;
 	GString *s;
@@ -1769,18 +1759,14 @@ gnumeric_substitute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 
 	if (argv[3]) {
 		gnm_float fnum = value_get_as_float (argv[3]);
-		if (fnum <= 0) {
-			g_free (textcopy);
+		if (fnum <= 0)
 			return value_new_error_VALUE (ei->pos);
-		}
 		num = (int)MIN((gnm_float)INT_MAX, fnum);
 	}
 
 	oldlen = strlen (old);
 	if (oldlen == 0)
-		return textcopy
-			? value_new_string_nocopy (textcopy)
-			: value_dup (argv[0]);
+		return value_new_string (text);
 
 	newlen = strlen (new);
 	len = strlen (text);
@@ -1805,7 +1791,6 @@ gnumeric_substitute (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 			g_string_append_len (s, old, oldlen);
 	}
 	g_string_append (s, p);
-	g_free (textcopy);
 
 	return value_new_string_nocopy (g_string_free (s, FALSE));
 }
@@ -1942,7 +1927,7 @@ find_delimiter_matches (GnmEvalPos const *pos, char const *text,
 static GnmValue *
 gnumeric_textbefore (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *text = value_peek_string (argv[0]);
+	char const *text = value_string_arg (argv[0]);
 	GnmValue const *delim_val = argv[1];
 	int instance_num = argv[2] ? value_get_as_int (argv[2]) : 1;
 	int match_mode = argv[3] ? value_get_as_int (argv[3]) : 0;
@@ -2010,7 +1995,7 @@ static GnmFuncHelp const help_textafter[] = {
 static GnmValue *
 gnumeric_textafter (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *text = value_peek_string (argv[0]);
+	char const *text = value_string_arg (argv[0]);
 	GnmValue const *delim_val = argv[1];
 	int instance_num = argv[2] ? value_get_as_int (argv[2]) : 1;
 	int match_mode = argv[3] ? value_get_as_int (argv[3]) : 0;
@@ -2078,7 +2063,7 @@ static GnmFuncHelp const help_textsplit[] = {
 static GnmValue *
 gnumeric_textsplit (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *text = value_peek_string (argv[0]);
+	char const *text = value_string_arg (argv[0]);
 	GnmValue const *col_delim_val = argv[1];
 	GnmValue const *row_delim_val = argv[2];
 	gboolean ignore_empty = argv[3] ? value_get_as_checked_bool (argv[3]) : FALSE;
@@ -2249,8 +2234,8 @@ static GnmFuncHelp const help_search[] = {
 static GnmValue *
 gnumeric_search (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *needle = value_peek_string (argv[0]);
-	char const *haystack = value_peek_string (argv[1]);
+	char const *needle = value_string_arg (argv[0]);
+	char const *haystack = value_string_arg (argv[1]);
 	gnm_float start = argv[2] ? value_get_as_float (argv[2]) : 1;
 	int res;
 
@@ -2296,8 +2281,8 @@ static GnmFuncHelp const help_searchb[] = {
 static GnmValue *
 gnumeric_searchb (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *needle = value_peek_string (argv[0]);
-	char const *haystack = value_peek_string (argv[1]);
+	char const *needle = value_string_arg (argv[0]);
+	char const *haystack = value_string_arg (argv[1]);
 	gnm_float start = argv[2] ? value_get_as_float (argv[2]) : 1;
 	size_t istart, hlen;
 	GORegexp r;
@@ -2563,7 +2548,7 @@ gnm_asc_half (gunichar c, GString *str)
 static GnmValue *
 gnumeric_asc (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *peek = value_peek_string (argv[0]);
+	char const *peek = value_string_arg (argv[0]);
 	GString *str = g_string_new (NULL);
 
 	while ((*peek) != '\0') {
@@ -2769,7 +2754,7 @@ gnm_asc_full (gunichar c, gunichar fc)
 static GnmValue *
 gnumeric_jis (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 {
-	char const *peek = value_peek_string (argv[0]);
+	char const *peek = value_string_arg (argv[0]);
 	GString *str = g_string_new (NULL);
 	gunichar tc = g_utf8_get_char (peek);
 

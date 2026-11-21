@@ -166,6 +166,13 @@ gboolean    value_get_as_bool	      (GnmValue const *v, gboolean *err);
 gboolean    value_get_as_checked_bool (GnmValue const *v);
 GnmRangeRef const *value_get_rangeref (GnmValue const *v);
 
+// Interface for function implementation (and only for those) to access
+// their arguments.  For any other use, see value_peek_string.
+void value_string_arg_push_marker (void);
+void value_string_arg_pop_to_marker (void);
+const char *value_string_arg (GnmValue const *v);
+
+
 typedef struct {
 	GnmValue const *v;		/* value at position */
 	int x, y;			/* coordinates within input region */

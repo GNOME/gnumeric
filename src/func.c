@@ -1600,10 +1600,17 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 					args[iter_item[i]] = iter_args[i] = value_dup (elem);
 				}
 
-				res->v_array.vals[x][y] = (i == iter_count)
-					? fn_def->args_func (ei, (GnmValue const * const *)args)
-					: ((err != NULL) ? value_dup (err)
-							 : value_new_error_VALUE (ei->pos));
+				GnmValue *v;
+				if (i == iter_count) {
+					value_string_arg_push_marker ();
+					v = fn_def->args_func (ei, (GnmValue const * const *)args);
+					value_string_arg_pop_to_marker ();
+				} else if (err) {
+					v = value_dup (err);
+				} else {
+					v = value_new_error_VALUE (ei->pos);
+				}
+				res->v_array.vals[x][y] = v;
 				free_values (iter_args, i);
 			}
 
@@ -1612,8 +1619,11 @@ function_call_with_exprs (GnmFuncEvalInfo *ei)
 			args[iter_item[i]] = iter_vals[i];
 		tmp = res;
 		i = fn_def->max_args;
-	} else
+	} else {
+		value_string_arg_push_marker ();
 		tmp = fn_def->args_func (ei, (GnmValue const * const *)args);
+		value_string_arg_pop_to_marker ();
+	}
 
 	free_values (args, i);
 	return tmp;
@@ -1659,8 +1669,11 @@ function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn,
 		retval = fn->nodes_func (&fs, argc, argv);
 		g_free (argv);
 		g_free (expr);
-	} else
+	} else {
+		value_string_arg_push_marker ();
 		retval = fn->args_func (&fs, values);
+		value_string_arg_pop_to_marker ();
+	}
 
 	return retval;
 }

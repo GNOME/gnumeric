@@ -98,9 +98,9 @@ gnumeric_flt_nextafter (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GnmValue const *yval = argv[1];
 	gnm_float y;
 
-	if (VALUE_IS_STRING (yval) && g_str_equal (value_peek_string (yval), "+"))
+	if (VALUE_IS_STRING (yval) && g_str_equal (value_string_arg (yval), "+"))
 		y = gnm_pinf;
-	else if (VALUE_IS_STRING (yval) && g_str_equal (value_peek_string (yval), "-"))
+	else if (VALUE_IS_STRING (yval) && g_str_equal (value_string_arg (yval), "-"))
 		y = gnm_ninf;
 	else if (VALUE_IS_EMPTY (yval))
 		y = 0;  // Blank cell, as for numeric arguments

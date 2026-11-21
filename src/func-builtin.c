@@ -429,8 +429,8 @@ static GnmFuncHelp const help_number_match[] = {
 static GnmValue *
 gnumeric_number_match (GnmFuncEvalInfo *ei, GnmValue const * const *args)
 {
-	const char *text = value_peek_string (args[0]);
-	const char *fmttxt = args[1] ? value_peek_string (args[1]) : NULL;
+	const char *text = value_string_arg (args[0]);
+	const char *fmttxt = args[1] ? value_string_arg (args[1]) : NULL;
 	GOFormat *fmt = NULL;
 	GnmValue *v;
 	GODateConventions const *date_conv = NULL;
