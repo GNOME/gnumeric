@@ -142,6 +142,10 @@ struct WBCGtk_ {
 	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
 
 	char *preferred_geometry;
+
+	/* Keep new members last: this struct is shared by many files. */
+	guint progress_hide_id;
+	gboolean hint_active; /* a menu is in use; keep the hint area visible */
 };
 
 typedef struct {

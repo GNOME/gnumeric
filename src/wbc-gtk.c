@@ -2543,6 +2543,8 @@ wbcg_set_status_text (WBCGtk *wbcg, char const *text)
 	g_return_if_fail (GNM_IS_WBC_GTK (wbcg));
 	gtk_statusbar_pop (GTK_STATUSBAR (wbcg->status_text), 0);
 	gtk_statusbar_push (GTK_STATUSBAR (wbcg->status_text), 0, text);
+	/* Only take up room in the status line while there is something to say. */
+	gtk_widget_set_visible (wbcg->status_text, text && *text);
 }
 
 static void
@@ -3916,23 +3918,134 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 	}
 }
 
+/*
+ * The progress bar doubles as the menu-hint area.  It is idle almost all
+ * the time, so it is shown only while it has a fraction or a non-blank
+ * message, or while a menu is in use (hint_active) -- even if the selected
+ * item has no tip of its own, so the status line does not flicker as the
+ * pointer moves through a menu.  Hiding is delayed slightly so that brief
+ * gaps do not resize the sheet tabs back and forth.
+ */
+static gboolean
+cb_progress_hide (WBCGtk *wbcg)
+{
+	wbcg->progress_hide_id = 0;
+	gtk_widget_hide (wbcg->progress_bar);
+	return G_SOURCE_REMOVE;
+}
+
+/*
+ * The sheet tabs and the progress bar share a GtkPaned.  Left to itself it
+ * splits the space about evenly, which would hide many tabs every time a menu
+ * is opened.  Give the tabs everything except a strip wide enough for a hint.
+ * (We cannot ask the notebook for its natural width: it is scrollable and
+ * reports a tiny one.)
+ */
+static void
+wbcg_progress_make_room (WBCGtk *wbcg)
+{
+	int total, hint;
+
+	if (!wbcg->tabs_paned)
+		return;
+	total = gtk_widget_get_allocated_width (GTK_WIDGET (wbcg->tabs_paned));
+	if (total <= 1)
+		return;
+	hint = CLAMP (total / 4, 200, 450);
+	gtk_paned_set_position (wbcg->tabs_paned, MAX (total - hint, 0));
+}
+
+static void
+wbcg_progress_update_visibility (WBCGtk *wbcg)
+{
+	GtkProgressBar *pb = GTK_PROGRESS_BAR (wbcg->progress_bar);
+	char const *text = gtk_progress_bar_get_text (pb);
+	gboolean busy = wbcg->hint_active ||
+		gtk_progress_bar_get_fraction (pb) > 0;
+
+	while (!busy && text && *text) {
+		busy = !g_unichar_isspace (g_utf8_get_char (text));
+		text = g_utf8_next_char (text);
+	}
+
+	if (busy) {
+		if (wbcg->progress_hide_id) {
+			g_source_remove (wbcg->progress_hide_id);
+			wbcg->progress_hide_id = 0;
+		}
+		if (!gtk_widget_get_visible (wbcg->progress_bar))
+			wbcg_progress_make_room (wbcg);
+		gtk_widget_show (wbcg->progress_bar);
+	} else if (wbcg->progress_hide_id == 0 &&
+		   gtk_widget_get_visible (wbcg->progress_bar)) {
+		wbcg->progress_hide_id =
+			g_timeout_add (300, (GSourceFunc)cb_progress_hide, wbcg);
+	}
+}
+
 static void
 cb_clear_menu_tip (GOCmdContext *cc)
 {
 	go_cmd_context_progress_message_set (cc, " ");
 }
 
+/* The whole menu system (the root shell) was dismissed. */
+static void
+cb_menu_shell_done (G_GNUC_UNUSED GtkMenuShell *shell, WBCGtk *wbcg)
+{
+	wbcg->hint_active = FALSE;
+	wbcg_progress_update_visibility (wbcg);
+}
+
 static void
 cb_show_menu_tip (GtkWidget *proxy, GOCmdContext *cc)
 {
+	WBCGtk *wbcg = WBC_GTK (cc);
 	GtkAction *action = g_object_get_data (G_OBJECT (proxy), "GtkAction");
+	GtkWidget *shell = gtk_widget_get_parent (proxy);
 	char *tip = NULL;
+
+	/* Find the root of this menu hierarchy and watch for it closing. */
+	while (GTK_IS_MENU_SHELL (shell)) {
+		GtkWidget *up = gtk_menu_shell_get_parent_shell (GTK_MENU_SHELL (shell));
+		if (!up)
+			break;
+		shell = up;
+	}
+	if (GTK_IS_MENU_SHELL (shell) &&
+	    !g_object_get_data (G_OBJECT (shell), "gnm-hint-watch")) {
+		g_object_set_data (G_OBJECT (shell), "gnm-hint-watch",
+				   GINT_TO_POINTER (1));
+		g_signal_connect_object (shell, "deactivate",
+					 G_CALLBACK (cb_menu_shell_done), wbcg, 0);
+		g_signal_connect_object (shell, "selection-done",
+					 G_CALLBACK (cb_menu_shell_done), wbcg, 0);
+	}
+
+	wbcg->hint_active = TRUE;
+
 	g_object_get (action, "tooltip", &tip, NULL);
 	if (tip) {
 		go_cmd_context_progress_message_set (cc, _(tip));
 		g_free (tip);
 	} else
 		cb_clear_menu_tip (cc);
+}
+
+static void
+cb_menu_item_deselect (GtkWidget *proxy, GOCmdContext *cc)
+{
+	WBCGtk *wbcg = WBC_GTK (cc);
+
+	cb_clear_menu_tip (cc);
+
+	/* Leaving a menubar title without a menu having been opened: nothing
+	 * will tell us that the menu is done, so let go now (after the usual
+	 * delay, which the next select cancels).  */
+	if (GTK_IS_MENU_BAR (gtk_widget_get_parent (proxy))) {
+		wbcg->hint_active = FALSE;
+		wbcg_progress_update_visibility (wbcg);
+	}
 }
 
 static void
@@ -3946,7 +4059,7 @@ cb_connect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 		g_object_set_data (G_OBJECT (proxy), "GtkAction", action);
 		g_object_connect (proxy,
 			"signal::select",  G_CALLBACK (cb_show_menu_tip), cc,
-			"swapped_signal::deselect", G_CALLBACK (cb_clear_menu_tip), cc,
+			"signal::deselect", G_CALLBACK (cb_menu_item_deselect), cc,
 			NULL);
 	}
 }
@@ -3961,7 +4074,7 @@ cb_disconnect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 		g_object_set_data (G_OBJECT (proxy), "GtkAction", NULL);
 		g_object_disconnect (proxy,
 			"any_signal::select",  G_CALLBACK (cb_show_menu_tip), cc,
-			"any_signal::deselect", G_CALLBACK (cb_clear_menu_tip), cc,
+			"any_signal::deselect", G_CALLBACK (cb_menu_item_deselect), cc,
 			NULL);
 	}
 }
@@ -4700,6 +4813,11 @@ wbc_gtk_finalize (GObject *obj)
 
 	wbcg_autosave_cancel (wbcg);
 
+	if (wbcg->progress_hide_id) {
+		g_source_remove (wbcg->progress_hide_id);
+		wbcg->progress_hide_id = 0;
+	}
+
 	if (wbcg->bnotebook != NULL)
 		g_signal_handlers_disconnect_by_func (
 			G_OBJECT (wbcg->bnotebook),
@@ -5036,12 +5154,14 @@ wbcg_progress_set (GOCmdContext *cc, double val)
 {
 	WBCGtk *wbcg = WBC_GTK (cc);
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
+	wbcg_progress_update_visibility (wbcg);
 }
 static void
 wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 {
 	WBCGtk *wbcg = WBC_GTK (cc);
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
+	wbcg_progress_update_visibility (wbcg);
 }
 static void
 wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
@@ -5141,6 +5261,28 @@ wbc_gtk_init (GObject *obj)
 	wbcg->progress_bar = GET_GUI_ITEM ("progress_bar");
 	wbcg->auto_expr_label = GET_GUI_ITEM ("auto_expr_label");
 	wbcg->status_text = GET_GUI_ITEM ("status_text");
+	/* Both of these are idle most of the time; they show themselves when
+	 * they have something to display.  no_show_all keeps the
+	 * gtk_widget_show_all calls on their parents from revealing them. */
+	gtk_widget_set_no_show_all (wbcg->progress_bar, TRUE);
+	gtk_widget_hide (wbcg->progress_bar);
+	gtk_widget_set_no_show_all (wbcg->status_text, TRUE);
+	gtk_widget_hide (wbcg->status_text);
+	/* GtkStatusbar pads itself with margins (6px on itself, 4px on its
+	 * message area) which would make the END indicator taller than the rest
+	 * of the line, so the whole line would grow when it appears.  Drop them
+	 * so that it is no taller than its text. */
+	gtk_widget_set_margin_top (wbcg->status_text, 0);
+	gtk_widget_set_margin_bottom (wbcg->status_text, 0);
+	gtk_widget_set_valign (wbcg->status_text, GTK_ALIGN_CENTER);
+	gtk_style_context_add_class (gtk_widget_get_style_context (wbcg->status_text),
+				     "end-indicator");
+	{
+		GtkWidget *ma = gtk_statusbar_get_message_area
+			(GTK_STATUSBAR (wbcg->status_text));
+		gtk_widget_set_margin_top (ma, 0);
+		gtk_widget_set_margin_bottom (ma, 0);
+	}
 	wbcg->tabs_paned = GET_GUI_ITEM ("tabs_paned");
 	wbcg->status_area = GET_GUI_ITEM ("status_area");
 	wbcg->notebook_area = GET_GUI_ITEM ("notebook_area");

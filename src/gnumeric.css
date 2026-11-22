@@ -198,9 +198,20 @@ notebook.buttons tab label {
 /* Give the (possibly colored) tab background some room around the text. */
 GnmNotebookButton,
 notebook.buttons tab label {
-  padding-left: 8px;
-  padding-right: 8px;
+  padding-left: 6px;
+  padding-right: 6px;
   border-radius: 0 0 6px 6px;
+}
+
+/* Themes (Adwaita for one) give each tab generous horizontal padding and a
+   minimum width.  That wastes a lot of the status line, which is shared with
+   other widgets, so keep the tabs themselves compact.  Only the horizontal
+   properties are touched so that the theme's active-tab indicator and tab
+   height are left alone.  */
+notebook.buttons > header > tabs > tab {
+  padding-left: 2px;
+  padding-right: 2px;
+  min-width: 0;
 }
 
 /* The notebook tracks hover on the tab, not on our label, so key off the
@@ -209,6 +220,17 @@ notebook.buttons tab label {
 notebook.buttons tab:hover label {
   background-image: linear-gradient(alpha(@theme_fg_color, 0.12),
                                     alpha(@theme_fg_color, 0.12));
+}
+
+/* The END indicator must never make the status line taller than it already
+   is, so strip any padding or minimum height that the theme gives to
+   statusbars.  (GtkStatusbar's built-in margins are removed in wbc-gtk.c.)  */
+statusbar.end-indicator {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  min-height: 0;
 }
 
 progressbar.menu_tooltip_container {

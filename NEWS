@@ -123,6 +123,7 @@ Morten:
 	* Fix SUMIF-family crash on 3D ranges.
 	* Avoid creating cells when evaluating DCOUNT and DCOUNTA.
 	* Reject negative numbers in BASE.
+	* GUI: show more sheet tabs at the same time.
 
 B.S.:
 	* TEXT speedup.
