@@ -353,6 +353,12 @@ struct _GnmNotebook {
 	 * that we have to use.
 	 */
 	int dummy_height;
+
+	/*
+	 * Set when the latest button press was not on a tab (i.e., it was on
+	 * one of the scroll arrows).  See gnm_notebook_motion_notify.
+	 */
+	gboolean press_not_on_tab;
 };
 
 typedef struct {
@@ -414,12 +420,71 @@ gnm_notebook_size_allocate (GtkWidget     *widget,
 	gtk_widget_queue_draw (widget);
 }
 
+/*
+ * Coordinates of an event in the notebook's own coordinate system, i.e.,
+ * the one tab label allocations are in.  Same conversion GtkNotebook does.
+ */
+static gboolean
+gnm_notebook_event_coords (GtkWidget *widget, GdkEvent *event,
+			   double *px, double *py)
+{
+	GdkWindow *window = event->any.window;
+	double x, y;
+
+	if (!gdk_event_get_coords (event, &x, &y))
+		return FALSE;
+
+	while (window && window != gtk_widget_get_window (widget)) {
+		int wx, wy;
+		gdk_window_get_position (window, &wx, &wy);
+		x += wx;
+		y += wy;
+		window = gdk_window_get_parent (window);
+	}
+	if (!window)
+		return FALSE;
+
+	*px = x;
+	*py = y;
+	return TRUE;
+}
+
+/* Is the point over one of the tabs (with a little slack for the padding)? */
+static gboolean
+gnm_notebook_over_tab (GnmNotebook *nb, double x, double y)
+{
+	unsigned ui;
+	const int slack = 4;
+
+	for (ui = 0; /* Nothing */; ui++) {
+		GtkWidget *child = gnm_notebook_get_nth_label (nb, ui);
+		GtkAllocation a;
+
+		if (!child)
+			break;
+		if (!gtk_widget_get_child_visible (child))
+			continue;
+
+		gtk_widget_get_allocation (child, &a);
+		if (x >= a.x - slack && x < a.x + a.width + slack &&
+		    y >= a.y - slack && y < a.y + a.height + slack)
+			return TRUE;
+	}
+	return FALSE;
+}
+
 static gboolean
 gnm_notebook_button_press (GtkWidget      *widget,
 			   GdkEventButton *event)
 {
 	GnmNotebook *nb = GNM_NOTEBOOK (widget);
 	unsigned ui;
+	double cx, cy;
+
+	if (event->type == GDK_BUTTON_PRESS)
+		nb->press_not_on_tab =
+			!gnm_notebook_event_coords (widget, (GdkEvent *)event, &cx, &cy) ||
+			!gnm_notebook_over_tab (nb, cx, cy);
 
 	for (ui = 0; /* Nothing */; ui++) {
 		GtkWidget *child = gnm_notebook_get_nth_label (nb, ui);
@@ -450,6 +515,91 @@ gnm_notebook_button_press (GtkWidget      *widget,
 		->button_press_event (widget, event);
 }
 
+/*
+ * GtkNotebook bug workaround.  Pressing a scroll arrow records the press the
+ * same way as pressing a tab does, but without recording where a drag would
+ * have begun.  The first pointer motion while the button is held then looks
+ * like a drag of the current tab (measured from a stale position), and when
+ * the button is released the sheet has been moved.  With the tabs at the
+ * bottom of the window that happens with the slightest movement.  So: if the
+ * press was not on a tab, GtkNotebook does not get to see motion while a
+ * button is down.
+ */
+static gboolean
+gnm_notebook_motion_notify (GtkWidget *widget, GdkEventMotion *event)
+{
+	GnmNotebook *nb = GNM_NOTEBOOK (widget);
+
+	if (nb->press_not_on_tab &&
+	    (event->state & (GDK_BUTTON1_MASK | GDK_BUTTON2_MASK | GDK_BUTTON3_MASK)))
+		return TRUE;
+
+	return GTK_WIDGET_CLASS (gnm_notebook_parent_class)
+		->motion_notify_event (widget, event);
+}
+
+/*
+ * Mouse wheel over the tab strip steps back and forth through the sheets.
+ *
+ * We cannot rely on GtkNotebook for this: the notebook only gets scroll
+ * events if it asks for them, and its own handler treats the horizontal
+ * and vertical directions inconsistently for a horizontal tab strip.
+ * Only events over the strip itself are taken; anywhere else the event is
+ * left alone so that the sheet scrolls as usual.
+ */
+static gboolean
+gnm_notebook_scroll_event (GtkWidget      *widget,
+			   GdkEventScroll *event)
+{
+	GnmNotebook *nb = GNM_NOTEBOOK (widget);
+	gboolean back;
+	gboolean in_strip = FALSE;
+	unsigned ui;
+
+	switch (event->direction) {
+	case GDK_SCROLL_UP:
+	case GDK_SCROLL_LEFT:
+		back = TRUE;
+		break;
+	case GDK_SCROLL_DOWN:
+	case GDK_SCROLL_RIGHT:
+		back = FALSE;
+		break;
+	default:
+		/* We do not ask for smooth scrolling. */
+		return FALSE;
+	}
+
+	/* Ctrl+wheel is zoom, which belongs to the toplevel. */
+	if ((event->state & GDK_CONTROL_MASK))
+		return FALSE;
+
+	/* Is the pointer on the row of tabs?  Same coordinates as for clicks. */
+	for (ui = 0; /* Nothing */; ui++) {
+		GtkWidget *child = gnm_notebook_get_nth_label (nb, ui);
+		GtkAllocation a;
+
+		if (!child)
+			break;
+		if (!gtk_widget_get_child_visible (child))
+			continue;
+
+		gtk_widget_get_allocation (child, &a);
+		if (event->y >= a.y && event->y < a.y + a.height) {
+			in_strip = TRUE;
+			break;
+		}
+	}
+	if (!in_strip)
+		return FALSE;
+
+	if (back)
+		gtk_notebook_prev_page (GTK_NOTEBOOK (nb));
+	else
+		gtk_notebook_next_page (GTK_NOTEBOOK (nb));
+	return TRUE;
+}
+
 static GType
 gnm_notebook_child_type (G_GNUC_UNUSED GtkContainer *container)
 {
@@ -468,6 +618,8 @@ gnm_notebook_class_init (GtkWidgetClass *klass)
 	cclass->child_type = gnm_notebook_child_type;
 
 	wclass->button_press_event = gnm_notebook_button_press;
+	wclass->scroll_event = gnm_notebook_scroll_event;
+	wclass->motion_notify_event = gnm_notebook_motion_notify;
 }
 
 static void
@@ -477,6 +629,9 @@ gnm_notebook_init (GnmNotebook *notebook)
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (notebook), GTK_POS_BOTTOM);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
 	gtk_notebook_set_group_name (GTK_NOTEBOOK (notebook), "Gnumeric");
+
+	/* Must be done before realization to reach the notebook's input window. */
+	gtk_widget_add_events (GTK_WIDGET (notebook), GDK_SCROLL_MASK);
 }
 
 GSF_CLASS (GnmNotebook, gnm_notebook,
