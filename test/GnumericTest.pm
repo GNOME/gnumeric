@@ -738,7 +738,7 @@ sub test_roundtrip {
     my $tmp1 = &invent_junkfile ("$tmp.$newext");
     {
 	my $cmd = &quotearg ($ssconvert, "-T", $format, $file_filtered, $tmp1);
-	print "# $cmd\n" if $verbose;
+	print STDERR "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
 	die "Failed to produce $tmp1\n" unless -r $tmp1;
@@ -747,7 +747,7 @@ sub test_roundtrip {
     my $tmp2 = &invent_junkfile ("$tmp-new.$ext");
     {
 	my $cmd = &quotearg ($ssconvert, $tmp1, $tmp2);
-	print "# $cmd\n" if $verbose;
+	print STDERR "# $cmd\n" if $verbose;
 	my $code = system ("$cmd 2>&1 | sed -e 's/^/| /'");
 	&system_failure ($ssconvert, $code) if $code;
 	die "Failed to produce $tmp2\n" unless -r $tmp2;
