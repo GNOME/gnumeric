@@ -11,4 +11,4 @@ my $mode = ((shift @ARGV) || "check");
 my $args = { 'mode' => $mode };
 
 &message ("Check the guppi graph importer.");
-&test_importer ("$samples/b66666-guppi.gnumeric", "d0457bcfae1b295a97aaae46357ffe0829b6935f", $args);
+&test_importer ("$samples/b66666-guppi.gnumeric", "0a82702eb89b84592534ddb70387e8ff279ebcb2", $args);

@@ -257,7 +257,7 @@ BC_R(3d)(XLChartHandler const *handle,
 		if (s->chart != NULL && !s->is_contour) {
 			GogObject *box = gog_object_get_child_by_name (GOG_OBJECT (s->chart), "3D-Box");
 			if (!box)
-				box = gog_object_add_by_name (GOG_OBJECT (s->chart), "3D-Box", NULL);
+				box = gog_object_add_by_name2 (GOG_OBJECT (s->chart), "3D-Box", NULL);
 			g_object_set (G_OBJECT (box), "theta", ((elevation > 0)? elevation: -elevation), NULL);
 			/* FIXME: use other parameters */
 		}
@@ -592,7 +592,7 @@ BC_R(axis)(XLChartHandler const *handle,
 	g_return_val_if_fail (axis_type < G_N_ELEMENTS (ms_axis), TRUE);
 	g_return_val_if_fail (s->axis == NULL, TRUE);
 
-	s->axis = gog_object_add_by_name (GOG_OBJECT (s->chart),
+	s->axis = gog_object_add_by_name2 (GOG_OBJECT (s->chart),
 					  ms_axis [axis_type], NULL);
 
 	if (axis_type == 0)
@@ -686,16 +686,16 @@ BC_R(axislineformat)(XLChartHandler const *handle,
 		case 1: {
 			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_TYPE_GRID_LINE,
 							NULL));
-			gog_object_add_by_name (GOG_OBJECT (s->axis), "MajorGrid", GridLine);
-			if (check_style (s->style, "axis major grid"))
+			GridLine = gog_object_add_by_name2 (GOG_OBJECT (s->axis), "MajorGrid", GridLine);
+			if (GridLine != NULL && check_style (s->style, "axis major grid"))
 				go_styled_object_set_style (GO_STYLED_OBJECT (GridLine), s->style);
 			break;
 		}
 		case 2: {
 			GogObject *GridLine = GOG_OBJECT (g_object_new (GOG_TYPE_GRID_LINE,
 							NULL));
-			gog_object_add_by_name (GOG_OBJECT (s->axis), "MinorGrid", GridLine);
-			if (check_style (s->style, "axis minor grid"))
+			GridLine = gog_object_add_by_name2 (GOG_OBJECT (s->axis), "MinorGrid", GridLine);
+			if (GridLine != NULL && check_style (s->style, "axis minor grid"))
 				go_styled_object_set_style (GO_STYLED_OBJECT (GridLine), s->style);
 			break;
 		}
@@ -1320,7 +1320,7 @@ BC_R(legend)(XLChartHandler const *handle,
 		pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break;
 	}
 
-	s->legend = gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
+	s->legend = gog_object_add_by_name2 (GOG_OBJECT (s->chart), "Legend", NULL);
 	gog_object_set_position_flags (s->legend, pos, GOG_POSITION_COMPASS | GOG_POSITION_ALIGNMENT);
 
 #if 0
@@ -1577,7 +1577,8 @@ BC_R(objectlink)(XLChartHandler const *handle,
 	switch (purpose) {
 	case 1:
 		g_return_val_if_fail (s->chart != NULL, FALSE);
-		label = gog_object_add_by_name (GOG_OBJECT (s->chart), "Title", s->label);
+		label = gog_object_add_by_name2 (GOG_OBJECT (s->chart), "Title", s->label);
+		s->label = NULL;
 		break;
 	case 2:
 	case 3:
@@ -1599,7 +1600,8 @@ BC_R(objectlink)(XLChartHandler const *handle,
 
 		g_return_val_if_fail (axes != NULL, FALSE);
 
-		label = gog_object_add_by_name (GOG_OBJECT (axes->data), "Label", s->label);
+		label = gog_object_add_by_name2 (GOG_OBJECT (axes->data), "Label", s->label);
+		s->label = NULL;
 		g_slist_free (axes);
 		break;
 	}
@@ -1792,10 +1794,11 @@ set_radial_axes (XLChartReadState *s)
 
 		g_object_set (G_OBJECT (axis), "type",
 			      GOG_AXIS_CIRCULAR, NULL);
-		gog_object_add_by_name (GOG_OBJECT (s->chart),
+		axis = gog_object_add_by_name2 (GOG_OBJECT (s->chart),
 					"Circular-Axis", axis);
-		for (ptr= contrib; ptr != NULL; ptr = ptr->next)
-			gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (axis));
+		if (axis != NULL)
+			for (ptr= contrib; ptr != NULL; ptr = ptr->next)
+				gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (axis));
 		g_slist_free (contrib);
 	}
 	g_slist_free (l);
@@ -1815,10 +1818,11 @@ set_radial_axes (XLChartReadState *s)
 
 		g_object_set (G_OBJECT (axis), "type",
 			      GOG_AXIS_RADIAL, NULL);
-		gog_object_add_by_name (GOG_OBJECT (s->chart),
+		axis = gog_object_add_by_name2 (GOG_OBJECT (s->chart),
 					"Radial-Axis", axis);
-		for (ptr= contrib; ptr != NULL; ptr = ptr->next)
-			gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (axis));
+		if (axis != NULL)
+			for (ptr= contrib; ptr != NULL; ptr = ptr->next)
+				gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (axis));
 		g_slist_free (contrib);
 	}
 	g_slist_free (l);
@@ -2563,7 +2567,7 @@ BC_R(valuerange)(XLChartHandler const *handle,
 static void
 cb_store_singletons (gpointer indx, GOStyle *style, GogObject *series)
 {
-	GogObject *singleton = gog_object_add_by_name (series, "Point", NULL);
+	GogObject *singleton = gog_object_add_by_name2 (series, "Point", NULL);
 	if (singleton != NULL) {
 		g_object_set (singleton,
 			"index", GPOINTER_TO_UINT (indx),
@@ -2607,8 +2611,9 @@ object_swap_children (GogObject *a, GogObject *b, char const *name)
 		style = go_style_dup (
 			go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
 		gog_object_clear_parent (obj);
-		gog_object_add_by_role (b, role, obj);
-		go_styled_object_set_style (GO_STYLED_OBJECT (obj), style);
+		obj = gog_object_add_by_role2 (b, role, obj);
+		if (obj != NULL)
+			go_styled_object_set_style (GO_STYLED_OBJECT (obj), style);
 		g_object_unref (style);
 		ptr = ptr->next;
 	}
@@ -2619,8 +2624,9 @@ object_swap_children (GogObject *a, GogObject *b, char const *name)
 		style = go_style_dup (
 			go_styled_object_get_style (GO_STYLED_OBJECT (obj)));
 		gog_object_clear_parent (obj);
-		gog_object_add_by_role (a, role, obj);
-		go_styled_object_set_style (GO_STYLED_OBJECT (obj), style);
+		obj = gog_object_add_by_role2 (a, role, obj);
+		if (obj != NULL)
+			go_styled_object_set_style (GO_STYLED_OBJECT (obj), style);
 		g_object_unref (style);
 		ptr = ptr->next;
 	}
@@ -2673,7 +2679,7 @@ BC_R(end)(XLChartHandler const *handle,
 			else if (s->frame_for_grid) {
 				GogGrid *tmp = gog_chart_get_grid (s->chart);
 				obj = (tmp == NULL)
-					? gog_object_add_by_name (GOG_OBJECT (s->chart), "Backplane", NULL)
+					? gog_object_add_by_name2 (GOG_OBJECT (s->chart), "Backplane", NULL)
 					: GOG_OBJECT (tmp);
 			}
 			if (obj != NULL)
@@ -2709,46 +2715,50 @@ BC_R(end)(XLChartHandler const *handle,
 			GOData *cur;
 			int row_start = 0, col_start = 0, row = 0, col = -1, last = 0;
 			GSList *axisY, *axisZ, *l, *contributors, *ptr;
+			GogObject *axis;
 
 			/* exchange axis */
 			l = axisY = gog_chart_get_axes (s->chart, GOG_AXIS_Y);
 			axisZ = gog_chart_get_axes (s->chart, GOG_AXIS_Z);
 			while (l) {
-				contributors = g_slist_copy ((GSList*) gog_axis_contributors (GOG_AXIS (l->data)));
-				gog_axis_clear_contributors (GOG_AXIS (l->data));
-				if (gog_object_is_deletable (GOG_OBJECT (l->data)))
-					gog_object_clear_parent (GOG_OBJECT (l->data));
+				axis = GOG_OBJECT (l->data);
+				contributors = g_slist_copy ((GSList*) gog_axis_contributors (GOG_AXIS (axis)));
+				gog_axis_clear_contributors (GOG_AXIS (axis));
+				if (gog_object_is_deletable (axis))
+					gog_object_clear_parent (axis);
 				else {
 					g_slist_free (contributors);
 					l = l->next;
 					continue;
 				}
-				g_object_set (G_OBJECT (l->data), "type",
+				g_object_set (G_OBJECT (axis), "type",
 					((s->is_contour)? GOG_AXIS_PSEUDO_3D: GOG_AXIS_Z), NULL);
-				gog_object_add_by_name (GOG_OBJECT (s->chart),
-					((s->is_contour)? "Pseudo-3D-Axis": "Z-Axis"),
-					GOG_OBJECT (l->data));
-				for (ptr = contributors; ptr != NULL; ptr = ptr->next)
-					gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (l->data));
+				axis = gog_object_add_by_name2 (GOG_OBJECT (s->chart),
+					((s->is_contour)? "Pseudo-3D-Axis": "Z-Axis"), axis);
+				if (axis != NULL)
+					for (ptr = contributors; ptr != NULL; ptr = ptr->next)
+						gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (axis));
 				g_slist_free (contributors);
 				l = l->next;
 			}
 			g_slist_free (axisY);
 			l = axisZ;
 			while (l) {
-				contributors = g_slist_copy ((GSList*) gog_axis_contributors (GOG_AXIS (l->data)));
-				gog_axis_clear_contributors (GOG_AXIS (l->data));
-				if (gog_object_is_deletable (GOG_OBJECT (l->data)))
-					gog_object_clear_parent (GOG_OBJECT (l->data));
+				axis = GOG_OBJECT (l->data);
+				contributors = g_slist_copy ((GSList*) gog_axis_contributors (GOG_AXIS (axis)));
+				gog_axis_clear_contributors (GOG_AXIS (axis));
+				if (gog_object_is_deletable (axis))
+					gog_object_clear_parent (axis);
 				else {
 					g_slist_free (contributors);
 					l = l->next;
 					continue;
 				}
-				g_object_set (G_OBJECT (l->data), "type", GOG_AXIS_Y, NULL);
-				gog_object_add_by_name (GOG_OBJECT (s->chart), "Y-Axis", GOG_OBJECT (l->data));
-				for (ptr = contributors; ptr != NULL; ptr = ptr->next)
-					gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (l->data));
+				g_object_set (G_OBJECT (axis), "type", GOG_AXIS_Y, NULL);
+				axis = gog_object_add_by_name2 (GOG_OBJECT (s->chart), "Y-Axis", axis);
+				if (axis != NULL)
+					for (ptr = contributors; ptr != NULL; ptr = ptr->next)
+						gog_plot_set_axis (GOG_PLOT (ptr->data), GOG_AXIS (axis));
 				g_slist_free (contributors);
 				l = l->next;
 			}
@@ -3000,9 +3010,11 @@ not_a_matrix:
 			}
 		}
 
-		/* Add _before_ setting styles so theme does not override */
-		gog_object_add_by_name (GOG_OBJECT (s->chart),
+		/* Add _before_ setting styles so theme does not override. */
+		s->plot = (GogPlot *) gog_object_add_by_name2 (GOG_OBJECT (s->chart),
 					"Plot", GOG_OBJECT (s->plot));
+		if (s->plot == NULL)
+			return TRUE;
 
 		if (s->default_plot_style != NULL) {
 			char const *type = G_OBJECT_TYPE_NAME (s->plot);
@@ -3037,6 +3049,9 @@ not_a_matrix:
 			unsigned k = 0, l = s->series->len, added_plots = 0, n;
 			if (l > 0 && s->dropbar) {
 				GogObject *plot = GOG_OBJECT (gog_plot_new_by_name ("GogDropBarPlot"));
+				/* Keep a reference of our own: _name2 consumes the
+				 * other one, on success and on failure.  */
+				g_object_ref (plot);
 				if (s->has_extra_dataformat){
 					g_object_set (G_OBJECT (plot), "plot-group", "GogStockPlot", NULL);
 				}
@@ -3049,7 +3064,7 @@ not_a_matrix:
 						eseries = NULL;
 							break;
 					}
-				gog_object_add_by_name (GOG_OBJECT (s->chart), "Plot", plot);
+				gog_object_add_by_name2 (GOG_OBJECT (s->chart), "Plot", plot);
 				gog_object_reorder (plot, TRUE, FALSE);
 				added_plots++;
 				series = gog_plot_new_series (GOG_PLOT (plot));
@@ -3089,14 +3104,18 @@ not_a_matrix:
 					g_object_unref (s->dropbar_style);
 					s->dropbar_style = NULL;
 				}
+				g_object_unref (plot);
 			}
 			if (l > 0 && s->hilo) {
 				GogObject *plot = GOG_OBJECT (gog_plot_new_by_name ("GogMinMaxPlot"));
+				/* Keep a reference of our own: _name2 consumes the
+				 * other one, on success and on failure.  */
+				g_object_ref (plot);
 				if (s->has_extra_dataformat) {
 					g_object_set (G_OBJECT (plot), "plot-group", "GogStockPlot", NULL);
 					g_object_set (G_OBJECT (s->plot), "plot-group", "GogStockPlot", NULL);
 				}
-				gog_object_add_by_name (GOG_OBJECT (s->chart), "Plot", plot);
+				gog_object_add_by_name2 (GOG_OBJECT (s->chart), "Plot", plot);
 				for (n = 0; n <= added_plots; n++)
 					gog_object_reorder (plot, TRUE, FALSE);
 				series = gog_plot_new_series (GOG_PLOT (plot));
@@ -3144,6 +3163,7 @@ not_a_matrix:
 						s->chartline_style[1] = NULL;
 					}
 				}
+				g_object_unref (plot);
 			}
 			for (i = k ; i < l; i++ ) {
 				eseries = g_ptr_array_index (s->series, i);
@@ -3540,7 +3560,7 @@ xl_chart_import_trend_line (XLChartReadState *state, XLChartSeries *series)
 				}
 			}
 			if (series->reg_show_eq || series->reg_show_R2) {
-				GogObject *obj = gog_object_add_by_name (
+				GogObject *obj = gog_object_add_by_name2 (
 					GOG_OBJECT (rc), "Equation", NULL);
 				g_object_set (G_OBJECT (obj),
 					"show_eq", series->reg_show_eq,
@@ -3548,8 +3568,9 @@ xl_chart_import_trend_line (XLChartReadState *state, XLChartSeries *series)
 					NULL);
 			}
 		}
-		gog_object_add_by_name (GOG_OBJECT (parent->series),
-			"Trend line", GOG_OBJECT (rc));
+		if (gog_object_add_by_name2 (GOG_OBJECT (parent->series),
+			"Trend line", GOG_OBJECT (rc)) == NULL)
+			return;
 		if (series->style)
 			go_styled_object_set_style (GO_STYLED_OBJECT (rc), series->style);
 	}
@@ -3784,7 +3805,7 @@ ms_excel_chart_read (BiffQuery *q, MSContainer *container,
 
 	if (NULL != (state.sog = sog)) {
 		state.graph = sheet_object_graph_get_gog (sog);
-		state.chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (state.graph), "Chart", NULL));
+		state.chart = GOG_CHART (gog_object_add_by_name2 (GOG_OBJECT (state.graph), "Chart", NULL));
 
 		if (NULL != full_page) {
 			GOStyle *style = (GOStyle *) gog_style_new ();

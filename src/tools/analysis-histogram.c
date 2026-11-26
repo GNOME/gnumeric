@@ -562,7 +562,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, da
 		int ct;
 
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
-		chart = GOG_CHART (gog_object_add_by_name (
+		chart = GOG_CHART (gog_object_add_by_name2 (
 						   GOG_OBJECT (graph), "Chart", NULL));
 
 		if (htool->chart == GNM_HIST_TOOL_HISTOGRAM_CHART) {
@@ -581,7 +581,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, da
 				go_object_toggle (plot, "horizontal");
 		}
 
-		gog_object_add_by_name (GOG_OBJECT (chart),
+		plot = (GogPlot *) gog_object_add_by_name2 (GOG_OBJECT (chart),
 					"Plot", GOG_OBJECT (plot));
 
 		limits = dao_go_data_vector (dao, to_col, limits_start,
@@ -610,7 +610,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, da
 			axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "Y-Axis");
 			label_string = gnm_expr_top_new_constant (value_new_string (_("Frequency Density")));
 			data = gnm_go_data_scalar_new_expr (dao->dst_sheet, label_string);
-			label = gog_object_add_by_name (axis, "Label", NULL);
+			label = gog_object_add_by_name2 (axis, "Label", NULL);
 			gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		} else if (htool->chart == GNM_HIST_TOOL_COLUMN_CHART) {
 			GogObject *axis;
@@ -624,7 +624,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, da
 			axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "Y-Axis");
 			label_string = gnm_expr_top_new_constant (value_new_string (_("Frequency")));
 			data = gnm_go_data_scalar_new_expr (dao->dst_sheet, label_string);
-			label = gog_object_add_by_name (axis, "Label", NULL);
+			label = gog_object_add_by_name2 (axis, "Label", NULL);
 			gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		} else if (htool->chart == GNM_HIST_TOOL_BAR_CHART) {
 			GogObject *axis;
@@ -638,7 +638,7 @@ gnm_histogram_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, da
 			axis = gog_object_get_child_by_name (GOG_OBJECT (chart), "X-Axis");
 			label_string = gnm_expr_top_new_constant (value_new_string (_("Frequency")));
 			data = gnm_go_data_scalar_new_expr (dao->dst_sheet, label_string);
-			label = gog_object_add_by_name (axis, "Label", NULL);
+			label = gog_object_add_by_name2 (axis, "Label", NULL);
 			gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		}
 

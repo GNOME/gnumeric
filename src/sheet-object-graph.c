@@ -926,22 +926,23 @@ plot_type_start (GsfXMLIn *xin, xmlChar const **attrs)
 			              "default-style-has-markers", FALSE,
 			              "default-style-has-lines", FALSE,
 			              NULL);
-			gog_object_add_by_name (state->chart, "Backplane", NULL);
+			gog_object_add_by_name2 (state->chart, "Backplane", NULL);
 		}
 		else if (0 == strcmp (name, "Pie"))
 			state->plot = gog_plot_new_by_name ("GogPiePlot");
 		else if (0 == strcmp (name, "Bar")) {
 			state->plot = gog_plot_new_by_name ("GogBarColPlot");
-			gog_object_add_by_name (state->chart, "Backplane", NULL);
+			gog_object_add_by_name2 (state->chart, "Backplane", NULL);
 		} else if (0 == strcmp (name, "Line")) {
 			state->plot = gog_plot_new_by_name ("GogLinePlot");
 			g_object_set (G_OBJECT (state->plot),
 			              "default-style-has-markers", FALSE,
 			              NULL);
-			gog_object_add_by_name (state->chart, "Backplane", NULL);
+			gog_object_add_by_name2 (state->chart, "Backplane", NULL);
 		}
 		if (state->plot)
-			gog_object_add_by_name (GOG_OBJECT (state->chart), "Plot", GOG_OBJECT (state->plot));
+			state->plot = (GogPlot *) gog_object_add_by_name2 (
+				GOG_OBJECT (state->chart), "Plot", GOG_OBJECT (state->plot));
 	}
 }
 
@@ -949,7 +950,7 @@ static void
 legend_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	GuppiReadState *state = (GuppiReadState *) xin->user_state;
-	state->cur = gog_object_add_by_name (state->chart, "Legend", NULL);
+	state->cur = gog_object_add_by_name2 (state->chart, "Legend", NULL);
 }
 
 static void
@@ -1094,7 +1095,7 @@ bubble_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *unknown)
 	if (xin->content->str && 0 == strcmp (xin->content->str, "true")) {
 		g_object_unref (state->plot);
 		state->plot = gog_plot_new_by_name ("GogBubblePlot");
-		gog_object_add_by_name (state->chart, "Backplane", NULL);
+		gog_object_add_by_name2 (state->chart, "Backplane", NULL);
 	}
 }
 
@@ -1164,7 +1165,7 @@ gnm_sogg_prep_sax_parser (SheetObject *so, GsfXMLIn *xin, xmlChar const **attrs,
 	state = g_new0 (GuppiReadState, 1);
 	state->graph = g_object_new (GOG_TYPE_GRAPH, NULL);
 	gog_graph_set_theme (state->graph, theme);
-	state->chart = gog_object_add_by_name (GOG_OBJECT (state->graph), "Chart", NULL);
+	state->chart = gog_object_add_by_name2 (GOG_OBJECT (state->graph), "Chart", NULL);
 	state->convs = convs;
 	state->data = g_ptr_array_new ();
 	state->max_data = 10;

@@ -87,7 +87,7 @@ static void
 xlsx_push_text_object (XLSXReadState *state, const char *name)
 {
 	GogObject *label = state->cur_obj
-		? gog_object_add_by_name (state->cur_obj, name, NULL)
+		? gog_object_add_by_name2 (state->cur_obj, name, NULL)
 		: NULL;
 	state->sp_type |= GO_STYLE_FONT;
 	if (label)
@@ -664,8 +664,8 @@ xlsx_chart_add_plot (GsfXMLIn *xin, char const *type)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	if (NULL != (state->plot = (GogPlot*) gog_plot_new_by_name (type))) {
-		/* Add _before_ setting styles so theme does not override */
-		gog_object_add_by_name (GOG_OBJECT (state->chart),
+		/* Add _before_ setting styles so theme does not override. */
+		state->plot = (GogPlot *) gog_object_add_by_name2 (GOG_OBJECT (state->chart),
 			"Plot", GOG_OBJECT (state->plot));
 
 		if (state->cur_obj == NULL) {
@@ -676,7 +676,7 @@ xlsx_chart_add_plot (GsfXMLIn *xin, char const *type)
 				gog_object_find_role_by_name (GOG_OBJECT (state->chart),
 							      bp_name);
 			if (role->can_add (GOG_OBJECT (state->chart))) {
-				GogObject *bp = gog_object_add_by_name (GOG_OBJECT (state->chart),
+				GogObject *bp = gog_object_add_by_name2 (GOG_OBJECT (state->chart),
 									bp_name,
 									NULL);
 				/* Replace dummy object.  */
@@ -1039,7 +1039,7 @@ xlsx_create_axis_object (XLSXReadState *state)
 	if (NULL == role)
 		role = (inverted ^ cat_or_date) ? "X-Axis" : "Y-Axis";
 
-	axis = gog_object_add_by_name (GOG_OBJECT (state->chart), role, NULL);
+	axis = gog_object_add_by_name2 (GOG_OBJECT (state->chart), role, NULL);
 	state->axis.obj = GOG_AXIS (axis);
 	if (axis == NULL) {
 		/* Chart type does not support (another) axis of this role.
@@ -1188,7 +1188,7 @@ xlsx_chart_gridlines (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	gboolean ismajor = xin->node->user_data.v_int;
 	GogObject *grid = state->axis.obj
-		? gog_object_add_by_name
+		? gog_object_add_by_name2
 			(GOG_OBJECT (state->axis.obj),
 			 ismajor ? "MajorGrid" : "MinorGrid",
 			 NULL)
@@ -1433,20 +1433,19 @@ xlsx_ser_trendline_type (GsfXMLIn *xin, G_GNUC_UNUSED  xmlChar const **attrs)
 	(void)simple_enum (xin, attrs, styles, &typ);
 	state->cur_obj = GOG_OBJECT (gog_trend_line_new_by_name (types[typ]));
 	if (state->cur_obj) {
-		GogObject *trend = state->series
-			? gog_object_add_by_name (GOG_OBJECT (state->series),
-						  "Trend line",
-						  state->cur_obj)
-			: NULL;
-		if (trend == NULL) {
+		if (state->series != NULL) {
+			state->cur_obj = gog_object_add_by_name2 (
+				GOG_OBJECT (state->series), "Trend line", state->cur_obj);
+			if (state->cur_obj != NULL && state->chart_tx) {
+				GOData *dat =
+					gnm_go_data_scalar_new_expr (state->sheet,
+								     gnm_expr_top_new_constant (value_new_string (state->chart_tx)));
+				gog_dataset_set_dim (GOG_DATASET (state->cur_obj), -1, dat, NULL);
+			}
+		} else {
 			/* Not attached to anything; do not leak it.  */
 			g_object_unref (state->cur_obj);
 			state->cur_obj = NULL;
-		} else if (state->chart_tx) {
-			GOData *dat =
-				gnm_go_data_scalar_new_expr (state->sheet,
-							     gnm_expr_top_new_constant (value_new_string (state->chart_tx)));
-			gog_dataset_set_dim (GOG_DATASET (trend), -1, dat, NULL);
 		}
 	}
 
@@ -1461,7 +1460,7 @@ xlsx_get_trend_eq (XLSXReadState *state)
 	GogObject *eq = gog_object_get_child_by_name (state->cur_obj, role);
 
 	if (!eq && state->cur_obj) {
-		eq = gog_object_add_by_name (state->cur_obj, role, NULL);
+		eq = gog_object_add_by_name2 (state->cur_obj, role, NULL);
 		if (eq)
 			g_object_set (eq, "show-r2", FALSE, "show-eq", FALSE, NULL);
 	}
@@ -1612,7 +1611,7 @@ xlsx_ser_labels_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GogObject *data = state->series
-		? gog_object_add_by_name (GOG_OBJECT (state->series), "Data labels", NULL)
+		? gog_object_add_by_name2 (GOG_OBJECT (state->series), "Data labels", NULL)
 		: NULL;
 	if (data) {
 		GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
@@ -1736,7 +1735,7 @@ xlsx_data_label_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	GogObject *data = state->cur_obj
-		? gog_object_add_by_name (state->cur_obj, "Point", NULL)
+		? gog_object_add_by_name2 (state->cur_obj, "Point", NULL)
 		: NULL;
 	if (data) {
 		GOData *sep = go_data_scalar_str_new (",", FALSE); /* FIXME, should be "\n" for pies */
@@ -1811,7 +1810,7 @@ static void
 xlsx_chart_legend (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
-	xlsx_chart_push_obj (state, gog_object_add_by_name (GOG_OBJECT (state->chart), "Legend", NULL));
+	xlsx_chart_push_obj (state, gog_object_add_by_name2 (GOG_OBJECT (state->chart), "Legend", NULL));
 }
 
 static void
@@ -1846,7 +1845,7 @@ xlsx_chart_pt_start (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	XLSXReadState *state = (XLSXReadState *)xin->user_state;
 	state->series_pt_has_index = FALSE;
-	state->series_pt = gog_object_add_by_name (
+	state->series_pt = gog_object_add_by_name2 (
 		GOG_OBJECT (state->series), "Point", NULL);
 	xlsx_chart_push_obj (state, state->series_pt);
 }
@@ -3232,7 +3231,7 @@ xlsx_read_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		state->so = sheet_object_graph_new (NULL);
 
 		state->graph	 = sheet_object_graph_get_gog (state->so);
-		state->cur_obj   = gog_object_add_by_name (GOG_OBJECT (state->graph), "Chart", NULL);
+		state->cur_obj   = gog_object_add_by_name2 (GOG_OBJECT (state->graph), "Chart", NULL);
 		state->chart	 = GOG_CHART (state->cur_obj);
 		state->cur_style = go_style_dup (go_styled_object_get_style (GO_STYLED_OBJECT (state->chart)));
 		state->obj_stack = NULL;

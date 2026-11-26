@@ -9219,7 +9219,7 @@ oo_chart_title_end (GsfXMLIn *xin, G_GNUC_UNUSED GsfXMLBlob *blob)
 			tag = "Title";
 		}
 
-		label = gog_object_add_by_name (obj, tag, NULL);
+		label = gog_object_add_by_name2 (obj, tag, NULL);
 		gog_dataset_set_dim (GOG_DATASET (label), 0, data, NULL);
 		state->chart.title_expr = NULL;
 		if (state->chart.title_style != NULL) {
@@ -9399,7 +9399,7 @@ oo_chart_axis (GsfXMLIn *xin, xmlChar const **attrs)
 	if (NULL == state->chart.axis && (axis_type == GOG_AXIS_X || axis_type == GOG_AXIS_Y
 					  || axis_type == GOG_AXIS_Z)) {
 		GogObject *axis = GOG_OBJECT (g_object_new (GOG_TYPE_AXIS, "type", axis_type, NULL));
-		gog_object_add_by_name	 (GOG_OBJECT (state->chart.chart),
+		gog_object_add_by_name2	 (GOG_OBJECT (state->chart.chart),
 					  axis_type == GOG_AXIS_X ? "X-Axis" :
 					  (axis_type == GOG_AXIS_Y ? "Y-Axis" : "Z-Axis"), axis);
 		axes = gog_chart_get_axes (state->chart.chart, axis_type);
@@ -9720,8 +9720,10 @@ static GogPlot *odf_create_plot (OOParseState *state,  OOPlotType *oo_type)
 	type = odf_find_plot_type (state, oo_type);
 	plot = gog_plot_new_by_name (type);
 
-	gog_object_add_by_name (GOG_OBJECT (state->chart.chart),
+	plot = (GogPlot *) gog_object_add_by_name2 (GOG_OBJECT (state->chart.chart),
 				"Plot", GOG_OBJECT (plot));
+	if (plot == NULL)
+		return NULL;
 
 	if (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA] != NULL)
 		oo_prop_list_apply (state->chart.i_plot_styles[OO_CHART_STYLE_PLOTAREA]->
@@ -10208,7 +10210,7 @@ oo_series_pt (GsfXMLIn *xin, xmlChar const **attrs)
 		state->chart.data_pt_count = limit;
 		limit = MIN (limit, 10000u);
 		for (; index < limit; index++) {
-			GogObject *element = gog_object_add_by_name (GOG_OBJECT (state->chart.series), "Point", NULL);
+			GogObject *element = gog_object_add_by_name2 (GOG_OBJECT (state->chart.series), "Point", NULL);
 			if (element != NULL) {
 				GOStyle *gostyle;
 				g_object_set (G_OBJECT (element), "index", index, NULL);
@@ -10267,7 +10269,7 @@ od_series_reg_equation (GsfXMLIn *xin, xmlChar const **attrs)
 				       &display_r_square));
 
 
-	equation = gog_object_add_by_name (GOG_OBJECT (state->chart.regression),
+	equation = gog_object_add_by_name2 (GOG_OBJECT (state->chart.regression),
 					   "Equation", NULL);
 
 	if (equation != NULL) {
@@ -10394,8 +10396,12 @@ od_series_regression (GsfXMLIn *xin, xmlChar const **attrs)
 
 			state->chart.regression = regression =
 				GOG_OBJECT (gog_trend_line_new_by_name (type_name));
-			regression = gog_object_add_by_name (GOG_OBJECT (state->chart.series),
+			regression = gog_object_add_by_name2 (GOG_OBJECT (state->chart.series),
 							     "Trend line", regression);
+			if (regression == NULL) {
+				state->chart.regression = NULL;
+				return;
+			}
 			if (write_lo_dims && lo_dim != NULL)
 				g_object_set_property ( G_OBJECT (regression), "dims", lo_dim);
 			oo_prop_list_apply (chart_style->other_props, G_OBJECT (regression));
@@ -10472,7 +10478,7 @@ oo_series_droplines (GsfXMLIn *xin, xmlChar const **attrs)
 				return;
 			}
 
-			lines = gog_object_add_by_name (GOG_OBJECT (state->chart.series), role_name, NULL);
+			lines = gog_object_add_by_name2 (GOG_OBJECT (state->chart.series), role_name, NULL);
 
 			style = go_styled_object_get_style (GO_STYLED_OBJECT (lines));
 			if (style != NULL) {
@@ -10498,7 +10504,7 @@ oo_series_serieslines (GsfXMLIn *xin, xmlChar const **attrs)
 		GOStyle *style;
 		GogObject const *lines;
 
-		lines = gog_object_add_by_name (GOG_OBJECT (state->chart.series), "Series lines", NULL);
+		lines = gog_object_add_by_name2 (GOG_OBJECT (state->chart.series), "Series lines", NULL);
 		style = go_styled_object_get_style (GO_STYLED_OBJECT (lines));
 		if (chart_style && style) {
 			style = go_style_dup (style);
@@ -10562,7 +10568,7 @@ oo_chart (GsfXMLIn *xin, xmlChar const **attrs)
 		}
 
 	state->chart.plot_type = type;
-	state->chart.chart = GOG_CHART (gog_object_add_by_name (
+	state->chart.chart = GOG_CHART (gog_object_add_by_name2 (
 						GOG_OBJECT (state->chart.graph), "Chart", NULL));
 	odf_chart_set_default_style (GOG_OBJECT (state->chart.chart));
 	state->chart.plot = NULL;
@@ -10618,7 +10624,7 @@ static void
 oo_color_scale (GsfXMLIn *xin, G_GNUC_UNUSED xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin->user_state;
-	gog_object_add_by_name ((GogObject *)state->chart.chart, "Color-Scale", NULL);
+	gog_object_add_by_name2 ((GogObject *)state->chart.chart, "Color-Scale", NULL);
 }
 
 static void
@@ -10661,7 +10667,7 @@ oo_legend (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_SVG, "y"))
 			oo_parse_distance (xin, attrs[1], "y", &y);
 
-	legend = gog_object_add_by_name ((GogObject *)state->chart.chart, "Legend", NULL);
+	legend = gog_object_add_by_name2 ((GogObject *)state->chart.chart, "Legend", NULL);
 	state->chart.legend = legend;
 	if (legend != NULL) {
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (legend));
@@ -10698,9 +10704,9 @@ oo_chart_grid (GsfXMLIn *xin, xmlChar const **attrs)
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "class")) {
 			if (attr_eq (attrs[1], "major"))
-				grid = gog_object_add_by_name (state->chart.axis, "MajorGrid", NULL);
+				grid = gog_object_add_by_name2 (state->chart.axis, "MajorGrid", NULL);
 			else if (attr_eq (attrs[1], "minor"))
-				grid = gog_object_add_by_name (state->chart.axis, "MinorGrid", NULL);
+				grid = gog_object_add_by_name2 (state->chart.axis, "MinorGrid", NULL);
 		} else if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
 
@@ -10732,7 +10738,7 @@ oo_chart_wall (GsfXMLIn *xin, xmlChar const **attrs)
 		if (gsf_xml_in_namecmp (xin, CXML2C (attrs[0]), OO_NS_CHART, "style-name"))
 			style_name = CXML2C (attrs[1]);
 
-	backplane = gog_object_add_by_name (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
+	backplane = gog_object_add_by_name2 (GOG_OBJECT (state->chart.chart), "Backplane", NULL);
 
 	if (style_name != NULL && backplane != NULL) {
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (backplane));
@@ -10764,7 +10770,7 @@ oo_chart_axisline (GsfXMLIn *xin, xmlChar const **attrs)
 
 	if (state->chart.axis == NULL)
 		return;
-	axisline = gog_object_add_by_name (GOG_OBJECT (state->chart.axis), "AxisLine", NULL);
+	axisline = gog_object_add_by_name2 (GOG_OBJECT (state->chart.axis), "AxisLine", NULL);
 
 	if (style_name != NULL && axisline != NULL) {
 		GOStyle *style = go_styled_object_get_style (GO_STYLED_OBJECT (axisline));

@@ -274,9 +274,9 @@ create_line_plot (GogPlot **plot, SheetObject **so)
 		GogChart     *chart;
 
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
-		chart = GOG_CHART (gog_object_add_by_name (GOG_OBJECT (graph), "Chart", NULL));
+		chart = GOG_CHART (gog_object_add_by_name2 (GOG_OBJECT (graph), "Chart", NULL));
 		*plot = gog_plot_new_by_name ("GogLinePlot");
-		gog_object_add_by_name (GOG_OBJECT (chart), "Plot", GOG_OBJECT (*plot));
+		*plot = (GogPlot *) gog_object_add_by_name2 (GOG_OBJECT (chart), "Plot", GOG_OBJECT (*plot));
 		*so = sheet_object_graph_new (graph);
 		g_object_unref (graph);
 }

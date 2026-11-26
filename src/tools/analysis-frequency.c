@@ -537,12 +537,12 @@ gnm_frequency_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc, da
 		int ct;
 
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
-		chart = GOG_CHART (gog_object_add_by_name (
+		chart = GOG_CHART (gog_object_add_by_name2 (
 						   GOG_OBJECT (graph), "Chart", NULL));
 		plot = gog_plot_new_by_name ("GogBarColPlot");
 		if (ftool->chart == GNM_FREQ_TOOL_BAR_CHART)
 			go_object_toggle (plot, "horizontal");
-		gog_object_add_by_name (GOG_OBJECT (chart),
+		plot = (GogPlot *) gog_object_add_by_name2 (GOG_OBJECT (chart),
 					"Plot", GOG_OBJECT (plot));
 
 		cats = dao_go_data_vector (dao, 0, 2,

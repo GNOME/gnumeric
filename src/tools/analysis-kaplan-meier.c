@@ -249,7 +249,7 @@ gnm_kaplan_meier_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc,
 		GogChart     *chart;
 
 		graph = g_object_new (GOG_TYPE_GRAPH, NULL);
-		chart = GOG_CHART (gog_object_add_by_name (
+		chart = GOG_CHART (gog_object_add_by_name2 (
 						   GOG_OBJECT (graph), "Chart", NULL));
 
 		plot = gog_plot_new_by_name ("GogXYPlot");
@@ -257,7 +257,7 @@ gnm_kaplan_meier_tool_perform_calc (GnmAnalysisTool *tool, WorkbookControl *wbc,
 						"Default interpolation", "step-start",
 						NULL, NULL);
 
-		gog_object_add_by_name (GOG_OBJECT (chart),
+		plot = (GogPlot *) gog_object_add_by_name2 (GOG_OBJECT (chart),
 					"Plot", GOG_OBJECT (plot));
 		times = dao_go_data_vector (dao, 0, 2, 0, 1+rows);
 	}
