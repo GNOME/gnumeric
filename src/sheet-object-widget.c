@@ -4406,13 +4406,13 @@ GSF_CLASS (SheetWidgetCombo, sheet_widget_combo,
 void
 sheet_object_widget_register (void)
 {
-	GNM_SOW_FRAME_TYPE;
-	GNM_SOW_BUTTON_TYPE;
-	GNM_SOW_SCROLLBAR_TYPE;
-	GNM_SOW_CHECKBOX_TYPE;
-	GNM_SOW_RADIO_BUTTON_TYPE;
-	GNM_SOW_LIST_TYPE;
-	GNM_SOW_COMBO_TYPE;
-	GNM_SOW_SPIN_BUTTON_TYPE;
-	GNM_SOW_SLIDER_TYPE;
+	g_type_ensure (GNM_SOW_FRAME_TYPE);
+	g_type_ensure (GNM_SOW_BUTTON_TYPE);
+	g_type_ensure (GNM_SOW_SCROLLBAR_TYPE);
+	g_type_ensure (GNM_SOW_CHECKBOX_TYPE);
+	g_type_ensure (GNM_SOW_RADIO_BUTTON_TYPE);
+	g_type_ensure (GNM_SOW_LIST_TYPE);
+	g_type_ensure (GNM_SOW_COMBO_TYPE);
+	g_type_ensure (GNM_SOW_SPIN_BUTTON_TYPE);
+	g_type_ensure (GNM_SOW_SLIDER_TYPE);
 }

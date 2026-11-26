@@ -2116,14 +2116,14 @@ sheet_objects_init (void)
 	debug_sheet_objects = gnm_debug_flag ("sheet-objects");
 	so_create_view_sos = g_ptr_array_new ();
 
-	GNM_SO_LINE_TYPE;
-	GNM_SO_FILLED_TYPE;
-	GNM_SO_GRAPH_TYPE;
-	GNM_SO_IMAGE_TYPE;
-	GNM_GO_DATA_SCALAR_TYPE;
-	GNM_GO_DATA_VECTOR_TYPE;
-	GNM_GO_DATA_MATRIX_TYPE;
-	GNM_CELL_COMMENT_TYPE;
+	g_type_ensure (GNM_SO_LINE_TYPE);
+	g_type_ensure (GNM_SO_FILLED_TYPE);
+	g_type_ensure (GNM_SO_GRAPH_TYPE);
+	g_type_ensure (GNM_SO_IMAGE_TYPE);
+	g_type_ensure (GNM_GO_DATA_SCALAR_TYPE);
+	g_type_ensure (GNM_GO_DATA_VECTOR_TYPE);
+	g_type_ensure (GNM_GO_DATA_MATRIX_TYPE);
+	g_type_ensure (GNM_CELL_COMMENT_TYPE);
 
 	sheet_object_widget_register ();
 	sov_so_quark = g_quark_from_static_string ("SheetObject");

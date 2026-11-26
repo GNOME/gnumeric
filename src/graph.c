@@ -379,16 +379,28 @@ scalar_get_val (GnmGODataScalar *scalar)
 	return scalar->val;
 }
 
+/*
+ * Drop our caches.  This must happen in emit_changed rather than only in
+ * eval, because go_data_unserialize emits "changed" right after we have
+ * installed a new expression but before it has been re-evaluated.
+ */
 static void
-gnm_go_data_scalar_eval (GnmDependent *dep)
+gnm_go_data_scalar_emit_changed (GOData *data)
 {
-	GnmGODataScalar *scalar = DEP_TO_SCALAR (dep);
+	GnmGODataScalar *scalar = (GnmGODataScalar *)data;
 
 	value_release (scalar->val);
 	scalar->val = NULL;
 	g_free (scalar->val_str);
 	scalar->val_str = NULL;
-	go_data_emit_changed (GO_DATA (scalar));
+
+	((GODataClass *)scalar_parent_klass)->emit_changed (data);
+}
+
+static void
+gnm_go_data_scalar_eval (GnmDependent *dep)
+{
+	go_data_emit_changed (GO_DATA (DEP_TO_SCALAR (dep)));
 }
 
 static void
@@ -449,6 +461,7 @@ gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 
 	scalar_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= gnm_go_data_scalar_finalize;
+	godata_klass->emit_changed	= gnm_go_data_scalar_emit_changed;
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
@@ -517,10 +530,11 @@ typedef GODataVectorClass GnmGODataVectorClass;
 
 static GObjectClass *vector_parent_klass;
 
+/* See gnm_go_data_scalar_emit_changed.  */
 static void
-gnm_go_data_vector_eval (GnmDependent *dep)
+gnm_go_data_vector_emit_changed (GOData *data)
 {
-	GnmGODataVector *vec = DEP_TO_VECTOR (dep);
+	GnmGODataVector *vec = (GnmGODataVector *)data;
 
 	value_release (vec->val);
 	vec->val = NULL;
@@ -532,7 +546,14 @@ gnm_go_data_vector_eval (GnmDependent *dep)
 		g_ptr_array_free (vec->strs, TRUE);
 		vec->strs = NULL;
 	}
-	go_data_emit_changed (GO_DATA (vec));
+
+	((GODataClass *)vector_parent_klass)->emit_changed (data);
+}
+
+static void
+gnm_go_data_vector_eval (GnmDependent *dep)
+{
+	go_data_emit_changed (GO_DATA (DEP_TO_VECTOR (dep)));
 }
 
 static void
@@ -1123,6 +1144,7 @@ gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 
 	vector_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= gnm_go_data_vector_finalize;
+	godata_klass->emit_changed	= gnm_go_data_vector_emit_changed;
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
@@ -1189,14 +1211,22 @@ typedef GODataMatrixClass GnmGODataMatrixClass;
 
 static GObjectClass *matrix_parent_klass;
 
+/* See gnm_go_data_scalar_emit_changed.  */
 static void
-gnm_go_data_matrix_eval (GnmDependent *dep)
+gnm_go_data_matrix_emit_changed (GOData *data)
 {
-	GnmGODataMatrix *mat = DEP_TO_MATRIX (dep);
+	GnmGODataMatrix *mat = (GnmGODataMatrix *)data;
 
 	value_release (mat->val);
 	mat->val = NULL;
-	go_data_emit_changed (GO_DATA (mat));
+
+	((GODataClass *)matrix_parent_klass)->emit_changed (data);
+}
+
+static void
+gnm_go_data_matrix_eval (GnmDependent *dep)
+{
+	go_data_emit_changed (GO_DATA (DEP_TO_MATRIX (dep)));
 }
 
 static void
@@ -1502,6 +1532,7 @@ gnm_go_data_matrix_class_init (GObjectClass *gobject_klass)
 
 	matrix_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gobject_klass->finalize		= gnm_go_data_matrix_finalize;
+	godata_klass->emit_changed	= gnm_go_data_matrix_emit_changed;
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
 	godata_klass->preferred_fmt	= gnm_go_data_preferred_fmt;
