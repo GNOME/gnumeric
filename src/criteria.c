@@ -606,8 +606,14 @@ filter_row:
 static gboolean
 is_3d_range (GnmValue const *v)
 {
+	/*
+	 * A NULL b.sheet means "same sheet as a.sheet"; that is what the
+	 * parser produces for an ordinary Sheet!A1:B2 reference.  Only a
+	 * non-NULL, different b.sheet makes the range 3D.
+	 */
 	return VALUE_IS_CELLRANGE (v) &&
-		v->v_range.cell.a.sheet != v->v_range.cell.b.sheet;
+		v->v_range.cell.b.sheet != NULL &&
+		v->v_range.cell.b.sheet != v->v_range.cell.a.sheet;
 }
 
 /**

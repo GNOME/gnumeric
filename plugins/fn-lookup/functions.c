@@ -2401,8 +2401,10 @@ gnumeric_unique (GnmFuncEvalInfo *ei, GnmValue const * const *argv)
 	GHashTable *seen;
 
 	/* value_area_get_x_y does not handle 3D ranges.  */
+	/* A NULL b.sheet means the same sheet as a.sheet.  */
 	if (VALUE_IS_CELLRANGE (data) &&
-	    data->v_range.cell.a.sheet != data->v_range.cell.b.sheet)
+	    data->v_range.cell.b.sheet != NULL &&
+	    data->v_range.cell.b.sheet != data->v_range.cell.a.sheet)
 		return value_new_error_VALUE (ep);
 
 	sx = value_area_get_width (data, ep);
