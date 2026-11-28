@@ -937,7 +937,6 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			     NameGuruState       *state)
 {
 	GtkTreeIter       iter;
-	GtkTreeIter       parent_iter;
 	item_type_t       type;
 	GnmParsePos       pp;
 	GnmExprTop const *texpr;
@@ -997,10 +996,7 @@ cb_name_guru_name_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			 ITEM_NAME_IS_EDITABLE, FALSE,
 			 -1);
 		name_guru_set_images (state, &iter, type, TRUE);
-
-		if (gtk_tree_model_iter_parent (GTK_TREE_MODEL (state->model),
-						&parent_iter, &iter))
-			name_guru_move_record (state, &iter, &parent_iter, type);
+		// Do not re-sort here, see #908
 	}
 
 done:

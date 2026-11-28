@@ -126,6 +126,7 @@ Morten:
 	* Show more sheet tabs at the same time.
 	* Make the tabs scrollable with scroll wheel.
 	* Fix spurious sheet move when using tab scrolling.  [#785]
+	* Fix gui problems with creating names.  [#908]
 
 B.S.:
 	* TEXT speedup.
